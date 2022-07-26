@@ -41,7 +41,11 @@ export const ConfigBarChartStyles = ({
 
     const dimensions = useMemo(() =>
         currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
-            let params;
+            let params = {
+                title: schema.name,
+                vizState,
+                ...schema.props,
+            }
             const DimensionComponent = schema.component || ButtonGroupItem;
 
             const createDimensionComponent = (dimProps) => (
@@ -52,29 +56,34 @@ export const ConfigBarChartStyles = ({
             )
             if (schema.eleType === 'buttons') {
                 params = {
-                    title: schema.name,
+                    ...params,
                     legend: schema.name,
                     groupOptions: schema?.props?.options.map((btn: { name: string }) => ({ ...btn, label: btn.name })),
                     idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
                     handleButtonChange: handleConfigurationChange(schema.mapTo),
-                    vizState,
-                    ...schema.props,
                 };
                 return createDimensionComponent(params);
             }
-
+            if (schema.eleType === 'input') {
+              params = {
+                title: schema.name,
+                currentValue: vizState[schema.mapTo] || '',
+                handleInputChange: handleConfigurationChange(schema.mapTo),
+                vizState,
+                ...schema.props,
+              };
+              return createDimensionComponent(params);
+            }
             if (schema.eleType === 'slider') {
                 params = {
+                    ...params,
                     minRange: schema?.props?.min || 0,
-                    maxRange: schema.props.max,
+                    maxRange: schema?.props?.max || 100,
                     step: schema?.props?.step || 1,
-                    title: schema.name,
                     currentRange: vizState[schema.mapTo] || schema?.defaultState,
                     ticks: schema?.props?.ticks,
                     showTicks: schema?.props?.showTicks || false,
                     handleSliderChange: handleConfigurationChange(schema.mapTo),
-                    vizState,
-                    ...schema.props,
                 };
                 return createDimensionComponent(params);
             }
