@@ -5,6 +5,7 @@
 
 import {
   Direction,
+  EuiButton,
   EuiButtonIcon,
   EuiFlexGroup,
   EuiFlexItem,
@@ -179,11 +180,14 @@ export function PatternDetailFlyout(props: PatternDetailFlyoutProps) {
 
   const flyoutHeader = (
     <EuiFlyoutHeader>
-      <EuiFlexGroup justifyContent="spaceBetween">
-        <EuiFlexItem grow={false}>
+      <EuiFlexGroup gutterSize="m" justifyContent="spaceBetween">
+        <EuiFlexItem>
           <EuiTitle>
             <h5>&nbsp;&nbsp;{pattern.patternName}</h5>
           </EuiTitle>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiButton>Create as New Query</EuiButton>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiButtonIcon
