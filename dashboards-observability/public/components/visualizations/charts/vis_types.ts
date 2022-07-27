@@ -29,6 +29,7 @@ export const VIS_TYPES = {
   tree_map: createTreeMapDefinition,
   text: createTextTypeDefinition,
   logs_view: createLogsViewTypeDefinition,
+  scatter: createLineTypeDefinition
 };
 
 export const getVisType = (visType: string, params: any = {}) => {

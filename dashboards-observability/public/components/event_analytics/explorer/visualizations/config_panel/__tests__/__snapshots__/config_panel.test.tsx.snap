@@ -2712,24 +2712,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "defaultState": 0.97,
                                 "eleType": "slider",
-                                "mapTo": "barWidth",
-                                "name": "Bar width",
                                 "props": Object {
                                   "max": 1,
                                   "step": 0.01,
-                                },
-                              },
-                              Object {
-                                "component": [Function],
-                                "defaultState": 1,
-                                "eleType": "slider",
                                 "mapTo": "lineWidth",
-                                "name": "Line width",
-                                "props": Object {
-                                  "max": 10,
-                                },
-                              },
-                              Object {
                                 "component": [Function],
                                 "defaultState": 80,
                                 "eleType": "slider",
