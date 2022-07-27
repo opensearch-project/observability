@@ -187,9 +187,6 @@ export function PatternDetailFlyout(props: PatternDetailFlyoutProps) {
           </EuiTitle>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton>Create as New Query</EuiButton>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
           <EuiButtonIcon
             className="patterns-flyout-resize"
             color="text"
