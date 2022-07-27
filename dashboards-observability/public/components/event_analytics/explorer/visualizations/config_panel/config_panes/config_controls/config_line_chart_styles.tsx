@@ -7,6 +7,7 @@ import React, { useMemo, useCallback } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
+import { visChartTypes } from '../../../../../../../../common/constants/shared';
 
 export const ConfigLineChartStyles = ({
   visualizations,
@@ -33,9 +34,18 @@ export const ConfigLineChartStyles = ({
 
   /* To update the schema options based on current style mode selection */
   const currentSchemas = useMemo(() => {
-    if (!vizState?.style || vizState?.style === 'lines') {
+    if (!vizState?.style) {
+      if (visualizations?.vis?.name === visChartTypes.Scatter) {
+        return schemas.filter((schema: IConfigPanelOptionSection) => ["style", "pointSize"].includes(schema.mapTo));
+      } else {
+        return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
+      }
+    }
+
+    if (vizState?.style === "lines") {
       return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
     }
+
     if (vizState?.style === 'bar') {
       return schemas.filter(
         (schema: IConfigPanelOptionSection) =>
