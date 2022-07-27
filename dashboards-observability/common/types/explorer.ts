@@ -5,6 +5,7 @@
 
 import { History } from 'history';
 import Plotly from 'plotly.js-dist';
+import { EuiBreadcrumb } from '@elastic/eui';
 import {
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -83,6 +84,8 @@ export interface ILogExplorerProps {
   ) => void;
   savedObjectId: string;
   getExistingEmptyTab: (params: EmptyTabParams) => string;
+  parentBreadcrumbs: EuiBreadcrumb[];
+  chrome: CoreStart['chrome'];
 }
 
 export interface IExplorerProps {

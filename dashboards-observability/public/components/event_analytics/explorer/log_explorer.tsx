@@ -49,6 +49,8 @@ export const LogExplorer = ({
   history,
   notifications,
   http,
+  chrome,
+  parentBreadcrumbs,
 }: ILogExplorerProps) => {
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs).queryTabIds.filter(
@@ -81,6 +83,18 @@ export const LogExplorer = ({
       $('.queryTabs > .euiTabs .linkNewTag').remove();
     };
   }, [tabIds]);
+
+  useEffect(() => {
+    const href = `/event_analytics/explorer/${savedObjectId || ''}`;
+    const breadcrumbs = [
+      ...parentBreadcrumbs,
+      {
+        text: tabNames[curSelectedTabId] || TAB_TITLE,
+        href,
+      },
+    ];
+    chrome.setBreadcrumbs(breadcrumbs);
+  }, [curSelectedTabId, savedObjectId, tabNames]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
     history.replace(
