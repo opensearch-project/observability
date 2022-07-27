@@ -16,6 +16,7 @@ import {
   EuiFlexItem,
   EuiFieldText,
   htmlIdGenerator,
+  EuiToolTip,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 
@@ -35,6 +36,15 @@ export const ConfigThresholds = ({
   props,
 }: any) => {
   const addButtonText = '+ Add threshold';
+  const AddButtonTextWrapper = () =>
+    props?.maxLimit && !isEmpty(vizState) && vizState.length === props.maxLimit ? (
+      <EuiToolTip position="top" content="Only one threshold can be applied">
+        <>{addButtonText}</>
+      </EuiToolTip>
+    ) : (
+      <>{addButtonText}</>
+    );
+
   const getThresholdUnit = () => {
     return {
       thid: htmlIdGenerator('thr')(),
@@ -92,7 +102,7 @@ export const ConfigThresholds = ({
           isDisabled: !isEmpty(vizState) && vizState.length === props.maxLimit,
         })}
       >
-        {addButtonText}
+        <AddButtonTextWrapper />
       </EuiButton>
       <EuiSpacer size="s" />
       {!isEmpty(vizState) &&
