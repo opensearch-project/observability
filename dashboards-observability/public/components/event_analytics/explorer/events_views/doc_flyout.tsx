@@ -94,28 +94,30 @@ export const DocFlyout = ({
             </h2>
           </EuiTitle>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <EuiToolTip
-            position="bottom"
-            content={
-              rawQuery.match(PPL_STATS_REGEX) ? (
-                <p>Cannot view surrounding events with `stats` command in PPL query</p>
-              ) : !doc.hasOwnProperty(timeStampField) ? (
-                <p>Cannot view surrounding events without time field in query response</p>
-              ) : (
-                <p>View surrounding events based on timestamp</p>
-              )
-            }
-          >
-            <EuiButton
-              onClick={openSurroundingFlyout}
-              className="header-button"
-              isDisabled={rawQuery.match(PPL_STATS_REGEX) || !doc.hasOwnProperty(timeStampField)}
+        {backButtonExists || (
+          <EuiFlexItem grow={false}>
+            <EuiToolTip
+              position="bottom"
+              content={
+                rawQuery.match(PPL_STATS_REGEX) ? (
+                  <p>Cannot view surrounding events with `stats` command in PPL query</p>
+                ) : !doc.hasOwnProperty(timeStampField) ? (
+                  <p>Cannot view surrounding events without time field in query response</p>
+                ) : (
+                  <p>View surrounding events based on timestamp</p>
+                )
+              }
             >
-              View surrounding events
-            </EuiButton>
-          </EuiToolTip>
-        </EuiFlexItem>
+              <EuiButton
+                onClick={openSurroundingFlyout}
+                className="header-button"
+                isDisabled={rawQuery.match(PPL_STATS_REGEX) || !doc.hasOwnProperty(timeStampField)}
+              >
+                View surrounding events
+              </EuiButton>
+            </EuiToolTip>
+          </EuiFlexItem>
+        )}
         <EuiFlexItem grow={false}>
           <EuiButtonIcon
             className="events-flyout-resize"
