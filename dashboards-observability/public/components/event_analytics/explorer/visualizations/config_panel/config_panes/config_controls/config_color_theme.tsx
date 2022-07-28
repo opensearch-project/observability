@@ -25,7 +25,7 @@ export const ConfigColorTheme = ({
   schemas,
   vizState = [],
   handleConfigChange,
-  sectionName = 'Color Theme',
+  sectionName = 'Color theme',
 }: any) => {
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;

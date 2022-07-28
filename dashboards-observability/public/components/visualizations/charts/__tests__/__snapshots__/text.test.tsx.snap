@@ -206,7 +206,7 @@ exports[`Text component Renders text component 1`] = `
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show Legend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -309,7 +309,7 @@ exports[`Text component Renders text component 1`] = `
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label Size",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
@@ -382,7 +382,7 @@ exports[`Text component Renders text component 1`] = `
                       "defaultState": 80,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill Opacity",
+                      "name": "Fill opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -393,7 +393,7 @@ exports[`Text component Renders text component 1`] = `
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color Theme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
@@ -414,12 +414,12 @@ exports[`Text component Renders text component 1`] = `
           ],
         },
         "fillOpacity": 80,
-        "fullLabel": "Bar",
+        "fullLabel": "Vertical Bar",
         "groupWidth": 0.7,
         "icon": [Function],
         "iconType": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Bar",
+        "label": "Vertical Bar",
         "labelAngle": 0,
         "legendPosition": "v",
         "lineWidth": 1,

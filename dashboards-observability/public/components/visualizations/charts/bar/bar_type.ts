@@ -28,8 +28,8 @@ export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',
   id: 'bar',
-  label: 'Bar',
-  fullLabel: 'Bar',
+  label: 'Vertical Bar',
+  fullLabel: 'Vertical Bar',
   iconType: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
@@ -63,7 +63,7 @@ export const createBarTypeDefinition = (params: any) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -121,7 +121,7 @@ export const createBarTypeDefinition = (params: any) => ({
                 },
               },
               {
-                name: 'Label Size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
@@ -178,7 +178,7 @@ export const createBarTypeDefinition = (params: any) => ({
                 eleType: 'slider',
               },
               {
-                name: 'Fill Opacity',
+                name: 'Fill opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: 80,
@@ -191,7 +191,7 @@ export const createBarTypeDefinition = (params: any) => ({
           },
           {
             id: 'color-theme',
-            name: 'Color Theme',
+            name: 'Color theme',
             editor: ConfigColorTheme,
             mapTo: 'colorTheme',
             schemas: [],
