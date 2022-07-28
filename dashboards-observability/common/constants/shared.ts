@@ -82,7 +82,8 @@ export enum visChartTypes {
   Text = 'text',
   Gauge = 'gauge',
   Histogram = 'histogram',
-  TreeMap = 'tree_map'
+  TreeMap = 'tree_map',
+  LogsView = 'logs_view'
 }
 
 export interface ValueOptionsAxes {
@@ -97,7 +98,7 @@ export interface ValueOptionsAxes {
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap, visChartTypes.Gauge, visChartTypes.Histogram];
+export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap, visChartTypes.Gauge, visChartTypes.Histogram, visChartTypes.LogsView];
 
 //Live tail constants
 export const LIVE_OPTIONS = [

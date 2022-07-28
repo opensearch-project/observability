@@ -190,7 +190,7 @@ export interface IConfigPanelOptionSection {
   mapTo: string;
   props?: any;
   isSingleSelection?: boolean;
-  defaultState?: number;
+  defaultState?: boolean | string;
   eleType?: string;
 }
 

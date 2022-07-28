@@ -1,0 +1,75 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  width: 30%;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+.lvEuiAccordian_Panel {
+  border: 1px solid #d3dae6 !important;
+}
+
+.euiIEFlexWrapFix {
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.rawlogData {
+  line-height: 1.5;
+  color: #343741;
+  word-break: break-all;
+  overflow: hidden;
+  margin-right: 5px;
+}
+
+.euiAccordion__button {
+  font-size: inherit;
+}
+
+.euiAccordion__iconWrapper {
+  align-self: flex-start;
+  padding-top: 9px;
+}
+
+.euiAccordion__button:focus .euiAccordion__iconWrapper {
+  animation: none !important;
+}
+
+.columnData {
+  padding-right: 10px;
+}
+
+.timeColumn {
+  width: 200px;
+}
+
+.wrapContent {
+  word-break: break-all;
+}
+
+.noWrapContent {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tableContainer {
+  white-space: normal;
+}
