@@ -55,18 +55,6 @@ export const SAVE_QUERY2 = 'Mock Flight count by destination';
 export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
 export const SAVE_QUERY4 = 'Mock Flight peek';
 
-export const aggregationValues = [
-  'COUNT',
-  'SUM',
-  'AVERAGE',
-  'MAX',
-  'MIN',
-  'VAR_SAMP',
-  'VAR_POP',
-  'STDDEV_SAMP',
-  'STDDEV_POP',
-];
-
 export const querySearch = (query, rangeSelected) => {
   cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(query);
   cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();

@@ -24,7 +24,6 @@ import {
   renderGaugeChart,
 } from '../utils/event_constants';
 import { supressResizeObserverIssue } from '../utils/constants';
-pie;
 
 const vis_name_sub_string = Math.floor(Math.random() * 100);
 const saveVisualizationAndVerify = () => {
@@ -61,6 +60,7 @@ const deleteVisualization = () => {
   cy.get('button[data-test-subj = "popoverModal__deleteButton"]').click();
   cy.get('.euiToastHeader').should('exist');
 };
+
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
