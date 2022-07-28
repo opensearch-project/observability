@@ -21,9 +21,10 @@ import {
   renderLineChartForDataConfig,
   renderDataConfig,
   DataConfigLineChart,
-  renderGaugeChart
+  renderGaugeChart,
 } from '../utils/event_constants';
-import { supressResizeObserverIssue } from '../utils/constants';pie
+import { supressResizeObserverIssue } from '../utils/constants';
+pie;
 
 const vis_name_sub_string = Math.floor(Math.random() * 100);
 const saveVisualizationAndVerify = () => {
@@ -870,7 +871,7 @@ describe('Render Gauge Chart and work with chart styles', () => {
     cy.get('[data-test-subj="valueFieldNumber"]').eq(0).type('30');
     cy.get('.euiButton__text').contains('Preview').click();
   });
-  
+
   it('Render gauge chart and change value size then verify the update on chart', () => {
     renderGaugeChart();
     cy.get('.euiButton__text').contains('Update chart').click();
@@ -911,7 +912,7 @@ describe('Render Gauge Chart and work with threshold', () => {
     cy.get('.euiSwitch__label').contains('Show threshold markers').click();
     cy.get('.euiButton__text').contains('Preview').click();
     cy.get('path[style*="rgb(252, 5, 5)"]').eq(1).should('exist');
-    cy.get('.bg-arc').find('path[style*="rgb(252, 5, 5)"]').should('have.length',4);
+    cy.get('.bg-arc').find('path[style*="rgb(252, 5, 5)"]').should('have.length', 4);
   });
 });
 
@@ -933,10 +934,15 @@ describe('Render gauge chart and verify if reset works properly', () => {
     cy.get('.euiSwitch__label').contains('Show threshold markers').click();
     cy.get('.euiButton__text').contains('Preview').click();
     cy.get('.euiButtonEmpty__text').contains('Reset').click();
-    cy.get('input[placeholder="Title"]').should('not.have.value','Gauge Chart');
-    cy.get('textarea[placeholder="Description"]').should('not.have.value','Description For Gauge Chart')
-    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).should('have.value','');
-    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).should('have.value','');
-    cy.get('button.euiSwitch__button[aria-checked="false"]').should('exist').should('have.length',3);
+    cy.get('input[placeholder="Title"]').should('not.have.value', 'Gauge Chart');
+    cy.get('textarea[placeholder="Description"]').should(
+      'not.have.value',
+      'Description For Gauge Chart'
+    );
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).should('have.value', '');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).should('have.value', '');
+    cy.get('button.euiSwitch__button[aria-checked="false"]')
+      .should('exist')
+      .should('have.length', 3);
   });
 });

@@ -16,22 +16,24 @@ import {
 import { supressResizeObserverIssue } from '../../utils/constants';
 
 export const renderTreeMapchart = () => {
-    querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-    cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
     .type('Tree Map')
     .type('{enter}');
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]')
+  cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
+  cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]')
     .click()
     .type('This is the description for Tree Map');
-    cy.get('[aria-controls ="configPanel__legend"]').contains('Legend');
-    cy.get('#configPanel__legend').contains('Show Colorscale').should('exist');
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift[title="Show"]').should('not.be.disabled');
-    cy.get('[aria-controls="configPanel__treemap_options"]').contains('Treemap');
-    cy.get('#configPanel__treemap_options').contains('Tiling Algorithm').should('exist');
-    cy.get('[data-test-subj = "comboBoxInput"]').eq(3).click();
-    cy.get('.euiComboBoxOption__content').eq(4).click();
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift[title="Largest to Smallest"]')
+  cy.get('[aria-controls ="configPanel__legend"]').contains('Legend');
+  cy.get('#configPanel__legend').contains('Show Colorscale').should('exist');
+  cy.get('.euiButton__text.euiButtonGroupButton__textShift[title="Show"]').should(
+    'not.be.disabled'
+  );
+  cy.get('[aria-controls="configPanel__treemap_options"]').contains('Treemap');
+  cy.get('#configPanel__treemap_options').contains('Tiling Algorithm').should('exist');
+  cy.get('[data-test-subj = "comboBoxInput"]').eq(3).click();
+  cy.get('.euiComboBoxOption__content').eq(4).click();
+  cy.get('.euiButton__text.euiButtonGroupButton__textShift[title="Largest to Smallest"]')
     .contains('Largest to Smallest')
     .should('not.be.disabled');
 };
@@ -84,7 +86,7 @@ describe('Renders Tree Map', () => {
   });
 
   it('Render Tree Map chart and verify color theme under Chart styles options', () => {
-    cy.get('[aria-controls="configPanel__chartStyles"]').contains('Chart Styles');  
+    cy.get('[aria-controls="configPanel__chartStyles"]').contains('Chart Styles');
     cy.get('.euiTitle.euiTitle--xxsmall').contains('Color Theme').should('exist');
     cy.get('.euiSuperSelectControl').contains('Default').click();
     cy.get('.euiContextMenuItem__text .euiColorPalettePicker__item')
@@ -188,7 +190,10 @@ describe('Renders Tree Map', () => {
     cy.get('.euiComboBoxOption__content').eq(2).click();
     renderAddParent();
     cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(4).contains('Parent 4').should('exist');
+    cy.get('.first-division .euiFormLabel.euiFormRow__label')
+      .eq(4)
+      .contains('Parent 4')
+      .should('exist');
     cy.get('.euiTextColor.euiTextColor--subdued').contains('No results found').should('exist');
   });
 });
