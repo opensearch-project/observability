@@ -1,0 +1,19 @@
+{
+  "id": "observabilityDashboards",
+  "version": "1.3.4.0",
+  "opensearchDashboardsVersion": "1.3.4",
+  "server": true,
+  "ui": true,
+  "requiredPlugins": [
+    "charts",
+    "data",
+    "embeddable",
+    "inspector",
+    "urlForwarding",
+    "navigation",
+    "uiActions",
+    "dashboard",
+    "visualizations",
+    "opensearchDashboardsReact"
+  ]
+}

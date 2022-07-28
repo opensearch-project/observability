@@ -1,0 +1,2894 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panels Table Component renders empty panel table container 1`] = `
+<CustomPanelTable
+  addSamplePanels={[MockFunction]}
+  cloneCustomPanel={[MockFunction]}
+  createCustomPanel={[MockFunction]}
+  customPanels={Array []}
+  deleteCustomPanelList={[MockFunction]}
+  fetchCustomPanels={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  loading={false}
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "#/operational_panels/",
+        "text": "Operational panels",
+      },
+      Object {
+        "href": "observability#/",
+        "text": "Observability",
+      },
+    ]
+  }
+  renameCustomPanel={[MockFunction]}
+  setBreadcrumbs={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "href": "#/operational_panels/",
+              "text": "Operational panels",
+            },
+            Object {
+              "href": "observability#/",
+              "text": "Observability",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "float": "left",
+        "maxWidth": "1130px",
+        "width": "100%",
+      }
+    }
+  >
+    <EuiPage>
+      <div
+        className="euiPage"
+      >
+        <EuiPageBody
+          component="div"
+        >
+          <div
+            className="euiPageBody"
+          >
+            <EuiPageHeader>
+              <div
+                className="euiPageHeader euiPageHeader--responsive"
+              >
+                <EuiPageHeaderSection>
+                  <div
+                    className="euiPageHeaderSection"
+                  >
+                    <EuiTitle
+                      size="l"
+                    >
+                      <h1
+                        className="euiTitle euiTitle--large"
+                      >
+                        Operational panels
+                      </h1>
+                    </EuiTitle>
+                  </div>
+                </EuiPageHeaderSection>
+              </div>
+            </EuiPageHeader>
+            <EuiPageContent
+              id="customPanelArea"
+            >
+              <EuiPanel
+                className="euiPageContent"
+                id="customPanelArea"
+                paddingSize="l"
+              >
+                <div
+                  className="euiPanel euiPanel--paddingLarge euiPageContent"
+                  id="customPanelArea"
+                >
+                  <EuiPageContentHeader>
+                    <div
+                      className="euiPageContentHeader euiPageContentHeader--responsive"
+                    >
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiTitle
+                            size="s"
+                          >
+                            <h3
+                              className="euiTitle euiTitle--small"
+                            >
+                              Panels
+                              <span
+                                className="panel-header-count"
+                              >
+                                 (
+                                0
+                                )
+                              </span>
+                            </h3>
+                          </EuiTitle>
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                            size="s"
+                          >
+                            <div
+                              className="euiText euiText--small"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
+                                   
+                                  <EuiLink
+                                    external={true}
+                                    href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
+                                    target="blank"
+                                  >
+                                    <a
+                                      className="euiLink euiLink--primary"
+                                      href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
+                                      rel="noreferrer"
+                                      target="blank"
+                                    >
+                                      Learn more
+                                      <EuiI18n
+                                        default="External link"
+                                        token="euiLink.external.ariaLabel"
+                                      >
+                                        <EuiIcon
+                                          aria-label="External link"
+                                          className="euiLink__externalIcon"
+                                          size="s"
+                                          type="popout"
+                                        >
+                                          <EuiIconEmpty
+                                            aria-hidden={true}
+                                            aria-label="External link"
+                                            className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
+                                          >
+                                            <svg
+                                              aria-hidden={true}
+                                              aria-label="External link"
+                                              className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                              focusable="false"
+                                              height={16}
+                                              role="img"
+                                              style={null}
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                          </EuiIconEmpty>
+                                        </EuiIcon>
+                                      </EuiI18n>
+                                    </a>
+                                  </EuiLink>
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiFlexGroup
+                            gutterSize="s"
+                          >
+                            <div
+                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+                            >
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiPopover
+                                    anchorPosition="downCenter"
+                                    button={
+                                      <EuiButton
+                                        data-test-subj="operationalPanelsActionsButton"
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        onClick={[Function]}
+                                      >
+                                        Actions
+                                      </EuiButton>
+                                    }
+                                    closePopover={[Function]}
+                                    display="inlineBlock"
+                                    hasArrow={true}
+                                    isOpen={false}
+                                    ownFocus={false}
+                                    panelPaddingSize="none"
+                                  >
+                                    <EuiOutsideClickDetector
+                                      isDisabled={true}
+                                      onOutsideClick={[Function]}
+                                    >
+                                      <div
+                                        className="euiPopover euiPopover--anchorDownCenter"
+                                        onKeyDown={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchStart={[Function]}
+                                      >
+                                        <div
+                                          className="euiPopover__anchor"
+                                        >
+                                          <EuiButton
+                                            data-test-subj="operationalPanelsActionsButton"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            onClick={[Function]}
+                                          >
+                                            <EuiButtonDisplay
+                                              data-test-subj="operationalPanelsActionsButton"
+                                              disabled={false}
+                                              element="button"
+                                              iconSide="right"
+                                              iconType="arrowDown"
+                                              isDisabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <button
+                                                className="euiButton euiButton--primary"
+                                                data-test-subj="operationalPanelsActionsButton"
+                                                disabled={false}
+                                                onClick={[Function]}
+                                                type="button"
+                                              >
+                                                <EuiButtonContent
+                                                  className="euiButton__content"
+                                                  iconSide="right"
+                                                  iconType="arrowDown"
+                                                  textProps={
+                                                    Object {
+                                                      "className": "euiButton__text",
+                                                    }
+                                                  }
+                                                >
+                                                  <span
+                                                    className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                  >
+                                                    <EuiIcon
+                                                      className="euiButtonContent__icon"
+                                                      size="m"
+                                                      type="arrowDown"
+                                                    >
+                                                      <EuiIconEmpty
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                        focusable="false"
+                                                        role="img"
+                                                        style={null}
+                                                      >
+                                                        <svg
+                                                          aria-hidden={true}
+                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                          focusable="false"
+                                                          height={16}
+                                                          role="img"
+                                                          style={null}
+                                                          viewBox="0 0 16 16"
+                                                          width={16}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                        />
+                                                      </EuiIconEmpty>
+                                                    </EuiIcon>
+                                                    <span
+                                                      className="euiButton__text"
+                                                    >
+                                                      Actions
+                                                    </span>
+                                                  </span>
+                                                </EuiButtonContent>
+                                              </button>
+                                            </EuiButtonDisplay>
+                                          </EuiButton>
+                                        </div>
+                                      </div>
+                                    </EuiOutsideClickDetector>
+                                  </EuiPopover>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiButton
+                                    data-test-subj="customPanels__createNewPanels"
+                                    fill={true}
+                                    onClick={[Function]}
+                                  >
+                                    <EuiButtonDisplay
+                                      data-test-subj="customPanels__createNewPanels"
+                                      disabled={false}
+                                      element="button"
+                                      fill={true}
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <button
+                                        className="euiButton euiButton--primary euiButton--fill"
+                                        data-test-subj="customPanels__createNewPanels"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="left"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Create panel
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </div>
+                              </EuiFlexItem>
+                            </div>
+                          </EuiFlexGroup>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                    </div>
+                  </EuiPageContentHeader>
+                  <EuiHorizontalRule
+                    margin="m"
+                  >
+                    <hr
+                      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                    />
+                  </EuiHorizontalRule>
+                  <EuiSpacer
+                    size="xxl"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--xxl"
+                    />
+                  </EuiSpacer>
+                  <EuiText
+                    textAlign="center"
+                  >
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <EuiTextAlign
+                        textAlign="center"
+                      >
+                        <div
+                          className="euiTextAlign euiTextAlign--center"
+                        >
+                          <h2>
+                            No Operational Panels
+                          </h2>
+                          <EuiSpacer
+                            size="m"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--m"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                          >
+                            <div
+                              className="euiText euiText--medium"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use operational panels to dive deeper into observability
+                                  <br />
+                                  using PPL queries and insightful visualizations
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiTextAlign>
+                    </div>
+                  </EuiText>
+                  <EuiSpacer
+                    size="m"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--m"
+                    />
+                  </EuiSpacer>
+                  <EuiFlexGroup
+                    justifyContent="center"
+                  >
+                    <div
+                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                    >
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiButton
+                            data-test-subj="customPanels__emptyCreateNewPanels"
+                            fullWidth={false}
+                            onClick={[Function]}
+                          >
+                            <EuiButtonDisplay
+                              data-test-subj="customPanels__emptyCreateNewPanels"
+                              disabled={false}
+                              element="button"
+                              fullWidth={false}
+                              isDisabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <button
+                                className="euiButton euiButton--primary"
+                                data-test-subj="customPanels__emptyCreateNewPanels"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiButtonContent
+                                  className="euiButton__content"
+                                  iconSide="left"
+                                  textProps={
+                                    Object {
+                                      "className": "euiButton__text",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      className="euiButton__text"
+                                    >
+                                      Create panel
+                                    </span>
+                                  </span>
+                                </EuiButtonContent>
+                              </button>
+                            </EuiButtonDisplay>
+                          </EuiButton>
+                        </div>
+                      </EuiFlexItem>
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiButton
+                            fullWidth={false}
+                            onClick={[Function]}
+                          >
+                            <EuiButtonDisplay
+                              disabled={false}
+                              element="button"
+                              fullWidth={false}
+                              isDisabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <button
+                                className="euiButton euiButton--primary"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiButtonContent
+                                  className="euiButton__content"
+                                  iconSide="left"
+                                  textProps={
+                                    Object {
+                                      "className": "euiButton__text",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      className="euiButton__text"
+                                    >
+                                      Add samples
+                                    </span>
+                                  </span>
+                                </EuiButtonContent>
+                              </button>
+                            </EuiButtonDisplay>
+                          </EuiButton>
+                        </div>
+                      </EuiFlexItem>
+                    </div>
+                  </EuiFlexGroup>
+                  <EuiSpacer
+                    size="xxl"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--xxl"
+                    />
+                  </EuiSpacer>
+                </div>
+              </EuiPanel>
+            </EuiPageContent>
+          </div>
+        </EuiPageBody>
+      </div>
+    </EuiPage>
+  </div>
+</CustomPanelTable>
+`;
+
+exports[`Panels Table Component renders panel table container 1`] = `
+<CustomPanelTable
+  addSamplePanels={[MockFunction]}
+  cloneCustomPanel={[MockFunction]}
+  createCustomPanel={[MockFunction]}
+  customPanels={
+    Array [
+      Object {
+        "dateCreated": 1635974761179,
+        "dateModified": 1635974771296,
+        "id": "L8Sx53wBDp0rvEg3yoLb",
+        "name": "Test Panel 1",
+      },
+      Object {
+        "dateCreated": 1635545733895,
+        "dateModified": 1635979024055,
+        "id": "lsQfznwBDp0rvEg3W2wH",
+        "name": "Test Panel 2",
+      },
+      Object {
+        "dateCreated": 1635889452900,
+        "dateModified": 1635979888682,
+        "id": "b8Sc4nwBDp0rvEg3F3Fk",
+        "name": "Test Panel 3",
+      },
+      Object {
+        "dateCreated": 1635881186494,
+        "dateModified": 1636049456718,
+        "id": "P8Qd4nwBDp0rvEg39HG_",
+        "name": "Test Panel 4",
+      },
+    ]
+  }
+  deleteCustomPanelList={[MockFunction]}
+  fetchCustomPanels={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  loading={false}
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "#/operational_panels/",
+        "text": "Operational panels",
+      },
+      Object {
+        "href": "observability#/",
+        "text": "Observability",
+      },
+    ]
+  }
+  renameCustomPanel={[MockFunction]}
+  setBreadcrumbs={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "href": "#/operational_panels/",
+              "text": "Operational panels",
+            },
+            Object {
+              "href": "observability#/",
+              "text": "Observability",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "float": "left",
+        "maxWidth": "1130px",
+        "width": "100%",
+      }
+    }
+  >
+    <EuiPage>
+      <div
+        className="euiPage"
+      >
+        <EuiPageBody
+          component="div"
+        >
+          <div
+            className="euiPageBody"
+          >
+            <EuiPageHeader>
+              <div
+                className="euiPageHeader euiPageHeader--responsive"
+              >
+                <EuiPageHeaderSection>
+                  <div
+                    className="euiPageHeaderSection"
+                  >
+                    <EuiTitle
+                      size="l"
+                    >
+                      <h1
+                        className="euiTitle euiTitle--large"
+                      >
+                        Operational panels
+                      </h1>
+                    </EuiTitle>
+                  </div>
+                </EuiPageHeaderSection>
+              </div>
+            </EuiPageHeader>
+            <EuiPageContent
+              id="customPanelArea"
+            >
+              <EuiPanel
+                className="euiPageContent"
+                id="customPanelArea"
+                paddingSize="l"
+              >
+                <div
+                  className="euiPanel euiPanel--paddingLarge euiPageContent"
+                  id="customPanelArea"
+                >
+                  <EuiPageContentHeader>
+                    <div
+                      className="euiPageContentHeader euiPageContentHeader--responsive"
+                    >
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiTitle
+                            size="s"
+                          >
+                            <h3
+                              className="euiTitle euiTitle--small"
+                            >
+                              Panels
+                              <span
+                                className="panel-header-count"
+                              >
+                                 (
+                                4
+                                )
+                              </span>
+                            </h3>
+                          </EuiTitle>
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                            size="s"
+                          >
+                            <div
+                              className="euiText euiText--small"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
+                                   
+                                  <EuiLink
+                                    external={true}
+                                    href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
+                                    target="blank"
+                                  >
+                                    <a
+                                      className="euiLink euiLink--primary"
+                                      href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
+                                      rel="noreferrer"
+                                      target="blank"
+                                    >
+                                      Learn more
+                                      <EuiI18n
+                                        default="External link"
+                                        token="euiLink.external.ariaLabel"
+                                      >
+                                        <EuiIcon
+                                          aria-label="External link"
+                                          className="euiLink__externalIcon"
+                                          size="s"
+                                          type="popout"
+                                        >
+                                          <EuiIconPopout
+                                            aria-label="External link"
+                                            className="euiIcon euiIcon--small euiLink__externalIcon"
+                                            focusable="false"
+                                            role="img"
+                                            style={null}
+                                          >
+                                            <svg
+                                              aria-label="External link"
+                                              className="euiIcon euiIcon--small euiLink__externalIcon"
+                                              focusable="false"
+                                              height={16}
+                                              role="img"
+                                              style={null}
+                                              viewBox="0 0 16 16"
+                                              width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path
+                                                d="M13 8.5a.5.5 0 111 0V12a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2h3.5a.5.5 0 010 1H4a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8.5zm-5.12.339a.5.5 0 11-.706-.707L13.305 2H10.5a.5.5 0 110-1H14a1 1 0 011 1v3.5a.5.5 0 11-1 0V2.72L7.88 8.838z"
+                                              />
+                                            </svg>
+                                          </EuiIconPopout>
+                                        </EuiIcon>
+                                      </EuiI18n>
+                                    </a>
+                                  </EuiLink>
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiFlexGroup
+                            gutterSize="s"
+                          >
+                            <div
+                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+                            >
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiPopover
+                                    anchorPosition="downCenter"
+                                    button={
+                                      <EuiButton
+                                        data-test-subj="operationalPanelsActionsButton"
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        onClick={[Function]}
+                                      >
+                                        Actions
+                                      </EuiButton>
+                                    }
+                                    closePopover={[Function]}
+                                    display="inlineBlock"
+                                    hasArrow={true}
+                                    isOpen={false}
+                                    ownFocus={false}
+                                    panelPaddingSize="none"
+                                  >
+                                    <EuiOutsideClickDetector
+                                      isDisabled={true}
+                                      onOutsideClick={[Function]}
+                                    >
+                                      <div
+                                        className="euiPopover euiPopover--anchorDownCenter"
+                                        onKeyDown={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchStart={[Function]}
+                                      >
+                                        <div
+                                          className="euiPopover__anchor"
+                                        >
+                                          <EuiButton
+                                            data-test-subj="operationalPanelsActionsButton"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            onClick={[Function]}
+                                          >
+                                            <EuiButtonDisplay
+                                              data-test-subj="operationalPanelsActionsButton"
+                                              disabled={false}
+                                              element="button"
+                                              iconSide="right"
+                                              iconType="arrowDown"
+                                              isDisabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <button
+                                                className="euiButton euiButton--primary"
+                                                data-test-subj="operationalPanelsActionsButton"
+                                                disabled={false}
+                                                onClick={[Function]}
+                                                type="button"
+                                              >
+                                                <EuiButtonContent
+                                                  className="euiButton__content"
+                                                  iconSide="right"
+                                                  iconType="arrowDown"
+                                                  textProps={
+                                                    Object {
+                                                      "className": "euiButton__text",
+                                                    }
+                                                  }
+                                                >
+                                                  <span
+                                                    className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                  >
+                                                    <EuiIcon
+                                                      className="euiButtonContent__icon"
+                                                      size="m"
+                                                      type="arrowDown"
+                                                    >
+                                                      <EuiIconArrowDown
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                        focusable="false"
+                                                        role="img"
+                                                        style={null}
+                                                      >
+                                                        <svg
+                                                          aria-hidden={true}
+                                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                          focusable="false"
+                                                          height={16}
+                                                          role="img"
+                                                          style={null}
+                                                          viewBox="0 0 16 16"
+                                                          width={16}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                          <path
+                                                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                            fillRule="non-zero"
+                                                          />
+                                                        </svg>
+                                                      </EuiIconArrowDown>
+                                                    </EuiIcon>
+                                                    <span
+                                                      className="euiButton__text"
+                                                    >
+                                                      Actions
+                                                    </span>
+                                                  </span>
+                                                </EuiButtonContent>
+                                              </button>
+                                            </EuiButtonDisplay>
+                                          </EuiButton>
+                                        </div>
+                                      </div>
+                                    </EuiOutsideClickDetector>
+                                  </EuiPopover>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiButton
+                                    data-test-subj="customPanels__createNewPanels"
+                                    fill={true}
+                                    onClick={[Function]}
+                                  >
+                                    <EuiButtonDisplay
+                                      data-test-subj="customPanels__createNewPanels"
+                                      disabled={false}
+                                      element="button"
+                                      fill={true}
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <button
+                                        className="euiButton euiButton--primary euiButton--fill"
+                                        data-test-subj="customPanels__createNewPanels"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="left"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Create panel
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </div>
+                              </EuiFlexItem>
+                            </div>
+                          </EuiFlexGroup>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                    </div>
+                  </EuiPageContentHeader>
+                  <EuiHorizontalRule
+                    margin="m"
+                  >
+                    <hr
+                      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                    />
+                  </EuiHorizontalRule>
+                  <EuiFieldSearch
+                    compressed={false}
+                    data-test-subj="operationalPanelSearchBar"
+                    fullWidth={true}
+                    incremental={false}
+                    isClearable={true}
+                    isLoading={false}
+                    onChange={[Function]}
+                    placeholder="Search operational panel name"
+                    value=""
+                  >
+                    <EuiFormControlLayout
+                      compressed={false}
+                      fullWidth={true}
+                      icon="search"
+                      isLoading={false}
+                    >
+                      <div
+                        className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                      >
+                        <div
+                          className="euiFormControlLayout__childrenWrapper"
+                        >
+                          <EuiValidatableControl>
+                            <input
+                              className="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch-isClearable"
+                              data-test-subj="operationalPanelSearchBar"
+                              onChange={[Function]}
+                              onKeyUp={[Function]}
+                              placeholder="Search operational panel name"
+                              type="search"
+                              value=""
+                            />
+                          </EuiValidatableControl>
+                          <EuiFormControlLayoutIcons
+                            icon="search"
+                            isLoading={false}
+                          >
+                            <div
+                              className="euiFormControlLayoutIcons"
+                            >
+                              <EuiFormControlLayoutCustomIcon
+                                type="search"
+                              >
+                                <span
+                                  className="euiFormControlLayoutCustomIcon"
+                                >
+                                  <EuiIcon
+                                    aria-hidden="true"
+                                    className="euiFormControlLayoutCustomIcon__icon"
+                                    type="search"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </span>
+                              </EuiFormControlLayoutCustomIcon>
+                            </div>
+                          </EuiFormControlLayoutIcons>
+                        </div>
+                      </div>
+                    </EuiFormControlLayout>
+                  </EuiFieldSearch>
+                  <EuiHorizontalRule
+                    margin="m"
+                  >
+                    <hr
+                      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                    />
+                  </EuiHorizontalRule>
+                  <EuiInMemoryTable
+                    allowNeutralSort={false}
+                    columns={
+                      Array [
+                        Object {
+                          "field": "name",
+                          "name": "Name",
+                          "render": [Function],
+                          "sortable": true,
+                          "truncateText": true,
+                        },
+                        Object {
+                          "field": "dateModified",
+                          "name": "Last updated",
+                          "render": [Function],
+                          "sortable": true,
+                        },
+                        Object {
+                          "field": "dateCreated",
+                          "name": "Created",
+                          "render": [Function],
+                          "sortable": true,
+                        },
+                      ]
+                    }
+                    isSelectable={true}
+                    itemId="id"
+                    items={
+                      Array [
+                        Object {
+                          "dateCreated": 1635974761179,
+                          "dateModified": 1635974771296,
+                          "id": "L8Sx53wBDp0rvEg3yoLb",
+                          "name": "Test Panel 1",
+                        },
+                        Object {
+                          "dateCreated": 1635545733895,
+                          "dateModified": 1635979024055,
+                          "id": "lsQfznwBDp0rvEg3W2wH",
+                          "name": "Test Panel 2",
+                        },
+                        Object {
+                          "dateCreated": 1635889452900,
+                          "dateModified": 1635979888682,
+                          "id": "b8Sc4nwBDp0rvEg3F3Fk",
+                          "name": "Test Panel 3",
+                        },
+                        Object {
+                          "dateCreated": 1635881186494,
+                          "dateModified": 1636049456718,
+                          "id": "P8Qd4nwBDp0rvEg39HG_",
+                          "name": "Test Panel 4",
+                        },
+                      ]
+                    }
+                    loading={false}
+                    pagination={
+                      Object {
+                        "initialPageSize": 10,
+                        "pageSizeOptions": Array [
+                          8,
+                          10,
+                          13,
+                        ],
+                      }
+                    }
+                    responsive={true}
+                    selection={
+                      Object {
+                        "onSelectionChange": [Function],
+                      }
+                    }
+                    sorting={
+                      Object {
+                        "sort": Object {
+                          "direction": "desc",
+                          "field": "dateModified",
+                        },
+                      }
+                    }
+                    tableLayout="auto"
+                  >
+                    <EuiBasicTable
+                      columns={
+                        Array [
+                          Object {
+                            "field": "name",
+                            "name": "Name",
+                            "render": [Function],
+                            "sortable": true,
+                            "truncateText": true,
+                          },
+                          Object {
+                            "field": "dateModified",
+                            "name": "Last updated",
+                            "render": [Function],
+                            "sortable": true,
+                          },
+                          Object {
+                            "field": "dateCreated",
+                            "name": "Created",
+                            "render": [Function],
+                            "sortable": true,
+                          },
+                        ]
+                      }
+                      isSelectable={true}
+                      itemId="id"
+                      items={
+                        Array [
+                          Object {
+                            "dateCreated": 1635881186494,
+                            "dateModified": 1636049456718,
+                            "id": "P8Qd4nwBDp0rvEg39HG_",
+                            "name": "Test Panel 4",
+                          },
+                          Object {
+                            "dateCreated": 1635889452900,
+                            "dateModified": 1635979888682,
+                            "id": "b8Sc4nwBDp0rvEg3F3Fk",
+                            "name": "Test Panel 3",
+                          },
+                          Object {
+                            "dateCreated": 1635545733895,
+                            "dateModified": 1635979024055,
+                            "id": "lsQfznwBDp0rvEg3W2wH",
+                            "name": "Test Panel 2",
+                          },
+                          Object {
+                            "dateCreated": 1635974761179,
+                            "dateModified": 1635974771296,
+                            "id": "L8Sx53wBDp0rvEg3yoLb",
+                            "name": "Test Panel 1",
+                          },
+                        ]
+                      }
+                      loading={false}
+                      noItemsMessage="No items found"
+                      onChange={[Function]}
+                      pagination={
+                        Object {
+                          "hidePerPageOptions": undefined,
+                          "pageIndex": 0,
+                          "pageSize": 10,
+                          "pageSizeOptions": Array [
+                            8,
+                            10,
+                            13,
+                          ],
+                          "totalItemCount": 4,
+                        }
+                      }
+                      responsive={true}
+                      selection={
+                        Object {
+                          "onSelectionChange": [Function],
+                        }
+                      }
+                      sorting={
+                        Object {
+                          "allowNeutralSort": false,
+                          "sort": Object {
+                            "direction": "desc",
+                            "field": "Last updated",
+                          },
+                        }
+                      }
+                      tableLayout="auto"
+                    >
+                      <div
+                        className="euiBasicTable"
+                      >
+                        <div>
+                          <EuiTableHeaderMobile>
+                            <div
+                              className="euiTableHeaderMobile"
+                            >
+                              <EuiFlexGroup
+                                alignItems="baseline"
+                                justifyContent="spaceBetween"
+                                responsive={false}
+                              >
+                                <div
+                                  className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+                                >
+                                  <EuiFlexItem
+                                    grow={false}
+                                  >
+                                    <div
+                                      className="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <EuiI18n
+                                        default="Select all rows"
+                                        token="euiBasicTable.selectAllRows"
+                                      >
+                                        <EuiCheckbox
+                                          aria-label="Select all rows"
+                                          checked={false}
+                                          compressed={false}
+                                          disabled={false}
+                                          id="_selection_column-checkbox_random_html_id"
+                                          indeterminate={false}
+                                          label="Select all rows"
+                                          onChange={[Function]}
+                                        >
+                                          <div
+                                            className="euiCheckbox"
+                                          >
+                                            <input
+                                              aria-label="Select all rows"
+                                              checked={false}
+                                              className="euiCheckbox__input"
+                                              disabled={false}
+                                              id="_selection_column-checkbox_random_html_id"
+                                              onChange={[Function]}
+                                              type="checkbox"
+                                            />
+                                            <div
+                                              className="euiCheckbox__square"
+                                            />
+                                            <label
+                                              className="euiCheckbox__label"
+                                              htmlFor="_selection_column-checkbox_random_html_id"
+                                            >
+                                              Select all rows
+                                            </label>
+                                          </div>
+                                        </EuiCheckbox>
+                                      </EuiI18n>
+                                    </div>
+                                  </EuiFlexItem>
+                                  <EuiFlexItem
+                                    grow={false}
+                                  >
+                                    <div
+                                      className="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <EuiTableSortMobile
+                                        items={
+                                          Array [
+                                            Object {
+                                              "isSortAscending": undefined,
+                                              "isSorted": false,
+                                              "key": "_data_s_name_0",
+                                              "name": "Name",
+                                              "onSort": [Function],
+                                            },
+                                            Object {
+                                              "isSortAscending": false,
+                                              "isSorted": true,
+                                              "key": "_data_s_dateModified_1",
+                                              "name": "Last updated",
+                                              "onSort": [Function],
+                                            },
+                                            Object {
+                                              "isSortAscending": undefined,
+                                              "isSorted": false,
+                                              "key": "_data_s_dateCreated_2",
+                                              "name": "Created",
+                                              "onSort": [Function],
+                                            },
+                                          ]
+                                        }
+                                      >
+                                        <div
+                                          className="euiTableSortMobile"
+                                        >
+                                          <EuiPopover
+                                            anchorPosition="downRight"
+                                            button={
+                                              <EuiButtonEmpty
+                                                flush="right"
+                                                iconSide="right"
+                                                iconType="arrowDown"
+                                                onClick={[Function]}
+                                                size="xs"
+                                              >
+                                                <EuiI18n
+                                                  default="Sorting"
+                                                  token="euiTableSortMobile.sorting"
+                                                />
+                                              </EuiButtonEmpty>
+                                            }
+                                            closePopover={[Function]}
+                                            display="inlineBlock"
+                                            hasArrow={true}
+                                            isOpen={false}
+                                            ownFocus={true}
+                                            panelPaddingSize="none"
+                                          >
+                                            <EuiOutsideClickDetector
+                                              isDisabled={true}
+                                              onOutsideClick={[Function]}
+                                            >
+                                              <div
+                                                className="euiPopover euiPopover--anchorDownRight"
+                                                onKeyDown={[Function]}
+                                                onMouseDown={[Function]}
+                                                onMouseUp={[Function]}
+                                                onTouchEnd={[Function]}
+                                                onTouchStart={[Function]}
+                                              >
+                                                <div
+                                                  className="euiPopover__anchor"
+                                                >
+                                                  <EuiButtonEmpty
+                                                    flush="right"
+                                                    iconSide="right"
+                                                    iconType="arrowDown"
+                                                    onClick={[Function]}
+                                                    size="xs"
+                                                  >
+                                                    <button
+                                                      className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                                                      disabled={false}
+                                                      onClick={[Function]}
+                                                      type="button"
+                                                    >
+                                                      <EuiButtonContent
+                                                        className="euiButtonEmpty__content"
+                                                        iconSide="right"
+                                                        iconType="arrowDown"
+                                                        textProps={
+                                                          Object {
+                                                            "className": "euiButtonEmpty__text",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                                        >
+                                                          <EuiIcon
+                                                            className="euiButtonContent__icon"
+                                                            size="m"
+                                                            type="arrowDown"
+                                                          >
+                                                            <EuiIconArrowDown
+                                                              aria-hidden={true}
+                                                              className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                              focusable="false"
+                                                              role="img"
+                                                              style={null}
+                                                            >
+                                                              <svg
+                                                                aria-hidden={true}
+                                                                className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                                focusable="false"
+                                                                height={16}
+                                                                role="img"
+                                                                style={null}
+                                                                viewBox="0 0 16 16"
+                                                                width={16}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              >
+                                                                <path
+                                                                  d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                                  fillRule="non-zero"
+                                                                />
+                                                              </svg>
+                                                            </EuiIconArrowDown>
+                                                          </EuiIcon>
+                                                          <span
+                                                            className="euiButtonEmpty__text"
+                                                          >
+                                                            <EuiI18n
+                                                              default="Sorting"
+                                                              token="euiTableSortMobile.sorting"
+                                                            >
+                                                              Sorting
+                                                            </EuiI18n>
+                                                          </span>
+                                                        </span>
+                                                      </EuiButtonContent>
+                                                    </button>
+                                                  </EuiButtonEmpty>
+                                                </div>
+                                              </div>
+                                            </EuiOutsideClickDetector>
+                                          </EuiPopover>
+                                        </div>
+                                      </EuiTableSortMobile>
+                                    </div>
+                                  </EuiFlexItem>
+                                </div>
+                              </EuiFlexGroup>
+                            </div>
+                          </EuiTableHeaderMobile>
+                          <EuiTable
+                            id="random_html_id"
+                            responsive={true}
+                            tableLayout="auto"
+                          >
+                            <table
+                              className="euiTable euiTable--responsive euiTable--auto"
+                              id="random_html_id"
+                              tabIndex={-1}
+                            >
+                              <EuiScreenReaderOnly>
+                                <caption
+                                  className="euiScreenReaderOnly euiTableCaption"
+                                >
+                                  <EuiDelayRender
+                                    delay={500}
+                                  />
+                                </caption>
+                              </EuiScreenReaderOnly>
+                              <EuiTableHeader>
+                                <thead>
+                                  <tr>
+                                    <EuiTableHeaderCellCheckbox
+                                      key="_selection_column_h"
+                                    >
+                                      <th
+                                        className="euiTableHeaderCellCheckbox"
+                                        scope="col"
+                                        style={
+                                          Object {
+                                            "width": undefined,
+                                          }
+                                        }
+                                      >
+                                        <div
+                                          className="euiTableCellContent"
+                                        >
+                                          <EuiI18n
+                                            default="Select all rows"
+                                            token="euiBasicTable.selectAllRows"
+                                          >
+                                            <EuiCheckbox
+                                              aria-label="Select all rows"
+                                              checked={false}
+                                              compressed={false}
+                                              data-test-subj="checkboxSelectAll"
+                                              disabled={false}
+                                              id="_selection_column-checkbox_random_html_id"
+                                              indeterminate={false}
+                                              label={null}
+                                              onChange={[Function]}
+                                              type="inList"
+                                            >
+                                              <div
+                                                className="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                                              >
+                                                <input
+                                                  aria-label="Select all rows"
+                                                  checked={false}
+                                                  className="euiCheckbox__input"
+                                                  data-test-subj="checkboxSelectAll"
+                                                  disabled={false}
+                                                  id="_selection_column-checkbox_random_html_id"
+                                                  onChange={[Function]}
+                                                  type="checkbox"
+                                                />
+                                                <div
+                                                  className="euiCheckbox__square"
+                                                />
+                                              </div>
+                                            </EuiCheckbox>
+                                          </EuiI18n>
+                                        </div>
+                                      </th>
+                                    </EuiTableHeaderCellCheckbox>
+                                    <EuiTableHeaderCell
+                                      align="left"
+                                      allowNeutralSort={false}
+                                      data-test-subj="tableHeaderCell_name_0"
+                                      isSorted={false}
+                                      key="_data_h_name_0"
+                                      onSort={[Function]}
+                                    >
+                                      <th
+                                        aria-live="polite"
+                                        aria-sort="none"
+                                        className="euiTableHeaderCell"
+                                        data-test-subj="tableHeaderCell_name_0"
+                                        role="columnheader"
+                                        scope="col"
+                                        style={
+                                          Object {
+                                            "width": undefined,
+                                          }
+                                        }
+                                      >
+                                        <button
+                                          className="euiTableHeaderButton"
+                                          data-test-subj="tableHeaderSortButton"
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          <span
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiInnerText>
+                                              <EuiI18n
+                                                default="{innerText}; Sorted in {ariaSortValue} order"
+                                                token="euiTableHeaderCell.titleTextWithSort"
+                                                values={
+                                                  Object {
+                                                    "ariaSortValue": "none",
+                                                    "innerText": "Name",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiTableCellContent__text"
+                                                  title="Name"
+                                                >
+                                                  Name
+                                                </span>
+                                              </EuiI18n>
+                                            </EuiInnerText>
+                                            <EuiScreenReaderOnly>
+                                              <span
+                                                className="euiScreenReaderOnly"
+                                              >
+                                                <EuiI18n
+                                                  default="Click to sort in ascending order"
+                                                  token="euiTableHeaderCell.clickForAscending"
+                                                >
+                                                  Click to sort in ascending order
+                                                </EuiI18n>
+                                              </span>
+                                            </EuiScreenReaderOnly>
+                                          </span>
+                                        </button>
+                                      </th>
+                                    </EuiTableHeaderCell>
+                                    <EuiTableHeaderCell
+                                      align="left"
+                                      allowNeutralSort={false}
+                                      data-test-subj="tableHeaderCell_dateModified_1"
+                                      isSortAscending={false}
+                                      isSorted={true}
+                                      key="_data_h_dateModified_1"
+                                      onSort={[Function]}
+                                    >
+                                      <th
+                                        aria-live="polite"
+                                        aria-sort="descending"
+                                        className="euiTableHeaderCell"
+                                        data-test-subj="tableHeaderCell_dateModified_1"
+                                        role="columnheader"
+                                        scope="col"
+                                        style={
+                                          Object {
+                                            "width": undefined,
+                                          }
+                                        }
+                                      >
+                                        <button
+                                          className="euiTableHeaderButton euiTableHeaderButton-isSorted"
+                                          data-test-subj="tableHeaderSortButton"
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          <span
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiInnerText>
+                                              <EuiI18n
+                                                default="{innerText}; Sorted in {ariaSortValue} order"
+                                                token="euiTableHeaderCell.titleTextWithSort"
+                                                values={
+                                                  Object {
+                                                    "ariaSortValue": "descending",
+                                                    "innerText": "Last updated",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiTableCellContent__text"
+                                                  title="Last updated; Sorted in descending order"
+                                                >
+                                                  Last updated
+                                                </span>
+                                              </EuiI18n>
+                                            </EuiInnerText>
+                                            <EuiI18n
+                                              default="Sorted in {ariaSortValue} order"
+                                              token="euiTableHeaderCell.sortedAriaLabel"
+                                              values={
+                                                Object {
+                                                  "ariaSortValue": "descending",
+                                                }
+                                              }
+                                            >
+                                              <EuiIcon
+                                                aria-label="Sorted in descending order"
+                                                className="euiTableSortIcon"
+                                                size="m"
+                                                type="sortDown"
+                                              >
+                                                <EuiIconEmpty
+                                                  aria-hidden={true}
+                                                  aria-label="Sorted in descending order"
+                                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
+                                                  focusable="false"
+                                                  role="img"
+                                                  style={null}
+                                                >
+                                                  <svg
+                                                    aria-hidden={true}
+                                                    aria-label="Sorted in descending order"
+                                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
+                                                    focusable="false"
+                                                    height={16}
+                                                    role="img"
+                                                    style={null}
+                                                    viewBox="0 0 16 16"
+                                                    width={16}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  />
+                                                </EuiIconEmpty>
+                                              </EuiIcon>
+                                            </EuiI18n>
+                                            <EuiScreenReaderOnly>
+                                              <span
+                                                className="euiScreenReaderOnly"
+                                              >
+                                                <EuiI18n
+                                                  default="Click to sort in ascending order"
+                                                  token="euiTableHeaderCell.clickForAscending"
+                                                >
+                                                  Click to sort in ascending order
+                                                </EuiI18n>
+                                              </span>
+                                            </EuiScreenReaderOnly>
+                                          </span>
+                                        </button>
+                                      </th>
+                                    </EuiTableHeaderCell>
+                                    <EuiTableHeaderCell
+                                      align="left"
+                                      allowNeutralSort={false}
+                                      data-test-subj="tableHeaderCell_dateCreated_2"
+                                      isSorted={false}
+                                      key="_data_h_dateCreated_2"
+                                      onSort={[Function]}
+                                    >
+                                      <th
+                                        aria-live="polite"
+                                        aria-sort="none"
+                                        className="euiTableHeaderCell"
+                                        data-test-subj="tableHeaderCell_dateCreated_2"
+                                        role="columnheader"
+                                        scope="col"
+                                        style={
+                                          Object {
+                                            "width": undefined,
+                                          }
+                                        }
+                                      >
+                                        <button
+                                          className="euiTableHeaderButton"
+                                          data-test-subj="tableHeaderSortButton"
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          <span
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiInnerText>
+                                              <EuiI18n
+                                                default="{innerText}; Sorted in {ariaSortValue} order"
+                                                token="euiTableHeaderCell.titleTextWithSort"
+                                                values={
+                                                  Object {
+                                                    "ariaSortValue": "none",
+                                                    "innerText": "Created",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiTableCellContent__text"
+                                                  title="Created"
+                                                >
+                                                  Created
+                                                </span>
+                                              </EuiI18n>
+                                            </EuiInnerText>
+                                            <EuiScreenReaderOnly>
+                                              <span
+                                                className="euiScreenReaderOnly"
+                                              >
+                                                <EuiI18n
+                                                  default="Click to sort in ascending order"
+                                                  token="euiTableHeaderCell.clickForAscending"
+                                                >
+                                                  Click to sort in ascending order
+                                                </EuiI18n>
+                                              </span>
+                                            </EuiScreenReaderOnly>
+                                          </span>
+                                        </button>
+                                      </th>
+                                    </EuiTableHeaderCell>
+                                  </tr>
+                                </thead>
+                              </EuiTableHeader>
+                              <EuiTableBody
+                                bodyRef={[Function]}
+                              >
+                                <tbody>
+                                  <EuiTableRow
+                                    isSelectable={true}
+                                    isSelected={false}
+                                  >
+                                    <tr
+                                      className="euiTableRow euiTableRow-isSelectable"
+                                    >
+                                      <EuiTableRowCellCheckbox
+                                        key="_selection_column_P8Qd4nwBDp0rvEg39HG_"
+                                      >
+                                        <td
+                                          className="euiTableRowCellCheckbox"
+                                        >
+                                          <div
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiI18n
+                                              default="Select this row"
+                                              token="euiBasicTable.selectThisRow"
+                                            >
+                                              <EuiCheckbox
+                                                aria-label="Select this row"
+                                                checked={false}
+                                                compressed={false}
+                                                data-test-subj="checkboxSelectRow-P8Qd4nwBDp0rvEg39HG_"
+                                                disabled={false}
+                                                id="_selection_column_P8Qd4nwBDp0rvEg39HG_-checkbox"
+                                                indeterminate={false}
+                                                onChange={[Function]}
+                                                title="Select this row"
+                                                type="inList"
+                                              >
+                                                <div
+                                                  className="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                                                >
+                                                  <input
+                                                    aria-label="Select this row"
+                                                    checked={false}
+                                                    className="euiCheckbox__input"
+                                                    data-test-subj="checkboxSelectRow-P8Qd4nwBDp0rvEg39HG_"
+                                                    disabled={false}
+                                                    id="_selection_column_P8Qd4nwBDp0rvEg39HG_-checkbox"
+                                                    onChange={[Function]}
+                                                    title="Select this row"
+                                                    type="checkbox"
+                                                  />
+                                                  <div
+                                                    className="euiCheckbox__square"
+                                                  />
+                                                </div>
+                                              </EuiCheckbox>
+                                            </EuiI18n>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCellCheckbox>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_name_P8Qd4nwBDp0rvEg39HG__0"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Name",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                        truncateText={true}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Name
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                                          >
+                                            <EuiLink
+                                              className=""
+                                              href="observability#/P8Qd4nwBDp0rvEg39HG_"
+                                              key=".0"
+                                            >
+                                              <a
+                                                className="euiLink euiLink--primary"
+                                                href="observability#/P8Qd4nwBDp0rvEg39HG_"
+                                                rel="noreferrer"
+                                              >
+                                                Test Panel 4
+                                              </a>
+                                            </EuiLink>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateModified_P8Qd4nwBDp0rvEg39HG__1"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Last updated",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Last updated
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/04/2021 06:10 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateCreated_P8Qd4nwBDp0rvEg39HG__2"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Created",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Created
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/02/2021 07:26 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                    </tr>
+                                  </EuiTableRow>
+                                  <EuiTableRow
+                                    isSelectable={true}
+                                    isSelected={false}
+                                  >
+                                    <tr
+                                      className="euiTableRow euiTableRow-isSelectable"
+                                    >
+                                      <EuiTableRowCellCheckbox
+                                        key="_selection_column_b8Sc4nwBDp0rvEg3F3Fk"
+                                      >
+                                        <td
+                                          className="euiTableRowCellCheckbox"
+                                        >
+                                          <div
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiI18n
+                                              default="Select this row"
+                                              token="euiBasicTable.selectThisRow"
+                                            >
+                                              <EuiCheckbox
+                                                aria-label="Select this row"
+                                                checked={false}
+                                                compressed={false}
+                                                data-test-subj="checkboxSelectRow-b8Sc4nwBDp0rvEg3F3Fk"
+                                                disabled={false}
+                                                id="_selection_column_b8Sc4nwBDp0rvEg3F3Fk-checkbox"
+                                                indeterminate={false}
+                                                onChange={[Function]}
+                                                title="Select this row"
+                                                type="inList"
+                                              >
+                                                <div
+                                                  className="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                                                >
+                                                  <input
+                                                    aria-label="Select this row"
+                                                    checked={false}
+                                                    className="euiCheckbox__input"
+                                                    data-test-subj="checkboxSelectRow-b8Sc4nwBDp0rvEg3F3Fk"
+                                                    disabled={false}
+                                                    id="_selection_column_b8Sc4nwBDp0rvEg3F3Fk-checkbox"
+                                                    onChange={[Function]}
+                                                    title="Select this row"
+                                                    type="checkbox"
+                                                  />
+                                                  <div
+                                                    className="euiCheckbox__square"
+                                                  />
+                                                </div>
+                                              </EuiCheckbox>
+                                            </EuiI18n>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCellCheckbox>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_name_b8Sc4nwBDp0rvEg3F3Fk_0"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Name",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                        truncateText={true}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Name
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                                          >
+                                            <EuiLink
+                                              className=""
+                                              href="observability#/b8Sc4nwBDp0rvEg3F3Fk"
+                                              key=".0"
+                                            >
+                                              <a
+                                                className="euiLink euiLink--primary"
+                                                href="observability#/b8Sc4nwBDp0rvEg3F3Fk"
+                                                rel="noreferrer"
+                                              >
+                                                Test Panel 3
+                                              </a>
+                                            </EuiLink>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateModified_b8Sc4nwBDp0rvEg3F3Fk_1"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Last updated",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Last updated
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/03/2021 10:51 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateCreated_b8Sc4nwBDp0rvEg3F3Fk_2"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Created",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Created
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/02/2021 09:44 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                    </tr>
+                                  </EuiTableRow>
+                                  <EuiTableRow
+                                    isSelectable={true}
+                                    isSelected={false}
+                                  >
+                                    <tr
+                                      className="euiTableRow euiTableRow-isSelectable"
+                                    >
+                                      <EuiTableRowCellCheckbox
+                                        key="_selection_column_lsQfznwBDp0rvEg3W2wH"
+                                      >
+                                        <td
+                                          className="euiTableRowCellCheckbox"
+                                        >
+                                          <div
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiI18n
+                                              default="Select this row"
+                                              token="euiBasicTable.selectThisRow"
+                                            >
+                                              <EuiCheckbox
+                                                aria-label="Select this row"
+                                                checked={false}
+                                                compressed={false}
+                                                data-test-subj="checkboxSelectRow-lsQfznwBDp0rvEg3W2wH"
+                                                disabled={false}
+                                                id="_selection_column_lsQfznwBDp0rvEg3W2wH-checkbox"
+                                                indeterminate={false}
+                                                onChange={[Function]}
+                                                title="Select this row"
+                                                type="inList"
+                                              >
+                                                <div
+                                                  className="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                                                >
+                                                  <input
+                                                    aria-label="Select this row"
+                                                    checked={false}
+                                                    className="euiCheckbox__input"
+                                                    data-test-subj="checkboxSelectRow-lsQfznwBDp0rvEg3W2wH"
+                                                    disabled={false}
+                                                    id="_selection_column_lsQfznwBDp0rvEg3W2wH-checkbox"
+                                                    onChange={[Function]}
+                                                    title="Select this row"
+                                                    type="checkbox"
+                                                  />
+                                                  <div
+                                                    className="euiCheckbox__square"
+                                                  />
+                                                </div>
+                                              </EuiCheckbox>
+                                            </EuiI18n>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCellCheckbox>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_name_lsQfznwBDp0rvEg3W2wH_0"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Name",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                        truncateText={true}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Name
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                                          >
+                                            <EuiLink
+                                              className=""
+                                              href="observability#/lsQfznwBDp0rvEg3W2wH"
+                                              key=".0"
+                                            >
+                                              <a
+                                                className="euiLink euiLink--primary"
+                                                href="observability#/lsQfznwBDp0rvEg3W2wH"
+                                                rel="noreferrer"
+                                              >
+                                                Test Panel 2
+                                              </a>
+                                            </EuiLink>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateModified_lsQfznwBDp0rvEg3W2wH_1"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Last updated",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Last updated
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/03/2021 10:37 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateCreated_lsQfznwBDp0rvEg3W2wH_2"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Created",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Created
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            10/29/2021 10:15 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                    </tr>
+                                  </EuiTableRow>
+                                  <EuiTableRow
+                                    isSelectable={true}
+                                    isSelected={false}
+                                  >
+                                    <tr
+                                      className="euiTableRow euiTableRow-isSelectable"
+                                    >
+                                      <EuiTableRowCellCheckbox
+                                        key="_selection_column_L8Sx53wBDp0rvEg3yoLb"
+                                      >
+                                        <td
+                                          className="euiTableRowCellCheckbox"
+                                        >
+                                          <div
+                                            className="euiTableCellContent"
+                                          >
+                                            <EuiI18n
+                                              default="Select this row"
+                                              token="euiBasicTable.selectThisRow"
+                                            >
+                                              <EuiCheckbox
+                                                aria-label="Select this row"
+                                                checked={false}
+                                                compressed={false}
+                                                data-test-subj="checkboxSelectRow-L8Sx53wBDp0rvEg3yoLb"
+                                                disabled={false}
+                                                id="_selection_column_L8Sx53wBDp0rvEg3yoLb-checkbox"
+                                                indeterminate={false}
+                                                onChange={[Function]}
+                                                title="Select this row"
+                                                type="inList"
+                                              >
+                                                <div
+                                                  className="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                                                >
+                                                  <input
+                                                    aria-label="Select this row"
+                                                    checked={false}
+                                                    className="euiCheckbox__input"
+                                                    data-test-subj="checkboxSelectRow-L8Sx53wBDp0rvEg3yoLb"
+                                                    disabled={false}
+                                                    id="_selection_column_L8Sx53wBDp0rvEg3yoLb-checkbox"
+                                                    onChange={[Function]}
+                                                    title="Select this row"
+                                                    type="checkbox"
+                                                  />
+                                                  <div
+                                                    className="euiCheckbox__square"
+                                                  />
+                                                </div>
+                                              </EuiCheckbox>
+                                            </EuiI18n>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCellCheckbox>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_name_L8Sx53wBDp0rvEg3yoLb_0"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Name",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                        truncateText={true}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Name
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                                          >
+                                            <EuiLink
+                                              className=""
+                                              href="observability#/L8Sx53wBDp0rvEg3yoLb"
+                                              key=".0"
+                                            >
+                                              <a
+                                                className="euiLink euiLink--primary"
+                                                href="observability#/L8Sx53wBDp0rvEg3yoLb"
+                                                rel="noreferrer"
+                                              >
+                                                Test Panel 1
+                                              </a>
+                                            </EuiLink>
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateModified_L8Sx53wBDp0rvEg3yoLb_1"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Last updated",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Last updated
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/03/2021 09:26 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                      <EuiTableRowCell
+                                        align="left"
+                                        key="_data_column_dateCreated_L8Sx53wBDp0rvEg3yoLb_2"
+                                        mobileOptions={
+                                          Object {
+                                            "header": "Created",
+                                            "render": undefined,
+                                          }
+                                        }
+                                        setScopeRow={false}
+                                        textOnly={false}
+                                      >
+                                        <td
+                                          className="euiTableRowCell"
+                                          style={
+                                            Object {
+                                              "width": undefined,
+                                            }
+                                          }
+                                        >
+                                          <div
+                                            className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                                          >
+                                            Created
+                                          </div>
+                                          <div
+                                            className="euiTableCellContent euiTableCellContent--overflowingContent"
+                                          >
+                                            11/03/2021 09:26 PM
+                                          </div>
+                                        </td>
+                                      </EuiTableRowCell>
+                                    </tr>
+                                  </EuiTableRow>
+                                </tbody>
+                              </EuiTableBody>
+                            </table>
+                          </EuiTable>
+                        </div>
+                        <PaginationBar
+                          aria-controls="random_html_id"
+                          onPageChange={[Function]}
+                          onPageSizeChange={[Function]}
+                          pagination={
+                            Object {
+                              "hidePerPageOptions": undefined,
+                              "pageIndex": 0,
+                              "pageSize": 10,
+                              "pageSizeOptions": Array [
+                                8,
+                                10,
+                                13,
+                              ],
+                              "totalItemCount": 4,
+                            }
+                          }
+                        >
+                          <div>
+                            <EuiSpacer
+                              size="m"
+                            >
+                              <div
+                                className="euiSpacer euiSpacer--m"
+                              />
+                            </EuiSpacer>
+                            <EuiTablePagination
+                              activePage={0}
+                              aria-controls="random_html_id"
+                              itemsPerPage={10}
+                              itemsPerPageOptions={
+                                Array [
+                                  8,
+                                  10,
+                                  13,
+                                ]
+                              }
+                              onChangeItemsPerPage={[Function]}
+                              onChangePage={[Function]}
+                              pageCount={1}
+                            >
+                              <EuiFlexGroup
+                                alignItems="center"
+                                justifyContent="spaceBetween"
+                                responsive={false}
+                              >
+                                <div
+                                  className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+                                >
+                                  <EuiFlexItem
+                                    grow={false}
+                                  >
+                                    <div
+                                      className="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <EuiPopover
+                                        anchorPosition="upRight"
+                                        button={
+                                          <EuiButtonEmpty
+                                            color="text"
+                                            data-test-subj="tablePaginationPopoverButton"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            onClick={[Function]}
+                                            size="xs"
+                                          >
+                                            <EuiI18n
+                                              default="Rows per page"
+                                              token="euiTablePagination.rowsPerPage"
+                                            />
+                                            : 
+                                            10
+                                          </EuiButtonEmpty>
+                                        }
+                                        closePopover={[Function]}
+                                        display="inlineBlock"
+                                        hasArrow={true}
+                                        isOpen={false}
+                                        ownFocus={false}
+                                        panelPaddingSize="none"
+                                        withTitle={true}
+                                      >
+                                        <EuiOutsideClickDetector
+                                          isDisabled={true}
+                                          onOutsideClick={[Function]}
+                                        >
+                                          <div
+                                            className="euiPopover euiPopover--anchorUpRight euiPopover--withTitle"
+                                            onKeyDown={[Function]}
+                                            onMouseDown={[Function]}
+                                            onMouseUp={[Function]}
+                                            onTouchEnd={[Function]}
+                                            onTouchStart={[Function]}
+                                          >
+                                            <div
+                                              className="euiPopover__anchor"
+                                            >
+                                              <EuiButtonEmpty
+                                                color="text"
+                                                data-test-subj="tablePaginationPopoverButton"
+                                                iconSide="right"
+                                                iconType="arrowDown"
+                                                onClick={[Function]}
+                                                size="xs"
+                                              >
+                                                <button
+                                                  className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
+                                                  data-test-subj="tablePaginationPopoverButton"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiButtonContent
+                                                    className="euiButtonEmpty__content"
+                                                    iconSide="right"
+                                                    iconType="arrowDown"
+                                                    textProps={
+                                                      Object {
+                                                        "className": "euiButtonEmpty__text",
+                                                      }
+                                                    }
+                                                  >
+                                                    <span
+                                                      className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                                    >
+                                                      <EuiIcon
+                                                        className="euiButtonContent__icon"
+                                                        size="m"
+                                                        type="arrowDown"
+                                                      >
+                                                        <EuiIconArrowDown
+                                                          aria-hidden={true}
+                                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                          focusable="false"
+                                                          role="img"
+                                                          style={null}
+                                                        >
+                                                          <svg
+                                                            aria-hidden={true}
+                                                            className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                            focusable="false"
+                                                            height={16}
+                                                            role="img"
+                                                            style={null}
+                                                            viewBox="0 0 16 16"
+                                                            width={16}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                          >
+                                                            <path
+                                                              d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                              fillRule="non-zero"
+                                                            />
+                                                          </svg>
+                                                        </EuiIconArrowDown>
+                                                      </EuiIcon>
+                                                      <span
+                                                        className="euiButtonEmpty__text"
+                                                      >
+                                                        <EuiI18n
+                                                          default="Rows per page"
+                                                          token="euiTablePagination.rowsPerPage"
+                                                        >
+                                                          Rows per page
+                                                        </EuiI18n>
+                                                        : 
+                                                        10
+                                                      </span>
+                                                    </span>
+                                                  </EuiButtonContent>
+                                                </button>
+                                              </EuiButtonEmpty>
+                                            </div>
+                                          </div>
+                                        </EuiOutsideClickDetector>
+                                      </EuiPopover>
+                                    </div>
+                                  </EuiFlexItem>
+                                  <EuiFlexItem
+                                    grow={false}
+                                  >
+                                    <div
+                                      className="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <EuiPagination
+                                        activePage={0}
+                                        aria-controls="random_html_id"
+                                        onPageClick={[Function]}
+                                        pageCount={1}
+                                      >
+                                        <nav
+                                          className="euiPagination"
+                                        >
+                                          <EuiI18n
+                                            default="Previous page, {page}"
+                                            token="euiPagination.previousPage"
+                                            values={
+                                              Object {
+                                                "page": 0,
+                                              }
+                                            }
+                                          >
+                                            <EuiI18n
+                                              default="Previous page"
+                                              token="euiPagination.disabledPreviousPage"
+                                            >
+                                              <EuiButtonIcon
+                                                aria-label="Previous page"
+                                                color="text"
+                                                data-test-subj="pagination-button-previous"
+                                                disabled={true}
+                                                iconType="arrowLeft"
+                                                onClick={[Function]}
+                                              >
+                                                <button
+                                                  aria-label="Previous page"
+                                                  className="euiButtonIcon euiButtonIcon--text"
+                                                  data-test-subj="pagination-button-previous"
+                                                  disabled={true}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    size="m"
+                                                    type="arrowLeft"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </EuiI18n>
+                                          </EuiI18n>
+                                          <ul
+                                            className="euiPagination__list"
+                                          >
+                                            <PaginationButton
+                                              key="0"
+                                              pageIndex={0}
+                                            >
+                                              <li
+                                                className="euiPagination__item"
+                                              >
+                                                <EuiPaginationButton
+                                                  aria-controls="random_html_id"
+                                                  hideOnMobile={true}
+                                                  isActive={true}
+                                                  onClick={[Function]}
+                                                  pageIndex={0}
+                                                  totalPages={1}
+                                                >
+                                                  <EuiI18n
+                                                    default="Page {page} of {totalPages}"
+                                                    token="euiPaginationButton.longPageString"
+                                                    values={
+                                                      Object {
+                                                        "page": 1,
+                                                        "totalPages": 1,
+                                                      }
+                                                    }
+                                                  >
+                                                    <EuiI18n
+                                                      default="Page {page}"
+                                                      token="euiPaginationButton.shortPageString"
+                                                      values={
+                                                        Object {
+                                                          "page": 1,
+                                                        }
+                                                      }
+                                                    >
+                                                      <EuiButtonEmpty
+                                                        aria-controls="random_html_id"
+                                                        aria-current={true}
+                                                        aria-label="Page 1 of 1"
+                                                        className="euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                                                        color="text"
+                                                        data-test-subj="pagination-button-0"
+                                                        href="#random_html_id"
+                                                        isDisabled={true}
+                                                        onClick={[Function]}
+                                                        size="xs"
+                                                      >
+                                                        <button
+                                                          aria-controls="random_html_id"
+                                                          aria-current={true}
+                                                          aria-label="Page 1 of 1"
+                                                          className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                                                          data-test-subj="pagination-button-0"
+                                                          disabled={true}
+                                                          onClick={[Function]}
+                                                          type="button"
+                                                        >
+                                                          <EuiButtonContent
+                                                            className="euiButtonEmpty__content"
+                                                            iconSide="left"
+                                                            textProps={
+                                                              Object {
+                                                                "className": "euiButtonEmpty__text",
+                                                              }
+                                                            }
+                                                          >
+                                                            <span
+                                                              className="euiButtonContent euiButtonEmpty__content"
+                                                            >
+                                                              <span
+                                                                className="euiButtonEmpty__text"
+                                                              >
+                                                                1
+                                                              </span>
+                                                            </span>
+                                                          </EuiButtonContent>
+                                                        </button>
+                                                      </EuiButtonEmpty>
+                                                    </EuiI18n>
+                                                  </EuiI18n>
+                                                </EuiPaginationButton>
+                                              </li>
+                                            </PaginationButton>
+                                          </ul>
+                                          <EuiI18n
+                                            default="Next page, {page}"
+                                            token="euiPagination.nextPage"
+                                            values={
+                                              Object {
+                                                "page": 2,
+                                              }
+                                            }
+                                          >
+                                            <EuiI18n
+                                              default="Next page"
+                                              token="euiPagination.disabledNextPage"
+                                            >
+                                              <EuiButtonIcon
+                                                aria-label="Next page"
+                                                color="text"
+                                                data-test-subj="pagination-button-next"
+                                                disabled={true}
+                                                iconType="arrowRight"
+                                                onClick={[Function]}
+                                              >
+                                                <button
+                                                  aria-label="Next page"
+                                                  className="euiButtonIcon euiButtonIcon--text"
+                                                  data-test-subj="pagination-button-next"
+                                                  disabled={true}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    size="m"
+                                                    type="arrowRight"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </EuiI18n>
+                                          </EuiI18n>
+                                        </nav>
+                                      </EuiPagination>
+                                    </div>
+                                  </EuiFlexItem>
+                                </div>
+                              </EuiFlexGroup>
+                            </EuiTablePagination>
+                          </div>
+                        </PaginationBar>
+                      </div>
+                    </EuiBasicTable>
+                  </EuiInMemoryTable>
+                </div>
+              </EuiPanel>
+            </EuiPageContent>
+          </div>
+        </EuiPageBody>
+      </div>
+    </EuiPage>
+  </div>
+</CustomPanelTable>
+`;

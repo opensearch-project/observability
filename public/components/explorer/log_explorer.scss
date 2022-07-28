@@ -1,0 +1,35 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.queryTabs {
+  .euiTabs {
+    .tab-title {
+      max-width: 8rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    svg {
+      vertical-align: inherit;
+    }
+    .linkNewTag{
+      display: inline-block;
+      text-align: center;
+      font-size: 0.875rem;
+      line-height: 3.5;
+      padding: 0.5rem;
+      min-width: 6rem;
+    }
+  }
+}
+
+.tab-title {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.search-area {
+  position: relative;
+}

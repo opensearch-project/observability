@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Input Model component renders custom input modal with multiple arguments 1`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        Input test
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          helpText="Help Text"
+          label="test label"
+          labelType="label"
+        >
+          <EuiFieldText
+            data-test-subj="customModalFieldText"
+            name="input"
+            onChange={[Function]}
+            value="Test Panel"
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        btn test
+      </EuiButtonEmpty>
+      <EuiButton
+        data-test-subj="runModalButton"
+        fill={true}
+        onClick={[Function]}
+      >
+        btn test 2
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;
+
+exports[`Custom Input Model component renders custom input modal with single argument 1`] = `
+<EuiOverlayMask>
+  <EuiModal
+    initialFocus="[name=input]"
+    onClose={[MockFunction]}
+  >
+    <EuiModalHeader>
+      <EuiModalHeaderTitle>
+        Input test
+      </EuiModalHeaderTitle>
+    </EuiModalHeader>
+    <EuiModalBody>
+      <EuiForm>
+        <EuiFormRow
+          describedByIds={Array []}
+          display="row"
+          fullWidth={false}
+          hasChildLabel={true}
+          hasEmptyLabelSpace={false}
+          label="test label"
+          labelType="label"
+        >
+          <EuiFieldText
+            data-test-subj="customModalFieldText"
+            name="input"
+            onChange={[Function]}
+            value=""
+          />
+        </EuiFormRow>
+      </EuiForm>
+    </EuiModalBody>
+    <EuiModalFooter>
+      <EuiButtonEmpty
+        onClick={[MockFunction]}
+      >
+        btn test
+      </EuiButtonEmpty>
+      <EuiButton
+        data-test-subj="runModalButton"
+        fill={true}
+        onClick={[Function]}
+      >
+        btn test 2
+      </EuiButton>
+    </EuiModalFooter>
+  </EuiModal>
+</EuiOverlayMask>
+`;

@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hits counter component Renders hits counter 1`] = `
+<HitsCounter
+  hits={815}
+  onResetQuery={[MockFunction]}
+  showResetButton={false}
+>
+  <I18nProvider>
+    <IntlProvider
+      defaultLocale="en"
+      formats={
+        Object {
+          "date": Object {
+            "full": Object {
+              "day": "numeric",
+              "month": "long",
+              "weekday": "long",
+              "year": "numeric",
+            },
+            "long": Object {
+              "day": "numeric",
+              "month": "long",
+              "year": "numeric",
+            },
+            "medium": Object {
+              "day": "numeric",
+              "month": "short",
+              "year": "numeric",
+            },
+            "short": Object {
+              "day": "numeric",
+              "month": "numeric",
+              "year": "2-digit",
+            },
+          },
+          "number": Object {
+            "currency": Object {
+              "style": "currency",
+            },
+            "percent": Object {
+              "style": "percent",
+            },
+          },
+          "relative": Object {
+            "days": Object {
+              "units": "day",
+            },
+            "hours": Object {
+              "units": "hour",
+            },
+            "minutes": Object {
+              "units": "minute",
+            },
+            "months": Object {
+              "units": "month",
+            },
+            "seconds": Object {
+              "units": "second",
+            },
+            "years": Object {
+              "units": "year",
+            },
+          },
+          "time": Object {
+            "full": Object {
+              "hour": "numeric",
+              "minute": "numeric",
+              "second": "numeric",
+              "timeZoneName": "short",
+            },
+            "long": Object {
+              "hour": "numeric",
+              "minute": "numeric",
+              "second": "numeric",
+              "timeZoneName": "short",
+            },
+            "medium": Object {
+              "hour": "numeric",
+              "minute": "numeric",
+              "second": "numeric",
+            },
+            "short": Object {
+              "hour": "numeric",
+              "minute": "numeric",
+            },
+          },
+        }
+      }
+      locale="en"
+      messages={Object {}}
+      textComponent={Symbol(react.fragment)}
+    >
+      <PseudoLocaleWrapper>
+        <EuiFlexGroup
+          alignItems="center"
+          className="dscResultCount"
+          gutterSize="s"
+          justifyContent="center"
+          responsive={false}
+        >
+          <div
+            className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow dscResultCount"
+          >
+            <EuiFlexItem
+              grow={false}
+            >
+              <div
+                className="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <EuiText>
+                  <div
+                    className="euiText euiText--medium"
+                  >
+                    <strong
+                      data-test-subj="discoverQueryHits"
+                    >
+                      815
+                    </strong>
+                     
+                    <FormattedMessage
+                      defaultMessage="{hits, plural, one {hit} other {hits}}"
+                      id="discover.hitsPluralTitle"
+                      values={
+                        Object {
+                          "hits": 815,
+                        }
+                      }
+                    >
+                      hits
+                    </FormattedMessage>
+                  </div>
+                </EuiText>
+              </div>
+            </EuiFlexItem>
+          </div>
+        </EuiFlexGroup>
+      </PseudoLocaleWrapper>
+    </IntlProvider>
+  </I18nProvider>
+</HitsCounter>
+`;

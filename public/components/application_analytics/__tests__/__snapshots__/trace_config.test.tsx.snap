@@ -1,0 +1,1587 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Trace Config component renders empty trace config 1`] = `
+<TraceConfig
+  chrome={
+    Object {
+      "getIsNavDrawerLocked$": [MockFunction],
+      "setBreadcrumbs": [MockFunction],
+    }
+  }
+  description=""
+  dslService={
+    Object {
+      "fetch": [MockFunction],
+      "fetchFields": [MockFunction],
+      "fetchIndices": [MockFunction],
+      "http": [MockFunction],
+    }
+  }
+  endTime="now"
+  filters={Array []}
+  http={[MockFunction]}
+  indicesExist={true}
+  name=""
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
+    }
+  }
+  query=""
+  selectedTraces={Array []}
+  setDescriptionWithStorage={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
+  setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
+  setSelectedTraces={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setStartTime={[MockFunction]}
+  startTime="now-5m"
+>
+  <div>
+    <EuiAccordion
+      arrowDisplay="left"
+      buttonContent={
+        <React.Fragment>
+          <EuiText
+            size="s"
+          >
+            <h3>
+              Trace groups
+               
+              <EuiBadge
+                data-test-subj="traceGroupsCountBadge"
+              >
+                0
+              </EuiBadge>
+            </h3>
+          </EuiText>
+          <EuiSpacer
+            size="s"
+          />
+          <EuiText
+            color="subdued"
+            size="s"
+          >
+            Constrain your application to specific trace groups
+          </EuiText>
+        </React.Fragment>
+      }
+      data-test-subj="traceGroupsAccordion"
+      extraAction={
+        <EuiButton
+          data-test-subj="clearTraceGroupsButton"
+          disabled={true}
+          onClick={[Function]}
+          size="s"
+        >
+          Clear all
+        </EuiButton>
+      }
+      id="traceGroups"
+      initialIsOpen={false}
+      isLoading={false}
+      isLoadingMessage={false}
+      onToggle={[Function]}
+      paddingSize="l"
+    >
+      <div
+        className="euiAccordion"
+        data-test-subj="traceGroupsAccordion"
+        onToggle={[Function]}
+      >
+        <div
+          className="euiAccordion__triggerWrapper"
+        >
+          <button
+            aria-controls="traceGroups"
+            aria-expanded={false}
+            className="euiAccordion__button"
+            id="random_html_id"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="euiAccordion__iconWrapper"
+            >
+              <EuiIcon
+                className="euiAccordion__icon"
+                size="m"
+                type="arrowRight"
+              >
+                <EuiIconEmpty
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon"
+                  focusable="false"
+                  role="img"
+                  style={null}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon"
+                    focusable="false"
+                    height={16}
+                    role="img"
+                    style={null}
+                    viewBox="0 0 16 16"
+                    width={16}
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </EuiIconEmpty>
+              </EuiIcon>
+            </span>
+            <span
+              className="euiIEFlexWrapFix"
+            >
+              <EuiText
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <h3>
+                    Trace groups
+                     
+                    <EuiBadge
+                      data-test-subj="traceGroupsCountBadge"
+                    >
+                      <EuiInnerText>
+                        <span
+                          className="euiBadge euiBadge--iconLeft"
+                          data-test-subj="traceGroupsCountBadge"
+                          style={
+                            Object {
+                              "backgroundColor": "#d3dae6",
+                              "color": "#000",
+                            }
+                          }
+                          title="0"
+                        >
+                          <span
+                            className="euiBadge__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </EuiInnerText>
+                    </EuiBadge>
+                  </h3>
+                </div>
+              </EuiText>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <EuiText
+                color="subdued"
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      Constrain your application to specific trace groups
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiText>
+            </span>
+          </button>
+          <div
+            className="euiAccordion__optionalAction"
+          >
+            <EuiButton
+              data-test-subj="clearTraceGroupsButton"
+              disabled={true}
+              onClick={[Function]}
+              size="s"
+            >
+              <EuiButtonDisplay
+                data-test-subj="clearTraceGroupsButton"
+                disabled={true}
+                element="button"
+                isDisabled={true}
+                onClick={[Function]}
+                size="s"
+                type="button"
+              >
+                <button
+                  className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearTraceGroupsButton"
+                  disabled={true}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiButtonContent
+                    className="euiButton__content"
+                    iconSide="left"
+                    textProps={
+                      Object {
+                        "className": "euiButton__text",
+                      }
+                    }
+                  >
+                    <span
+                      className="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        className="euiButton__text"
+                      >
+                        Clear all
+                      </span>
+                    </span>
+                  </EuiButtonContent>
+                </button>
+              </EuiButtonDisplay>
+            </EuiButton>
+          </div>
+        </div>
+        <div
+          className="euiAccordion__childWrapper"
+          id="traceGroups"
+        >
+          <EuiResizeObserver
+            onResize={[Function]}
+          >
+            <div>
+              <div
+                className="euiAccordion__padding--l"
+              >
+                <EuiFormRow
+                  describedByIds={Array []}
+                  display="row"
+                  fullWidth={false}
+                  hasChildLabel={true}
+                  hasEmptyLabelSpace={false}
+                  helpText="Select one or multiple trace groups, or type a custom one"
+                  label="Trace Groups"
+                  labelType="label"
+                >
+                  <div
+                    className="euiFormRow"
+                    id="random_html_id-row"
+                  >
+                    <div
+                      className="euiFormRow__labelWrapper"
+                    >
+                      <EuiFormLabel
+                        className="euiFormRow__label"
+                        htmlFor="random_html_id"
+                        isFocused={false}
+                        type="label"
+                      >
+                        <label
+                          className="euiFormLabel euiFormRow__label"
+                          htmlFor="random_html_id"
+                        >
+                          Trace Groups
+                        </label>
+                      </EuiFormLabel>
+                    </div>
+                    <div
+                      className="euiFormRow__fieldWrapper"
+                    >
+                      <EuiComboBox
+                        aria-describedby="random_html_id-help"
+                        aria-label="Select trace groups"
+                        async={false}
+                        compressed={false}
+                        data-test-subj="traceGroupsComboBox"
+                        fullWidth={false}
+                        id="random_html_id"
+                        isClearable={false}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onCreateOption={[Function]}
+                        onFocus={[Function]}
+                        options={Array []}
+                        placeholder="Select or add trace groups"
+                        selectedOptions={Array []}
+                        singleSelection={false}
+                        sortMatchesBy="none"
+                      >
+                        <div
+                          aria-describedby="random_html_id-help"
+                          aria-expanded={false}
+                          aria-haspopup="listbox"
+                          aria-label="Select trace groups"
+                          className="euiComboBox"
+                          data-test-subj="traceGroupsComboBox"
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          role="combobox"
+                        >
+                          <EuiComboBoxInput
+                            autoSizeInputRef={[Function]}
+                            compressed={false}
+                            fullWidth={false}
+                            hasSelectedOptions={false}
+                            id="random_html_id"
+                            inputRef={[Function]}
+                            isListOpen={false}
+                            noIcon={false}
+                            onChange={[Function]}
+                            onClick={[Function]}
+                            onCloseListClick={[Function]}
+                            onFocus={[Function]}
+                            onOpenListClick={[Function]}
+                            onRemoveOption={[Function]}
+                            placeholder="Select or add trace groups"
+                            rootId={[Function]}
+                            searchValue=""
+                            selectedOptions={Array []}
+                            singleSelection={false}
+                            toggleButtonRef={[Function]}
+                            updatePosition={[Function]}
+                            value=""
+                          >
+                            <EuiFormControlLayout
+                              compressed={false}
+                              fullWidth={false}
+                              icon={
+                                Object {
+                                  "aria-label": "Open list of options",
+                                  "data-test-subj": "comboBoxToggleListButton",
+                                  "disabled": undefined,
+                                  "onClick": [Function],
+                                  "ref": [Function],
+                                  "side": "right",
+                                  "type": "arrowDown",
+                                }
+                              }
+                            >
+                              <div
+                                className="euiFormControlLayout"
+                              >
+                                <div
+                                  className="euiFormControlLayout__childrenWrapper"
+                                >
+                                  <div
+                                    className="euiComboBox__inputWrap"
+                                    data-test-subj="comboBoxInput"
+                                    onClick={[Function]}
+                                    tabIndex={-1}
+                                  >
+                                    <p
+                                      className="euiComboBoxPlaceholder"
+                                    >
+                                      Select or add trace groups
+                                    </p>
+                                    <AutosizeInput
+                                      aria-controls=""
+                                      className="euiComboBox__input"
+                                      data-test-subj="comboBoxSearchInput"
+                                      id="random_html_id"
+                                      injectStyles={true}
+                                      inputRef={[Function]}
+                                      minWidth={1}
+                                      onBlur={[Function]}
+                                      onChange={[Function]}
+                                      onFocus={[Function]}
+                                      role="textbox"
+                                      style={
+                                        Object {
+                                          "fontSize": 14,
+                                        }
+                                      }
+                                      value=""
+                                    >
+                                      <div
+                                        className="euiComboBox__input"
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "fontSize": 14,
+                                          }
+                                        }
+                                      >
+                                        <input
+                                          aria-controls=""
+                                          data-test-subj="comboBoxSearchInput"
+                                          id="random_html_id"
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          role="textbox"
+                                          style={
+                                            Object {
+                                              "boxSizing": "content-box",
+                                              "width": "2px",
+                                            }
+                                          }
+                                          value=""
+                                        />
+                                        <div
+                                          style={
+                                            Object {
+                                              "height": 0,
+                                              "left": 0,
+                                              "overflow": "scroll",
+                                              "position": "absolute",
+                                              "top": 0,
+                                              "visibility": "hidden",
+                                              "whiteSpace": "pre",
+                                            }
+                                          }
+                                        />
+                                      </div>
+                                    </AutosizeInput>
+                                  </div>
+                                  <EuiFormControlLayoutIcons
+                                    icon={
+                                      Object {
+                                        "aria-label": "Open list of options",
+                                        "data-test-subj": "comboBoxToggleListButton",
+                                        "disabled": undefined,
+                                        "onClick": [Function],
+                                        "ref": [Function],
+                                        "side": "right",
+                                        "type": "arrowDown",
+                                      }
+                                    }
+                                  >
+                                    <div
+                                      className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                                    >
+                                      <EuiFormControlLayoutCustomIcon
+                                        aria-label="Open list of options"
+                                        data-test-subj="comboBoxToggleListButton"
+                                        iconRef={[Function]}
+                                        onClick={[Function]}
+                                        type="arrowDown"
+                                      >
+                                        <button
+                                          aria-label="Open list of options"
+                                          className="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                                          data-test-subj="comboBoxToggleListButton"
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          <EuiIcon
+                                            aria-hidden="true"
+                                            className="euiFormControlLayoutCustomIcon__icon"
+                                            type="arrowDown"
+                                          >
+                                            <EuiIconEmpty
+                                              aria-hidden={true}
+                                              className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                              focusable="false"
+                                              role="img"
+                                              style={null}
+                                            >
+                                              <svg
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                focusable="false"
+                                                height={16}
+                                                role="img"
+                                                style={null}
+                                                viewBox="0 0 16 16"
+                                                width={16}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              />
+                                            </EuiIconEmpty>
+                                          </EuiIcon>
+                                        </button>
+                                      </EuiFormControlLayoutCustomIcon>
+                                    </div>
+                                  </EuiFormControlLayoutIcons>
+                                </div>
+                              </div>
+                            </EuiFormControlLayout>
+                          </EuiComboBoxInput>
+                        </div>
+                      </EuiComboBox>
+                      <EuiFormHelpText
+                        className="euiFormRow__text"
+                        id="random_html_id-help"
+                      >
+                        <div
+                          className="euiFormHelpText euiFormRow__text"
+                          id="random_html_id-help"
+                        >
+                          Select one or multiple trace groups, or type a custom one
+                        </div>
+                      </EuiFormHelpText>
+                    </div>
+                  </div>
+                </EuiFormRow>
+                <EuiSpacer>
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <DashboardTable
+                  addFilter={[Function]}
+                  addPercentileFilter={[Function]}
+                  filters={Array []}
+                  items={Array []}
+                  loading={true}
+                  page="app"
+                  setRedirect={[Function]}
+                >
+                  <EuiPanel>
+                    <div
+                      className="euiPanel euiPanel--paddingMedium"
+                    >
+                      <EuiFlexGroup
+                        alignItems="center"
+                        gutterSize="s"
+                      >
+                        <div
+                          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                        >
+                          <EuiFlexItem
+                            grow={10}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrow10"
+                            >
+                              <PanelTitle
+                                title="Latency by trace group"
+                                totalItems={0}
+                              >
+                                <EuiText
+                                  size="m"
+                                >
+                                  <div
+                                    className="euiText euiText--medium"
+                                  >
+                                    <span
+                                      className="panel-title"
+                                    >
+                                      Latency by trace group
+                                    </span>
+                                    <span
+                                      className="panel-title-count"
+                                    >
+                                       (0)
+                                    </span>
+                                  </div>
+                                </EuiText>
+                              </PanelTitle>
+                            </div>
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={false}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <EuiLink
+                                data-test-subj="dashboard-table-percentile-button-1"
+                                onClick={[Function]}
+                              >
+                                <button
+                                  className="euiLink euiLink--primary"
+                                  data-test-subj="dashboard-table-percentile-button-1"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  <EuiText
+                                    size="xs"
+                                  >
+                                    <div
+                                      className="euiText euiText--extraSmall"
+                                    >
+                                      <span
+                                        style={
+                                          Object {
+                                            "color": "#957ac9",
+                                          }
+                                        }
+                                      >
+                                        □
+                                      </span>
+                                       &lt; 95 percentile
+                                    </div>
+                                  </EuiText>
+                                </button>
+                              </EuiLink>
+                            </div>
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={1}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrow1"
+                            />
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={false}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <EuiLink
+                                data-test-subj="dashboard-table-percentile-button-2"
+                                onClick={[Function]}
+                              >
+                                <button
+                                  className="euiLink euiLink--primary"
+                                  data-test-subj="dashboard-table-percentile-button-2"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  <EuiText
+                                    size="xs"
+                                  >
+                                    <div
+                                      className="euiText euiText--extraSmall"
+                                    >
+                                      <span
+                                        style={
+                                          Object {
+                                            "color": "#957ac9",
+                                          }
+                                        }
+                                      >
+                                        ■
+                                      </span>
+                                       &gt;= 95 percentile
+                                    </div>
+                                  </EuiText>
+                                </button>
+                              </EuiLink>
+                            </div>
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={1}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrow1"
+                            />
+                          </EuiFlexItem>
+                        </div>
+                      </EuiFlexGroup>
+                      <EuiSpacer
+                        size="m"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--m"
+                        />
+                      </EuiSpacer>
+                      <EuiHorizontalRule
+                        margin="none"
+                      >
+                        <hr
+                          className="euiHorizontalRule euiHorizontalRule--full"
+                        />
+                      </EuiHorizontalRule>
+                      <NoMatchMessage
+                        size="xl"
+                      >
+                        <EuiSpacer
+                          size="xl"
+                        >
+                          <div
+                            className="euiSpacer euiSpacer--xl"
+                          />
+                        </EuiSpacer>
+                        <EuiEmptyPrompt
+                          body={
+                            <EuiText>
+                              No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                            </EuiText>
+                          }
+                          title={
+                            <h2>
+                              No matches
+                            </h2>
+                          }
+                        >
+                          <div
+                            className="euiEmptyPrompt"
+                          >
+                            <EuiTextColor
+                              color="subdued"
+                            >
+                              <span
+                                className="euiTextColor euiTextColor--subdued"
+                              >
+                                <EuiTitle
+                                  size="m"
+                                >
+                                  <h2
+                                    className="euiTitle euiTitle--medium"
+                                  >
+                                    No matches
+                                  </h2>
+                                </EuiTitle>
+                                <EuiSpacer
+                                  size="m"
+                                >
+                                  <div
+                                    className="euiSpacer euiSpacer--m"
+                                  />
+                                </EuiSpacer>
+                                <EuiText>
+                                  <div
+                                    className="euiText euiText--medium"
+                                  >
+                                    <EuiText>
+                                      <div
+                                        className="euiText euiText--medium"
+                                      >
+                                        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                                      </div>
+                                    </EuiText>
+                                  </div>
+                                </EuiText>
+                              </span>
+                            </EuiTextColor>
+                          </div>
+                        </EuiEmptyPrompt>
+                        <EuiSpacer
+                          size="xl"
+                        >
+                          <div
+                            className="euiSpacer euiSpacer--xl"
+                          />
+                        </EuiSpacer>
+                      </NoMatchMessage>
+                    </div>
+                  </EuiPanel>
+                </DashboardTable>
+              </div>
+            </div>
+          </EuiResizeObserver>
+        </div>
+      </div>
+    </EuiAccordion>
+  </div>
+</TraceConfig>
+`;
+
+exports[`Trace Config component renders with one trace selected 1`] = `
+<TraceConfig
+  chrome={
+    Object {
+      "getIsNavDrawerLocked$": [MockFunction],
+      "setBreadcrumbs": [MockFunction],
+    }
+  }
+  description=""
+  dslService={
+    Object {
+      "fetch": [MockFunction],
+      "fetchFields": [MockFunction],
+      "fetchIndices": [MockFunction],
+      "http": [MockFunction],
+    }
+  }
+  endTime="now"
+  filters={
+    Array [
+      Object {
+        "disabled": false,
+        "field": "traceGroup",
+        "inverted": false,
+        "operator": "is",
+        "value": "test.auto",
+      },
+    ]
+  }
+  http={[MockFunction]}
+  indicesExist={true}
+  name=""
+  parentBreadcrumb={
+    Object {
+      "href": "test#/",
+      "text": "test",
+    }
+  }
+  query=""
+  selectedTraces={Array []}
+  setDescriptionWithStorage={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setFilters={[MockFunction]}
+  setFiltersWithStorage={[MockFunction]}
+  setNameWithStorage={[MockFunction]}
+  setQuery={[MockFunction]}
+  setQueryWithStorage={[MockFunction]}
+  setSelectedTraces={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "label": "test.auto",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  setStartTime={[MockFunction]}
+  startTime="now-5m"
+>
+  <div>
+    <EuiAccordion
+      arrowDisplay="left"
+      buttonContent={
+        <React.Fragment>
+          <EuiText
+            size="s"
+          >
+            <h3>
+              Trace groups
+               
+              <EuiBadge
+                data-test-subj="traceGroupsCountBadge"
+              >
+                0
+              </EuiBadge>
+            </h3>
+          </EuiText>
+          <EuiSpacer
+            size="s"
+          />
+          <EuiText
+            color="subdued"
+            size="s"
+          >
+            Constrain your application to specific trace groups
+          </EuiText>
+        </React.Fragment>
+      }
+      data-test-subj="traceGroupsAccordion"
+      extraAction={
+        <EuiButton
+          data-test-subj="clearTraceGroupsButton"
+          disabled={true}
+          onClick={[Function]}
+          size="s"
+        >
+          Clear all
+        </EuiButton>
+      }
+      id="traceGroups"
+      initialIsOpen={false}
+      isLoading={false}
+      isLoadingMessage={false}
+      onToggle={[Function]}
+      paddingSize="l"
+    >
+      <div
+        className="euiAccordion"
+        data-test-subj="traceGroupsAccordion"
+        onToggle={[Function]}
+      >
+        <div
+          className="euiAccordion__triggerWrapper"
+        >
+          <button
+            aria-controls="traceGroups"
+            aria-expanded={false}
+            className="euiAccordion__button"
+            id="random_html_id"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="euiAccordion__iconWrapper"
+            >
+              <EuiIcon
+                className="euiAccordion__icon"
+                size="m"
+                type="arrowRight"
+              >
+                <EuiIconArrowRight
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiAccordion__icon"
+                  focusable="false"
+                  role="img"
+                  style={null}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--medium euiAccordion__icon"
+                    focusable="false"
+                    height={16}
+                    role="img"
+                    style={null}
+                    viewBox="0 0 16 16"
+                    width={16}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.157 13.069l4.611-4.685a.546.546 0 000-.768L5.158 2.93a.552.552 0 010-.771.53.53 0 01.759 0l4.61 4.684c.631.641.63 1.672 0 2.312l-4.61 4.684a.53.53 0 01-.76 0 .552.552 0 010-.771z"
+                      fillRule="nonzero"
+                    />
+                  </svg>
+                </EuiIconArrowRight>
+              </EuiIcon>
+            </span>
+            <span
+              className="euiIEFlexWrapFix"
+            >
+              <EuiText
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <h3>
+                    Trace groups
+                     
+                    <EuiBadge
+                      data-test-subj="traceGroupsCountBadge"
+                    >
+                      <EuiInnerText>
+                        <span
+                          className="euiBadge euiBadge--iconLeft"
+                          data-test-subj="traceGroupsCountBadge"
+                          style={
+                            Object {
+                              "backgroundColor": "#d3dae6",
+                              "color": "#000",
+                            }
+                          }
+                          title="0"
+                        >
+                          <span
+                            className="euiBadge__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </EuiInnerText>
+                    </EuiBadge>
+                  </h3>
+                </div>
+              </EuiText>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <EuiText
+                color="subdued"
+                size="s"
+              >
+                <div
+                  className="euiText euiText--small"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      Constrain your application to specific trace groups
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiText>
+            </span>
+          </button>
+          <div
+            className="euiAccordion__optionalAction"
+          >
+            <EuiButton
+              data-test-subj="clearTraceGroupsButton"
+              disabled={true}
+              onClick={[Function]}
+              size="s"
+            >
+              <EuiButtonDisplay
+                data-test-subj="clearTraceGroupsButton"
+                disabled={true}
+                element="button"
+                isDisabled={true}
+                onClick={[Function]}
+                size="s"
+                type="button"
+              >
+                <button
+                  className="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                  data-test-subj="clearTraceGroupsButton"
+                  disabled={true}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <EuiButtonContent
+                    className="euiButton__content"
+                    iconSide="left"
+                    textProps={
+                      Object {
+                        "className": "euiButton__text",
+                      }
+                    }
+                  >
+                    <span
+                      className="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        className="euiButton__text"
+                      >
+                        Clear all
+                      </span>
+                    </span>
+                  </EuiButtonContent>
+                </button>
+              </EuiButtonDisplay>
+            </EuiButton>
+          </div>
+        </div>
+        <div
+          className="euiAccordion__childWrapper"
+          id="traceGroups"
+        >
+          <EuiResizeObserver
+            onResize={[Function]}
+          >
+            <div>
+              <div
+                className="euiAccordion__padding--l"
+              >
+                <EuiFormRow
+                  describedByIds={Array []}
+                  display="row"
+                  fullWidth={false}
+                  hasChildLabel={true}
+                  hasEmptyLabelSpace={false}
+                  helpText="Select one or multiple trace groups, or type a custom one"
+                  label="Trace Groups"
+                  labelType="label"
+                >
+                  <div
+                    className="euiFormRow"
+                    id="random_html_id-row"
+                  >
+                    <div
+                      className="euiFormRow__labelWrapper"
+                    >
+                      <EuiFormLabel
+                        className="euiFormRow__label"
+                        htmlFor="random_html_id"
+                        isFocused={false}
+                        type="label"
+                      >
+                        <label
+                          className="euiFormLabel euiFormRow__label"
+                          htmlFor="random_html_id"
+                        >
+                          Trace Groups
+                        </label>
+                      </EuiFormLabel>
+                    </div>
+                    <div
+                      className="euiFormRow__fieldWrapper"
+                    >
+                      <EuiComboBox
+                        aria-describedby="random_html_id-help"
+                        aria-label="Select trace groups"
+                        async={false}
+                        compressed={false}
+                        data-test-subj="traceGroupsComboBox"
+                        fullWidth={false}
+                        id="random_html_id"
+                        isClearable={false}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onCreateOption={[Function]}
+                        onFocus={[Function]}
+                        options={Array []}
+                        placeholder="Select or add trace groups"
+                        selectedOptions={Array []}
+                        singleSelection={false}
+                        sortMatchesBy="none"
+                      >
+                        <div
+                          aria-describedby="random_html_id-help"
+                          aria-expanded={false}
+                          aria-haspopup="listbox"
+                          aria-label="Select trace groups"
+                          className="euiComboBox"
+                          data-test-subj="traceGroupsComboBox"
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          role="combobox"
+                        >
+                          <EuiComboBoxInput
+                            autoSizeInputRef={[Function]}
+                            compressed={false}
+                            fullWidth={false}
+                            hasSelectedOptions={false}
+                            id="random_html_id"
+                            inputRef={[Function]}
+                            isListOpen={false}
+                            noIcon={false}
+                            onChange={[Function]}
+                            onClick={[Function]}
+                            onCloseListClick={[Function]}
+                            onFocus={[Function]}
+                            onOpenListClick={[Function]}
+                            onRemoveOption={[Function]}
+                            placeholder="Select or add trace groups"
+                            rootId={[Function]}
+                            searchValue=""
+                            selectedOptions={Array []}
+                            singleSelection={false}
+                            toggleButtonRef={[Function]}
+                            updatePosition={[Function]}
+                            value=""
+                          >
+                            <EuiFormControlLayout
+                              compressed={false}
+                              fullWidth={false}
+                              icon={
+                                Object {
+                                  "aria-label": "Open list of options",
+                                  "data-test-subj": "comboBoxToggleListButton",
+                                  "disabled": undefined,
+                                  "onClick": [Function],
+                                  "ref": [Function],
+                                  "side": "right",
+                                  "type": "arrowDown",
+                                }
+                              }
+                            >
+                              <div
+                                className="euiFormControlLayout"
+                              >
+                                <div
+                                  className="euiFormControlLayout__childrenWrapper"
+                                >
+                                  <div
+                                    className="euiComboBox__inputWrap"
+                                    data-test-subj="comboBoxInput"
+                                    onClick={[Function]}
+                                    tabIndex={-1}
+                                  >
+                                    <p
+                                      className="euiComboBoxPlaceholder"
+                                    >
+                                      Select or add trace groups
+                                    </p>
+                                    <AutosizeInput
+                                      aria-controls=""
+                                      className="euiComboBox__input"
+                                      data-test-subj="comboBoxSearchInput"
+                                      id="random_html_id"
+                                      injectStyles={true}
+                                      inputRef={[Function]}
+                                      minWidth={1}
+                                      onBlur={[Function]}
+                                      onChange={[Function]}
+                                      onFocus={[Function]}
+                                      role="textbox"
+                                      style={
+                                        Object {
+                                          "fontSize": 14,
+                                        }
+                                      }
+                                      value=""
+                                    >
+                                      <div
+                                        className="euiComboBox__input"
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "fontSize": 14,
+                                          }
+                                        }
+                                      >
+                                        <input
+                                          aria-controls=""
+                                          data-test-subj="comboBoxSearchInput"
+                                          id="random_html_id"
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          role="textbox"
+                                          style={
+                                            Object {
+                                              "boxSizing": "content-box",
+                                              "width": "2px",
+                                            }
+                                          }
+                                          value=""
+                                        />
+                                        <div
+                                          style={
+                                            Object {
+                                              "height": 0,
+                                              "left": 0,
+                                              "overflow": "scroll",
+                                              "position": "absolute",
+                                              "top": 0,
+                                              "visibility": "hidden",
+                                              "whiteSpace": "pre",
+                                            }
+                                          }
+                                        />
+                                      </div>
+                                    </AutosizeInput>
+                                  </div>
+                                  <EuiFormControlLayoutIcons
+                                    icon={
+                                      Object {
+                                        "aria-label": "Open list of options",
+                                        "data-test-subj": "comboBoxToggleListButton",
+                                        "disabled": undefined,
+                                        "onClick": [Function],
+                                        "ref": [Function],
+                                        "side": "right",
+                                        "type": "arrowDown",
+                                      }
+                                    }
+                                  >
+                                    <div
+                                      className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                                    >
+                                      <EuiFormControlLayoutCustomIcon
+                                        aria-label="Open list of options"
+                                        data-test-subj="comboBoxToggleListButton"
+                                        iconRef={[Function]}
+                                        onClick={[Function]}
+                                        type="arrowDown"
+                                      >
+                                        <button
+                                          aria-label="Open list of options"
+                                          className="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                                          data-test-subj="comboBoxToggleListButton"
+                                          onClick={[Function]}
+                                          type="button"
+                                        >
+                                          <EuiIcon
+                                            aria-hidden="true"
+                                            className="euiFormControlLayoutCustomIcon__icon"
+                                            type="arrowDown"
+                                          >
+                                            <EuiIconArrowDown
+                                              aria-hidden={true}
+                                              className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                                              focusable="false"
+                                              role="img"
+                                              style={null}
+                                            >
+                                              <svg
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                                                focusable="false"
+                                                height={16}
+                                                role="img"
+                                                style={null}
+                                                viewBox="0 0 16 16"
+                                                width={16}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                <path
+                                                  d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                  fillRule="non-zero"
+                                                />
+                                              </svg>
+                                            </EuiIconArrowDown>
+                                          </EuiIcon>
+                                        </button>
+                                      </EuiFormControlLayoutCustomIcon>
+                                    </div>
+                                  </EuiFormControlLayoutIcons>
+                                </div>
+                              </div>
+                            </EuiFormControlLayout>
+                          </EuiComboBoxInput>
+                        </div>
+                      </EuiComboBox>
+                      <EuiFormHelpText
+                        className="euiFormRow__text"
+                        id="random_html_id-help"
+                      >
+                        <div
+                          className="euiFormHelpText euiFormRow__text"
+                          id="random_html_id-help"
+                        >
+                          Select one or multiple trace groups, or type a custom one
+                        </div>
+                      </EuiFormHelpText>
+                    </div>
+                  </div>
+                </EuiFormRow>
+                <EuiSpacer>
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <DashboardTable
+                  addFilter={[Function]}
+                  addPercentileFilter={[Function]}
+                  filters={Array []}
+                  items={Array []}
+                  loading={true}
+                  page="app"
+                  setRedirect={[Function]}
+                >
+                  <EuiPanel>
+                    <div
+                      className="euiPanel euiPanel--paddingMedium"
+                    >
+                      <EuiFlexGroup
+                        alignItems="center"
+                        gutterSize="s"
+                      >
+                        <div
+                          className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                        >
+                          <EuiFlexItem
+                            grow={10}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrow10"
+                            >
+                              <PanelTitle
+                                title="Latency by trace group"
+                                totalItems={0}
+                              >
+                                <EuiText
+                                  size="m"
+                                >
+                                  <div
+                                    className="euiText euiText--medium"
+                                  >
+                                    <span
+                                      className="panel-title"
+                                    >
+                                      Latency by trace group
+                                    </span>
+                                    <span
+                                      className="panel-title-count"
+                                    >
+                                       (0)
+                                    </span>
+                                  </div>
+                                </EuiText>
+                              </PanelTitle>
+                            </div>
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={false}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <EuiLink
+                                data-test-subj="dashboard-table-percentile-button-1"
+                                onClick={[Function]}
+                              >
+                                <button
+                                  className="euiLink euiLink--primary"
+                                  data-test-subj="dashboard-table-percentile-button-1"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  <EuiText
+                                    size="xs"
+                                  >
+                                    <div
+                                      className="euiText euiText--extraSmall"
+                                    >
+                                      <span
+                                        style={
+                                          Object {
+                                            "color": "#957ac9",
+                                          }
+                                        }
+                                      >
+                                        □
+                                      </span>
+                                       &lt; 95 percentile
+                                    </div>
+                                  </EuiText>
+                                </button>
+                              </EuiLink>
+                            </div>
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={1}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrow1"
+                            />
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={false}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <EuiLink
+                                data-test-subj="dashboard-table-percentile-button-2"
+                                onClick={[Function]}
+                              >
+                                <button
+                                  className="euiLink euiLink--primary"
+                                  data-test-subj="dashboard-table-percentile-button-2"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  <EuiText
+                                    size="xs"
+                                  >
+                                    <div
+                                      className="euiText euiText--extraSmall"
+                                    >
+                                      <span
+                                        style={
+                                          Object {
+                                            "color": "#957ac9",
+                                          }
+                                        }
+                                      >
+                                        ■
+                                      </span>
+                                       &gt;= 95 percentile
+                                    </div>
+                                  </EuiText>
+                                </button>
+                              </EuiLink>
+                            </div>
+                          </EuiFlexItem>
+                          <EuiFlexItem
+                            grow={1}
+                          >
+                            <div
+                              className="euiFlexItem euiFlexItem--flexGrow1"
+                            />
+                          </EuiFlexItem>
+                        </div>
+                      </EuiFlexGroup>
+                      <EuiSpacer
+                        size="m"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--m"
+                        />
+                      </EuiSpacer>
+                      <EuiHorizontalRule
+                        margin="none"
+                      >
+                        <hr
+                          className="euiHorizontalRule euiHorizontalRule--full"
+                        />
+                      </EuiHorizontalRule>
+                      <NoMatchMessage
+                        size="xl"
+                      >
+                        <EuiSpacer
+                          size="xl"
+                        >
+                          <div
+                            className="euiSpacer euiSpacer--xl"
+                          />
+                        </EuiSpacer>
+                        <EuiEmptyPrompt
+                          body={
+                            <EuiText>
+                              No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                            </EuiText>
+                          }
+                          title={
+                            <h2>
+                              No matches
+                            </h2>
+                          }
+                        >
+                          <div
+                            className="euiEmptyPrompt"
+                          >
+                            <EuiTextColor
+                              color="subdued"
+                            >
+                              <span
+                                className="euiTextColor euiTextColor--subdued"
+                              >
+                                <EuiTitle
+                                  size="m"
+                                >
+                                  <h2
+                                    className="euiTitle euiTitle--medium"
+                                  >
+                                    No matches
+                                  </h2>
+                                </EuiTitle>
+                                <EuiSpacer
+                                  size="m"
+                                >
+                                  <div
+                                    className="euiSpacer euiSpacer--m"
+                                  />
+                                </EuiSpacer>
+                                <EuiText>
+                                  <div
+                                    className="euiText euiText--medium"
+                                  >
+                                    <EuiText>
+                                      <div
+                                        className="euiText euiText--medium"
+                                      >
+                                        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
+                                      </div>
+                                    </EuiText>
+                                  </div>
+                                </EuiText>
+                              </span>
+                            </EuiTextColor>
+                          </div>
+                        </EuiEmptyPrompt>
+                        <EuiSpacer
+                          size="xl"
+                        >
+                          <div
+                            className="euiSpacer euiSpacer--xl"
+                          />
+                        </EuiSpacer>
+                      </NoMatchMessage>
+                    </div>
+                  </EuiPanel>
+                </DashboardTable>
+              </div>
+            </div>
+          </EuiResizeObserver>
+        </div>
+      </div>
+    </EuiAccordion>
+  </div>
+</TraceConfig>
+`;

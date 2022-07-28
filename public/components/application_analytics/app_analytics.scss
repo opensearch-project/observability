@@ -1,0 +1,29 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.query-area {
+  width: 900px;
+}
+
+#logSource {
+  overflow: visible;
+  position: relative;
+  z-index: 10;
+  .ppl-link {
+    top: 103px;
+    right: 140px;
+  }
+}
+
+#baseQueryCallout {
+  max-width: 900px;
+}
+
+#compositionColumn {
+  width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

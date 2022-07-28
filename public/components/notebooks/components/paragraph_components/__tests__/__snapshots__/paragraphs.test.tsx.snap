@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Paragraphs /> spec renders the component 1`] = `
+<div
+  class="euiPanel euiPanel--paddingMedium"
+>
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+  >
+    <div
+      class="euiFlexItem"
+    >
+      <div
+        class="euiText euiText--medium"
+        style="font-size: 17px;"
+      >
+        [1] Code block 
+        <button
+          aria-label="Toggle show input"
+          class="euiButtonIcon euiButtonIcon--primary"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+            focusable="false"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+    >
+      <div
+        class="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
+      >
+        <div
+          class="euiPopover__anchor"
+        >
+          <button
+            aria-label="Open paragraph menu"
+            class="euiButtonIcon euiButtonIcon--primary"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+              focusable="false"
+              height="16"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="euiSpacer euiSpacer--s"
+  />
+  <div
+    class="notebooks-paragraph notebooks-paragraph-light"
+  >
+    <div
+      class="euiSpacer euiSpacer--s"
+    />
+    <div
+      class="euiFormRow euiFormRow--fullWidth"
+      id="random_html_id-row"
+    >
+      <div
+        class="euiFormRow__fieldWrapper"
+      >
+        <div
+          class="sc-AxheI fpkdSC"
+        >
+          <div
+            class="sc-AxjAm cHiKMy"
+          />
+          <div
+            style="width: 100%;"
+          >
+            <div
+              class="euiCodeBlock euiCodeBlock--fontSmall euiCodeBlock--paddingSmall euiCodeBlock--hasControls"
+              style="max-height: 200px;"
+            >
+              <pre
+                class="euiCodeBlock__pre euiCodeBlock__pre--whiteSpacePreWrap"
+                style="max-height: 200px;"
+              >
+                <code
+                  class="euiCodeBlock__code"
+                >
+                  # Type your input here
+                </code>
+              </pre>
+              <div
+                class="euiCodeBlock__controls"
+              >
+                <button
+                  aria-label="Expand"
+                  class="euiButtonIcon euiButtonIcon--text euiCodeBlock__fullScreenButton"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFormHelpText euiFormRow__text"
+          id="random_html_id-help"
+        >
+          <div
+            class="euiText euiText--small"
+          >
+            Specify the input language on the first line using %[language type]. Supported languages include markdown, 
+            <a
+              class="euiLink euiLink--primary"
+              href="https://opensearch.org/docs/latest/search-plugins/sql/index/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               
+              SQL 
+              <svg
+                aria-hidden="true"
+                class="euiIcon euiIcon--small euiIcon-isLoading"
+                focusable="false"
+                height="16"
+                role="img"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              />
+               
+            </a>
+             and 
+            <a
+              class="euiLink euiLink--primary"
+              href="https://opensearch.org/docs/latest/observability-plugin/ppl/commands/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               
+              PPL 
+              <svg
+                aria-hidden="true"
+                class="euiIcon euiIcon--small euiIcon-isLoading"
+                focusable="false"
+                height="16"
+                role="img"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              />
+            </a>
+            .
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--m"
+    />
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <button
+          class="euiButton euiButton--primary euiButton--fill"
+          type="button"
+        >
+          <span
+            class="euiButtonContent euiButton__content"
+          >
+            <span
+              class="euiButton__text"
+            >
+              Refresh
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      />
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <svg
+          aria-hidden="true"
+          class="euiIcon euiIcon--medium euiIcon--secondary euiIcon-isLoading"
+          focusable="false"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        />
+      </div>
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--medium"
+        >
+          <div
+            class="euiTextColor euiTextColor--subdued"
+          >
+            Last successful run Invalid date.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--m"
+    />
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full"
+    />
+    <div
+      style="opacity: 1; padding: 15px;"
+    >
+      <div
+        class="euiText euiText--medium markdown-output-text"
+      >
+        <div
+          class="markdown-body "
+        >
+          <h1>
+            Type your input here
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
