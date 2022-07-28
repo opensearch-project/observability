@@ -82,7 +82,8 @@ export enum visChartTypes {
   Text = 'text',
   Gauge = 'gauge',
   Histogram = 'histogram',
-  TreeMap = 'tree_map'
+  TreeMap = 'tree_map',
+  Scatter = 'scatter',
 }
 
 export interface ValueOptionsAxes {
@@ -97,7 +98,7 @@ export interface ValueOptionsAxes {
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap, visChartTypes.Gauge, visChartTypes.Histogram];
+export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap, visChartTypes.Gauge, visChartTypes.Histogram, visChartTypes.Scatter];
 
 //Live tail constants
 export const LIVE_OPTIONS = [
@@ -150,7 +151,7 @@ export const LIVE_OPTIONS = [
 
 export const LIVE_END_TIME ='now';
 export interface DefaultChartStylesProps {
-  DefaultMode: string,
+  DefaultModeLine: string,
   Interpolation: string,
   LineWidth: number,
   FillOpacity: number,
@@ -159,10 +160,11 @@ export interface DefaultChartStylesProps {
   LegendPosition: string,
   LabelAngle: number,
   DefaultSortSectors: string,
+  DefaultModeScatter: string,
 };
 
 export const DefaultChartStyles: DefaultChartStylesProps = {
-  DefaultMode: 'lines',
+  DefaultModeLine: 'lines',
   Interpolation: 'spline',
   LineWidth: 2,
   FillOpacity: 40,
@@ -171,6 +173,7 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   LegendPosition: 'v',
   LabelAngle: 0,
   DefaultSortSectors: 'largest_to_smallest',
+  DefaultModeScatter: 'markers'
 }
 
 export const FILLOPACITY_DIV_FACTOR = 200; 
