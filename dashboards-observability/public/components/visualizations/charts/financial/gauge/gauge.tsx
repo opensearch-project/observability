@@ -47,7 +47,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const isEmptyPlot = !metricsLength;
 
-  if (isEmptyPlot) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+  if (isEmptyPlot) return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];

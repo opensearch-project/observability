@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer, EuiForm } from '@elastic/eui';
 import { PanelItem } from './config_panel_item';
 import { SPECTRUM, OPACITY } from '../../../../../../../../common/constants/colors';
@@ -15,8 +15,7 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+  const {  metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
 
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
@@ -126,13 +125,14 @@ export const ConfigChartOptions = ({
             selectedAxis: vizState[schema.mapTo] || schema.defaultState,
           };
         }
+
         return (
-          <>
+          <Fragment key={`viz-series-${index}`}>
             <EuiForm component="form">
-              <DimensionComponent key={`viz-series-${index}`} {...params} />
+              <DimensionComponent  {...params} />
               <EuiSpacer size="s" />
             </EuiForm>
-          </>
+          </Fragment>
         );
       })
     );

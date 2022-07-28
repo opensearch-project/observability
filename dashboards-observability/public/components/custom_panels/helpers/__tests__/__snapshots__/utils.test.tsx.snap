@@ -76,11 +76,11 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "userConfigs": Object {},
         },
         "vis": Object {
-          "barWidth": 0.97,
+          "barwidth": 0.97,
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
@@ -304,26 +304,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
             ],
           },
-          "fillOpacity": 80,
-          "fullLabel": "Bar",
-          "groupWidth": 0.7,
+          "fillopacity": 80,
+          "fulllabel": "Bar",
+          "groupwidth": 0.7,
           "icon": [Function],
-          "iconType": "visBarVerticalStacked",
+          "icontype": "visBarVerticalStacked",
           "id": "bar",
           "label": "Bar",
-          "labelAngle": 0,
-          "legendPosition": "v",
-          "lineWidth": 1,
+          "labelangle": 0,
+          "legendposition": "v",
+          "linewidth": 1,
           "mode": "group",
           "name": "bar",
           "orientation": "v",
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
-          "showLegend": "show",
+          "seriesaxis": "yaxis",
+          "showlegend": "show",
           "type": "bar",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
@@ -423,11 +423,11 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "userConfigs": Object {},
           },
           "vis": Object {
-            "barWidth": 0.97,
+            "barwidth": 0.97,
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
@@ -651,26 +651,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 },
               ],
             },
-            "fillOpacity": 80,
-            "fullLabel": "Bar",
-            "groupWidth": 0.7,
+            "fillopacity": 80,
+            "fulllabel": "Bar",
+            "groupwidth": 0.7,
             "icon": [Function],
-            "iconType": "visBarVerticalStacked",
+            "icontype": "visBarVerticalStacked",
             "id": "bar",
             "label": "Bar",
-            "labelAngle": 0,
-            "legendPosition": "v",
-            "lineWidth": 1,
+            "labelangle": 0,
+            "legendposition": "v",
+            "linewidth": 1,
             "mode": "group",
             "name": "bar",
             "orientation": "v",
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
-            "showLegend": "show",
+            "seriesaxis": "yaxis",
+            "showlegend": "show",
             "type": "bar",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
@@ -793,11 +793,11 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "userConfigs": Object {},
             },
             "vis": Object {
-              "barWidth": 0.97,
+              "barwidth": 0.97,
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
@@ -1021,26 +1021,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   },
                 ],
               },
-              "fillOpacity": 80,
-              "fullLabel": "Bar",
-              "groupWidth": 0.7,
+              "fillopacity": 80,
+              "fulllabel": "Bar",
+              "groupwidth": 0.7,
               "icon": [Function],
-              "iconType": "visBarVerticalStacked",
+              "icontype": "visBarVerticalStacked",
               "id": "bar",
               "label": "Bar",
-              "labelAngle": 0,
-              "legendPosition": "v",
-              "lineWidth": 1,
+              "labelangle": 0,
+              "legendposition": "v",
+              "linewidth": 1,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
-              "showLegend": "show",
+              "seriesaxis": "yaxis",
+              "showlegend": "show",
               "type": "bar",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
@@ -1225,9 +1225,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
         },
         "vis": Object {
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
@@ -1467,18 +1467,18 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               },
             ],
           },
-          "fullLabel": "Time series",
+          "fulllabel": "Time series",
           "icon": [Function],
-          "iconType": "visLine",
+          "icontype": "visLine",
           "id": "line",
           "label": "Time series",
           "name": "line",
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "type": "line",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "barmode": "line",
               "displaylogo": false,
@@ -1608,9 +1608,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           },
           "vis": Object {
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
@@ -1850,18 +1850,18 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 },
               ],
             },
-            "fullLabel": "Time series",
+            "fulllabel": "Time series",
             "icon": [Function],
-            "iconType": "visLine",
+            "icontype": "visLine",
             "id": "line",
             "label": "Time series",
             "name": "line",
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "type": "line",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "barmode": "line",
                 "displaylogo": false,
@@ -2045,9 +2045,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             },
             "vis": Object {
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
@@ -2287,18 +2287,18 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   },
                 ],
               },
-              "fullLabel": "Time series",
+              "fulllabel": "Time series",
               "icon": [Function],
-              "iconType": "visLine",
+              "icontype": "visLine",
               "id": "line",
               "label": "Time series",
               "name": "line",
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "type": "line",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "barmode": "line",
                   "displaylogo": false,
@@ -2514,9 +2514,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         },
         "vis": Object {
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
@@ -2611,9 +2611,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
             ],
           },
-          "fullLabel": "Bar",
+          "fulllabel": "Bar",
           "icon": [Function],
-          "iconType": "visBarVerticalStacked",
+          "icontype": "visBarVerticalStacked",
           "id": "horizontal_bar",
           "label": "Bar",
           "name": "horizontal_bar",
@@ -2621,9 +2621,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "type": "bar",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
@@ -2724,9 +2724,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           },
           "vis": Object {
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
@@ -2821,9 +2821,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 },
               ],
             },
-            "fullLabel": "Bar",
+            "fulllabel": "Bar",
             "icon": [Function],
-            "iconType": "visBarVerticalStacked",
+            "icontype": "visBarVerticalStacked",
             "id": "horizontal_bar",
             "label": "Bar",
             "name": "horizontal_bar",
@@ -2831,9 +2831,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "type": "bar",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
@@ -2957,9 +2957,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             },
             "vis": Object {
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
@@ -3054,9 +3054,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   },
                 ],
               },
-              "fullLabel": "Bar",
+              "fulllabel": "Bar",
               "icon": [Function],
-              "iconType": "visBarVerticalStacked",
+              "icontype": "visBarVerticalStacked",
               "id": "horizontal_bar",
               "label": "Bar",
               "name": "horizontal_bar",
@@ -3064,9 +3064,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "type": "bar",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
@@ -3225,9 +3225,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         },
         "vis": Object {
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
@@ -3322,9 +3322,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
             ],
           },
-          "fullLabel": "Bar",
+          "fulllabel": "Bar",
           "icon": [Function],
-          "iconType": "visBarVerticalStacked",
+          "icontype": "visBarVerticalStacked",
           "id": "horizontal_bar",
           "label": "Bar",
           "name": "horizontal_bar",
@@ -3332,9 +3332,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "type": "bar",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
@@ -3408,9 +3408,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           },
           "vis": Object {
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
@@ -3505,9 +3505,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 },
               ],
             },
-            "fullLabel": "Bar",
+            "fulllabel": "Bar",
             "icon": [Function],
-            "iconType": "visBarVerticalStacked",
+            "icontype": "visBarVerticalStacked",
             "id": "horizontal_bar",
             "label": "Bar",
             "name": "horizontal_bar",
@@ -3515,9 +3515,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "type": "bar",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
@@ -3614,9 +3614,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             },
             "vis": Object {
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
@@ -3711,9 +3711,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   },
                 ],
               },
-              "fullLabel": "Bar",
+              "fulllabel": "Bar",
               "icon": [Function],
-              "iconType": "visBarVerticalStacked",
+              "icontype": "visBarVerticalStacked",
               "id": "horizontal_bar",
               "label": "Bar",
               "name": "horizontal_bar",
@@ -3721,9 +3721,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "type": "bar",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
