@@ -56,7 +56,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Colorscale',
+                name: 'Show colorscale',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -76,7 +76,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
             mapTo: 'treemapOptions',
             schemas: [
               {
-                name: 'Tiling Algorithm',
+                name: 'Tiling algorithm',
                 isSingleSelection: true,
                 component: null,
                 mapTo: 'tilingAlgorithm',
@@ -110,12 +110,12 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
           },
           {
             id: 'chart_styles',
-            name: 'Chart Styles',
+            name: 'Chart styles',
             editor: ConfigChartOptions,
             mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Color Theme',
+                name: 'Color theme',
                 isSingleSelection: true,
                 component: ColorPalettePicker,
                 mapTo: 'colorTheme',
