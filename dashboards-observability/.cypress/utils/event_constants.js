@@ -18,7 +18,8 @@ export const TEST_QUERIES = [
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_logs'
+    query: 'source = opensearch_dashboards_sample_data_logs',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
     query: 'source=opensearch_dashboards_sample_data_flights | stats max(AvgTicketPrice) by DestCountry, DestCityName, Carrier',
@@ -29,7 +30,7 @@ export const TEST_QUERIES = [
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
-    query: 'source=opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by DestCountry, DestCityName',
+    query: 'source=opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by DestCountry, DestCityName, DestAirportID, DestRegion',
     dateRangeDOM: YEAR_TO_DATE_DOM_ID
   },
   {
@@ -121,51 +122,8 @@ export const deleteVisualization = () => {
   cy.get('.euiToastHeader').should('exist');
 };
 
-export const renderTreeMapchart = () => {
-  querySearch(TEST_QUERIES[7].query, TEST_QUERIES[7].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
-    .type('Tree Map')
-    .type('{enter}');
-  cy.get('#configPanel__panelOptions .euiFieldText').click().type('Tree Map');
-  cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]')
-    .click()
-    .type('This is the description for Tree Map');
-  cy.get('.euiIEFlexWrapFix').eq(1).contains('Treemap').should('exist');
-  cy.get('#configPanel__treemap_options').contains('Tiling Algorithm').should('exist');
-  cy.get('[data-test-subj = "comboBoxInput"]').eq(3).click();
-  cy.get('button[name="Slice Dice"]').click();
-};
-
-export const renderPieChart = () => {
-  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
-  cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
-  cy.wait(delay);
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Pie chart');
-    cy.get('[aria-controls="configPanel__legend"]').contains('Legend').should('exist');
-    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(0).contains('Show Legend');
-    cy.get('span[data-text="Show"]').contains('Show').should('exist');
-    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(1).contains('Position');
-    cy.get('span[data-text="Right"]').contains('Right').should('exist');
-    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(2).contains('Legend Size');
-    cy.get('[aria-controls="configPanel__chartStyles"]').contains('Chart Styles').should('exist');
-    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(0).contains('Mode').click();
-    cy.get('#configPanel__chartStyles .euiComboBox__inputWrap.euiComboBox__inputWrap--noWrap.euiComboBox__inputWrap-isClearable').click();
-    cy.get('.euiComboBoxOption__content').contains('Donut').click();
-    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(1).contains('Label Size');
-    cy.get('#configPanel__chartStyles input[type="number"]').click().type('10');
-    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(2).contains('Color Theme');
-    cy.get('.euiSuperSelectControl').click();
-    cy.get('.euiColorPalettePicker__item').eq(1).contains('Single Color').click();
-    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
-    cy.get('[aria-label="Select #D36086 as the color"]').click();
-    cy.get('.visEditorSidebar__controls [data-test-subj="visualizeEditorRenderButton"]').contains('Preview').click();
-    cy.get('.plot-container.plotly').should('exist');
-};
-
 export const renderDataConfig = () => {
-  cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Cofigurations');
+  cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Configurations');
   cy.get('.euiTitle.euiTitle--xxsmall').eq(1).contains('Dimensions').should('exist');
   cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Aggregation');
   cy.get('[data-test-subj="comboBoxSearchInput"]').eq(0).click();
@@ -192,22 +150,6 @@ export const renderLineChart = () => {
   cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
     .type('Line')
     .type('{enter}');
-};
-
-export const renderAddParent = () => {
-  cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 1').should('exist');
-  cy.get('p.euiComboBoxPlaceholder').eq(0).click({ force: true });
-  cy.get('.euiComboBoxOption__content').eq(0).click();
-  cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 2').should('exist');
-  cy.get('p.euiComboBoxPlaceholder').click({ force: true });
-  cy.get('.euiComboBoxOption__content').eq(1).click();
-  cy.get(' [data-test-subj="addParentButton"] .euiButton__text').contains('+ Add Parent').click();
-  cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 3').should('exist');
-  cy.get('p.euiComboBoxPlaceholder').click({ force: true });
-  cy.get('.euiComboBoxOption__content').eq(2).click();
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}');
 };
 
 export const renderGaugeChart = () => {

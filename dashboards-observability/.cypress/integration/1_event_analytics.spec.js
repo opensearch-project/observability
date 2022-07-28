@@ -18,31 +18,12 @@ import {
   landOnEventExplorer,
   landOnEventVisualizations,
   landOnPanels,
-  renderTreeMapchart,
-  renderPieChart,
   renderLineChartForDataConfig,
   renderDataConfig,
-  aggregationValues,
   DataConfigLineChart,
-  renderAddParent,
-  renderGaugeChart,
-  renderAddParent
+  renderGaugeChart
 } from '../utils/event_constants';
-import { supressResizeObserverIssue } from '../utils/constants';
-
-const renderHistogramChart = () => {
-  querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Histogram').type('{enter}');
-  cy.wait(delay);
-    cy.get('g.draglayer.cursor-crosshair').should('exist');
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Histogram chart');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Histogram chart');
-    cy.get('.euiIEFlexWrapFix').eq(1).contains('Chart Styles').should('exist');
-    cy.get('.euiFormLabel.euiFormRow__label').eq(2).contains('Bucket Size');
-    cy.get('.euiFieldNumber').eq(0).type('4');
-    cy.get('.euiFormLabel.euiFormRow__label').eq(3).contains('Bucket Offset');
-    cy.get('.euiFieldNumber').eq(0).type('6');
-};
+import { supressResizeObserverIssue } from '../utils/constants';pie
 
 const vis_name_sub_string = Math.floor(Math.random() * 100);
 const saveVisualizationAndVerify = () => {
@@ -662,22 +643,6 @@ describe('Renders line charts', () => {
   });
 });
 
-describe('Renders pie charts', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
-  });
-
-  it('Renders pie chart', () => {
-    querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
-    cy.get(
-      '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
-    ).click();
-    cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
-    cy.wait(delay);
-    cy.get('g.pielayer').should('exist');
-  });
-});
-
 describe('Renders heatmap chart', () => {
   beforeEach(() => {
     landOnEventVisualizations();
@@ -877,67 +842,6 @@ describe('Render Time series chart/Line chart and verify Data configurations UI 
   });
 });
 
-describe('Renders Data Configurations section for Pie chart', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
-  });
-
-  it('Renders Dimensions and Metrics under Data Configurations for Pie chart', () => {
-    renderPieChart();
-    renderDataConfig();
-  });
-
-  it('Validate "Add" and "X" buttons', () => {
-    renderPieChart();
-    cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Configurations');
-    cy.get('.euiButton.euiButton--primary.euiButton--fullWidth').contains('Add').click();
-    cy.get('.euiFormRow__fieldWrapper .euiComboBox').eq(3).click();
-    cy.get('.euiComboBoxOption__content').eq(2).click();
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(4).click();
-    cy.get('.euiComboBoxOption__content').eq(1).click();
-    cy.get('.euiFieldText[placeholder="Custom label"]').eq(1).type('Demo field');
-    cy.get('.euiIcon.euiIcon--medium.euiIcon--danger').eq(1).click();
-    cy.get('.euiButton.euiButton--primary.euiButton--fullWidth').contains('Add').should('exist');
-  });
-
-  it('Verify drop down values for Aggregation', () => {
-    renderPieChart();
-    cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Configurations');
-    cy.get('.euiTitle.euiTitle--xxsmall').eq(1).contains('Dimensions').should('exist');
-    cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Aggregation');
-    cy.get('[data-test-subj="comboBoxSearchInput"]').eq(0).click();
-    aggregationValues.forEach(function (value){
-      cy.get('.euiComboBoxOption__content').contains(value);
-    });
-  });
-
-  it('Collapsible mode for Data Configuration panel', () => {
-    renderPieChart();
-    cy.get('.euiResizablePanel.euiResizablePanel--middle').contains('Data Configurations');
-    cy.get('.euiResizableButton.euiResizableButton--horizontal').eq(1).click();
-    cy.get('[data-test-subj="panel-1-toggle"]').click();
-    cy.get('[class*="euiResizableToggleButton-isCollapsed"]').eq(1).should('exist');
-describe('Renders Histogram chart', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
-});
-
-it('Renders Histogram chart and save visualization', () => {
-  renderHistogramChart();
-    cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
-    cy.wait(delay);
-    saveVisualizationAndVerify();
-  });
-
- it('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () =>{
-  deleteVisualization();
- })
-
- it('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
-  renderHistogramChart();
-    cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
-  });
-});
 describe('Render Gauge Chart and verify if data gets render', () => {
   it('Render gauge chart and verify by default no data gets render', () => {
     renderGaugeChart();
