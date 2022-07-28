@@ -1136,6 +1136,10 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        explorerFields,
+        explorerData,
+        http,
+        query
       }}
     >
       <div className="dscAppContainer">
