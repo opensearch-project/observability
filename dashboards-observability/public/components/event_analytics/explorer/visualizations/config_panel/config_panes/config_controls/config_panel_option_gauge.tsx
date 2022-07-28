@@ -16,9 +16,9 @@ export const ConfigPanelOptionGauge = ({
   handleConfigChange,
 }: any) => {
   const { Gauge = {} } = visualizations?.data?.rawVizData;
-  const isReadOnly = !(
-    Gauge?.dataConfig?.dimensions?.length && Gauge?.dataConfig?.dimensions[0]?.name != ''
-  );
+  const dimensions = Gauge?.dataConfig?.dimensions
+    ? Gauge.dataConfig.dimensions.filter((i) => i.name !== '')
+    : [];
   const [numberOfGauges, setNumberOfGauges] = useState<number>(
     DefaultGaugeChartParameters.DisplayDefaultGauges
   );
@@ -37,6 +37,7 @@ export const ConfigPanelOptionGauge = ({
           setNumberOfGauges(Number(e.target.value));
         }}
         value={numberOfGauges}
+        min={DefaultGaugeChartParameters.DisplayDefaultGauges}
         onBlur={() => {
           const newPanelOptions = {
             ...panelOptionsValues,
@@ -45,7 +46,7 @@ export const ConfigPanelOptionGauge = ({
           handleConfigChange(newPanelOptions);
         }}
         placeholder={'Number of gauges'}
-        readOnly={isReadOnly}
+        readOnly={!dimensions.length}
       />
     </EuiFormRow>
   );
