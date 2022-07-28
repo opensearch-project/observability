@@ -1,0 +1,39 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.editorArea {
+  font-family: Dank Mono, Source Code Pro, Consolas, Courier New, Courier, monospace;
+  font-size: 1em;
+  border: none;
+  width: 100%;
+  height: 14em;
+}
+
+#notebookArea {
+  max-width: 88vw;
+}
+
+.panel-header-count {
+  color: #687078;
+  font-weight: normal;
+}
+
+.markdown-output-text {
+  font-family: 'Inter UI', -apple-system, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+.notebooks-paragraph button[aria-label='Expand'] {
+  display: none;
+}
+.notebooks-paragraph-dark .markdown-body {
+  pre.input {
+    background-color: #25262d !important;
+  }
+  code.language-text {
+    color: #e0e5ee !important;
+    background-color: #25262d !important;
+  }
+}

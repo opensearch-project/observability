@@ -1,0 +1,1139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NoteTable /> spec renders the component 1`] = `
+<div
+  style="float: left; width: 100%; max-width: 1130px;"
+>
+  <div
+    class="euiPage"
+  >
+    <div
+      class="euiPageBody"
+    >
+      <div
+        class="euiPageHeader euiPageHeader--responsive"
+      >
+        <div
+          class="euiPageHeaderSection"
+        >
+          <h1
+            class="euiTitle euiTitle--large"
+          >
+            Notebooks
+          </h1>
+        </div>
+      </div>
+      <div
+        class="euiPanel euiPanel--paddingLarge euiPageContent"
+        id="notebookArea"
+      >
+        <div
+          class="euiPageContentHeader euiPageContentHeader--responsive"
+        >
+          <div
+            class="euiPageContentHeaderSection"
+          >
+            <h3
+              class="euiTitle euiTitle--small"
+            >
+              Notebooks
+              <span
+                class="panel-header-count"
+              >
+                 (
+                5
+                )
+              </span>
+            </h3>
+            <div
+              class="euiSpacer euiSpacer--s"
+            />
+            <div
+              class="euiText euiText--small"
+            >
+              <div
+                class="euiTextColor euiTextColor--subdued"
+              >
+                Use Notebooks to interactively and collaboratively develop rich reports backed by live data. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.
+                 
+                <a
+                  class="euiLink euiLink--primary"
+                  href="https://opensearch.org/docs/latest/observability-plugin/notebooks/"
+                  rel="noreferrer"
+                  target="blank"
+                >
+                  Learn more
+                  <svg
+                    aria-label="External link"
+                    class="euiIcon euiIcon--small euiLink__externalIcon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 8.5a.5.5 0 111 0V12a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2h3.5a.5.5 0 010 1H4a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8.5zm-5.12.339a.5.5 0 11-.706-.707L13.305 2H10.5a.5.5 0 110-1H14a1 1 0 011 1v3.5a.5.5 0 11-1 0V2.72L7.88 8.838z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiPageContentHeaderSection"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+            >
+              <div
+                class="euiFlexItem"
+              >
+                <div
+                  class="euiPopover euiPopover--anchorDownCenter"
+                >
+                  <div
+                    class="euiPopover__anchor"
+                  >
+                    <button
+                      class="euiButton euiButton--primary"
+                      type="button"
+                    >
+                      <span
+                        class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="euiIcon euiIcon--medium euiButtonContent__icon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                            fill-rule="non-zero"
+                          />
+                        </svg>
+                        <span
+                          class="euiButton__text"
+                        >
+                          Actions
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill"
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create notebook
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+        />
+        <div
+          class="euiFormControlLayout euiFormControlLayout--fullWidth"
+        >
+          <div
+            class="euiFormControlLayout__childrenWrapper"
+          >
+            <input
+              class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch-isClearable"
+              placeholder="Search notebook name"
+              type="search"
+              value=""
+            />
+            <div
+              class="euiFormControlLayoutIcons"
+            >
+              <span
+                class="euiFormControlLayoutCustomIcon"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                  focusable="false"
+                  height="16"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+        />
+        <div
+          class="euiBasicTable"
+        >
+          <div>
+            <div
+              class="euiTableHeaderMobile"
+            >
+              <div
+                class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+              >
+                <div
+                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <div
+                    class="euiCheckbox"
+                  >
+                    <input
+                      aria-label="Select all rows"
+                      class="euiCheckbox__input"
+                      id="_selection_column-checkbox_random_html_id"
+                      type="checkbox"
+                    />
+                    <div
+                      class="euiCheckbox__square"
+                    />
+                    <label
+                      class="euiCheckbox__label"
+                      for="_selection_column-checkbox_random_html_id"
+                    >
+                      Select all rows
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <div
+                    class="euiTableSortMobile"
+                  >
+                    <div
+                      class="euiPopover euiPopover--anchorDownRight"
+                    >
+                      <div
+                        class="euiPopover__anchor"
+                      >
+                        <button
+                          class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                          type="button"
+                        >
+                          <span
+                            class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="euiIcon euiIcon--medium euiButtonContent__icon"
+                              focusable="false"
+                              height="16"
+                              role="img"
+                              viewBox="0 0 16 16"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                fill-rule="non-zero"
+                              />
+                            </svg>
+                            <span
+                              class="euiButtonEmpty__text"
+                            >
+                              Sorting
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <table
+              class="euiTable euiTable--responsive euiTable--auto"
+              id="random_html_id"
+              tabindex="-1"
+            >
+              <caption
+                class="euiScreenReaderOnly euiTableCaption"
+              />
+              <thead>
+                <tr>
+                  <th
+                    class="euiTableHeaderCellCheckbox"
+                    scope="col"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select all rows"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectAll"
+                          id="_selection_column-checkbox_random_html_id"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_path_0"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Name"
+                        >
+                          Name
+                        </span>
+                        <span
+                          class="euiScreenReaderOnly"
+                        >
+                          Click to sort in ascending order
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="descending"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_dateModified_1"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton euiTableHeaderButton-isSorted"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Last updated; Sorted in descending order"
+                        >
+                          Last updated
+                        </span>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Sorted in descending order"
+                          class="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        />
+                        <span
+                          class="euiScreenReaderOnly"
+                        >
+                          Click to sort in ascending order
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_dateCreated_2"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Created"
+                        >
+                          Created
+                        </span>
+                        <span
+                          class="euiScreenReaderOnly"
+                        >
+                          Click to sort in ascending order
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="euiTableRow euiTableRow-isSelectable"
+                >
+                  <td
+                    class="euiTableRowCellCheckbox"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select this row"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectRow-id-0"
+                          id="_selection_column_id-0-checkbox"
+                          title="Select this row"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Name
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                    >
+                      <a
+                        class="euiLink euiLink--primary"
+                        href="#/notebooks/id-0"
+                        rel="noreferrer"
+                      >
+                        path-0
+                      </a>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Last updated
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Created
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class="euiTableRow euiTableRow-isSelectable"
+                >
+                  <td
+                    class="euiTableRowCellCheckbox"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select this row"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectRow-id-1"
+                          id="_selection_column_id-1-checkbox"
+                          title="Select this row"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Name
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                    >
+                      <a
+                        class="euiLink euiLink--primary"
+                        href="#/notebooks/id-1"
+                        rel="noreferrer"
+                      >
+                        path-1
+                      </a>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Last updated
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Created
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class="euiTableRow euiTableRow-isSelectable"
+                >
+                  <td
+                    class="euiTableRowCellCheckbox"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select this row"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectRow-id-2"
+                          id="_selection_column_id-2-checkbox"
+                          title="Select this row"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Name
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                    >
+                      <a
+                        class="euiLink euiLink--primary"
+                        href="#/notebooks/id-2"
+                        rel="noreferrer"
+                      >
+                        path-2
+                      </a>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Last updated
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Created
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class="euiTableRow euiTableRow-isSelectable"
+                >
+                  <td
+                    class="euiTableRowCellCheckbox"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select this row"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectRow-id-3"
+                          id="_selection_column_id-3-checkbox"
+                          title="Select this row"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Name
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                    >
+                      <a
+                        class="euiLink euiLink--primary"
+                        href="#/notebooks/id-3"
+                        rel="noreferrer"
+                      >
+                        path-3
+                      </a>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Last updated
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Created
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                </tr>
+                <tr
+                  class="euiTableRow euiTableRow-isSelectable"
+                >
+                  <td
+                    class="euiTableRowCellCheckbox"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select this row"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectRow-id-4"
+                          id="_selection_column_id-4-checkbox"
+                          title="Select this row"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Name
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
+                    >
+                      <a
+                        class="euiLink euiLink--primary"
+                        href="#/notebooks/id-4"
+                        rel="noreferrer"
+                      >
+                        path-4
+                      </a>
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Last updated
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                  <td
+                    class="euiTableRowCell"
+                  >
+                    <div
+                      class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                    >
+                      Created
+                    </div>
+                    <div
+                      class="euiTableCellContent euiTableCellContent--overflowingContent"
+                    >
+                      Invalid date
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div
+              class="euiSpacer euiSpacer--m"
+            />
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+            >
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <div
+                  class="euiPopover euiPopover--anchorUpRight euiPopover--withTitle"
+                >
+                  <div
+                    class="euiPopover__anchor"
+                  >
+                    <button
+                      class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
+                      data-test-subj="tablePaginationPopoverButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="euiIcon euiIcon--medium euiButtonContent__icon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                            fill-rule="non-zero"
+                          />
+                        </svg>
+                        <span
+                          class="euiButtonEmpty__text"
+                        >
+                          Rows per page
+                          : 
+                          10
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <nav
+                  class="euiPagination"
+                >
+                  <button
+                    aria-label="Previous page"
+                    class="euiButtonIcon euiButtonIcon--text"
+                    data-test-subj="pagination-button-previous"
+                    disabled=""
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                      focusable="false"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </button>
+                  <ul
+                    class="euiPagination__list"
+                  >
+                    <li
+                      class="euiPagination__item"
+                    >
+                      <button
+                        aria-controls="random_html_id"
+                        aria-current="true"
+                        aria-label="Page 1 of 1"
+                        class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                        data-test-subj="pagination-button-0"
+                        disabled=""
+                        type="button"
+                      >
+                        <span
+                          class="euiButtonContent euiButtonEmpty__content"
+                        >
+                          <span
+                            class="euiButtonEmpty__text"
+                          >
+                            1
+                          </span>
+                        </span>
+                      </button>
+                    </li>
+                  </ul>
+                  <button
+                    aria-label="Next page"
+                    class="euiButtonIcon euiButtonIcon--text"
+                    data-test-subj="pagination-button-next"
+                    disabled=""
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                      focusable="false"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<NoteTable /> spec renders the empty component 1`] = `
+<div
+  style="float: left; width: 100%; max-width: 1130px;"
+>
+  <div
+    class="euiPage"
+  >
+    <div
+      class="euiPageBody"
+    >
+      <div
+        class="euiPageHeader euiPageHeader--responsive"
+      >
+        <div
+          class="euiPageHeaderSection"
+        >
+          <h1
+            class="euiTitle euiTitle--large"
+          >
+            Notebooks
+          </h1>
+        </div>
+      </div>
+      <div
+        class="euiPanel euiPanel--paddingLarge euiPageContent"
+        id="notebookArea"
+      >
+        <div
+          class="euiPageContentHeader euiPageContentHeader--responsive"
+        >
+          <div
+            class="euiPageContentHeaderSection"
+          >
+            <h3
+              class="euiTitle euiTitle--small"
+            >
+              Notebooks
+              <span
+                class="panel-header-count"
+              >
+                 (
+                0
+                )
+              </span>
+            </h3>
+            <div
+              class="euiSpacer euiSpacer--s"
+            />
+            <div
+              class="euiText euiText--small"
+            >
+              <div
+                class="euiTextColor euiTextColor--subdued"
+              >
+                Use Notebooks to interactively and collaboratively develop rich reports backed by live data. Common use cases for notebooks includes creating postmortem reports, designing run books, building live infrastructure reports, or even documentation.
+                 
+                <a
+                  class="euiLink euiLink--primary"
+                  href="https://opensearch.org/docs/latest/observability-plugin/notebooks/"
+                  rel="noreferrer"
+                  target="blank"
+                >
+                  Learn more
+                  <svg
+                    aria-hidden="true"
+                    aria-label="External link"
+                    class="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiPageContentHeaderSection"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+            >
+              <div
+                class="euiFlexItem"
+              >
+                <div
+                  class="euiPopover euiPopover--anchorDownCenter"
+                >
+                  <div
+                    class="euiPopover__anchor"
+                  >
+                    <button
+                      class="euiButton euiButton--primary"
+                      type="button"
+                    >
+                      <span
+                        class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        />
+                        <span
+                          class="euiButton__text"
+                        >
+                          Actions
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem"
+              >
+                <button
+                  class="euiButton euiButton--primary euiButton--fill"
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <span
+                      class="euiButton__text"
+                    >
+                      Create notebook
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+        />
+        <div
+          class="euiSpacer euiSpacer--xxl"
+        />
+        <div
+          class="euiText euiText--medium"
+        >
+          <div
+            class="euiTextAlign euiTextAlign--center"
+          >
+            <h2>
+              No notebooks
+            </h2>
+            <div
+              class="euiSpacer euiSpacer--m"
+            />
+            <div
+              class="euiText euiText--medium"
+            >
+              <div
+                class="euiTextColor euiTextColor--subdued"
+              >
+                Use notebooks to create post-mortem reports, build live infrastructure
+                <br />
+                reports, or foster explorative collaborations with data.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiSpacer euiSpacer--m"
+        />
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <button
+              class="euiButton euiButton--primary"
+              data-test-subj="note-table-empty-state-create-notebook-button"
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButton__content"
+              >
+                <span
+                  class="euiButton__text"
+                >
+                  Create notebook
+                </span>
+              </span>
+            </button>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <button
+              class="euiButton euiButton--primary"
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButton__content"
+              >
+                <span
+                  class="euiButton__text"
+                >
+                  Add samples
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="euiSpacer euiSpacer--xxl"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

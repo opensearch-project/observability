@@ -1,0 +1,17 @@
+---
+##
+# Copyright OpenSearch Contributors
+# SPDX-License-Identifier: Apache-2.0
+##
+
+style:
+  ForbiddenComment:
+    active: false
+  MaxLineLength:
+    maxLineLength: 150
+  ThrowsCount:
+    active: true
+    max: 10
+  ReturnCount:
+    active: true
+    max: 10

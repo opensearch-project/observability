@@ -1,0 +1,2140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Visualization Flyout Component renders add visualization Flyout 1`] = `
+<VisaulizationFlyout
+  closeFlyout={[MockFunction]}
+  end="now"
+  http={[MockFunction]}
+  isFlyoutReplacement={false}
+  panelId=""
+  pplFilterValue=""
+  pplService={
+    PPLService {
+      "fetch": [Function],
+      "http": [MockFunction],
+    }
+  }
+  setPanelVisualizations={[MockFunction]}
+  setToast={[MockFunction]}
+  start="now-15m"
+>
+  <FlyoutContainers
+    ariaLabel="addVisualizationFlyout"
+    closeFlyout={[MockFunction]}
+    flyoutBody={
+      <EuiFlyoutBody
+        banner={
+          <EuiCallOut
+            iconType="help"
+          >
+            <p>
+              No saved visualizations found!
+            </p>
+          </EuiCallOut>
+        }
+      >
+        <React.Fragment>
+          <div>
+            Please use the "create new visualization" option in add visualization menu.
+          </div>
+        </React.Fragment>
+      </EuiFlyoutBody>
+    }
+    flyoutFooter={
+      <EuiFlyoutFooter>
+        <EuiFlexGroup
+          gutterSize="s"
+          justifyContent="spaceBetween"
+        >
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButton
+              onClick={[MockFunction]}
+            >
+              Cancel
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButton
+              fill={true}
+              onClick={[Function]}
+            >
+              Add
+            </EuiButton>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiFlyoutFooter>
+    }
+    flyoutHeader={
+      <EuiFlyoutHeader
+        hasBorder={true}
+      >
+        <EuiTitle
+          size="m"
+        >
+          <h2
+            id="addVisualizationFlyout"
+          >
+            Select existing visualization
+          </h2>
+        </EuiTitle>
+      </EuiFlyoutHeader>
+    }
+  >
+    <div>
+      <EuiFlyout
+        aria-labelledby="addVisualizationFlyout"
+        className="observability-flyout"
+        onClose={[Function]}
+        ownFocus={false}
+        size="m"
+      >
+        <EuiWindowEvent
+          event="keydown"
+          handler={[Function]}
+        />
+        <EuiFocusTrap
+          clickOutsideDisables={true}
+        >
+          <EuiOutsideClickDetector
+            isDisabled={false}
+            onOutsideClick={[Function]}
+          >
+            <OutsideEventDetector
+              handleEvent={[Function]}
+              onMouseDown={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchStart={[Function]}
+            >
+              <div
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchStart={[Function]}
+              >
+                <ForwardRef
+                  enabled={true}
+                  noIsolation={true}
+                  returnFocus={true}
+                  scrollLock={false}
+                >
+                  <ForwardRef
+                    enabled={true}
+                    noIsolation={true}
+                    returnFocus={true}
+                    scrollLock={false}
+                    sideCar={[Function]}
+                  >
+                    <ForwardRef
+                      as={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "classNames": Object {
+                            "fullWidth": "width-before-scroll-bar",
+                            "zeroRight": "right-scroll-bar-position",
+                          },
+                          "defaultProps": Object {
+                            "enabled": true,
+                            "inert": false,
+                            "removeScrollBar": true,
+                          },
+                          "render": [Function],
+                        }
+                      }
+                      autoFocus={true}
+                      crossFrame={true}
+                      disabled={false}
+                      lockProps={
+                        Object {
+                          "allowPinchZoom": undefined,
+                          "as": undefined,
+                          "enabled": false,
+                          "inert": undefined,
+                          "onMouseDown": [Function],
+                          "onTouchStart": [Function],
+                          "shards": undefined,
+                          "sideCar": [Function],
+                          "style": undefined,
+                        }
+                      }
+                      noFocusGuards={false}
+                      onActivation={[Function]}
+                      onDeactivation={[Function]}
+                      persistentFocus={false}
+                      returnFocus={true}
+                      sideCar={[Function]}
+                    >
+                      <div
+                        data-focus-guard={true}
+                        key="guard-first"
+                        style={
+                          Object {
+                            "height": "0px",
+                            "left": "1px",
+                            "overflow": "hidden",
+                            "padding": 0,
+                            "position": "fixed",
+                            "top": "1px",
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex={0}
+                      />
+                      <div
+                        data-focus-guard={true}
+                        key="guard-nearest"
+                        style={
+                          Object {
+                            "height": "0px",
+                            "left": "1px",
+                            "overflow": "hidden",
+                            "padding": 0,
+                            "position": "fixed",
+                            "top": "1px",
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex={1}
+                      />
+                      <RequireSideCar
+                        autoFocus={true}
+                        crossFrame={true}
+                        disabled={false}
+                        id={Object {}}
+                        observed={
+                          <div
+                            data-focus-lock-disabled="false"
+                          >
+                            <div
+                              aria-labelledby="addVisualizationFlyout"
+                              class="euiFlyout euiFlyout--medium observability-flyout"
+                              role="dialog"
+                              tabindex="0"
+                            >
+                              <button
+                                aria-label="Close this dialog"
+                                class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                data-test-subj="euiFlyoutCloseButton"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                  focusable="false"
+                                  height="16"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  width="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </button>
+                              <div
+                                class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <h2
+                                  class="euiTitle euiTitle--medium"
+                                  id="addVisualizationFlyout"
+                                >
+                                  Select existing visualization
+                                </h2>
+                              </div>
+                              <div
+                                class="euiFlyoutBody"
+                              >
+                                <div
+                                  class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__banner"
+                                  >
+                                    <div
+                                      class="euiCallOut euiCallOut--primary"
+                                    >
+                                      <div
+                                        class="euiText euiText--small"
+                                      >
+                                        <p>
+                                          No saved visualizations found!
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div>
+                                      Please use the "create new visualization" option in add visualization menu.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="euiFlyoutFooter"
+                              >
+                                <div
+                                  class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                >
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      class="euiButton euiButton--primary"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButton__content"
+                                      >
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          Cancel
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      class="euiButton euiButton--primary euiButton--fill"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButton__content"
+                                      >
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          Add
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                        onActivation={[Function]}
+                        onDeactivation={[Function]}
+                        persistentFocus={false}
+                        returnFocus={[Function]}
+                        shards={Array []}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
+                      >
+                        <SideCar
+                          autoFocus={true}
+                          crossFrame={true}
+                          disabled={false}
+                          id={Object {}}
+                          observed={
+                            <div
+                              data-focus-lock-disabled="false"
+                            >
+                              <div
+                                aria-labelledby="addVisualizationFlyout"
+                                class="euiFlyout euiFlyout--medium observability-flyout"
+                                role="dialog"
+                                tabindex="0"
+                              >
+                                <button
+                                  aria-label="Close this dialog"
+                                  class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                  data-test-subj="euiFlyoutCloseButton"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    height="16"
+                                    role="img"
+                                    viewBox="0 0 16 16"
+                                    width="16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  />
+                                </button>
+                                <div
+                                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                >
+                                  <h2
+                                    class="euiTitle euiTitle--medium"
+                                    id="addVisualizationFlyout"
+                                  >
+                                    Select existing visualization
+                                  </h2>
+                                </div>
+                                <div
+                                  class="euiFlyoutBody"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__banner"
+                                    >
+                                      <div
+                                        class="euiCallOut euiCallOut--primary"
+                                      >
+                                        <div
+                                          class="euiText euiText--small"
+                                        >
+                                          <p>
+                                            No saved visualizations found!
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlyoutBody__overflowContent"
+                                    >
+                                      <div>
+                                        Please use the "create new visualization" option in add visualization menu.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="euiFlyoutFooter"
+                                >
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        class="euiButton euiButton--primary"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            Cancel
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        class="euiButton euiButton--primary euiButton--fill"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            Add
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          }
+                          onActivation={[Function]}
+                          onDeactivation={[Function]}
+                          persistentFocus={false}
+                          returnFocus={[Function]}
+                          shards={Array []}
+                          sideCar={
+                            Object {
+                              "assignMedium": [Function],
+                              "assignSyncMedium": [Function],
+                              "options": Object {
+                                "async": true,
+                                "ssr": false,
+                              },
+                              "read": [Function],
+                              "useMedium": [Function],
+                            }
+                          }
+                        >
+                          <SideEffect(FocusWatcher)
+                            autoFocus={true}
+                            crossFrame={true}
+                            disabled={false}
+                            id={Object {}}
+                            observed={
+                              <div
+                                data-focus-lock-disabled="false"
+                              >
+                                <div
+                                  aria-labelledby="addVisualizationFlyout"
+                                  class="euiFlyout euiFlyout--medium observability-flyout"
+                                  role="dialog"
+                                  tabindex="0"
+                                >
+                                  <button
+                                    aria-label="Close this dialog"
+                                    class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                    data-test-subj="euiFlyoutCloseButton"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </button>
+                                  <div
+                                    class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                  >
+                                    <h2
+                                      class="euiTitle euiTitle--medium"
+                                      id="addVisualizationFlyout"
+                                    >
+                                      Select existing visualization
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutBody"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                    >
+                                      <div
+                                        class="euiFlyoutBody__banner"
+                                      >
+                                        <div
+                                          class="euiCallOut euiCallOut--primary"
+                                        >
+                                          <div
+                                            class="euiText euiText--small"
+                                          >
+                                            <p>
+                                              No saved visualizations found!
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiFlyoutBody__overflowContent"
+                                      >
+                                        <div>
+                                          Please use the "create new visualization" option in add visualization menu.
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutFooter"
+                                  >
+                                    <div
+                                      class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                    >
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          class="euiButton euiButton--primary"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              class="euiButton__text"
+                                            >
+                                              Cancel
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          class="euiButton euiButton--primary euiButton--fill"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              class="euiButton__text"
+                                            >
+                                              Add
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                            onActivation={[Function]}
+                            onDeactivation={[Function]}
+                            persistentFocus={false}
+                            returnFocus={[Function]}
+                            shards={Array []}
+                          >
+                            <FocusWatcher
+                              autoFocus={true}
+                              crossFrame={true}
+                              disabled={false}
+                              id={Object {}}
+                              observed={
+                                <div
+                                  data-focus-lock-disabled="false"
+                                >
+                                  <div
+                                    aria-labelledby="addVisualizationFlyout"
+                                    class="euiFlyout euiFlyout--medium observability-flyout"
+                                    role="dialog"
+                                    tabindex="0"
+                                  >
+                                    <button
+                                      aria-label="Close this dialog"
+                                      class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                      data-test-subj="euiFlyoutCloseButton"
+                                      type="button"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </button>
+                                    <div
+                                      class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                    >
+                                      <h2
+                                        class="euiTitle euiTitle--medium"
+                                        id="addVisualizationFlyout"
+                                      >
+                                        Select existing visualization
+                                      </h2>
+                                    </div>
+                                    <div
+                                      class="euiFlyoutBody"
+                                    >
+                                      <div
+                                        class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                      >
+                                        <div
+                                          class="euiFlyoutBody__banner"
+                                        >
+                                          <div
+                                            class="euiCallOut euiCallOut--primary"
+                                          >
+                                            <div
+                                              class="euiText euiText--small"
+                                            >
+                                              <p>
+                                                No saved visualizations found!
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiFlyoutBody__overflowContent"
+                                        >
+                                          <div>
+                                            Please use the "create new visualization" option in add visualization menu.
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlyoutFooter"
+                                    >
+                                      <div
+                                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                      >
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <button
+                                            class="euiButton euiButton--primary"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButton__content"
+                                            >
+                                              <span
+                                                class="euiButton__text"
+                                              >
+                                                Cancel
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <button
+                                            class="euiButton euiButton--primary euiButton--fill"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButton__content"
+                                            >
+                                              <span
+                                                class="euiButton__text"
+                                              >
+                                                Add
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                              onActivation={[Function]}
+                              onDeactivation={[Function]}
+                              persistentFocus={false}
+                              returnFocus={[Function]}
+                              shards={Array []}
+                            />
+                          </SideEffect(FocusWatcher)>
+                        </SideCar>
+                      </RequireSideCar>
+                      <ForwardRef
+                        data-focus-lock-disabled={false}
+                        enabled={false}
+                        inert={false}
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onTouchStart={[Function]}
+                        removeScrollBar={true}
+                        sideCar={[Function]}
+                      >
+                        <div
+                          data-focus-lock-disabled={false}
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onScrollCapture={[Function]}
+                          onTouchMoveCapture={[Function]}
+                          onTouchStart={[Function]}
+                          onWheelCapture={[Function]}
+                        >
+                          <div
+                            aria-labelledby="addVisualizationFlyout"
+                            className="euiFlyout euiFlyout--medium observability-flyout"
+                            role="dialog"
+                            tabIndex={0}
+                          >
+                            <EuiI18n
+                              default="Close this dialog"
+                              token="euiFlyout.closeAriaLabel"
+                            >
+                              <EuiButtonIcon
+                                aria-label="Close this dialog"
+                                className="euiFlyout__closeButton"
+                                color="text"
+                                data-test-subj="euiFlyoutCloseButton"
+                                iconType="cross"
+                                onClick={[Function]}
+                              >
+                                <button
+                                  aria-label="Close this dialog"
+                                  className="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                  data-test-subj="euiFlyoutCloseButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  <EuiIcon
+                                    aria-hidden="true"
+                                    className="euiButtonIcon__icon"
+                                    size="m"
+                                    type="cross"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </button>
+                              </EuiButtonIcon>
+                            </EuiI18n>
+                            <EuiFlyoutHeader
+                              hasBorder={true}
+                            >
+                              <div
+                                className="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <EuiTitle
+                                  size="m"
+                                >
+                                  <h2
+                                    className="euiTitle euiTitle--medium"
+                                    id="addVisualizationFlyout"
+                                  >
+                                    Select existing visualization
+                                  </h2>
+                                </EuiTitle>
+                              </div>
+                            </EuiFlyoutHeader>
+                            <EuiFlyoutBody
+                              banner={
+                                <EuiCallOut
+                                  iconType="help"
+                                >
+                                  <p>
+                                    No saved visualizations found!
+                                  </p>
+                                </EuiCallOut>
+                              }
+                            >
+                              <div
+                                className="euiFlyoutBody"
+                              >
+                                <div
+                                  className="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                >
+                                  <div
+                                    className="euiFlyoutBody__banner"
+                                  >
+                                    <EuiCallOut
+                                      iconType="help"
+                                    >
+                                      <div
+                                        className="euiCallOut euiCallOut--primary"
+                                      >
+                                        <EuiText
+                                          size="s"
+                                        >
+                                          <div
+                                            className="euiText euiText--small"
+                                          >
+                                            <p>
+                                              No saved visualizations found!
+                                            </p>
+                                          </div>
+                                        </EuiText>
+                                      </div>
+                                    </EuiCallOut>
+                                  </div>
+                                  <div
+                                    className="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div>
+                                      Please use the "create new visualization" option in add visualization menu.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </EuiFlyoutBody>
+                            <EuiFlyoutFooter>
+                              <div
+                                className="euiFlyoutFooter"
+                              >
+                                <EuiFlexGroup
+                                  gutterSize="s"
+                                  justifyContent="spaceBetween"
+                                >
+                                  <div
+                                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButton
+                                          onClick={[MockFunction]}
+                                        >
+                                          <EuiButtonDisplay
+                                            disabled={false}
+                                            element="button"
+                                            isDisabled={false}
+                                            onClick={[MockFunction]}
+                                            type="button"
+                                          >
+                                            <button
+                                              className="euiButton euiButton--primary"
+                                              disabled={false}
+                                              onClick={[MockFunction]}
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="left"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButton__content"
+                                                >
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Cancel
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
+                                      </div>
+                                    </EuiFlexItem>
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButton
+                                          fill={true}
+                                          onClick={[Function]}
+                                        >
+                                          <EuiButtonDisplay
+                                            disabled={false}
+                                            element="button"
+                                            fill={true}
+                                            isDisabled={false}
+                                            onClick={[Function]}
+                                            type="button"
+                                          >
+                                            <button
+                                              className="euiButton euiButton--primary euiButton--fill"
+                                              disabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="left"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButton__content"
+                                                >
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Add
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
+                                      </div>
+                                    </EuiFlexItem>
+                                  </div>
+                                </EuiFlexGroup>
+                              </div>
+                            </EuiFlyoutFooter>
+                          </div>
+                        </div>
+                      </ForwardRef>
+                      <div
+                        data-focus-guard={true}
+                        style={
+                          Object {
+                            "height": "0px",
+                            "left": "1px",
+                            "overflow": "hidden",
+                            "padding": 0,
+                            "position": "fixed",
+                            "top": "1px",
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex={0}
+                      />
+                    </ForwardRef>
+                    <RequireSideCar
+                      noIsolation={true}
+                      setLockProps={[Function]}
+                      sideCar={
+                        Object {
+                          "assignMedium": [Function],
+                          "assignSyncMedium": [Function],
+                          "options": Object {
+                            "async": true,
+                            "ssr": false,
+                          },
+                          "read": [Function],
+                          "useMedium": [Function],
+                        }
+                      }
+                    >
+                      <SideCar
+                        noIsolation={true}
+                        setLockProps={[Function]}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
+                      >
+                        <Effect
+                          noIsolation={true}
+                          setLockProps={[Function]}
+                        >
+                          <Component>
+                            <Sheet
+                              styles="
+ [data-focus-on-hidden] {
+   pointer-events: none !important;
+ }
+"
+                            />
+                          </Component>
+                        </Effect>
+                      </SideCar>
+                    </RequireSideCar>
+                  </ForwardRef>
+                </ForwardRef>
+              </div>
+            </OutsideEventDetector>
+          </EuiOutsideClickDetector>
+        </EuiFocusTrap>
+      </EuiFlyout>
+    </div>
+  </FlyoutContainers>
+</VisaulizationFlyout>
+`;
+
+exports[`Visualization Flyout Component renders replace visualization Flyout 1`] = `
+<VisaulizationFlyout
+  closeFlyout={[MockFunction]}
+  end="2011-08-12T01:23:45.678Z"
+  http={[MockFunction]}
+  isFlyoutReplacement={true}
+  panelId="oiuccXwBYVazWqOO1e06"
+  pplFilterValue="where Carrier='OpenSearch-Air'"
+  pplService={
+    PPLService {
+      "fetch": [Function],
+      "http": [MockFunction],
+    }
+  }
+  replaceVisualizationId=""
+  setPanelVisualizations={[MockFunction]}
+  setToast={[MockFunction]}
+  start="2011-08-11T01:23:45.678Z"
+>
+  <FlyoutContainers
+    ariaLabel="addVisualizationFlyout"
+    closeFlyout={[MockFunction]}
+    flyoutBody={
+      <EuiFlyoutBody
+        banner={
+          <EuiCallOut
+            iconType="help"
+          >
+            <p>
+              No saved visualizations found!
+            </p>
+          </EuiCallOut>
+        }
+      >
+        <React.Fragment>
+          <div>
+            Please use the "create new visualization" option in add visualization menu.
+          </div>
+        </React.Fragment>
+      </EuiFlyoutBody>
+    }
+    flyoutFooter={
+      <EuiFlyoutFooter>
+        <EuiFlexGroup
+          gutterSize="s"
+          justifyContent="spaceBetween"
+        >
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButton
+              onClick={[MockFunction]}
+            >
+              Cancel
+            </EuiButton>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButton
+              fill={true}
+              onClick={[Function]}
+            >
+              Add
+            </EuiButton>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiFlyoutFooter>
+    }
+    flyoutHeader={
+      <EuiFlyoutHeader
+        hasBorder={true}
+      >
+        <EuiTitle
+          size="m"
+        >
+          <h2
+            id="addVisualizationFlyout"
+          >
+            Replace visualization
+          </h2>
+        </EuiTitle>
+      </EuiFlyoutHeader>
+    }
+  >
+    <div>
+      <EuiFlyout
+        aria-labelledby="addVisualizationFlyout"
+        className="observability-flyout"
+        onClose={[Function]}
+        ownFocus={false}
+        size="m"
+      >
+        <EuiWindowEvent
+          event="keydown"
+          handler={[Function]}
+        />
+        <EuiFocusTrap
+          clickOutsideDisables={true}
+        >
+          <EuiOutsideClickDetector
+            isDisabled={false}
+            onOutsideClick={[Function]}
+          >
+            <OutsideEventDetector
+              handleEvent={[Function]}
+              onMouseDown={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchStart={[Function]}
+            >
+              <div
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchStart={[Function]}
+              >
+                <ForwardRef
+                  enabled={true}
+                  noIsolation={true}
+                  returnFocus={true}
+                  scrollLock={false}
+                >
+                  <ForwardRef
+                    enabled={true}
+                    noIsolation={true}
+                    returnFocus={true}
+                    scrollLock={false}
+                    sideCar={[Function]}
+                  >
+                    <ForwardRef
+                      as={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "classNames": Object {
+                            "fullWidth": "width-before-scroll-bar",
+                            "zeroRight": "right-scroll-bar-position",
+                          },
+                          "defaultProps": Object {
+                            "enabled": true,
+                            "inert": false,
+                            "removeScrollBar": true,
+                          },
+                          "render": [Function],
+                        }
+                      }
+                      autoFocus={true}
+                      crossFrame={true}
+                      disabled={false}
+                      lockProps={
+                        Object {
+                          "allowPinchZoom": undefined,
+                          "as": undefined,
+                          "enabled": false,
+                          "inert": undefined,
+                          "onMouseDown": [Function],
+                          "onTouchStart": [Function],
+                          "shards": undefined,
+                          "sideCar": [Function],
+                          "style": undefined,
+                        }
+                      }
+                      noFocusGuards={false}
+                      onActivation={[Function]}
+                      onDeactivation={[Function]}
+                      persistentFocus={false}
+                      returnFocus={true}
+                      sideCar={[Function]}
+                    >
+                      <div
+                        data-focus-guard={true}
+                        key="guard-first"
+                        style={
+                          Object {
+                            "height": "0px",
+                            "left": "1px",
+                            "overflow": "hidden",
+                            "padding": 0,
+                            "position": "fixed",
+                            "top": "1px",
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex={0}
+                      />
+                      <div
+                        data-focus-guard={true}
+                        key="guard-nearest"
+                        style={
+                          Object {
+                            "height": "0px",
+                            "left": "1px",
+                            "overflow": "hidden",
+                            "padding": 0,
+                            "position": "fixed",
+                            "top": "1px",
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex={1}
+                      />
+                      <RequireSideCar
+                        autoFocus={true}
+                        crossFrame={true}
+                        disabled={false}
+                        id={Object {}}
+                        observed={
+                          <div
+                            data-focus-lock-disabled="false"
+                          >
+                            <div
+                              aria-labelledby="addVisualizationFlyout"
+                              class="euiFlyout euiFlyout--medium observability-flyout"
+                              role="dialog"
+                              tabindex="0"
+                            >
+                              <button
+                                aria-label="Close this dialog"
+                                class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                data-test-subj="euiFlyoutCloseButton"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                  focusable="false"
+                                  height="16"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  width="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
+                                  />
+                                </svg>
+                              </button>
+                              <div
+                                class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <h2
+                                  class="euiTitle euiTitle--medium"
+                                  id="addVisualizationFlyout"
+                                >
+                                  Replace visualization
+                                </h2>
+                              </div>
+                              <div
+                                class="euiFlyoutBody"
+                              >
+                                <div
+                                  class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__banner"
+                                  >
+                                    <div
+                                      class="euiCallOut euiCallOut--primary"
+                                    >
+                                      <div
+                                        class="euiText euiText--small"
+                                      >
+                                        <p>
+                                          No saved visualizations found!
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div>
+                                      Please use the "create new visualization" option in add visualization menu.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="euiFlyoutFooter"
+                              >
+                                <div
+                                  class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                >
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      class="euiButton euiButton--primary"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButton__content"
+                                      >
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          Cancel
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      class="euiButton euiButton--primary euiButton--fill"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButton__content"
+                                      >
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          Add
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                        onActivation={[Function]}
+                        onDeactivation={[Function]}
+                        persistentFocus={false}
+                        returnFocus={[Function]}
+                        shards={Array []}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
+                      >
+                        <SideCar
+                          autoFocus={true}
+                          crossFrame={true}
+                          disabled={false}
+                          id={Object {}}
+                          observed={
+                            <div
+                              data-focus-lock-disabled="false"
+                            >
+                              <div
+                                aria-labelledby="addVisualizationFlyout"
+                                class="euiFlyout euiFlyout--medium observability-flyout"
+                                role="dialog"
+                                tabindex="0"
+                              >
+                                <button
+                                  aria-label="Close this dialog"
+                                  class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                  data-test-subj="euiFlyoutCloseButton"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                    focusable="false"
+                                    height="16"
+                                    role="img"
+                                    viewBox="0 0 16 16"
+                                    width="16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
+                                    />
+                                  </svg>
+                                </button>
+                                <div
+                                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                >
+                                  <h2
+                                    class="euiTitle euiTitle--medium"
+                                    id="addVisualizationFlyout"
+                                  >
+                                    Replace visualization
+                                  </h2>
+                                </div>
+                                <div
+                                  class="euiFlyoutBody"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__banner"
+                                    >
+                                      <div
+                                        class="euiCallOut euiCallOut--primary"
+                                      >
+                                        <div
+                                          class="euiText euiText--small"
+                                        >
+                                          <p>
+                                            No saved visualizations found!
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlyoutBody__overflowContent"
+                                    >
+                                      <div>
+                                        Please use the "create new visualization" option in add visualization menu.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="euiFlyoutFooter"
+                                >
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        class="euiButton euiButton--primary"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            Cancel
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        class="euiButton euiButton--primary euiButton--fill"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            Add
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          }
+                          onActivation={[Function]}
+                          onDeactivation={[Function]}
+                          persistentFocus={false}
+                          returnFocus={[Function]}
+                          shards={Array []}
+                          sideCar={
+                            Object {
+                              "assignMedium": [Function],
+                              "assignSyncMedium": [Function],
+                              "options": Object {
+                                "async": true,
+                                "ssr": false,
+                              },
+                              "read": [Function],
+                              "useMedium": [Function],
+                            }
+                          }
+                        >
+                          <SideEffect(FocusWatcher)
+                            autoFocus={true}
+                            crossFrame={true}
+                            disabled={false}
+                            id={Object {}}
+                            observed={
+                              <div
+                                data-focus-lock-disabled="false"
+                              >
+                                <div
+                                  aria-labelledby="addVisualizationFlyout"
+                                  class="euiFlyout euiFlyout--medium observability-flyout"
+                                  role="dialog"
+                                  tabindex="0"
+                                >
+                                  <button
+                                    aria-label="Close this dialog"
+                                    class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                    data-test-subj="euiFlyoutCloseButton"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
+                                      />
+                                    </svg>
+                                  </button>
+                                  <div
+                                    class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                  >
+                                    <h2
+                                      class="euiTitle euiTitle--medium"
+                                      id="addVisualizationFlyout"
+                                    >
+                                      Replace visualization
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutBody"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                    >
+                                      <div
+                                        class="euiFlyoutBody__banner"
+                                      >
+                                        <div
+                                          class="euiCallOut euiCallOut--primary"
+                                        >
+                                          <div
+                                            class="euiText euiText--small"
+                                          >
+                                            <p>
+                                              No saved visualizations found!
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiFlyoutBody__overflowContent"
+                                      >
+                                        <div>
+                                          Please use the "create new visualization" option in add visualization menu.
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutFooter"
+                                  >
+                                    <div
+                                      class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                    >
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          class="euiButton euiButton--primary"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              class="euiButton__text"
+                                            >
+                                              Cancel
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          class="euiButton euiButton--primary euiButton--fill"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              class="euiButton__text"
+                                            >
+                                              Add
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                            onActivation={[Function]}
+                            onDeactivation={[Function]}
+                            persistentFocus={false}
+                            returnFocus={[Function]}
+                            shards={Array []}
+                          >
+                            <FocusWatcher
+                              autoFocus={true}
+                              crossFrame={true}
+                              disabled={false}
+                              id={Object {}}
+                              observed={
+                                <div
+                                  data-focus-lock-disabled="false"
+                                >
+                                  <div
+                                    aria-labelledby="addVisualizationFlyout"
+                                    class="euiFlyout euiFlyout--medium observability-flyout"
+                                    role="dialog"
+                                    tabindex="0"
+                                  >
+                                    <button
+                                      aria-label="Close this dialog"
+                                      class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                      data-test-subj="euiFlyoutCloseButton"
+                                      type="button"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
+                                        />
+                                      </svg>
+                                    </button>
+                                    <div
+                                      class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                    >
+                                      <h2
+                                        class="euiTitle euiTitle--medium"
+                                        id="addVisualizationFlyout"
+                                      >
+                                        Replace visualization
+                                      </h2>
+                                    </div>
+                                    <div
+                                      class="euiFlyoutBody"
+                                    >
+                                      <div
+                                        class="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                      >
+                                        <div
+                                          class="euiFlyoutBody__banner"
+                                        >
+                                          <div
+                                            class="euiCallOut euiCallOut--primary"
+                                          >
+                                            <div
+                                              class="euiText euiText--small"
+                                            >
+                                              <p>
+                                                No saved visualizations found!
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiFlyoutBody__overflowContent"
+                                        >
+                                          <div>
+                                            Please use the "create new visualization" option in add visualization menu.
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlyoutFooter"
+                                    >
+                                      <div
+                                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                      >
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <button
+                                            class="euiButton euiButton--primary"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButton__content"
+                                            >
+                                              <span
+                                                class="euiButton__text"
+                                              >
+                                                Cancel
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <button
+                                            class="euiButton euiButton--primary euiButton--fill"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButton__content"
+                                            >
+                                              <span
+                                                class="euiButton__text"
+                                              >
+                                                Add
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                              onActivation={[Function]}
+                              onDeactivation={[Function]}
+                              persistentFocus={false}
+                              returnFocus={[Function]}
+                              shards={Array []}
+                            />
+                          </SideEffect(FocusWatcher)>
+                        </SideCar>
+                      </RequireSideCar>
+                      <ForwardRef
+                        data-focus-lock-disabled={false}
+                        enabled={false}
+                        inert={false}
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onTouchStart={[Function]}
+                        removeScrollBar={true}
+                        sideCar={[Function]}
+                      >
+                        <div
+                          data-focus-lock-disabled={false}
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onScrollCapture={[Function]}
+                          onTouchMoveCapture={[Function]}
+                          onTouchStart={[Function]}
+                          onWheelCapture={[Function]}
+                        >
+                          <div
+                            aria-labelledby="addVisualizationFlyout"
+                            className="euiFlyout euiFlyout--medium observability-flyout"
+                            role="dialog"
+                            tabIndex={0}
+                          >
+                            <EuiI18n
+                              default="Close this dialog"
+                              token="euiFlyout.closeAriaLabel"
+                            >
+                              <EuiButtonIcon
+                                aria-label="Close this dialog"
+                                className="euiFlyout__closeButton"
+                                color="text"
+                                data-test-subj="euiFlyoutCloseButton"
+                                iconType="cross"
+                                onClick={[Function]}
+                              >
+                                <button
+                                  aria-label="Close this dialog"
+                                  className="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                  data-test-subj="euiFlyoutCloseButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
+                                >
+                                  <EuiIcon
+                                    aria-hidden="true"
+                                    className="euiButtonIcon__icon"
+                                    size="m"
+                                    type="cross"
+                                  >
+                                    <EuiIconCross
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
+                                        />
+                                      </svg>
+                                    </EuiIconCross>
+                                  </EuiIcon>
+                                </button>
+                              </EuiButtonIcon>
+                            </EuiI18n>
+                            <EuiFlyoutHeader
+                              hasBorder={true}
+                            >
+                              <div
+                                className="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <EuiTitle
+                                  size="m"
+                                >
+                                  <h2
+                                    className="euiTitle euiTitle--medium"
+                                    id="addVisualizationFlyout"
+                                  >
+                                    Replace visualization
+                                  </h2>
+                                </EuiTitle>
+                              </div>
+                            </EuiFlyoutHeader>
+                            <EuiFlyoutBody
+                              banner={
+                                <EuiCallOut
+                                  iconType="help"
+                                >
+                                  <p>
+                                    No saved visualizations found!
+                                  </p>
+                                </EuiCallOut>
+                              }
+                            >
+                              <div
+                                className="euiFlyoutBody"
+                              >
+                                <div
+                                  className="euiFlyoutBody__overflow euiFlyoutBody__overflow--hasBanner"
+                                >
+                                  <div
+                                    className="euiFlyoutBody__banner"
+                                  >
+                                    <EuiCallOut
+                                      iconType="help"
+                                    >
+                                      <div
+                                        className="euiCallOut euiCallOut--primary"
+                                      >
+                                        <EuiText
+                                          size="s"
+                                        >
+                                          <div
+                                            className="euiText euiText--small"
+                                          >
+                                            <p>
+                                              No saved visualizations found!
+                                            </p>
+                                          </div>
+                                        </EuiText>
+                                      </div>
+                                    </EuiCallOut>
+                                  </div>
+                                  <div
+                                    className="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div>
+                                      Please use the "create new visualization" option in add visualization menu.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </EuiFlyoutBody>
+                            <EuiFlyoutFooter>
+                              <div
+                                className="euiFlyoutFooter"
+                              >
+                                <EuiFlexGroup
+                                  gutterSize="s"
+                                  justifyContent="spaceBetween"
+                                >
+                                  <div
+                                    className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButton
+                                          onClick={[MockFunction]}
+                                        >
+                                          <EuiButtonDisplay
+                                            disabled={false}
+                                            element="button"
+                                            isDisabled={false}
+                                            onClick={[MockFunction]}
+                                            type="button"
+                                          >
+                                            <button
+                                              className="euiButton euiButton--primary"
+                                              disabled={false}
+                                              onClick={[MockFunction]}
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="left"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButton__content"
+                                                >
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Cancel
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
+                                      </div>
+                                    </EuiFlexItem>
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButton
+                                          fill={true}
+                                          onClick={[Function]}
+                                        >
+                                          <EuiButtonDisplay
+                                            disabled={false}
+                                            element="button"
+                                            fill={true}
+                                            isDisabled={false}
+                                            onClick={[Function]}
+                                            type="button"
+                                          >
+                                            <button
+                                              className="euiButton euiButton--primary euiButton--fill"
+                                              disabled={false}
+                                              onClick={[Function]}
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="left"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButton__content"
+                                                >
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Add
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
+                                      </div>
+                                    </EuiFlexItem>
+                                  </div>
+                                </EuiFlexGroup>
+                              </div>
+                            </EuiFlyoutFooter>
+                          </div>
+                        </div>
+                      </ForwardRef>
+                      <div
+                        data-focus-guard={true}
+                        style={
+                          Object {
+                            "height": "0px",
+                            "left": "1px",
+                            "overflow": "hidden",
+                            "padding": 0,
+                            "position": "fixed",
+                            "top": "1px",
+                            "width": "1px",
+                          }
+                        }
+                        tabIndex={0}
+                      />
+                    </ForwardRef>
+                    <RequireSideCar
+                      noIsolation={true}
+                      setLockProps={[Function]}
+                      sideCar={
+                        Object {
+                          "assignMedium": [Function],
+                          "assignSyncMedium": [Function],
+                          "options": Object {
+                            "async": true,
+                            "ssr": false,
+                          },
+                          "read": [Function],
+                          "useMedium": [Function],
+                        }
+                      }
+                    >
+                      <SideCar
+                        noIsolation={true}
+                        setLockProps={[Function]}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
+                      >
+                        <Effect
+                          noIsolation={true}
+                          setLockProps={[Function]}
+                        >
+                          <Component>
+                            <Sheet
+                              styles="
+ [data-focus-on-hidden] {
+   pointer-events: none !important;
+ }
+"
+                            />
+                          </Component>
+                        </Effect>
+                      </SideCar>
+                    </RequireSideCar>
+                  </ForwardRef>
+                </ForwardRef>
+              </div>
+            </OutsideEventDetector>
+          </EuiOutsideClickDetector>
+        </EuiFocusTrap>
+      </EuiFlyout>
+    </div>
+  </FlyoutContainers>
+</VisaulizationFlyout>
+`;

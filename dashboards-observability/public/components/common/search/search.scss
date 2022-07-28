@@ -1,0 +1,79 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.globalQueryBar {
+  margin: .5rem 0;
+  padding: .5rem;
+}
+.aa-Autocomplete {
+  width: 100%;
+  position: relative;
+  margin: 4px;
+  margin-left: 8px;
+  --aa-search-input-height: 38px;
+  --aa-panel-border-color-rgb: rgba(227,230,238,255);
+  --aa-input-background-color-rbg: rgba(250,251,253,255);
+}
+.styling {
+  font-weight: bold;
+}
+
+#servicesEntities {
+  position: relative;
+  z-index: 0;
+}
+
+#autocomplete-textarea {
+  width: 100%;
+  outline: none;
+  min-height: 48px;
+  max-width: unset;
+  height: 45px;
+  resize: vertical;
+  font-size: 16px;
+  padding-right: 40px;
+}
+
+.aa-Panel {
+  width: 100%;
+  z-index: 2500;
+}
+
+.aa-Panel--scrollable-dark {
+  background-color: #1D1E24;
+  border: 2px groove #383444;
+}
+
+.aa-Item-dark {
+  color: #DFE5EF;
+}
+
+.event-date-picker {
+  max-width: 35vw;
+}
+
+.ppl-link {
+  border: unset;
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  background-color: transparent;
+}
+.ppl-link-light {
+  color: #006BB4;
+}
+
+.ppl-link-dark {
+  color: #1BA9F5;
+}
+
+.base-query-popover {
+  border: unset;
+  font-size: 17px;
+  position: absolute;
+  top: 20px;
+  left: 8px;
+  background-color: transparent;
+}

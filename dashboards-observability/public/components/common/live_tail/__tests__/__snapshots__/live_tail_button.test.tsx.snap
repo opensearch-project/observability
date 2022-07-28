@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Live tail button change live tail to 10s interval 1`] = `
+<LiveTailButton
+  dataTestSubj=""
+  isLiveTailOn={true}
+  isLiveTailPopoverOpen={false}
+  liveTailName="10s"
+  setIsLiveTailPopoverOpen={[MockFunction]}
+>
+  <EuiButton
+    data-test-subj=""
+    iconSide="left"
+    iconType="stop"
+    onClick={[Function]}
+  >
+    <EuiButtonDisplay
+      data-test-subj=""
+      disabled={false}
+      element="button"
+      iconSide="left"
+      iconType="stop"
+      isDisabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      <button
+        className="euiButton euiButton--primary"
+        data-test-subj=""
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <EuiButtonContent
+          className="euiButton__content"
+          iconSide="left"
+          iconType="stop"
+          textProps={
+            Object {
+              "className": "euiButton__text",
+            }
+          }
+        >
+          <span
+            className="euiButtonContent euiButton__content"
+          >
+            <EuiIcon
+              className="euiButtonContent__icon"
+              size="m"
+              type="stop"
+            >
+              <EuiIconStop
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiButtonContent__icon"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiButtonContent__icon"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 2h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2zm0 1a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1H4z"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </EuiIconStop>
+            </EuiIcon>
+            <span
+              className="euiButton__text"
+            >
+              10s
+            </span>
+          </span>
+        </EuiButtonContent>
+      </button>
+    </EuiButtonDisplay>
+  </EuiButton>
+</LiveTailButton>
+`;
+
+exports[`Live tail button starts live tail with 5s interval 1`] = `
+<LiveTailButton
+  dataTestSubj=""
+  isLiveTailOn={true}
+  isLiveTailPopoverOpen={false}
+  liveTailName="5s"
+  setIsLiveTailPopoverOpen={[MockFunction]}
+>
+  <EuiButton
+    data-test-subj=""
+    iconSide="left"
+    iconType="stop"
+    onClick={[Function]}
+  >
+    <EuiButtonDisplay
+      data-test-subj=""
+      disabled={false}
+      element="button"
+      iconSide="left"
+      iconType="stop"
+      isDisabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      <button
+        className="euiButton euiButton--primary"
+        data-test-subj=""
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <EuiButtonContent
+          className="euiButton__content"
+          iconSide="left"
+          iconType="stop"
+          textProps={
+            Object {
+              "className": "euiButton__text",
+            }
+          }
+        >
+          <span
+            className="euiButtonContent euiButton__content"
+          >
+            <EuiIcon
+              className="euiButtonContent__icon"
+              size="m"
+              type="stop"
+            >
+              <EuiIconEmpty
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                />
+              </EuiIconEmpty>
+            </EuiIcon>
+            <span
+              className="euiButton__text"
+            >
+              5s
+            </span>
+          </span>
+        </EuiButtonContent>
+      </button>
+    </EuiButtonDisplay>
+  </EuiButton>
+</LiveTailButton>
+`;
+
+exports[`Live tail off button stop live tail 1`] = `
+<StopLiveButton
+  StopLive={[MockFunction]}
+  dataTestSubj=""
+>
+  <EuiButton
+    color="danger"
+    data-test-subj=""
+    iconType="stop"
+    onClick={[Function]}
+  >
+    <EuiButtonDisplay
+      color="danger"
+      data-test-subj=""
+      disabled={false}
+      element="button"
+      iconType="stop"
+      isDisabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      <button
+        className="euiButton euiButton--danger"
+        data-test-subj=""
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <EuiButtonContent
+          className="euiButton__content"
+          iconSide="left"
+          iconType="stop"
+          textProps={
+            Object {
+              "className": "euiButton__text",
+            }
+          }
+        >
+          <span
+            className="euiButtonContent euiButton__content"
+          >
+            <EuiIcon
+              className="euiButtonContent__icon"
+              size="m"
+              type="stop"
+            >
+              <EuiIconStop
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiButtonContent__icon"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiButtonContent__icon"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 2h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2zm0 1a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1H4z"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </EuiIconStop>
+            </EuiIcon>
+            <span
+              className="euiButton__text"
+            >
+              Stop
+            </span>
+          </span>
+        </EuiButtonContent>
+      </button>
+    </EuiButtonDisplay>
+  </EuiButton>
+</StopLiveButton>
+`;

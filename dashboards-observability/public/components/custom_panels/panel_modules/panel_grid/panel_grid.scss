@@ -1,0 +1,15 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.react-grid-layout {
+  & .react-grid-placeholder {
+    background: $euiColorWarning;
+  }
+}
+
+.full-width {
+  min-width: 100%;
+  max-width: 100%;
+}

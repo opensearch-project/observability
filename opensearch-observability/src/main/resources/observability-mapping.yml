@@ -1,0 +1,72 @@
+---
+##
+# Copyright OpenSearch Contributors
+# SPDX-License-Identifier: Apache-2.0
+##
+
+# Schema file for the observability index
+# Since we only search based on "access", sort on lastUpdatedTimeMs & createdTimeMs,
+# other fields are not used in mapping to avoid index on those fields.
+# Also "dynamic" is set to "false" so that other fields can be added.
+dynamic: false
+properties:
+  lastUpdatedTimeMs:
+    type: date
+    format: epoch_millis
+  createdTimeMs:
+    type: date
+    format: epoch_millis
+  tenant:
+    type: keyword
+  access: # Array of access details like user,role,backend_role etc
+    type: keyword
+  type:
+    type: keyword
+  notebook:
+    type: object
+    properties:
+      name:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+  savedQuery:
+    type: object
+    properties:
+      name:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+  savedVisualization:
+    type: object
+    properties:
+      name:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+  operationalPanel:
+    type: object
+    properties:
+      name:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+  application:
+    type: object
+    properties:
+      name:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+  timestamp:
+    type: object
+    properties:
+      name:
+        type: text
+        fields:
+          keyword:
+            type: keyword

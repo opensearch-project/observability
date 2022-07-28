@@ -1,0 +1,611 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Notebook /> spec renders the component 1`] = `
+<div
+  style="float: left; width: 100%; max-width: 1500px;"
+>
+  <div
+    class="euiPage"
+  >
+    <div
+      class="euiPageBody"
+    >
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
+          >
+            <div
+              class="euiPopover__anchor"
+            >
+              <button
+                class="euiButton euiButton--primary"
+                data-test-subj="notebook-paragraph-actions-button"
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiButtonContent__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                      fill-rule="non-zero"
+                    />
+                  </svg>
+                  <span
+                    class="euiButton__text"
+                  >
+                    Paragraph actions
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
+          >
+            <div
+              class="euiPopover__anchor"
+            >
+              <button
+                class="euiButton euiButton--primary"
+                data-test-subj="notebook-notebook-actions-button"
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiButtonContent__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                      fill-rule="non-zero"
+                    />
+                  </svg>
+                  <span
+                    class="euiButton__text"
+                  >
+                    Notebook actions
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiSpacer euiSpacer--s"
+      />
+      <h1
+        class="euiTitle euiTitle--large"
+      />
+      <div
+        class="euiSpacer euiSpacer--m"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            <div>
+              <p>
+                Created 
+                <br />
+                 
+                Invalid date
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        style="float: left; width: 100%; max-width: 1130px; margin-top: 20px;"
+      >
+        <div
+          class="euiPanel euiPanel--paddingMedium"
+        >
+          <div
+            class="euiSpacer euiSpacer--xxl"
+          />
+          <div
+            class="euiText euiText--medium"
+          >
+            <div
+              class="euiTextAlign euiTextAlign--center"
+            >
+              <h2>
+                No paragraphs
+              </h2>
+              <div
+                class="euiText euiText--medium"
+              >
+                Add a paragraph to compose your document or story. Notebooks now support two types of input:
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiSpacer euiSpacer--xl"
+          />
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentSpaceEvenly euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow2"
+            />
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow3"
+            >
+              <div
+                class="euiCard euiCard--paddingMedium euiCard--centerAligned euiCard--hasIcon"
+              >
+                <div
+                  class="euiCard__top"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--xxLarge euiCard__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.414 8.036L4.89 10.51a.5.5 0 01-.707.708L1.354 8.389a.5.5 0 010-.707l2.828-2.828a.5.5 0 11.707.707L2.414 8.036zm8.768 2.474l2.475-2.474-2.475-2.475a.5.5 0 01.707-.707l2.829 2.828a.5.5 0 010 .707l-2.829 2.829a.5.5 0 11-.707-.708zM8.559 2.506a.5.5 0 01.981.19L7.441 13.494a.5.5 0 01-.981-.19L8.559 2.506z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="euiCard__content"
+                >
+                  <span
+                    class="euiTitle euiTitle--small euiCard__title"
+                    id="random_html_idTitle"
+                  >
+                    Code block
+                  </span>
+                  <div
+                    class="euiText euiText--small euiCard__description"
+                    id="random_html_idDescription"
+                  >
+                    <p>
+                      Write contents directly using markdown, SQL or PPL.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="euiCard__footer"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    style="margin-bottom: 17px;"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Add code block
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow3"
+            >
+              <div
+                class="euiCard euiCard--paddingMedium euiCard--centerAligned euiCard--hasIcon"
+              >
+                <div
+                  class="euiCard__top"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--xxLarge euiCard__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 13h10V9.913l-2.571-2.826L8.56 8.753a.5.5 0 01-.728-.067L4.448 4.317 3 6.191V13zm5.295-5.35l1.837-1.64a.5.5 0 01.703.037l3.035 3.336a.5.5 0 01.13.337v3.78a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5V6.02a.5.5 0 01.104-.305l1.947-2.52a.5.5 0 01.791-.001L8.295 7.65zM1 15h13.5a.5.5 0 110 1H.5a.5.5 0 01-.5-.5v-14a.5.5 0 011 0V15z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="euiCard__content"
+                >
+                  <span
+                    class="euiTitle euiTitle--small euiCard__title"
+                    id="random_html_idTitle"
+                  >
+                    Visualization
+                  </span>
+                  <div
+                    class="euiText euiText--small euiCard__description"
+                    id="random_html_idDescription"
+                  >
+                    <p>
+                      Import OpenSearch Dashboards or Observability visualizations to the notes.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="euiCard__footer"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    style="margin-bottom: 17px;"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Add visualization
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow2"
+            />
+          </div>
+          <div
+            class="euiSpacer euiSpacer--xxl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Notebook /> spec renders the component 2`] = `null`;
+
+exports[`<Notebook /> spec renders the empty component 1`] = `
+<div
+  style="float: left; width: 100%; max-width: 1500px;"
+>
+  <div
+    class="euiPage"
+  >
+    <div
+      class="euiPageBody"
+    >
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--justifyContentFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
+          >
+            <div
+              class="euiPopover__anchor"
+            >
+              <button
+                class="euiButton euiButton--primary"
+                data-test-subj="notebook-paragraph-actions-button"
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                  <span
+                    class="euiButton__text"
+                  >
+                    Paragraph actions
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        />
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiPopover euiPopover--anchorDownCenter euiPopover--withTitle"
+          >
+            <div
+              class="euiPopover__anchor"
+            >
+              <button
+                class="euiButton euiButton--primary"
+                data-test-subj="notebook-notebook-actions-button"
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                  <span
+                    class="euiButton__text"
+                  >
+                    Notebook actions
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiSpacer euiSpacer--s"
+      />
+      <h1
+        class="euiTitle euiTitle--large"
+      />
+      <div
+        class="euiSpacer euiSpacer--m"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            <div>
+              <p>
+                Created 
+                <br />
+                 
+                Invalid date
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        style="float: left; width: 100%; max-width: 1130px; margin-top: 20px;"
+      >
+        <div
+          class="euiPanel euiPanel--paddingMedium"
+        >
+          <div
+            class="euiSpacer euiSpacer--xxl"
+          />
+          <div
+            class="euiText euiText--medium"
+          >
+            <div
+              class="euiTextAlign euiTextAlign--center"
+            >
+              <h2>
+                No paragraphs
+              </h2>
+              <div
+                class="euiText euiText--medium"
+              >
+                Add a paragraph to compose your document or story. Notebooks now support two types of input:
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiSpacer euiSpacer--xl"
+          />
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentSpaceEvenly euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow2"
+            />
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow3"
+            >
+              <div
+                class="euiCard euiCard--paddingMedium euiCard--centerAligned euiCard--hasIcon"
+              >
+                <div
+                  class="euiCard__top"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--xxLarge euiIcon-isLoading euiCard__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </div>
+                <div
+                  class="euiCard__content"
+                >
+                  <span
+                    class="euiTitle euiTitle--small euiCard__title"
+                    id="random_html_idTitle"
+                  >
+                    Code block
+                  </span>
+                  <div
+                    class="euiText euiText--small euiCard__description"
+                    id="random_html_idDescription"
+                  >
+                    <p>
+                      Write contents directly using markdown, SQL or PPL.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="euiCard__footer"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    style="margin-bottom: 17px;"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Add code block
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow3"
+            >
+              <div
+                class="euiCard euiCard--paddingMedium euiCard--centerAligned euiCard--hasIcon"
+              >
+                <div
+                  class="euiCard__top"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--xxLarge euiIcon-isLoading euiCard__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </div>
+                <div
+                  class="euiCard__content"
+                >
+                  <span
+                    class="euiTitle euiTitle--small euiCard__title"
+                    id="random_html_idTitle"
+                  >
+                    Visualization
+                  </span>
+                  <div
+                    class="euiText euiText--small euiCard__description"
+                    id="random_html_idDescription"
+                  >
+                    <p>
+                      Import OpenSearch Dashboards or Observability visualizations to the notes.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="euiCard__footer"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    style="margin-bottom: 17px;"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <span
+                        class="euiButton__text"
+                      >
+                        Add visualization
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrow2"
+            />
+          </div>
+          <div
+            class="euiSpacer euiSpacer--xxl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

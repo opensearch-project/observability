@@ -1,0 +1,450 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import java.util.concurrent.Callable
+import org.opensearch.gradle.test.RestIntegTestTask
+import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
+
+buildscript {
+    ext {
+        opensearch_version = System.getProperty("opensearch.version", "1.3.4-SNAPSHOT")
+        // 1.0.0 -> 1.0.0.0, and 1.0.0-SNAPSHOT -> 1.0.0.0-SNAPSHOT
+        opensearch_build = opensearch_version.replaceAll(/(\.\d)([^\d]*)$/, '$1.0$2')
+        common_utils_version = System.getProperty("common_utils.version", opensearch_build)
+        kotlin_version = System.getProperty("kotlin.version", "1.4.0")
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.opensearch.gradle:build-tools:${opensearch_version}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.12.0"
+        classpath "org.jacoco:org.jacoco.agent:0.8.5"
+    }
+}
+
+plugins {
+    id 'nebula.ospackage' version "8.3.0"
+    id "com.dorongold.task-tree" version "1.5"
+    id 'java-library'
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'idea'
+apply plugin: 'opensearch.opensearchplugin'
+apply plugin: 'opensearch.testclusters'
+apply plugin: 'io.gitlab.arturbosch.detekt'
+apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
+
+def usingRemoteCluster = System.properties.containsKey('tests.rest.cluster') || System.properties.containsKey('tests.cluster')
+def usingMultiNode = project.properties.containsKey('numNodes')
+
+check.dependsOn jacocoTestReport
+
+opensearchplugin {
+    name 'opensearch-observability'
+    description 'OpenSearch Plugin for OpenSearch Dashboards Observability'
+    classname "org.opensearch.observability.ObservabilityPlugin"
+}
+
+allOpen {
+    annotation("org.opensearch.observability.util.OpenForTesting")
+}
+
+configurations {
+    ktlint
+}
+
+detekt {
+    config = files("detekt.yml")
+    buildUponDefaultConfig = true
+}
+
+configurations.testCompile {
+    exclude module: "securemock"
+}
+
+configurations.all {
+    if (it.state != Configuration.State.UNRESOLVED) return
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+        force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
+        force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.11.4"
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+}
+
+ext {
+    projectSubstitutions = [:]
+    licenseFile = rootProject.file('LICENSE.txt')
+    noticeFile = rootProject.file('NOTICE.txt')
+    isSnapshot = "true" == System.getProperty("build.snapshot", "true")
+}
+
+plugins.withId('java') {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+plugins.withId('org.jetbrains.kotlin.jvm') {
+    compileKotlin.kotlinOptions.jvmTarget = compileTestKotlin.kotlinOptions.jvmTarget = "1.8"
+}
+
+allprojects {
+    group = "org.opensearch"
+
+    version = "${opensearch_version}" - "-SNAPSHOT" + ".0"
+    if (isSnapshot) {
+        version += "-SNAPSHOT"
+    }
+
+    plugins.withId('java') {
+        sourceCompatibility = targetCompatibility = "1.8"
+    }
+}
+
+dependencies {
+    compile "org.opensearch:opensearch:${opensearch_version}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
+    compile "${group}:common-utils:${common_utils_version}"
+    compile group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+    testImplementation(
+            'org.assertj:assertj-core:3.16.1',
+            'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    )
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.6.2')
+    testCompile "org.opensearch.test:framework:${opensearch_version}"
+    testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testCompile "org.mockito:mockito-core:3.12.4"
+    testCompile "com.google.code.gson:gson:2.8.9"
+
+    ktlint "com.pinterest:ktlint:0.41.0"
+}
+
+javadoc.enabled = false // turn off javadoc as it barfs on Kotlin code
+licenseHeaders.enabled = true
+// no need to validate pom, as we do not upload to maven/sonatype
+validateNebulaPom.enabled = false
+dependencyLicenses.enabled = false
+thirdPartyAudit.enabled = false
+// Allow @Test to be used in test classes not inherited from LuceneTestCase.
+// see https://github.com/elastic/elasticsearch/blob/master/buildSrc/src/main/resources/forbidden/es-test-signatures.txt
+forbiddenApis.ignoreFailures = true
+// Allow test cases to be named Tests without having to be inherited from LuceneTestCase.
+// see https://github.com/elastic/elasticsearch/blob/323f312bbc829a63056a79ebe45adced5099f6e6/buildSrc/src/main/java/org/elasticsearch/gradle/precommit/TestingConventionsTasks.java
+testingConventions.enabled = false
+loggerUsageCheck.enabled = false
+
+test {
+    systemProperty 'tests.security.manager', 'false'
+    useJUnitPlatform()
+}
+
+File repo = file("$buildDir/testclusters/repo")
+def _numNodes = findProperty('numNodes') as Integer ?: 1
+
+def opensearch_tmp_dir = rootProject.file('build/private/opensearch_tmp').absoluteFile
+opensearch_tmp_dir.mkdirs()
+
+// As of ES 7.7 the sample-extension-plugin is being added to the list of plugins for the testCluster during build before
+// the job-scheduler plugin (not a dependency for opensearch-observability) is causing build failures.
+// The job-scheduler zip is added explicitly above but the sample-extension-plugin is added implicitly at some time during evaluation.
+// Will need to do a deep dive to find out exactly what task adds the sample-extension-plugin and add job-scheduler there but a temporary hack is to
+// reorder the plugins list after evaluation but prior to task execution when the plugins are installed.
+afterEvaluate {
+    testClusters.integTest.nodes.each { node ->
+        def plugins = node.plugins
+        def firstPlugin = plugins.get(0)
+        plugins.remove(0)
+        plugins.add(firstPlugin)
+    }
+}
+
+tasks.withType(licenseHeaders.class) {
+    additionalLicense 'AL   ', 'Apache', 'Licensed under the Apache License, Version 2.0 (the "License")'
+}
+
+task integTest(type: RestIntegTestTask) {
+    description = "Run tests against a cluster that has security enabled"
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+}
+tasks.named("check").configure { dependsOn(integTest) }
+
+integTest {
+    systemProperty 'tests.security.manager', 'false'
+    systemProperty 'java.io.tmpdir', opensearch_tmp_dir.absolutePath
+
+    systemProperty "https", System.getProperty("https")
+    systemProperty "user", System.getProperty("user")
+    systemProperty "password", System.getProperty("password")
+    // Tell the test JVM if the cluster JVM is running under a debugger so that tests can use longer timeouts for
+    // requests. The 'doFirst' delays reading the debug setting on the cluster till execution time.
+    doFirst {
+        // Tell the test JVM if the cluster JVM is running under a debugger so that tests can
+        // use longer timeouts for requests.
+        def isDebuggingCluster = getDebug() || System.getProperty("test.debug") != null
+        systemProperty 'cluster.debug', isDebuggingCluster
+        // Set number of nodes system property to be used in tests
+        systemProperty 'cluster.number_of_nodes', "${_numNodes}"
+        // There seems to be an issue when running multi node run or integ tasks with unicast_hosts
+        // not being written, the waitForAllConditions ensures it's written
+        getClusters().forEach { cluster ->
+            cluster.waitForAllConditions()
+        }
+    }
+
+    // The -Dcluster.debug option makes the cluster debuggable; this makes the tests debuggable
+    if (System.getProperty("test.debug") != null) {
+        jvmArgs '-agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=8000'
+    }
+
+    // https://github.com/opensearch-project/index-management/pull/93
+    if (System.getProperty("tests.clustername") != null) {
+        exclude 'org/opensearch/observability/ObservabilityPluginIT.class'
+    }
+
+    if (System.getProperty("tests.rest.bwcsuite") == null) {
+        filter {
+            excludeTestsMatching "org.opensearch.observability.bwc.*IT"
+        }
+    }
+}
+
+
+Zip bundle = (Zip) project.getTasks().getByName("bundlePlugin");
+integTest.dependsOn(bundle)
+integTest.getClusters().forEach { c -> c.plugin(project.getObjects().fileProperty().value(bundle.getArchiveFile())) }
+
+testClusters.integTest {
+    testDistribution = "INTEG_TEST"
+    // Cluster shrink exception thrown if we try to set numberOfNodes to 1, so only apply if > 1
+    if (_numNodes > 1) numberOfNodes = _numNodes
+    // When running integration tests it doesn't forward the --debug-jvm to the cluster anymore
+    // i.e. we have to use a custom property to flag when we want to debug opensearch JVM
+    // since we also support multi node integration tests we increase debugPort per node
+    if (System.getProperty("cluster.debug") != null) {
+        def debugPort = 5005
+        nodes.forEach { node ->
+            node.jvmArgs("-agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=*:${debugPort}")
+            debugPort += 1
+        }
+    }
+    setting 'path.repo', repo.absolutePath
+}
+
+String bwcVersion = "1.1.0-SNAPSHOT"
+String baseName = "obsBwcCluster"
+String bwcFilePath = "src/test/kotlin/org/opensearch/observability/resources/bwc/"
+
+2.times {i ->
+    testClusters {
+        "${baseName}$i" {
+            testDistribution = "ARCHIVE"
+            versions = ["1.1.0",opensearch_version]
+            numberOfNodes = 3
+            plugin(provider(new Callable<RegularFile>(){
+                @Override
+                RegularFile call() throws Exception {
+                    return new RegularFile() {
+                        @Override
+                        File getAsFile() {
+                            return fileTree(bwcFilePath + bwcVersion).getSingleFile()
+                        }
+                    }
+                }
+            }))
+            setting 'path.repo', "${buildDir}/cluster/shared/repo/${baseName}"
+            setting 'http.content_type.required', 'true'
+        }
+    }
+}
+
+List<Provider<RegularFile>> plugins = []
+
+// Ensure the artifact for the current project version is available to be used for the bwc tests
+task prepareBwcTests {
+    dependsOn bundle
+    doLast {
+        plugins = [
+                project.getObjects().fileProperty().value(bundle.getArchiveFile())
+        ]
+    }
+}
+
+
+// Creates 2 test clusters with 3 nodes of the old version.
+2.times {i ->
+    task "${baseName}#oldVersionClusterTask$i"(type: StandaloneRestIntegTestTask) {
+        dependsOn 'prepareBwcTests'
+        useCluster testClusters."${baseName}$i"
+        filter {
+            includeTestsMatching "org.opensearch.observability.bwc.*IT"
+        }
+        systemProperty 'tests.rest.bwcsuite', 'old_cluster'
+        systemProperty 'tests.rest.bwcsuite_round', 'old'
+        systemProperty 'tests.plugin_bwc_version', bwcVersion
+        nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}$i".allHttpSocketURI.join(",")}")
+        nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}$i".getName()}")
+    }
+}
+
+// Upgrades one node of the old cluster to new OpenSearch version with upgraded plugin version
+// This results in a mixed cluster with 2 nodes on the old version and 1 upgraded node.
+// This is also used as a one third upgraded cluster for a rolling upgrade.
+task "${baseName}#mixedClusterTask"(type: StandaloneRestIntegTestTask) {
+    useCluster testClusters."${baseName}0"
+    dependsOn "${baseName}#oldVersionClusterTask0"
+    doFirst {
+        testClusters."${baseName}0".upgradeNodeAndPluginToNextVersion(plugins)
+    }
+    filter {
+        includeTestsMatching "org.opensearch.observability.bwc.*IT"
+    }
+    systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
+    systemProperty 'tests.rest.bwcsuite_round', 'first'
+    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}0".allHttpSocketURI.join(",")}")
+    nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}0".getName()}")
+}
+
+// Upgrades the second node to new OpenSearch version with upgraded plugin version after the first node is upgraded.
+// This results in a mixed cluster with 1 node on the old version and 2 upgraded nodes.
+// This is used for rolling upgrade.
+task "${baseName}#twoThirdsUpgradedClusterTask"(type: StandaloneRestIntegTestTask) {
+    dependsOn "${baseName}#mixedClusterTask"
+    useCluster testClusters."${baseName}0"
+    doFirst {
+        testClusters."${baseName}0".upgradeNodeAndPluginToNextVersion(plugins)
+    }
+    filter {
+        includeTestsMatching "org.opensearch.observability.bwc.*IT"
+    }
+    systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
+    systemProperty 'tests.rest.bwcsuite_round', 'second'
+    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}0".allHttpSocketURI.join(",")}")
+    nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}0".getName()}")
+}
+
+// Upgrades the third node to new OpenSearch version with upgraded plugin version after the second node is upgraded.
+// This results in a fully upgraded cluster.
+// This is used for rolling upgrade.
+task "${baseName}#rollingUpgradeClusterTask"(type: StandaloneRestIntegTestTask) {
+    dependsOn "${baseName}#twoThirdsUpgradedClusterTask"
+    useCluster testClusters."${baseName}0"
+    doFirst {
+        testClusters."${baseName}0".upgradeNodeAndPluginToNextVersion(plugins)
+    }
+    filter {
+        includeTestsMatching "org.opensearch.observability.bwc.*IT"
+    }
+    mustRunAfter "${baseName}#mixedClusterTask"
+    systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
+    systemProperty 'tests.rest.bwcsuite_round', 'third'
+    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}0".allHttpSocketURI.join(",")}")
+    nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}0".getName()}")
+}
+
+// Upgrades all the nodes of the old cluster to new OpenSearch version with upgraded plugin version
+// at the same time resulting in a fully upgraded cluster.
+task "${baseName}#fullRestartClusterTask"(type: StandaloneRestIntegTestTask) {
+    dependsOn "${baseName}#oldVersionClusterTask1"
+    useCluster testClusters."${baseName}1"
+    doFirst {
+        testClusters."${baseName}1".upgradeAllNodesAndPluginsToNextVersion(plugins)
+    }
+    filter {
+        includeTestsMatching "org.opensearch.observability.bwc.*IT"
+    }
+    systemProperty 'tests.rest.bwcsuite', 'upgraded_cluster'
+    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}1".allHttpSocketURI.join(",")}")
+    nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}1".getName()}")
+}
+
+// A bwc test suite which runs all the bwc tasks combined.
+task bwcTestSuite(type: StandaloneRestIntegTestTask) {
+    exclude '**/*Test*'
+    exclude '**/*IT*'
+    dependsOn tasks.named("${baseName}#mixedClusterTask")
+    dependsOn tasks.named("${baseName}#rollingUpgradeClusterTask")
+    dependsOn tasks.named("${baseName}#fullRestartClusterTask")
+}
+
+task integTestRemote(type: RestIntegTestTask) {
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    systemProperty 'tests.security.manager', 'false'
+    systemProperty 'java.io.tmpdir', opensearch_tmp_dir.absolutePath
+
+    systemProperty "https", System.getProperty("https")
+    systemProperty "user", System.getProperty("user")
+    systemProperty "password", System.getProperty("password")
+
+    // Only rest case can run with remote cluster
+    if (System.getProperty("tests.rest.cluster") != null) {
+        filter {
+            includeTestsMatching "org.opensearch.observability.rest.*IT"
+        }
+    }
+}
+
+run {
+    doFirst {
+        // There seems to be an issue when running multi node run or integ tasks with unicast_hosts
+        // not being written, the waitForAllConditions ensures it's written
+        getClusters().forEach { cluster ->
+            cluster.waitForAllConditions()
+        }
+    }
+    useCluster testClusters.integTest
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
+}
+
+compileKotlin { kotlinOptions.freeCompilerArgs = ['-Xjsr305=strict'] }
+
+// Only apply jacoco test coverage if we are running a local single node cluster
+if (!usingRemoteCluster && !usingMultiNode) {
+    apply from: 'build-tools/opensearchplugin-coverage.gradle'
+}
+
+apply from: 'build-tools/pkgbuild.gradle'

@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Service view component renders service view 1`] = `
+<Fragment>
+  <EuiPage>
+    <EuiPageBody>
+      <EuiFlexGroup
+        alignItems="center"
+        gutterSize="s"
+      >
+        <EuiFlexItem>
+          <EuiTitle
+            size="l"
+          >
+            <h2
+              className="overview-content"
+            >
+              order
+            </h2>
+          </EuiTitle>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        >
+          <EuiSuperDatePicker
+            commonlyUsedRanges={
+              Array [
+                Object {
+                  "end": "now/d",
+                  "label": "Today",
+                  "start": "now/d",
+                },
+                Object {
+                  "end": "now/w",
+                  "label": "This week",
+                  "start": "now/w",
+                },
+                Object {
+                  "end": "now/M",
+                  "label": "This month",
+                  "start": "now/M",
+                },
+                Object {
+                  "end": "now/y",
+                  "label": "This year",
+                  "start": "now/y",
+                },
+                Object {
+                  "end": "now-1d/d",
+                  "label": "Yesterday",
+                  "start": "now-1d/d",
+                },
+                Object {
+                  "end": "now",
+                  "label": "Week to date",
+                  "start": "now/w",
+                },
+                Object {
+                  "end": "now",
+                  "label": "Month to date",
+                  "start": "now/M",
+                },
+                Object {
+                  "end": "now",
+                  "label": "Year to date",
+                  "start": "now/y",
+                },
+              ]
+            }
+            dateFormat=""
+            end="now"
+            isAutoRefreshOnly={false}
+            isDisabled={false}
+            isPaused={true}
+            onTimeChange={[Function]}
+            recentlyUsedRanges={Array []}
+            refreshInterval={0}
+            showUpdateButton={false}
+            start="now-5m"
+            timeFormat="HH:mm"
+          />
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        />
+      </EuiFlexGroup>
+      <EuiSpacer
+        size="xl"
+      />
+      <EuiPanel>
+        <PanelTitle
+          title="Overview"
+        />
+        <EuiHorizontalRule
+          margin="m"
+        />
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <EuiFlexGroup
+              direction="column"
+            >
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Name
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  order
+                </EuiText>
+              </EuiFlexItem>
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Number of connected services
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  0
+                </EuiText>
+              </EuiFlexItem>
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Connected services
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  -
+                </EuiText>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <EuiFlexGroup
+              direction="column"
+            >
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Average latency (ms)
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  -
+                </EuiText>
+              </EuiFlexItem>
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Error rate
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  -
+                </EuiText>
+              </EuiFlexItem>
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Throughput
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  -
+                </EuiText>
+              </EuiFlexItem>
+              <EuiFlexItem
+                grow={false}
+              >
+                <EuiText
+                  className="overview-title"
+                >
+                  Traces
+                </EuiText>
+                <EuiText
+                  className="overview-content"
+                  size="s"
+                >
+                  -
+                </EuiText>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+        <EuiSpacer />
+      </EuiPanel>
+      <EuiSpacer />
+      <ServiceMap
+        currService="order"
+        idSelected="latency"
+        page="serviceView"
+        serviceMap={Object {}}
+        setIdSelected={[Function]}
+      />
+      <EuiSpacer />
+      <EuiPanel>
+        <PanelTitle
+          title="Spans"
+          totalItems={0}
+        />
+        <EuiHorizontalRule
+          margin="m"
+        />
+        <div>
+          <SpanDetailTable
+            DSL={Object {}}
+            hiddenColumns={
+              Array [
+                "serviceName",
+              ]
+            }
+            http={[MockFunction]}
+            openFlyout={[Function]}
+            setTotal={[Function]}
+          />
+        </div>
+      </EuiPanel>
+    </EuiPageBody>
+  </EuiPage>
+</Fragment>
+`;

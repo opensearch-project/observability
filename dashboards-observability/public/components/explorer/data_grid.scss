@@ -1,0 +1,490 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/**
+ * 1. Stack content vertically so the table can scroll when its constrained by a fixed container height.
+ */
+ doc-table {
+  @include euiScrollBar;
+  overflow: auto;
+  flex: 1 1 100%;
+  flex-direction: column; /* 1 */
+
+  .spinner {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    right: 0;
+    z-index: $euiZLevel1;
+    opacity: 0.5;
+  }
+}
+
+.osdDocTable__container.loading {
+  opacity: 0.5;
+}
+
+.osdDocTable {
+  font-size: $euiFontSizeXS;
+
+  th {
+    white-space: nowrap;
+    padding-right: $euiSizeS;
+
+    .fa {
+      font-size: 1.1em;
+    }
+  }
+}
+
+.osd-table,
+.osdDocTable {
+  /**
+  *  Style OpenSearch document _source in table view <dt>key:<dt><dd>value</dd>
+  *  Use alpha so this will stand out against non-white backgrounds, e.g. the highlighted
+  *  row in the Context Log.
+  */
+
+  dl.source {
+    margin-bottom: 0;
+    line-height: 2em;
+    word-break: break-word;
+
+    dt,
+    dd {
+      display: inline;
+    }
+
+    dt {
+      background-color: transparentize(shade($euiColorPrimary, 20%), 0.9);
+      color: $euiTextColor;
+      padding: ($euiSizeXS / 2) $euiSizeXS;
+      margin-right: $euiSizeXS;
+      word-break: normal;
+      border-radius: $euiBorderRadius;
+    }
+  }
+}
+
+.osdDocTable__row {
+  td {
+    position: relative;
+
+    &:hover {
+      .osdDocTableRowFilterButton {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.osdDocTable__row--highlight {
+  td,
+  .osdDocTableRowFilterButton {
+    background-color: tintOrShade($euiColorPrimary, 90%, 70%);
+  }
+}
+
+.osdDocTable__bar {
+  margin: $euiSizeXS $euiSizeXS 0;
+}
+
+.osdDocTable__bar--footer {
+  position: relative;
+  margin: -($euiSize * 3) $euiSizeXS 0;
+}
+
+.osdDocTable__padBottom {
+  padding-bottom: $euiSizeXL;
+}
+
+.osdDocTable__error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 100%;
+  text-align: center;
+}
+
+.truncate-by-height {
+  overflow: hidden;
+}
+
+.table {
+  // Nesting
+  .table {
+    background-color: $euiColorEmptyShade;
+  }
+}
+
+.osd-table {
+  // sub tables should not have a leading border
+  .table .table {
+    margin-bottom: 0;
+
+    tr:first-child > td {
+      border-top: none;
+    }
+
+    td.field-name {
+      font-weight: $euiFontWeightBold;
+    }
+  }
+
+  th {
+    text-align: left;
+    font-weight: bold;
+  }
+}
+
+table {
+  th {
+    i.fa-sort {
+      color: $euiColorLightShade;
+    }
+
+    button.fa-sort-asc,
+    button.fa-sort-down,
+    i.fa-sort-asc,
+    i.fa-sort-down {
+      color: $euiColorPrimary;
+    }
+
+    button.fa-sort-desc,
+    button.fa-sort-up,
+    i.fa-sort-desc,
+    i.fa-sort-up {
+      color: $euiColorPrimary;
+    }
+  }
+}
+
+/* ------------- table cell ---------- */
+.osdDocTableCell__dataField {
+  white-space: pre-wrap;
+}
+
+.osdDocTableCell__toggleDetails {
+  padding: 4px 0 0 0!important;
+}
+
+.osdDocTableCell__filter {
+  position: absolute;
+  white-space: nowrap;
+  right: 0;
+}
+
+/**
+ * 1. Align icon with text in cell.
+ * 2. Use opacity to make this element accessible to screen readers and keyboard.
+ * 3. Show on focus to enable keyboard accessibility.
+ */
+
+.osdDocTableRowFilterButton {
+  appearance: none;
+  background-color: $euiColorEmptyShade;
+  border: none;
+  padding: 0 $euiSizeXS;
+  font-size: $euiFontSizeS;
+  line-height: 1; /* 1 */
+  display: inline-block;
+  opacity: 0; /* 2 */
+
+  &:focus {
+    opacity: 1; /* 3 */
+  }
+}
+
+/* ------------- End of table cell ---------- */
+
+/* ------------- Discover like style -------- */
+.dscAppWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.dscAppContainer {
+  > * {
+    position: relative;
+  }
+}
+discover-app {
+  flex-grow: 1;
+}
+
+.dscHistogram {
+  display: flex;
+  height: 200px;
+  padding: $euiSizeS;
+}
+
+// SASSTODO: replace the z-index value with a variable
+.dscWrapper {
+  padding-left: $euiSizeXL;
+  padding-right: $euiSizeS;
+  margin-top: $euiSizeM;
+  z-index: 1;
+  @include euiBreakpoint('xs', 's', 'm') {
+    padding-left: $euiSizeS;
+  }
+}
+
+@include euiPanel('.dscWrapper__content');
+
+.dscWrapper__content {
+  padding-top: $euiSizeXS;
+  background-color: $euiColorEmptyShade;
+
+  .osd-table {
+    margin-bottom: 0;
+  }
+}
+
+.dscTimechart {
+  display: block;
+  position: relative;
+
+  // SASSTODO: the visualizing component should have an option or a modifier
+  .series > rect {
+    fill-opacity: 0.5;
+    stroke-width: 1;
+  }
+}
+
+.dscResultCount {
+  padding-top: $euiSizeXS;
+}
+
+.dscTimechart__header {
+  display: flex;
+  justify-content: center;
+  min-height: $euiSizeXXL;
+  padding: $euiSizeXS 0;
+}
+
+.dscOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  padding-top: $euiSizeM;
+
+  opacity: 0.75;
+  text-align: center;
+  background-color: transparent;
+}
+
+.dscTable {
+  overflow: auto;
+
+  // SASSTODO: add a monospace modifier to the doc-table component
+  .osdDocTable__row {
+    font-family: $euiCodeFontFamily;
+    font-size: $euiFontSizeXS;
+  }
+}
+
+// SASSTODO: replace the padding value with a variable
+.dscTable__footer {
+  background-color: $euiColorLightShade;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+.dscResults {
+  h3 {
+    margin: -20px 0 10px 0;
+    text-align: center;
+  }
+}
+
+.dscResults__interval {
+  display: inline-block;
+  width: auto;
+}
+
+.dscSkipButton {
+  position: absolute;
+  right: $euiSizeM;
+  top: $euiSizeXS;
+}
+
+.dscTableFixedScroll {
+  overflow-x: auto;
+  padding-bottom: 0;
+
+  + .dscTableFixedScroll__scroller {
+    position: fixed;
+    bottom: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+.dscCollapsibleSidebar {
+  position: relative;
+  z-index: 1;
+
+  .dscCollapsibleSidebar__collapseButton {
+    position: absolute;
+    top: 0;
+    right: -$euiSizeXL + 4;
+    cursor: pointer;
+    z-index: -1;
+    min-height: $euiSizeM;
+    min-width: $euiSizeM;
+    padding: $euiSizeXS * .5;
+  }
+
+  &.closed {
+    width: 0 !important;
+    border-right-width: 0;
+    border-left-width: 0;
+    .dscCollapsibleSidebar__collapseButton {
+      right: -$euiSizeL + 4;
+    }
+  }
+}
+
+@include euiBreakpoint('xs', 's', 'm') {
+  .dscCollapsibleSidebar {
+    &.closed {
+      display: none;
+    }
+
+    .dscCollapsibleSidebar__collapseButton {
+      display: none;
+    }
+  }
+}
+
+/* ------------- Detail table cell -------- */
+/**
+ * 1. Visually align the actions with the tabs. We can improve this by using flexbox instead, at a later point.
+ */
+ .osdDocTableDetails__actions {
+  float: right;
+  padding-top: $euiSizeS; /* 1 */
+}
+
+// Overwrite the border on the bootstrap table
+.osdDocTableDetails__row {
+
+  > td {
+    // Offsets negative margins from an inner flex group
+    padding: $euiSizeL !important;
+
+    tr:hover td {
+      background: tintOrShade($euiColorLightestShade, 50%, 20%);
+    }
+  }
+
+  td {
+    border-top: none !important;
+  }
+}
+
+/* ------------- open -------- */
+.osdDocTableOpen__button {
+  appearance: none;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  width: 14px; /* 1 */
+  height: 14px;
+}
+
+/* ------------- table header -------- */
+.osdDocTableHeader {
+  white-space: nowrap;
+}
+.osdDocTableHeader button {
+  margin-left: $euiSizeXS;
+}
+.osdDocTableHeader__move,
+.osdDocTableHeader__sortChange {
+  opacity: 0;
+  th:hover &,
+  &:focus {
+    opacity: 1;
+  }
+}
+
+/* ------------- doc_viewer -------- */
+.osdDocViewerTable {
+  margin-top: $euiSizeS;
+}
+
+.osdDocViewer {
+  pre,
+  .osdDocViewer__value {
+    display: inline-block;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    color: $euiColorFullShade;
+    vertical-align: top;
+    padding-top: 2px;
+  }
+  .osdDocViewer__field {
+    padding-top: 8px;
+  }
+
+  .dscFieldName {
+    color: $euiColorDarkShade;
+  }
+
+  td,
+  pre {
+    font-family: $euiCodeFontFamily;
+  }
+
+  tr:first-child td {
+    border-top-color: transparent;
+  }
+
+  tr:hover {
+    .osdDocViewer__actionButton {
+      opacity: 1;
+    }
+  }
+}
+
+.osdDocViewer__buttons,
+.osdDocViewer__field {
+  white-space: nowrap;
+}
+.osdDocViewer__buttons {
+  width: 60px;
+
+  // Show all icons if one is focused,
+  // IE doesn't support, but the fallback is just the focused button becomes visible
+  &:focus-within {
+    .osdDocViewer__actionButton {
+      opacity: 1;
+    }
+  }
+}
+
+.osdDocViewer__field {
+  width: 160px;
+}
+
+.osdDocViewer__actionButton {
+  opacity: 0;
+
+  &:focus {
+    opacity: 1;
+  }
+}
+
+.osdDocViewer__warning {
+  margin-right: $euiSizeS;
+}
+
