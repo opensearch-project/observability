@@ -64,14 +64,7 @@ export const EventAnalytics = ({
           <Route
             path={[`/event_analytics/explorer/:id`, `/event_analytics/explorer`]}
             render={(prop) => {
-              const breadcrumbs = [
-                ...parentBreadcrumbs,
-                eventAnalyticsBreadcrumb,
-                {
-                  text: 'Explorer',
-                  href: `#/event_analytics/explorer`,
-                },
-              ];
+              const breadcrumbs = [...parentBreadcrumbs, eventAnalyticsBreadcrumb];
               return (
                 <LogExplorer
                   savedObjectId={prop.match.params.id}
@@ -94,14 +87,7 @@ export const EventAnalytics = ({
             exact
             path={['/', '/event_analytics']}
             render={() => {
-              chrome.setBreadcrumbs([
-                ...parentBreadcrumbs,
-                eventAnalyticsBreadcrumb,
-                {
-                  text: 'Home',
-                  href: '#/event_analytics',
-                },
-              ]);
+              chrome.setBreadcrumbs([...parentBreadcrumbs, eventAnalyticsBreadcrumb]);
               return (
                 <ObservabilitySideBar>
                   <EventExplorerHome
