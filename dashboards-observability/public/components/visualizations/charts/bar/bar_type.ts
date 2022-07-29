@@ -28,8 +28,8 @@ export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',
   id: 'bar',
-  label: 'Vertical Bar',
-  fullLabel: 'Vertical Bar',
+  label: 'Vertical bar',
+  fullLabel: 'Vertical bar',
   iconType: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
