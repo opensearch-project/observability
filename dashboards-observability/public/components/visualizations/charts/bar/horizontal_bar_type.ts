@@ -15,18 +15,18 @@ export const createHorizontalBarTypeDefinition = (params: BarTypeParams = {}) =>
   name: 'horizontal_bar',
   type: 'bar',
   label: 'Bar',
-  fullLabel: 'Bar',
-  iconType: 'visBarVerticalStacked',
+  fulllabel: 'Bar',
+  icontype: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
   icon: LensIconChartBar,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   orientation: 'h',
   component: Bar,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -99,7 +99,7 @@ export const createHorizontalBarTypeDefinition = (params: BarTypeParams = {}) =>
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

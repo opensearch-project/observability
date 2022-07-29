@@ -437,31 +437,31 @@ export const SAMPLE_VISUALIZATIONS = {
 
 export const VISUALIZATION_TYPES = [
   {
-    fullLabel: 'Bar',
+    fulllabel: 'Bar',
     id: 'bar',
     label: 'bar',
     selection: {
       dataLoss: 'nothing'
     },
-    visualizationId: 'vis-bar-6636'
+    visualizationid: 'vis-bar-6636'
   },
   {
-    fullLabel: 'H. Bar',
+    fulllabel: 'H. Bar',
     id: 'horizontal_bar',
     label: 'H. Bar',
     selection: {
       dataLoss: 'nothing'
     },
-    visualizationId: 'vis-bar-6637'
+    visualizationid: 'vis-bar-6637'
   },
   {
-    fullLabel: 'Line',
+    fulllabel: 'Line',
     id: 'line',
     label: 'line',
     selection: {
       dataLoss: 'nothing'
     },
-    visualizationId: 'vis-bar-6638'
+    visualizationid: 'vis-bar-6638'
   }
 ];
 
@@ -532,4 +532,3 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
     ...TEST_VISUALIZATIONS_DATA.vis
   }
 };
-

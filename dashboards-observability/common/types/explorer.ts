@@ -199,13 +199,13 @@ export interface IVisualizationTypeDefination {
   type: string;
   id: string;
   label: string;
-  fullLabel: string;
+  fulllabel: string;
   category: string;
   icon: React.ReactNode;
-  editorConfig: {
+  editorconfig: {
     panelTabs: IConfigPanelTab;
   };
-  visConfig: {
+  visconfig: {
     layout: Partial<Plotly.Layout>;
     config: Partial<Plotly.Config>;
   };

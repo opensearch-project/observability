@@ -30,14 +30,14 @@ export const createMapsVisDefinition = () => ({
   type: 'heatmap',
   id: 'heatmap',
   label: 'Heatmap',
-  fullLabel: 'Hubble',
-  iconType: 'heatmap',
+  fulllabel: 'Hubble',
+  icontype: 'heatmap',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartPie,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -114,7 +114,7 @@ export const createMapsVisDefinition = () => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{

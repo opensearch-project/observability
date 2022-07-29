@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
@@ -49,10 +49,10 @@ export const ConfigBarChartStyles = ({
             const DimensionComponent = schema.component || ButtonGroupItem;
 
             const createDimensionComponent = (dimProps) => (
-                <>
-                    <DimensionComponent key={`viz-series-${index}`} {...dimProps} />
+                <Fragment key={`viz-series-${index}`}>
+                    <DimensionComponent  {...dimProps} />
                     <EuiSpacer size="s" />
-                </>
+                </Fragment>
             )
             if (schema.eleType === 'buttons') {
                 params = {
@@ -65,14 +65,14 @@ export const ConfigBarChartStyles = ({
                 return createDimensionComponent(params);
             }
             if (schema.eleType === 'input') {
-              params = {
-                title: schema.name,
-                currentValue: vizState[schema.mapTo] || '',
-                handleInputChange: handleConfigurationChange(schema.mapTo),
-                vizState,
-                ...schema.props,
-              };
-              return createDimensionComponent(params);
+                params = {
+                    title: schema.name,
+                    currentValue: vizState[schema.mapTo] || '',
+                    handleInputChange: handleConfigurationChange(schema.mapTo),
+                    vizState,
+                    ...schema.props,
+                };
+                return createDimensionComponent(params);
             }
             if (schema.eleType === 'slider') {
                 params = {

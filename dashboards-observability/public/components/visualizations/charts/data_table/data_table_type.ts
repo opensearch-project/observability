@@ -14,14 +14,14 @@ export const createDatatableTypeDefinition = (params: any = {}) => ({
   type: 'data_table',
   id: 'data_table',
   label: 'Data Table',
-  fullLabel: 'Data Table',
-  iconType: 'visTable',
+  fulllabel: 'Data Table',
+  icontype: 'visTable',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartDatatable,
-  editorConfig: {
+  editorconfig: {
     editor: null,
     schemas: [
       {

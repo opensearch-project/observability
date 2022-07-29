@@ -68,7 +68,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     indexOf(NUMERICAL_FIELDS, valueField.type) < 0 ||
     areParentFieldsInvalid
   )
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
     let labelsArray: string[] = [],

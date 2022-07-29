@@ -192,7 +192,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
   }, [visualizations, vizConfigs, setToast, curVisId]);
 
   const tabs: EuiTabbedContentTab[] = useMemo(() => {
-    return vis.editorConfig.panelTabs.map((tab: PanelTabType) => {
+    return vis.editorconfig.panelTabs.map((tab: PanelTabType) => {
       const Editor = tab.editor;
       return {
         id: tab.id,
@@ -200,7 +200,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
         content: <Editor {...params[tab.mapTo]} tabProps={{ ...tab }} />,
       };
     });
-  }, [vis.editorConfig.panelTabs, params]);
+  }, [vis.editorconfig.panelTabs, params]);
 
   const [currTabId, setCurrTabId] = useState(tabs[0].id);
 

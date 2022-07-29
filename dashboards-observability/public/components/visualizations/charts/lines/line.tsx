@@ -69,7 +69,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   if (isEmpty(xaxis) || isEmpty(yaxis))
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -211,14 +211,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
     return [mergedLayout, calculatedLineValues];
   }, [data, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
 
-  const mergedConfigs = {
+  const mergedConfigs = useMemo(() => ({
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
-  };
+  }), [config, layoutConfig.config]);
 
   return isDimensionTimestamp ? (
     <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />
   ) : (
-    <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
+    <EmptyPlaceholder icon={visualizations?.vis?.icontype} />
   );
 };

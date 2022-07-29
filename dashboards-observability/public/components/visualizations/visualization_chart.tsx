@@ -4,7 +4,6 @@
  */
 
 import React, { useMemo } from 'react';
-import { take, merge, isEmpty } from 'lodash';
 
 interface IVisualizationChart {}
 
@@ -18,14 +17,14 @@ export const VisualizationChart = ({ visualizations }: IVisualizationChart) => {
 
   const finalFigureConfig = useMemo(() => {
     return {
-      ...vis.visConfig?.config,
+      ...vis.visconfig?.config,
       ...config,
     };
   }, [config, vis]);
 
   const finalFigureLayout = useMemo(() => {
     return {
-      ...vis.visConfig?.layout,
+      ...vis.visconfig?.layout,
       ...layout,
     };
   }, [layout, vis]);

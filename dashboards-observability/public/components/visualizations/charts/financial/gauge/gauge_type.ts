@@ -26,15 +26,15 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
   type: 'indicator',
   id: 'gauge',
   label: 'Gauge',
-  fullLabel: 'Gauge',
-  iconType: 'visGauge',
+  fulllabel: 'Gauge',
+  icontype: 'visGauge',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  valueSeries: 'yaxis',
-  editorConfig: {
+  valueseries: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -130,7 +130,7 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },
