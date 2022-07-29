@@ -47,6 +47,11 @@ export const TEST_QUERIES = [
       'source=opensearch_dashboards_sample_data_flights |where FlightDelayMin > 0 | stats sum(FlightDelayMin) as total_delay_min, count() as total_delayed by Carrier |eval avg_delay=total_delay_min / total_delayed | sort - avg_delay',
     dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
+  {
+    query:
+      'source = opensearch_dashboards_sample_data_flights | stats max(FlightTimeMin), avg(AvgTicketPrice) by span(timestamp, 2d) as new_timestamp',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
+  },
 ];
 
 export const TESTING_PANEL = 'Mock Testing Panels';
