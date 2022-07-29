@@ -430,12 +430,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
           ],
         },
         "fillOpacity": 80,
-        "fullLabel": "Vertical Bar",
+        "fullLabel": "Vertical bar",
         "groupWidth": 0.7,
         "icon": [Function],
         "iconType": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Vertical Bar",
+        "label": "Vertical bar",
         "labelAngle": 0,
         "legendPosition": "v",
         "lineWidth": 1,
@@ -737,12 +737,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   "fillOpacity": 80,
-                  "fullLabel": "Vertical Bar",
+                  "fullLabel": "Vertical bar",
                   "groupWidth": 0.7,
                   "icon": [Function],
                   "iconType": "visBarVerticalStacked",
                   "id": "bar",
-                  "label": "Vertical Bar",
+                  "label": "Vertical bar",
                   "labelAngle": 0,
                   "legendPosition": "v",
                   "lineWidth": 1,
@@ -2113,11 +2113,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Tree Map",
+                  "fullLabel": "Tree map",
                   "icon": [Function],
                   "iconType": "heatmap",
                   "id": "tree_map",
-                  "label": "Tree Map",
+                  "label": "Tree map",
                   "name": "tree_map",
                   "orientation": "v",
                   "selection": Object {
@@ -2995,12 +2995,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   "fillOpacity": 80,
-                  "fullLabel": "Vertical Bar",
+                  "fullLabel": "Vertical bar",
                   "groupWidth": 0.7,
                   "icon": [Function],
                   "iconType": "visBarVerticalStacked",
                   "id": "bar",
-                  "label": "Vertical Bar",
+                  "label": "Vertical bar",
                   "labelAngle": 0,
                   "legendPosition": "v",
                   "lineWidth": 1,
@@ -3298,12 +3298,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                       "fillOpacity": 80,
-                      "fullLabel": "Vertical Bar",
+                      "fullLabel": "Vertical bar",
                       "groupWidth": 0.7,
                       "icon": [Function],
                       "iconType": "visBarVerticalStacked",
                       "id": "bar",
-                      "label": "Vertical Bar",
+                      "label": "Vertical bar",
                       "labelAngle": 0,
                       "legendPosition": "v",
                       "lineWidth": 1,
@@ -3344,7 +3344,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 singleSelection={true}
                 toggleButtonRef={[Function]}
                 updatePosition={[Function]}
-                value="Vertical Bar"
+                value="Vertical bar"
               >
                 <EuiFormControlLayout
                   compressed={false}
@@ -3607,7 +3607,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             }
                           }
                           fillOpacity={80}
-                          fullLabel="Vertical Bar"
+                          fullLabel="Vertical bar"
                           groupWidth={0.7}
                           icon={[Function]}
                           iconType="visBarVerticalStacked"
@@ -3849,12 +3849,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               "fillOpacity": 80,
-                              "fullLabel": "Vertical Bar",
+                              "fullLabel": "Vertical bar",
                               "groupWidth": 0.7,
                               "icon": [Function],
                               "iconType": "visBarVerticalStacked",
                               "id": "bar",
-                              "label": "Vertical Bar",
+                              "label": "Vertical bar",
                               "labelAngle": 0,
                               "legendPosition": "v",
                               "lineWidth": 1,
@@ -4159,7 +4159,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               }
                             }
                             fillOpacity={80}
-                            fullLabel="Vertical Bar"
+                            fullLabel="Vertical bar"
                             groupWidth={0.7}
                             icon={[Function]}
                             iconType="visBarVerticalStacked"
@@ -4177,7 +4177,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             }
                             seriesAxis="yaxis"
                             showLegend="show"
-                            title="Vertical Bar"
+                            title="Vertical bar"
                             type="bar"
                             visConfig={
                               Object {
@@ -4438,7 +4438,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   }
                                 }
                                 fillOpacity={80}
-                                fullLabel="Vertical Bar"
+                                fullLabel="Vertical bar"
                                 groupWidth={0.7}
                                 icon={[Function]}
                                 id="bar"
@@ -4455,7 +4455,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 }
                                 seriesAxis="yaxis"
                                 showLegend="show"
-                                title="Vertical Bar"
+                                title="Vertical bar"
                                 type="bar"
                                 visConfig={
                                   Object {
@@ -4488,7 +4488,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   <span
                                     className="euiBadge__text"
                                   >
-                                    Vertical Bar
+                                    Vertical bar
                                   </span>
                                   <EuiIcon
                                     className="euiBadge__icon"
@@ -5297,12 +5297,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             },
                             "fillOpacity": 80,
-                            "fullLabel": "Vertical Bar",
+                            "fullLabel": "Vertical bar",
                             "groupWidth": 0.7,
                             "icon": [Function],
                             "iconType": "visBarVerticalStacked",
                             "id": "bar",
-                            "label": "Vertical Bar",
+                            "label": "Vertical bar",
                             "labelAngle": 0,
                             "legendPosition": "v",
                             "lineWidth": 1,
@@ -5977,12 +5977,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               "fillOpacity": 80,
-                              "fullLabel": "Vertical Bar",
+                              "fullLabel": "Vertical bar",
                               "groupWidth": 0.7,
                               "icon": [Function],
                               "iconType": "visBarVerticalStacked",
                               "id": "bar",
-                              "label": "Vertical Bar",
+                              "label": "Vertical bar",
                               "labelAngle": 0,
                               "legendPosition": "v",
                               "lineWidth": 1,
@@ -6471,12 +6471,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               "fillOpacity": 80,
-                              "fullLabel": "Vertical Bar",
+                              "fullLabel": "Vertical bar",
                               "groupWidth": 0.7,
                               "icon": [Function],
                               "iconType": "visBarVerticalStacked",
                               "id": "bar",
-                              "label": "Vertical Bar",
+                              "label": "Vertical bar",
                               "labelAngle": 0,
                               "legendPosition": "v",
                               "lineWidth": 1,
@@ -7235,12 +7235,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             },
                             "fillOpacity": 80,
-                            "fullLabel": "Vertical Bar",
+                            "fullLabel": "Vertical bar",
                             "groupWidth": 0.7,
                             "icon": [Function],
                             "iconType": "visBarVerticalStacked",
                             "id": "bar",
-                            "label": "Vertical Bar",
+                            "label": "Vertical bar",
                             "labelAngle": 0,
                             "legendPosition": "v",
                             "lineWidth": 1,
@@ -7725,12 +7725,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fullLabel": "Vertical Bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupWidth": 0.7,
                                           "icon": [Function],
                                           "iconType": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Vertical Bar",
+                                          "label": "Vertical bar",
                                           "labelAngle": 0,
                                           "legendPosition": "v",
                                           "lineWidth": 1,
@@ -8494,12 +8494,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fullLabel": "Vertical Bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupWidth": 0.7,
                                           "icon": [Function],
                                           "iconType": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Vertical Bar",
+                                          "label": "Vertical bar",
                                           "labelAngle": 0,
                                           "legendPosition": "v",
                                           "lineWidth": 1,
@@ -9741,12 +9741,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fullLabel": "Vertical Bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupWidth": 0.7,
                                           "icon": [Function],
                                           "iconType": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Vertical Bar",
+                                          "label": "Vertical bar",
                                           "labelAngle": 0,
                                           "legendPosition": "v",
                                           "lineWidth": 1,
@@ -12609,12 +12609,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fullLabel": "Vertical Bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupWidth": 0.7,
                                           "icon": [Function],
                                           "iconType": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Vertical Bar",
+                                          "label": "Vertical bar",
                                           "labelAngle": 0,
                                           "legendPosition": "v",
                                           "lineWidth": 1,

@@ -29,8 +29,8 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
   name: 'tree_map',
   type: 'tree_map',
   id: 'tree_map',
-  label: 'Tree Map',
-  fullLabel: 'Tree Map',
+  label: 'Tree map',
+  fullLabel: 'Tree map',
   selection: {
     dataLoss: 'nothing',
   },
