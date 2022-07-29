@@ -162,11 +162,3 @@ export const renderLineChart = () => {
     .type('Line')
     .type('{enter}');
 };
-
-export const renderGaugeChart = () => {
-  landOnEventVisualizations();
-  querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
-    .type('Gauge')
-    .type('{enter}');
-};

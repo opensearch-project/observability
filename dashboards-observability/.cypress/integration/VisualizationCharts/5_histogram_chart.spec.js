@@ -11,6 +11,9 @@ import {
   landOnEventVisualizations,
 } from '../../utils/event_constants';
 
+const bucket_size = 500;
+const bucket_offset = 1000;
+
 const renderHistogramChart = () => {
   querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
   cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
@@ -60,8 +63,11 @@ describe('Renders Histogram chart', () => {
     cy.get('.euiResizablePanel.euiResizablePanel--collapsible.euiResizablePanel--middle').contains(
       'Bucket Size'
     );
-    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).type('500');
-    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).type('1000');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).type(bucket_size);
+    cy.get('.euiResizablePanel.euiResizablePanel--collapsible.euiResizablePanel--middle').contains(
+      'Bucket Offset'
+    );
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).type(bucket_offset);
     cy.get(
       '.euiPanel.euiPanel--paddingSmall.euiPanel--borderRadiusMedium.euiPanel--plain.euiPanel--hasShadow.dataConfigContainer'
     ).click();
