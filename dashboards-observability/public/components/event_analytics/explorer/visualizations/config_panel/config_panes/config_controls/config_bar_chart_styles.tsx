@@ -87,6 +87,17 @@ export const ConfigBarChartStyles = ({
                 };
                 return createDimensionComponent(params);
             }
+            if (schema.eleType === 'dual_slider') {
+                params = {
+                    ...params,
+                    minRange: schema?.props?.min || 0,
+                    maxRange: schema?.props?.max || 100,
+                    step: schema?.props?.step || 1,
+                    currentRange: vizState[schema.mapTo] || schema?.defaultState,
+                    handleSliderChange: handleConfigurationChange(schema.mapTo),
+                };
+                return createDimensionComponent(params);
+            }
         }).filter(item => item)
         , [schemas, vizState, handleConfigurationChange]);
 

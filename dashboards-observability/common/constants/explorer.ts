@@ -119,6 +119,30 @@ export const AGGREGATION_OPTIONS = [
   },
 ];
 
+export const METRIC_AGGREGATIONS = [
+  {
+    label: 'COUNT',
+  },
+  {
+    label: 'SUM',
+  },
+  {
+    label: 'AVERAGE',
+  },
+  {
+    label: 'MAX',
+  },
+  {
+    label: 'MIN',
+  },
+  {
+    label: 'TOP HIT',
+  },
+  {
+    label: 'UNIQUE COUNT',
+  },
+];
+
 // numeric fields type for metrics
 export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte', 'integer'];
 // Data table constants
@@ -151,4 +175,17 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   TickLength: 5,
   LegendPlacement: 'center',
   ThresholdsMaxLimit: 1
+}
+
+export const SHOW = 'show';
+export const HIDDEN = 'hidden';
+
+export const LAT_RANGE = [40, 70];
+export const LON_RANGE = [-130, -55];
+
+export enum TextPosition {
+  TOP = 'top center',
+  RIGHT = 'middle right',
+  BOTTOM = 'bottom center',
+  LEFT = 'middle left',
 }

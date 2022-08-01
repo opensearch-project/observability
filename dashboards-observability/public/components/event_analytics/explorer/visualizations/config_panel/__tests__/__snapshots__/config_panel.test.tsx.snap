@@ -2843,12 +2843,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "dataLoss": "nothing",
                   },
                   "type": "histogram",
-                  "valueseries": "yaxis",
-                  "visconfig": Object {
+                  "valueSeries": "yaxis",
+                  "visConfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
                     },
+                    "isUniColor": false,
                     "layout": Object {
                       "height": 1180,
                       "legend": Object {
@@ -2868,9 +2869,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
                 Object {
                   "category": "Visualizations",
-                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorconfig": Object {
+                  "editorConfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -2880,14 +2880,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "sections": Array [
                           Object {
                             "editor": [Function],
-                            "id": "legend",
-                            "mapTo": "legend",
-                            "name": "Legend",
+                            "id": "text",
+                            "mapTo": "text",
+                            "name": "Text",
                             "schemas": Array [
                               Object {
                                 "component": null,
-                                "mapTo": "showLegend",
-                                "name": "Show legend",
+                                "mapTo": "showText",
+                                "name": "Show Text",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -2914,28 +2914,29 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
-                                      "id": "v",
-                                      "name": "Right",
+                                      "id": "top center",
+                                      "name": "Top",
                                     },
                                   ],
                                   "options": Array [
                                     Object {
-                                      "id": "v",
+                                      "id": "top center",
+                                      "name": "Top",
+                                    },
+                                    Object {
+                                      "id": "middle right",
                                       "name": "Right",
                                     },
                                     Object {
-                                      "id": "h",
+                                      "id": "bottom center",
                                       "name": "Bottom",
+                                    },
+                                    Object {
+                                      "id": "middle left",
+                                      "name": "Left",
                                     },
                                   ],
                                 },
-                              },
-                              Object {
-                                "component": [Function],
-                                "eleType": "input",
-                                "mapTo": "legendSize",
-                                "name": "Legend size",
-                                "title": "Legend size",
                               },
                             ],
                           },
@@ -3005,151 +3006,41 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "schemas": Array [
                               Object {
                                 "component": [Function],
-                                "eleType": "buttons",
-                                "mapTo": "style",
-                                "name": "Mode",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": "markers",
-                                      "name": "Marker",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "lines",
-                                      "name": "Lines",
-                                    },
-                                    Object {
-                                      "id": "markers",
-                                      "name": "Marker",
-                                    },
-                                    Object {
-                                      "id": "lines+markers",
-                                      "name": "Lines + Markers",
-                                    },
-                                  ],
-                                },
-                              },
-                              Object {
-                                "component": [Function],
-                                "eleType": "buttons",
-                                "mapTo": "interpolation",
-                                "name": "Interpolation",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": "spline",
-                                      "name": "Smooth",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "linear",
-                                      "name": "Linear",
-                                    },
-                                    Object {
-                                      "id": "spline",
-                                      "name": "Smooth",
-                                    },
-                                    Object {
-                                      "id": "hv",
-                                      "name": "Step before",
-                                    },
-                                    Object {
-                                      "id": "vh",
-                                      "name": "Step after",
-                                    },
-                                  ],
-                                },
-                              },
-                              Object {
-                                "component": [Function],
-                                "defaultState": 2,
-                                "eleType": "slider",
-                                "mapTo": "lineWidth",
-                                "name": "Line width",
-                                "props": Object {
-                                  "max": 10,
-                                },
-                              },
-                              Object {
-                                "component": [Function],
-                                "defaultState": 40,
-                                "eleType": "slider",
-                                "mapTo": "fillOpacity",
-                                "name": "Fill opacity",
-                                "props": Object {
-                                  "max": 100,
-                                },
-                              },
-                              Object {
-                                "component": [Function],
-                                "defaultState": 5,
-                                "eleType": "slider",
-                                "mapTo": "pointSize",
-                                "name": "Point size",
-                                "props": Object {
-                                  "max": 40,
-                                },
-                              },
-                              Object {
-                                "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label size",
-                                "title": "Label size",
+                                "name": "Label Size",
                               },
                               Object {
                                 "component": [Function],
-                                "defaultState": 0,
-                                "eleType": "slider",
-                                "mapTo": "rotateLabels",
-                                "name": "Rotate labels",
+                                "defaultState": Array [
+                                  40,
+                                  70,
+                                ],
+                                "eleType": "dual_slider",
+                                "mapTo": "latitudeRange",
+                                "name": "Latitude Range",
                                 "props": Object {
                                   "max": 90,
                                   "min": -90,
-                                  "showTicks": true,
-                                  "ticks": Array [
-                                    Object {
-                                      "label": "-90°",
-                                      "value": -90,
-                                    },
-                                    Object {
-                                      "label": "-45°",
-                                      "value": -45,
-                                    },
-                                    Object {
-                                      "label": "0°",
-                                      "value": 0,
-                                    },
-                                    Object {
-                                      "label": "45°",
-                                      "value": 45,
-                                    },
-                                    Object {
-                                      "label": "90°",
-                                      "value": 90,
-                                    },
-                                  ],
+                                  "step": 1,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": Array [
+                                  -130,
+                                  -55,
+                                ],
+                                "eleType": "dual_slider",
+                                "mapTo": "longitudeRange",
+                                "name": "Longitude Range",
+                                "props": Object {
+                                  "max": 180,
+                                  "min": -180,
+                                  "step": 1,
                                 },
                               },
                             ],
-                          },
-                          Object {
-                            "editor": [Function],
-                            "id": "color-theme",
-                            "mapTo": "colorTheme",
-                            "name": "Color theme",
-                            "schemas": Array [],
-                          },
-                          Object {
-                            "defaultState": Array [],
-                            "editor": [Function],
-                            "id": "thresholds",
-                            "mapTo": "thresholds",
-                            "name": "Thresholds",
-                            "schemas": Array [],
                           },
                         ],
                       },
@@ -3160,16 +3051,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "mapTo": "layoutConfig",
                         "name": "Layout",
                       },
-                      Object {
-                        "editor": [Function],
-                        "id": "availability-panel",
-                        "mapTo": "availabilityConfig",
-                        "name": "Availability",
-                      },
                     ],
                   },
-                  "fulllabel": "Scatter",
+                  "fontsize": 14,
+                  "fullLabel": "Coordinate Map",
                   "icon": [Function],
+<<<<<<< HEAD
                   "icontype": "visLine",
                   "id": "scatter",
                   "label": "Scatter",
@@ -3253,36 +3140,32 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "id": "logs_view",
                   "label": "Logs view",
                   "name": "logs_view",
+=======
+                  "iconType": "visMapCoordinate",
+                  "id": "scattergeo",
+                  "label": "Coordinate Map",
+                  "latrange": Array [
+                    40,
+                    70,
+                  ],
+                  "lonrange": Array [
+                    -130,
+                    -55,
+                  ],
+                  "name": "scattergeo",
+>>>>>>> 61b8412b (built coordinate map and added config options)
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesaxis": "yaxis",
-                  "type": "logs_view",
-                  "visconfig": Object {
+                  "showtext": true,
+                  "type": "scattergeo",
+                  "visConfig": Object {
                     "config": Object {
-                      "barmode": "line",
                       "displaylogo": false,
                       "responsive": true,
-                      "xaxis": Object {
-                        "automargin": true,
-                      },
-                      "yaxis": Object {
-                        "automargin": true,
-                      },
                     },
+                    "isUniColor": false,
                     "layout": Object {
-                      "colorway": Array [
-                        "#3CA1C7",
-                        "#8C55A3",
-                        "#DB748A",
-                        "#F2BE4B",
-                        "#68CCC2",
-                        "#2A7866",
-                        "#843769",
-                        "#374FB8",
-                        "#BD6F26",
-                        "#4C636F",
-                      ],
                       "height": 1180,
                       "legend": Object {
                         "orientation": "v",
@@ -3295,19 +3178,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "r": 30,
                         "t": 50,
                       },
-                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
-                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
                       "showlegend": true,
-                      "xaxis": Object {
-                        "fixedrange": true,
-                        "showgrid": false,
-                        "visible": true,
-                      },
-                      "yaxis": Object {
-                        "fixedrange": true,
-                        "showgrid": false,
-                        "visible": true,
-                      },
                     },
                   },
                 },
@@ -5672,7 +5543,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       Object {
                                         "id": "hidden",
                                         "name": "Hidden",
-                                      },
+                     ,                 },
                                     ],
                                   },
                                 },
@@ -13857,7 +13728,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     ]
                                                                   }
                                                                   tickValue={45}
-                                                                  ticks={
+                  ,                                                ticks={
                                                                     Array [
                                                                       Object {
                                                                         "label": "-90°",

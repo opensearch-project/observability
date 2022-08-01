@@ -97,6 +97,21 @@ export const YELLOW_GREEN_BLUE_PALETTE = {
   ],
 };
 
+export const DEFAULT_SCL = [
+  [0, 'rgb(5, 10, 172)'],
+  [0.35, 'rgb(40, 60, 190)'],
+  [0.5, 'rgb(70, 100, 245)'],
+  [0.6, 'rgb(90, 120, 245)'],
+  [0.7, 'rgb(106, 137, 247)'],
+  [1, 'rgb(220, 220, 220)'],
+];
+
+export const MAP_COLORS = {
+  waterColor: '#fff',
+  landColor: '#EAEAAE',
+  unitColor: '#d3d3d3',
+};
+
 export const DEFAULT_PALETTE = 'default';
 export const SINGLE_COLOR_PALETTE = 'singleColor';
 export const MULTI_COLOR_PALETTE = 'multicolor';

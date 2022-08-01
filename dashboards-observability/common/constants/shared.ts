@@ -84,6 +84,7 @@ export enum visChartTypes {
   TreeMap = 'tree_map',
   Scatter = 'scatter',
   LogsView = 'logs_view',
+  CoordinateMap = 'scattergeo',
 }
 
 export interface ValueOptionsAxes {
@@ -110,6 +111,7 @@ export const ENABLED_VIS_TYPES = [
   visChartTypes.Histogram,
   visChartTypes.Scatter,
   visChartTypes.LogsView,
+  visChartTypes.CoordinateMap,
 ];
 
 //Live tail constants

@@ -24,7 +24,9 @@ export const Visualization = ({ visualizations }: IVisualizationProps) => {
 
   return (
     <>
-      {vis?.type === visChartTypes.LogsView || (isVizDataValid && isVizFieldValid) ? (
+      {vis?.type === visChartTypes.LogsView ||
+      vis?.type === visChartTypes.CoordinateMap ||
+      (isVizDataValid && isVizFieldValid) ? (
         <VisualizationChart visualizations={visualizations} />
       ) : (
         <EmptyPlaceholder icon={visualizations?.vis?.icontype} />
