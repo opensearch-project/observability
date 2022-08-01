@@ -19,6 +19,7 @@ interface IVizContainerProps {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: any;
 }
 
 const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
@@ -43,6 +44,7 @@ export const getVizContainerProps = ({
   indexFields = {},
   userConfigs = {},
   appData = {},
+  explorer = {},
 }: IVizContainerProps): IVisualizationContainerProps => {
   const visType = {
     ...getVisType(vizId),
@@ -57,6 +59,7 @@ export const getVizContainerProps = ({
       defaultAxes: {
         ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, visType.name),
       },
+      explorer: { ...explorer },
     },
     vis: visType,
   };

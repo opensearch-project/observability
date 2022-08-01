@@ -161,6 +161,7 @@ export interface IVisualizationContainerPropsData {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: any;
 }
 
 export interface IVisualizationContainerPropsVis {
