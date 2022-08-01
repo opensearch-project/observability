@@ -8,10 +8,6 @@ import { getPlotlyCategory, getPlotlySharedConfigs } from '../shared/shared_conf
 import { LensIconChartDatatable } from '../../assets/chart_datatable';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
-import { ConfigLogsView } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_logs_view';
-import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
-import { ConfigSwitch } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_switch';
-import { InputFieldItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -37,50 +33,7 @@ export const createLogsViewTypeDefinition = (params: any = {}) => ({
         name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
-        sections: [
-          {
-            id: 'chart_styles',
-            name: 'Chart styles',
-            editor: ConfigLogsView,
-            mapTo: 'chartStyles',
-            schemas: [
-              {
-                name: 'Time',
-                component: ConfigSwitch,
-                mapTo: 'time',
-                defaultState: true,
-                eleType: 'switch',
-              },
-              {
-                name: 'Log Details View',
-                component: ConfigSwitch,
-                mapTo: 'enableLogDetails',
-                defaultState: true,
-                eleType: 'switch',
-              },
-              {
-                name: 'View',
-                mapTo: 'view',
-                component: ButtonGroupItem,
-                props: {
-                  options: [
-                    { name: 'Default', id: 'default' },
-                    { name: 'Wrap lines', id: 'wrapLines' },
-                    { name: 'Prettify JSON', id: 'prettifyJSON' },
-                  ],
-                  defaultSelections: [{ name: 'Default', id: 'default' }],
-                },
-                eleType: 'buttons',
-              },
-              {
-                name: 'Label Size',
-                component: InputFieldItem,
-                mapTo: 'labelSize',
-                eleType: 'input',
-              },
-            ],
-          },
-        ],
+        sections: [],
       },
     ],
   },
