@@ -29,35 +29,32 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  const xaxisField = fields[fields.length - 2];
-  const yaxisField = fields[fields.length - 1];
-  const zMetrics =
-    dataConfig?.valueOptions && dataConfig?.valueOptions.zaxis
-      ? dataConfig?.valueOptions.zaxis[0]
-      : yaxis.length > 0
-      ? yaxis[0]
-      : fields[fields.length - 3];
-  const uniqueYaxis = uniq(data[yaxisField.name]);
-  const uniqueXaxis = uniq(data[xaxisField.name]);
-  const uniqueYaxisLength = uniqueYaxis.length;
-  const uniqueXaxisLength = uniqueXaxis.length;
+  const xaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[0];
+  const yaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[1];
+  const zMetrics = visualizations.data?.rawVizData?.heatmap?.dataConfig?.metrics[0];
 
   if (
     isEmpty(xaxisField) ||
     isEmpty(yaxisField) ||
     isEmpty(zMetrics) ||
-    isEmpty(data[xaxisField.name]) ||
-    isEmpty(data[yaxisField.name]) ||
-    isEmpty(data[zMetrics.name]) ||
+    isEmpty(data[xaxisField.label]) ||
+    isEmpty(data[yaxisField.label]) ||
+    isEmpty(data[zMetrics.label]) ||
     indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+
+  const uniqueYaxis = uniq(data[yaxisField.label]);
+  const uniqueXaxis = uniq(data[xaxisField.label]);
+  const uniqueYaxisLength = uniqueYaxis.length;
+  const uniqueXaxisLength = uniqueXaxis.length;
 
   const colorField = dataConfig?.chartStyles
     ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === OPACITY
       ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
       : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
     : HEATMAP_PALETTE_COLOR;
+  const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
 
   const traceColor: any = [];
   if (colorField.name === SINGLE_COLOR_PALETTE) {
@@ -75,8 +72,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     const buckets = {};
 
     // maps bukcets to metrics
-    for (let i = 0; i < data[xaxisField.name].length; i++) {
-      buckets[`${data[xaxisField.name][i]},${data[yaxisField.name][i]}`] = data[zMetrics.name][i];
+    for (let i = 0; i < data[xaxisField.label].length; i++) {
+      buckets[`${data[xaxisField.label][i]},${data[yaxisField.label][i]}`] =
+        data[zMetrics.label][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis
@@ -116,6 +114,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       y: uniqueYaxis,
       colorscale: colorField.name === SINGLE_COLOR_PALETTE ? traceColor : colorField.name,
       type: 'heatmap',
+      showscale: showColorscale === 'show',
     },
   ];
 
