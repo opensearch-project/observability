@@ -28,6 +28,7 @@ export const VIS_TYPES = {
   heatmap: createMapsVisDefinition,
   tree_map: createTreeMapDefinition,
   text: createTextTypeDefinition,
+  scatter: createLineTypeDefinition,
   logs_view: createLogsViewTypeDefinition,
 };
 
