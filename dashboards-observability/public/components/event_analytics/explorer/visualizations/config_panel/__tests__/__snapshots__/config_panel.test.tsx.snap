@@ -2451,6 +2451,177 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   },
                 },
+                Object {
+                  "category": "Visualizations",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "text",
+                            "mapTo": "text",
+                            "name": "Text",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showText",
+                                "name": "Show Text",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "top center",
+                                      "name": "Top",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "top center",
+                                      "name": "Top",
+                                    },
+                                    Object {
+                                      "id": "middle right",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "bottom center",
+                                      "name": "Bottom",
+                                    },
+                                    Object {
+                                      "id": "middle left",
+                                      "name": "Left",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label Size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": Array [
+                                  40,
+                                  70,
+                                ],
+                                "eleType": "dual_slider",
+                                "mapTo": "latitudeRange",
+                                "name": "Latitude Range",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "step": 1,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": Array [
+                                  -130,
+                                  -55,
+                                ],
+                                "eleType": "dual_slider",
+                                "mapTo": "longitudeRange",
+                                "name": "Longitude Range",
+                                "props": Object {
+                                  "max": 180,
+                                  "min": -180,
+                                  "step": 1,
+                                },
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                    ],
+                  },
+                  "fontsize": 14,
+                  "fullLabel": "Coordinate Map",
+                  "icon": [Function],
+                  "iconType": "visMapCoordinate",
+                  "id": "scattergeo",
+                  "label": "Coordinate Map",
+                  "latrange": Array [
+                    40,
+                    70,
+                  ],
+                  "lonrange": Array [
+                    -130,
+                    -55,
+                  ],
+                  "name": "scattergeo",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "showtext": true,
+                  "type": "scattergeo",
+                  "visConfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "isUniColor": false,
+                    "layout": Object {
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
               ]
             }
             placeholder="Select a chart"

@@ -127,7 +127,8 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
       bar: isValidValueOptionsXYAxes,
       line: isValidValueOptionsXYAxes,
       histogram: isValidValueOptionsXYAxes,
-      pie: isValidValueOptionsXYAxes
+      pie: isValidValueOptionsXYAxes,
+      scattergeo: true,
     }
     return isValid_valueOptions[curVisId];
   }, [vizConfigs.dataConfig]);
