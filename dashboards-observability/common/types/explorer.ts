@@ -16,7 +16,7 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
 } from '../constants/explorer';
-import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import { CoreStart, HttpSetup, HttpStart, NotificationsStart } from '../../../../src/core/public';
 import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
@@ -151,6 +151,14 @@ export interface SavedVizRes {
   tenant: string;
 }
 
+export interface ExplorerData {
+  explorerData: any;
+  explorerFields?: IExplorerFields;
+  query?: any;
+  http?: HttpSetup;
+  pplService?: PPLService;
+}
+
 export interface IVisualizationContainerPropsData {
   appData?: { fromApp: boolean };
   rawVizData?: any;
@@ -161,7 +169,7 @@ export interface IVisualizationContainerPropsData {
     xaxis: IField[];
     yaxis: IField[];
   };
-  explorer?: any;
+  explorer?: ExplorerData;
 }
 
 export interface IVisualizationContainerPropsVis {

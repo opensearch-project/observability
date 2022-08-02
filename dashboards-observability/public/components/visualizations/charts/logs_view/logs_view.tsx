@@ -2,19 +2,22 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+import { IExplorerFields } from '../../../../../common/types/explorer';
 import React from 'react';
 import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import { DataGrid } from '../../../../components/event_analytics/explorer/events_views/data_grid';
 import './logs_view.scss';
 
 export const LogsView = ({ visualizations }: any) => {
-  const http = visualizations?.data?.explorer?.http;
-  const pplService = visualizations?.data?.explorer?.pplService;
-  const explorerData = visualizations?.data?.explorer?.explorerData;
-  const explorerFields = visualizations?.data?.explorer?.explorerFields;
-  const query = visualizations?.data?.explorer?.query;
+  const explorer = visualizations?.data?.explorer;
 
-  const emptyExplorerFields = {
+  const http = explorer?.http;
+  const pplService = explorer?.pplService;
+  const explorerData = explorer?.explorerData;
+  const explorerFields = explorer?.explorerFields;
+  const query = explorer?.query;
+
+  const emptyExplorerFields: IExplorerFields = {
     availableFields: [],
     queriedFields: [],
     selectedFields: [],
@@ -22,7 +25,7 @@ export const LogsView = ({ visualizations }: any) => {
   };
 
   return (
-    <div style={{ fontSize: '16px' }}>
+    <div className="logs-view-container">
       <DataGrid
         http={http}
         pplService={pplService}

@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import { uniqueId } from 'lodash';
-import { EuiSpacer, EuiFormRow, EuiSwitch } from '@elastic/eui';
+import { EuiSpacer, EuiFormRow, EuiSwitch, htmlIdGenerator } from '@elastic/eui';
 
 interface EUISwitch {
   label: string;
@@ -14,10 +13,10 @@ interface EUISwitch {
   handleChange: (isChecked: boolean) => void;
 }
 export const ConfigSwitch: React.FC<EUISwitch> = ({ label, disabled, checked, handleChange }) => (
-  <>
+  <React.Fragment key={`config-switch-${label}`}>
     <EuiFormRow label={label}>
       <EuiSwitch
-        id={uniqueId('switch-button')}
+        id={htmlIdGenerator('switch-button')()}
         showLabel={false}
         disabled={disabled}
         label={label}
@@ -27,5 +26,5 @@ export const ConfigSwitch: React.FC<EUISwitch> = ({ label, disabled, checked, ha
       />
     </EuiFormRow>
     <EuiSpacer size="s" />
-  </>
+  </React.Fragment>
 );
