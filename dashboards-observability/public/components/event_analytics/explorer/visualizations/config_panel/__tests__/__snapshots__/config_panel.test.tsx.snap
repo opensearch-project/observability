@@ -2759,6 +2759,85 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   },
                 },
+                Object {
+                  "category": "Visualizations",
+                  "categoryAxis": "xaxis",
+                  "component": [Function],
+                  "editorConfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Style",
+                        "sections": Array [],
+                      },
+                    ],
+                  },
+                  "fullLabel": "Logs View",
+                  "icon": [Function],
+                  "iconType": "visTable",
+                  "id": "logs_view",
+                  "label": "Logs View",
+                  "name": "logs_view",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesAxis": "yaxis",
+                  "type": "logs_view",
+                  "visConfig": Object {
+                    "config": Object {
+                      "barmode": "line",
+                      "displaylogo": false,
+                      "responsive": true,
+                      "xaxis": Object {
+                        "automargin": true,
+                      },
+                      "yaxis": Object {
+                        "automargin": true,
+                      },
+                    },
+                    "layout": Object {
+                      "colorway": Array [
+                        "#3CA1C7",
+                        "#8C55A3",
+                        "#DB748A",
+                        "#F2BE4B",
+                        "#68CCC2",
+                        "#2A7866",
+                        "#843769",
+                        "#374FB8",
+                        "#BD6F26",
+                        "#4C636F",
+                      ],
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                      "showlegend": true,
+                      "xaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                      "yaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                    },
+                  },
+                },
               ]
             }
             placeholder="Select a chart"
@@ -10436,6 +10515,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     data-test-subj="valueFieldNumber"
                                                     fullWidth={true}
                                                     id="random_html_id"
+                                                    min={1}
                                                     onBlur={[Function]}
                                                     onChange={[Function]}
                                                     placeholder="auto"
@@ -10457,6 +10537,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                               className="euiFieldNumber euiFieldNumber--fullWidth"
                                                               data-test-subj="valueFieldNumber"
                                                               id="random_html_id"
+                                                              min={1}
                                                               onBlur={[Function]}
                                                               onChange={[Function]}
                                                               placeholder="auto"

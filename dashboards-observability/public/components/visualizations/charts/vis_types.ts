@@ -14,6 +14,7 @@ import { createDatatableTypeDefinition } from './data_table/data_table_type';
 import { createGaugeTypeDefinition } from './financial/gauge/gauge_type';
 import { createTreeMapDefinition } from './maps/treemap_type';
 import { createTextTypeDefinition } from './text/text_type';
+import { createLogsViewTypeDefinition } from './logs_view/logs_view_type';
 
 export const VIS_TYPES = {
   bar: createBarTypeDefinition,
@@ -27,7 +28,8 @@ export const VIS_TYPES = {
   heatmap: createMapsVisDefinition,
   tree_map: createTreeMapDefinition,
   text: createTextTypeDefinition,
-  scatter: createLineTypeDefinition
+  scatter: createLineTypeDefinition,
+  logs_view: createLogsViewTypeDefinition,
 };
 
 export const getVisType = (visType: string, params: any = {}) => {
