@@ -57,7 +57,7 @@ export const createHistogramVisDefinition = (params = {}) => ({
                 },
               },
               {
-                name: 'Fill Opacity',
+                name: 'Fill opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
@@ -70,7 +70,7 @@ export const createHistogramVisDefinition = (params = {}) => ({
           },
           {
             id: 'color-theme',
-            name: 'Color Theme',
+            name: 'Color theme',
             editor: ConfigColorTheme,
             mapTo: 'colorTheme',
             schemas: [],
@@ -82,7 +82,7 @@ export const createHistogramVisDefinition = (params = {}) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {

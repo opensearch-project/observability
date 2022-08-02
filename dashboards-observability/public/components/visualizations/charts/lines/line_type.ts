@@ -52,7 +52,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -76,8 +76,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Legend Size',
-                name: 'Legend Size',
+                title: 'Legend size',
+                name: 'Legend size',
                 component: InputFieldItem,
                 mapTo: 'legendSize',
                 eleType: 'input',
@@ -130,7 +130,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Fill Opacity',
+                name: 'Fill opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
@@ -140,7 +140,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Point Size',
+                name: 'Point size',
                 component: SliderConfig,
                 mapTo: 'pointSize',
                 defaultState: MarkerSize,
@@ -150,8 +150,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Label Size',
-                name: 'Label Size',
+                title: 'Label size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
