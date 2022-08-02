@@ -300,10 +300,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
         query: {},
         indexFields: {},
         userConfigs: metaData.user_configs,
-        explorer: {
-          explorerData: data,
-          explorerFields: {},
-        },
+        explorer: { explorerData: data },
       })}
     />
   );

@@ -41,52 +41,57 @@ export const ConfigLogsView = ({
           ...schema.props,
         };
         const DimensionComponent = schema.component || ButtonGroupItem;
-        if (schema.eleType === 'buttons') {
-          params = {
-            title: schema.name,
-            legend: schema.name,
-            groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
-              ...btn,
-              label: btn.name,
-            })),
-            idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-            handleButtonChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
-          };
-        } else if (schema.eleType === 'switch') {
-          let isDisabled = false;
-          if (schema.name === 'Time') {
-            const isTimeAvailable =
-              rawData &&
-              rawData.find(
-                (data) => data.timestamp !== undefined || data.new_timestamp !== undefined
-              );
-            isDisabled = isTimeAvailable === undefined;
-          }
-          params = {
-            label: schema.name,
-            disabled: isDisabled,
-            checked:
-              vizState[schema.mapTo] !== undefined ? vizState[schema.mapTo] : schema?.defaultState,
-            handleChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
-          };
-        } else {
-          params = {
-            title: schema.name,
-            currentValue: vizState[schema.mapTo] || '',
-            handleInputChange: handleConfigurationChange(schema.mapTo),
-            vizState,
-            ...schema.props,
-          };
+        switch (schema.eleType) {
+          case 'buttons':
+            params = {
+              title: schema.name,
+              legend: schema.name,
+              groupOptions: schema?.props?.options.map((btn: { name: string }) => ({
+                ...btn,
+                label: btn.name,
+              })),
+              idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
+              handleButtonChange: handleConfigurationChange(schema.mapTo),
+              vizState,
+              ...schema.props,
+            };
+            break;
+          case 'switch':
+            let isDisabled = false;
+            if (schema.name === 'Time') {
+              const isTimeAvailable =
+                rawData &&
+                rawData.find(
+                  (data) => data.timestamp !== undefined || data.new_timestamp !== undefined
+                );
+              isDisabled = isTimeAvailable === undefined;
+            }
+            params = {
+              label: schema.name,
+              disabled: isDisabled,
+              checked:
+                vizState[schema.mapTo] !== undefined
+                  ? vizState[schema.mapTo]
+                  : schema?.defaultState,
+              handleChange: handleConfigurationChange(schema.mapTo),
+              vizState,
+              ...schema.props,
+            };
+            break;
+          default:
+            params = {
+              title: schema.name,
+              currentValue: vizState[schema.mapTo] || '',
+              handleInputChange: handleConfigurationChange(schema.mapTo),
+              vizState,
+              ...schema.props,
+            };
         }
         return (
-          <>
+          <React.Fragment key={`config-logs-view-${index}`}>
             <DimensionComponent key={`viz-series-${index}`} {...params} />
             <EuiSpacer size="s" />
-          </>
+          </React.Fragment>
         );
       }),
     [schemas, vizState, handleConfigurationChange]
