@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { EuiSpacer, EuiFormRow, EuiSwitch, htmlIdGenerator } from '@elastic/eui';
 
 interface EUISwitch {
@@ -13,7 +13,7 @@ interface EUISwitch {
   handleChange: (isChecked: boolean) => void;
 }
 export const ConfigSwitch: React.FC<EUISwitch> = ({ label, disabled, checked, handleChange }) => (
-  <React.Fragment key={`config-switch-${label}`}>
+  <Fragment key={`config-switch-${label}`}>
     <EuiFormRow label={label}>
       <EuiSwitch
         id={htmlIdGenerator('switch-button')()}
@@ -26,5 +26,5 @@ export const ConfigSwitch: React.FC<EUISwitch> = ({ label, disabled, checked, ha
       />
     </EuiFormRow>
     <EuiSpacer size="s" />
-  </React.Fragment>
+  </Fragment>
 );
