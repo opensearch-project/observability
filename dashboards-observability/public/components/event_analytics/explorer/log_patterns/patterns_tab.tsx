@@ -86,7 +86,7 @@ export function PatternsTab(props: PatternsTabProps) {
       puncSignature:
         '///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=',
       patternName: 'generated-signature-0001',
-      ratio: '4.06%',
+      ratio: '45%',
       count: '461',
     },
     {
@@ -94,7 +94,7 @@ export function PatternsTab(props: PatternsTabProps) {
       lastTimestamp: Date.now(),
       puncSignature: '^/!//&^*-^=',
       patternName: 'generated-signature-0002',
-      ratio: '5.06%',
+      ratio: '25%',
       count: '561',
     },
     {
@@ -102,7 +102,7 @@ export function PatternsTab(props: PatternsTabProps) {
       lastTimestamp: Date.now(),
       puncSignature: '^/""/&^*-^=',
       patternName: 'generated-signature-0003',
-      ratio: '6.06%',
+      ratio: '10%',
       count: '661',
     },
     {
@@ -110,7 +110,7 @@ export function PatternsTab(props: PatternsTabProps) {
       lastTimestamp: Date.now(),
       puncSignature: '^#@//-()^=',
       patternName: 'generated-signature-0004',
-      ratio: '7.06%',
+      ratio: '20%',
       count: '761',
     },
   ];
