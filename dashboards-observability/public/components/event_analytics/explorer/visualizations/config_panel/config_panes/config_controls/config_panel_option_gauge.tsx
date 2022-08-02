@@ -46,7 +46,7 @@ export const ConfigPanelOptionGauge = ({
           handleConfigChange(newPanelOptions);
         }}
         placeholder={'Number of gauges'}
-        readOnly={!dimensions.length}
+        readOnly={dimensions.length === 0}
       />
     </EuiFormRow>
   );

@@ -175,7 +175,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   const isPositionButtonVisible = (sectionName: string) =>
     sectionName === 'metrics' &&
-    (visualizations.vis.name === visChartTypes.Line || visualizations.vis.name === visChartTypes.Scatter);
+    (visualizations.vis.name === visChartTypes.Line ||
+      visualizations.vis.name === visChartTypes.Scatter);
 
   const getOptionsAvailable = (sectionName: string) => {
     let selectedFields = {};
