@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 import { ButtonGroupItem } from './config_button_group';
@@ -88,10 +88,10 @@ export const ConfigLogsView = ({
             };
         }
         return (
-          <React.Fragment key={`config-logs-view-${index}`}>
+          <Fragment key={`config-logs-view-${index}`}>
             <DimensionComponent key={`viz-series-${index}`} {...params} />
             <EuiSpacer size="s" />
-          </React.Fragment>
+          </Fragment>
         );
       }),
     [schemas, vizState, handleConfigurationChange]

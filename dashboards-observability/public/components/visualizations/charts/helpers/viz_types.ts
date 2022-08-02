@@ -57,7 +57,7 @@ export const getVizContainerProps = ({
   indexFields = {},
   userConfigs = {},
   appData = {},
-  explorer = { explorerData: null },
+  explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
   const getVisTypeData = () => {
     if (vizId === visChartTypes.Line || vizId === visChartTypes.Scatter) {

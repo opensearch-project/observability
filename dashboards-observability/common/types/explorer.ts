@@ -151,10 +151,27 @@ export interface SavedVizRes {
   tenant: string;
 }
 
+export interface ExplorerDataType {
+  jsonData: object[];
+  jsonDataAll: object[];
+}
+
+export interface Query {
+  finalQuery: string;
+  index: string;
+  isLoaded: boolean;
+  objectType: string;
+  rawQuery: string;
+  savedObjectId: string;
+  selectedDateRange: string[];
+  selectedTimestamp: string;
+  tabCreatedType: string;
+}
+
 export interface ExplorerData {
-  explorerData: any;
+  explorerData?: ExplorerDataType;
   explorerFields?: IExplorerFields;
-  query?: any;
+  query?: Query;
   http?: HttpSetup;
   pplService?: PPLService;
 }
