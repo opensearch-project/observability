@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -39,10 +39,10 @@ export const ConfigThresholds = ({
   const AddButtonTextWrapper = () =>
     props?.maxLimit && !isEmpty(vizState) && vizState.length === props.maxLimit ? (
       <EuiToolTip position="top" content="Only one threshold can be applied">
-        <>{addButtonText}</>
+        <Fragment key="tooltip-button">{addButtonText}</Fragment>
       </EuiToolTip>
     ) : (
-      <>{addButtonText}</>
+      <Fragment key="tooltip-button">{addButtonText}</Fragment>
     );
 
   const getThresholdUnit = () => {

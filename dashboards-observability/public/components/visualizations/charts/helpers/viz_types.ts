@@ -59,15 +59,10 @@ export const getVizContainerProps = ({
   appData = {},
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
-  const getVisTypeData = () => {
-    if (vizId === visChartTypes.Line || vizId === visChartTypes.Scatter) {
-      return vizId === visChartTypes.Line
-        ? { ...getVisType(vizId, { type: visChartTypes.Line }) }
-        : { ...getVisType(vizId, { type: visChartTypes.Scatter }) };
-    } else {
-      return { ...getVisType(vizId) };
-    }
-  };
+  const getVisTypeData = () =>
+    vizId === visChartTypes.Line || vizId === visChartTypes.Scatter
+      ? { ...getVisType(vizId, { type: vizId }) }
+      : { ...getVisType(vizId) };
 
   return {
     data: {
