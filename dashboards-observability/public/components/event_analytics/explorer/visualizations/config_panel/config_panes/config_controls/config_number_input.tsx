@@ -30,6 +30,7 @@ export const InputFieldItem: React.FC<InputFieldProps> = ({
         fullWidth
         placeholder="auto"
         value={fieldValue}
+        min={1}
         onChange={(e) => setFieldValue(e.target.value)}
         onBlur={() => handleInputChange(fieldValue)}
         data-test-subj="valueFieldNumber"

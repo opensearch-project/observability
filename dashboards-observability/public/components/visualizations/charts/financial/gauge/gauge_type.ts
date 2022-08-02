@@ -63,7 +63,7 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Legend Placement',
+                name: 'Legend placement',
                 component: ButtonGroupItem,
                 mapTo: 'legendPlacement',
                 eleType: 'buttons',
@@ -77,15 +77,15 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Title Size',
-                name: 'Title Size',
+                title: 'Title size',
+                name: 'Title size',
                 component: InputFieldItem,
                 mapTo: 'titleSize',
                 eleType: 'input',
               },
               {
-                title: 'Value Size',
-                name: 'Value Size',
+                title: 'Value size',
+                name: 'Value size',
                 component: InputFieldItem,
                 mapTo: 'valueSize',
                 eleType: 'input',

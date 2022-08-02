@@ -718,6 +718,7 @@ export const Explorer = ({
       indexFields: explorerFields,
       userConfigs: userVizConfigs[curVisId] || {},
       appData: { fromApp: appLogEvents },
+      explorer: { explorerData, explorerFields, query, http, pplService },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -1136,6 +1137,10 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        explorerFields,
+        explorerData,
+        http,
+        query
       }}
     >
       <div className="dscAppContainer">

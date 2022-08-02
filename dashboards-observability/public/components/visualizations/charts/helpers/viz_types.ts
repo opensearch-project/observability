@@ -5,7 +5,12 @@
 
 import { isEmpty, take } from 'lodash';
 import { getVisType } from '../vis_types';
-import { IVisualizationContainerProps, IField, IQuery } from '../../../../../common/types/explorer';
+import {
+  IVisualizationContainerProps,
+  IField,
+  IQuery,
+  ExplorerData,
+} from '../../../../../common/types/explorer';
 import { visChartTypes } from '../../../../../common/constants/shared';
 
 interface IVizContainerProps {
@@ -19,19 +24,28 @@ interface IVizContainerProps {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: ExplorerData;
 }
 
 const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   if (isEmpty(vizFields)) return {};
-  const vizFieldsWithLabel: ({ [key: string]: string })[] = vizFields.map(vizField => ({ ...vizField, label: vizField.name }));
+  const vizFieldsWithLabel: { [key: string]: string }[] = vizFields.map((vizField) => ({
+    ...vizField,
+    label: vizField.name,
+  }));
 
-  const mapXaxis = (): ({ [key: string]: string })[] => visName === visChartTypes.Line ?
-    vizFieldsWithLabel.filter((field) => field.type === 'timestamp') :
-    [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
+  const mapXaxis = (): { [key: string]: string }[] =>
+    visName === visChartTypes.Line
+      ? vizFieldsWithLabel.filter((field) => field.type === 'timestamp')
+      : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
 
-  const mapYaxis = (): ({ [key: string]: string })[] => visName === visChartTypes.Line ?
-    vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
-    : take(vizFieldsWithLabel, vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1) || [];
+  const mapYaxis = (): { [key: string]: string }[] =>
+    visName === visChartTypes.Line
+      ? vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
+      : take(
+          vizFieldsWithLabel,
+          vizFieldsWithLabel.length - 1 > 0 ? vizFieldsWithLabel.length - 1 : 1
+        ) || [];
 
   return { xaxis: mapXaxis(), yaxis: mapYaxis() };
 };
@@ -43,10 +57,13 @@ export const getVizContainerProps = ({
   indexFields = {},
   userConfigs = {},
   appData = {},
+  explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
-  const visType = {
-    ...getVisType(vizId),
-  }
+  const getVisTypeData = () =>
+    vizId === visChartTypes.Line || vizId === visChartTypes.Scatter
+      ? { ...getVisType(vizId, { type: vizId }) }
+      : { ...getVisType(vizId) };
+
   return {
     data: {
       appData: { ...appData },
@@ -55,9 +72,12 @@ export const getVizContainerProps = ({
       indexFields: { ...indexFields },
       userConfigs: { ...userConfigs },
       defaultAxes: {
-        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, visType.name),
+        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData().name),
       },
+      explorer: { ...explorer },
     },
-    vis: visType,
+    vis: {
+      ...getVisTypeData(),
+    },
   };
 };
