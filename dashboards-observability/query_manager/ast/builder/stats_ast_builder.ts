@@ -77,7 +77,7 @@ export class StatsAstBuilder
       ctx.PARTITIONS() && ctx.integerLiteral()
         ? {
             keyword: ctx.PARTITIONS()?.text,
-            sign: '',
+            sign: '=',
             value: ctx.integerLiteral()?.text,
           }
         : {}, // visit partitions partial

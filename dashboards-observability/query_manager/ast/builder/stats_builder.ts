@@ -52,7 +52,7 @@ export class StatsBuilder implements QueryBuilder<Aggregations> {
    * Flags
    */
   buildParttions(partitions: ExpressionChunk) {
-    return `${partitions.keyword} ${partitions.value}`;
+    return `${partitions.keyword} ${partitions.sign} ${partitions.value}`;
   }
 
   buildAllNum(allNum: ExpressionChunk) {

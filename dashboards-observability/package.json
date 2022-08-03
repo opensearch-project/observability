@@ -1,6 +1,6 @@
 {
   "name": "observability-dashboards",
-  "version": "2.0.1.0",
+  "version": "2.1.0.0",
   "main": "index.ts",
   "license": "Apache-2.0",
   "scripts": {
@@ -10,8 +10,8 @@
     "cypress:run": "TZ=America/Los_Angeles cypress run",
     "cypress:open": "TZ=America/Los_Angeles cypress open",
     "plugin_helpers": "node ../../scripts/plugin_helpers",
-    "antlr4ts_ppl_lexer": "antlr4ts -visitor ./antlr/OpenSearchPPLLexer.g4",
-    "antlr4ts_ppl_parser": "antlr4ts -visitor ./antlr/OpenSearchPPLParser.g4"
+    "antlr4ts_ppl_lexer": "antlr4ts -visitor ./query_manager/grammar/OpenSearchPPLLexer.g4",
+    "antlr4ts_ppl_parser": "antlr4ts -visitor ./query_manager/grammar/OpenSearchPPLParser.g4"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.4.1",

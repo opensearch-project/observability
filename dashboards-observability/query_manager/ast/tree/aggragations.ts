@@ -8,7 +8,6 @@ import { PPLNode } from '../node';
 import { GroupBy } from '../expression/group_by';
 
 export class Aggregations extends PPLNode {
-
   constructor(
     name: string,
     children: Array<PPLNode>,
@@ -23,16 +22,16 @@ export class Aggregations extends PPLNode {
     super(name, children);
   }
 
-  getStartEndIndicesOfOriginQuery() : { start: number; end: number } {
+  getStartEndIndicesOfOriginQuery(): { start: number; end: number } {
     if (this.indices === undefined) {
       return {
         start: -1,
-        end: -1
+        end: -1,
       };
-    } 
+    }
     return {
       start: this.indices.start,
-      end: this.indices.end
+      end: this.indices.end,
     };
   }
 
@@ -43,11 +42,17 @@ export class Aggregations extends PPLNode {
       delim: this.delim,
       aggregations: this.aggExprList.map((aggTerm) => aggTerm.getTokens()),
       groupby: this.groupExprList.getTokens(),
-      dedup_split_value: this.dedupSplitValue
-    }
+      dedup_split_value: this.dedupSplitValue,
+    };
   }
 
   toString() {
-    return `stats ${!isEmpty(this.partitions) ? `${this.partitions} ` : ''}${!isEmpty(this.allNum) ? `${this.allNum} ` : ''}${!isEmpty(this.delim) ? `${this.delim} ` : ''}${this.aggExprList.map((aggTerm) => aggTerm.toString()).join(', ')}${!isEmpty(this.groupExprList) ? ` ${this.groupExprList.toString()}` : ''}${!isEmpty(this.dedupSplitValue) ? ` ${this.dedupSplitValue}` : ''}`
+    return `stats ${!isEmpty(this.partitions) ? `${this.partitions} ` : ''}${
+      !isEmpty(this.allNum) ? `${this.allNum} ` : ''
+    }${!isEmpty(this.delim) ? `${this.delim} ` : ''}${this.aggExprList
+      .map((aggTerm) => aggTerm.toString())
+      .join(', ')}${!isEmpty(this.groupExprList) ? ` ${this.groupExprList.toString()}` : ''}${
+      !isEmpty(this.dedupSplitValue) ? ` ${this.dedupSplitValue}` : ''
+    }`;
   }
 }

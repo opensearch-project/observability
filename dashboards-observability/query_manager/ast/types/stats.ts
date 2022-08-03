@@ -52,3 +52,23 @@ export interface ExpressionChunk {
   sign: string;
   value: string | number;
 }
+
+export interface DataConfigMetric {
+  alias: string;
+  label: string;
+  name: string;
+  aggregation: string;
+}
+
+export interface AggregationConfigurations {
+  metrics: Array<DataConfigMetric>;
+  dimensions: Array<GroupField>;
+  span: SpanChunk;
+}
+
+export interface PreviouslyParsedStaleStats {
+  partitions: ExpressionChunk;
+  all_num: ExpressionChunk;
+  delim: ExpressionChunk;
+  dedup_split_value: ExpressionChunk;
+}

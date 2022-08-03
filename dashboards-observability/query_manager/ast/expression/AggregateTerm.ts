@@ -18,14 +18,14 @@ export class AggregateTerm extends PPLNode {
   getTokens() {
     return {
       function: this.statsFunction.getTokens(),
-      alias: this.alias
+      alias: this.alias,
     };
   }
 
   toString(): string {
     if (this.alias) {
-      return `${this.statsFunction.toString()} as ${this.alias}`
+      return `${this.statsFunction.toString()} as ${this.alias}`;
     }
-    return `${this.statsFunction.toString()}`
+    return `${this.statsFunction.toString()}`;
   }
 }

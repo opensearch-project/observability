@@ -20,7 +20,7 @@ export class SpanExpression extends PPLNode {
     return {
       field: this.fieldExpression,
       literal_value: this.literalValue,
-      time_unit: this.timeUnit
+      time_unit: this.timeUnit,
     };
   }
 

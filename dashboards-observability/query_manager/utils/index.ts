@@ -3,9 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const composeAggregations = (aggConfig, staleStats) => {
+import { AggregationConfigurations, PreviouslyParsedStaleStats } from '../ast/types';
+
+export const composeAggregations = (
+  aggConfig: AggregationConfigurations,
+  staleStats: PreviouslyParsedStaleStats
+) => {
   return {
     aggregations: aggConfig.metrics.map((metric) => ({
+      function_alias: metric.alias,
       function: {
         name: metric.aggregation,
         value_expression: metric.name,
@@ -14,9 +20,7 @@ export const composeAggregations = (aggConfig, staleStats) => {
     })),
     groupby: {
       group_fields: aggConfig.dimensions.map((dimension) => ({ name: dimension.name })),
-      span: aggConfig.dimensions.filter((dimension) => dimension.type === 'timestamp')
-        ? aggConfig.dimensions.filter((dimension) => dimension.type === 'timestamp')[0]
-        : '',
+      span: aggConfig.span ?? null,
     },
     partitions: staleStats.partitions,
     all_num: staleStats.all_num,
