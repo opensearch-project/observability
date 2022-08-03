@@ -12,11 +12,10 @@ import { OpenSearchPPLParser } from '../antlr/bin/OpenSearchPPLParser';
  * PPL Syntax Parser.
  */
 export class PPLSyntaxParser {
-
   /**
    * Analyze the query syntax.
-  */
-  
+   */
+
   parse(query: string) {
     return this.createParser(this.createLexer(query));
   }

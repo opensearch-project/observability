@@ -11,7 +11,7 @@ export class AggregateFunction extends PPLNode {
     children: Array<PPLNode>,
     private statsFunctionName: string,
     private valueExpression: string,
-    private percentileAggFunction: string,
+    private percentileAggFunction: string
   ) {
     super(name, children);
   }
@@ -20,17 +20,17 @@ export class AggregateFunction extends PPLNode {
     return {
       name: this.statsFunctionName,
       value_expression: this.valueExpression,
-      percentile_agg_function: this.percentileAggFunction
+      percentile_agg_function: this.percentileAggFunction,
     };
   }
 
   toString(): string {
     if (this.statsFunctionName && this.valueExpression) {
-      return `${this.statsFunctionName}(${this.valueExpression})`
+      return `${this.statsFunctionName}(${this.valueExpression})`;
     } else if (this.statsFunctionName) {
       return `${this.statsFunctionName}()`;
     } else if (this.percentileAggFunction) {
-      return `${this.percentileAggFunction}`
+      return `${this.percentileAggFunction}`;
     }
     return '';
   }

@@ -18,12 +18,14 @@ export class GroupBy extends PPLNode {
 
   getTokens() {
     return {
-      group_fields: this.fields.map(field => field.getTokens()),
+      group_fields: this.fields.map((field) => field.getTokens()),
       span: this.span?.getTokens(),
     };
   }
 
   toString(): string {
-    return `by ${this.span? `${this.span.toString()}, ` : ''}${this.fields.map((field) => field.toString()).join(', ')}`;
+    return `by ${this.span ? `${this.span.toString()}, ` : ''}${this.fields
+      .map((field) => field.toString())
+      .join(', ')}`;
   }
 }

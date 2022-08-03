@@ -12,4 +12,6 @@ export {
   GroupField,
   statsChunk,
   SpanExpressionChunk,
+  AggregationConfigurations,
+  PreviouslyParsedStaleStats
 } from './stats';

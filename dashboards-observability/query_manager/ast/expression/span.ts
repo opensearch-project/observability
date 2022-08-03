@@ -18,7 +18,7 @@ export class Span extends PPLNode {
   getTokens() {
     return {
       span_expression: this.spanExpression.getTokens(),
-      alias: this.alias
+      alias: this.alias,
     };
   }
 
