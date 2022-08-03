@@ -22,7 +22,7 @@ import { SINGLE_COLOR_PALETTE } from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { StatsTextMode, TextAlignment } = DefaultStatsParameters;
+const { StatsDefaultTextMode, DefaultOrientation, ChartType } = DefaultStatsParameters;
 
 export const createStatsTypeDefinition = (params: any = {}) => ({
   name: 'Stats',
@@ -63,7 +63,7 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                     { name: 'Horizontal', id: 'horizontal' },
                     { name: 'Text mode', id: 'text' },
                   ],
-                  defaultSelections: [{ name: 'Auto', id: 'auto' }],
+                  defaultSelections: [{ name: 'Auto', id: ChartType }],
                 },
               },
               {
@@ -77,7 +77,7 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                     { name: 'Horizontal', id: 'h' },
                     { name: 'Vertical', id: 'v' },
                   ],
-                  defaultSelections: [{ name: 'Auto', id: 'auto' }],
+                  defaultSelections: [{ name: 'Auto', id: DefaultOrientation }],
                 },
               },
               {
@@ -99,7 +99,7 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                     { name: 'Values', id: 'values' },
                     { name: 'Values + Names', id: 'values+names' },
                   ],
-                  defaultSelections: [{ name: 'Values + Names', id: StatsTextMode }],
+                  defaultSelections: [{ name: 'Values + Names', id: StatsDefaultTextMode }],
                 },
               },
               {
