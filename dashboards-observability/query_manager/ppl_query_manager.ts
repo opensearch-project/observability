@@ -7,12 +7,11 @@ import { PPLQueryBuilder } from './query_builder/ppl_query_builder';
 import { PPLQueryParser } from './query_parser/ppl_query_parser';
 
 export class QueryManager {
-  
-  queryBuilder() : PPLQueryBuilder {
+  queryBuilder(): PPLQueryBuilder {
     return new PPLQueryBuilder();
   }
 
-  queryParser() : PPLQueryParser {
+  queryParser(): PPLQueryParser {
     return new PPLQueryParser();
   }
 }

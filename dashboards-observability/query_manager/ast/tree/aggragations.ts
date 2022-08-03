@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty } from 'lodash';
 import { PPLNode } from '../node';
 import { GroupBy } from '../expression/group_by';
 
@@ -17,17 +18,22 @@ export class Aggregations extends PPLNode {
     private aggExprList: Array<PPLNode>,
     private groupExprList: GroupBy,
     private dedupSplitValue: string,
-    private start?: number,
-    private end?: number
+    private indices?: { start: number; end: number }
   ) {
     super(name, children);
   }
 
-  getStartEndIndicesOfOriginQuery() {
+  getStartEndIndicesOfOriginQuery() : { start: number; end: number } {
+    if (this.indices === undefined) {
+      return {
+        start: -1,
+        end: -1
+      };
+    } 
     return {
-      start: this.start,
-      end: this.end
-    }
+      start: this.indices.start,
+      end: this.indices.end
+    };
   }
 
   getTokens() {
@@ -42,6 +48,6 @@ export class Aggregations extends PPLNode {
   }
 
   toString() {
-    return `stats ${this.partitions ?? ''} ${this.allNum ?? ''} ${this.delim ?? ''} ${this.aggExprList.map((aggTerm) => aggTerm.toString()).join(', ')} ${this.groupExprList.toString()} ${this.dedupSplitValue ?? ''}`
+    return `stats ${!isEmpty(this.partitions) ? `${this.partitions} ` : ''}${!isEmpty(this.allNum) ? `${this.allNum} ` : ''}${!isEmpty(this.delim) ? `${this.delim} ` : ''}${this.aggExprList.map((aggTerm) => aggTerm.toString()).join(', ')}${!isEmpty(this.groupExprList) ? ` ${this.groupExprList.toString()}` : ''}${!isEmpty(this.dedupSplitValue) ? ` ${this.dedupSplitValue}` : ''}`
   }
 }

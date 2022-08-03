@@ -6,55 +6,77 @@
 import { QueryBuilder } from './query_builder';
 import { Aggregations } from '../tree/aggragations';
 import { PPLNode } from '../node';
-import { 
+import {
   AggregateFunction,
   AggregateTerm,
   Field,
   GroupBy,
   Span,
-  SpanExpression
+  SpanExpression,
 } from '../expression';
+import {
+  ExpressionChunk,
+  SpanChunk,
+  StatsAggregationChunk,
+  StatsAggregationFunctionChunk,
+  GroupByChunk,
+  GroupField,
+  statsChunk,
+  SpanExpressionChunk,
+} from '../types';
 
 export class StatsBuilder implements QueryBuilder<Aggregations> {
-  
-  constructor(private statsChunck) {}
-  
-  build() {
+  constructor(private statsChunk: statsChunk) {}
+
+  build(): Aggregations {
     // return a new stats subtree
     return new Aggregations(
       'stats_command',
       [] as Array<PPLNode>,
-      this.statsChunck.partitions ? this.buildParttions(this.statsChunck.partitions) : '',
-      this.statsChunck.all_num ? this.buildAllNum(this.statsChunck.all_num) : '',
-      this.statsChunck.delim ? this.buildDelim(this.statsChunck.delim) : '',
-      this.statsChunck.aggregations ? this.buildAggList(this.statsChunck.aggregations) : [] as Array<PPLNode>,
-      this.statsChunck.groupby ? this.buildGroupList(this.statsChunck.groupby) : new GroupBy('stats_by_clause', [] as Array<PPLNode>, [], null),
-      this.statsChunck.dedup_split_value ? this.buildDedupSplitValue(this.statsChunck.dedup_split_value) : ''
+      this.statsChunk.partitions ? this.buildParttions(this.statsChunk.partitions) : '',
+      this.statsChunk.all_num ? this.buildAllNum(this.statsChunk.all_num) : '',
+      this.statsChunk.delim ? this.buildDelim(this.statsChunk.delim) : '',
+      this.statsChunk.aggregations
+        ? this.buildAggList(this.statsChunk.aggregations)
+        : ([] as Array<PPLNode>),
+      this.statsChunk.groupby
+        ? this.buildGroupList(this.statsChunk.groupby)
+        : new GroupBy('stats_by_clause', [] as Array<PPLNode>, [], null),
+      this.statsChunk.dedup_split_value
+        ? this.buildDedupSplitValue(this.statsChunk.dedup_split_value)
+        : ''
     );
   }
 
-  buildParttions(partitions) {
-    return partitions;
+  /**
+   * Flags
+   */
+  buildParttions(partitions: ExpressionChunk) {
+    return `${partitions.keyword} ${partitions.value}`;
   }
 
-  buildAllNum(allNum) {
-    return allNum;
+  buildAllNum(allNum: ExpressionChunk) {
+    return `${allNum.keyword} ${allNum.sign} ${allNum.value}`;
   }
 
-  buildDelim(delim) {
-    return delim;
+  buildDelim(delim: ExpressionChunk) {
+    return `${delim.keyword} ${delim.sign} ${delim.value}`;
+  }
+
+  buildDedupSplitValue(dedupSplitvalue: ExpressionChunk) {
+    return `${dedupSplitvalue.keyword} ${dedupSplitvalue.sign} ${dedupSplitvalue.value}`;
   }
 
   /**
-   * Aggregation list
+   * Aggregations
    */
-  buildAggList(aggregations) {
+  buildAggList(aggregations: Array<StatsAggregationChunk>) {
     return aggregations.map((aggregation) => {
       return this.buildAggTerm(aggregation);
     });
   }
 
-  buildAggTerm(aggTerm) {
+  buildAggTerm(aggTerm: StatsAggregationChunk) {
     return new AggregateTerm(
       'stats_agg_term',
       [] as Array<PPLNode>,
@@ -63,39 +85,35 @@ export class StatsBuilder implements QueryBuilder<Aggregations> {
     );
   }
 
-  buildAggregateFunction(aggFunction) {
+  buildAggregateFunction(aggFunction: StatsAggregationFunctionChunk) {
     return new AggregateFunction(
       'stats_function',
       [] as Array<PPLNode>,
       aggFunction.name,
       aggFunction.value_expression,
       aggFunction.percentile_agg_function
-    )
+    );
   }
 
   /**
-   * Group list
+   * Groups
    */
-  buildGroupList(groupby) {
+  buildGroupList(groupby: GroupByChunk) {
     return new GroupBy(
       'stats_by_clause',
       [] as Array<PPLNode>,
       this.buildFieldList(groupby.group_fields),
-      this.buildSpan(groupby.span)
+      groupby.span ? this.buildSpan(groupby.span) : null
     );
   }
 
-  buildFieldList(group_fields) {
-    return group_fields.map((gf) => {
-      return new Field(
-        'field_expression',
-        [] as Array<PPLNode>,
-        gf.name
-      );
+  buildFieldList(group_fields: Array<GroupField>) {
+    return group_fields.map((gf: GroupField) => {
+      return new Field('field_expression', [] as Array<PPLNode>, gf.name);
     });
   }
 
-  buildSpan(span) {
+  buildSpan(span: SpanChunk) {
     return new Span(
       'span_clause',
       [] as Array<PPLNode>,
@@ -104,7 +122,7 @@ export class StatsBuilder implements QueryBuilder<Aggregations> {
     );
   }
 
-  buildeSpanExpression(spanExpression) {
+  buildeSpanExpression(spanExpression: SpanExpressionChunk) {
     return new SpanExpression(
       'span_expression',
       [] as Array<PPLNode>,
@@ -112,9 +130,5 @@ export class StatsBuilder implements QueryBuilder<Aggregations> {
       spanExpression.literal_value,
       spanExpression.time_unit
     );
-  }
-
-  buildDedupSplitValue(dedupSplitvalue) {
-    return dedupSplitvalue.text;
   }
 }
