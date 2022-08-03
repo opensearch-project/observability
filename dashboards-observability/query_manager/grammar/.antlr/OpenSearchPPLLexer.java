@@ -1,4 +1,4 @@
-// Generated from /Users/menwe/code/OpenSearch-Dashboards/.observability/dashboards-observability/query_manager/grammar/OpenSearchPPLLexer.g4 by ANTLR 4.9.2
+// Generated from /Users/menwe/code/OpenSearch-Dashboards/plugins/dashboards-observability/query_manager/grammar/OpenSearchPPLLexer.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

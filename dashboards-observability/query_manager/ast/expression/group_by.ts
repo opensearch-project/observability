@@ -11,7 +11,7 @@ export class GroupBy extends PPLNode {
     name: string,
     children: Array<PPLNode>,
     private fields: Array<Field>,
-    private span: PPLNode
+    private span: PPLNode | null
   ) {
     super(name, children);
   }
@@ -19,7 +19,7 @@ export class GroupBy extends PPLNode {
   getTokens() {
     return {
       group_fields: this.fields.map(field => field.getTokens()),
-      span: this.span.getTokens()
+      span: this.span?.getTokens(),
     };
   }
 

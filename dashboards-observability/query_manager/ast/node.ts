@@ -11,25 +11,21 @@ interface PPLNodeProps {
 }
 
 export class PPLNode implements PPLNodeProps {
-  
-  constructor(
-    private name: string, 
-    private children: Array<PPLNode>
-  ) {}
+  constructor(private name: string, private children: Array<PPLNode>) {}
 
-  getChildren() : Array<PPLNode> {
+  getChildren(): Array<PPLNode> {
     return this.children;
   }
 
-  getName() : string {
+  getName(): string {
     return this.name;
   }
 
-  toString() : string {
+  toString(): string {
     return '';
   }
 
-  getTokens() : any {
+  getTokens(): any {
     return null;
   }
 }
