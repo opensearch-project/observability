@@ -58,7 +58,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       ? 'auto'
       : selectedTextMode;
   const textColor = dataConfig?.chartStyles?.textColor?.childColor || TextColor;
-  const textAlign = dataConfig?.chartStyles?.textAlign || TextAlignment;
 
   let autoChartLayout = {
     xaxis: {
