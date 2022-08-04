@@ -52,7 +52,7 @@ export const createMapsVisDefinition = () => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Colorscale',
+                name: 'Show colorscale',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -67,12 +67,12 @@ export const createMapsVisDefinition = () => ({
           },
           {
             id: 'chart_styles',
-            name: 'Chart Styles',
+            name: 'Chart styles',
             editor: ConfigChartOptions,
             mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Color Mode',
+                name: 'Color mode',
                 component: PanelItem,
                 mapTo: 'colorMode',
                 eleType: 'list',
