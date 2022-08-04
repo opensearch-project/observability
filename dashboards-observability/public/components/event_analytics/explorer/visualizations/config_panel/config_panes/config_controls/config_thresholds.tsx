@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Fragment, useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 import {
   EuiButton,
   EuiAccordion,
