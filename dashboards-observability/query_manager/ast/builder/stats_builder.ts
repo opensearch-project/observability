@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty } from 'lodash';
 import { QueryBuilder } from './query_builder';
 import { Aggregations } from '../tree/aggragations';
 import { PPLNode } from '../node';
@@ -33,16 +34,16 @@ export class StatsBuilder implements QueryBuilder<Aggregations> {
     return new Aggregations(
       'stats_command',
       [] as Array<PPLNode>,
-      this.statsChunk.partitions ? this.buildParttions(this.statsChunk.partitions) : '',
-      this.statsChunk.all_num ? this.buildAllNum(this.statsChunk.all_num) : '',
-      this.statsChunk.delim ? this.buildDelim(this.statsChunk.delim) : '',
-      this.statsChunk.aggregations
+      !isEmpty(this.statsChunk.partitions) ? this.buildParttions(this.statsChunk.partitions) : '',
+      !isEmpty(this.statsChunk.all_num) ? this.buildAllNum(this.statsChunk.all_num) : '',
+      !isEmpty(this.statsChunk.delim) ? this.buildDelim(this.statsChunk.delim) : '',
+      !isEmpty(this.statsChunk.aggregations)
         ? this.buildAggList(this.statsChunk.aggregations)
         : ([] as Array<PPLNode>),
-      this.statsChunk.groupby
+      !isEmpty(this.statsChunk.groupby)
         ? this.buildGroupList(this.statsChunk.groupby)
         : new GroupBy('stats_by_clause', [] as Array<PPLNode>, [], null),
-      this.statsChunk.dedup_split_value
+      !isEmpty(this.statsChunk.dedup_split_value)
         ? this.buildDedupSplitValue(this.statsChunk.dedup_split_value)
         : ''
     );
