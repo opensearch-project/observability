@@ -217,27 +217,44 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     };
     if (thresholds.length) {
       const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[]) =>
-        list.map((thr: ThresholdUnitType) =>
-          calculatedStatsData
+        list.map((thr: ThresholdUnitType) => {
+          return calculatedStatsData
             .filter((i) => i.mode === 'line')
-            .map((stat: any, index: number) => ({
-              type: 'line',
-              x0: data[dimensions[0].label][0],
-              y0: thr.value,
-              x1: last(data[dimensions[0].label]),
-              y1: thr.value,
-              xref: `x${index + 1}`,
-              yref: `y${index + 1}`,
-              name: thr.name || '',
-              opacity: 0.7,
-              line: {
-                color: thr.color,
-                width: 3,
-                dash: 'dashdot',
-              },
-            }))
-        );
+            .map((stat: any, index: number) => {
+              const thresholdTraces = {
+                x: [],
+                y: [],
+                mode: 'text',
+                text: [],
+                xaxis: '',
+                yaxis: '',
+              };
+              thresholdTraces.x.push(selectedDimensionsData[1]);
+              thresholdTraces.y.push(thr.value * (1 + 0.06));
+              thresholdTraces.text.push(thr.name);
+              thresholdTraces.xaxis = stat.xaxis ? stat.xaxis : 'x';
+              thresholdTraces.yaxis = stat.yaxis ? stat.yaxis : 'y';
+              calculatedStatsData = [...calculatedStatsData, thresholdTraces];
+              return {
+                type: 'line',
+                x0: data[dimensions[0].label][0],
+                y0: thr.value,
+                x1: last(data[dimensions[0].label]),
+                y1: thr.value,
+                xref: `x${index + 1}`,
+                yref: `y${index + 1}`,
+                name: thr.name || '',
+                opacity: 0.7,
+                line: {
+                  color: thr.color,
+                  width: 3,
+                  dash: 'dashdot',
+                },
+              };
+            });
+        });
 
+      calculatedStatsData = [...calculatedStatsData];
       autoChartLayout = {
         ...autoChartLayout,
         shapes: mapToLine(thresholds).flat(2),
