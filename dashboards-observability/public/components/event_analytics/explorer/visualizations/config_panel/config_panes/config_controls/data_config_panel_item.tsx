@@ -52,6 +52,11 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       setConfigList({
         ...userConfigs.dataConfig.valueOptions,
       });
+    } else {
+      setConfigList({
+        dimensions: [initialConfigEntry],
+        metrics: [initialConfigEntry],
+      });
     }
   }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
 
@@ -106,7 +111,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       [type]: [listItem],
     };
     setConfigList(updatedList);
-    updateChart(updatedList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
@@ -358,19 +362,19 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       <EuiSpacer size="s" />
       {visualizations.vis.name !== visChartTypes.Histogram &&
         visualizations.vis.name !== visChartTypes.CoordinateMap && (
-        <>
-          <EuiTitle size="xxs">
-            <h3>Dimensions</h3>
-          </EuiTitle>
-          {getCommonUI(configList.dimensions, 'dimensions')}
+          <>
+            <EuiTitle size="xxs">
+              <h3>Dimensions</h3>
+            </EuiTitle>
+            {getCommonUI(configList.dimensions, 'dimensions')}
 
-          <EuiSpacer size="s" />
-          <EuiTitle size="xxs">
-            <h3>Metrics</h3>
-          </EuiTitle>
-          {getCommonUI(configList.metrics, 'metrics')}
-        </>
-      )}
+            <EuiSpacer size="s" />
+            <EuiTitle size="xxs">
+              <h3>Metrics</h3>
+            </EuiTitle>
+            {getCommonUI(configList.metrics, 'metrics')}
+          </>
+        )}
       {visualizations.vis.name === visChartTypes.Histogram && (
         <>
           <EuiTitle size="xxs">
@@ -388,7 +392,13 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       {visualizations.vis.name === visChartTypes.CoordinateMap && (
         <>
           <EuiTitle size="xxs">
-            <h3>Mertics</h3>
+            <h3>Dimensions</h3>
+          </EuiTitle>
+          {getSingleBlock('dimensions', 'geo_point')}
+          <EuiSpacer size="s" />
+
+          <EuiTitle size="xxs">
+            <h3>Metrics</h3>
           </EuiTitle>
           {getSingleBlock('metrics', 'number')}
           <EuiFormRow label="Plot Label">
@@ -409,12 +419,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               }
             />
           </EuiFormRow>
-          <EuiSpacer size="s" />
-          <EuiTitle size="xxs">
-            <h3>Dimensions</h3>
-          </EuiTitle>
-          {getSingleBlock('dimensions', 'geo_point')}
-
           <EuiSpacer size="s" />
         </>
       )}

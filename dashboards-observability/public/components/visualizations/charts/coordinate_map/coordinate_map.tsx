@@ -15,7 +15,7 @@ import { visChartTypes } from '../../../../../common/constants/shared';
 
 export const CoordinateMap = ({ visualizations }: any) => {
   const { explorerData } = useContext<any>(TabContext);
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const dataConfiguration = visualizations?.data?.rawVizData?.scattergeo?.dataConfig;
   const rawData = explorerData.jsonData;
 
@@ -33,6 +33,7 @@ export const CoordinateMap = ({ visualizations }: any) => {
 
   if (
     isInvalidCoordinateMapConfig(dataConfiguration) ||
+    rawData === undefined ||
     rawData.length === 0 ||
     fetchPlotNames()[0] === undefined ||
     fetchLocationLats()[0] === undefined ||
@@ -96,6 +97,10 @@ export const CoordinateMap = ({ visualizations }: any) => {
   );
 
   const layoutMap = {
+    title: {
+      text: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      y: 0.99,
+    },
     height: 600,
     font: {
       family: 'Droid Serif, serif',
