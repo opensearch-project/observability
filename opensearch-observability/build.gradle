@@ -10,7 +10,7 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "2.1.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "2.2.0-SNAPSHOT")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -113,6 +113,7 @@ configurations.all {
         force "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
         force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.11.4"
+        force "org.mockito:mockito-core:4.6.1"
     }
 }
 
