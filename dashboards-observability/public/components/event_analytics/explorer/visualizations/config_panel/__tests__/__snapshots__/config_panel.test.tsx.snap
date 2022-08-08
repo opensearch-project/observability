@@ -5426,11 +5426,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         }
                       }
-                      vizState={
-                        Object {
-                          "valueOptions": Object {},
-                        }
-                      }
                     />,
                     "id": "data-panel",
                     "name": "Data",
@@ -6104,11 +6099,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               },
                             },
-                          }
-                        }
-                        vizState={
-                          Object {
-                            "valueOptions": Object {},
                           }
                         }
                       />,
@@ -7362,11 +7352,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                             },
                           },
-                        }
-                      }
-                      vizState={
-                        Object {
-                          "valueOptions": Object {},
                         }
                       }
                     >
