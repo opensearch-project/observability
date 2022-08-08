@@ -26,21 +26,18 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const childField =
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions &&
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].childField
-      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].childField
+    dataConfig?.valueOptions?.dimensions && dataConfig?.valueOptions?.dimensions[0].childField
+      ? dataConfig.valueOptions.dimensions[0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions &&
-    visualizations.data?.rawVizData?.tree_map?.dataConfig.dimensions[0].parentFields
-      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].parentFields
+    dataConfig?.valueOptions?.dimensions && dataConfig?.valueOptions?.dimensions[0].parentFields
+      ? dataConfig.valueOptions.dimensions[0].parentFields
       : [];
 
   const valueField =
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.metrics &&
-    visualizations.data?.rawVizData?.tree_map?.dataConfig.metrics[0].valueField
-      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.metrics[0].valueField
+    dataConfig?.valueOptions?.metrics && dataConfig?.valueOptions?.metrics[0].valueField
+      ? dataConfig.valueOptions.metrics[0].valueField
       : fields[0];
 
   const colorField =
@@ -107,7 +104,9 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
             const currentParentIndices = uniqueParents.map((parent) =>
               data[field.name].findIndex((index) => index === parent)
             );
-            const lastParents = currentParentIndices.map((index) => data[lastParentField.name][index]);
+            const lastParents = currentParentIndices.map(
+              (index) => data[lastParentField.name][index]
+            );
             parentsArray = [...parentsArray, ...lastParents];
             valuesArray = [...valuesArray, ...Array(lastParents.length).fill(0)];
             colorsArray =

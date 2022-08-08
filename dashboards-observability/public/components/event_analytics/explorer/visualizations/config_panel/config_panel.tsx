@@ -77,21 +77,6 @@ export const ConfigPanel = ({
   const { data, vis } = visualizations;
   const { userConfigs } = data;
 
-  const getDefaultAxisSelected = () => {
-    let chartBasedAxes: ValueOptionsAxes = {};
-    const [valueField] = data.defaultAxes?.yaxis ?? [];
-    if (curVisId === visChartTypes.TreeMap) {
-      chartBasedAxes['childField'] = data.defaultAxes.xaxis ?? [];
-      chartBasedAxes['valueField'] = valueField && [valueField];
-    } else if (curVisId === visChartTypes.HeatMap) {
-      chartBasedAxes['zaxis'] = valueField && [valueField];
-    } else {
-      chartBasedAxes = { ...data.defaultAxes };
-    }
-    return {
-      valueOptions: { ...(chartBasedAxes && chartBasedAxes) },
-    };
-  };
   const [vizConfigs, setVizConfigs] = useState({
     dataConfig: {},
     layoutConfig: userConfigs?.layoutConfig
@@ -103,9 +88,6 @@ export const ConfigPanel = ({
   useEffect(() => {
     setVizConfigs({
       ...userConfigs,
-      dataConfig: {
-        ...(userConfigs?.dataConfig ? userConfigs.dataConfig : getDefaultAxisSelected()),
-      },
       layoutConfig: userConfigs?.layoutConfig
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),

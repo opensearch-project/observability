@@ -33,12 +33,11 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
 
   const xbins: any = {};
-  if (visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketSize) {
-    xbins.size = visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketSize;
+  if (dataConfig?.valueOptions?.dimensions[0].bucketSize) {
+    xbins.size = dataConfig.valueOptions.dimensions[0].bucketSize;
   }
-  if (visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketOffset) {
-    xbins.start =
-      visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketOffset;
+  if (dataConfig?.valueOptions?.dimensions[0].bucketOffset) {
+    xbins.start = dataConfig.valueOptions.dimensions[0].bucketOffset;
   }
 
   const selectedColorTheme = (field: any, index: number, opacity?: number) => {

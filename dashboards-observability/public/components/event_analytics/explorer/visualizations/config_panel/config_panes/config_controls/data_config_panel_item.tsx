@@ -18,11 +18,7 @@ import {
   EuiFieldNumber,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  render as renderExplorerVis,
-  selectExplorerVisualization,
-} from '../../../../../../event_analytics/redux/slices/visualization_slice';
+import { useDispatch } from 'react-redux';
 import {
   AGGREGATION_OPTIONS,
   numericalTypes,
@@ -34,9 +30,9 @@ import { TabContext } from '../../../../../hooks';
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
-  const { tabId } = useContext<any>(TabContext);
-  const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
+  const { tabId, curVisId, changeVisualizationConfig } = useContext<any>(TabContext);
   const { data } = visualizations;
+  const { userConfigs } = data;
 
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
@@ -52,20 +48,18 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   const [configList, setConfigList] = useState<ConfigList>({});
 
   useEffect(() => {
-    if (
-      configList.dimensions &&
-      configList.metrics &&
-      visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined
-    ) {
+    if (configList.dimensions && configList.metrics && !userConfigs.dataConfig) {
       dispatch(
-        renderExplorerVis({
+        changeVisualizationConfig({
           tabId,
+          vizId: curVisId,
           data: {
-            ...explorerVisualizations,
-            [visualizations.vis.name]: {
-              dataConfig: {
-                metrics: configList.metrics,
+            ...userConfigs,
+            dataConfig: {
+              ...userConfigs.dataConfig,
+              valueOptions: {
                 dimensions: configList.dimensions,
+                metrics: configList.metrics,
               },
             },
           },
@@ -75,12 +69,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   }, [configList]);
 
   useEffect(() => {
-    if (
-      data.rawVizData?.[visualizations.vis.name] &&
-      data.rawVizData?.[visualizations.vis.name].dataConfig
-    ) {
+    if (userConfigs && userConfigs.dataConfig && userConfigs.dataConfig.valueOptions) {
       setConfigList({
-        ...data.rawVizData[visualizations.vis.name].dataConfig,
+        ...userConfigs.dataConfig.valueOptions,
       });
     } else if (
       visualizations.vis.name !== visChartTypes.HeatMap &&
@@ -158,14 +149,16 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   const updateChart = () => {
     dispatch(
-      renderExplorerVis({
+      changeVisualizationConfig({
         tabId,
+        vizId: curVisId,
         data: {
-          ...explorerVisualizations,
-          [visualizations.vis.name]: {
-            dataConfig: {
-              metrics: configList.metrics,
+          ...userConfigs,
+          dataConfig: {
+            ...userConfigs.dataConfig,
+            valueOptions: {
               dimensions: configList.dimensions,
+              metrics: configList.metrics,
             },
           },
         },

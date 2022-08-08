@@ -17,11 +17,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions.filter((item) => item.label)
+  const xaxis = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];
-  const yaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics.filter((item) => item.label)
+  const yaxis = dataConfig?.valueOptions?.metrics
+    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
     : [];
   const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
