@@ -18,6 +18,10 @@ export class PPLQueryBuilder {
   buildStats(query: string, statsTokens: any) {
     const statsTree = new StatsAstBuilder().visitRoot(this.parser!.root());
     const newStatsAstTree = new StatsBuilder(statsTokens).build();
+    if (typeof statsTree.getStartEndIndicesOfOriginQuery !== 'function') {
+      return query + ' | ' + newStatsAstTree.toString();
+    }
+
     const indices = statsTree.getStartEndIndicesOfOriginQuery();
 
     if (indices.start !== -1 && indices.end !== -1) {
