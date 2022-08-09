@@ -106,11 +106,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       listItem.name = value;
       listItem.type = dataType !== undefined ? dataType : '';
     }
-    const updatedList = {
-      ...list,
-      [type]: [listItem],
-    };
-    setConfigList(updatedList);
+    list[type] = [listItem];
+    setConfigList(list);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
@@ -306,7 +303,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       <EuiPanel color="subdued" style={{ padding: '0px' }}>
         <EuiFormRow label="Aggregation">
           <EuiComboBox
-            aria-label="Accessible screen reader label"
+            aria-label="aggregationSingleBlock"
             placeholder="Select a aggregation"
             singleSelection={{ asPlainText: true }}
             options={type === 'metrics' ? METRIC_AGGREGATIONS : [{ label: 'GEOHASH' }]}
@@ -322,7 +319,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         </EuiFormRow>
         <EuiFormRow label="Field">
           <EuiComboBox
-            aria-label="Accessible screen reader label"
+            aria-label="fieldSingleBlock"
             placeholder="Select a field"
             singleSelection={{ asPlainText: true }}
             options={getOptionsAccordingToType(dataType)}
@@ -346,7 +343,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 : ''
             }
             onChange={(e) => updateCoordinateConfig(e.target.value, type, 'custom_label')}
-            aria-label="Use aria labels when no actual label is in use"
+            aria-label="customLabelSingleBlock"
           />
         </EuiFormRow>
         <EuiSpacer size="s" />

@@ -26,7 +26,7 @@ export const DualRangeSlider: React.FC<Props> = ({
     <EuiDualRange
       id={htmlIdGenerator('dualInputRangeSlider')()}
       value={currentRange}
-      onChange={(val) => handleSliderChange(val)}
+      onChange={handleSliderChange}
       min={minRange}
       max={maxRange}
       step={step}
