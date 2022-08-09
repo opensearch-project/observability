@@ -4,7 +4,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { isEmpty, last, take } from 'lodash';
+import { isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
@@ -45,10 +45,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig?.tooltipOptions?.tooltipText !== undefined
       ? dataConfig.tooltipOptions.tooltipText
       : 'all';
-  let bars, valueSeries, valueForXSeries;
+  const breakdowns = dataConfigTab?.breakdowns ? dataConfigTab.breakdowns : [];
+  let bars: Plotly.Data[], valueForYSeries: Plotly.Data[], valueForXSeries: Plotly.Data[];
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = isVertical ? [...yaxis] : [...xaxis];
+    valueForYSeries = isVertical ? [...yaxis] : [...xaxis];
     valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
   } else {
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
@@ -77,35 +78,53 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
-  const prepareData = (valueForXSeries) => {
-    return valueForXSeries
-      .map((dimension: any) => data[dimension.label])
-      ?.reduce((prev, cur) => {
-        return prev.map((i, j) => `${i}, ${cur[j]}`);
-      });
+  const prepareData = (valueSeries: Plotly.Data[]) => {
+    let modifiedValueSeries = valueSeries;
+    if (breakdowns.length !== 0) {
+      const breakdownLabels = breakdowns.map((field: any) => field.label);
+      modifiedValueSeries = valueSeries.filter(
+        (field: any) => !breakdownLabels.includes(field.label)
+      );
+    }
+    return modifiedValueSeries.reduce((prev, curr) => {
+      if (prev.length === 0) {
+        return data[curr.label].flat();
+      }
+      return prev.map((i, j) => `${i}, ${data[curr.label][j]}`);
+    }, []);
   };
 
   const createNameData = (nameData, metricName: string) =>
     nameData?.map((el) => el + ',' + metricName);
 
+  const isTimestampPresent = valueForXSeries.some((e) => e.type === 'timestamp');
+
   // for multiple dimention and metrics with timestamp
-  if (valueForXSeries.some((e) => e.type === 'timestamp')) {
+  if (isTimestampPresent) {
     const nameData =
       valueForXSeries.length > 1
-        ? valueForXSeries
-            .filter((item) => item.type !== 'timestamp')
-            .map((dimension) => data[dimension.label])
-            .reduce((prev, cur) => {
-              return prev.map((i, j) => `${i}, ${cur[j]}`);
-            })
+        ? valueForXSeries.reduce((prev, curr) => {
+            if (curr.type !== 'timestamp') {
+              if (prev.length === 0) {
+                prev.push(data[curr.label]);
+                return prev.flat();
+              }
+              return prev.map((i, j) => `${i}, ${data[curr.label][j]}`);
+            }
+            return prev;
+          }, [])
         : [];
 
     let dimensionsData = valueForXSeries
-      .filter((item) => item.type === 'timestamp')
-      .map((dimension) => data[dimension.label])
+      .reduce((prev: Plotly.Data[], curr: Plotly.Data) => {
+        if (curr.type === 'timestamp') {
+          prev.push(data[curr.label]);
+        }
+        return prev;
+      }, [])
       .flat();
 
-    bars = valueSeries
+    bars = valueForYSeries
       .map((field: any, index: number) => {
         const selectedColor = getSelectedColorTheme(field, index);
         return dimensionsData.map((dimension: any, j: number) => {
@@ -145,8 +164,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   } else {
     // for multiple dimention and metrics without timestamp
     const dimensionsData = prepareData(valueForXSeries);
-    const metricsData = prepareData(valueSeries);
-    bars = valueSeries.map((field: any, index: number) => {
+    const metricsData = prepareData(valueForYSeries);
+    bars = valueForYSeries.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field, index);
       return {
         x: isVertical
