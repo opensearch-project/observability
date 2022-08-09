@@ -24,7 +24,16 @@ const {
   TextColor,
   TextAlignment,
   ChartType,
+  DefaultPrecision,
+  DefaultValueSize,
 } = DefaultStatsParameters;
+
+interface annotationType {
+  type: string;
+  index: number;
+  label?: string;
+  value?: number;
+}
 
 export const Stats = ({ visualizations, layout, config }: any) => {
   const {
@@ -47,6 +56,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   if ((chartType === ChartType && dimensions.length === 0) || metricsLength.length === 0)
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
+  console.log('data===', data);
+
   // style panel parameters
   const thresholds = dataConfig?.thresholds || [];
   const textSize = dataConfig?.chartStyles?.textSize || TextSize;
@@ -58,20 +69,31 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       ? 'auto'
       : selectedTextMode;
   const textColor = dataConfig?.chartStyles?.textColor?.childColor || TextColor;
+  const precisionValue = dataConfig?.chartStyles?.precisionValue || DefaultPrecision;
+  const valueSize = dataConfig?.chartStyles?.valueSize || DefaultValueSize;
+  const metricUnits = dataConfig?.chartStyles?.metricUnits || '';
+  console.log("metricUnits====", metricUnits)
+  console.log("precisionValue===", precisionValue)
+  const getRoundOf = (number: number, places: number) =>{
+    return Math.round(number * (places)) / (places);}
 
-  let autoChartLayout = {
+  const ZERO_ERROR_ANNOTATION = 0.01;
+  let autoChartLayout: any = {
     xaxis: {
       visible: false,
       showgrid: false,
       anchor: 'y1',
       margin: STATS_AXIS_MARGIN,
+      // domain: [0, 1]
     },
     yaxis: {
       visible: false,
       showgrid: false,
       anchor: 'x1',
       margin: STATS_AXIS_MARGIN,
+      // domain: [0, ]
     },
+    annotations: [],
   };
 
   const selectedDimensionsData = dimensions
@@ -80,10 +102,82 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       prev.map((item: string | number, index: number) => `${item},<br>${cur[index]}`)
     );
 
+  const createAnnotation = ({ type, label, value, index }: annotationType) => {
+    console.log('createAnnotation===', { type, label, value, index });
+    const commonAxis = orientation === 'auto' ? 'y' : 'x';
+    const calculatedAxis = orientation === 'auto' ? 'x' : 'y';
+    return textMode === 'values+names' || textMode === 'auto'
+      ? [
+          {
+            xref: 'paper',
+            yref: 'paper',
+            [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
+            [commonAxis]: 1,
+            xanchor: 'left',
+            yanchor: 'bottom',
+            text: label,
+            showarrow: false,
+            font: {
+              size: textSize,
+              color: 'black',
+              family: 'Roboto',
+            },
+          },
+          {
+            xref: 'paper',
+            yref: 'paper',
+            [calculatedAxis]:
+              index > 0
+                ? (index + 1) / metricsLength - ZERO_ERROR_ANNOTATION
+                : 1 / metricsLength - ZERO_ERROR_ANNOTATION,
+            [commonAxis]: 1,
+            xanchor: 'right',
+            yanchor: 'bottom',
+            text: `<b>${value}</b>`,
+            showarrow: false,
+            font: {
+              size: valueSize,
+              color: 'black',
+              family: 'Roboto',
+            },
+          },
+        ]
+      : [
+          {
+            xref: 'paper',
+            yref: 'paper',
+            [calculatedAxis]:
+              metricsLength === 1
+                ? 0.5
+                : index === 0
+                ? ((1 / metricsLength) * 1) / 2
+                : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
+            xanchor: 'center',
+            [commonAxis]: 1,
+            yanchor: 'bottom',
+            text: textMode === 'values' ? `<b>${value}</b>` : label,
+            showarrow: false,
+            font: {
+              size: valueSize,
+              color: 'black',
+              family: 'Roboto',
+            },
+          },
+        ];
+  };
+
   const generateLineTraces = () =>
     metrics.map((metric: ConfigListEntry, metricIndex: number) => {
       autoChartLayout = {
         ...autoChartLayout,
+        annotations: autoChartLayout.annotations.concat(
+          createAnnotation({
+            type: textMode,
+            label: metric.label,
+            value: getRoundOf(data[metric.label][0], 10 ** precisionValue),
+            index: metricIndex,
+          })
+        ),
         [`yaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
           visible: false,
           showgrid: false,
@@ -122,99 +216,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       };
     });
 
+  
   const [statsData, statsLayout]: Plotly.Data[] = useMemo(() => {
     let calculatedStatsData: Plotly.Data[] = [];
     calculatedStatsData = generateLineTraces();
-    // label/text
-    let textLabelTrace: any = {
-      x: [],
-      y: [],
-      mode: 'text',
-      text: [],
-      type: 'scatter',
-      xaxis: `x${metricsLength + 1}`,
-      yaxis: `y${metricsLength + 1}`,
-      textfont: {
-        size: textSize,
-        color: textColor,
-      },
-    };
-    const repeatedAxis = metricsLength === 1 || orientation === DefaultOrientation ? 'x' : 'y';
-    let singleAxis = metricsLength === 1 || orientation === DefaultOrientation ? 'y' : 'x';
-    const singleAxisCoords = [
-      STATS_MAX_GRID_LENGTH - 1,
-      metricsLength === 1 || orientation === DefaultOrientation
-        ? STATS_MAX_GRID_LENGTH - 1.4
-        : STATS_MAX_GRID_LENGTH - 1,
-    ];
-    const ZERO_ERROR = metricsLength === 1 || orientation === DefaultOrientation ? 0 : 0.5;
-    const isSingleText = textMode === StatsDefaultTextMode ? false : true;
-    metrics.forEach((m: ConfigListEntry, index: number) => {
-      // for layout of text trace
-      if (textMode === StatsDefaultTextMode) {
-        textLabelTrace.text.push(`${m.label}`);
-        textLabelTrace.text.push(`${data[m.label][data[m.label].length - 1]}`);
-      } else if (textMode === 'names') {
-        textLabelTrace.text.push(`${m.label}`);
-      } else {
-        textLabelTrace.text.push(`${data[m.label][data[m.label].length - 1]}`);
-      }
-      if (index === metricsLength - 1) {
-        const textCoords = isSingleText
-          ? [STATS_MAX_GRID_LENGTH - 1]
-          : [STATS_MAX_GRID_LENGTH - 1, STATS_MAX_GRID_LENGTH - 1 + ZERO_ERROR];
-        textLabelTrace[repeatedAxis].push(...textCoords);
-      } else {
-        if (textLabelTrace[repeatedAxis].length) {
-          // covering all cases in between
-          const textCoords = isSingleText
-            ? [
-                textLabelTrace[repeatedAxis][textLabelTrace[repeatedAxis].length - 1] +
-                  STATS_MAX_GRID_LENGTH / metricsLength,
-              ]
-            : [
-                textLabelTrace[repeatedAxis][textLabelTrace[repeatedAxis].length - 1] +
-                  STATS_MAX_GRID_LENGTH / metricsLength,
-                textLabelTrace[repeatedAxis][textLabelTrace[repeatedAxis].length - 1] +
-                  STATS_MAX_GRID_LENGTH / metricsLength +
-                  ZERO_ERROR,
-              ];
-          textLabelTrace[repeatedAxis].push(...textCoords);
-        } else {
-          // for very first metric
-          const textCoords = isSingleText
-            ? [STATS_MAX_GRID_LENGTH / metricsLength - 1]
-            : [
-                STATS_MAX_GRID_LENGTH / metricsLength - 1,
-                STATS_MAX_GRID_LENGTH / metricsLength - 1 + ZERO_ERROR,
-              ];
-          textLabelTrace[repeatedAxis].push(...textCoords);
-        }
-      }
-
-      if (isSingleText) {
-        textLabelTrace[singleAxis].push(singleAxisCoords[0]);
-      } else {
-        textLabelTrace[singleAxis].push(...singleAxisCoords);
-      }
-    });
-    calculatedStatsData = [...calculatedStatsData, textLabelTrace];
-    // add layout for text traces
-    autoChartLayout = {
-      ...autoChartLayout,
-      [`xaxis${metricsLength + 1}`]: {
-        range: [0, STATS_MAX_GRID_LENGTH],
-        showline: false,
-        zeroline: false,
-        showgrid: false,
-      },
-      [`yaxis${metricsLength + 1}`]: {
-        range: [0, STATS_MAX_GRID_LENGTH],
-        showline: false,
-        zeroline: false,
-        showgrid: false,
-      },
-    };
     if (thresholds.length) {
       const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[]) =>
         list.map((thr: ThresholdUnitType) => {
@@ -276,11 +281,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               rows: 1,
               columns: metricsLength,
               xgap: STATS_GAP_BETWEEN_AXIS,
+              ygap: 100,
             }
           : {
               rows: metricsLength,
               columns: 1,
-              ygap: STATS_GAP_BETWEEN_AXIS,
+              ygap: STATS_GAP_BETWEEN_AXIS + 100,
             }),
         pattern: 'independent',
         roworder: 'bottom to top',
@@ -311,6 +317,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-
+  console.log('statsData===', statsData);
+  console.log('mergedLayout==', mergedLayout);
   return <Plt data={statsData} layout={mergedLayout} config={mergedConfigs} />;
 };

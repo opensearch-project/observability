@@ -15,6 +15,7 @@ import {
   ButtonGroupItem,
   ConfigChartOptions,
   ColorPalettePicker,
+  TextInputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { DefaultStatsParameters } from '../../../../../common/constants/explorer';
@@ -81,6 +82,20 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
+                title: 'Metrics Units',
+                name: 'Metric Units',
+                component: TextInputFieldItem,
+                mapTo: 'metricUnits',
+                eleType: 'textInput',
+              },
+              {
+                title: 'Metrics Precision',
+                name: 'Metrics Precision',
+                component: InputFieldItem,
+                mapTo: 'precisionValue',
+                eleType: 'input',
+              },
+              {
                 title: 'Text Size',
                 name: 'Text Size',
                 component: InputFieldItem,
@@ -102,21 +117,21 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                   defaultSelections: [{ name: 'Values + Names', id: StatsDefaultTextMode }],
                 },
               },
-              {
-                name: 'Text Color',
-                isSingleSelection: true,
-                component: ColorPalettePicker,
-                mapTo: 'textColor',
-                eleType: 'treemapColorPicker',
-                options: [
-                  {
-                    value: SINGLE_COLOR_PALETTE,
-                    title: 'Single color',
-                    type: 'text',
-                  },
-                ],
-                defaultState: { name: SINGLE_COLOR_PALETTE },
-              },
+              // {
+              //   name: 'Text Color',
+              //   isSingleSelection: true,
+              //   component: ColorPalettePicker,
+              //   mapTo: 'textColor',
+              //   eleType: 'treemapColorPicker',
+              //   options: [
+              //     {
+              //       value: SINGLE_COLOR_PALETTE,
+              //       title: 'Single color',
+              //       type: 'text',
+              //     },
+              //   ],
+              //   defaultState: { name: SINGLE_COLOR_PALETTE },
+              // },
             ],
           },
           {

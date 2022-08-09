@@ -87,6 +87,12 @@ export const ConfigChartOptions = ({
             numValue: vizState[schema.mapTo] || '',
             handleInputChange: handleConfigurationChange(schema.mapTo),
           };
+        } else if (schema.eleType === 'textInput') {
+          params = {
+            ...params,
+            currentValue: vizState[schema.mapTo] || '',
+            handleInputChange: handleConfigurationChange(schema.mapTo),
+          };
         } else if (schema.eleType === 'slider') {
           params = {
             ...params,
