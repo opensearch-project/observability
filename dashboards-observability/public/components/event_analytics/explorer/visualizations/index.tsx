@@ -74,9 +74,10 @@ export const ExplorerVisualizations = ({
                 handleAddField={(field: IField) => handleAddField(field)}
                 handleRemoveField={(field: IField) => handleRemoveField(field)}
                 isFieldToggleButtonDisabled={
-                  vis.name === visChartTypes.LogsView &&
-                  (isEmpty(explorerData.jsonData) ||
-                    !isEmpty(query[RAW_QUERY].match(PPL_STATS_REGEX)))
+                  vis.name === visChartTypes.LogsView
+                    ? isEmpty(explorerData.jsonData) ||
+                      !isEmpty(query[RAW_QUERY].match(PPL_STATS_REGEX))
+                    : true
                 }
               />
             </div>
