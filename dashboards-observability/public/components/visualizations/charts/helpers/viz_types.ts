@@ -4,7 +4,6 @@
  */
 
 import { isEmpty, take } from 'lodash';
-import { getVisType } from '../vis_types';
 import {
   IVisualizationContainerProps,
   IField,
@@ -12,6 +11,7 @@ import {
   ExplorerData,
 } from '../../../../../common/types/explorer';
 import { visChartTypes } from '../../../../../common/constants/shared';
+import { getVisTypeData } from '../../../custom_panels/helpers/utils';
 
 interface IVizContainerProps {
   vizId: string;
@@ -59,10 +59,6 @@ export const getVizContainerProps = ({
   appData = {},
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
-  const getVisTypeData = () =>
-    vizId === visChartTypes.Line || vizId === visChartTypes.Scatter
-      ? { ...getVisType(vizId, { type: vizId }) }
-      : { ...getVisType(vizId) };
 
   return {
     data: {
@@ -72,12 +68,12 @@ export const getVizContainerProps = ({
       indexFields: { ...indexFields },
       userConfigs: { ...userConfigs },
       defaultAxes: {
-        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData().name),
+        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData(vizId).name),
       },
       explorer: { ...explorer },
     },
     vis: {
-      ...getVisTypeData(),
+      ...getVisTypeData(vizId),
     },
   };
 };

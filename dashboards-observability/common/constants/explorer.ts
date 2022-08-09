@@ -86,6 +86,7 @@ export const VIZ_CONTAIN_XY_AXIS = [
   visChartTypes.Line,
   visChartTypes.Pie,
   visChartTypes.Scatter,
+  visChartTypes.HorizontalBar,
 ];
 
 // default ppl aggregation method options
@@ -139,7 +140,7 @@ export interface DefaultGaugeChartParametersProps {
   GaugeTitleSize: number,
   DisplayDefaultGauges: number,
   OrientationDefault: string,
-  TickLength: number, 
+  TickLength: number,
   LegendPlacement: string,
   ThresholdsMaxLimit: number
 };
