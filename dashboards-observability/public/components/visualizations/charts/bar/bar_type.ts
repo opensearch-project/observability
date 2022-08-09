@@ -8,7 +8,6 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
 import { ConfigBarChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_bar_chart_styles';
@@ -29,26 +28,26 @@ export const createBarTypeDefinition = (params: any) => ({
   type: 'bar',
   id: 'bar',
   label: 'Vertical bar',
-  fullLabel: 'Vertical bar',
-  iconType: 'visBarVerticalStacked',
+  fulllabel: 'Vertical bar',
+  icontype: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
   icon: LensIconChartBar,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   orientation: 'v',
   mode: 'group',
-  labelAngle: 0,
-  lineWidth: 1,
+  labelangle: 0,
+  linewidth: 1,
   fillOpacity: 80,
-  groupWidth: 0.7,
-  barWidth: 0.97,
-  showLegend: ShowLegend,
-  legendPosition: LegendPosition,
+  groupwidth: 0.7,
+  barwidth: 0.97,
+  showlegend: ShowLegend,
+  legendposition: LegendPosition,
   component: Bar,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -213,7 +212,7 @@ export const createBarTypeDefinition = (params: any) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

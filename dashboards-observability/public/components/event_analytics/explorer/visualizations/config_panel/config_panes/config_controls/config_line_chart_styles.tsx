@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
@@ -103,10 +103,10 @@ export const ConfigLineChartStyles = ({
           };
         }
         return (
-          <>
-            <DimensionComponent key={`viz-series-${index}`} {...params} />
+          <Fragment key={`viz-series-${index}`}>
+            <DimensionComponent  {...params} />
             <EuiSpacer size="s" />
-          </>
+          </Fragment>
         );
       }),
     [currentSchemas, vizState, handleConfigurationChange]

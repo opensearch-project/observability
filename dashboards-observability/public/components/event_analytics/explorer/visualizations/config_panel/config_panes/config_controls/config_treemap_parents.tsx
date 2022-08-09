@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   EuiButton,
   EuiFormRow,
@@ -61,7 +61,7 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
       {!isEmpty(selectedAxis) &&
         selectedAxis.map((_, index: number) => {
           return (
-            <>
+            <Fragment key={index}>
               <EuiSpacer size="s" />
               <EuiFormRow
                 label={`Parent ${index + 1}`}
@@ -86,7 +86,7 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
                   aria-label="Use aria labels when no actual label is in use"
                 />
               </EuiFormRow>
-            </>
+            </Fragment>
           );
         })}
       <EuiSpacer size="s" />

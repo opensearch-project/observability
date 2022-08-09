@@ -17,16 +17,16 @@ export const createLogsViewTypeDefinition = (params: any = {}) => ({
   type: 'logs_view',
   id: 'logs_view',
   label: 'Logs View',
-  fullLabel: 'Logs View',
-  iconType: 'visTable',
+  fulllabel: 'Logs View',
+  icontype: 'visTable',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartDatatable,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
-  editorConfig: {
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -37,7 +37,7 @@ export const createLogsViewTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       colorway: PLOTLY_COLOR,

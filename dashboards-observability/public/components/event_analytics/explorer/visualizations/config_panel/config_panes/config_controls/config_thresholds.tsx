@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback, Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -108,7 +108,7 @@ export const ConfigThresholds = ({
       {!isEmpty(vizState) &&
         vizState.map((thr: ThresholdUnitType) => {
           return (
-            <>
+            <Fragment key={thr.thid}>
               <EuiFormRow fullWidth label="">
                 <EuiFlexGroup alignItems="center" gutterSize="xs">
                   <EuiFlexItem grow={3}>
@@ -149,7 +149,7 @@ export const ConfigThresholds = ({
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiFormRow>
-            </>
+            </Fragment>
           );
         })}
     </EuiAccordion>

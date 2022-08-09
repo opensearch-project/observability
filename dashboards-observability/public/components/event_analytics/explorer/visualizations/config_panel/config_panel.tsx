@@ -216,7 +216,7 @@ export const ConfigPanel = ({
   }, [visualizations, vizConfigs, setToast, curVisId]);
 
   const tabs: EuiTabbedContentTab[] = useMemo(() => {
-    return vis.editorConfig.panelTabs.map((tab: PanelTabType) => {
+    return vis.editorconfig.panelTabs.map((tab: PanelTabType) => {
       const Editor = tab.editor;
       return {
         id: tab.id,
@@ -224,7 +224,7 @@ export const ConfigPanel = ({
         content: <Editor {...params[tab.mapTo]} tabProps={{ ...tab }} />,
       };
     });
-  }, [vis.editorConfig.panelTabs, params]);
+  }, [vis.editorconfig.panelTabs, params]);
 
   const [currTabId, setCurrTabId] = useState(tabs[0].id);
 
@@ -255,11 +255,11 @@ export const ConfigPanel = ({
   );
 
   const vizSelectableItemRenderer = (option: EuiComboBoxOptionOption<any>) => {
-    const { iconType = 'empty', label = '' } = option;
+    const { icontype = 'empty', label = '' } = option;
 
     return (
       <div className="configPanel__vizSelector-item">
-        <EuiIcon className="lnsChartSwitch__chartIcon" type={iconType} size="m" />
+        <EuiIcon className="lnsChartSwitch__chartIcon" type={icontype} size="m" />
         &nbsp;&nbsp;
         <span>{label}</span>
       </div>
@@ -268,9 +268,11 @@ export const ConfigPanel = ({
 
   const getSelectedVisDById = useCallback(
     (visId) => {
-      return find(memorizedVisualizationTypes, (v) => {
+      const selectedOption = find(memorizedVisualizationTypes, (v) => {
         return v.id === visId;
       });
+      selectedOption['iconType'] = selectedOption.icontype;
+      return selectedOption;
     },
     [memorizedVisualizationTypes]
   );

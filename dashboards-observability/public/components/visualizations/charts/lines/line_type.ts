@@ -28,16 +28,16 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   type: params.type,
   id: params.type,
   label: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
-  fullLabel: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
-  iconType: 'visLine',
+  fulllabel: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
+  icontype: 'visLine',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
-  editorConfig: {
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -209,7 +209,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{
