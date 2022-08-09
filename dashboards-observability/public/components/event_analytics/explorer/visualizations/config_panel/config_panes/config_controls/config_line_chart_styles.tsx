@@ -54,14 +54,12 @@ export const ConfigLineChartStyles = ({
             (schema: IConfigPanelOptionSection) => schema.mapTo !== 'interpolation'
           );
       }
+    } else if (visualizations?.vis?.name === visChartTypes.Scatter) {
+      return schemas.filter((schema: IConfigPanelOptionSection) =>
+        ['style', 'pointSize'].includes(schema.mapTo)
+      );
     } else {
-      if (visualizations?.vis?.name === visChartTypes.Scatter) {
-        return schemas.filter((schema: IConfigPanelOptionSection) =>
-          ['style', 'pointSize'].includes(schema.mapTo)
-        );
-      } else {
-        return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
-      }
+      return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
     }
 <<<<<<< HEAD
     } else if (visualizations?.vis?.name === visChartTypes.Scatter) {
