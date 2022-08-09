@@ -22,9 +22,9 @@ export const composeAggregations = (
       group_fields: aggConfig.dimensions.map((dimension) => ({ name: dimension.name })),
       span: aggConfig.span ?? null,
     },
-    partitions: staleStats.partitions,
-    all_num: staleStats.all_num,
-    delim: staleStats.delim,
-    dedup_split_value: staleStats.dedup_split_value,
+    partitions: staleStats?.partitions ?? {},
+    all_num: staleStats?.all_num ?? {},
+    delim: staleStats?.delim ?? {},
+    dedup_split_value: staleStats?.dedup_split_value ?? {},
   };
 };
