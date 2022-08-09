@@ -16,7 +16,7 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
 } from '../constants/explorer';
-import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import { CoreStart, HttpSetup, HttpStart, NotificationsStart } from '../../../../src/core/public';
 import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
@@ -151,6 +151,31 @@ export interface SavedVizRes {
   tenant: string;
 }
 
+export interface ExplorerDataType {
+  jsonData: object[];
+  jsonDataAll: object[];
+}
+
+export interface Query {
+  finalQuery: string;
+  index: string;
+  isLoaded: boolean;
+  objectType: string;
+  rawQuery: string;
+  savedObjectId: string;
+  selectedDateRange: string[];
+  selectedTimestamp: string;
+  tabCreatedType: string;
+}
+
+export interface ExplorerData {
+  explorerData?: ExplorerDataType;
+  explorerFields?: IExplorerFields;
+  query?: Query;
+  http?: HttpSetup;
+  pplService?: PPLService;
+}
+
 export interface IVisualizationContainerPropsData {
   appData?: { fromApp: boolean };
   rawVizData?: any;
@@ -161,6 +186,7 @@ export interface IVisualizationContainerPropsData {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: ExplorerData;
 }
 
 export interface IVisualizationContainerPropsVis {
@@ -190,7 +216,7 @@ export interface IConfigPanelOptionSection {
   mapTo: string;
   props?: any;
   isSingleSelection?: boolean;
-  defaultState?: number;
+  defaultState?: boolean | string;
   eleType?: string;
 }
 

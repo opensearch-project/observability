@@ -8,25 +8,12 @@ import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import {
-  DefaultChartStyles,
-  FILLOPACITY_DIV_FACTOR,
-  PLOTLY_COLOR,
-} from '../../../../../common/constants/shared';
+import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR, PLOTLY_COLOR, visChartTypes } from '../../../../../common/constants/shared';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const Line = ({ visualizations, layout, config }: any) => {
-  const {
-    DefaultMode,
-    Interpolation,
-    LineWidth,
-    FillOpacity,
-    MarkerSize,
-    LegendPosition,
-    ShowLegend,
-    LabelAngle,
-  } = DefaultChartStyles;
+  const { DefaultModeLine, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend, DefaultModeScatter, LabelAngle } = DefaultChartStyles;
   const {
     data = {},
     metadata: { fields },
@@ -38,15 +25,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const dataConfigTab =
-    visualizations.data?.rawVizData?.line?.dataConfig &&
-    visualizations.data.rawVizData.line.dataConfig;
+  let visType: string = visualizations.vis.name;
+  const dataConfigTab = visualizations.data?.rawVizData?.[visType]?.dataConfig && visualizations.data.rawVizData[visType].dataConfig;
   const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions.filter((item) => item.label) : [];
   const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics.filter((item) => item.label) : [];
 
   const lastIndex = fields.length - 1;
 
-  const mode = dataConfig?.chartStyles?.style || DefaultMode;
+  const mode = dataConfig?.chartStyles?.style || (visType === visChartTypes.Line ? DefaultModeLine : DefaultModeScatter);
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend = !(
