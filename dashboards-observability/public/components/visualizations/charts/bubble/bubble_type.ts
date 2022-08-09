@@ -18,12 +18,12 @@ export const createBubbleVisDefinition = () => ({
   type: 'bubble',
   id: 'bubble',
   label: 'Bubble',
-  fullLabel: 'Bubble',
+  fulllabel: 'Bubble',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -63,7 +63,7 @@ export const createBubbleVisDefinition = () => ({
     ],
   },
   icon: LensIconChartPie,
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

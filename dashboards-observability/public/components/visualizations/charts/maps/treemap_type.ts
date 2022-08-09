@@ -30,18 +30,18 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
   type: 'tree_map',
   id: 'tree_map',
   label: 'Tree Map',
-  fullLabel: 'Tree Map',
+  fulllabel: 'Tree Map',
   selection: {
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
-  iconType: 'heatmap',
+  icontype: 'heatmap',
   icon: LensIconChartBar,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   orientation: 'v',
   component: TreeMap,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -136,7 +136,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },
