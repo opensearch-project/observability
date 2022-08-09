@@ -204,7 +204,7 @@ exports[`Bar component Renders bar component 1`] = `
       "vis": Object {
         "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryaxis": "xaxis",
+        "categoryAxis": "xaxis",
         "component": [Function],
         "editorconfig": Object {
           "panelTabs": Array [
@@ -332,30 +332,6 @@ exports[`Bar component Renders bar component 1`] = `
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
-                    Object {
-                      "component": [Function],
-                      "eleType": "buttons",
-                      "mapTo": "orientation",
-                      "name": "Orientation",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Horizontal",
-                          },
-                        ],
-                      },
-                    },
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
@@ -489,10 +465,10 @@ exports[`Bar component Renders bar component 1`] = `
           ],
         },
         "fillOpacity": 80,
-        "fulllabel": "Vertical bar",
+        "fullLabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
+        "iconType": "visBarVerticalStacked",
         "id": "bar",
         "label": "Vertical bar",
         "labelangle": 0,
@@ -504,7 +480,7 @@ exports[`Bar component Renders bar component 1`] = `
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesaxis": "yaxis",
+        "seriesAxis": "yaxis",
         "showlegend": "show",
         "type": "bar",
         "visconfig": Object {
@@ -533,9 +509,7 @@ exports[`Bar component Renders bar component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder
-    icon="visBarVerticalStacked"
-  >
+  <EmptyPlaceholder>
     <EuiText
       className="lnsChart__empty"
       color="subdued"
@@ -563,18 +537,17 @@ exports[`Bar component Renders bar component 1`] = `
                 <EuiIcon
                   color="subdued"
                   size="xxl"
-                  type="visBarVerticalStacked"
                 >
                   <EuiIconEmpty
                     aria-hidden={true}
-                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued"
                     focusable="false"
                     role="img"
                     style={null}
                   >
                     <svg
                       aria-hidden={true}
-                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued"
                       focusable="false"
                       height={16}
                       role="img"

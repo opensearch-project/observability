@@ -6,12 +6,16 @@
 import React, { useMemo } from 'react';
 import { isEmpty, last, take } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  LONG_CHART_COLOR,
+  PLOTLY_COLOR,
+  FILLOPACITY_DIV_FACTOR,
+  visChartTypes,
+} from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const DEFAULT_LABEL_SIZE = 10;
@@ -26,9 +30,10 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
+  const visType: string = visualizations.vis.name;
   const dataConfigTab =
-    visualizations.data?.rawVizData?.bar?.dataConfig &&
-    visualizations.data.rawVizData.bar.dataConfig;
+    visualizations.data?.rawVizData?.[visType]?.dataConfig &&
+    visualizations.data.rawVizData[visType].dataConfig;
   const xaxis = dataConfig?.valueOptions?.dimensions
     ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];
@@ -36,16 +41,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ? dataConfig.valueOptions.metrics.filter((item) => item.label)
     : [];
   const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
-  const isVertical = barOrientation === vis.orientation;
-  const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig.tooltipOptions.tooltipText
-      : 'all';
-  let bars, valueSeries, valueForXSeries;
+  const isVertical =
+    visType === visChartTypes.HorizontalBar
+      ? barOrientation !== vis.orientation
+      : barOrientation === vis.orientation;
+  let bars;
+  let valueSeries;
+  let valueForXSeries;
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = isVertical ? [...yaxis] : [...xaxis];
@@ -100,7 +102,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
             })
         : [];
 
-    let dimensionsData = valueForXSeries
+    const dimensionsData = valueForXSeries
       .filter((item) => item.type === 'timestamp')
       .map((dimension) => data[dimension.label])
       .flat();

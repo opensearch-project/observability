@@ -4,7 +4,6 @@
  */
 
 import { createBarTypeDefinition } from './bar/bar_type';
-import { createHorizontalBarTypeDefinition } from './bar/horizontal_bar_type';
 import { createLineTypeDefinition } from './lines/line_type';
 import { createPieTypeDefinition } from './pie/pie_type';
 import { createHistogramVisDefinition } from './histogram/histogram_type';
@@ -18,7 +17,7 @@ import { createLogsViewTypeDefinition } from './logs_view/logs_view_type';
 
 export const VIS_TYPES = {
   bar: createBarTypeDefinition,
-  horizontal_bar: createHorizontalBarTypeDefinition,
+  horizontal_bar: createBarTypeDefinition,
   line: createLineTypeDefinition,
   pie: createPieTypeDefinition,
   histogram: createHistogramVisDefinition,

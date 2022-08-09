@@ -203,7 +203,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
       "vis": Object {
         "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryaxis": "xaxis",
+        "categoryAxis": "xaxis",
         "component": [Function],
         "editorconfig": Object {
           "panelTabs": Array [
@@ -331,30 +331,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
-                    Object {
-                      "component": [Function],
-                      "eleType": "buttons",
-                      "mapTo": "orientation",
-                      "name": "Orientation",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Horizontal",
-                          },
-                        ],
-                      },
-                    },
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
@@ -488,10 +464,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
           ],
         },
         "fillOpacity": 80,
-        "fulllabel": "Vertical bar",
+        "fullLabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
+        "iconType": "visBarVerticalStacked",
         "id": "bar",
         "label": "Vertical bar",
         "labelangle": 0,
@@ -503,7 +479,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesaxis": "yaxis",
+        "seriesAxis": "yaxis",
         "showlegend": "show",
         "type": "bar",
         "visconfig": Object {
@@ -568,7 +544,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 Object {
                   "barwidth": 0.97,
                   "category": "Visualizations",
-                  "categoryaxis": "xaxis",
+                  "categoryAxis": "xaxis",
                   "component": [Function],
                   "editorconfig": Object {
                     "panelTabs": Array [
@@ -696,30 +672,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "mapTo": "chartStyles",
                             "name": "Chart styles",
                             "schemas": Array [
-                              Object {
-                                "component": [Function],
-                                "eleType": "buttons",
-                                "mapTo": "orientation",
-                                "name": "Orientation",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": "v",
-                                      "name": "Vertical",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "v",
-                                      "name": "Vertical",
-                                    },
-                                    Object {
-                                      "id": "h",
-                                      "name": "Horizontal",
-                                    },
-                                  ],
-                                },
-                              },
                               Object {
                                 "component": [Function],
                                 "eleType": "buttons",
@@ -853,11 +805,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   "fillOpacity": 80,
-                  "fulllabel": "Vertical bar",
+                  "fullLabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": "visBarVerticalStacked",
-                  "icontype": "visBarVerticalStacked",
+                  "iconType": undefined,
                   "id": "bar",
                   "label": "Vertical bar",
                   "labelangle": 0,
@@ -869,7 +820,254 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesaxis": "yaxis",
+                  "seriesAxis": "yaxis",
+                  "showlegend": "show",
+                  "type": "bar",
+                  "visconfig": Object {
+                    "config": Object {
+                      "displaylogo": false,
+                      "responsive": true,
+                    },
+                    "isUniColor": false,
+                    "layout": Object {
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "showlegend": true,
+                    },
+                  },
+                },
+                Object {
+                  "barwidth": 0.97,
+                  "category": "Visualizations",
+                  "categoryAxis": "xaxis",
+                  "component": [Function],
+                  "editorconfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "mode",
+                                "name": "Mode",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "group",
+                                      "name": "Group",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "group",
+                                      "name": "Group",
+                                    },
+                                    Object {
+                                      "id": "stack",
+                                      "name": "Stack",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0,
+                                "eleType": "slider",
+                                "mapTo": "rotateBarLabels",
+                                "name": "Rotate bar labels",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "showTicks": true,
+                                  "ticks": Array [
+                                    Object {
+                                      "label": "-90°",
+                                      "value": -90,
+                                    },
+                                    Object {
+                                      "label": "-45°",
+                                      "value": -45,
+                                    },
+                                    Object {
+                                      "label": "0°",
+                                      "value": 0,
+                                    },
+                                    Object {
+                                      "label": "45°",
+                                      "value": 45,
+                                    },
+                                    Object {
+                                      "label": "90°",
+                                      "value": 90,
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0.7,
+                                "eleType": "slider",
+                                "mapTo": "groupWidth",
+                                "name": "Group width",
+                                "props": Object {
+                                  "max": 1,
+                                  "step": 0.01,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0.97,
+                                "eleType": "slider",
+                                "mapTo": "barWidth",
+                                "name": "Bar width",
+                                "props": Object {
+                                  "max": 1,
+                                  "step": 0.01,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 1,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 80,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "schemas": Array [],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
+                      },
+                    ],
+                  },
+                  "fillOpacity": 80,
+                  "fullLabel": "Horizontal Bar",
+                  "groupwidth": 0.7,
+                  "icon": [Function],
+                  "iconType": "visBarVerticalStacked",
+                  "id": "horizontal_bar",
+                  "label": "Horizontal Bar",
+                  "labelangle": 0,
+                  "legendposition": "v",
+                  "linewidth": 1,
+                  "mode": "group",
+                  "name": "horizontal_bar",
+                  "orientation": "h",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesAxis": "yaxis",
                   "showlegend": "show",
                   "type": "bar",
                   "visconfig": Object {
@@ -3320,7 +3518,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 Object {
                   "barwidth": 0.97,
                   "category": "Visualizations",
-                  "categoryaxis": "xaxis",
+                  "categoryAxis": "xaxis",
                   "component": [Function],
                   "editorconfig": Object {
                     "panelTabs": Array [
@@ -3448,30 +3646,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "mapTo": "chartStyles",
                             "name": "Chart styles",
                             "schemas": Array [
-                              Object {
-                                "component": [Function],
-                                "eleType": "buttons",
-                                "mapTo": "orientation",
-                                "name": "Orientation",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": "v",
-                                      "name": "Vertical",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "v",
-                                      "name": "Vertical",
-                                    },
-                                    Object {
-                                      "id": "h",
-                                      "name": "Horizontal",
-                                    },
-                                  ],
-                                },
-                              },
                               Object {
                                 "component": [Function],
                                 "eleType": "buttons",
@@ -3605,11 +3779,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   "fillOpacity": 80,
-                  "fulllabel": "Vertical bar",
+                  "fullLabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": "visBarVerticalStacked",
-                  "icontype": "visBarVerticalStacked",
+                  "iconType": undefined,
                   "id": "bar",
                   "label": "Vertical bar",
                   "labelangle": 0,
@@ -3621,7 +3794,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesaxis": "yaxis",
+                  "seriesAxis": "yaxis",
                   "showlegend": "show",
                   "type": "bar",
                   "visconfig": Object {
@@ -3682,7 +3855,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     Object {
                       "barwidth": 0.97,
                       "category": "Visualizations",
-                      "categoryaxis": "xaxis",
+                      "categoryAxis": "xaxis",
                       "component": [Function],
                       "editorconfig": Object {
                         "panelTabs": Array [
@@ -3810,30 +3983,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "mapTo": "chartStyles",
                                 "name": "Chart styles",
                                 "schemas": Array [
-                                  Object {
-                                    "component": [Function],
-                                    "eleType": "buttons",
-                                    "mapTo": "orientation",
-                                    "name": "Orientation",
-                                    "props": Object {
-                                      "defaultSelections": Array [
-                                        Object {
-                                          "id": "v",
-                                          "name": "Vertical",
-                                        },
-                                      ],
-                                      "options": Array [
-                                        Object {
-                                          "id": "v",
-                                          "name": "Vertical",
-                                        },
-                                        Object {
-                                          "id": "h",
-                                          "name": "Horizontal",
-                                        },
-                                      ],
-                                    },
-                                  },
                                   Object {
                                     "component": [Function],
                                     "eleType": "buttons",
@@ -3967,11 +4116,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                       "fillOpacity": 80,
-                      "fulllabel": "Vertical bar",
+                      "fullLabel": "Vertical bar",
                       "groupwidth": 0.7,
                       "icon": [Function],
-                      "iconType": "visBarVerticalStacked",
-                      "icontype": "visBarVerticalStacked",
+                      "iconType": undefined,
                       "id": "bar",
                       "label": "Vertical bar",
                       "labelangle": 0,
@@ -3983,7 +4131,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "selection": Object {
                         "dataLoss": "nothing",
                       },
-                      "seriesaxis": "yaxis",
+                      "seriesAxis": "yaxis",
                       "showlegend": "show",
                       "type": "bar",
                       "visconfig": Object {
@@ -4047,7 +4195,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           asPlainText={false}
                           barwidth={0.97}
                           category="Visualizations"
-                          categoryaxis="xaxis"
+                          categoryAxis="xaxis"
                           color="hollow"
                           component={[Function]}
                           editorconfig={
@@ -4177,30 +4325,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "mapTo": "chartStyles",
                                       "name": "Chart styles",
                                       "schemas": Array [
-                                        Object {
-                                          "component": [Function],
-                                          "eleType": "buttons",
-                                          "mapTo": "orientation",
-                                          "name": "Orientation",
-                                          "props": Object {
-                                            "defaultSelections": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                            ],
-                                            "options": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                              Object {
-                                                "id": "h",
-                                                "name": "Horizontal",
-                                              },
-                                            ],
-                                          },
-                                        },
                                         Object {
                                           "component": [Function],
                                           "eleType": "buttons",
@@ -4335,11 +4459,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             }
                           }
                           fillOpacity={80}
-                          fulllabel="Vertical bar"
+                          fullLabel="Vertical bar"
                           groupwidth={0.7}
                           icon={[Function]}
-                          iconType="visBarVerticalStacked"
-                          icontype="visBarVerticalStacked"
                           id="bar"
                           key="vertical bar"
                           labelangle={0}
@@ -4351,7 +4473,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             Object {
                               "barwidth": 0.97,
                               "category": "Visualizations",
-                              "categoryaxis": "xaxis",
+                              "categoryAxis": "xaxis",
                               "component": [Function],
                               "editorconfig": Object {
                                 "panelTabs": Array [
@@ -4479,30 +4601,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "mapTo": "chartStyles",
                                         "name": "Chart styles",
                                         "schemas": Array [
-                                          Object {
-                                            "component": [Function],
-                                            "eleType": "buttons",
-                                            "mapTo": "orientation",
-                                            "name": "Orientation",
-                                            "props": Object {
-                                              "defaultSelections": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                              ],
-                                              "options": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                                Object {
-                                                  "id": "h",
-                                                  "name": "Horizontal",
-                                                },
-                                              ],
-                                            },
-                                          },
                                           Object {
                                             "component": [Function],
                                             "eleType": "buttons",
@@ -4636,11 +4734,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               "fillOpacity": 80,
-                              "fulllabel": "Vertical bar",
+                              "fullLabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": "visBarVerticalStacked",
-                              "icontype": "visBarVerticalStacked",
+                              "iconType": undefined,
                               "id": "bar",
                               "label": "Vertical bar",
                               "labelangle": 0,
@@ -4652,7 +4749,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "selection": Object {
                                 "dataLoss": "nothing",
                               },
-                              "seriesaxis": "yaxis",
+                              "seriesAxis": "yaxis",
                               "showlegend": "show",
                               "type": "bar",
                               "visconfig": Object {
@@ -4685,7 +4782,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "dataLoss": "nothing",
                             }
                           }
-                          seriesaxis="yaxis"
+                          seriesAxis="yaxis"
                           showlegend="show"
                           type="bar"
                           visconfig={
@@ -4716,7 +4813,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           <EuiBadge
                             barwidth={0.97}
                             category="Visualizations"
-                            categoryaxis="xaxis"
+                            categoryAxis="xaxis"
                             className="euiComboBoxPill"
                             color="hollow"
                             component={[Function]}
@@ -4847,30 +4944,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "mapTo": "chartStyles",
                                         "name": "Chart styles",
                                         "schemas": Array [
-                                          Object {
-                                            "component": [Function],
-                                            "eleType": "buttons",
-                                            "mapTo": "orientation",
-                                            "name": "Orientation",
-                                            "props": Object {
-                                              "defaultSelections": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                              ],
-                                              "options": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                                Object {
-                                                  "id": "h",
-                                                  "name": "Horizontal",
-                                                },
-                                              ],
-                                            },
-                                          },
                                           Object {
                                             "component": [Function],
                                             "eleType": "buttons",
@@ -5005,11 +5078,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               }
                             }
                             fillOpacity={80}
-                            fulllabel="Vertical bar"
+                            fullLabel="Vertical bar"
                             groupwidth={0.7}
                             icon={[Function]}
-                            iconType="visBarVerticalStacked"
-                            icontype="visBarVerticalStacked"
                             id="bar"
                             labelangle={0}
                             legendposition="v"
@@ -5022,7 +5093,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "dataLoss": "nothing",
                               }
                             }
-                            seriesaxis="yaxis"
+                            seriesAxis="yaxis"
                             showlegend="show"
                             title="Vertical bar"
                             type="bar"
@@ -5055,7 +5126,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               <span
                                 barwidth={0.97}
                                 category="Visualizations"
-                                categoryaxis="xaxis"
+                                categoryAxis="xaxis"
                                 className="euiBadge euiBadge--hollow euiBadge--iconLeft euiComboBoxPill"
                                 component={[Function]}
                                 editorconfig={
@@ -5185,30 +5256,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "mapTo": "chartStyles",
                                             "name": "Chart styles",
                                             "schemas": Array [
-                                              Object {
-                                                "component": [Function],
-                                                "eleType": "buttons",
-                                                "mapTo": "orientation",
-                                                "name": "Orientation",
-                                                "props": Object {
-                                                  "defaultSelections": Array [
-                                                    Object {
-                                                      "id": "v",
-                                                      "name": "Vertical",
-                                                    },
-                                                  ],
-                                                  "options": Array [
-                                                    Object {
-                                                      "id": "v",
-                                                      "name": "Vertical",
-                                                    },
-                                                    Object {
-                                                      "id": "h",
-                                                      "name": "Horizontal",
-                                                    },
-                                                  ],
-                                                },
-                                              },
                                               Object {
                                                 "component": [Function],
                                                 "eleType": "buttons",
@@ -5343,10 +5390,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   }
                                 }
                                 fillOpacity={80}
-                                fulllabel="Vertical bar"
+                                fullLabel="Vertical bar"
                                 groupwidth={0.7}
                                 icon={[Function]}
-                                icontype="visBarVerticalStacked"
                                 id="bar"
                                 labelangle={0}
                                 legendposition="v"
@@ -5359,7 +5405,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "dataLoss": "nothing",
                                   }
                                 }
-                                seriesaxis="yaxis"
+                                seriesAxis="yaxis"
                                 showlegend="show"
                                 title="Vertical bar"
                                 type="bar"
@@ -5396,32 +5442,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   >
                                     Vertical bar
                                   </span>
-                                  <EuiIcon
-                                    className="euiBadge__icon"
-                                    color="inherit"
-                                    size="s"
-                                    type="visBarVerticalStacked"
-                                  >
-                                    <EuiIconEmpty
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
-                                      focusable="false"
-                                      role="img"
-                                      style={null}
-                                    >
-                                      <svg
-                                        aria-hidden={true}
-                                        className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
-                                        focusable="false"
-                                        height={16}
-                                        role="img"
-                                        style={null}
-                                        viewBox="0 0 16 16"
-                                        width={16}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      />
-                                    </EuiIconEmpty>
-                                  </EuiIcon>
                                 </span>
                               </span>
                             </EuiInnerText>
@@ -5707,30 +5727,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "mapTo": "chartStyles",
                               "name": "Chart styles",
                               "schemas": Array [
-                                Object {
-                                  "component": [Function],
-                                  "eleType": "buttons",
-                                  "mapTo": "orientation",
-                                  "name": "Orientation",
-                                  "props": Object {
-                                    "defaultSelections": Array [
-                                      Object {
-                                        "id": "v",
-                                        "name": "Vertical",
-                                      },
-                                    ],
-                                    "options": Array [
-                                      Object {
-                                        "id": "v",
-                                        "name": "Vertical",
-                                      },
-                                      Object {
-                                        "id": "h",
-                                        "name": "Horizontal",
-                                      },
-                                    ],
-                                  },
-                                },
                                 Object {
                                   "component": [Function],
                                   "eleType": "buttons",
@@ -6034,7 +6030,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           "vis": Object {
                             "barwidth": 0.97,
                             "category": "Visualizations",
-                            "categoryaxis": "xaxis",
+                            "categoryAxis": "xaxis",
                             "component": [Function],
                             "editorconfig": Object {
                               "panelTabs": Array [
@@ -6162,30 +6158,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "mapTo": "chartStyles",
                                       "name": "Chart styles",
                                       "schemas": Array [
-                                        Object {
-                                          "component": [Function],
-                                          "eleType": "buttons",
-                                          "mapTo": "orientation",
-                                          "name": "Orientation",
-                                          "props": Object {
-                                            "defaultSelections": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                            ],
-                                            "options": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                              Object {
-                                                "id": "h",
-                                                "name": "Horizontal",
-                                              },
-                                            ],
-                                          },
-                                        },
                                         Object {
                                           "component": [Function],
                                           "eleType": "buttons",
@@ -6319,10 +6291,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             },
                             "fillOpacity": 80,
-                            "fulllabel": "Vertical bar",
+                            "fullLabel": "Vertical bar",
                             "groupwidth": 0.7,
                             "icon": [Function],
-                            "icontype": "visBarVerticalStacked",
+                            "iconType": "visBarVerticalStacked",
                             "id": "bar",
                             "label": "Vertical bar",
                             "labelangle": 0,
@@ -6334,7 +6306,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "selection": Object {
                               "dataLoss": "nothing",
                             },
-                            "seriesaxis": "yaxis",
+                            "seriesAxis": "yaxis",
                             "showlegend": "show",
                             "type": "bar",
                             "visconfig": Object {
@@ -6825,7 +6797,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "vis": Object {
                               "barwidth": 0.97,
                               "category": "Visualizations",
-                              "categoryaxis": "xaxis",
+                              "categoryAxis": "xaxis",
                               "component": [Function],
                               "editorconfig": Object {
                                 "panelTabs": Array [
@@ -6953,30 +6925,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "mapTo": "chartStyles",
                                         "name": "Chart styles",
                                         "schemas": Array [
-                                          Object {
-                                            "component": [Function],
-                                            "eleType": "buttons",
-                                            "mapTo": "orientation",
-                                            "name": "Orientation",
-                                            "props": Object {
-                                              "defaultSelections": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                              ],
-                                              "options": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                                Object {
-                                                  "id": "h",
-                                                  "name": "Horizontal",
-                                                },
-                                              ],
-                                            },
-                                          },
                                           Object {
                                             "component": [Function],
                                             "eleType": "buttons",
@@ -7110,10 +7058,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               "fillOpacity": 80,
-                              "fulllabel": "Vertical bar",
+                              "fullLabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
-                              "icontype": "visBarVerticalStacked",
+                              "iconType": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Vertical bar",
                               "labelangle": 0,
@@ -7125,7 +7073,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "selection": Object {
                                 "dataLoss": "nothing",
                               },
-                              "seriesaxis": "yaxis",
+                              "seriesAxis": "yaxis",
                               "showlegend": "show",
                               "type": "bar",
                               "visconfig": Object {
@@ -7372,7 +7320,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "vis": Object {
                               "barwidth": 0.97,
                               "category": "Visualizations",
-                              "categoryaxis": "xaxis",
+                              "categoryAxis": "xaxis",
                               "component": [Function],
                               "editorconfig": Object {
                                 "panelTabs": Array [
@@ -7500,30 +7448,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "mapTo": "chartStyles",
                                         "name": "Chart styles",
                                         "schemas": Array [
-                                          Object {
-                                            "component": [Function],
-                                            "eleType": "buttons",
-                                            "mapTo": "orientation",
-                                            "name": "Orientation",
-                                            "props": Object {
-                                              "defaultSelections": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                              ],
-                                              "options": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                                Object {
-                                                  "id": "h",
-                                                  "name": "Horizontal",
-                                                },
-                                              ],
-                                            },
-                                          },
                                           Object {
                                             "component": [Function],
                                             "eleType": "buttons",
@@ -7657,10 +7581,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               "fillOpacity": 80,
-                              "fulllabel": "Vertical bar",
+                              "fullLabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
-                              "icontype": "visBarVerticalStacked",
+                              "iconType": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Vertical bar",
                               "labelangle": 0,
@@ -7672,7 +7596,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "selection": Object {
                                 "dataLoss": "nothing",
                               },
-                              "seriesaxis": "yaxis",
+                              "seriesAxis": "yaxis",
                               "showlegend": "show",
                               "type": "bar",
                               "visconfig": Object {
@@ -7925,30 +7849,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "mapTo": "chartStyles",
                               "name": "Chart styles",
                               "schemas": Array [
-                                Object {
-                                  "component": [Function],
-                                  "eleType": "buttons",
-                                  "mapTo": "orientation",
-                                  "name": "Orientation",
-                                  "props": Object {
-                                    "defaultSelections": Array [
-                                      Object {
-                                        "id": "v",
-                                        "name": "Vertical",
-                                      },
-                                    ],
-                                    "options": Array [
-                                      Object {
-                                        "id": "v",
-                                        "name": "Vertical",
-                                      },
-                                      Object {
-                                        "id": "h",
-                                        "name": "Horizontal",
-                                      },
-                                    ],
-                                  },
-                                },
                                 Object {
                                   "component": [Function],
                                   "eleType": "buttons",
@@ -8252,7 +8152,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           "vis": Object {
                             "barwidth": 0.97,
                             "category": "Visualizations",
-                            "categoryaxis": "xaxis",
+                            "categoryAxis": "xaxis",
                             "component": [Function],
                             "editorconfig": Object {
                               "panelTabs": Array [
@@ -8380,30 +8280,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "mapTo": "chartStyles",
                                       "name": "Chart styles",
                                       "schemas": Array [
-                                        Object {
-                                          "component": [Function],
-                                          "eleType": "buttons",
-                                          "mapTo": "orientation",
-                                          "name": "Orientation",
-                                          "props": Object {
-                                            "defaultSelections": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                            ],
-                                            "options": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                              Object {
-                                                "id": "h",
-                                                "name": "Horizontal",
-                                              },
-                                            ],
-                                          },
-                                        },
                                         Object {
                                           "component": [Function],
                                           "eleType": "buttons",
@@ -8537,10 +8413,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             },
                             "fillOpacity": 80,
-                            "fulllabel": "Vertical bar",
+                            "fullLabel": "Vertical bar",
                             "groupwidth": 0.7,
                             "icon": [Function],
-                            "icontype": "visBarVerticalStacked",
+                            "iconType": "visBarVerticalStacked",
                             "id": "bar",
                             "label": "Vertical bar",
                             "labelangle": 0,
@@ -8552,7 +8428,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "selection": Object {
                               "dataLoss": "nothing",
                             },
-                            "seriesaxis": "yaxis",
+                            "seriesAxis": "yaxis",
                             "showlegend": "show",
                             "type": "bar",
                             "visconfig": Object {
@@ -8795,7 +8671,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "vis": Object {
                                           "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryaxis": "xaxis",
+                                          "categoryAxis": "xaxis",
                                           "component": [Function],
                                           "editorconfig": Object {
                                             "panelTabs": Array [
@@ -9080,10 +8956,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fulllabel": "Vertical bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "icontype": "visBarVerticalStacked",
+                                          "iconType": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -9095,7 +8971,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesaxis": "yaxis",
+                                          "seriesAxis": "yaxis",
                                           "showlegend": "show",
                                           "type": "bar",
                                           "visconfig": Object {
@@ -10949,7 +10825,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "vis": Object {
                                           "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryaxis": "xaxis",
+                                          "categoryAxis": "xaxis",
                                           "component": [Function],
                                           "editorconfig": Object {
                                             "panelTabs": Array [
@@ -11077,30 +10953,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "mapTo": "chartStyles",
                                                     "name": "Chart styles",
                                                     "schemas": Array [
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
-                                                        "mapTo": "orientation",
-                                                        "name": "Orientation",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Horizontal",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
                                                       Object {
                                                         "component": [Function],
                                                         "eleType": "buttons",
@@ -11234,10 +11086,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fulllabel": "Vertical bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "icontype": "visBarVerticalStacked",
+                                          "iconType": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -11249,7 +11101,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesaxis": "yaxis",
+                                          "seriesAxis": "yaxis",
                                           "showlegend": "show",
                                           "type": "bar",
                                           "visconfig": Object {
@@ -11936,30 +11788,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         Object {
                                           "component": [Function],
                                           "eleType": "buttons",
-                                          "mapTo": "orientation",
-                                          "name": "Orientation",
-                                          "props": Object {
-                                            "defaultSelections": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                            ],
-                                            "options": Array [
-                                              Object {
-                                                "id": "v",
-                                                "name": "Vertical",
-                                              },
-                                              Object {
-                                                "id": "h",
-                                                "name": "Horizontal",
-                                              },
-                                            ],
-                                          },
-                                        },
-                                        Object {
-                                          "component": [Function],
-                                          "eleType": "buttons",
                                           "mapTo": "mode",
                                           "name": "Mode",
                                           "props": Object {
@@ -12252,7 +12080,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "vis": Object {
                                           "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryaxis": "xaxis",
+                                          "categoryAxis": "xaxis",
                                           "component": [Function],
                                           "editorconfig": Object {
                                             "panelTabs": Array [
@@ -12380,30 +12208,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "mapTo": "chartStyles",
                                                     "name": "Chart styles",
                                                     "schemas": Array [
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
-                                                        "mapTo": "orientation",
-                                                        "name": "Orientation",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Horizontal",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
                                                       Object {
                                                         "component": [Function],
                                                         "eleType": "buttons",
@@ -12537,10 +12341,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fulllabel": "Vertical bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "icontype": "visBarVerticalStacked",
+                                          "iconType": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -12552,7 +12356,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesaxis": "yaxis",
+                                          "seriesAxis": "yaxis",
                                           "showlegend": "show",
                                           "type": "bar",
                                           "visconfig": Object {
@@ -12655,280 +12459,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               <div
                                                 className="euiAccordion__padding--s"
                                               >
-                                                <ButtonGroupItem
-                                                  defaultSelections={
-                                                    Array [
-                                                      Object {
-                                                        "id": "v",
-                                                        "name": "Vertical",
-                                                      },
-                                                    ]
-                                                  }
-                                                  groupOptions={
-                                                    Array [
-                                                      Object {
-                                                        "id": "v",
-                                                        "label": "Vertical",
-                                                        "name": "Vertical",
-                                                      },
-                                                      Object {
-                                                        "id": "h",
-                                                        "label": "Horizontal",
-                                                        "name": "Horizontal",
-                                                      },
-                                                    ]
-                                                  }
-                                                  handleButtonChange={[Function]}
-                                                  idSelected="v"
-                                                  legend="Orientation"
-                                                  options={
-                                                    Array [
-                                                      Object {
-                                                        "id": "v",
-                                                        "name": "Vertical",
-                                                      },
-                                                      Object {
-                                                        "id": "h",
-                                                        "name": "Horizontal",
-                                                      },
-                                                    ]
-                                                  }
-                                                  title="Orientation"
-                                                  vizState={Object {}}
-                                                >
-                                                  <EuiTitle
-                                                    size="xxs"
-                                                  >
-                                                    <h3
-                                                      className="euiTitle euiTitle--xxsmall"
-                                                    >
-                                                      Orientation
-                                                    </h3>
-                                                  </EuiTitle>
-                                                  <EuiSpacer
-                                                    size="s"
-                                                  >
-                                                    <div
-                                                      className="euiSpacer euiSpacer--s"
-                                                    />
-                                                  </EuiSpacer>
-                                                  <div
-                                                    style={
-                                                      Object {
-                                                        "width": "fit-content",
-                                                      }
-                                                    }
-                                                  >
-                                                    <EuiButtonGroup
-                                                      buttonSize="compressed"
-                                                      id="random_html_id"
-                                                      idSelected="v"
-                                                      isFullWidth={false}
-                                                      legend="Orientation"
-                                                      name="Orientation"
-                                                      onChange={[Function]}
-                                                      options={
-                                                        Array [
-                                                          Object {
-                                                            "id": "v",
-                                                            "label": "Vertical",
-                                                            "name": "Vertical",
-                                                          },
-                                                          Object {
-                                                            "id": "h",
-                                                            "label": "Horizontal",
-                                                            "name": "Horizontal",
-                                                          },
-                                                        ]
-                                                      }
-                                                    >
-                                                      <fieldset
-                                                        className="euiButtonGroup euiButtonGroup--compressed euiButtonGroup--text"
-                                                        disabled={false}
-                                                        id="random_html_id"
-                                                      >
-                                                        <EuiScreenReaderOnly>
-                                                          <legend
-                                                            className="euiScreenReaderOnly"
-                                                          >
-                                                            Orientation
-                                                          </legend>
-                                                        </EuiScreenReaderOnly>
-                                                        <div
-                                                          className="euiButtonGroup__buttons"
-                                                        >
-                                                          <EuiButtonGroupButton
-                                                            color="text"
-                                                            element="label"
-                                                            id="v"
-                                                            isDisabled={false}
-                                                            isIconOnly={false}
-                                                            isSelected={true}
-                                                            key="0"
-                                                            label="Vertical"
-                                                            name="Vertical"
-                                                            onChange={[Function]}
-                                                            size="compressed"
-                                                          >
-                                                            <EuiButtonDisplay
-                                                              baseClassName="euiButtonGroupButton"
-                                                              className="euiButtonGroupButton-isSelected"
-                                                              color="text"
-                                                              element="label"
-                                                              fill={false}
-                                                              htmlFor="random_html_id"
-                                                              isDisabled={false}
-                                                              onClick={[Function]}
-                                                              size="s"
-                                                              textProps={
-                                                                Object {
-                                                                  "className": "euiButtonGroupButton__textShift",
-                                                                  "data-text": "Vertical",
-                                                                  "ref": [Function],
-                                                                  "title": "Vertical",
-                                                                }
-                                                              }
-                                                            >
-                                                              <label
-                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton-isSelected"
-                                                                disabled={false}
-                                                                htmlFor="random_html_id"
-                                                                onClick={[Function]}
-                                                                style={
-                                                                  Object {
-                                                                    "minWidth": undefined,
-                                                                  }
-                                                                }
-                                                              >
-                                                                <EuiButtonContent
-                                                                  className="euiButton__content"
-                                                                  iconSide="left"
-                                                                  textProps={
-                                                                    Object {
-                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                      "data-text": "Vertical",
-                                                                      "ref": [Function],
-                                                                      "title": "Vertical",
-                                                                    }
-                                                                  }
-                                                                >
-                                                                  <span
-                                                                    className="euiButtonContent euiButton__content"
-                                                                  >
-                                                                    <span
-                                                                      className="euiButton__text euiButtonGroupButton__textShift"
-                                                                      data-text="Vertical"
-                                                                      title="Vertical"
-                                                                    >
-                                                                      <input
-                                                                        checked={true}
-                                                                        className="euiScreenReaderOnly"
-                                                                        data-test-subj="v"
-                                                                        disabled={false}
-                                                                        id="random_html_id"
-                                                                        name="Vertical"
-                                                                        onChange={[Function]}
-                                                                        type="radio"
-                                                                      />
-                                                                      Vertical
-                                                                    </span>
-                                                                  </span>
-                                                                </EuiButtonContent>
-                                                              </label>
-                                                            </EuiButtonDisplay>
-                                                          </EuiButtonGroupButton>
-                                                          <EuiButtonGroupButton
-                                                            color="text"
-                                                            element="label"
-                                                            id="h"
-                                                            isDisabled={false}
-                                                            isIconOnly={false}
-                                                            isSelected={false}
-                                                            key="1"
-                                                            label="Horizontal"
-                                                            name="Horizontal"
-                                                            onChange={[Function]}
-                                                            size="compressed"
-                                                          >
-                                                            <EuiButtonDisplay
-                                                              baseClassName="euiButtonGroupButton"
-                                                              className=""
-                                                              color="text"
-                                                              element="label"
-                                                              fill={false}
-                                                              htmlFor="random_html_id"
-                                                              isDisabled={false}
-                                                              onClick={[Function]}
-                                                              size="s"
-                                                              textProps={
-                                                                Object {
-                                                                  "className": "euiButtonGroupButton__textShift",
-                                                                  "data-text": "Horizontal",
-                                                                  "ref": [Function],
-                                                                  "title": "Horizontal",
-                                                                }
-                                                              }
-                                                            >
-                                                              <label
-                                                                className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                                                                disabled={false}
-                                                                htmlFor="random_html_id"
-                                                                onClick={[Function]}
-                                                                style={
-                                                                  Object {
-                                                                    "minWidth": undefined,
-                                                                  }
-                                                                }
-                                                              >
-                                                                <EuiButtonContent
-                                                                  className="euiButton__content"
-                                                                  iconSide="left"
-                                                                  textProps={
-                                                                    Object {
-                                                                      "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                      "data-text": "Horizontal",
-                                                                      "ref": [Function],
-                                                                      "title": "Horizontal",
-                                                                    }
-                                                                  }
-                                                                >
-                                                                  <span
-                                                                    className="euiButtonContent euiButton__content"
-                                                                  >
-                                                                    <span
-                                                                      className="euiButton__text euiButtonGroupButton__textShift"
-                                                                      data-text="Horizontal"
-                                                                      title="Horizontal"
-                                                                    >
-                                                                      <input
-                                                                        checked={false}
-                                                                        className="euiScreenReaderOnly"
-                                                                        data-test-subj="h"
-                                                                        disabled={false}
-                                                                        id="random_html_id"
-                                                                        name="Horizontal"
-                                                                        onChange={[Function]}
-                                                                        type="radio"
-                                                                      />
-                                                                      Horizontal
-                                                                    </span>
-                                                                  </span>
-                                                                </EuiButtonContent>
-                                                              </label>
-                                                            </EuiButtonDisplay>
-                                                          </EuiButtonGroupButton>
-                                                        </div>
-                                                      </fieldset>
-                                                    </EuiButtonGroup>
-                                                  </div>
-                                                </ButtonGroupItem>
-                                                <EuiSpacer
-                                                  size="s"
-                                                >
-                                                  <div
-                                                    className="euiSpacer euiSpacer--s"
-                                                  />
-                                                </EuiSpacer>
                                                 <ButtonGroupItem
                                                   defaultSelections={
                                                     Array [
@@ -15172,7 +14702,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "vis": Object {
                                           "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryaxis": "xaxis",
+                                          "categoryAxis": "xaxis",
                                           "component": [Function],
                                           "editorconfig": Object {
                                             "panelTabs": Array [
@@ -15300,30 +14830,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "mapTo": "chartStyles",
                                                     "name": "Chart styles",
                                                     "schemas": Array [
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
-                                                        "mapTo": "orientation",
-                                                        "name": "Orientation",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Horizontal",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
                                                       Object {
                                                         "component": [Function],
                                                         "eleType": "buttons",
@@ -15457,10 +14963,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           "fillOpacity": 80,
-                                          "fulllabel": "Vertical bar",
+                                          "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "icontype": "visBarVerticalStacked",
+                                          "iconType": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -15472,7 +14978,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesaxis": "yaxis",
+                                          "seriesAxis": "yaxis",
                                           "showlegend": "show",
                                           "type": "bar",
                                           "visconfig": Object {
