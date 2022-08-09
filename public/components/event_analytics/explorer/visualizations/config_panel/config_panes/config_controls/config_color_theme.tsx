@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -83,7 +83,7 @@ export const ConfigColorTheme = ({
       {!isEmpty(vizState) &&
         vizState.map((ct) => {
           return (
-            <>
+            <Fragment key={ct.ctid}>
               <EuiFormRow fullWidth label="">
                 <EuiFlexGroup alignItems="center" gutterSize="xs">
                   <EuiFlexItem grow={3}>
@@ -115,7 +115,7 @@ export const ConfigColorTheme = ({
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiFormRow>
-            </>
+            </Fragment>
           );
         })}
     </EuiAccordion>

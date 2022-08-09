@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, Fragment } from 'react';
 import {
   EuiTitle,
   EuiComboBox,
@@ -192,7 +192,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   const getCommonUI = (lists, sectionName: string) =>
     lists &&
     lists.map((singleField, index: number) => (
-      <>
+      <Fragment key={index}>
         <div key={index} className="services">
           <div className="first-division">
             {sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.HeatMap && (
@@ -283,7 +283,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           </div>
         </div>
         <EuiSpacer size="s" />
-      </>
+      </Fragment>
     ));
 
   const getNumberField = (type: string) => (

@@ -90,7 +90,7 @@ export const ColorPalettePicker = ({
           Array(numberOfParents)
             .fill(0)
             .map((_, i) => (
-              <EuiFlexItem grow={1}>
+              <EuiFlexItem grow={1} key={i}>
                 <EuiFormRow helpText={`Parent ${i + 1} field`}>
                   <EuiColorPicker
                     onChange={onParentColorChange(i)}

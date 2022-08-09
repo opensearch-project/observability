@@ -201,11 +201,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
         "userConfigs": Object {},
       },
       "vis": Object {
-        "barWidth": 0.97,
+        "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryAxis": "xaxis",
+        "categoryaxis": "xaxis",
         "component": [Function],
-        "editorConfig": Object {
+        "editorconfig": Object {
           "panelTabs": Array [
             Object {
               "editor": [Function],
@@ -429,26 +429,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             },
           ],
         },
-        "fillOpacity": 80,
-        "fullLabel": "Bar",
-        "groupWidth": 0.7,
+        "fillopacity": 80,
+        "fulllabel": "Bar",
+        "groupwidth": 0.7,
         "icon": [Function],
-        "iconType": "visBarVerticalStacked",
+        "icontype": "visBarVerticalStacked",
         "id": "bar",
         "label": "Bar",
-        "labelAngle": 0,
-        "legendPosition": "v",
-        "lineWidth": 1,
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 1,
         "mode": "group",
         "name": "bar",
         "orientation": "v",
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesAxis": "yaxis",
-        "showLegend": "show",
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
         "type": "bar",
-        "visConfig": Object {
+        "visconfig": Object {
           "config": Object {
             "displaylogo": false,
             "responsive": true,
@@ -508,11 +508,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             options={
               Array [
                 Object {
-                  "barWidth": 0.97,
+                  "barwidth": 0.97,
                   "category": "Visualizations",
-                  "categoryAxis": "xaxis",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -736,26 +736,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fillOpacity": 80,
-                  "fullLabel": "Bar",
-                  "groupWidth": 0.7,
+                  "fillopacity": 80,
+                  "fulllabel": "Bar",
+                  "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": "visBarVerticalStacked",
+                  "icontype": "visBarVerticalStacked",
                   "id": "bar",
                   "label": "Bar",
-                  "labelAngle": 0,
-                  "legendPosition": "v",
-                  "lineWidth": 1,
+                  "labelangle": 0,
+                  "legendposition": "v",
+                  "linewidth": 1,
                   "mode": "group",
                   "name": "bar",
                   "orientation": "v",
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesAxis": "yaxis",
-                  "showLegend": "show",
+                  "seriesaxis": "yaxis",
+                  "showlegend": "show",
                   "type": "bar",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -780,9 +780,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
                 Object {
                   "category": "Visualizations",
-                  "categoryAxis": "xaxis",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -1022,18 +1022,18 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Time series",
+                  "fulllabel": "Time series",
                   "icon": [Function],
-                  "iconType": "visLine",
+                  "icontype": "visLine",
                   "id": "line",
                   "label": "Time series",
                   "name": "line",
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesAxis": "yaxis",
+                  "seriesaxis": "yaxis",
                   "type": "line",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "barmode": "line",
                       "displaylogo": false,
@@ -1088,9 +1088,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
                 Object {
                   "category": "Visualizations",
-                  "categoryAxis": "xaxis",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -1230,20 +1230,20 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Pie",
+                  "fulllabel": "Pie",
                   "icon": [Function],
-                  "iconType": "visPie",
+                  "icontype": "visPie",
                   "id": "pie",
                   "label": "Pie",
-                  "legendPosition": "v",
+                  "legendposition": "v",
                   "name": "pie",
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesAxis": "yaxis",
-                  "showLegend": true,
+                  "seriesaxis": "yaxis",
+                  "showlegend": true,
                   "type": "pie",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -1292,7 +1292,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 Object {
                   "category": "Visualizations",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -1617,9 +1617,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Hubble",
+                  "fulllabel": "Hubble",
                   "icon": [Function],
-                  "iconType": "heatmap",
+                  "icontype": "heatmap",
                   "id": "heatmap",
                   "label": "Heatmap",
                   "name": "heatmap",
@@ -1627,7 +1627,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "dataLoss": "nothing",
                   },
                   "type": "heatmap",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -1649,9 +1649,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
                 Object {
                   "category": "Visualizations",
-                  "categoryAxis": "xaxis",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -1670,18 +1670,18 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Text",
+                  "fulllabel": "Text",
                   "icon": [Function],
-                  "iconType": "visText",
+                  "icontype": "visText",
                   "id": "text",
                   "label": "Text",
                   "name": "text",
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesAxis": "yaxis",
+                  "seriesaxis": "yaxis",
                   "type": "text",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "barmode": "line",
                       "displaylogo": false,
@@ -1736,9 +1736,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
                 Object {
                   "category": "Visualizations",
-                  "categoryAxis": "xaxis",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -2113,9 +2113,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Tree Map",
+                  "fulllabel": "Tree Map",
                   "icon": [Function],
-                  "iconType": "heatmap",
+                  "icontype": "heatmap",
                   "id": "tree_map",
                   "label": "Tree Map",
                   "name": "tree_map",
@@ -2123,9 +2123,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesAxis": "yaxis",
+                  "seriesaxis": "yaxis",
                   "type": "tree_map",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -2151,7 +2151,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 Object {
                   "category": "Visualizations",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -2275,9 +2275,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Gauge",
+                  "fulllabel": "Gauge",
                   "icon": [Function],
-                  "iconType": "visGauge",
+                  "icontype": "visGauge",
                   "id": "gauge",
                   "label": "Gauge",
                   "name": "Gauge",
@@ -2285,8 +2285,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "dataLoss": "nothing",
                   },
                   "type": "indicator",
-                  "valueSeries": "yaxis",
-                  "visConfig": Object {
+                  "valueseries": "yaxis",
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -2311,7 +2311,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 Object {
                   "category": "Visualizations",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -2419,8 +2419,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fullLabel": "Histogram",
-                  "iconType": "visArea",
+                  "fulllabel": "Histogram",
+                  "icontype": "visArea",
                   "id": "histogram",
                   "label": "Histogram",
                   "name": "histogram",
@@ -2428,8 +2428,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "dataLoss": "nothing",
                   },
                   "type": "histogram",
-                  "valueSeries": "yaxis",
-                  "visConfig": Object {
+                  "valueseries": "yaxis",
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -2458,11 +2458,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             selectedOptions={
               Array [
                 Object {
-                  "barWidth": 0.97,
+                  "barwidth": 0.97,
                   "category": "Visualizations",
-                  "categoryAxis": "xaxis",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -2686,26 +2686,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fillOpacity": 80,
-                  "fullLabel": "Bar",
-                  "groupWidth": 0.7,
+                  "fillopacity": 80,
+                  "fulllabel": "Bar",
+                  "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": "visBarVerticalStacked",
+                  "icontype": "visBarVerticalStacked",
                   "id": "bar",
                   "label": "Bar",
-                  "labelAngle": 0,
-                  "legendPosition": "v",
-                  "lineWidth": 1,
+                  "labelangle": 0,
+                  "legendposition": "v",
+                  "linewidth": 1,
                   "mode": "group",
                   "name": "bar",
                   "orientation": "v",
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
-                  "seriesAxis": "yaxis",
-                  "showLegend": "show",
+                  "seriesaxis": "yaxis",
+                  "showlegend": "show",
                   "type": "bar",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -2761,11 +2761,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 selectedOptions={
                   Array [
                     Object {
-                      "barWidth": 0.97,
+                      "barwidth": 0.97,
                       "category": "Visualizations",
-                      "categoryAxis": "xaxis",
+                      "categoryaxis": "xaxis",
                       "component": [Function],
-                      "editorConfig": Object {
+                      "editorconfig": Object {
                         "panelTabs": Array [
                           Object {
                             "editor": [Function],
@@ -2989,26 +2989,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
-                      "fillOpacity": 80,
-                      "fullLabel": "Bar",
-                      "groupWidth": 0.7,
+                      "fillopacity": 80,
+                      "fulllabel": "Bar",
+                      "groupwidth": 0.7,
                       "icon": [Function],
-                      "iconType": "visBarVerticalStacked",
+                      "icontype": "visBarVerticalStacked",
                       "id": "bar",
                       "label": "Bar",
-                      "labelAngle": 0,
-                      "legendPosition": "v",
-                      "lineWidth": 1,
+                      "labelangle": 0,
+                      "legendposition": "v",
+                      "linewidth": 1,
                       "mode": "group",
                       "name": "bar",
                       "orientation": "v",
                       "selection": Object {
                         "dataLoss": "nothing",
                       },
-                      "seriesAxis": "yaxis",
-                      "showLegend": "show",
+                      "seriesaxis": "yaxis",
+                      "showlegend": "show",
                       "type": "bar",
-                      "visConfig": Object {
+                      "visconfig": Object {
                         "config": Object {
                           "displaylogo": false,
                           "responsive": true,
@@ -3067,12 +3067,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       >
                         <EuiComboBoxPill
                           asPlainText={false}
-                          barWidth={0.97}
+                          barwidth={0.97}
                           category="Visualizations"
-                          categoryAxis="xaxis"
+                          categoryaxis="xaxis"
                           color="hollow"
                           component={[Function]}
-                          editorConfig={
+                          editorconfig={
                             Object {
                               "panelTabs": Array [
                                 Object {
@@ -3298,25 +3298,25 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             }
                           }
-                          fillOpacity={80}
-                          fullLabel="Bar"
-                          groupWidth={0.7}
+                          fillopacity={80}
+                          fulllabel="Bar"
+                          groupwidth={0.7}
                           icon={[Function]}
-                          iconType="visBarVerticalStacked"
+                          icontype="visBarVerticalStacked"
                           id="bar"
                           key="bar"
-                          labelAngle={0}
-                          legendPosition="v"
-                          lineWidth={1}
+                          labelangle={0}
+                          legendposition="v"
+                          linewidth={1}
                           mode="group"
                           name="bar"
                           option={
                             Object {
-                              "barWidth": 0.97,
+                              "barwidth": 0.97,
                               "category": "Visualizations",
-                              "categoryAxis": "xaxis",
+                              "categoryaxis": "xaxis",
                               "component": [Function],
-                              "editorConfig": Object {
+                              "editorconfig": Object {
                                 "panelTabs": Array [
                                   Object {
                                     "editor": [Function],
@@ -3540,26 +3540,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              "fillOpacity": 80,
-                              "fullLabel": "Bar",
-                              "groupWidth": 0.7,
+                              "fillopacity": 80,
+                              "fulllabel": "Bar",
+                              "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": "visBarVerticalStacked",
+                              "icontype": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Bar",
-                              "labelAngle": 0,
-                              "legendPosition": "v",
-                              "lineWidth": 1,
+                              "labelangle": 0,
+                              "legendposition": "v",
+                              "linewidth": 1,
                               "mode": "group",
                               "name": "bar",
                               "orientation": "v",
                               "selection": Object {
                                 "dataLoss": "nothing",
                               },
-                              "seriesAxis": "yaxis",
-                              "showLegend": "show",
+                              "seriesaxis": "yaxis",
+                              "showlegend": "show",
                               "type": "bar",
-                              "visConfig": Object {
+                              "visconfig": Object {
                                 "config": Object {
                                   "displaylogo": false,
                                   "responsive": true,
@@ -3589,10 +3589,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "dataLoss": "nothing",
                             }
                           }
-                          seriesAxis="yaxis"
-                          showLegend="show"
+                          seriesaxis="yaxis"
+                          showlegend="show"
                           type="bar"
-                          visConfig={
+                          visconfig={
                             Object {
                               "config": Object {
                                 "displaylogo": false,
@@ -3618,13 +3618,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           }
                         >
                           <EuiBadge
-                            barWidth={0.97}
+                            barwidth={0.97}
                             category="Visualizations"
-                            categoryAxis="xaxis"
+                            categoryaxis="xaxis"
                             className="euiComboBoxPill"
                             color="hollow"
                             component={[Function]}
-                            editorConfig={
+                            editorconfig={
                               Object {
                                 "panelTabs": Array [
                                   Object {
@@ -3850,15 +3850,15 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               }
                             }
-                            fillOpacity={80}
-                            fullLabel="Bar"
-                            groupWidth={0.7}
+                            fillopacity={80}
+                            fulllabel="Bar"
+                            groupwidth={0.7}
                             icon={[Function]}
-                            iconType="visBarVerticalStacked"
+                            icontype="visBarVerticalStacked"
                             id="bar"
-                            labelAngle={0}
-                            legendPosition="v"
-                            lineWidth={1}
+                            labelangle={0}
+                            legendposition="v"
+                            linewidth={1}
                             mode="group"
                             name="bar"
                             orientation="v"
@@ -3867,11 +3867,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "dataLoss": "nothing",
                               }
                             }
-                            seriesAxis="yaxis"
-                            showLegend="show"
+                            seriesaxis="yaxis"
+                            showlegend="show"
                             title="Bar"
                             type="bar"
-                            visConfig={
+                            visconfig={
                               Object {
                                 "config": Object {
                                   "displaylogo": false,
@@ -3898,12 +3898,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           >
                             <EuiInnerText>
                               <span
-                                barWidth={0.97}
+                                barwidth={0.97}
                                 category="Visualizations"
-                                categoryAxis="xaxis"
+                                categoryaxis="xaxis"
                                 className="euiBadge euiBadge--hollow euiBadge--iconLeft euiComboBoxPill"
                                 component={[Function]}
-                                editorConfig={
+                                editorconfig={
                                   Object {
                                     "panelTabs": Array [
                                       Object {
@@ -4129,14 +4129,15 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     ],
                                   }
                                 }
-                                fillOpacity={80}
-                                fullLabel="Bar"
-                                groupWidth={0.7}
+                                fillopacity={80}
+                                fulllabel="Bar"
+                                groupwidth={0.7}
                                 icon={[Function]}
+                                icontype="visBarVerticalStacked"
                                 id="bar"
-                                labelAngle={0}
-                                legendPosition="v"
-                                lineWidth={1}
+                                labelangle={0}
+                                legendposition="v"
+                                linewidth={1}
                                 mode="group"
                                 name="bar"
                                 orientation="v"
@@ -4145,11 +4146,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "dataLoss": "nothing",
                                   }
                                 }
-                                seriesAxis="yaxis"
-                                showLegend="show"
+                                seriesaxis="yaxis"
+                                showlegend="show"
                                 title="Bar"
                                 type="bar"
-                                visConfig={
+                                visconfig={
                                   Object {
                                     "config": Object {
                                       "displaylogo": false,
@@ -4182,32 +4183,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   >
                                     Bar
                                   </span>
-                                  <EuiIcon
-                                    className="euiBadge__icon"
-                                    color="inherit"
-                                    size="s"
-                                    type="visBarVerticalStacked"
-                                  >
-                                    <EuiIconEmpty
-                                      aria-hidden={true}
-                                      className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
-                                      focusable="false"
-                                      role="img"
-                                      style={null}
-                                    >
-                                      <svg
-                                        aria-hidden={true}
-                                        className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
-                                        focusable="false"
-                                        height={16}
-                                        role="img"
-                                        style={null}
-                                        viewBox="0 0 16 16"
-                                        width={16}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      />
-                                    </EuiIconEmpty>
-                                  </EuiIcon>
                                 </span>
                               </span>
                             </EuiInnerText>
@@ -4760,11 +4735,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "userConfigs": Object {},
                           },
                           "vis": Object {
-                            "barWidth": 0.97,
+                            "barwidth": 0.97,
                             "category": "Visualizations",
-                            "categoryAxis": "xaxis",
+                            "categoryaxis": "xaxis",
                             "component": [Function],
-                            "editorConfig": Object {
+                            "editorconfig": Object {
                               "panelTabs": Array [
                                 Object {
                                   "editor": [Function],
@@ -4988,26 +4963,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               ],
                             },
-                            "fillOpacity": 80,
-                            "fullLabel": "Bar",
-                            "groupWidth": 0.7,
+                            "fillopacity": 80,
+                            "fulllabel": "Bar",
+                            "groupwidth": 0.7,
                             "icon": [Function],
-                            "iconType": "visBarVerticalStacked",
+                            "icontype": "visBarVerticalStacked",
                             "id": "bar",
                             "label": "Bar",
-                            "labelAngle": 0,
-                            "legendPosition": "v",
-                            "lineWidth": 1,
+                            "labelangle": 0,
+                            "legendposition": "v",
+                            "linewidth": 1,
                             "mode": "group",
                             "name": "bar",
                             "orientation": "v",
                             "selection": Object {
                               "dataLoss": "nothing",
                             },
-                            "seriesAxis": "yaxis",
-                            "showLegend": "show",
+                            "seriesaxis": "yaxis",
+                            "showlegend": "show",
                             "type": "bar",
-                            "visConfig": Object {
+                            "visconfig": Object {
                               "config": Object {
                                 "displaylogo": false,
                                 "responsive": true,
@@ -5440,11 +5415,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "userConfigs": Object {},
                             },
                             "vis": Object {
-                              "barWidth": 0.97,
+                              "barwidth": 0.97,
                               "category": "Visualizations",
-                              "categoryAxis": "xaxis",
+                              "categoryaxis": "xaxis",
                               "component": [Function],
-                              "editorConfig": Object {
+                              "editorconfig": Object {
                                 "panelTabs": Array [
                                   Object {
                                     "editor": [Function],
@@ -5668,26 +5643,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              "fillOpacity": 80,
-                              "fullLabel": "Bar",
-                              "groupWidth": 0.7,
+                              "fillopacity": 80,
+                              "fulllabel": "Bar",
+                              "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": "visBarVerticalStacked",
+                              "icontype": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Bar",
-                              "labelAngle": 0,
-                              "legendPosition": "v",
-                              "lineWidth": 1,
+                              "labelangle": 0,
+                              "legendposition": "v",
+                              "linewidth": 1,
                               "mode": "group",
                               "name": "bar",
                               "orientation": "v",
                               "selection": Object {
                                 "dataLoss": "nothing",
                               },
-                              "seriesAxis": "yaxis",
-                              "showLegend": "show",
+                              "seriesaxis": "yaxis",
+                              "showlegend": "show",
                               "type": "bar",
-                              "visConfig": Object {
+                              "visconfig": Object {
                                 "config": Object {
                                   "displaylogo": false,
                                   "responsive": true,
@@ -5934,11 +5909,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "userConfigs": Object {},
                             },
                             "vis": Object {
-                              "barWidth": 0.97,
+                              "barwidth": 0.97,
                               "category": "Visualizations",
-                              "categoryAxis": "xaxis",
+                              "categoryaxis": "xaxis",
                               "component": [Function],
-                              "editorConfig": Object {
+                              "editorconfig": Object {
                                 "panelTabs": Array [
                                   Object {
                                     "editor": [Function],
@@ -6162,26 +6137,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              "fillOpacity": 80,
-                              "fullLabel": "Bar",
-                              "groupWidth": 0.7,
+                              "fillopacity": 80,
+                              "fulllabel": "Bar",
+                              "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": "visBarVerticalStacked",
+                              "icontype": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Bar",
-                              "labelAngle": 0,
-                              "legendPosition": "v",
-                              "lineWidth": 1,
+                              "labelangle": 0,
+                              "legendposition": "v",
+                              "linewidth": 1,
                               "mode": "group",
                               "name": "bar",
                               "orientation": "v",
                               "selection": Object {
                                 "dataLoss": "nothing",
                               },
-                              "seriesAxis": "yaxis",
-                              "showLegend": "show",
+                              "seriesaxis": "yaxis",
+                              "showlegend": "show",
                               "type": "bar",
-                              "visConfig": Object {
+                              "visconfig": Object {
                                 "config": Object {
                                   "displaylogo": false,
                                   "responsive": true,
@@ -6698,11 +6673,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "userConfigs": Object {},
                           },
                           "vis": Object {
-                            "barWidth": 0.97,
+                            "barwidth": 0.97,
                             "category": "Visualizations",
-                            "categoryAxis": "xaxis",
+                            "categoryaxis": "xaxis",
                             "component": [Function],
-                            "editorConfig": Object {
+                            "editorconfig": Object {
                               "panelTabs": Array [
                                 Object {
                                   "editor": [Function],
@@ -6926,26 +6901,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               ],
                             },
-                            "fillOpacity": 80,
-                            "fullLabel": "Bar",
-                            "groupWidth": 0.7,
+                            "fillopacity": 80,
+                            "fulllabel": "Bar",
+                            "groupwidth": 0.7,
                             "icon": [Function],
-                            "iconType": "visBarVerticalStacked",
+                            "icontype": "visBarVerticalStacked",
                             "id": "bar",
                             "label": "Bar",
-                            "labelAngle": 0,
-                            "legendPosition": "v",
-                            "lineWidth": 1,
+                            "labelangle": 0,
+                            "legendposition": "v",
+                            "linewidth": 1,
                             "mode": "group",
                             "name": "bar",
                             "orientation": "v",
                             "selection": Object {
                               "dataLoss": "nothing",
                             },
-                            "seriesAxis": "yaxis",
-                            "showLegend": "show",
+                            "seriesaxis": "yaxis",
+                            "showlegend": "show",
                             "type": "bar",
-                            "visConfig": Object {
+                            "visconfig": Object {
                               "config": Object {
                                 "displaylogo": false,
                                 "responsive": true,
@@ -7188,11 +7163,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "userConfigs": Object {},
                                         },
                                         "vis": Object {
-                                          "barWidth": 0.97,
+                                          "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryAxis": "xaxis",
+                                          "categoryaxis": "xaxis",
                                           "component": [Function],
-                                          "editorConfig": Object {
+                                          "editorconfig": Object {
                                             "panelTabs": Array [
                                               Object {
                                                 "editor": [Function],
@@ -7416,26 +7391,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillOpacity": 80,
-                                          "fullLabel": "Bar",
-                                          "groupWidth": 0.7,
+                                          "fillopacity": 80,
+                                          "fulllabel": "Bar",
+                                          "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Bar",
-                                          "labelAngle": 0,
-                                          "legendPosition": "v",
-                                          "lineWidth": 1,
+                                          "labelangle": 0,
+                                          "legendposition": "v",
+                                          "linewidth": 1,
                                           "mode": "group",
                                           "name": "bar",
                                           "orientation": "v",
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesAxis": "yaxis",
-                                          "showLegend": "show",
+                                          "seriesaxis": "yaxis",
+                                          "showlegend": "show",
                                           "type": "bar",
-                                          "visConfig": Object {
+                                          "visconfig": Object {
                                             "config": Object {
                                               "displaylogo": false,
                                               "responsive": true,
@@ -7957,11 +7932,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "userConfigs": Object {},
                                         },
                                         "vis": Object {
-                                          "barWidth": 0.97,
+                                          "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryAxis": "xaxis",
+                                          "categoryaxis": "xaxis",
                                           "component": [Function],
-                                          "editorConfig": Object {
+                                          "editorconfig": Object {
                                             "panelTabs": Array [
                                               Object {
                                                 "editor": [Function],
@@ -8185,26 +8160,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillOpacity": 80,
-                                          "fullLabel": "Bar",
-                                          "groupWidth": 0.7,
+                                          "fillopacity": 80,
+                                          "fulllabel": "Bar",
+                                          "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Bar",
-                                          "labelAngle": 0,
-                                          "legendPosition": "v",
-                                          "lineWidth": 1,
+                                          "labelangle": 0,
+                                          "legendposition": "v",
+                                          "linewidth": 1,
                                           "mode": "group",
                                           "name": "bar",
                                           "orientation": "v",
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesAxis": "yaxis",
-                                          "showLegend": "show",
+                                          "seriesaxis": "yaxis",
+                                          "showlegend": "show",
                                           "type": "bar",
-                                          "visConfig": Object {
+                                          "visconfig": Object {
                                             "config": Object {
                                               "displaylogo": false,
                                               "responsive": true,
@@ -8329,7 +8304,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="show"
-                                                  key="viz-series-0"
                                                   legend="Show Legend"
                                                   options={
                                                     Array [
@@ -8604,7 +8578,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="v"
-                                                  key="viz-series-1"
                                                   legend="Position"
                                                   options={
                                                     Array [
@@ -9204,11 +9177,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "userConfigs": Object {},
                                         },
                                         "vis": Object {
-                                          "barWidth": 0.97,
+                                          "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryAxis": "xaxis",
+                                          "categoryaxis": "xaxis",
                                           "component": [Function],
-                                          "editorConfig": Object {
+                                          "editorconfig": Object {
                                             "panelTabs": Array [
                                               Object {
                                                 "editor": [Function],
@@ -9432,26 +9405,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillOpacity": 80,
-                                          "fullLabel": "Bar",
-                                          "groupWidth": 0.7,
+                                          "fillopacity": 80,
+                                          "fulllabel": "Bar",
+                                          "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Bar",
-                                          "labelAngle": 0,
-                                          "legendPosition": "v",
-                                          "lineWidth": 1,
+                                          "labelangle": 0,
+                                          "legendposition": "v",
+                                          "linewidth": 1,
                                           "mode": "group",
                                           "name": "bar",
                                           "orientation": "v",
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesAxis": "yaxis",
-                                          "showLegend": "show",
+                                          "seriesaxis": "yaxis",
+                                          "showlegend": "show",
                                           "type": "bar",
-                                          "visConfig": Object {
+                                          "visconfig": Object {
                                             "config": Object {
                                               "displaylogo": false,
                                               "responsive": true,
@@ -9576,7 +9549,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="v"
-                                                  key="viz-series-0"
                                                   legend="Orientation"
                                                   options={
                                                     Array [
@@ -9851,7 +9823,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="group"
-                                                  key="viz-series-1"
                                                   legend="Mode"
                                                   options={
                                                     Array [
@@ -10104,7 +10075,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <InputFieldItem
                                                   currentValue=""
                                                   handleInputChange={[Function]}
-                                                  key="viz-series-2"
                                                   title="Label Size"
                                                   vizState={Object {}}
                                                 >
@@ -10174,7 +10144,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-3"
                                                   max={90}
                                                   maxRange={90}
                                                   min={-90}
@@ -11106,7 +11075,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0.7}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-4"
                                                   max={1}
                                                   maxRange={1}
                                                   minRange={0}
@@ -11294,7 +11262,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0.97}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-5"
                                                   max={1}
                                                   maxRange={1}
                                                   minRange={0}
@@ -11482,7 +11449,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={1}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-6"
                                                   max={10}
                                                   maxRange={10}
                                                   minRange={0}
@@ -11670,7 +11636,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={80}
                                                   handleSliderChange={[Function]}
-                                                  key="viz-series-7"
                                                   max={100}
                                                   maxRange={100}
                                                   minRange={0}
@@ -12072,11 +12037,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "userConfigs": Object {},
                                         },
                                         "vis": Object {
-                                          "barWidth": 0.97,
+                                          "barwidth": 0.97,
                                           "category": "Visualizations",
-                                          "categoryAxis": "xaxis",
+                                          "categoryaxis": "xaxis",
                                           "component": [Function],
-                                          "editorConfig": Object {
+                                          "editorconfig": Object {
                                             "panelTabs": Array [
                                               Object {
                                                 "editor": [Function],
@@ -12300,26 +12265,26 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillOpacity": 80,
-                                          "fullLabel": "Bar",
-                                          "groupWidth": 0.7,
+                                          "fillopacity": 80,
+                                          "fulllabel": "Bar",
+                                          "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Bar",
-                                          "labelAngle": 0,
-                                          "legendPosition": "v",
-                                          "lineWidth": 1,
+                                          "labelangle": 0,
+                                          "legendposition": "v",
+                                          "linewidth": 1,
                                           "mode": "group",
                                           "name": "bar",
                                           "orientation": "v",
                                           "selection": Object {
                                             "dataLoss": "nothing",
                                           },
-                                          "seriesAxis": "yaxis",
-                                          "showLegend": "show",
+                                          "seriesaxis": "yaxis",
+                                          "showlegend": "show",
                                           "type": "bar",
-                                          "visConfig": Object {
+                                          "visconfig": Object {
                                             "config": Object {
                                               "displaylogo": false,
                                               "responsive": true,
