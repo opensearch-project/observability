@@ -23,18 +23,15 @@ import {
   render as renderExplorerVis,
   selectExplorerVisualization,
 } from '../../../../../../event_analytics/redux/slices/visualization_slice';
-import {
-  AGGREGATION_OPTIONS,
-  numericalTypes,
-} from '../../../../../../../../common/constants/explorer';
+import { AGGREGATION_OPTIONS } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
-import { ConfigList } from '../../../../../../../../common/types/explorer';
+import { ConfigList, ConfigListEntry } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
-  const { tabId } = useContext<any>(TabContext);
+  const { tabId, setToast } = useContext<any>(TabContext);
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const { data } = visualizations;
 
@@ -66,6 +63,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               dataConfig: {
                 metrics: configList.metrics,
                 dimensions: configList.dimensions,
+                breakdowns: configList.breakdowns,
               },
             },
           },
@@ -82,27 +80,36 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       setConfigList({
         ...data.rawVizData[visualizations.vis.name].dataConfig,
       });
-    } else if (
-      visualizations.vis.name !== visChartTypes.HeatMap &&
-      visualizations.vis.name !== visChartTypes.Histogram &&
-      (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
-    ) {
-      const { xaxis, yaxis } = data.defaultAxes;
-      setConfigList({
-        dimensions: [...(xaxis && xaxis)],
-        metrics: [
-          ...(yaxis && yaxis.map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }))),
-        ],
-      });
-    } else if (visualizations.vis.name === visChartTypes.HeatMap) {
-      setConfigList({
-        dimensions: [initialConfigEntry, initialConfigEntry],
-        metrics: [initialConfigEntry],
-      });
-    } else if (visualizations.vis.name === visChartTypes.Histogram) {
-      setConfigList({
-        dimensions: [{ bucketSize: '', bucketOffset: '' }],
-      });
+    } else {
+      switch (visualizations.vis.name) {
+        case visChartTypes.HeatMap:
+          setConfigList({
+            dimensions: [initialConfigEntry, initialConfigEntry],
+            metrics: [initialConfigEntry],
+          });
+          break;
+        case visChartTypes.Histogram:
+          setConfigList({
+            dimensions: [{ bucketSize: '', bucketOffset: '' }],
+          });
+          break;
+        default:
+          if (data.defaultAxes.xaxis || data.defaultAxes.yaxis) {
+            const { xaxis, yaxis } = data.defaultAxes;
+            const configListObject = {
+              dimensions: [...(xaxis && xaxis)],
+              metrics: [
+                ...(yaxis &&
+                  yaxis.map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }))),
+              ],
+            };
+            if (visualizations.vis.name !== visChartTypes.Bar) {
+              setConfigList(configListObject);
+            } else {
+              setConfigList({ ...configListObject, breakdowns: [] });
+            }
+          }
+      }
     }
   }, [
     data.defaultAxes,
@@ -147,7 +154,22 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     const list = { ...configList };
     const arr = [...list[name]];
     arr.splice(index, 1);
-    const updatedList = { ...list, [name]: arr };
+    let updatedList = { ...list };
+    if (visualizations.vis.name === visChartTypes.Bar && name === 'dimensions') {
+      const dimensionLabels = arr.map((field) => field.label);
+      const newBreakdown = configList.breakdowns?.filter((field) =>
+        dimensionLabels.includes(field.label)
+      );
+      if (newBreakdown?.length === arr.length) {
+        setToast(
+          'You cannot remove this dimension as there must be at least one dimension selected which is not part of breakdown.',
+          'danger'
+        );
+        return;
+      }
+      updatedList = { ...updatedList, breakdowns: newBreakdown };
+    }
+    updatedList = { ...updatedList, [name]: arr };
     setConfigList(updatedList);
   };
 
@@ -157,6 +179,15 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const updateChart = () => {
+    const isAnyMetricEmpty = configList.metrics?.some((field) => field.label.trim() === '');
+    const isAnyDimensionEmpty = configList.dimensions?.some((field) => field.label.trim() === '');
+    const isAnyBreakdownEmpty =
+      visualizations.vis.name === visChartTypes.Bar &&
+      configList.breakdowns?.some((field) => field.label.trim() === '');
+    if (isAnyMetricEmpty || isAnyDimensionEmpty || isAnyBreakdownEmpty) {
+      setToast('Fill all the fields or remove empty fields.', 'danger');
+      return;
+    }
     dispatch(
       renderExplorerVis({
         tabId,
@@ -166,6 +197,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
             dataConfig: {
               metrics: configList.metrics,
               dimensions: configList.dimensions,
+              breakdowns: configList.breakdowns,
             },
           },
         },
@@ -179,6 +211,16 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       visualizations.vis.name === visChartTypes.Scatter);
 
   const getOptionsAvailable = (sectionName: string) => {
+    if (sectionName === 'breakdowns') {
+      const selectedBreakdownFields: any = {};
+      configList['breakdowns']?.forEach((field) => (selectedBreakdownFields[field.label] = true));
+      return (
+        configList['dimensions'] &&
+        (configList['dimensions'] as ConfigListEntry[]).filter(
+          (field) => !selectedBreakdownFields[field.label]
+        )
+      );
+    }
     let selectedFields = {};
     for (const key in configList) {
       configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
@@ -191,104 +233,121 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       : unselectedFields;
   };
 
-  const getCommonUI = (lists, sectionName: string) =>
-    lists &&
-    lists.map((singleField, index: number) => (
+  const renderAddButton = (isDisabled: boolean, sectionName: string) => (
+    <EuiFlexItem grow>
+      <EuiButton
+        fullWidth
+        iconType="plusInCircleFilled"
+        color="primary"
+        onClick={() => handleServiceAdd(sectionName)}
+        disabled={isDisabled}
+      >
+        Add
+      </EuiButton>
+    </EuiFlexItem>
+  );
+
+  const getCommonUI = (lists: ConfigListEntry[], sectionName: string) =>
+    sectionName === 'breakdowns' && lists && lists.length === 0 ? (
       <>
-        <div key={index} className="services">
-          <div className="first-division">
-            {sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.HeatMap && (
-              <EuiTitle size="xxs">
-                <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
-              </EuiTitle>
-            )}
-            <EuiPanel color="subdued" style={{ padding: '0px' }}>
-              <EuiFormRow
-                label="Aggregation"
-                labelAppend={
-                  visualizations.vis.name !== visChartTypes.HeatMap &&
-                  lists.length !== 1 && (
-                    <EuiText size="xs">
-                      <EuiIcon
-                        type="cross"
-                        color="danger"
-                        onClick={() => handleServiceRemove(index, sectionName)}
-                      />
-                    </EuiText>
-                  )
-                }
-              >
-                <EuiComboBox
-                  aria-label="Accessible screen reader label"
-                  placeholder="Select a aggregation"
-                  singleSelection={{ asPlainText: true }}
-                  options={AGGREGATION_OPTIONS}
-                  selectedOptions={
-                    singleField.aggregation ? [{ label: singleField.aggregation }] : []
-                  }
-                  onChange={(e) =>
-                    updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')
-                  }
-                />
-              </EuiFormRow>
-              <EuiFormRow label="Field">
-                <EuiComboBox
-                  aria-label="Accessible screen reader label"
-                  placeholder="Select a field"
-                  singleSelection={{ asPlainText: true }}
-                  options={getOptionsAvailable(sectionName)}
-                  selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
-                  onChange={(e) =>
-                    updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')
-                  }
-                />
-              </EuiFormRow>
-
-              <EuiFormRow label="Custom label">
-                <EuiFieldText
-                  placeholder="Custom label"
-                  value={singleField.custom_label}
-                  onChange={(e) => updateList(e.target.value, index, sectionName, 'custom_label')}
-                  aria-label="Use aria labels when no actual label is in use"
-                />
-              </EuiFormRow>
-
-              {isPositionButtonVisible(sectionName) && (
-                <EuiFormRow label="Side">
-                  <ButtonGroupItem
-                    legend="Side"
-                    groupOptions={[
-                      { id: 'left', label: 'Left' },
-                      { id: 'right', label: 'Right' },
-                    ]}
-                    idSelected={singleField.side || 'right'}
-                    handleButtonChange={(id: string) => updateList(id, index, sectionName, 'side')}
-                  />
-                </EuiFormRow>
-              )}
-
-              <EuiSpacer size="s" />
-              {visualizations.vis.name !== visChartTypes.HeatMap && lists.length - 1 === index && (
-                <EuiFlexItem grow>
-                  <EuiButton
-                    fullWidth
-                    iconType="plusInCircleFilled"
-                    color="primary"
-                    onClick={() => handleServiceAdd(sectionName)}
-                    disabled={
-                      sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.Line
-                    }
-                  >
-                    Add
-                  </EuiButton>
-                </EuiFlexItem>
-              )}
-            </EuiPanel>
-          </div>
-        </div>
+        {renderAddButton(configList.dimensions?.length === 1, sectionName)}
         <EuiSpacer size="s" />
       </>
-    ));
+    ) : (
+      lists &&
+      lists.map((singleField, index: number) => (
+        <>
+          <div key={index} className="services">
+            <div className="first-division">
+              {sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.HeatMap && (
+                <EuiTitle size="xxs">
+                  <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
+                </EuiTitle>
+              )}
+              <EuiPanel color="subdued" style={{ padding: '0px' }}>
+                <EuiFormRow
+                  label="Aggregation"
+                  labelAppend={
+                    sectionName === 'breakdowns' ||
+                    (visualizations.vis.name !== visChartTypes.HeatMap && lists.length !== 1) ? (
+                      <EuiText size="xs">
+                        <EuiIcon
+                          type="cross"
+                          color="danger"
+                          onClick={() => handleServiceRemove(index, sectionName)}
+                        />
+                      </EuiText>
+                    ) : null
+                  }
+                >
+                  <EuiComboBox
+                    aria-label="AggregationCommonUI"
+                    placeholder="Select a aggregation"
+                    singleSelection={{ asPlainText: true }}
+                    options={AGGREGATION_OPTIONS}
+                    selectedOptions={
+                      singleField.aggregation ? [{ label: singleField.aggregation }] : []
+                    }
+                    onChange={(e) =>
+                      updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')
+                    }
+                  />
+                </EuiFormRow>
+                <EuiFormRow label="Field">
+                  <EuiComboBox
+                    aria-label="fieldCommonUI"
+                    placeholder="Select a field"
+                    singleSelection={{ asPlainText: true }}
+                    options={getOptionsAvailable(sectionName)}
+                    selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
+                    onChange={(e) =>
+                      updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')
+                    }
+                  />
+                </EuiFormRow>
+
+                <EuiFormRow label="Custom label">
+                  <EuiFieldText
+                    placeholder="Custom label"
+                    value={singleField.custom_label}
+                    onChange={(e) => updateList(e.target.value, index, sectionName, 'custom_label')}
+                    aria-label="customLabelCommonUI"
+                  />
+                </EuiFormRow>
+
+                {isPositionButtonVisible(sectionName) && (
+                  <EuiFormRow label="Side">
+                    <ButtonGroupItem
+                      legend="Side"
+                      groupOptions={[
+                        { id: 'left', label: 'Left' },
+                        { id: 'right', label: 'Right' },
+                      ]}
+                      idSelected={(singleField as ConfigListEntry).side || 'right'}
+                      handleButtonChange={(id: string) =>
+                        updateList(id, index, sectionName, 'side')
+                      }
+                    />
+                  </EuiFormRow>
+                )}
+
+                <EuiSpacer size="s" />
+                {visualizations.vis.name !== visChartTypes.HeatMap &&
+                  lists.length - 1 === index &&
+                  renderAddButton(
+                    (sectionName === 'breakdowns' &&
+                      configList.dimensions!.length - 1 === configList.breakdowns?.length) ||
+                      (sectionName === 'dimensions' &&
+                        visualizations.vis.name === visChartTypes.Line),
+                    sectionName
+                  )}
+              </EuiPanel>
+            </div>
+          </div>
+          <EuiSpacer size="s" />
+        </>
+      ))
+    );
 
   const getNumberField = (type: string) => (
     <>
@@ -321,13 +380,31 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           <EuiTitle size="xxs">
             <h3>Dimensions</h3>
           </EuiTitle>
-          {getCommonUI(configList.dimensions, 'dimensions')}
+          {getCommonUI(
+            configList?.dimensions !== undefined
+              ? (configList.dimensions as ConfigListEntry[])
+              : [],
+            'dimensions'
+          )}
 
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
             <h3>Metrics</h3>
           </EuiTitle>
-          {getCommonUI(configList.metrics, 'metrics')}
+          {getCommonUI(configList.metrics !== undefined ? configList.metrics : [], 'metrics')}
+
+          {visualizations.vis.name === visChartTypes.Bar && (
+            <>
+              <EuiSpacer size="s" />
+              <EuiTitle size="xxs">
+                <h3>Breakdown</h3>
+              </EuiTitle>
+              {getCommonUI(
+                configList.breakdowns !== undefined ? configList.breakdowns : [],
+                'breakdowns'
+              )}
+            </>
+          )}
         </>
       ) : (
         <>
