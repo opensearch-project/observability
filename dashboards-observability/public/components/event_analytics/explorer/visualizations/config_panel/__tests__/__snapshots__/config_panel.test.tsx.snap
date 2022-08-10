@@ -1850,30 +1850,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
-                              Object {
-                                "component": [Function],
-                                "eleType": "buttons",
-                                "mapTo": "sort_sectors",
-                                "name": "Sort Sectors",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": undefined,
-                                      "name": "Largest to Smallest",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "largest_to_smallest",
-                                      "name": "Largest to Smallest",
-                                    },
-                                    Object {
-                                      "id": "random",
-                                      "name": "Random",
-                                    },
-                                  ],
-                                },
-                              },
                             ],
                           },
                           Object {

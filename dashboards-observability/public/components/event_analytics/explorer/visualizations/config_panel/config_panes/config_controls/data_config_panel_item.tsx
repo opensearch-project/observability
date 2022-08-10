@@ -156,7 +156,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     setConfigList(updatedList);
   };
 
-  const updateChart = (updatedConfigList = configList) => {
+  const updateChart = () => {
     dispatch(
       renderExplorerVis({
         tabId,
@@ -347,9 +347,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
-          onClick={() => updateChart()}
+          onClick={updateChart}
           size="s"
-          disabled
         >
           Update chart
         </EuiButton>

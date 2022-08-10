@@ -15,7 +15,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
     onClose={[MockFunction]}
     size="s"
   >
-    <OuiWindowEvent
+    <EuiWindowEvent
       event="keydown"
       handler={[Function]}
     />

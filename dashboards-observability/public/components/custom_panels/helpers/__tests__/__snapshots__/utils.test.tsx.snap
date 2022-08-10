@@ -2433,132 +2433,12 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                                   "id": "lines",
                                   "name": "Lines",
                                 },
-                                Object {
-                                  "id": "markers",
-                                  "name": "Marker",
-                                },
-                                Object {
-                                  "id": "lines+markers",
-                                  "name": "Lines + Markers",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "interpolation",
-                            "name": "Interpolation",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "spline",
-                                  "name": "Smooth",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "linear",
-                                  "name": "Linear",
-                                },
-                                Object {
-                                  "id": "spline",
-                                  "name": "Smooth",
-                                },
-                                Object {
-                                  "id": "hv",
-                                  "name": "Step before",
-                                },
-                                Object {
-                                  "id": "vh",
-                                  "name": "Step after",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 2,
-                            "eleType": "slider",
-                            "mapTo": "lineWidth",
-                            "name": "Line width",
-                            "props": Object {
-                              "max": 10,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 40,
-                            "eleType": "slider",
-                            "mapTo": "fillOpacity",
-                            "name": "Fill opacity",
-                            "props": Object {
-                              "max": 100,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 5,
-                            "eleType": "slider",
-                            "mapTo": "pointSize",
-                            "name": "Point size",
-                            "props": Object {
-                              "max": 40,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "labelSize",
-                            "name": "Label size",
-                            "title": "Label size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 0,
-                            "eleType": "slider",
-                            "mapTo": "rotateLabels",
-                            "name": "Rotate labels",
-=======
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "position",
-                            "name": "Position",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Right",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Right",
-                                },
-                                Object {
-                                  "id": "h",
-                                  "name": "Bottom",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "legendSize",
-                            "name": "Legend Size",
-                            "title": "Legend Size",
-                          },
                               ],
                               "options": Array [
                                 Object {
                                   "id": "lines",
                                   "name": "Lines",
                                 },
-                              ],
-                              "options": Array [
                                 Object {
                                   "id": "markers",
                                   "name": "Marker",
@@ -2566,110 +2446,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                                 Object {
                                   "id": "lines+markers",
                                   "name": "Lines + Markers",
->>>>>>> 5a182978b1731b84de6af34643f38b4114cf2a45
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "interpolation",
-                            "name": "Interpolation",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "spline",
-                                  "name": "Smooth",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "linear",
-                                  "name": "Linear",
-                                },
-                                Object {
-                                  "id": "spline",
-                                  "name": "Smooth",
-                                },
-                                Object {
-                                  "id": "hv",
-                                  "name": "Step before",
-                                },
-                                Object {
-                                  "id": "vh",
-                                  "name": "Step after",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 2,
-                            "eleType": "slider",
-                            "mapTo": "lineWidth",
-                            "name": "Line width",
-                            "props": Object {
-                              "max": 10,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 40,
-                            "eleType": "slider",
-                            "mapTo": "fillOpacity",
-                            "name": "Fill Opacity",
-                            "props": Object {
-                              "max": 100,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 5,
-                            "eleType": "slider",
-                            "mapTo": "pointSize",
-                            "name": "Point Size",
-                            "props": Object {
-                              "max": 40,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "labelSize",
-                            "name": "Label Size",
-                            "title": "Label Size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 0,
-                            "eleType": "slider",
-                            "mapTo": "rotateLabels",
-                            "name": "Rotate labels",
-                            "props": Object {
-                              "max": 90,
-                              "min": -90,
-                              "showTicks": true,
-                              "ticks": Array [
-                                Object {
-                                  "label": "-90°",
-                                  "value": -90,
-                                },
-                                Object {
-                                  "label": "-45°",
-                                  "value": -45,
-                                },
-                                Object {
-                                  "label": "0°",
-                                  "value": 0,
-                                },
-                                Object {
-                                  "label": "45°",
-                                  "value": 45,
-                                },
-                                Object {
-                                  "label": "90°",
-                                  "value": 90,
                                 },
                               ],
                             },
@@ -2778,13 +2554,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             },
                           },
                         ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
                       },
                       Object {
                         "editor": [Function],
