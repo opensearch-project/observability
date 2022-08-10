@@ -410,7 +410,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
         "fullLabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "iconType": "visBarVerticalStacked",
+        "icontype": "visBarVerticalStacked",
         "id": "bar",
         "label": "Vertical bar",
         "labelangle": 0,
@@ -451,7 +451,9 @@ exports[`Heatmap component Renders heatmap component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder>
+  <EmptyPlaceholder
+    icon="visBarVerticalStacked"
+  >
     <EuiText
       className="lnsChart__empty"
       color="subdued"
@@ -479,17 +481,18 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                 <EuiIcon
                   color="subdued"
                   size="xxl"
+                  type="visBarVerticalStacked"
                 >
                   <EuiIconEmpty
                     aria-hidden={true}
-                    className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                     focusable="false"
                     role="img"
                     style={null}
                   >
                     <svg
                       aria-hidden={true}
-                      className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                       focusable="false"
                       height={16}
                       role="img"
