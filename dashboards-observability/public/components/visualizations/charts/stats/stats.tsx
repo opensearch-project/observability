@@ -63,8 +63,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
   console.log('data===', data);
-  console.log('dataConfig?.thresholds===', dataConfig?.thresholds);
-
   // style panel parameters
   const thresholds = dataConfig?.thresholds || [];
   const sortedThresholds = uniqBy(
@@ -90,9 +88,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   const precisionValue = dataConfig?.chartStyles?.precisionValue || vis.precisionValue;
   const metricUnits = dataConfig?.chartStyles?.metricUnits || '';
   const isDarkMode = uiSettingsService.get('theme:darkMode');
-  console.log('thresholds===', thresholds);
-  console.log('metricUnits====', metricUnits);
-  console.log('precisionValue===', precisionValue);
+
   const getRoundOf = (number: number, places: number) => {
     return (Math.round(number * 10 ** precisionValue) / 10 ** precisionValue).toFixed(places);
   };
@@ -205,7 +201,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             },
             [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
             [commonAxis]: 1,
-            metricIndex: index,
+            metricValue: value,
           },
           {
             ...annotaion,
@@ -223,7 +219,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             },
             [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
             [commonAxis]: 1,
-            metricIndex: index,
+            metricValue: value,
           },
         ]
       : [
@@ -249,7 +245,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                   : valueColor,
               family: 'Roboto',
             },
-            metricIndex: index,
+            metricValue: value,
           },
         ];
   };
@@ -316,59 +312,59 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   const [statsData, statsLayout]: Plotly.Data[] = useMemo(() => {
     let calculatedStatsData: Plotly.Data[] = [];
     calculatedStatsData = generateLineTraces();
-    const sortedStatsData = calculatedStatsData
-      .map((i, j) => ({ ...i, oldIndex: j }))
-      .sort((a, b) => a.metricValue - b.metricValue);
-    console.log('sortedStatsData===', sortedStatsData);
 
     if (sortedThresholds.length) {
-      //threshold array --- 0, 30, 50
-      // data array = 10, 50, 70, 150
-      // const thresholdRanges: any = [[0,30],[30, 50], [50, 150]];
-      // for (let i = 0; i < sortedStatsData.length; i++) {
-      //   console.log('stat====== statIndex i', i, 'statsData ==', sortedStatsData[i]);
-      //   for (let j = 0; j < thresholdRanges.length; i++) {
-      //     console.log('ramgeINdex == j', j, 'ramgeData', thresholdRanges[j]);
-      //     if (
-      //       sortedStatsData[i].metricValue >= thresholdRanges[j][0] &&
-      //       sortedStatsData[i].metricValue < thresholdRanges[j][1]
-      //     ) {
-      //       calculatedStatsData[sortedStatsData[i].oldIndex].fillColor = 'red'
-      //     }
-      //   }
-      // }
+      const sortedStatsData = calculatedStatsData
+        .map((i, j) => ({ ...i, oldIndex: j }))
+        .sort((a, b) => a.metricValue - b.metricValue);
+      const thresholdRanges: any = [];
+      sortedThresholds.forEach((thresh, index) => {
+        thresholdRanges.push([
+          thresh.value,
+          index === sortedThresholds.length - 1
+            ? sortedStatsData[sortedStatsData.length - 1].metricValue
+            : sortedThresholds[index + 1].value,
+        ]);
+      });
+      if (sortedThresholds.length) {
+        // change color for line traces
+        for (let statIndex = 0; statIndex < sortedStatsData.length; statIndex++) {
+          for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
+            if (
+              Number(sortedStatsData[statIndex].metricValue) >=
+                Number(thresholdRanges[threshIndex][0]) &&
+              Number(sortedStatsData[statIndex].metricValue) <=
+                Number(thresholdRanges[threshIndex][1])
+            ) {
+              calculatedStatsData[sortedStatsData[statIndex].oldIndex].fillcolor = hexToRgb(
+                sortedThresholds[threshIndex].color,
+                DefaultChartStyles.FillOpacity / FILLOPACITY_DIV_FACTOR
+              );
+              calculatedStatsData[sortedStatsData[statIndex].oldIndex].line.color =
+                sortedThresholds[threshIndex].color;
+            }
+          }
+        }
 
-      // const thresholdRanges : any = []
-      // sortedThresholds.forEach((thresh, index) => {
-      //   if(sortedThresholds.length === 1){
-      //     thresholdRanges.push([0, ])
-      //   }
-      // })
-
-      // for (let i = 0; i < sortedThresholds.length; i++) {
-      //   if(i === 0 || i + 1 === sortedThresholds.length){
-      //     thresholdRanges.push([0, sortedThresholds[0].value ? sortedThresholds[0].value - 1 : 'n' ])
-      //   } else {
-      //     // thresholdRanges.push([sortedThresholds[i].value - 1,  ])
-
-      //   }
-      // }
-
-      // sortedThresholds.forEach((thresh, threshIndex) => {
-      //   console.log('threshIndex===', threshIndex, 'thresh ==', thresh.value);
-      //   sortedStatsData.forEach((stat, statIndex) => {
-      //     console.log('stat.metricValue', stat.metricValue, 'statIndex==', statIndex);
-      //     if (stat.metricValue > thresh.value) {
-      //       console.log('CHANGE COLOR ======');
-      //       calculatedStatsData[stat.oldIndex].fillcolor = hexToRgb(
-      //         thresh.color,
-      //         DefaultChartStyles.FillOpacity / FILLOPACITY_DIV_FACTOR
-      //       );
-      //       calculatedStatsData[stat.oldIndex].line.color = thresh.color;
-      //       calculatedStatsData["thresholdIndex"] = threshIndex
-      //     }
-      //   });
-      // });
+        // change color of text annotations
+        for (
+          let annotationIndex = 0;
+          annotationIndex < autoChartLayout.annotations.length;
+          annotationIndex++
+        ) {
+          for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
+            if (
+              Number(autoChartLayout.annotations[annotationIndex].metricValue) >=
+                Number(thresholdRanges[threshIndex][0]) &&
+              Number(autoChartLayout.annotations[annotationIndex].metricValue) <=
+                Number(thresholdRanges[threshIndex][1])
+            ) {
+              autoChartLayout.annotations[annotationIndex].font.color =
+                sortedThresholds[threshIndex].color;
+            }
+          }
+        }
+      }
     }
 
     return [calculatedStatsData, autoChartLayout];
