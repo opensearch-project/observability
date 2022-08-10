@@ -114,6 +114,9 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       }, [])
       .flat();
 
+    console.log('With Timestamp: nameData', nameData);
+    console.log('With Timestamp: dimensionsData', dimensionsData);
+
     bars = valueForYSeries
       .map((field: any, index: number) => {
         const selectedColor = getSelectedColorTheme(field, index);
@@ -150,10 +153,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         return acc;
       }, {})
     );
+    console.log('With timestamp: Bars', bars);
   } else {
     // for multiple dimention and metrics without timestamp
     const dimensionsData = prepareData(valueForXSeries);
     const metricsData = prepareData(valueForYSeries);
+    console.log('Without timestamp: dimensionsData', dimensionsData);
+    console.log('Without timestamp: metricsData', metricsData);
     bars = valueForYSeries.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field, index);
       return {
@@ -175,6 +181,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         orientation: barOrientation,
       };
     });
+    console.log('Without timestamp: Bars', bars);
   }
 
   // If chart has length of result buckets < 16
