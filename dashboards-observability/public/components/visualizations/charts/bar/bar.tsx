@@ -153,7 +153,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         return acc;
       }, {})
     );
-    console.log('With timestamp: Bars', bars);
+    console.log('With timestamp: Bars(Traces)', bars);
   } else {
     // for multiple dimention and metrics without timestamp
     const dimensionsData = prepareData(valueForXSeries);
@@ -181,7 +181,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         orientation: barOrientation,
       };
     });
-    console.log('Without timestamp: Bars', bars);
+    console.log('Without timestamp: Bars(Traces)', bars);
   }
 
   // If chart has length of result buckets < 16
