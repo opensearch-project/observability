@@ -202,6 +202,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
             [commonAxis]: 1,
             metricValue: value,
+            type: "name",
           },
           {
             ...annotaion,
@@ -219,6 +220,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             },
             [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
             [commonAxis]: 1,
+            type: 'value',
             metricValue: value,
           },
         ]
@@ -245,6 +247,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                   : valueColor,
               family: 'Roboto',
             },
+            type: textMode === 'names' ? 'value' : 'name',
             metricValue: value,
           },
         ];
@@ -353,7 +356,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           annotationIndex++
         ) {
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
-            if (
+            if (autoChartLayout.annotations[annotationIndex].type === 'value' &&
               Number(autoChartLayout.annotations[annotationIndex].metricValue) >=
                 Number(thresholdRanges[threshIndex][0]) &&
               Number(autoChartLayout.annotations[annotationIndex].metricValue) <=
