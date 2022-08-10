@@ -32,7 +32,7 @@ import { GridFooter } from "./data_table_footer"
 import {
   COLUMN_DEFAULT_MIN_WIDTH,
   HEADER_HEIGHT,
-} from '../../../../../common/constants/data_table';
+} from '../../../../../common/constants/explorer';
 
 
 const doubleValueGetter = (params) => {
