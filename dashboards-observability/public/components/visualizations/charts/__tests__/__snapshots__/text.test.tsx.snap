@@ -451,7 +451,7 @@ exports[`Text component Renders text component 1`] = `
         "fullLabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "iconType": "visBarVerticalStacked",
+        "icontype": "visBarVerticalStacked",
         "id": "bar",
         "label": "Vertical bar",
         "labelangle": 0,

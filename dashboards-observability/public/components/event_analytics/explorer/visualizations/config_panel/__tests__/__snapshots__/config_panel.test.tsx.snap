@@ -467,7 +467,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
         "fullLabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "iconType": "visBarVerticalStacked",
+        "icontype": "visBarVerticalStacked",
         "id": "bar",
         "label": "Vertical bar",
         "labelangle": 0,
@@ -808,7 +808,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "fullLabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": undefined,
+                  "iconType": "visBarVerticalStacked",
+                  "icontype": "visBarVerticalStacked",
                   "id": "bar",
                   "label": "Vertical bar",
                   "labelangle": 0,
@@ -1055,7 +1056,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "fullLabel": "Horizontal Bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": "visBarVerticalStacked",
+                  "icontype": "visBarHorizontalStacked",
                   "id": "horizontal_bar",
                   "label": "Horizontal Bar",
                   "labelangle": 0,
@@ -3782,7 +3783,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "fullLabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
-                  "iconType": undefined,
+                  "iconType": "visBarVerticalStacked",
+                  "icontype": "visBarVerticalStacked",
                   "id": "bar",
                   "label": "Vertical bar",
                   "labelangle": 0,
@@ -4119,7 +4121,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "fullLabel": "Vertical bar",
                       "groupwidth": 0.7,
                       "icon": [Function],
-                      "iconType": undefined,
+                      "iconType": "visBarVerticalStacked",
+                      "icontype": "visBarVerticalStacked",
                       "id": "bar",
                       "label": "Vertical bar",
                       "labelangle": 0,
@@ -4462,6 +4465,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           fullLabel="Vertical bar"
                           groupwidth={0.7}
                           icon={[Function]}
+                          iconType="visBarVerticalStacked"
+                          icontype="visBarVerticalStacked"
                           id="bar"
                           key="vertical bar"
                           labelangle={0}
@@ -4737,7 +4742,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "fullLabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": undefined,
+                              "iconType": "visBarVerticalStacked",
+                              "icontype": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Vertical bar",
                               "labelangle": 0,
@@ -5081,6 +5087,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             fullLabel="Vertical bar"
                             groupwidth={0.7}
                             icon={[Function]}
+                            iconType="visBarVerticalStacked"
+                            icontype="visBarVerticalStacked"
                             id="bar"
                             labelangle={0}
                             legendposition="v"
@@ -5393,6 +5401,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 fullLabel="Vertical bar"
                                 groupwidth={0.7}
                                 icon={[Function]}
+                                icontype="visBarVerticalStacked"
                                 id="bar"
                                 labelangle={0}
                                 legendposition="v"
@@ -5442,6 +5451,32 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   >
                                     Vertical bar
                                   </span>
+                                  <EuiIcon
+                                    className="euiBadge__icon"
+                                    color="inherit"
+                                    size="s"
+                                    type="visBarVerticalStacked"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
                                 </span>
                               </span>
                             </EuiInnerText>
@@ -6294,7 +6329,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "fullLabel": "Vertical bar",
                             "groupwidth": 0.7,
                             "icon": [Function],
-                            "iconType": "visBarVerticalStacked",
+                            "icontype": "visBarVerticalStacked",
                             "id": "bar",
                             "label": "Vertical bar",
                             "labelangle": 0,
@@ -7061,7 +7096,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "fullLabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": "visBarVerticalStacked",
+                              "icontype": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Vertical bar",
                               "labelangle": 0,
@@ -7584,7 +7619,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "fullLabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
-                              "iconType": "visBarVerticalStacked",
+                              "icontype": "visBarVerticalStacked",
                               "id": "bar",
                               "label": "Vertical bar",
                               "labelangle": 0,
@@ -8416,7 +8451,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "fullLabel": "Vertical bar",
                             "groupwidth": 0.7,
                             "icon": [Function],
-                            "iconType": "visBarVerticalStacked",
+                            "icontype": "visBarVerticalStacked",
                             "id": "bar",
                             "label": "Vertical bar",
                             "labelangle": 0,
@@ -8959,7 +8994,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -11089,7 +11124,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -12344,7 +12379,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
@@ -14966,7 +15001,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "fullLabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
-                                          "iconType": "visBarVerticalStacked",
+                                          "icontype": "visBarVerticalStacked",
                                           "id": "bar",
                                           "label": "Vertical bar",
                                           "labelangle": 0,
