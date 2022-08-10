@@ -222,7 +222,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show Legend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -325,7 +325,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label Size",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
@@ -398,7 +398,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "defaultState": 80,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill Opacity",
+                      "name": "Fill opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -409,7 +409,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color Theme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
@@ -429,13 +429,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             },
           ],
         },
-        "fillopacity": 80,
-        "fulllabel": "Bar",
+        "fillOpacity": 80,
+        "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
         "icontype": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Bar",
+        "label": "Vertical bar",
         "labelangle": 0,
         "legendposition": "v",
         "linewidth": 1,
@@ -529,7 +529,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Legend",
+                                "name": "Show legend",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -632,7 +632,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label Size",
+                                "name": "Label size",
                               },
                               Object {
                                 "component": [Function],
@@ -705,7 +705,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": 80,
                                 "eleType": "slider",
                                 "mapTo": "fillOpacity",
-                                "name": "Fill Opacity",
+                                "name": "Fill opacity",
                                 "props": Object {
                                   "max": 100,
                                 },
@@ -716,7 +716,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "editor": [Function],
                             "id": "color-theme",
                             "mapTo": "colorTheme",
-                            "name": "Color Theme",
+                            "name": "Color theme",
                             "schemas": Array [],
                           },
                         ],
@@ -736,13 +736,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fillopacity": 80,
-                  "fulllabel": "Bar",
+                  "fillOpacity": 80,
+                  "fulllabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
+                  "iconType": "visBarVerticalStacked",
                   "icontype": "visBarVerticalStacked",
                   "id": "bar",
-                  "label": "Bar",
+                  "label": "Vertical bar",
                   "labelangle": 0,
                   "legendposition": "v",
                   "linewidth": 1,
@@ -799,7 +800,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Legend",
+                                "name": "Show legend",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -846,8 +847,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "legendSize",
-                                "name": "Legend Size",
-                                "title": "Legend Size",
+                                "name": "Legend size",
+                                "title": "Legend size",
                               },
                             ],
                           },
@@ -932,7 +933,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": 40,
                                 "eleType": "slider",
                                 "mapTo": "fillOpacity",
-                                "name": "Fill Opacity",
+                                "name": "Fill opacity",
                                 "props": Object {
                                   "max": 100,
                                 },
@@ -942,7 +943,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": 5,
                                 "eleType": "slider",
                                 "mapTo": "pointSize",
-                                "name": "Point Size",
+                                "name": "Point size",
                                 "props": Object {
                                   "max": 40,
                                 },
@@ -951,8 +952,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label Size",
-                                "title": "Label Size",
+                                "name": "Label size",
+                                "title": "Label size",
                               },
                               Object {
                                 "component": [Function],
@@ -1107,7 +1108,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Legend",
+                                "name": "Show legend",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -1154,7 +1155,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "size",
-                                "name": "Legend Size",
+                                "name": "Legend size",
                               },
                             ],
                           },
@@ -1162,7 +1163,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "editor": [Function],
                             "id": "chart_styles",
                             "mapTo": "chartStyles",
-                            "name": "Chart Styles",
+                            "name": "Chart styles",
                             "schemas": Array [
                               Object {
                                 "component": null,
@@ -1193,7 +1194,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label Size",
+                                "name": "Label size",
                               },
                               Object {
                                 "component": [Function],
@@ -1203,7 +1204,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "eleType": "colorpicker",
                                 "isSingleSelection": true,
                                 "mapTo": "colorTheme",
-                                "name": "Color Theme",
+                                "name": "Color theme",
                                 "options": Array [
                                   Object {
                                     "title": "Default",
@@ -1309,7 +1310,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Colorscale",
+                                "name": "Show colorscale",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -1335,7 +1336,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "editor": [Function],
                             "id": "chart_styles",
                             "mapTo": "chartStyles",
-                            "name": "Chart Styles",
+                            "name": "Chart styles",
                             "schemas": Array [
                               Object {
                                 "component": [Function],
@@ -1349,7 +1350,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "eleType": "list",
                                 "isSingleSelection": true,
                                 "mapTo": "colorMode",
-                                "name": "Color Mode",
+                                "name": "Color mode",
                                 "options": Array [
                                   Object {
                                     "label": "spectrum",
@@ -1670,11 +1671,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fulllabel": "Text",
+                  "fulllabel": "Markdown",
                   "icon": [Function],
                   "icontype": "visText",
                   "id": "text",
-                  "label": "Text",
+                  "label": "Markdown",
                   "name": "text",
                   "selection": Object {
                     "dataLoss": "nothing",
@@ -1755,7 +1756,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Colorscale",
+                                "name": "Show colorscale",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -1794,7 +1795,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                                 "isSingleSelection": true,
                                 "mapTo": "tilingAlgorithm",
-                                "name": "Tiling Algorithm",
+                                "name": "Tiling algorithm",
                                 "options": Array [
                                   Object {
                                     "name": "Squarify",
@@ -1849,13 +1850,37 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   ],
                                 },
                               },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "sort_sectors",
+                                "name": "Sort Sectors",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": undefined,
+                                      "name": "Largest to Smallest",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "largest_to_smallest",
+                                      "name": "Largest to Smallest",
+                                    },
+                                    Object {
+                                      "id": "random",
+                                      "name": "Random",
+                                    },
+                                  ],
+                                },
+                              },
                             ],
                           },
                           Object {
                             "editor": [Function],
                             "id": "chart_styles",
                             "mapTo": "chartStyles",
-                            "name": "Chart Styles",
+                            "name": "Chart styles",
                             "schemas": Array [
                               Object {
                                 "component": [Function],
@@ -1865,7 +1890,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "eleType": "treemapColorPicker",
                                 "isSingleSelection": true,
                                 "mapTo": "colorTheme",
-                                "name": "Color Theme",
+                                "name": "Color theme",
                                 "options": Array [
                                   Object {
                                     "title": "Default",
@@ -2113,11 +2138,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fulllabel": "Tree Map",
+                  "fulllabel": "Tree map",
                   "icon": [Function],
                   "icontype": "heatmap",
                   "id": "tree_map",
-                  "label": "Tree Map",
+                  "label": "Tree map",
                   "name": "tree_map",
                   "orientation": "v",
                   "selection": Object {
@@ -2197,7 +2222,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "buttons",
                                 "mapTo": "legendPlacement",
-                                "name": "Legend Placement",
+                                "name": "Legend placement",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -2225,15 +2250,15 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "titleSize",
-                                "name": "Title Size",
-                                "title": "Title Size",
+                                "name": "Title size",
+                                "title": "Title size",
                               },
                               Object {
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "valueSize",
-                                "name": "Value Size",
-                                "title": "Value Size",
+                                "name": "Value size",
+                                "title": "Value size",
                               },
                               Object {
                                 "component": [Function],
@@ -2340,7 +2365,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": 40,
                                 "eleType": "slider",
                                 "mapTo": "fillOpacity",
-                                "name": "Fill Opacity",
+                                "name": "Fill opacity",
                                 "props": Object {
                                   "max": 100,
                                 },
@@ -2351,7 +2376,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "editor": [Function],
                             "id": "color-theme",
                             "mapTo": "colorTheme",
-                            "name": "Color Theme",
+                            "name": "Color theme",
                             "schemas": Array [],
                           },
                           Object {
@@ -2363,7 +2388,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Legend",
+                                "name": "Show legend",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -2451,6 +2476,393 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   },
                 },
+                Object {
+                  "category": "Visualizations",
+                  "categoryaxis": "xaxis",
+                  "component": [Function],
+                  "editorconfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "legendSize",
+                                "name": "Legend size",
+                                "title": "Legend size",
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "style",
+                                "name": "Mode",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "markers",
+                                      "name": "Marker",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "lines",
+                                      "name": "Lines",
+                                    },
+                                    Object {
+                                      "id": "markers",
+                                      "name": "Marker",
+                                    },
+                                    Object {
+                                      "id": "lines+markers",
+                                      "name": "Lines + Markers",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "interpolation",
+                                "name": "Interpolation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "linear",
+                                      "name": "Linear",
+                                    },
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                    Object {
+                                      "id": "hv",
+                                      "name": "Step before",
+                                    },
+                                    Object {
+                                      "id": "vh",
+                                      "name": "Step after",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 5,
+                                "eleType": "slider",
+                                "mapTo": "pointSize",
+                                "name": "Point size",
+                                "props": Object {
+                                  "max": 40,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label size",
+                                "title": "Label size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0,
+                                "eleType": "slider",
+                                "mapTo": "rotateLabels",
+                                "name": "Rotate labels",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "showTicks": true,
+                                  "ticks": Array [
+                                    Object {
+                                      "label": "-90°",
+                                      "value": -90,
+                                    },
+                                    Object {
+                                      "label": "-45°",
+                                      "value": -45,
+                                    },
+                                    Object {
+                                      "label": "0°",
+                                      "value": 0,
+                                    },
+                                    Object {
+                                      "label": "45°",
+                                      "value": 45,
+                                    },
+                                    Object {
+                                      "label": "90°",
+                                      "value": 90,
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "schemas": Array [],
+                          },
+                          Object {
+                            "defaultState": Array [],
+                            "editor": [Function],
+                            "id": "thresholds",
+                            "mapTo": "thresholds",
+                            "name": "Thresholds",
+                            "schemas": Array [],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
+                      },
+                    ],
+                  },
+                  "fulllabel": "Scatter",
+                  "icon": [Function],
+                  "icontype": "visLine",
+                  "id": "scatter",
+                  "label": "Scatter",
+                  "name": "scatter",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesaxis": "yaxis",
+                  "type": "scatter",
+                  "visconfig": Object {
+                    "config": Object {
+                      "barmode": "scatter",
+                      "displaylogo": false,
+                      "responsive": true,
+                      "xaxis": Object {
+                        "automargin": true,
+                      },
+                      "yaxis": Object {
+                        "automargin": true,
+                      },
+                    },
+                    "layout": Object {
+                      "colorway": Array [
+                        "#3CA1C7",
+                        "#8C55A3",
+                        "#DB748A",
+                        "#F2BE4B",
+                        "#68CCC2",
+                        "#2A7866",
+                        "#843769",
+                        "#374FB8",
+                        "#BD6F26",
+                        "#4C636F",
+                      ],
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                      "showlegend": true,
+                      "xaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                      "yaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                    },
+                  },
+                },
+                Object {
+                  "category": "Visualizations",
+                  "categoryaxis": "xaxis",
+                  "component": [Function],
+                  "editorconfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Style",
+                        "sections": Array [],
+                      },
+                    ],
+                  },
+                  "fulllabel": "Logs View",
+                  "icon": [Function],
+                  "icontype": "visTable",
+                  "id": "logs_view",
+                  "label": "Logs View",
+                  "name": "logs_view",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesaxis": "yaxis",
+                  "type": "logs_view",
+                  "visconfig": Object {
+                    "config": Object {
+                      "barmode": "line",
+                      "displaylogo": false,
+                      "responsive": true,
+                      "xaxis": Object {
+                        "automargin": true,
+                      },
+                      "yaxis": Object {
+                        "automargin": true,
+                      },
+                    },
+                    "layout": Object {
+                      "colorway": Array [
+                        "#3CA1C7",
+                        "#8C55A3",
+                        "#DB748A",
+                        "#F2BE4B",
+                        "#68CCC2",
+                        "#2A7866",
+                        "#843769",
+                        "#374FB8",
+                        "#BD6F26",
+                        "#4C636F",
+                      ],
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                      "showlegend": true,
+                      "xaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                      "yaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                    },
+                  },
+                },
               ]
             }
             placeholder="Select a chart"
@@ -2479,7 +2891,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Legend",
+                                "name": "Show legend",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -2582,7 +2994,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label Size",
+                                "name": "Label size",
                               },
                               Object {
                                 "component": [Function],
@@ -2655,7 +3067,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": 80,
                                 "eleType": "slider",
                                 "mapTo": "fillOpacity",
-                                "name": "Fill Opacity",
+                                "name": "Fill opacity",
                                 "props": Object {
                                   "max": 100,
                                 },
@@ -2666,7 +3078,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "editor": [Function],
                             "id": "color-theme",
                             "mapTo": "colorTheme",
-                            "name": "Color Theme",
+                            "name": "Color theme",
                             "schemas": Array [],
                           },
                         ],
@@ -2686,13 +3098,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fillopacity": 80,
-                  "fulllabel": "Bar",
+                  "fillOpacity": 80,
+                  "fulllabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
+                  "iconType": "visBarVerticalStacked",
                   "icontype": "visBarVerticalStacked",
                   "id": "bar",
-                  "label": "Bar",
+                  "label": "Vertical bar",
                   "labelangle": 0,
                   "legendposition": "v",
                   "linewidth": 1,
@@ -2782,7 +3195,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   Object {
                                     "component": null,
                                     "mapTo": "showLegend",
-                                    "name": "Show Legend",
+                                    "name": "Show legend",
                                     "props": Object {
                                       "defaultSelections": Array [
                                         Object {
@@ -2885,7 +3298,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "component": [Function],
                                     "eleType": "input",
                                     "mapTo": "labelSize",
-                                    "name": "Label Size",
+                                    "name": "Label size",
                                   },
                                   Object {
                                     "component": [Function],
@@ -2958,7 +3371,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "defaultState": 80,
                                     "eleType": "slider",
                                     "mapTo": "fillOpacity",
-                                    "name": "Fill Opacity",
+                                    "name": "Fill opacity",
                                     "props": Object {
                                       "max": 100,
                                     },
@@ -2969,7 +3382,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "editor": [Function],
                                 "id": "color-theme",
                                 "mapTo": "colorTheme",
-                                "name": "Color Theme",
+                                "name": "Color theme",
                                 "schemas": Array [],
                               },
                             ],
@@ -2989,13 +3402,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
-                      "fillopacity": 80,
-                      "fulllabel": "Bar",
+                      "fillOpacity": 80,
+                      "fulllabel": "Vertical bar",
                       "groupwidth": 0.7,
                       "icon": [Function],
+                      "iconType": "visBarVerticalStacked",
                       "icontype": "visBarVerticalStacked",
                       "id": "bar",
-                      "label": "Bar",
+                      "label": "Vertical bar",
                       "labelangle": 0,
                       "legendposition": "v",
                       "linewidth": 1,
@@ -3036,7 +3450,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 singleSelection={true}
                 toggleButtonRef={[Function]}
                 updatePosition={[Function]}
-                value="Bar"
+                value="Vertical bar"
               >
                 <EuiFormControlLayout
                   compressed={false}
@@ -3090,7 +3504,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         Object {
                                           "component": null,
                                           "mapTo": "showLegend",
-                                          "name": "Show Legend",
+                                          "name": "Show legend",
                                           "props": Object {
                                             "defaultSelections": Array [
                                               Object {
@@ -3193,7 +3607,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "component": [Function],
                                           "eleType": "input",
                                           "mapTo": "labelSize",
-                                          "name": "Label Size",
+                                          "name": "Label size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -3266,7 +3680,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "defaultState": 80,
                                           "eleType": "slider",
                                           "mapTo": "fillOpacity",
-                                          "name": "Fill Opacity",
+                                          "name": "Fill opacity",
                                           "props": Object {
                                             "max": 100,
                                           },
@@ -3277,7 +3691,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "editor": [Function],
                                       "id": "color-theme",
                                       "mapTo": "colorTheme",
-                                      "name": "Color Theme",
+                                      "name": "Color theme",
                                       "schemas": Array [],
                                     },
                                   ],
@@ -3298,13 +3712,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             }
                           }
-                          fillopacity={80}
-                          fulllabel="Bar"
+                          fillOpacity={80}
+                          fulllabel="Vertical bar"
                           groupwidth={0.7}
                           icon={[Function]}
+                          iconType="visBarVerticalStacked"
                           icontype="visBarVerticalStacked"
                           id="bar"
-                          key="bar"
+                          key="vertical bar"
                           labelangle={0}
                           legendposition="v"
                           linewidth={1}
@@ -3333,7 +3748,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           Object {
                                             "component": null,
                                             "mapTo": "showLegend",
-                                            "name": "Show Legend",
+                                            "name": "Show legend",
                                             "props": Object {
                                               "defaultSelections": Array [
                                                 Object {
@@ -3436,7 +3851,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "component": [Function],
                                             "eleType": "input",
                                             "mapTo": "labelSize",
-                                            "name": "Label Size",
+                                            "name": "Label size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -3509,7 +3924,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "defaultState": 80,
                                             "eleType": "slider",
                                             "mapTo": "fillOpacity",
-                                            "name": "Fill Opacity",
+                                            "name": "Fill opacity",
                                             "props": Object {
                                               "max": 100,
                                             },
@@ -3520,7 +3935,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "editor": [Function],
                                         "id": "color-theme",
                                         "mapTo": "colorTheme",
-                                        "name": "Color Theme",
+                                        "name": "Color theme",
                                         "schemas": Array [],
                                       },
                                     ],
@@ -3540,13 +3955,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              "fillopacity": 80,
-                              "fulllabel": "Bar",
+                              "fillOpacity": 80,
+                              "fulllabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
+                              "iconType": "visBarVerticalStacked",
                               "icontype": "visBarVerticalStacked",
                               "id": "bar",
-                              "label": "Bar",
+                              "label": "Vertical bar",
                               "labelangle": 0,
                               "legendposition": "v",
                               "linewidth": 1,
@@ -3642,7 +4058,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           Object {
                                             "component": null,
                                             "mapTo": "showLegend",
-                                            "name": "Show Legend",
+                                            "name": "Show legend",
                                             "props": Object {
                                               "defaultSelections": Array [
                                                 Object {
@@ -3745,7 +4161,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "component": [Function],
                                             "eleType": "input",
                                             "mapTo": "labelSize",
-                                            "name": "Label Size",
+                                            "name": "Label size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -3818,7 +4234,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "defaultState": 80,
                                             "eleType": "slider",
                                             "mapTo": "fillOpacity",
-                                            "name": "Fill Opacity",
+                                            "name": "Fill opacity",
                                             "props": Object {
                                               "max": 100,
                                             },
@@ -3829,7 +4245,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "editor": [Function],
                                         "id": "color-theme",
                                         "mapTo": "colorTheme",
-                                        "name": "Color Theme",
+                                        "name": "Color theme",
                                         "schemas": Array [],
                                       },
                                     ],
@@ -3850,10 +4266,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               }
                             }
-                            fillopacity={80}
-                            fulllabel="Bar"
+                            fillOpacity={80}
+                            fulllabel="Vertical bar"
                             groupwidth={0.7}
                             icon={[Function]}
+                            iconType="visBarVerticalStacked"
                             icontype="visBarVerticalStacked"
                             id="bar"
                             labelangle={0}
@@ -3869,7 +4286,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             }
                             seriesaxis="yaxis"
                             showlegend="show"
-                            title="Bar"
+                            title="Vertical bar"
                             type="bar"
                             visconfig={
                               Object {
@@ -3921,7 +4338,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               Object {
                                                 "component": null,
                                                 "mapTo": "showLegend",
-                                                "name": "Show Legend",
+                                                "name": "Show legend",
                                                 "props": Object {
                                                   "defaultSelections": Array [
                                                     Object {
@@ -4024,7 +4441,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "component": [Function],
                                                 "eleType": "input",
                                                 "mapTo": "labelSize",
-                                                "name": "Label Size",
+                                                "name": "Label size",
                                               },
                                               Object {
                                                 "component": [Function],
@@ -4097,7 +4514,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "defaultState": 80,
                                                 "eleType": "slider",
                                                 "mapTo": "fillOpacity",
-                                                "name": "Fill Opacity",
+                                                "name": "Fill opacity",
                                                 "props": Object {
                                                   "max": 100,
                                                 },
@@ -4108,7 +4525,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "editor": [Function],
                                             "id": "color-theme",
                                             "mapTo": "colorTheme",
-                                            "name": "Color Theme",
+                                            "name": "Color theme",
                                             "schemas": Array [],
                                           },
                                         ],
@@ -4129,8 +4546,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     ],
                                   }
                                 }
-                                fillopacity={80}
-                                fulllabel="Bar"
+                                fillOpacity={80}
+                                fulllabel="Vertical bar"
                                 groupwidth={0.7}
                                 icon={[Function]}
                                 icontype="visBarVerticalStacked"
@@ -4148,7 +4565,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 }
                                 seriesaxis="yaxis"
                                 showlegend="show"
-                                title="Bar"
+                                title="Vertical bar"
                                 type="bar"
                                 visconfig={
                                   Object {
@@ -4181,8 +4598,34 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   <span
                                     className="euiBadge__text"
                                   >
-                                    Bar
+                                    Vertical bar
                                   </span>
+                                  <EuiIcon
+                                    className="euiBadge__icon"
+                                    color="inherit"
+                                    size="s"
+                                    type="visBarVerticalStacked"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiBadge__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
                                 </span>
                               </span>
                             </EuiInnerText>
@@ -4359,7 +4802,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 Object {
                                   "component": null,
                                   "mapTo": "showLegend",
-                                  "name": "Show Legend",
+                                  "name": "Show legend",
                                   "props": Object {
                                     "defaultSelections": Array [
                                       Object {
@@ -4462,7 +4905,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "component": [Function],
                                   "eleType": "input",
                                   "mapTo": "labelSize",
-                                  "name": "Label Size",
+                                  "name": "Label size",
                                 },
                                 Object {
                                   "component": [Function],
@@ -4535,7 +4978,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "defaultState": 80,
                                   "eleType": "slider",
                                   "mapTo": "fillOpacity",
-                                  "name": "Fill Opacity",
+                                  "name": "Fill opacity",
                                   "props": Object {
                                     "max": 100,
                                   },
@@ -4546,7 +4989,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "editor": [Function],
                               "id": "color-theme",
                               "mapTo": "colorTheme",
-                              "name": "Color Theme",
+                              "name": "Color theme",
                               "schemas": Array [],
                             },
                           ],
@@ -4756,7 +5199,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         Object {
                                           "component": null,
                                           "mapTo": "showLegend",
-                                          "name": "Show Legend",
+                                          "name": "Show legend",
                                           "props": Object {
                                             "defaultSelections": Array [
                                               Object {
@@ -4859,7 +5302,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "component": [Function],
                                           "eleType": "input",
                                           "mapTo": "labelSize",
-                                          "name": "Label Size",
+                                          "name": "Label size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -4932,7 +5375,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "defaultState": 80,
                                           "eleType": "slider",
                                           "mapTo": "fillOpacity",
-                                          "name": "Fill Opacity",
+                                          "name": "Fill opacity",
                                           "props": Object {
                                             "max": 100,
                                           },
@@ -4943,7 +5386,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "editor": [Function],
                                       "id": "color-theme",
                                       "mapTo": "colorTheme",
-                                      "name": "Color Theme",
+                                      "name": "Color theme",
                                       "schemas": Array [],
                                     },
                                   ],
@@ -4963,13 +5406,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               ],
                             },
-                            "fillopacity": 80,
-                            "fulllabel": "Bar",
+                            "fillOpacity": 80,
+                            "fulllabel": "Vertical bar",
                             "groupwidth": 0.7,
                             "icon": [Function],
                             "icontype": "visBarVerticalStacked",
                             "id": "bar",
-                            "label": "Bar",
+                            "label": "Vertical bar",
                             "labelangle": 0,
                             "legendposition": "v",
                             "linewidth": 1,
@@ -5039,7 +5482,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   Object {
                                     "component": null,
                                     "mapTo": "showLegend",
-                                    "name": "Show Legend",
+                                    "name": "Show legend",
                                     "props": Object {
                                       "defaultSelections": Array [
                                         Object {
@@ -5142,7 +5585,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "component": [Function],
                                     "eleType": "input",
                                     "mapTo": "labelSize",
-                                    "name": "Label Size",
+                                    "name": "Label size",
                                   },
                                   Object {
                                     "component": [Function],
@@ -5215,7 +5658,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     "defaultState": 80,
                                     "eleType": "slider",
                                     "mapTo": "fillOpacity",
-                                    "name": "Fill Opacity",
+                                    "name": "Fill opacity",
                                     "props": Object {
                                       "max": 100,
                                     },
@@ -5226,7 +5669,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "editor": [Function],
                                 "id": "color-theme",
                                 "mapTo": "colorTheme",
-                                "name": "Color Theme",
+                                "name": "Color theme",
                                 "schemas": Array [],
                               },
                             ],
@@ -5436,7 +5879,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           Object {
                                             "component": null,
                                             "mapTo": "showLegend",
-                                            "name": "Show Legend",
+                                            "name": "Show legend",
                                             "props": Object {
                                               "defaultSelections": Array [
                                                 Object {
@@ -5539,7 +5982,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "component": [Function],
                                             "eleType": "input",
                                             "mapTo": "labelSize",
-                                            "name": "Label Size",
+                                            "name": "Label size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -5612,7 +6055,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "defaultState": 80,
                                             "eleType": "slider",
                                             "mapTo": "fillOpacity",
-                                            "name": "Fill Opacity",
+                                            "name": "Fill opacity",
                                             "props": Object {
                                               "max": 100,
                                             },
@@ -5623,7 +6066,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "editor": [Function],
                                         "id": "color-theme",
                                         "mapTo": "colorTheme",
-                                        "name": "Color Theme",
+                                        "name": "Color theme",
                                         "schemas": Array [],
                                       },
                                     ],
@@ -5643,13 +6086,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              "fillopacity": 80,
-                              "fulllabel": "Bar",
+                              "fillOpacity": 80,
+                              "fulllabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
                               "icontype": "visBarVerticalStacked",
                               "id": "bar",
-                              "label": "Bar",
+                              "label": "Vertical bar",
                               "labelangle": 0,
                               "legendposition": "v",
                               "linewidth": 1,
@@ -5930,7 +6373,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           Object {
                                             "component": null,
                                             "mapTo": "showLegend",
-                                            "name": "Show Legend",
+                                            "name": "Show legend",
                                             "props": Object {
                                               "defaultSelections": Array [
                                                 Object {
@@ -6033,7 +6476,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "component": [Function],
                                             "eleType": "input",
                                             "mapTo": "labelSize",
-                                            "name": "Label Size",
+                                            "name": "Label size",
                                           },
                                           Object {
                                             "component": [Function],
@@ -6106,7 +6549,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             "defaultState": 80,
                                             "eleType": "slider",
                                             "mapTo": "fillOpacity",
-                                            "name": "Fill Opacity",
+                                            "name": "Fill opacity",
                                             "props": Object {
                                               "max": 100,
                                             },
@@ -6117,7 +6560,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "editor": [Function],
                                         "id": "color-theme",
                                         "mapTo": "colorTheme",
-                                        "name": "Color Theme",
+                                        "name": "Color theme",
                                         "schemas": Array [],
                                       },
                                     ],
@@ -6137,13 +6580,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              "fillopacity": 80,
-                              "fulllabel": "Bar",
+                              "fillOpacity": 80,
+                              "fulllabel": "Vertical bar",
                               "groupwidth": 0.7,
                               "icon": [Function],
                               "icontype": "visBarVerticalStacked",
                               "id": "bar",
-                              "label": "Bar",
+                              "label": "Vertical bar",
                               "labelangle": 0,
                               "legendposition": "v",
                               "linewidth": 1,
@@ -6297,7 +6740,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 Object {
                                   "component": null,
                                   "mapTo": "showLegend",
-                                  "name": "Show Legend",
+                                  "name": "Show legend",
                                   "props": Object {
                                     "defaultSelections": Array [
                                       Object {
@@ -6400,7 +6843,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "component": [Function],
                                   "eleType": "input",
                                   "mapTo": "labelSize",
-                                  "name": "Label Size",
+                                  "name": "Label size",
                                 },
                                 Object {
                                   "component": [Function],
@@ -6473,7 +6916,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "defaultState": 80,
                                   "eleType": "slider",
                                   "mapTo": "fillOpacity",
-                                  "name": "Fill Opacity",
+                                  "name": "Fill opacity",
                                   "props": Object {
                                     "max": 100,
                                   },
@@ -6484,7 +6927,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               "editor": [Function],
                               "id": "color-theme",
                               "mapTo": "colorTheme",
-                              "name": "Color Theme",
+                              "name": "Color theme",
                               "schemas": Array [],
                             },
                           ],
@@ -6694,7 +7137,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         Object {
                                           "component": null,
                                           "mapTo": "showLegend",
-                                          "name": "Show Legend",
+                                          "name": "Show legend",
                                           "props": Object {
                                             "defaultSelections": Array [
                                               Object {
@@ -6797,7 +7240,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "component": [Function],
                                           "eleType": "input",
                                           "mapTo": "labelSize",
-                                          "name": "Label Size",
+                                          "name": "Label size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -6870,7 +7313,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "defaultState": 80,
                                           "eleType": "slider",
                                           "mapTo": "fillOpacity",
-                                          "name": "Fill Opacity",
+                                          "name": "Fill opacity",
                                           "props": Object {
                                             "max": 100,
                                           },
@@ -6881,7 +7324,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       "editor": [Function],
                                       "id": "color-theme",
                                       "mapTo": "colorTheme",
-                                      "name": "Color Theme",
+                                      "name": "Color theme",
                                       "schemas": Array [],
                                     },
                                   ],
@@ -6901,13 +7344,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               ],
                             },
-                            "fillopacity": 80,
-                            "fulllabel": "Bar",
+                            "fillOpacity": 80,
+                            "fulllabel": "Vertical bar",
                             "groupwidth": 0.7,
                             "icon": [Function],
                             "icontype": "visBarVerticalStacked",
                             "id": "bar",
-                            "label": "Bar",
+                            "label": "Vertical bar",
                             "labelangle": 0,
                             "legendposition": "v",
                             "linewidth": 1,
@@ -7184,7 +7627,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       Object {
                                                         "component": null,
                                                         "mapTo": "showLegend",
-                                                        "name": "Show Legend",
+                                                        "name": "Show legend",
                                                         "props": Object {
                                                           "defaultSelections": Array [
                                                             Object {
@@ -7287,7 +7730,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "component": [Function],
                                                         "eleType": "input",
                                                         "mapTo": "labelSize",
-                                                        "name": "Label Size",
+                                                        "name": "Label size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -7360,7 +7803,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "defaultState": 80,
                                                         "eleType": "slider",
                                                         "mapTo": "fillOpacity",
-                                                        "name": "Fill Opacity",
+                                                        "name": "Fill opacity",
                                                         "props": Object {
                                                           "max": 100,
                                                         },
@@ -7371,7 +7814,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "editor": [Function],
                                                     "id": "color-theme",
                                                     "mapTo": "colorTheme",
-                                                    "name": "Color Theme",
+                                                    "name": "Color theme",
                                                     "schemas": Array [],
                                                   },
                                                 ],
@@ -7391,13 +7834,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillopacity": 80,
-                                          "fulllabel": "Bar",
+                                          "fillOpacity": 80,
+                                          "fulllabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
                                           "icontype": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Bar",
+                                          "label": "Vertical bar",
                                           "labelangle": 0,
                                           "legendposition": "v",
                                           "linewidth": 1,
@@ -7702,7 +8145,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         Object {
                                           "component": null,
                                           "mapTo": "showLegend",
-                                          "name": "Show Legend",
+                                          "name": "Show legend",
                                           "props": Object {
                                             "defaultSelections": Array [
                                               Object {
@@ -7953,7 +8396,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       Object {
                                                         "component": null,
                                                         "mapTo": "showLegend",
-                                                        "name": "Show Legend",
+                                                        "name": "Show legend",
                                                         "props": Object {
                                                           "defaultSelections": Array [
                                                             Object {
@@ -8056,7 +8499,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "component": [Function],
                                                         "eleType": "input",
                                                         "mapTo": "labelSize",
-                                                        "name": "Label Size",
+                                                        "name": "Label size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -8129,7 +8572,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "defaultState": 80,
                                                         "eleType": "slider",
                                                         "mapTo": "fillOpacity",
-                                                        "name": "Fill Opacity",
+                                                        "name": "Fill opacity",
                                                         "props": Object {
                                                           "max": 100,
                                                         },
@@ -8140,7 +8583,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "editor": [Function],
                                                     "id": "color-theme",
                                                     "mapTo": "colorTheme",
-                                                    "name": "Color Theme",
+                                                    "name": "Color theme",
                                                     "schemas": Array [],
                                                   },
                                                 ],
@@ -8160,13 +8603,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillopacity": 80,
-                                          "fulllabel": "Bar",
+                                          "fillOpacity": 80,
+                                          "fulllabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
                                           "icontype": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Bar",
+                                          "label": "Vertical bar",
                                           "labelangle": 0,
                                           "legendposition": "v",
                                           "linewidth": 1,
@@ -8304,7 +8747,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="show"
-                                                  legend="Show Legend"
+                                                  legend="Show legend"
                                                   options={
                                                     Array [
                                                       Object {
@@ -8317,7 +8760,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       },
                                                     ]
                                                   }
-                                                  title="Show Legend"
+                                                  title="Show legend"
                                                   vizState={Object {}}
                                                 >
                                                   <EuiTitle
@@ -8326,7 +8769,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <h3
                                                       className="euiTitle euiTitle--xxsmall"
                                                     >
-                                                      Show Legend
+                                                      Show legend
                                                     </h3>
                                                   </EuiTitle>
                                                   <EuiSpacer
@@ -8348,8 +8791,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       id="random_html_id"
                                                       idSelected="show"
                                                       isFullWidth={false}
-                                                      legend="Show Legend"
-                                                      name="Show Legend"
+                                                      legend="Show legend"
+                                                      name="Show legend"
                                                       onChange={[Function]}
                                                       options={
                                                         Array [
@@ -8375,7 +8818,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           <legend
                                                             className="euiScreenReaderOnly"
                                                           >
-                                                            Show Legend
+                                                            Show legend
                                                           </legend>
                                                         </EuiScreenReaderOnly>
                                                         <div
@@ -8912,7 +9355,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "component": [Function],
                                           "eleType": "input",
                                           "mapTo": "labelSize",
-                                          "name": "Label Size",
+                                          "name": "Label size",
                                         },
                                         Object {
                                           "component": [Function],
@@ -8985,7 +9428,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           "defaultState": 80,
                                           "eleType": "slider",
                                           "mapTo": "fillOpacity",
-                                          "name": "Fill Opacity",
+                                          "name": "Fill opacity",
                                           "props": Object {
                                             "max": 100,
                                           },
@@ -9198,7 +9641,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       Object {
                                                         "component": null,
                                                         "mapTo": "showLegend",
-                                                        "name": "Show Legend",
+                                                        "name": "Show legend",
                                                         "props": Object {
                                                           "defaultSelections": Array [
                                                             Object {
@@ -9301,7 +9744,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "component": [Function],
                                                         "eleType": "input",
                                                         "mapTo": "labelSize",
-                                                        "name": "Label Size",
+                                                        "name": "Label size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -9374,7 +9817,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "defaultState": 80,
                                                         "eleType": "slider",
                                                         "mapTo": "fillOpacity",
-                                                        "name": "Fill Opacity",
+                                                        "name": "Fill opacity",
                                                         "props": Object {
                                                           "max": 100,
                                                         },
@@ -9385,7 +9828,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "editor": [Function],
                                                     "id": "color-theme",
                                                     "mapTo": "colorTheme",
-                                                    "name": "Color Theme",
+                                                    "name": "Color theme",
                                                     "schemas": Array [],
                                                   },
                                                 ],
@@ -9405,13 +9848,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillopacity": 80,
-                                          "fulllabel": "Bar",
+                                          "fillOpacity": 80,
+                                          "fulllabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
                                           "icontype": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Bar",
+                                          "label": "Vertical bar",
                                           "labelangle": 0,
                                           "legendposition": "v",
                                           "linewidth": 1,
@@ -10075,7 +10518,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <InputFieldItem
                                                   currentValue=""
                                                   handleInputChange={[Function]}
-                                                  title="Label Size"
+                                                  title="Label size"
                                                   vizState={Object {}}
                                                 >
                                                   <EuiTitle
@@ -10084,7 +10527,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <h3
                                                       className="euiTitle euiTitle--xxsmall"
                                                     >
-                                                      Label Size
+                                                      Label size
                                                     </h3>
                                                   </EuiTitle>
                                                   <EuiSpacer
@@ -10098,6 +10541,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     data-test-subj="valueFieldNumber"
                                                     fullWidth={true}
                                                     id="random_html_id"
+                                                    min={1}
                                                     onBlur={[Function]}
                                                     onChange={[Function]}
                                                     placeholder="auto"
@@ -10119,6 +10563,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                               className="euiFieldNumber euiFieldNumber--fullWidth"
                                                               data-test-subj="valueFieldNumber"
                                                               id="random_html_id"
+                                                              min={1}
                                                               onBlur={[Function]}
                                                               onChange={[Function]}
                                                               placeholder="auto"
@@ -11641,7 +12086,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   minRange={0}
                                                   showTicks={false}
                                                   step={1}
-                                                  title="Fill Opacity"
+                                                  title="Fill opacity"
                                                   vizState={Object {}}
                                                 >
                                                   <EuiTitle
@@ -11650,7 +12095,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     <h3
                                                       className="euiTitle euiTitle--xxsmall"
                                                     >
-                                                      Fill Opacity
+                                                      Fill opacity
                                                     </h3>
                                                   </EuiTitle>
                                                   <EuiSpacer
@@ -11669,7 +12114,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     levels={Array []}
                                                     max={100}
                                                     min={0}
-                                                    name="Fill Opacity"
+                                                    name="Fill opacity"
                                                     onChange={[Function]}
                                                     showInput={true}
                                                     showLabels={false}
@@ -11708,7 +12153,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                               compressed={true}
                                                               max={100}
                                                               min={0}
-                                                              name="Fill Opacity"
+                                                              name="Fill opacity"
                                                               onChange={[Function]}
                                                               showRange={false}
                                                               showTicks={false}
@@ -11722,7 +12167,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 className="euiRangeSlider euiRangeSlider--compressed"
                                                                 max={100}
                                                                 min={0}
-                                                                name="Fill Opacity"
+                                                                name="Fill opacity"
                                                                 onChange={[Function]}
                                                                 step={1}
                                                                 tabIndex={-1}
@@ -11745,7 +12190,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           isLoading={false}
                                                           max={100}
                                                           min={0}
-                                                          name="Fill Opacity"
+                                                          name="Fill opacity"
                                                           onChange={[Function]}
                                                           step={1}
                                                           value={80}
@@ -11759,7 +12204,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             isLoading={false}
                                                             max={100}
                                                             min={0}
-                                                            name="Fill Opacity"
+                                                            name="Fill opacity"
                                                             onChange={[Function]}
                                                             step={1}
                                                             style={
@@ -11788,7 +12233,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                       id="random_html_id"
                                                                       max={100}
                                                                       min={0}
-                                                                      name="Fill Opacity"
+                                                                      name="Fill opacity"
                                                                       onChange={[Function]}
                                                                       step={1}
                                                                       style={
@@ -11853,7 +12298,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     props={Object {}}
                                     schemas={Array []}
                                     sectionId="color-theme"
-                                    sectionName="Color Theme"
+                                    sectionName="Color theme"
                                     visualizations={
                                       Object {
                                         "data": Object {
@@ -12058,7 +12503,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       Object {
                                                         "component": null,
                                                         "mapTo": "showLegend",
-                                                        "name": "Show Legend",
+                                                        "name": "Show legend",
                                                         "props": Object {
                                                           "defaultSelections": Array [
                                                             Object {
@@ -12161,7 +12606,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "component": [Function],
                                                         "eleType": "input",
                                                         "mapTo": "labelSize",
-                                                        "name": "Label Size",
+                                                        "name": "Label size",
                                                       },
                                                       Object {
                                                         "component": [Function],
@@ -12234,7 +12679,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "defaultState": 80,
                                                         "eleType": "slider",
                                                         "mapTo": "fillOpacity",
-                                                        "name": "Fill Opacity",
+                                                        "name": "Fill opacity",
                                                         "props": Object {
                                                           "max": 100,
                                                         },
@@ -12245,7 +12690,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "editor": [Function],
                                                     "id": "color-theme",
                                                     "mapTo": "colorTheme",
-                                                    "name": "Color Theme",
+                                                    "name": "Color theme",
                                                     "schemas": Array [],
                                                   },
                                                 ],
@@ -12265,13 +12710,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillopacity": 80,
-                                          "fulllabel": "Bar",
+                                          "fillOpacity": 80,
+                                          "fulllabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],
                                           "icontype": "visBarVerticalStacked",
                                           "id": "bar",
-                                          "label": "Bar",
+                                          "label": "Vertical bar",
                                           "labelangle": 0,
                                           "legendposition": "v",
                                           "linewidth": 1,
@@ -12313,8 +12758,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   >
                                     <EuiAccordion
                                       arrowDisplay="left"
-                                      buttonContent="Color Theme"
-                                      id="configPanel__Color Theme"
+                                      buttonContent="Color theme"
+                                      id="configPanel__Color theme"
                                       initialIsOpen={true}
                                       isLoading={false}
                                       isLoadingMessage={false}
@@ -12327,7 +12772,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           className="euiAccordion__triggerWrapper"
                                         >
                                           <button
-                                            aria-controls="configPanel__Color Theme"
+                                            aria-controls="configPanel__Color theme"
                                             aria-expanded={true}
                                             className="euiAccordion__button"
                                             id="random_html_id"
@@ -12366,14 +12811,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             <span
                                               className="euiIEFlexWrapFix"
                                             >
-                                              Color Theme
+                                              Color theme
                                             </span>
                                           </button>
                                         </div>
                                         <div
                                           aria-labelledby="random_html_id"
                                           className="euiAccordion__childWrapper"
-                                          id="configPanel__Color Theme"
+                                          id="configPanel__Color theme"
                                           role="region"
                                           tabIndex={-1}
                                         >

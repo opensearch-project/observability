@@ -6,7 +6,6 @@
 import { Line } from './line';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartLine } from '../../assets/chart_line';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import {
@@ -17,7 +16,7 @@ import {
   ConfigColorTheme
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DefaultChartStyles, visChartTypes, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
 import { SliderConfig } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 const sharedConfigs = getPlotlySharedConfigs();
@@ -34,11 +33,11 @@ const {
 } = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
-  name: 'line',
-  type: 'line',
-  id: 'line',
-  label: 'Time series',
-  fulllabel: 'Time series',
+  name: params.type,
+  type: params.type,
+  id: params.type,
+  label: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
+  fulllabel: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
   icontype: 'visLine',
   category: VIS_CATEGORY.BASICS,
   selection: {
@@ -62,7 +61,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -86,8 +85,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Legend Size',
-                name: 'Legend Size',
+                title: 'Legend size',
+                name: 'Legend size',
                 component: InputFieldItem,
                 mapTo: 'legendSize',
                 eleType: 'input',
@@ -111,7 +110,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Marker', id: 'markers' },
                     { name: 'Lines + Markers', id: 'lines+markers' },
                   ],
-                  defaultSelections: [{ name: 'Lines', id: DefaultMode }],
+                  defaultSelections: [params.type === visChartTypes.Line ? { name: 'Lines', id: DefaultModeLine } : { name: 'Marker', id: DefaultModeScatter }],
                 },
               },
               {
@@ -140,7 +139,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Fill Opacity',
+                name: 'Fill opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
@@ -150,7 +149,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Point Size',
+                name: 'Point size',
                 component: SliderConfig,
                 mapTo: 'pointSize',
                 defaultState: MarkerSize,
@@ -160,8 +159,8 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Label Size',
-                name: 'Label Size',
+                title: 'Label size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
@@ -241,7 +240,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
     config: {
       ...sharedConfigs.config,
       ...{
-        barmode: 'line',
+        barmode: params.type,
         xaxis: {
           automargin: true,
         },

@@ -142,7 +142,7 @@ export const ConfigChartOptions = ({
     <EuiAccordion
       initialIsOpen
       id="configPanel__chartStyles"
-      buttonContent="Chart Styles"
+      buttonContent="Chart styles"
       paddingSize="s"
     >
       {dimensions}

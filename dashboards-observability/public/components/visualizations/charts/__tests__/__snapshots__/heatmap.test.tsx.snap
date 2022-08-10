@@ -223,7 +223,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show Legend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -326,7 +326,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label Size",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
@@ -399,7 +399,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                       "defaultState": 80,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill Opacity",
+                      "name": "Fill opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -410,7 +410,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color Theme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
@@ -430,13 +430,13 @@ exports[`Heatmap component Renders heatmap component 1`] = `
             },
           ],
         },
-        "fillopacity": 80,
-        "fulllabel": "Bar",
+        "fillOpacity": 80,
+        "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
         "icontype": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Bar",
+        "label": "Vertical bar",
         "labelangle": 0,
         "legendposition": "v",
         "linewidth": 1,
@@ -504,7 +504,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
               >
                 <EuiIcon
                   color="subdued"
-                  size="xxl"
+                  size="xxxxl"
                   type="visBarVerticalStacked"
                 >
                   <EuiIconEmpty

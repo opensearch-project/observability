@@ -23,6 +23,56 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
             ],
           },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -97,7 +147,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       Object {
                         "component": null,
                         "mapTo": "showLegend",
-                        "name": "Show Legend",
+                        "name": "Show legend",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
@@ -200,7 +250,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "component": [Function],
                         "eleType": "input",
                         "mapTo": "labelSize",
-                        "name": "Label Size",
+                        "name": "Label size",
                       },
                       Object {
                         "component": [Function],
@@ -273,7 +323,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "defaultState": 80,
                         "eleType": "slider",
                         "mapTo": "fillOpacity",
-                        "name": "Fill Opacity",
+                        "name": "Fill opacity",
                         "props": Object {
                           "max": 100,
                         },
@@ -284,7 +334,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "editor": [Function],
                     "id": "color-theme",
                     "mapTo": "colorTheme",
-                    "name": "Color Theme",
+                    "name": "Color theme",
                     "schemas": Array [],
                   },
                 ],
@@ -304,13 +354,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
             ],
           },
-          "fillopacity": 80,
-          "fulllabel": "Bar",
+          "fillOpacity": 80,
+          "fulllabel": "Vertical bar",
           "groupwidth": 0.7,
           "icon": [Function],
           "icontype": "visBarVerticalStacked",
           "id": "bar",
-          "label": "Bar",
+          "label": "Vertical bar",
           "labelangle": 0,
           "legendposition": "v",
           "linewidth": 1,
@@ -369,6 +419,56 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "type": "double",
                 },
               ],
+            },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -444,7 +544,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         Object {
                           "component": null,
                           "mapTo": "showLegend",
-                          "name": "Show Legend",
+                          "name": "Show legend",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
@@ -547,7 +647,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           "component": [Function],
                           "eleType": "input",
                           "mapTo": "labelSize",
-                          "name": "Label Size",
+                          "name": "Label size",
                         },
                         Object {
                           "component": [Function],
@@ -620,7 +720,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           "defaultState": 80,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
-                          "name": "Fill Opacity",
+                          "name": "Fill opacity",
                           "props": Object {
                             "max": 100,
                           },
@@ -631,7 +731,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       "editor": [Function],
                       "id": "color-theme",
                       "mapTo": "colorTheme",
-                      "name": "Color Theme",
+                      "name": "Color theme",
                       "schemas": Array [],
                     },
                   ],
@@ -651,13 +751,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 },
               ],
             },
-            "fillopacity": 80,
-            "fulllabel": "Bar",
+            "fillOpacity": 80,
+            "fulllabel": "Vertical bar",
             "groupwidth": 0.7,
             "icon": [Function],
             "icontype": "visBarVerticalStacked",
             "id": "bar",
-            "label": "Bar",
+            "label": "Vertical bar",
             "labelangle": 0,
             "legendposition": "v",
             "linewidth": 1,
@@ -740,6 +840,56 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   },
                 ],
               },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
+                  },
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                  "size": 4,
+                  "status": 200,
+                },
+              },
               "indexFields": Object {},
               "query": Object {},
               "rawVizData": Object {
@@ -814,7 +964,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           Object {
                             "component": null,
                             "mapTo": "showLegend",
-                            "name": "Show Legend",
+                            "name": "Show legend",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
@@ -917,7 +1067,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             "component": [Function],
                             "eleType": "input",
                             "mapTo": "labelSize",
-                            "name": "Label Size",
+                            "name": "Label size",
                           },
                           Object {
                             "component": [Function],
@@ -990,7 +1140,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             "defaultState": 80,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
-                            "name": "Fill Opacity",
+                            "name": "Fill opacity",
                             "props": Object {
                               "max": 100,
                             },
@@ -1001,7 +1151,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "editor": [Function],
                         "id": "color-theme",
                         "mapTo": "colorTheme",
-                        "name": "Color Theme",
+                        "name": "Color theme",
                         "schemas": Array [],
                       },
                     ],
@@ -1021,13 +1171,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   },
                 ],
               },
-              "fillopacity": 80,
-              "fulllabel": "Bar",
+              "fillOpacity": 80,
+              "fulllabel": "Vertical bar",
               "groupwidth": 0.7,
               "icon": [Function],
               "icontype": "visBarVerticalStacked",
               "id": "bar",
-              "label": "Bar",
+              "label": "Vertical bar",
               "labelangle": 0,
               "legendposition": "v",
               "linewidth": 1,
@@ -1171,6 +1321,56 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               },
             ],
           },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -1244,7 +1444,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                       Object {
                         "component": null,
                         "mapTo": "showLegend",
-                        "name": "Show Legend",
+                        "name": "Show legend",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
@@ -1291,8 +1491,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "component": [Function],
                         "eleType": "input",
                         "mapTo": "legendSize",
-                        "name": "Legend Size",
-                        "title": "Legend Size",
+                        "name": "Legend size",
+                        "title": "Legend size",
                       },
                     ],
                   },
@@ -1377,7 +1577,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "defaultState": 40,
                         "eleType": "slider",
                         "mapTo": "fillOpacity",
-                        "name": "Fill Opacity",
+                        "name": "Fill opacity",
                         "props": Object {
                           "max": 100,
                         },
@@ -1387,7 +1587,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "defaultState": 5,
                         "eleType": "slider",
                         "mapTo": "pointSize",
-                        "name": "Point Size",
+                        "name": "Point size",
                         "props": Object {
                           "max": 40,
                         },
@@ -1396,8 +1596,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "component": [Function],
                         "eleType": "input",
                         "mapTo": "labelSize",
-                        "name": "Label Size",
-                        "title": "Label Size",
+                        "name": "Label size",
+                        "title": "Label size",
                       },
                       Object {
                         "component": [Function],
@@ -1554,6 +1754,56 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 },
               ],
             },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+            },
             "indexFields": Object {},
             "query": Object {},
             "rawVizData": Object {
@@ -1627,7 +1877,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         Object {
                           "component": null,
                           "mapTo": "showLegend",
-                          "name": "Show Legend",
+                          "name": "Show legend",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
@@ -1674,8 +1924,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "component": [Function],
                           "eleType": "input",
                           "mapTo": "legendSize",
-                          "name": "Legend Size",
-                          "title": "Legend Size",
+                          "name": "Legend size",
+                          "title": "Legend size",
                         },
                       ],
                     },
@@ -1760,7 +2010,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "defaultState": 40,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
-                          "name": "Fill Opacity",
+                          "name": "Fill opacity",
                           "props": Object {
                             "max": 100,
                           },
@@ -1770,7 +2020,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "defaultState": 5,
                           "eleType": "slider",
                           "mapTo": "pointSize",
-                          "name": "Point Size",
+                          "name": "Point size",
                           "props": Object {
                             "max": 40,
                           },
@@ -1779,8 +2029,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "component": [Function],
                           "eleType": "input",
                           "mapTo": "labelSize",
-                          "name": "Label Size",
-                          "title": "Label Size",
+                          "name": "Label size",
+                          "title": "Label size",
                         },
                         Object {
                           "component": [Function],
@@ -1991,6 +2241,56 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   },
                 ],
               },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
+                  },
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                  "size": 4,
+                  "status": 200,
+                },
+              },
               "indexFields": Object {},
               "query": Object {},
               "rawVizData": Object {
@@ -2064,7 +2364,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           Object {
                             "component": null,
                             "mapTo": "showLegend",
-                            "name": "Show Legend",
+                            "name": "Show legend",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
@@ -2111,8 +2411,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "component": [Function],
                             "eleType": "input",
                             "mapTo": "legendSize",
-                            "name": "Legend Size",
-                            "title": "Legend Size",
+                            "name": "Legend size",
+                            "title": "Legend size",
                           },
                         ],
                       },
@@ -2133,12 +2433,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                                   "id": "lines",
                                   "name": "Lines",
                                 },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "lines",
-                                  "name": "Lines",
-                                },
                                 Object {
                                   "id": "markers",
                                   "name": "Marker",
@@ -2146,6 +2440,133 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                                 Object {
                                   "id": "lines+markers",
                                   "name": "Lines + Markers",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "interpolation",
+                            "name": "Interpolation",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "spline",
+                                  "name": "Smooth",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "linear",
+                                  "name": "Linear",
+                                },
+                                Object {
+                                  "id": "spline",
+                                  "name": "Smooth",
+                                },
+                                Object {
+                                  "id": "hv",
+                                  "name": "Step before",
+                                },
+                                Object {
+                                  "id": "vh",
+                                  "name": "Step after",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 2,
+                            "eleType": "slider",
+                            "mapTo": "lineWidth",
+                            "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 40,
+                            "eleType": "slider",
+                            "mapTo": "fillOpacity",
+                            "name": "Fill opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 5,
+                            "eleType": "slider",
+                            "mapTo": "pointSize",
+                            "name": "Point size",
+                            "props": Object {
+                              "max": 40,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label size",
+                            "title": "Label size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0,
+                            "eleType": "slider",
+                            "mapTo": "rotateLabels",
+                            "name": "Rotate labels",
+=======
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "position",
+                            "name": "Position",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "v",
+                                  "name": "Right",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "v",
+                                  "name": "Right",
+                                },
+                                Object {
+                                  "id": "h",
+                                  "name": "Bottom",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend Size",
+                            "title": "Legend Size",
+                          },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "lines",
+                                  "name": "Lines",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "markers",
+                                  "name": "Marker",
+                                },
+                                Object {
+                                  "id": "lines+markers",
+                                  "name": "Lines + Markers",
+>>>>>>> 5a182978b1731b84de6af34643f38b4114cf2a45
                                 },
                               ],
                             },
@@ -2253,7 +2674,117 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "interpolation",
+                            "name": "Interpolation",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "spline",
+                                  "name": "Smooth",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "linear",
+                                  "name": "Linear",
+                                },
+                                Object {
+                                  "id": "spline",
+                                  "name": "Smooth",
+                                },
+                                Object {
+                                  "id": "hv",
+                                  "name": "Step before",
+                                },
+                                Object {
+                                  "id": "vh",
+                                  "name": "Step after",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 2,
+                            "eleType": "slider",
+                            "mapTo": "lineWidth",
+                            "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 40,
+                            "eleType": "slider",
+                            "mapTo": "fillOpacity",
+                            "name": "Fill opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 5,
+                            "eleType": "slider",
+                            "mapTo": "pointSize",
+                            "name": "Point size",
+                            "props": Object {
+                              "max": 40,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label size",
+                            "title": "Label size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0,
+                            "eleType": "slider",
+                            "mapTo": "rotateLabels",
+                            "name": "Rotate labels",
+                            "props": Object {
+                              "max": 90,
+                              "min": -90,
+                              "showTicks": true,
+                              "ticks": Array [
+                                Object {
+                                  "label": "-90°",
+                                  "value": -90,
+                                },
+                                Object {
+                                  "label": "-45°",
+                                  "value": -45,
+                                },
+                                Object {
+                                  "label": "0°",
+                                  "value": 0,
+                                },
+                                Object {
+                                  "label": "45°",
+                                  "value": 45,
+                                },
+                                Object {
+                                  "label": "90°",
+                                  "value": 90,
+                                },
+                              ],
+                            },
+                          },
                         ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "color-theme",
+                        "mapTo": "colorTheme",
+                        "name": "Color theme",
+                        "schemas": Array [],
                       },
                       Object {
                         "editor": [Function],
@@ -2459,6 +2990,56 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "type": "double",
               },
             ],
+          },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
           },
           "indexFields": Object {},
           "query": Object {},
@@ -2669,6 +3250,56 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "type": "double",
                 },
               ],
+            },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -2902,6 +3533,56 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "type": "double",
                   },
                 ],
+              },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
+                  },
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                  "size": 4,
+                  "status": 200,
+                },
               },
               "indexFields": Object {},
               "query": Object {},
@@ -3198,6 +3879,29 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
             ],
           },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "count('ip')": Array [],
+                "span(timestamp,1h)": Array [],
+              },
+              "jsonData": Array [],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "count('ip')",
+                    "type": "integer",
+                  },
+                  Object {
+                    "name": "span(timestamp,1h)",
+                    "type": "timestamp",
+                  },
+                ],
+              },
+              "size": 0,
+              "status": 200,
+            },
+          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -3380,6 +4084,29 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "type": "integer",
                 },
               ],
+            },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "count('ip')": Array [],
+                  "span(timestamp,1h)": Array [],
+                },
+                "jsonData": Array [],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "count('ip')",
+                      "type": "integer",
+                    },
+                    Object {
+                      "name": "span(timestamp,1h)",
+                      "type": "timestamp",
+                    },
+                  ],
+                },
+                "size": 0,
+                "status": 200,
+              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -3586,6 +4313,29 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "type": "integer",
                   },
                 ],
+              },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "count('ip')": Array [],
+                    "span(timestamp,1h)": Array [],
+                  },
+                  "jsonData": Array [],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "count('ip')",
+                        "type": "integer",
+                      },
+                      Object {
+                        "name": "span(timestamp,1h)",
+                        "type": "timestamp",
+                      },
+                    ],
+                  },
+                  "size": 0,
+                  "status": 200,
+                },
               },
               "indexFields": Object {},
               "query": Object {},
