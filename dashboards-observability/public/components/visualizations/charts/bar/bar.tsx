@@ -49,7 +49,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const fillOpacity =
     dataConfig?.chartStyles?.fillOpacity !== undefined
       ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : vis.fillopacity / FILLOPACITY_DIV_FACTOR;
+      : vis.fillOpacity / FILLOPACITY_DIV_FACTOR;
   const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barwidth);
   const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupwidth);
   const showLegend = !(
