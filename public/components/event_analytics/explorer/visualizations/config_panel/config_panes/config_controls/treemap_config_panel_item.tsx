@@ -21,7 +21,6 @@ import {
 import { ConfigTreemapParentFields } from './config_treemap_parents';
 import { numericalTypes } from '../../../../../../../../common/constants/explorer';
 
-
 export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: any) => {
   const dispatch = useDispatch();
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabID];
@@ -50,20 +49,6 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
         dimensions: [{ childField: { ...xaxis[0] }, parentFields: [] }],
         metrics: [{ valueField: { ...yaxis[0] } }],
       });
-      dispatch(
-        renderExplorerVis({
-          tabId: tabID,
-          data: {
-            ...explorerVisualizations,
-            [visualizations.vis.name]: {
-              dataConfig: {
-                metrics: [{ valueField: { ...yaxis[0] } }],
-                dimensions: [{ childField: { ...xaxis[0] }, parentFields: [] }],
-              },
-            },
-          },
-        })
-      );
     }
   }, [
     data.defaultAxes,
@@ -86,10 +71,9 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
       [configName]: [listItem],
     };
     setConfigList(newList);
-    updateChart(newList);
   };
 
-  const updateChart = (configList) => {
+  const updateChart = () => {
     dispatch(
       renderExplorerVis({
         tabId: tabID,
