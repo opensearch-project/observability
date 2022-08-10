@@ -498,6 +498,7 @@ exports[`Treemap component Renders treemap component 1`] = `
             "",
           ],
           "sort": true,
+          "sort": true,
           "textinfo": "label+value+percent parent+percent entry",
           "tiling": Object {
             "packing": undefined,
@@ -559,6 +560,7 @@ exports[`Treemap component Renders treemap component 1`] = `
               "",
               "",
             ],
+            "sort": true,
             "sort": true,
             "textinfo": "label+value+percent parent+percent entry",
             "tiling": Object {

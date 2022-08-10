@@ -504,7 +504,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
               >
                 <EuiIcon
                   color="subdued"
-                  size="xxl"
+                  size="xxxxl"
                   type="visBarVerticalStacked"
                 >
                   <EuiIconEmpty

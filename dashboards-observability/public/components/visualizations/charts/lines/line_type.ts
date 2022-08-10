@@ -21,7 +21,16 @@ import { ButtonGroupItem } from '../../../../../public/components/event_analytic
 import { SliderConfig } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { DefaultModeLine, Interpolation, LineWidth, FillOpacity, MarkerSize, LegendPosition, ShowLegend, DefaultModeScatter, LabelAngle } = DefaultChartStyles;
+const {
+  DefaultMode,
+  Interpolation,
+  LineWidth,
+  FillOpacity,
+  MarkerSize,
+  LegendPosition,
+  ShowLegend,
+  LabelAngle
+} = DefaultChartStyles;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: params.type,
