@@ -18,6 +18,7 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
+import {HttpSetup} from "../../src/core/target/types/public";
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -32,6 +33,19 @@ import { getVizContainerProps } from '../../../components/visualizations/charts/
  * isPPLFilterValid - Validate if the panel PPL query doesn't contain any Index/Time/Field filters
  * displayVisualization - Function to render the visualzation based of its type
  */
+
+
+// Fetches all saved Custom Panels
+export const fetchPanelsList = async (http: HttpSetup) => {
+  try {
+    const res = await http
+      .get(`${CUSTOM_PANELS_API_PREFIX}/panels`);
+    return res.panels;
+
+  } catch(err) {
+      console.error('Issue in fetching the operational panels', err.body.message);
+  }
+};
 
 // Name validation 0>Name<=50
 export const isNameValid = (name: string) => {

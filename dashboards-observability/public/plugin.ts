@@ -18,12 +18,11 @@ import { convertLegacyNotebooksUrl } from './components/notebooks/components/hel
 import { convertLegacyTraceAnalyticsUrl } from './components/trace_analytics/components/common/legacy_route_helpers';
 import { uiSettingsService } from '../common/utils';
 import { DashboardSetup } from '../../../src/plugins/dashboard/public';
-import { CUSTOM_PANELS_API_PREFIX } from '../common/constants/custom_panels';
 import { PluginInitializerContext } from '../../../src/core/server';
-import { DashboardListItem, DashboardListProviderFn } from '../../../src/plugins/dashboard/public/application/legacy_app';
-import {from} from 'rxjs'
-import {map, toArray, catchError, mergeMap} from 'rxjs/operators'
-import { DashboardListing } from '../../../src/plugins/dashboard/public/application/listing/dashboard_listing';
+import { DashboardListItem } from '../../../src/plugins/dashboard/public/application/legacy_app';
+import { from, Observable } from 'rxjs'
+import { map, mergeMap } from 'rxjs/operators'
+import { fetchPanelsList } from "../public/components/custom_panels/helpers/utils";
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
   constructor(private initializerContext: PluginInitializerContext) { }
 
@@ -43,29 +42,20 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
     }
 
     // Fetches all saved Custom Panels
-    const fetchPanelsList: DashboardListProviderFn = () => {
-      return from(core.http
-          .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
-        )
+    const fetchPanelsFn: () => Observable<DashboardListItem> = () => {
+      return from(fetchPanelsList(core.http))
         .pipe(
-
-          catchError(err => {
-            console.error('Issue in fetching the operational panels', err.body.message);
-            return from([])
-          }),
-
-          mergeMap(res => res.panels),
-          map(convertListItemToDashboardListItem),
-          toArray()
-
-        ).toPromise()
+          mergeMap(i => i),
+          map(convertPanelItemToDashboardListItem)
+        );
     };
 
-    const convertListItemToDashboardListItem = (item: any): DashboardListItem => {
+    const convertPanelItemToDashboardListItem = (item: any): DashboardListItem => {
       return {
-        id: item.id, 
-        title: item.name, 
-        description: "...", 
+        id: item.id,
+        title: item.name,
+        type: "Observability Panel",
+        description: "...",
         url: `/app/${observabilityID}#/operational_panels/${item.id}`,
         listType: "observabiliity-panel"
       }
@@ -73,9 +63,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
 
     const id: string = this.initializerContext.opaqueId.description!;
 
-    dashboard?.registerDashboardListSource(id, fetchPanelsList);
-
-    console.log("Observability setup", { dashboard });
+    dashboard?.registerDashboardListSource(id, fetchPanelsFn);
 
     core.application.register({
       id: observabilityID,

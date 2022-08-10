@@ -27,7 +27,7 @@ import { CustomPanelListType } from '../../../common/types/custom_panels';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
-import { isNameValid } from './helpers/utils';
+import {fetchPanelsList, isNameValid} from './helpers/utils';
 
 /*
  * "Home" module is initial page for Operantional Panels
@@ -75,16 +75,10 @@ export const Home = ({
   };
 
   // Fetches all saved Custom Panels
-  const fetchCustomPanels = () => {
+  const fetchCustomPanels = async () => {
     setLoading(true);
-    http
-      .get(`${CUSTOM_PANELS_API_PREFIX}/panels`)
-      .then((res) => {
-        setcustomPanelData(res.panels);
-      })
-      .catch((err) => {
-        console.error('Issue in fetching the operational panels', err.body.message);
-      });
+    const panels = await fetchPanelsList(http);
+    setcustomPanelData(panels);
     setLoading(false);
   };
 
