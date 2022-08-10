@@ -26,18 +26,18 @@ export const createPieTypeDefinition = (params: any) => ({
   type: 'pie',
   id: 'pie',
   label: 'Pie',
-  fullLabel: 'Pie',
-  iconType: 'visPie',
+  fulllabel: 'Pie',
+  icontype: 'visPie',
   category: VIS_CATEGORY.BASICS,
-  showLegend: true,
-  legendPosition: 'v',
+  showlegend: true,
+  legendposition: 'v',
   selection: {
     dataLoss: 'nothing',
   },
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   icon: LensIconChartPie,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -130,7 +130,7 @@ export const createPieTypeDefinition = (params: any) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{

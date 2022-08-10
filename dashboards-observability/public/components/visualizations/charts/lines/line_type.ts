@@ -38,16 +38,16 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   type: 'line',
   id: 'line',
   label: 'Time series',
-  fullLabel: 'Time series',
-  iconType: 'visLine',
+  fulllabel: 'Time series',
+  icontype: 'visLine',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
-  editorConfig: {
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -219,7 +219,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{
