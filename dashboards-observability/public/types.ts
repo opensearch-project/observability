@@ -26,6 +26,7 @@ export type DashboardListSources = Array<DashboardListSource>;
 export interface DashboardListItem {
   id: string;
   title: string;
+  type: string;
   description: string;
   url: string;
   listType: string;

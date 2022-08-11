@@ -20,7 +20,7 @@ import { uiSettingsService } from '../common/utils';
 import { DashboardSetup } from '../../../src/plugins/dashboard/public';
 import { CUSTOM_PANELS_API_PREFIX } from '../common/constants/custom_panels';
 import { PluginInitializerContext } from '../../../src/core/server';
-import { DashboardListItem } from '../../../src/plugins/dashboard/public/types';
+import { DashboardListItem } from './types';
 import { from, Observable } from 'rxjs';
 import { map, toArray, catchError, mergeMap, tap } from 'rxjs/operators';
 import { fetchPanelsList } from './components/custom_panels/helpers/utils';
@@ -43,19 +43,20 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
     // Fetches all saved Custom Panels
     const fetchDashboardPanels: Observable<DashboardListItem> = () => {
       return from(fetchPanelsList(core.http)).pipe(
+        mergeMap((item) => item),
+        map(convertPanelToDashboardListItem),
         catchError((err) => {
           console.error('Issue in fetching the operational panels', err.body.message);
           return from([]);
-        }),
-        tap((item) => console.log('fetchDashboardPanel', { item })),
-        map(convertListItemToDashboardListItem)
+        })
       );
     };
 
-    const convertListItemToDashboardListItem = (item: any): DashboardListItem => {
+    const convertPanelToDashboardListItem = (item: any): DashboardListItem => {
       return {
         id: item.id,
         title: item.name,
+        type: 'Observability Panel',
         description: '...',
         url: '/observability',
         listType: 'observabiliity-panel',
@@ -64,7 +65,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
 
     const id: string = this.initializerContext.opaqueId.description!;
 
-    dashboard?.registerDashboardListSource(id, fetchPanelsList);
+    dashboard?.registerDashboardListSource(id, fetchDashboardPanels);
 
     console.log('Observability setup', { dashboard });
 

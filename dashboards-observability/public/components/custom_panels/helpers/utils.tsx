@@ -26,6 +26,7 @@ import { DashboardListItems } from '../../src/plugins/dashboard/public/applicati
 /*
  * "Utils" This file contains different reused functions in operational panels
  *
+ * fetchPanelsList - Get list of Observability Panel from Custom Panels API
  * isNameValid - Validates string to length > 0 and < 50
  * convertDateTime - Converts input datetime string to required format
  * mergeLayoutAndVisualizations - Function to merge current panel layout into the visualizations list
