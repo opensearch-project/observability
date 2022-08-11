@@ -15,9 +15,9 @@ export const ConfigPanelOptionGauge = ({
   panelOptionsValues,
   handleConfigChange,
 }: any) => {
-  const { Gauge = {} } = visualizations?.data?.rawVizData;
-  const dimensions = Gauge?.dataConfig?.dimensions
-    ? Gauge.dataConfig.dimensions.filter((i) => i.name !== '')
+  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const dimensions = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((i) => i.name !== '')
     : [];
   const [numberOfGauges, setNumberOfGauges] = useState<number>(
     DefaultGaugeChartParameters.DisplayDefaultGauges
