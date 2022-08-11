@@ -26,30 +26,30 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const childField =
-    dataConfig?.valueOptions?.dimensions && dataConfig?.valueOptions?.dimensions[0].childField
+    dataConfig?.valueOptions?.dimensions && dataConfig.valueOptions.dimensions[0].childField
       ? dataConfig.valueOptions.dimensions[0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    dataConfig?.valueOptions?.dimensions && dataConfig?.valueOptions?.dimensions[0].parentFields
+    dataConfig?.valueOptions?.dimensions && dataConfig.valueOptions.dimensions[0].parentFields
       ? dataConfig.valueOptions.dimensions[0].parentFields
       : [];
 
   const valueField =
-    dataConfig?.valueOptions?.metrics && dataConfig?.valueOptions?.metrics[0].valueField
+    dataConfig?.valueOptions?.metrics && dataConfig.valueOptions.metrics[0].valueField
       ? dataConfig.valueOptions.metrics[0].valueField
       : fields[0];
 
   const colorField =
-    dataConfig?.chartStyles && dataConfig?.chartStyles.colorTheme
-      ? dataConfig?.chartStyles.colorTheme
+    dataConfig?.chartStyles && dataConfig.chartStyles.colorTheme
+      ? dataConfig.chartStyles.colorTheme
       : { name: DEFAULT_PALETTE };
 
   const tilingAlgorithm =
     dataConfig?.treemapOptions &&
-    dataConfig?.treemapOptions.tilingAlgorithm &&
-    !isEmpty(dataConfig?.treemapOptions.tilingAlgorithm)
-      ? dataConfig?.treemapOptions.tilingAlgorithm[0]
+    dataConfig.treemapOptions.tilingAlgorithm &&
+    !isEmpty(dataConfig.treemapOptions.tilingAlgorithm)
+      ? dataConfig.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
 
   const sortSectorsField = dataConfig?.treemapOptions?.sort_sectors || DefaultSortSectors;
