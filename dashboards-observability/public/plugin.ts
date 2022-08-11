@@ -20,7 +20,7 @@ import { uiSettingsService } from '../common/utils';
 import { DashboardSetup } from '../../../src/plugins/dashboard/public';
 import { CUSTOM_PANELS_API_PREFIX } from '../common/constants/custom_panels';
 import { PluginInitializerContext } from '../../../src/core/server';
-import { DashboardListItem, DashboardListProviderFn } from '../../../src/plugins/dashboard/public/application/legacy_app';
+import { DashboardListItem, DashboardListProviderFn } from '../../src/plugins/dashboard/public/application/legacy_app';
 import {from} from 'rxjs'
 import {map, toArray, catchError, mergeMap} from 'rxjs/operators'
 import { DashboardListing } from '../../../src/plugins/dashboard/public/application/listing/dashboard_listing';
