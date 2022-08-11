@@ -175,3 +175,24 @@ export const DEFAULT_PIE_CHART_PARAMETERS: DefaultPieChartParameterProps = {
 };
 export const GROUPBY = 'dimensions';
 export const AGGREGATIONS = 'series';
+
+// stats constants
+export const MAX_GRID_LENGTH = 10;
+export const GAP_BETWEEN_AXIS = 0.01;
+export interface DefaultStatsParametersProps {
+  StatsTextMode: string;
+  Orientation: string;
+  TextSize: number;
+  ChartType: string;
+  TextColor: string;
+  TextAlignment: string;
+}
+
+export const DefaultStatsParameters: DefaultStatsParametersProps = {
+  StatsTextMode: 'auto',
+  Orientation: 'auto',
+  TextSize: 16,
+  ChartType: 'auto',
+  TextColor: 'rgb(0,0,0)',
+  TextAlignment: 'auto',
+};
