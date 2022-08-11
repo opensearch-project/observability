@@ -91,6 +91,7 @@ export const ConfigChartOptions = ({
           params = {
             ...params,
             currentValue: vizState[schema.mapTo] || '',
+            name: schema.mapTo,
             handleInputChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'slider') {

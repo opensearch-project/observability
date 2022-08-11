@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { htmlIdGenerator } from '@elastic/eui';
 import { VIS_CHART_TYPES } from './shared';
+import { ThresholdUnitType } from '../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
   'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
 export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
@@ -181,6 +184,8 @@ export const STATS_GRID_SPACE_BETWEEN_X_AXIS = 0.01;
 export const STATS_GRID_SPACE_BETWEEN_Y_AXIS = 100;
 export const STATS_REDUCE_VALUE_SIZE_PERCENTAGE = 0.08;
 export const STATS_REDUCE_TITLE_SIZE_PERCENTAGE = 0.05;
+export const STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE = 0.2;
+export const STATS_METRIC_UNIT_SUBSTRING_LENGTH = 3;
 export const STATS_AXIS_MARGIN = {
   l: 0,
   r: 0,
@@ -202,6 +207,7 @@ export interface DefaultStatsParametersProps {
   TextAlignment: string;
   DefaultPrecision: number;
   DefaultValueSize: number;
+  BaseThreshold: ThresholdUnitType;
 }
 
 export const DefaultStatsParameters: DefaultStatsParametersProps = {
@@ -212,4 +218,11 @@ export const DefaultStatsParameters: DefaultStatsParametersProps = {
   DefaultChartType: 'auto',
   TextAlignment: 'auto',
   DefaultPrecision: 1,
+  BaseThreshold: {
+    thid: htmlIdGenerator('thr')(),
+    name: 'Base',
+    color: '#3CA1C7',
+    value: 0,
+    isReadOnly: true,
+  },
 };

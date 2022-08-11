@@ -25,6 +25,7 @@ export interface ThresholdUnitType {
   name: string;
   color: string;
   value: number;
+  isReadOnly?: boolean;
 }
 
 export const ConfigThresholds = ({
@@ -35,6 +36,7 @@ export const ConfigThresholds = ({
   sectionName = 'Thresholds',
   props,
 }: any) => {
+  const { type } = visualizations?.vis;
   const addButtonText = '+ Add threshold';
   const AddButtonTextWrapper = () =>
     props?.maxLimit && !isEmpty(vizState) && vizState.length === props.maxLimit ? (
@@ -51,6 +53,7 @@ export const ConfigThresholds = ({
       name: '',
       color: '#FC0505',
       value: 0,
+      isReadOnly: false,
     };
   };
 
@@ -58,7 +61,7 @@ export const ConfigThresholds = ({
     let res = vizState;
     if (isEmpty(vizState)) res = [];
     handleConfigChange([getThresholdUnit(), ...res]);
-  }, [vizState, handleConfigChange]);
+  }, [vizState, handleConfigChange, type]);
 
   const handleThresholdChange = useCallback(
     (thrId, thrName) => {
@@ -85,7 +88,6 @@ export const ConfigThresholds = ({
     },
     [vizState, handleConfigChange]
   );
-
   return (
     <EuiAccordion
       initialIsOpen
@@ -127,6 +129,7 @@ export const ConfigThresholds = ({
                         value={thr.name || ''}
                         arial-label="Input threshold name"
                         data-test-subj="nameFieldText"
+                        readOnly={thr.isReadOnly}
                       />
                     </EuiFormRow>
                   </EuiFlexItem>
@@ -139,6 +142,7 @@ export const ConfigThresholds = ({
                         onChange={handleThresholdChange(thr.thid, 'value')}
                         aria-label="Input threshold value"
                         data-test-subj="valueFieldNumber"
+                        readOnly={thr.isReadOnly}
                       />
                     </EuiFormRow>
                   </EuiFlexItem>

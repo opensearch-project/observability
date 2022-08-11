@@ -6,6 +6,7 @@
 import { Stats } from './stats';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartLine } from '../../assets/chart_line';
+import { htmlIdGenerator } from '@elastic/eui';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
@@ -27,7 +28,8 @@ const {
   DefaultChartType,
   DefaultPrecision,
   DefaultTitleSize,
-  DefaultValueSize
+  DefaultValueSize,
+  BaseThreshold,
 } = DefaultStatsParameters;
 
 export const createStatsTypeDefinition = (params: any = {}) => ({
@@ -35,22 +37,22 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
   type: 'stats',
   id: 'stats',
   label: 'Stats',
-  fullLabel: 'Stats',
-  iconType: 'stats',
+  fulllabel: 'Stats',
+  icontype: 'stats',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  categorYaxis: 'xaxis',
-  seriesAxis: 'yaxis',
-  chartType: DefaultChartType,
-  precisionValue: DefaultPrecision,
-  titleSize: DefaultTitleSize,
-  valueSize: DefaultValueSize,
-  textMode: DefaultTextMode,
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
+  charttype: DefaultChartType,
+  precisionvalue: DefaultPrecision,
+  titlesize: DefaultTitleSize,
+  valuesize: DefaultValueSize,
+  textmode: DefaultTextMode,
   orientation: DefaultOrientation,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -142,7 +144,7 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
             name: 'Thresholds',
             editor: ConfigThresholds,
             mapTo: 'thresholds',
-            defaultState: [],
+            defaultState: [BaseThreshold],
             schemas: [],
           },
         ],
@@ -162,7 +164,7 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{

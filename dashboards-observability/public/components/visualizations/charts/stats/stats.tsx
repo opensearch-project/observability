@@ -20,6 +20,8 @@ import {
   STATS_ANNOTATION,
   STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
   STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
+  STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE,
+  STATS_METRIC_UNIT_SUBSTRING_LENGTH,
 } from '../../../../../common/constants/explorer';
 import {
   DefaultChartStyles,
@@ -27,13 +29,18 @@ import {
   FILLOPACITY_DIV_FACTOR,
 } from '../../../../../common/constants/shared';
 import { STATS_TEXT_BLACK, STATS_TEXT_WHITE } from '../../../../../common/constants/colors';
-const { DefaultOrientation, DefaultTextMode, DefaultChartType } = DefaultStatsParameters;
+const {
+  DefaultOrientation,
+  DefaultTextMode,
+  DefaultChartType,
+  BaseThreshold,
+} = DefaultStatsParameters;
 
 interface createAnnotationType {
   index: number;
-  label?: string;
+  label: string;
   value: number | string;
-  valueColor?: string;
+  valueColor: string;
 }
 
 export const Stats = ({ visualizations, layout, config }: any) => {
@@ -53,44 +60,47 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     ? dataConfigTab.metrics.filter((i: ConfigListEntry) => i.label)
     : [];
   const metricsLength = metrics.length;
-  const chartType = dataConfig?.chartStyles?.chartType || vis.chartType;
+  const chartType = dataConfig?.chartStyles?.chartType || vis.charttype;
 
   if (
     (chartType === DefaultChartType && dimensions.length === 0) ||
     metricsLength === 0 ||
     chartType !== DefaultChartType
   )
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
   // style panel parameters
-  const thresholds = dataConfig?.thresholds || [];
+  const thresholds = Array.isArray(dataConfig?.thresholds)
+    ? dataConfig?.thresholds
+    : [BaseThreshold];
   const sortedThresholds = uniqBy(
     thresholds.slice().sort((a: ThresholdUnitType, b: ThresholdUnitType) => a.value - b.value),
     'value'
   );
   const titleSize =
     dataConfig?.chartStyles?.titleSize ||
-    vis.titleSize - vis.titleSize * metricsLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
+    vis.titlesize - vis.titlesize * metricsLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
     dataConfig?.chartStyles?.valueSize ||
-    vis.valueSize - vis.valueSize * metricsLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
+    vis.valuesize - vis.valuesize * metricsLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
   const selectedOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const orientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
       ? DefaultOrientation
       : 'h';
-  const selectedTextMode = dataConfig?.chartStyles?.textMode || vis.textMode;
+  const selectedTextMode = dataConfig?.chartStyles?.textMode || vis.textmode;
   const textMode =
     selectedTextMode === DefaultTextMode || selectedTextMode === 'values+names'
       ? DefaultTextMode
       : selectedTextMode;
-  const precisionValue = dataConfig?.chartStyles?.precisionValue || vis.precisionValue;
-  const metricUnits = dataConfig?.chartStyles?.metricUnits || '';
-  const metricUnitsSize = valueSize - valueSize * 0.2;
+  const precisionValue = dataConfig?.chartStyles?.precisionValue || vis.precisionvalue;
+  const metricUnits =
+    dataConfig?.chartStyles?.metricUnits.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
+  const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
 
-  const getRoundOf = (number: number, places: number) => {
-    return (Math.round(number * 10 ** precisionValue) / 10 ** precisionValue).toFixed(places);
+  const getRoundOf = (value: number, places: number) => {
+    return (Math.round(value * 10 ** precisionValue) / 10 ** precisionValue).toFixed(places);
   };
 
   const ZERO_ERROR_ANNOTATION = 0.01;
@@ -187,7 +197,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                   : valueColor,
               family: 'Roboto',
             },
-            type: textMode === 'names' ? 'value' : 'name',
+            type: textMode === 'names' ? 'name' : 'value',
             metricValue: value,
           },
         ];
@@ -250,7 +260,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                   : valueColor,
               family: 'Roboto',
             },
-            type: textMode === 'names' ? 'value' : 'name',
+            type: textMode === 'names' ? 'name' : 'value',
             metricValue: value,
           },
         ];
@@ -281,14 +291,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         annotations: autoChartLayout.annotations.concat(
           orientation === DefaultOrientation || metricsLength === 1
             ? createAnnotation({
-                type: textMode,
                 label: metric.label,
                 value: getRoundOf(data[metric.label][0], precisionValue),
                 index: metricIndex,
                 valueColor: selectedColor,
               })
             : createAnnotationsAutoChartHorizontal({
-                type: textMode,
                 label: metric.label,
                 value: getRoundOf(data[metric.label][0], precisionValue),
                 index: metricIndex,
@@ -344,7 +352,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             : sortedThresholds[index + 1].value,
         ]);
       });
-      if (sortedThresholds.length) {
+
+      if (thresholdRanges.length) {
         // change color for line traces
         for (let statIndex = 0; statIndex < sortedStatsData.length; statIndex++) {
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {

@@ -7,12 +7,14 @@ import React, { useState } from 'react';
 import { EuiFieldText, EuiTitle, EuiSpacer, htmlIdGenerator } from '@elastic/eui';
 
 interface InputFieldProps {
+  name: string;
   title: string;
   numValue: number;
   handleInputChange: (value?: any) => void;
 }
 
 export const TextInputFieldItem: React.FC<InputFieldProps> = ({
+  name,
   title,
   numValue,
   handleInputChange,
@@ -26,13 +28,14 @@ export const TextInputFieldItem: React.FC<InputFieldProps> = ({
       </EuiTitle>
       <EuiSpacer size="s" />
       <EuiFieldText
-        name='metric'
+        id={htmlIdGenerator('input-number')()}
+        name={name}
         fullWidth
         placeholder={title}
         value={fieldValue}
         onChange={(e) => setFieldValue(e.target.value)}
         onBlur={() => handleInputChange(fieldValue)}
-        data-test-subj="valueFieldNumber"
+        data-test-subj="valueFieldText"
       />
     </>
   );
