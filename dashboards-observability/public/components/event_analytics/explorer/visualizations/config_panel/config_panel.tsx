@@ -129,6 +129,7 @@ export const ConfigPanel = ({
       pie: isValidValueOptionsXYAxes,
       scatter: isValidValueOptionsXYAxes,
       logs_view: true,
+      box_plot: isValidValueOptionsXYAxes,
     };
     return isValid_valueOptions[curVisId];
   }, [vizConfigs.dataConfig]);

@@ -86,6 +86,7 @@ export const VIZ_CONTAIN_XY_AXIS = [
   visChartTypes.Line,
   visChartTypes.Pie,
   visChartTypes.Scatter,
+  visChartTypes.Box,
 ];
 
 // default ppl aggregation method options

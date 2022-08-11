@@ -15,6 +15,7 @@ import { createGaugeTypeDefinition } from './financial/gauge/gauge_type';
 import { createTreeMapDefinition } from './maps/treemap_type';
 import { createTextTypeDefinition } from './text/text_type';
 import { createLogsViewTypeDefinition } from './logs_view/logs_view_type';
+import { createBoxPlotTypeDefinition } from './box_plot/box_plot_type';
 
 export const VIS_TYPES = {
   bar: createBarTypeDefinition,
@@ -30,6 +31,7 @@ export const VIS_TYPES = {
   text: createTextTypeDefinition,
   scatter: createLineTypeDefinition,
   logs_view: createLogsViewTypeDefinition,
+  box_plot: createBoxPlotTypeDefinition,
 };
 
 export const getVisType = (visType: string, params: any = {}) => {
