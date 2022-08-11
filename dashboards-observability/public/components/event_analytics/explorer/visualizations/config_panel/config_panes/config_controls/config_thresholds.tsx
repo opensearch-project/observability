@@ -146,11 +146,13 @@ export const ConfigThresholds = ({
                       />
                     </EuiFormRow>
                   </EuiFlexItem>
-                  <EuiFlexItem grow={1}>
-                    <EuiFormRow>
-                      <EuiIcon type="trash" onClick={handleThresholdDelete(thr.thid)} />
-                    </EuiFormRow>
-                  </EuiFlexItem>
+                  {!thr.isReadOnly && (
+                    <EuiFlexItem grow={1}>
+                      <EuiFormRow>
+                        <EuiIcon type="trash" onClick={handleThresholdDelete(thr.thid)} />
+                      </EuiFormRow>
+                    </EuiFlexItem>
+                  )}
                 </EuiFlexGroup>
               </EuiFormRow>
             </Fragment>
