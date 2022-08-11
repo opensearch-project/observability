@@ -177,13 +177,21 @@ export const GROUPBY = 'dimensions';
 export const AGGREGATIONS = 'series';
 
 // stats constants
-export const STATS_MAX_GRID_LENGTH = 1;
-export const STATS_GAP_BETWEEN_AXIS = 0.01;
+export const STATS_GRID_SPACE_BETWEEN_X_AXIS = 0.01;
+export const STATS_GRID_SPACE_BETWEEN_Y_AXIS = 100;
+export const STATS_REDUCE_VALUE_SIZE_PERCENTAGE = 0.08;
+export const STATS_REDUCE_TITLE_SIZE_PERCENTAGE = 0.05;
 export const STATS_AXIS_MARGIN = {
   l: 0,
   r: 0,
   b: 0,
   t: 80,
+};
+
+export const STATS_ANNOTATION = {
+  xref: 'paper',
+  yref: 'paper',
+  showarrow: false,
 };
 
 export interface DefaultStatsParametersProps {

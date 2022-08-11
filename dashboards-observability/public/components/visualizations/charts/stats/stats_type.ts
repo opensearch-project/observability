@@ -14,12 +14,10 @@ import {
   InputFieldItem,
   ButtonGroupItem,
   ConfigChartOptions,
-  ColorPalettePicker,
   TextInputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { DefaultStatsParameters } from '../../../../../common/constants/explorer';
-import { SINGLE_COLOR_PALETTE } from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -137,21 +135,6 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                   defaultSelections: [{ name: 'Values + Names', id: DefaultTextMode }],
                 },
               },
-              // {
-              //   name: 'Text Color',
-              //   isSingleSelection: true,
-              //   component: ColorPalettePicker,
-              //   mapTo: 'textColor',
-              //   eleType: 'treemapColorPicker',
-              //   options: [
-              //     {
-              //       value: SINGLE_COLOR_PALETTE,
-              //       title: 'Single color',
-              //       type: 'text',
-              //     },
-              //   ],
-              //   defaultState: { name: SINGLE_COLOR_PALETTE },
-              // },
             ],
           },
           {

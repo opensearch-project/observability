@@ -8,16 +8,18 @@ import Plotly from 'plotly.js-dist';
 import { Plt } from '../../plotly/plot';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { last, sortedIndex, uniqBy } from 'lodash';
-import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
+import { uniqBy } from 'lodash';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { uiSettingsService } from '../../../../../common/utils';
 import {
-  STATS_MAX_GRID_LENGTH,
-  STATS_GAP_BETWEEN_AXIS,
+  STATS_GRID_SPACE_BETWEEN_X_AXIS,
+  STATS_GRID_SPACE_BETWEEN_Y_AXIS,
   DefaultStatsParameters,
   STATS_AXIS_MARGIN,
+  STATS_ANNOTATION,
+  STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
+  STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
 } from '../../../../../common/constants/explorer';
 import {
   DefaultChartStyles,
@@ -28,18 +30,12 @@ import { STATS_TEXT_BLACK, STATS_TEXT_WHITE } from '../../../../../common/consta
 const { DefaultOrientation, DefaultTextMode, DefaultChartType } = DefaultStatsParameters;
 
 interface createAnnotationType {
-  type: string;
   index: number;
   label?: string;
-  value?: number;
+  value: number | string;
   valueColor?: string;
 }
 
-const annotaion = {
-  xref: 'paper',
-  yref: 'paper',
-  showarrow: false,
-};
 export const Stats = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
   const {
@@ -59,22 +55,25 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   const metricsLength = metrics.length;
   const chartType = dataConfig?.chartStyles?.chartType || vis.chartType;
 
-  if ((chartType === DefaultChartType && dimensions.length === 0) || metricsLength === 0)
+  if (
+    (chartType === DefaultChartType && dimensions.length === 0) ||
+    metricsLength === 0 ||
+    chartType !== DefaultChartType
+  )
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
 
-  console.log('data===', data);
   // style panel parameters
   const thresholds = dataConfig?.thresholds || [];
   const sortedThresholds = uniqBy(
-    thresholds.slice().sort((a, b) => a.value - b.value),
+    thresholds.slice().sort((a: ThresholdUnitType, b: ThresholdUnitType) => a.value - b.value),
     'value'
   );
-  console.log('sortedThresholds===', sortedThresholds);
   const titleSize =
-    dataConfig?.chartStyles?.titleSize || vis.titleSize - vis.titleSize * metricsLength * 0.05;
+    dataConfig?.chartStyles?.titleSize ||
+    vis.titleSize - vis.titleSize * metricsLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
-    dataConfig?.chartStyles?.valueSize || vis.valueSize - vis.valueSize * metricsLength * 0.08;
-  console.log('titleSize===', titleSize, 'valueSize', valueSize);
+    dataConfig?.chartStyles?.valueSize ||
+    vis.valueSize - vis.valueSize * metricsLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
   const selectedOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const orientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
@@ -87,6 +86,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       : selectedTextMode;
   const precisionValue = dataConfig?.chartStyles?.precisionValue || vis.precisionValue;
   const metricUnits = dataConfig?.chartStyles?.metricUnits || '';
+  const metricUnitsSize = valueSize - valueSize * 0.2;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
 
   const getRoundOf = (number: number, places: number) => {
@@ -114,83 +114,26 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       prev.map((item: string | number, index: number) => `${item},<br>${cur[index]}`)
     );
 
-  // const createAnnotation = ({ type, label, value, index, valueColor }: createAnnotationType) => {
-  //   console.log('createAnnotation===', { type, label, value, index });
-  //   const commonAxis = orientation === DefaultOrientation ? 'y' : 'x';
-  //   const calculatedAxis = orientation === DefaultOrientation ? 'x' : 'y';
-  //   return textMode === 'values+names' || textMode === 'auto'
-  //     ? [
-  //         {
-  //           xref: 'paper',
-  //           yref: 'paper',
-  //           [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
-  //           [commonAxis]: 1,
-  //           xanchor: 'left',
-  //           yanchor: 'bottom',
-  //           text: label,
-  //           showarrow: false,
-  //           font: {
-  //             size: titleSize,
-  //             color: isDarkMode ? STATS_TEXT_WHITE : STATS_TEXT_BLACK,
-  //             family: 'Roboto',
-  //           },
-  //         },
-  //         {
-  //           xref: 'paper',
-  //           yref: 'paper',
-  //           [calculatedAxis]:
-  //             index > 0
-  //               ? (index + 1) / metricsLength - ZERO_ERROR_ANNOTATION
-  //               : 1 / metricsLength - ZERO_ERROR_ANNOTATION,
-  //           [commonAxis]: 1,
-  //           xanchor: 'right',
-  //           yanchor: 'bottom',
-  //           text: `<b>${value}</b>`,
-  //           showarrow: false,
-  //           font: {
-  //             size: valueSize,
-  //             color: valueColor,
-  //             family: 'Roboto',
-  //           },
-  //         },
-  //       ]
-  //     : [
-  //         {
-  //           xref: 'paper',
-  //           yref: 'paper',
-  //           [calculatedAxis]:
-  //             metricsLength === 1
-  //               ? 0.5
-  //               : index === 0
-  //               ? ((1 / metricsLength) * 1) / 2
-  //               : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
-  //           xanchor: 'center',
-  //           [commonAxis]: 1,
-  //           yanchor: 'bottom',
-  //           text: textMode === 'values' ? `<b>${value}</b>` : label,
-  //           showarrow: false,
-  //           font: {
-  //             size: textMode === 'values' ? valueSize : titleSize,
-  //             color:
-  //               textMode === 'names'
-  //                 ? isDarkMode
-  //                   ? STATS_TEXT_WHITE
-  //                   : STATS_TEXT_BLACK
-  //                 : valueColor,
-  //             family: 'Roboto',
-  //           },
-  //         },
-  //       ];
-  // };
+  const createValueText = (value: string | number) =>
+    `<b>${value}${
+      metricUnits ? `<span style="font-size: ${metricUnitsSize}px"}> ${metricUnits}</span>` : ''
+    }</b>`;
 
-  const createAnnotation = ({ type, label, value, index, valueColor }: createAnnotationType) => {
-    console.log('createAnnotation===', { type, label, value, index });
-    const commonAxis = orientation === DefaultOrientation ? 'y' : 'x';
-    const calculatedAxis = orientation === DefaultOrientation ? 'x' : 'y';
-    return textMode === 'values+names' || textMode === 'auto'
+  const createAnnotationsAutoChartHorizontal = ({
+    label,
+    value,
+    index,
+    valueColor,
+  }: createAnnotationType) => {
+    return textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
-            ...annotaion,
+            ...STATS_ANNOTATION,
+            x: 0 + ZERO_ERROR_ANNOTATION,
+            y:
+              index > 0
+                ? (index + 1) / metricsLength - ZERO_ERROR_ANNOTATION
+                : 1 / metricsLength - ZERO_ERROR_ANNOTATION,
             xanchor: 'left',
             yanchor: 'bottom',
             text: label,
@@ -199,44 +142,41 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               color: isDarkMode ? STATS_TEXT_WHITE : STATS_TEXT_BLACK,
               family: 'Roboto',
             },
-            [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
-            [commonAxis]: 1,
+            type: 'name',
             metricValue: value,
-            type: "name",
           },
           {
-            ...annotaion,
-            xanchor: 'left',
-            yanchor: 'top',
-            text: `<b>${value}${
-              metricUnits
-                ? `<span style="font-size: ${valueSize - 20}px"}> ${metricUnits}</span>`
-                : ``
-            }</b>`,
+            ...STATS_ANNOTATION,
+            x: 1,
+            y:
+              index > 0
+                ? (index + 1) / metricsLength - ZERO_ERROR_ANNOTATION
+                : 1 / metricsLength - ZERO_ERROR_ANNOTATION,
+            xanchor: 'right',
+            yanchor: 'bottom',
+            text: createValueText(value),
             font: {
               size: valueSize,
               color: valueColor,
               family: 'Roboto',
             },
-            [calculatedAxis]: index / metricsLength + ZERO_ERROR_ANNOTATION,
-            [commonAxis]: 1,
             type: 'value',
             metricValue: value,
           },
         ]
       : [
           {
-            ...annotaion,
-            [calculatedAxis]:
+            ...STATS_ANNOTATION,
+            x: 0.5,
+            y:
               metricsLength === 1
                 ? 0.5
                 : index === 0
                 ? ((1 / metricsLength) * 1) / 2
                 : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
             xanchor: 'center',
-            [commonAxis]: 1,
             yanchor: 'bottom',
-            text: textMode === 'values' ? `<b>${value}</b>` : label,
+            text: textMode === 'values' ? createValueText(value) : label,
             font: {
               size: textMode === 'values' ? valueSize : titleSize,
               color:
@@ -253,6 +193,81 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ];
   };
 
+  const createAnnotation = ({ label, value, index, valueColor }: createAnnotationType) => {
+    return textMode === 'values+names' || textMode === DefaultTextMode
+      ? [
+          {
+            ...STATS_ANNOTATION,
+            xanchor: 'left',
+            yanchor: 'bottom',
+            text: label,
+            font: {
+              size: titleSize,
+              color: isDarkMode ? STATS_TEXT_WHITE : STATS_TEXT_BLACK,
+              family: 'Roboto',
+            },
+            x: index / metricsLength + ZERO_ERROR_ANNOTATION,
+            y: 1,
+            metricValue: value,
+            type: 'name',
+          },
+          {
+            ...STATS_ANNOTATION,
+            xanchor: 'left',
+            yanchor: 'top',
+            text: createValueText(value),
+            font: {
+              size: valueSize,
+              color: valueColor,
+              family: 'Roboto',
+            },
+            x: index / metricsLength + ZERO_ERROR_ANNOTATION,
+            y: 1,
+            type: 'value',
+            metricValue: value,
+          },
+        ]
+      : [
+          {
+            ...STATS_ANNOTATION,
+            x:
+              metricsLength === 1
+                ? 0.5
+                : index === 0
+                ? ((1 / metricsLength) * 1) / 2
+                : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
+            xanchor: 'center',
+            y: 1 - 0.05,
+            yanchor: 'bottom',
+            text: textMode === 'values' ? createValueText(value) : label,
+            font: {
+              size: textMode === 'values' ? valueSize : titleSize,
+              color:
+                textMode === 'names'
+                  ? isDarkMode
+                    ? STATS_TEXT_WHITE
+                    : STATS_TEXT_BLACK
+                  : valueColor,
+              family: 'Roboto',
+            },
+            type: textMode === 'names' ? 'value' : 'name',
+            metricValue: value,
+          },
+        ];
+  };
+
+  const extendYaxisRange = (metric: ConfigListEntry) => {
+    const sortedData = data[metric.label].slice().sort((a, b) => b - a);
+    const avgSeriesDiff = sortedData
+      .slice(0, 5)
+      .reduce(function (r, e, i) {
+        if (data[metric.label][i + 1]) r.push(Number((data[metric.label][i + 1] - e).toFixed(2)));
+        return r;
+      }, [])
+      .reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+    return sortedData[0] + avgSeriesDiff;
+  };
+
   const generateLineTraces = () =>
     metrics.map((metric: ConfigListEntry, metricIndex: number) => {
       const selectedColor = PLOTLY_COLOR[metricIndex % PLOTLY_COLOR.length];
@@ -260,25 +275,25 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         selectedColor,
         DefaultChartStyles.FillOpacity / FILLOPACITY_DIV_FACTOR
       );
-      const sortedData = data[metric.label].slice().sort((a, b) => b - a);
-      var result = sortedData
-        .slice(0, 5)
-        .reduce(function (r, e, i) {
-          if (data[metric.label][i + 1]) r.push(Number((data[metric.label][i + 1] - e).toFixed(2)));
-          return r;
-        }, [])
-        .reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
 
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
-          createAnnotation({
-            type: textMode,
-            label: metric.label,
-            value: getRoundOf(data[metric.label][0], precisionValue),
-            index: metricIndex,
-            valueColor: selectedColor,
-          })
+          orientation === DefaultOrientation || metricsLength === 1
+            ? createAnnotation({
+                type: textMode,
+                label: metric.label,
+                value: getRoundOf(data[metric.label][0], precisionValue),
+                index: metricIndex,
+                valueColor: selectedColor,
+              })
+            : createAnnotationsAutoChartHorizontal({
+                type: textMode,
+                label: metric.label,
+                value: getRoundOf(data[metric.label][0], precisionValue),
+                index: metricIndex,
+                valueColor: selectedColor,
+              })
         ),
         [`xaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
           visible: false,
@@ -289,7 +304,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           visible: false,
           showgrid: false,
           anchor: `x${metricIndex > 0 ? metricIndex + 1 : ''}`,
-          range: [0, sortedData[0] + result],
+          range: [0, extendYaxisRange(metric)],
         },
       };
 
@@ -356,7 +371,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           annotationIndex++
         ) {
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
-            if (autoChartLayout.annotations[annotationIndex].type === 'value' &&
+            if (
+              autoChartLayout.annotations[annotationIndex].type === 'value' &&
               Number(autoChartLayout.annotations[annotationIndex].metricValue) >=
                 Number(thresholdRanges[threshIndex][0]) &&
               Number(autoChartLayout.annotations[annotationIndex].metricValue) <=
@@ -369,9 +385,19 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         }
       }
     }
-
     return [calculatedStatsData, autoChartLayout];
-  }, [dimensions, metrics, data, fields, thresholds, orientation, titleSize, valueSize, textMode]);
+  }, [
+    dimensions,
+    metrics,
+    data,
+    fields,
+    thresholds,
+    orientation,
+    titleSize,
+    valueSize,
+    textMode,
+    metricUnits,
+  ]);
 
   const mergedLayout = useMemo(() => {
     return {
@@ -385,13 +411,13 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           ? {
               rows: 1,
               columns: metricsLength,
-              xgap: STATS_GAP_BETWEEN_AXIS,
-              ygap: 100,
+              xgap: STATS_GRID_SPACE_BETWEEN_X_AXIS,
+              ygap: STATS_GRID_SPACE_BETWEEN_Y_AXIS,
             }
           : {
               rows: metricsLength,
               columns: 1,
-              ygap: 100,
+              ygap: STATS_GRID_SPACE_BETWEEN_Y_AXIS,
             }),
         pattern: 'independent',
         roworder: 'bottom to top',
@@ -413,7 +439,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-  console.log('statsData===', statsData);
-  console.log('mergedLayout==', mergedLayout);
+
   return <Plt data={statsData} layout={mergedLayout} config={mergedConfigs} />;
 };
