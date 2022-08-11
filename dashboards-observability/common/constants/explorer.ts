@@ -183,27 +183,25 @@ export const STATS_AXIS_MARGIN = {
   l: 0,
   r: 0,
   b: 0,
-  t: 100,
+  t: 80,
 };
 
 export interface DefaultStatsParametersProps {
-  StatsDefaultTextMode: string;
+  DefaultTextMode: string;
   DefaultOrientation: string;
-  TextSize: number;
-  ChartType: string;
-  TextColor: string;
+  DefaultTitleSize: number;
+  DefaultChartType: string;
   TextAlignment: string;
   DefaultPrecision: number;
   DefaultValueSize: number;
 }
 
 export const DefaultStatsParameters: DefaultStatsParametersProps = {
-  StatsDefaultTextMode: 'auto',
+  DefaultTextMode: 'auto',
   DefaultOrientation: 'auto',
-  TextSize: 28,
-  DefaultValueSize: 50,
-  ChartType: 'auto',
-  TextColor: 'rgb(0,0,0)',
+  DefaultTitleSize: 30,
+  DefaultValueSize: 80,
+  DefaultChartType: 'auto',
   TextAlignment: 'auto',
   DefaultPrecision: 1,
 };

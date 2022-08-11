@@ -23,7 +23,14 @@ import { SINGLE_COLOR_PALETTE } from '../../../../../common/constants/colors';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { StatsDefaultTextMode, DefaultOrientation, ChartType } = DefaultStatsParameters;
+const {
+  DefaultTextMode,
+  DefaultOrientation,
+  DefaultChartType,
+  DefaultPrecision,
+  DefaultTitleSize,
+  DefaultValueSize
+} = DefaultStatsParameters;
 
 export const createStatsTypeDefinition = (params: any = {}) => ({
   name: 'Stats',
@@ -37,8 +44,14 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  categoryAxis: 'xaxis',
+  categorYaxis: 'xaxis',
   seriesAxis: 'yaxis',
+  chartType: DefaultChartType,
+  precisionValue: DefaultPrecision,
+  titleSize: DefaultTitleSize,
+  valueSize: DefaultValueSize,
+  textMode: DefaultTextMode,
+  orientation: DefaultOrientation,
   editorConfig: {
     panelTabs: [
       {
@@ -60,11 +73,11 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Auto', id: 'auto' },
+                    { name: 'Auto', id: DefaultChartType },
                     { name: 'Horizontal', id: 'horizontal' },
                     { name: 'Text mode', id: 'text' },
                   ],
-                  defaultSelections: [{ name: 'Auto', id: ChartType }],
+                  defaultSelections: [{ name: 'Auto', id: DefaultChartType }],
                 },
               },
               {
@@ -74,7 +87,7 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Auto', id: 'auto' },
+                    { name: 'Auto', id: DefaultOrientation },
                     { name: 'Horizontal', id: 'h' },
                     { name: 'Vertical', id: 'v' },
                   ],
@@ -96,10 +109,17 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 eleType: 'input',
               },
               {
-                title: 'Text Size',
-                name: 'Text Size',
+                title: 'Title Size',
+                name: 'Title Size',
                 component: InputFieldItem,
-                mapTo: 'textSize',
+                mapTo: 'titleSize',
+                eleType: 'input',
+              },
+              {
+                title: 'Value Size',
+                name: 'Value Size',
+                component: InputFieldItem,
+                mapTo: 'valueSize',
                 eleType: 'input',
               },
               {
@@ -109,12 +129,12 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Auto', id: 'auto' },
+                    { name: 'Auto', id: DefaultTextMode },
                     { name: 'Names', id: 'names' },
                     { name: 'Values', id: 'values' },
                     { name: 'Values + Names', id: 'values+names' },
                   ],
-                  defaultSelections: [{ name: 'Values + Names', id: StatsDefaultTextMode }],
+                  defaultSelections: [{ name: 'Values + Names', id: DefaultTextMode }],
                 },
               },
               // {
