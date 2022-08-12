@@ -30,8 +30,8 @@ export const createBarTypeDefinition = (params: any) => ({
   name: params.type ? params.type : 'bar',
   type: 'bar',
   id: params.type ? params.type : 'bar',
-  label: isHorizontalBar(params.type) ? 'Horizontal Bar' : 'Vertical bar',
-  fulllabel: isHorizontalBar(params.type) ? 'Horizontal Bar' : 'Vertical bar',
+  label: isHorizontalBar(params.type) ? 'Horizontal bar' : 'Vertical bar',
+  fulllabel: isHorizontalBar(params.type) ? 'Horizontal bar' : 'Vertical bar',
   icontype: isHorizontalBar(params.type) ? 'visBarHorizontalStacked' : 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
