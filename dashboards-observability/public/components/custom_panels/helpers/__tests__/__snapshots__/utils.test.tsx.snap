@@ -157,7 +157,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
         "vis": Object {
           "barwidth": 0.97,
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
           "editorconfig": Object {
             "panelTabs": Array [
@@ -418,7 +418,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             ],
           },
           "fillOpacity": 80,
-          "fullLabel": "Vertical bar",
+          "fulllabel": "Vertical bar",
           "groupwidth": 0.7,
           "icon": [Function],
           "icontype": "visBarVerticalStacked",
@@ -433,7 +433,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "showlegend": "show",
           "type": "bar",
           "visconfig": Object {
@@ -617,7 +617,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "vis": Object {
             "barwidth": 0.97,
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
             "editorconfig": Object {
               "panelTabs": Array [
@@ -878,7 +878,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ],
             },
             "fillOpacity": 80,
-            "fullLabel": "Vertical bar",
+            "fulllabel": "Vertical bar",
             "groupwidth": 0.7,
             "icon": [Function],
             "icontype": "visBarVerticalStacked",
@@ -893,7 +893,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "showlegend": "show",
             "type": "bar",
             "visconfig": Object {
@@ -1100,7 +1100,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "vis": Object {
               "barwidth": 0.97,
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
               "editorconfig": Object {
                 "panelTabs": Array [
@@ -1361,7 +1361,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 ],
               },
               "fillOpacity": 80,
-              "fullLabel": "Vertical bar",
+              "fulllabel": "Vertical bar",
               "groupwidth": 0.7,
               "icon": [Function],
               "icontype": "visBarVerticalStacked",
@@ -1376,7 +1376,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "showlegend": "show",
               "type": "bar",
               "visconfig": Object {
@@ -3500,7 +3500,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         "vis": Object {
           "barwidth": 0.97,
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
           "editorconfig": Object {
             "panelTabs": Array [
@@ -3703,7 +3703,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             ],
           },
           "fillOpacity": 80,
-          "fullLabel": "Horizontal Bar",
+          "fulllabel": "Horizontal Bar",
           "groupwidth": 0.7,
           "icon": [Function],
           "icontype": "visBarHorizontalStacked",
@@ -3718,7 +3718,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "showlegend": "show",
           "type": "bar",
           "visconfig": Object {
@@ -3902,7 +3902,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "vis": Object {
             "barwidth": 0.97,
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
             "editorconfig": Object {
               "panelTabs": Array [
@@ -4105,7 +4105,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               ],
             },
             "fillOpacity": 80,
-            "fullLabel": "Horizontal Bar",
+            "fulllabel": "Horizontal Bar",
             "groupwidth": 0.7,
             "icon": [Function],
             "icontype": "visBarHorizontalStacked",
@@ -4120,7 +4120,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "showlegend": "show",
             "type": "bar",
             "visconfig": Object {
@@ -4327,7 +4327,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "vis": Object {
               "barwidth": 0.97,
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
               "editorconfig": Object {
                 "panelTabs": Array [
@@ -4763,7 +4763,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         "vis": Object {
           "barwidth": 0.97,
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
           "editorconfig": Object {
             "panelTabs": Array [
@@ -4966,7 +4966,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             ],
           },
           "fillOpacity": 80,
-          "fullLabel": "Horizontal Bar",
+          "fulllabel": "Horizontal Bar",
           "groupwidth": 0.7,
           "icon": [Function],
           "icontype": "visBarHorizontalStacked",
@@ -4981,7 +4981,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "showlegend": "show",
           "type": "bar",
           "visconfig": Object {
@@ -5111,7 +5111,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "vis": Object {
             "barwidth": 0.97,
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
             "editorconfig": Object {
               "panelTabs": Array [
@@ -5314,7 +5314,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               ],
             },
             "fillOpacity": 80,
-            "fullLabel": "Horizontal Bar",
+            "fulllabel": "Horizontal Bar",
             "groupwidth": 0.7,
             "icon": [Function],
             "icontype": "visBarHorizontalStacked",
@@ -5329,7 +5329,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "showlegend": "show",
             "type": "bar",
             "visconfig": Object {
@@ -5482,7 +5482,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "vis": Object {
               "barwidth": 0.97,
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
               "editorconfig": Object {
                 "panelTabs": Array [
@@ -5685,7 +5685,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 ],
               },
               "fillOpacity": 80,
-              "fullLabel": "Horizontal Bar",
+              "fulllabel": "Horizontal Bar",
               "groupwidth": 0.7,
               "icon": [Function],
               "icontype": "visBarHorizontalStacked",
@@ -5700,7 +5700,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "showlegend": "show",
               "type": "bar",
               "visconfig": Object {

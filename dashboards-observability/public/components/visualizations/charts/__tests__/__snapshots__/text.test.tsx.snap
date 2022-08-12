@@ -187,7 +187,7 @@ exports[`Text component Renders text component 1`] = `
       "vis": Object {
         "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryAxis": "xaxis",
+        "categoryaxis": "xaxis",
         "component": [Function],
         "editorconfig": Object {
           "panelTabs": Array [
@@ -448,7 +448,7 @@ exports[`Text component Renders text component 1`] = `
           ],
         },
         "fillOpacity": 80,
-        "fullLabel": "Vertical bar",
+        "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
         "icontype": "visBarVerticalStacked",
@@ -463,7 +463,7 @@ exports[`Text component Renders text component 1`] = `
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesAxis": "yaxis",
+        "seriesaxis": "yaxis",
         "showlegend": "show",
         "type": "bar",
         "visconfig": Object {
