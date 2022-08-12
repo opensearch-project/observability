@@ -61,24 +61,6 @@ export const ConfigLineChartStyles = ({
     } else {
       return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
     }
-<<<<<<< HEAD
-    } else if (visualizations?.vis?.name === visChartTypes.Scatter) {
-      return schemas.filter((schema: IConfigPanelOptionSection) =>
-        ['style', 'pointSize'].includes(schema.mapTo)
-      );
-    } else {
-      return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
-=======
-    } else {
-      if (visualizations?.vis?.name === visChartTypes.Scatter) {
-        return schemas.filter((schema: IConfigPanelOptionSection) =>
-          ['style', 'pointSize'].includes(schema.mapTo)
-        );
-      } else {
-        return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
-      }
->>>>>>> 8ba002f4 (Sprint3 (#62))
-    }
   }, [vizState]);
 
   const dimensions = useMemo(
@@ -122,7 +104,7 @@ export const ConfigLineChartStyles = ({
         }
         return (
           <Fragment key={`viz-series-${index}`}>
-            <DimensionComponent  {...params} />
+            <DimensionComponent {...params} />
             <EuiSpacer size="s" />
           </Fragment>
         );

@@ -83,56 +83,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
             ],
           },
-          "explorer": Object {
-            "explorerData": Object {
-              "data": Object {
-                "Carrier": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "avg(FlightDelayMin)": Array [
-                  53.65384615384615,
-                  45.36144578313253,
-                  63.1578947368421,
-                  46.81318681318681,
-                ],
-              },
-              "jsonData": Array [
-                Object {
-                  "Carrier": "BeatsWest",
-                  "avg(FlightDelayMin)": 53.65384615384615,
-                },
-                Object {
-                  "Carrier": "Logstash Airways",
-                  "avg(FlightDelayMin)": 45.36144578313253,
-                },
-                Object {
-                  "Carrier": "OpenSearch Dashboards Airlines",
-                  "avg(FlightDelayMin)": 63.1578947368421,
-                },
-                Object {
-                  "Carrier": "OpenSearch-Air",
-                  "avg(FlightDelayMin)": 46.81318681318681,
-                },
-              ],
-              "metadata": Object {
-                "fields": Array [
-                  Object {
-                    "name": "avg(FlightDelayMin)",
-                    "type": "double",
-                  },
-                  Object {
-                    "name": "Carrier",
-                    "type": "keyword",
-                  },
-                ],
-              },
-              "size": 4,
-              "status": 200,
-            },
-          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -492,15 +442,15 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             ],
           },
           "fillOpacity": 80,
-          "fullLabel": "Vertical bar",
-          "groupWidth": 0.7,
+          "fulllabel": "Vertical bar",
+          "groupwidth": 0.7,
           "icon": [Function],
           "icontype": "visBarVerticalStacked",
           "id": "bar",
           "label": "Vertical bar",
-          "labelAngle": 0,
-          "legendPosition": "v",
-          "lineWidth": 1,
+          "labelangle": 0,
+          "legendposition": "v",
+          "linewidth": 1,
           "mode": "group",
           "name": "bar",
           "orientation": "v",
@@ -616,56 +566,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "type": "keyword",
                 },
               ],
-            },
-            "explorer": Object {
-              "explorerData": Object {
-                "data": Object {
-                  "Carrier": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "avg(FlightDelayMin)": Array [
-                    53.65384615384615,
-                    45.36144578313253,
-                    63.1578947368421,
-                    46.81318681318681,
-                  ],
-                },
-                "jsonData": Array [
-                  Object {
-                    "Carrier": "BeatsWest",
-                    "avg(FlightDelayMin)": 53.65384615384615,
-                  },
-                  Object {
-                    "Carrier": "Logstash Airways",
-                    "avg(FlightDelayMin)": 45.36144578313253,
-                  },
-                  Object {
-                    "Carrier": "OpenSearch Dashboards Airlines",
-                    "avg(FlightDelayMin)": 63.1578947368421,
-                  },
-                  Object {
-                    "Carrier": "OpenSearch-Air",
-                    "avg(FlightDelayMin)": 46.81318681318681,
-                  },
-                ],
-                "metadata": Object {
-                  "fields": Array [
-                    Object {
-                      "name": "avg(FlightDelayMin)",
-                      "type": "double",
-                    },
-                    Object {
-                      "name": "Carrier",
-                      "type": "keyword",
-                    },
-                  ],
-                },
-                "size": 4,
-                "status": 200,
-              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -1026,15 +926,15 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ],
             },
             "fillOpacity": 80,
-            "fullLabel": "Vertical bar",
-            "groupWidth": 0.7,
+            "fulllabel": "Vertical bar",
+            "groupwidth": 0.7,
             "icon": [Function],
             "icontype": "visBarVerticalStacked",
             "id": "bar",
             "label": "Vertical bar",
-            "labelAngle": 0,
-            "legendPosition": "v",
-            "lineWidth": 1,
+            "labelangle": 0,
+            "legendposition": "v",
+            "linewidth": 1,
             "mode": "group",
             "name": "bar",
             "orientation": "v",
@@ -1173,56 +1073,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "type": "keyword",
                   },
                 ],
-              },
-              "explorer": Object {
-                "explorerData": Object {
-                  "data": Object {
-                    "Carrier": Array [
-                      "BeatsWest",
-                      "Logstash Airways",
-                      "OpenSearch Dashboards Airlines",
-                      "OpenSearch-Air",
-                    ],
-                    "avg(FlightDelayMin)": Array [
-                      53.65384615384615,
-                      45.36144578313253,
-                      63.1578947368421,
-                      46.81318681318681,
-                    ],
-                  },
-                  "jsonData": Array [
-                    Object {
-                      "Carrier": "BeatsWest",
-                      "avg(FlightDelayMin)": 53.65384615384615,
-                    },
-                    Object {
-                      "Carrier": "Logstash Airways",
-                      "avg(FlightDelayMin)": 45.36144578313253,
-                    },
-                    Object {
-                      "Carrier": "OpenSearch Dashboards Airlines",
-                      "avg(FlightDelayMin)": 63.1578947368421,
-                    },
-                    Object {
-                      "Carrier": "OpenSearch-Air",
-                      "avg(FlightDelayMin)": 46.81318681318681,
-                    },
-                  ],
-                  "metadata": Object {
-                    "fields": Array [
-                      Object {
-                        "name": "avg(FlightDelayMin)",
-                        "type": "double",
-                      },
-                      Object {
-                        "name": "Carrier",
-                        "type": "keyword",
-                      },
-                    ],
-                  },
-                  "size": 4,
-                  "status": 200,
-                },
               },
               "indexFields": Object {},
               "query": Object {},
@@ -1583,15 +1433,15 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 ],
               },
               "fillOpacity": 80,
-              "fullLabel": "Vertical bar",
-              "groupWidth": 0.7,
+              "fulllabel": "Vertical bar",
+              "groupwidth": 0.7,
               "icon": [Function],
               "icontype": "visBarVerticalStacked",
               "id": "bar",
               "label": "Vertical bar",
-              "labelAngle": 0,
-              "legendPosition": "v",
-              "lineWidth": 1,
+              "labelangle": 0,
+              "legendposition": "v",
+              "linewidth": 1,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
@@ -1905,56 +1755,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "type": "keyword",
               },
             ],
-          },
-          "explorer": Object {
-            "explorerData": Object {
-              "data": Object {
-                "Carrier": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "avg(FlightDelayMin)": Array [
-                  53.65384615384615,
-                  45.36144578313253,
-                  63.1578947368421,
-                  46.81318681318681,
-                ],
-              },
-              "jsonData": Array [
-                Object {
-                  "Carrier": "BeatsWest",
-                  "avg(FlightDelayMin)": 53.65384615384615,
-                },
-                Object {
-                  "Carrier": "Logstash Airways",
-                  "avg(FlightDelayMin)": 45.36144578313253,
-                },
-                Object {
-                  "Carrier": "OpenSearch Dashboards Airlines",
-                  "avg(FlightDelayMin)": 63.1578947368421,
-                },
-                Object {
-                  "Carrier": "OpenSearch-Air",
-                  "avg(FlightDelayMin)": 46.81318681318681,
-                },
-              ],
-              "metadata": Object {
-                "fields": Array [
-                  Object {
-                    "name": "avg(FlightDelayMin)",
-                    "type": "double",
-                  },
-                  Object {
-                    "name": "Carrier",
-                    "type": "keyword",
-                  },
-                ],
-              },
-              "size": 4,
-              "status": 200,
-            },
           },
           "indexFields": Object {},
           "query": Object {},
@@ -2492,56 +2292,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   "type": "keyword",
                 },
               ],
-            },
-            "explorer": Object {
-              "explorerData": Object {
-                "data": Object {
-                  "Carrier": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "avg(FlightDelayMin)": Array [
-                    53.65384615384615,
-                    45.36144578313253,
-                    63.1578947368421,
-                    46.81318681318681,
-                  ],
-                },
-                "jsonData": Array [
-                  Object {
-                    "Carrier": "BeatsWest",
-                    "avg(FlightDelayMin)": 53.65384615384615,
-                  },
-                  Object {
-                    "Carrier": "Logstash Airways",
-                    "avg(FlightDelayMin)": 45.36144578313253,
-                  },
-                  Object {
-                    "Carrier": "OpenSearch Dashboards Airlines",
-                    "avg(FlightDelayMin)": 63.1578947368421,
-                  },
-                  Object {
-                    "Carrier": "OpenSearch-Air",
-                    "avg(FlightDelayMin)": 46.81318681318681,
-                  },
-                ],
-                "metadata": Object {
-                  "fields": Array [
-                    Object {
-                      "name": "avg(FlightDelayMin)",
-                      "type": "double",
-                    },
-                    Object {
-                      "name": "Carrier",
-                      "type": "keyword",
-                    },
-                  ],
-                },
-                "size": 4,
-                "status": 200,
-              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -3133,56 +2883,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     "type": "keyword",
                   },
                 ],
-              },
-              "explorer": Object {
-                "explorerData": Object {
-                  "data": Object {
-                    "Carrier": Array [
-                      "BeatsWest",
-                      "Logstash Airways",
-                      "OpenSearch Dashboards Airlines",
-                      "OpenSearch-Air",
-                    ],
-                    "avg(FlightDelayMin)": Array [
-                      53.65384615384615,
-                      45.36144578313253,
-                      63.1578947368421,
-                      46.81318681318681,
-                    ],
-                  },
-                  "jsonData": Array [
-                    Object {
-                      "Carrier": "BeatsWest",
-                      "avg(FlightDelayMin)": 53.65384615384615,
-                    },
-                    Object {
-                      "Carrier": "Logstash Airways",
-                      "avg(FlightDelayMin)": 45.36144578313253,
-                    },
-                    Object {
-                      "Carrier": "OpenSearch Dashboards Airlines",
-                      "avg(FlightDelayMin)": 63.1578947368421,
-                    },
-                    Object {
-                      "Carrier": "OpenSearch-Air",
-                      "avg(FlightDelayMin)": 46.81318681318681,
-                    },
-                  ],
-                  "metadata": Object {
-                    "fields": Array [
-                      Object {
-                        "name": "avg(FlightDelayMin)",
-                        "type": "double",
-                      },
-                      Object {
-                        "name": "Carrier",
-                        "type": "keyword",
-                      },
-                    ],
-                  },
-                  "size": 4,
-                  "status": 200,
-                },
               },
               "indexFields": Object {},
               "query": Object {},
@@ -3798,56 +3498,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
             ],
           },
-          "explorer": Object {
-            "explorerData": Object {
-              "data": Object {
-                "Carrier": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "avg(FlightDelayMin)": Array [
-                  53.65384615384615,
-                  45.36144578313253,
-                  63.1578947368421,
-                  46.81318681318681,
-                ],
-              },
-              "jsonData": Array [
-                Object {
-                  "Carrier": "BeatsWest",
-                  "avg(FlightDelayMin)": 53.65384615384615,
-                },
-                Object {
-                  "Carrier": "Logstash Airways",
-                  "avg(FlightDelayMin)": 45.36144578313253,
-                },
-                Object {
-                  "Carrier": "OpenSearch Dashboards Airlines",
-                  "avg(FlightDelayMin)": 63.1578947368421,
-                },
-                Object {
-                  "Carrier": "OpenSearch-Air",
-                  "avg(FlightDelayMin)": 46.81318681318681,
-                },
-              ],
-              "metadata": Object {
-                "fields": Array [
-                  Object {
-                    "name": "avg(FlightDelayMin)",
-                    "type": "double",
-                  },
-                  Object {
-                    "name": "Carrier",
-                    "type": "keyword",
-                  },
-                ],
-              },
-              "size": 4,
-              "status": 200,
-            },
-          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -4136,56 +3786,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "type": "keyword",
                 },
               ],
-            },
-            "explorer": Object {
-              "explorerData": Object {
-                "data": Object {
-                  "Carrier": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "avg(FlightDelayMin)": Array [
-                    53.65384615384615,
-                    45.36144578313253,
-                    63.1578947368421,
-                    46.81318681318681,
-                  ],
-                },
-                "jsonData": Array [
-                  Object {
-                    "Carrier": "BeatsWest",
-                    "avg(FlightDelayMin)": 53.65384615384615,
-                  },
-                  Object {
-                    "Carrier": "Logstash Airways",
-                    "avg(FlightDelayMin)": 45.36144578313253,
-                  },
-                  Object {
-                    "Carrier": "OpenSearch Dashboards Airlines",
-                    "avg(FlightDelayMin)": 63.1578947368421,
-                  },
-                  Object {
-                    "Carrier": "OpenSearch-Air",
-                    "avg(FlightDelayMin)": 46.81318681318681,
-                  },
-                ],
-                "metadata": Object {
-                  "fields": Array [
-                    Object {
-                      "name": "avg(FlightDelayMin)",
-                      "type": "double",
-                    },
-                    Object {
-                      "name": "Carrier",
-                      "type": "keyword",
-                    },
-                  ],
-                },
-                "size": 4,
-                "status": 200,
-              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -4498,56 +4098,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "type": "keyword",
                   },
                 ],
-              },
-              "explorer": Object {
-                "explorerData": Object {
-                  "data": Object {
-                    "Carrier": Array [
-                      "BeatsWest",
-                      "Logstash Airways",
-                      "OpenSearch Dashboards Airlines",
-                      "OpenSearch-Air",
-                    ],
-                    "avg(FlightDelayMin)": Array [
-                      53.65384615384615,
-                      45.36144578313253,
-                      63.1578947368421,
-                      46.81318681318681,
-                    ],
-                  },
-                  "jsonData": Array [
-                    Object {
-                      "Carrier": "BeatsWest",
-                      "avg(FlightDelayMin)": 53.65384615384615,
-                    },
-                    Object {
-                      "Carrier": "Logstash Airways",
-                      "avg(FlightDelayMin)": 45.36144578313253,
-                    },
-                    Object {
-                      "Carrier": "OpenSearch Dashboards Airlines",
-                      "avg(FlightDelayMin)": 63.1578947368421,
-                    },
-                    Object {
-                      "Carrier": "OpenSearch-Air",
-                      "avg(FlightDelayMin)": 46.81318681318681,
-                    },
-                  ],
-                  "metadata": Object {
-                    "fields": Array [
-                      Object {
-                        "name": "avg(FlightDelayMin)",
-                        "type": "double",
-                      },
-                      Object {
-                        "name": "Carrier",
-                        "type": "keyword",
-                      },
-                    ],
-                  },
-                  "size": 4,
-                  "status": 200,
-                },
               },
               "indexFields": Object {},
               "query": Object {},
@@ -5001,29 +4551,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
             ],
           },
-          "explorer": Object {
-            "explorerData": Object {
-              "data": Object {
-                "count('ip')": Array [],
-                "span(timestamp,1h)": Array [],
-              },
-              "jsonData": Array [],
-              "metadata": Object {
-                "fields": Array [
-                  Object {
-                    "name": "count('ip')",
-                    "type": "integer",
-                  },
-                  Object {
-                    "name": "span(timestamp,1h)",
-                    "type": "timestamp",
-                  },
-                ],
-              },
-              "size": 0,
-              "status": 200,
-            },
-          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -5258,29 +4785,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "type": "timestamp",
                 },
               ],
-            },
-            "explorer": Object {
-              "explorerData": Object {
-                "data": Object {
-                  "count('ip')": Array [],
-                  "span(timestamp,1h)": Array [],
-                },
-                "jsonData": Array [],
-                "metadata": Object {
-                  "fields": Array [
-                    Object {
-                      "name": "count('ip')",
-                      "type": "integer",
-                    },
-                    Object {
-                      "name": "span(timestamp,1h)",
-                      "type": "timestamp",
-                    },
-                  ],
-                },
-                "size": 0,
-                "status": 200,
-              },
             },
             "indexFields": Object {},
             "query": Object {},
@@ -5539,29 +5043,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "type": "timestamp",
                   },
                 ],
-              },
-              "explorer": Object {
-                "explorerData": Object {
-                  "data": Object {
-                    "count('ip')": Array [],
-                    "span(timestamp,1h)": Array [],
-                  },
-                  "jsonData": Array [],
-                  "metadata": Object {
-                    "fields": Array [
-                      Object {
-                        "name": "count('ip')",
-                        "type": "integer",
-                      },
-                      Object {
-                        "name": "span(timestamp,1h)",
-                        "type": "timestamp",
-                      },
-                    ],
-                  },
-                  "size": 0,
-                  "status": 200,
-                },
               },
               "indexFields": Object {},
               "query": Object {},
