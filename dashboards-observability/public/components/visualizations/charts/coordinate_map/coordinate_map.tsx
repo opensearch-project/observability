@@ -40,7 +40,7 @@ export const CoordinateMap = ({ visualizations }: any) => {
     fetchLocationLons()[0] === undefined ||
     fetchColorDetectorField()[0] === undefined
   ) {
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
   }
 
   const showText = dataConfig?.text?.showText
@@ -122,5 +122,6 @@ export const CoordinateMap = ({ visualizations }: any) => {
       subunitcolor: MAP_COLORS.unitColor,
     },
   };
+
   return <Plt data={data} layout={layoutMap} />;
 };

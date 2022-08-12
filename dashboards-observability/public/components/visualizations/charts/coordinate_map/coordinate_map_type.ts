@@ -23,9 +23,9 @@ export const createCoordinatedMapTypeDefinition = (params: any) => ({
   name: 'scattergeo',
   type: 'scattergeo',
   id: 'scattergeo',
-  label: 'Coordinate Map',
-  fullLabel: 'Coordinate Map',
-  iconType: 'visMapCoordinate',
+  label: 'Coordinate map',
+  fulllabel: 'Coordinate map',
+  icontype: 'visMapCoordinate',
   selection: {
     dataLoss: 'nothing',
   },
@@ -36,7 +36,7 @@ export const createCoordinatedMapTypeDefinition = (params: any) => ({
   lonrange: LON_RANGE,
   icon: LensIconChartBar,
   component: CoordinateMap,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
@@ -51,7 +51,7 @@ export const createCoordinatedMapTypeDefinition = (params: any) => ({
             mapTo: 'text',
             schemas: [
               {
-                name: 'Show Text',
+                name: 'Show text',
                 mapTo: 'showText',
                 component: null,
                 props: {
@@ -85,13 +85,13 @@ export const createCoordinatedMapTypeDefinition = (params: any) => ({
             mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Label Size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
               },
               {
-                name: 'Latitude Range',
+                name: 'Latitude range',
                 component: DualRangeSlider,
                 mapTo: 'latitudeRange',
                 eleType: 'dual_slider',
@@ -103,7 +103,7 @@ export const createCoordinatedMapTypeDefinition = (params: any) => ({
                 },
               },
               {
-                name: 'Longitude Range',
+                name: 'Longitude range',
                 component: DualRangeSlider,
                 mapTo: 'longitudeRange',
                 eleType: 'dual_slider',
@@ -127,7 +127,7 @@ export const createCoordinatedMapTypeDefinition = (params: any) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

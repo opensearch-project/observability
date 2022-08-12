@@ -2843,13 +2843,12 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "dataLoss": "nothing",
                   },
                   "type": "histogram",
-                  "valueSeries": "yaxis",
-                  "visConfig": Object {
+                  "valueseries": "yaxis",
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
                     },
-                    "isUniColor": false,
                     "layout": Object {
                       "height": 1180,
                       "legend": Object {
@@ -2869,8 +2868,395 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
                 Object {
                   "category": "Visualizations",
+                  "categoryaxis": "xaxis",
                   "component": [Function],
-                  "editorConfig": Object {
+                  "editorconfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Data",
+                        "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "legend",
+                            "mapTo": "legend",
+                            "name": "Legend",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "showLegend",
+                                "name": "Show legend",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "position",
+                                "name": "Position",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "v",
+                                      "name": "Right",
+                                    },
+                                    Object {
+                                      "id": "h",
+                                      "name": "Bottom",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "legendSize",
+                                "name": "Legend size",
+                                "title": "Legend size",
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "chart_styles",
+                            "mapTo": "chartStyles",
+                            "name": "Chart styles",
+                            "schemas": Array [
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "style",
+                                "name": "Mode",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "markers",
+                                      "name": "Marker",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "lines",
+                                      "name": "Lines",
+                                    },
+                                    Object {
+                                      "id": "markers",
+                                      "name": "Marker",
+                                    },
+                                    Object {
+                                      "id": "lines+markers",
+                                      "name": "Lines + Markers",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "buttons",
+                                "mapTo": "interpolation",
+                                "name": "Interpolation",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "linear",
+                                      "name": "Linear",
+                                    },
+                                    Object {
+                                      "id": "spline",
+                                      "name": "Smooth",
+                                    },
+                                    Object {
+                                      "id": "hv",
+                                      "name": "Step before",
+                                    },
+                                    Object {
+                                      "id": "vh",
+                                      "name": "Step after",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 2,
+                                "eleType": "slider",
+                                "mapTo": "lineWidth",
+                                "name": "Line width",
+                                "props": Object {
+                                  "max": 10,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 40,
+                                "eleType": "slider",
+                                "mapTo": "fillOpacity",
+                                "name": "Fill opacity",
+                                "props": Object {
+                                  "max": 100,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 5,
+                                "eleType": "slider",
+                                "mapTo": "pointSize",
+                                "name": "Point size",
+                                "props": Object {
+                                  "max": 40,
+                                },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "labelSize",
+                                "name": "Label size",
+                                "title": "Label size",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": 0,
+                                "eleType": "slider",
+                                "mapTo": "rotateLabels",
+                                "name": "Rotate labels",
+                                "props": Object {
+                                  "max": 90,
+                                  "min": -90,
+                                  "showTicks": true,
+                                  "ticks": Array [
+                                    Object {
+                                      "label": "-90°",
+                                      "value": -90,
+                                    },
+                                    Object {
+                                      "label": "-45°",
+                                      "value": -45,
+                                    },
+                                    Object {
+                                      "label": "0°",
+                                      "value": 0,
+                                    },
+                                    Object {
+                                      "label": "45°",
+                                      "value": 45,
+                                    },
+                                    Object {
+                                      "label": "90°",
+                                      "value": 90,
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "schemas": Array [],
+                          },
+                          Object {
+                            "defaultState": Array [],
+                            "editor": [Function],
+                            "id": "thresholds",
+                            "mapTo": "thresholds",
+                            "name": "Thresholds",
+                            "schemas": Array [],
+                          },
+                        ],
+                      },
+                      Object {
+                        "content": Array [],
+                        "editor": [Function],
+                        "id": "style-panel",
+                        "mapTo": "layoutConfig",
+                        "name": "Layout",
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "availability-panel",
+                        "mapTo": "availabilityConfig",
+                        "name": "Availability",
+                      },
+                    ],
+                  },
+                  "fulllabel": "Scatter",
+                  "icon": [Function],
+                  "icontype": "visLine",
+                  "id": "scatter",
+                  "label": "Scatter",
+                  "name": "scatter",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesaxis": "yaxis",
+                  "type": "scatter",
+                  "visconfig": Object {
+                    "config": Object {
+                      "barmode": "scatter",
+                      "displaylogo": false,
+                      "responsive": true,
+                      "xaxis": Object {
+                        "automargin": true,
+                      },
+                      "yaxis": Object {
+                        "automargin": true,
+                      },
+                    },
+                    "layout": Object {
+                      "colorway": Array [
+                        "#3CA1C7",
+                        "#8C55A3",
+                        "#DB748A",
+                        "#F2BE4B",
+                        "#68CCC2",
+                        "#2A7866",
+                        "#843769",
+                        "#374FB8",
+                        "#BD6F26",
+                        "#4C636F",
+                      ],
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                      "showlegend": true,
+                      "xaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                      "yaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                    },
+                  },
+                },
+                Object {
+                  "category": "Visualizations",
+                  "categoryaxis": "xaxis",
+                  "component": [Function],
+                  "editorconfig": Object {
+                    "panelTabs": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "data-panel",
+                        "mapTo": "dataConfig",
+                        "name": "Style",
+                        "sections": Array [],
+                      },
+                    ],
+                  },
+                  "fulllabel": "Logs View",
+                  "icon": [Function],
+                  "icontype": "visTable",
+                  "id": "logs_view",
+                  "label": "Logs View",
+                  "name": "logs_view",
+                  "selection": Object {
+                    "dataLoss": "nothing",
+                  },
+                  "seriesaxis": "yaxis",
+                  "type": "logs_view",
+                  "visconfig": Object {
+                    "config": Object {
+                      "barmode": "line",
+                      "displaylogo": false,
+                      "responsive": true,
+                      "xaxis": Object {
+                        "automargin": true,
+                      },
+                      "yaxis": Object {
+                        "automargin": true,
+                      },
+                    },
+                    "layout": Object {
+                      "colorway": Array [
+                        "#3CA1C7",
+                        "#8C55A3",
+                        "#DB748A",
+                        "#F2BE4B",
+                        "#68CCC2",
+                        "#2A7866",
+                        "#843769",
+                        "#374FB8",
+                        "#BD6F26",
+                        "#4C636F",
+                      ],
+                      "height": 1180,
+                      "legend": Object {
+                        "orientation": "v",
+                        "traceorder": "normal",
+                      },
+                      "margin": Object {
+                        "b": 30,
+                        "l": 60,
+                        "pad": 0,
+                        "r": 30,
+                        "t": 50,
+                      },
+                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                      "showlegend": true,
+                      "xaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                      "yaxis": Object {
+                        "fixedrange": true,
+                        "showgrid": false,
+                        "visible": true,
+                      },
+                    },
+                  },
+                },
+                Object {
+                  "category": "Visualizations",
+                  "component": [Function],
+                  "editorconfig": Object {
                     "panelTabs": Array [
                       Object {
                         "editor": [Function],
@@ -2887,7 +3273,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showText",
-                                "name": "Show Text",
+                                "name": "Show text",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -3008,7 +3394,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label Size",
+                                "name": "Label size",
                               },
                               Object {
                                 "component": [Function],
@@ -3018,7 +3404,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                                 "eleType": "dual_slider",
                                 "mapTo": "latitudeRange",
-                                "name": "Latitude Range",
+                                "name": "Latitude range",
                                 "props": Object {
                                   "max": 90,
                                   "min": -90,
@@ -3033,7 +3419,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                                 "eleType": "dual_slider",
                                 "mapTo": "longitudeRange",
-                                "name": "Longitude Range",
+                                "name": "Longitude range",
                                 "props": Object {
                                   "max": 180,
                                   "min": -180,
@@ -3054,8 +3440,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   "fontsize": 14,
-                  "fullLabel": "Coordinate Map",
+                  "fulllabel": "Coordinate map",
                   "icon": [Function],
+<<<<<<< HEAD
 <<<<<<< HEAD
                   "icontype": "visLine",
                   "id": "scatter",
@@ -3142,8 +3529,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "name": "logs_view",
 =======
                   "iconType": "visMapCoordinate",
+=======
+                  "icontype": "visMapCoordinate",
+>>>>>>> ca6332e3 (issues resolved and snapshots updated)
                   "id": "scattergeo",
-                  "label": "Coordinate Map",
+                  "label": "Coordinate map",
                   "latrange": Array [
                     40,
                     70,
@@ -3159,7 +3549,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   },
                   "showtext": true,
                   "type": "scattergeo",
-                  "visConfig": Object {
+                  "visconfig": Object {
                     "config": Object {
                       "displaylogo": false,
                       "responsive": true,
@@ -5189,7 +5579,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           Object {
-                                            "editor": [Function],
+                                            "edi,tor": [Function],
                                             "id": "color-theme",
                                             "mapTo": "colorTheme",
                                             "name": "Color theme",
@@ -9893,7 +10283,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           role="region"
                                           tabIndex={-1}
                                         >
-                                          <EuiResizeObserver
+  ,                                        <EuiResizeObserver
                                             onResize={[Function]}
                                           >
                                             <div>
@@ -12551,6 +12941,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="v"
+                                                  key="viz-series-0"
                                                   legend="Orientation"
                                                   options={
                                                     Array [
@@ -12825,6 +13216,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   }
                                                   handleButtonChange={[Function]}
                                                   idSelected="group"
+                                                  key="viz-series-1"
                                                   legend="Mode"
                                                   options={
                                                     Array [
@@ -13077,6 +13469,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <InputFieldItem
                                                   currentValue=""
                                                   handleInputChange={[Function]}
+                                                  key="viz-series-2"
                                                   title="Label size"
                                                   vizState={Object {}}
                                                 >
@@ -13148,6 +13541,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0}
                                                   handleSliderChange={[Function]}
+                                                  key="viz-series-3"
                                                   max={90}
                                                   maxRange={90}
                                                   min={-90}
@@ -13526,7 +13920,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                           -90°
                                                                         </button>
                                                                         <button
-                                                                          class="euiRangeTick euiRangeTick--isCustom"
+                                                                ,          class="euiRangeTick euiRangeTick--isCustom"
                                                                           style="left: calc(-Infinity% + 8px);"
                                                                           tabindex="-1"
                                                                           title="-45°"
@@ -14079,6 +14473,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0.7}
                                                   handleSliderChange={[Function]}
+                                                  key="viz-series-4"
                                                   max={1}
                                                   maxRange={1}
                                                   minRange={0}
@@ -14266,6 +14661,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={0.97}
                                                   handleSliderChange={[Function]}
+                                                  key="viz-series-5"
                                                   max={1}
                                                   maxRange={1}
                                                   minRange={0}
@@ -14453,6 +14849,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={1}
                                                   handleSliderChange={[Function]}
+                                                  key="viz-series-6"
                                                   max={10}
                                                   maxRange={10}
                                                   minRange={0}
@@ -14640,6 +15037,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 <SliderConfig
                                                   currentRange={80}
                                                   handleSliderChange={[Function]}
+                                                  key="viz-series-7"
                                                   max={100}
                                                   maxRange={100}
                                                   minRange={0}
