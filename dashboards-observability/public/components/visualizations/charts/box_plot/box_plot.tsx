@@ -27,16 +27,17 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
   const dataConfigTab =
-    visualizations.data?.rawVizData?.box?.dataConfig &&
+    visualizations?.data?.rawVizData?.box?.dataConfig &&
     visualizations.data.rawVizData.box.dataConfig;
-  const xaxis = dataConfigTab?.dimensions
-    ? dataConfigTab.dimensions.filter((item) => item.label)
+  const xaxis = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];
-  const yaxis = dataConfigTab?.metrics ? dataConfigTab.metrics.filter((item) => item.label) : [];
+  const yaxis = dataConfig?.valueOptions?.metrics
+    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
+    : [];
   const boxOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = boxOrientation === vis.orientation;
   let box, valueSeries, valueForXSeries;
-
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = isVertical ? [...yaxis] : [...xaxis];
     valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
