@@ -66,6 +66,7 @@ import { selectFields, updateFields, sortFields } from '../redux/slices/field_sl
 import { updateTabName } from '../redux/slices/query_tab_slice';
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
@@ -306,6 +307,8 @@ export const Explorer = ({
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
+    // console.log('curQuery fetchdata: ', curQuery);
+    console.log('fetchdata curQuery![RAW_QUERY]: ', curQuery![RAW_QUERY]);
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
@@ -473,9 +476,15 @@ export const Explorer = ({
     );
   };
 
+  // console.log('outside query[RAW_QUERY]: ', query[RAW_QUERY]);
+  // const handleTimeRangePickerRefresh = useCallback((availability?: boolean) => {
+  //   handleQuerySearch(tempQuery, query, selectedContentTabId, availability);
+  // }, [tempQuery, query, selectedContentTabId]);
+
   const handleTimeRangePickerRefresh = (availability?: boolean) => {
     handleQuerySearch(availability);
   };
+
 
   /**
    * Toggle fields between selected and unselected sets
@@ -807,51 +816,6 @@ export const Explorer = ({
     );
   };
 
-  const testAntlr = (query: string) => {
-    const qm = new QueryManager();
-    // const pplQueryBuilder = new PPLQueryBuilder();
-    
-    // build query
-    const res = 
-      qm
-      .queryBuilder()
-      .addSource('index')
-      .addPipe()
-      .addStats()
-      .addMetrics([
-        {
-          field: '',
-          agg_func: 'count'
-        },  
-        {
-          field: 'bytes',
-          agg_func: 'avg',
-          alias: 'avg_bytes'
-        }
-      ])
-      .addBy()
-      .addGroupBy([{
-          field: 'host'
-        },
-        {
-          field: 'tags'
-        }
-      ])
-      .getQuery();
-
-    console.log('built res: ', res);
-
-    // parse query
-    const parsed_res = 
-      qm
-        .queryParser()
-        .parse(query)
-        .getStats();
-
-    console.log('parsed res: ', parsed_res);
-
-  };
-
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
 
@@ -861,16 +825,44 @@ export const Explorer = ({
         !isEmpty(query[RAW_QUERY]) &&
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
-
         await updateCurrentTimeStamp('');
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      testAntlr(query[RAW_QUERY]);
-      fetchData();
+      await fetchData();
+
+      if (selectedContentTabId === TAB_CHART_ID) {
+        // parse stats section on every search
+        const qm = new QueryManager();
+        const statsTokens = 
+          qm
+            .queryParser()
+            .parse(tempQuery)
+            .getStats();
+        console.log('stats tokens: ', statsTokens);
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: curVisId,
+            data: {
+              dataConfig: {
+                metrics: statsTokens.aggregations.map((agg) => ({
+                  label: agg.function?.value_expression,
+                  name: agg.function?.value_expression,
+                  aggregation: agg.function?.name,
+                })),
+                dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+                  label: agg.name ?? '',
+                  name: agg.name ?? '',
+                })),
+              },
+            },
+          })
+        );
+      }
     },
-    [tempQuery, query[RAW_QUERY]]
+    [tempQuery, query, selectedContentTabId]
   );
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
@@ -1183,6 +1175,10 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        handleQuerySearch,
+        handleQueryChange,
+        setTempQuery,
+        fetchData
       }}
     >
       <div className="dscAppContainer">
@@ -1218,6 +1214,7 @@ export const Explorer = ({
           stopLive={stopLive}
           setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
           liveTailName={liveTailNameRef.current}
+          searchError={explorerVisualizations}
         />
         <EuiTabbedContent
           className="mainContentTabs"
