@@ -277,8 +277,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             ? createAnnotationVerticalOrientation({
                 label: metric.label,
                 value:
-                  typeof data[metric.label][0] === 'number'
-                    ? getRoundOf(data[metric.label][0], precisionValue)
+                  typeof data[metric.label][data[metric.label].length - 1] === 'number'
+                    ? getRoundOf(data[metric.label][data[metric.label].length - 1], precisionValue)
                     : 0,
                 index: metricIndex,
                 valueColor: '',
@@ -286,8 +286,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             : createAnnotationsHorizontalOrientation({
                 label: metric.label,
                 value:
-                  typeof data[metric.label][0] === 'number'
-                    ? getRoundOf(data[metric.label][0], precisionValue)
+                  typeof data[metric.label][data[metric.label].length - 1] === 'number'
+                    ? getRoundOf(data[metric.label][data[metric.label].length - 1], precisionValue)
                     : 0,
                 index: metricIndex,
                 valueColor: '',
@@ -310,8 +310,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         x: selectedDimensionsData,
         y: data[metric.label],
         metricValue:
-          typeof data[metric.label][0] === 'number'
-            ? getRoundOf(data[metric.label][0], precisionValue)
+          typeof data[metric.label][data[metric.label].length - 1] === 'number'
+            ? getRoundOf(data[metric.label][data[metric.label].length - 1], precisionValue)
             : 0,
         fill: 'tozeroy',
         mode: 'lines',
