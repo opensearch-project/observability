@@ -6,7 +6,6 @@
 import { Stats } from './stats';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartLine } from '../../assets/chart_line';
-import { htmlIdGenerator } from '@elastic/eui';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
@@ -95,35 +94,35 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Metrics Units',
-                name: 'Metric Units',
+                title: 'Metrics units',
+                name: 'Metric units',
                 component: TextInputFieldItem,
                 mapTo: 'metricUnits',
                 eleType: 'textInput',
               },
               {
-                title: 'Metrics Precision',
-                name: 'Metrics Precision',
+                title: 'Metrics precision',
+                name: 'Metrics precision',
                 component: InputFieldItem,
                 mapTo: 'precisionValue',
                 eleType: 'input',
               },
               {
-                title: 'Title Size',
-                name: 'Title Size',
+                title: 'Title size',
+                name: 'Title size',
                 component: InputFieldItem,
                 mapTo: 'titleSize',
                 eleType: 'input',
               },
               {
-                title: 'Value Size',
-                name: 'Value Size',
+                title: 'Value size',
+                name: 'Value size',
                 component: InputFieldItem,
                 mapTo: 'valueSize',
                 eleType: 'input',
               },
               {
-                name: 'Text Mode',
+                name: 'Text mode',
                 component: ButtonGroupItem,
                 mapTo: 'textMode',
                 eleType: 'buttons',
@@ -167,33 +166,22 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
   visconfig: {
     layout: {
       ...sharedConfigs.layout,
-      ...{
-        colorway: PLOTLY_COLOR,
-        plot_bgcolor: 'rgba(0, 0, 0, 0)',
-        paper_bgcolor: 'rgba(0, 0, 0, 0)',
-        xaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        yaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
+      colorway: PLOTLY_COLOR,
+      plot_bgcolor: 'rgba(0, 0, 0, 0)',
+      paper_bgcolor: 'rgba(0, 0, 0, 0)',
+      xaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
+      },
+      yaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
       },
     },
     config: {
       ...sharedConfigs.config,
-      ...{
-        barmode: 'line',
-        xaxis: {
-          automargin: true,
-        },
-        yaxis: {
-          automargin: true,
-        },
-      },
     },
   },
   component: Stats,

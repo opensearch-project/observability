@@ -9,17 +9,17 @@ import { EuiFieldText, EuiTitle, EuiSpacer, htmlIdGenerator } from '@elastic/eui
 interface InputFieldProps {
   name: string;
   title: string;
-  numValue: number;
-  handleInputChange: (value?: any) => void;
+  currentValue: string;
+  handleInputChange: (value: string) => void;
 }
 
 export const TextInputFieldItem: React.FC<InputFieldProps> = ({
   name,
   title,
-  numValue,
+  currentValue,
   handleInputChange,
 }) => {
-  const [fieldValue, setFieldValue] = useState<number | string>(numValue);
+  const [fieldValue, setFieldValue] = useState<string>(currentValue);
 
   return (
     <>

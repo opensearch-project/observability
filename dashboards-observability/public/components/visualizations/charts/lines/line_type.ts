@@ -239,32 +239,28 @@ export const createLineTypeDefinition = (params: any = {}) => ({
   visconfig: {
     layout: {
       ...sharedConfigs.layout,
-      ...{
-        colorway: PLOTLY_COLOR,
-        plot_bgcolor: 'rgba(0, 0, 0, 0)',
-        paper_bgcolor: 'rgba(0, 0, 0, 0)',
-        xaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        yaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
+      colorway: PLOTLY_COLOR,
+      plot_bgcolor: 'rgba(0, 0, 0, 0)',
+      paper_bgcolor: 'rgba(0, 0, 0, 0)',
+      xaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
+      },
+      yaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
       },
     },
     config: {
       ...sharedConfigs.config,
-      ...{
-        barmode: params.type,
-        xaxis: {
-          automargin: true,
-        },
-        yaxis: {
-          automargin: true,
-        },
+      barmode: params.type,
+      xaxis: {
+        automargin: true,
+      },
+      yaxis: {
+        automargin: true,
       },
     },
   },

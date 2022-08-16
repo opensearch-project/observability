@@ -184,5 +184,5 @@ export const HEATMAP_PALETTE_COLOR = { name: REDS_PALETTE.label, color: REDS_PAL
 export const HEATMAP_SINGLE_COLOR = { name: 'singleColor', color: '#000000' };
 export const OPACITY = 'opacity';
 export const SPECTRUM = 'spectrum';
-export const STATS_TEXT_BLACK = 'rgb(0,0,0)'
-export const STATS_TEXT_WHITE = 'rgb(255,255,255)'
+export const COLOR_BLACK  = 'rgb(0,0,0)'
+export const COLOR_WHITE = 'rgb(255,255,255)'

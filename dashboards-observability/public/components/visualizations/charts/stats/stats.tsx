@@ -10,7 +10,7 @@ import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizati
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { uniqBy } from 'lodash';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
-import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { uiSettingsService } from '../../../../../common/utils';
 import {
   STATS_GRID_SPACE_BETWEEN_X_AXIS,
@@ -28,7 +28,7 @@ import {
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
 } from '../../../../../common/constants/shared';
-import { STATS_TEXT_BLACK, STATS_TEXT_WHITE } from '../../../../../common/constants/colors';
+import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
 const {
   DefaultOrientation,
   DefaultTextMode,
@@ -52,7 +52,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const dataConfigTab = visualizations.data.rawVizData?.Stats?.dataConfig;
+  const dataConfigTab = visualizations?.data?.rawVizData?.Stats?.dataConfig;
   const dimensions = dataConfigTab?.dimensions
     ? dataConfigTab.dimensions.filter((i: ConfigListEntry) => i.label)
     : [];
@@ -95,7 +95,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       : selectedTextMode;
   const precisionValue = dataConfig?.chartStyles?.precisionValue || vis.precisionvalue;
   const metricUnits =
-    dataConfig?.chartStyles?.metricUnits.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
+    dataConfig?.chartStyles?.metricUnits?.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
   const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
 
@@ -134,8 +134,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     value,
     index,
     valueColor,
-  }: createAnnotationType) => {
-    return textMode === 'values+names' || textMode === DefaultTextMode
+  }: createAnnotationType) =>
+    textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
             ...STATS_ANNOTATION,
@@ -149,7 +149,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             text: label,
             font: {
               size: titleSize,
-              color: isDarkMode ? STATS_TEXT_WHITE : STATS_TEXT_BLACK,
+              color: isDarkMode ? COLOR_WHITE : COLOR_BLACK,
               family: 'Roboto',
             },
             type: 'name',
@@ -189,22 +189,16 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             text: textMode === 'values' ? createValueText(value) : label,
             font: {
               size: textMode === 'values' ? valueSize : titleSize,
-              color:
-                textMode === 'names'
-                  ? isDarkMode
-                    ? STATS_TEXT_WHITE
-                    : STATS_TEXT_BLACK
-                  : valueColor,
+              color: textMode === 'names' ? (isDarkMode ? COLOR_WHITE : COLOR_BLACK) : valueColor,
               family: 'Roboto',
             },
             type: textMode === 'names' ? 'name' : 'value',
             metricValue: value,
           },
         ];
-  };
 
-  const createAnnotation = ({ label, value, index, valueColor }: createAnnotationType) => {
-    return textMode === 'values+names' || textMode === DefaultTextMode
+  const createAnnotation = ({ label, value, index, valueColor }: createAnnotationType) =>
+    textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
             ...STATS_ANNOTATION,
@@ -213,7 +207,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             text: label,
             font: {
               size: titleSize,
-              color: isDarkMode ? STATS_TEXT_WHITE : STATS_TEXT_BLACK,
+              color: isDarkMode ? COLOR_WHITE : COLOR_BLACK,
               family: 'Roboto',
             },
             x: index / metricsLength + ZERO_ERROR_ANNOTATION,
@@ -252,19 +246,13 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             text: textMode === 'values' ? createValueText(value) : label,
             font: {
               size: textMode === 'values' ? valueSize : titleSize,
-              color:
-                textMode === 'names'
-                  ? isDarkMode
-                    ? STATS_TEXT_WHITE
-                    : STATS_TEXT_BLACK
-                  : valueColor,
+              color: textMode === 'names' ? (isDarkMode ? COLOR_WHITE : COLOR_BLACK) : valueColor,
               family: 'Roboto',
             },
             type: textMode === 'names' ? 'name' : 'value',
             metricValue: value,
           },
         ];
-  };
 
   const extendYaxisRange = (metric: ConfigListEntry) => {
     const sortedData = data[metric.label].slice().sort((a, b) => b - a);
