@@ -18,12 +18,12 @@ import { convertLegacyNotebooksUrl } from './components/notebooks/components/hel
 import { convertLegacyTraceAnalyticsUrl } from './components/trace_analytics/components/common/legacy_route_helpers';
 import { uiSettingsService } from '../common/utils';
 import { DashboardSetup } from '../../../src/plugins/dashboard/public';
-import { CUSTOM_PANELS_API_PREFIX } from '../common/constants/custom_panels';
 import { PluginInitializerContext } from '../../../src/core/server';
 import { DashboardListItem } from './types';
-import { from, Observable } from 'rxjs';
-import { map, toArray, catchError, mergeMap, tap } from 'rxjs/operators';
+import { from, concat } from 'rxjs';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 import { fetchPanelsList } from './components/custom_panels/helpers/utils';
+import { fetchAppsList } from './components/application_analytics/helpers/utils';
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
   constructor(private initializerContext: PluginInitializerContext) {}
 
@@ -40,13 +40,24 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
       window.location.assign(convertLegacyTraceAnalyticsUrl(window.location));
     }
 
+    // Fetches all saved Applications
+    const fetchApplicationAnalytics = () => {
+      return from(fetchAppsList(core.http)).pipe(
+        map(convertAppAnalyticToDashboardListItem),
+        catchError((err) => {
+          console.error('Issue in fetching the app analytics list', err);
+          return from([]);
+        })
+      );
+    };
+
     // Fetches all saved Custom Panels
-    const fetchDashboardPanels: Observable<DashboardListItem> = () => {
+    const fetchObservabilityPanels = () => {
       return from(fetchPanelsList(core.http)).pipe(
         mergeMap((item) => item),
         map(convertPanelToDashboardListItem),
         catchError((err) => {
-          console.error('Issue in fetching the operational panels', err.body.message);
+          console.error('Issue in fetching the operational panels', err);
           return from([]);
         })
       );
@@ -58,14 +69,30 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         title: item.name,
         type: 'Observability Panel',
         description: '...',
-        url: '/observability',
+        url: `observability-dashboards#/operational_panels/${item.id}`,
         listType: 'observabiliity-panel',
+      };
+    };
+
+    const convertAppAnalyticToDashboardListItem = (item: any): DashboardListItem => {
+      console.log('convertAppAnalyticToDashboardListItem', item);
+      return {
+        id: item.id,
+        title: item.name,
+        type: 'Observability Application',
+        description: item.description,
+        url: `observability-dashboards#/application_analytics/${item.id}`,
+        listType: 'observability-application',
       };
     };
 
     const id: string = this.initializerContext.opaqueId.description!;
 
-    dashboard?.registerDashboardListSource(id, fetchDashboardPanels);
+    const dashboardAppAnalytics = fetchApplicationAnalytics();
+    const dashboardObservabilityPanels = fetchObservabilityPanels();
+    const combinedDashboardList = concat(dashboardAppAnalytics, dashboardObservabilityPanels);
+
+    dashboard?.registerDashboardListSource(id, () => combinedDashboardList);
 
     console.log('Observability setup', { dashboard });
 

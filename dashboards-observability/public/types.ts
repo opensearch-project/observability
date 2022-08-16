@@ -29,6 +29,7 @@ export interface DashboardListItem {
   type: string;
   description: string;
   url: string;
+  editUrl?: string;
   listType: string;
 }
 
