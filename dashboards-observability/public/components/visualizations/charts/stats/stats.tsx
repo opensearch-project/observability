@@ -27,13 +27,9 @@ import {
   STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE,
   STATS_METRIC_UNIT_SUBSTRING_LENGTH,
 } from '../../../../../common/constants/explorer';
-import {
-  DefaultChartStyles,
-  PLOTLY_COLOR,
-  FILLOPACITY_DIV_FACTOR,
-} from '../../../../../common/constants/shared';
+import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
-import { current } from 'immer';
+
 const {
   DefaultOrientation,
   DefaultTextMode,
@@ -248,7 +244,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                 ? ((1 / metricsLength) * 1) / 2
                 : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
             xanchor: 'center',
-            // y: 1 - 0.05,
             y: 0.95,
             yanchor: 'bottom',
             text: textMode === 'values' ? createValueText(value) : label,
@@ -262,6 +257,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           },
         ];
 
+  // extend y axis range to increase height of subplot w.r.t metric data
   const extendYaxisRange = (metric: ConfigListEntry) => {
     const sortedData = data[metric.label].slice().sort((curr: number, next: number) => next - curr);
     const avgSeriesDiff = sortedData.slice(0, 5).reduce(function (prev, curr, index: number) {
