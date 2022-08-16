@@ -12,6 +12,7 @@ import {
   IExplorerFields,
   IField,
   GetTooltipHoverInfoType,
+  ConfigListEntry,
 } from '../../../../common/types/explorer';
 import { DocViewRow, IDocType } from '../explorer/events_views';
 import { HttpStart } from '../../../../../../src/core/public';
@@ -367,4 +368,11 @@ export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHove
     return 'all';
   }
   return tooltipText;
+};
+
+export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
+  parameter.filter((configItem: ConfigListEntry) => configItem.label);
+
+export const getRoundOf = (value: number, places: number) => {
+  return (Math.round(value * 10 ** places) / 10 ** places).toFixed(places);
 };

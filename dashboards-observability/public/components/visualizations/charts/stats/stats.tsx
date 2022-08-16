@@ -10,7 +10,11 @@ import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizati
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { uniqBy } from 'lodash';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
-import { hexToRgb } from '../../../event_analytics/utils/utils';
+import {
+  hexToRgb,
+  filterDataConfigParameter,
+  getRoundOf,
+} from '../../../event_analytics/utils/utils';
 import { uiSettingsService } from '../../../../../common/utils';
 import {
   STATS_GRID_SPACE_BETWEEN_X_AXIS,
@@ -53,12 +57,11 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
   const dataConfigTab = visualizations?.data?.rawVizData?.Stats?.dataConfig;
+  // craete sigle method
   const dimensions = dataConfigTab?.dimensions
-    ? dataConfigTab.dimensions.filter((i: ConfigListEntry) => i.label)
+    ? filterDataConfigParameter(dataConfigTab.dimensions)
     : [];
-  const metrics = dataConfigTab?.metrics
-    ? dataConfigTab.metrics.filter((i: ConfigListEntry) => i.label)
-    : [];
+  const metrics = dataConfigTab?.metrics ? filterDataConfigParameter(dataConfigTab.metrics) : [];
   const metricsLength = metrics.length;
   const chartType = dataConfig?.chartStyles?.chartType || vis.charttype;
 
@@ -99,11 +102,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
 
-  const getRoundOf = (value: number, places: number) => {
-    return (Math.round(value * 10 ** precisionValue) / 10 ** precisionValue).toFixed(places);
-  };
+  // const getRoundOf = (value: number, places: number) => {
+  //   return (Math.round(value * 10 ** precisionValue) / 10 ** precisionValue).toFixed(places);
+  // };
 
-  const ZERO_ERROR_ANNOTATION = 0.01;
+  // margin from left of grid cell for label/value
+  const ANNOTATION_MARGIN_LEFT = metricsLength > 1 ? 0.01 : 0;
   let autoChartLayout: any = {
     xaxis: {
       visible: false,
@@ -119,7 +123,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   };
 
   const selectedDimensionsData = dimensions
-    .map((dimension: any) => data[dimension.name])
+    .map((dimension: ConfigListEntry) => data[dimension.name])
     .reduce((prev, cur) =>
       prev.map((item: string | number, index: number) => `${item},<br>${cur[index]}`)
     );
@@ -129,7 +133,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       metricUnits ? `<span style="font-size: ${metricUnitsSize}px"}> ${metricUnits}</span>` : ''
     }</b>`;
 
-  const createAnnotationsAutoChartHorizontal = ({
+  const createAnnotationsHorizontalOrientation = ({
     label,
     value,
     index,
@@ -139,11 +143,11 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       ? [
           {
             ...STATS_ANNOTATION,
-            x: 0 + ZERO_ERROR_ANNOTATION,
+            x: 0 + ANNOTATION_MARGIN_LEFT,
             y:
               index > 0
-                ? (index + 1) / metricsLength - ZERO_ERROR_ANNOTATION
-                : 1 / metricsLength - ZERO_ERROR_ANNOTATION,
+                ? (index + 1) / metricsLength - ANNOTATION_MARGIN_LEFT
+                : 1 / metricsLength - ANNOTATION_MARGIN_LEFT,
             xanchor: 'left',
             yanchor: 'bottom',
             text: label,
@@ -160,8 +164,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             x: 1,
             y:
               index > 0
-                ? (index + 1) / metricsLength - ZERO_ERROR_ANNOTATION
-                : 1 / metricsLength - ZERO_ERROR_ANNOTATION,
+                ? (index + 1) / metricsLength - ANNOTATION_MARGIN_LEFT
+                : 1 / metricsLength - ANNOTATION_MARGIN_LEFT,
             xanchor: 'right',
             yanchor: 'bottom',
             text: createValueText(value),
@@ -197,7 +201,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           },
         ];
 
-  const createAnnotation = ({ label, value, index, valueColor }: createAnnotationType) =>
+  const createAnnotationVerticalOrientation = ({
+    label,
+    value,
+    index,
+    valueColor,
+  }: createAnnotationType) =>
     textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
@@ -210,7 +219,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               color: isDarkMode ? COLOR_WHITE : COLOR_BLACK,
               family: 'Roboto',
             },
-            x: index / metricsLength + ZERO_ERROR_ANNOTATION,
+            x: index / metricsLength + ANNOTATION_MARGIN_LEFT,
             y: 1,
             metricValue: value,
             type: 'name',
@@ -225,7 +234,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               color: valueColor,
               family: 'Roboto',
             },
-            x: index / metricsLength + ZERO_ERROR_ANNOTATION,
+            x: index / metricsLength + ANNOTATION_MARGIN_LEFT,
             y: 1,
             type: 'value',
             metricValue: value,
@@ -255,40 +264,35 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ];
 
   const extendYaxisRange = (metric: ConfigListEntry) => {
-    const sortedData = data[metric.label].slice().sort((a, b) => b - a);
+    const sortedData = data[metric.label].slice().sort((curr: number, next: number) => next - curr);
     const avgSeriesDiff = sortedData
       .slice(0, 5)
-      .reduce(function (r, e, i) {
-        if (data[metric.label][i + 1]) r.push(Number((data[metric.label][i + 1] - e).toFixed(2)));
-        return r;
+      .reduce(function (prev, curr, index: number) {
+        if (data[metric.label][index + 1])
+          prev.push(Number((data[metric.label][index + 1] - curr).toFixed(2)));
+        return prev;
       }, [])
-      .reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+      .reduce((curr: number, next: number) => Math.abs(curr) + Math.abs(next), 0);
     return sortedData[0] + avgSeriesDiff;
   };
 
   const generateLineTraces = () =>
     metrics.map((metric: ConfigListEntry, metricIndex: number) => {
-      const selectedColor = PLOTLY_COLOR[metricIndex % PLOTLY_COLOR.length];
-      const fillColor = hexToRgb(
-        selectedColor,
-        DefaultChartStyles.FillOpacity / FILLOPACITY_DIV_FACTOR
-      );
-
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
           orientation === DefaultOrientation || metricsLength === 1
-            ? createAnnotation({
+            ? createAnnotationVerticalOrientation({
                 label: metric.label,
                 value: getRoundOf(data[metric.label][0], precisionValue),
                 index: metricIndex,
-                valueColor: selectedColor,
+                valueColor: '',
               })
-            : createAnnotationsAutoChartHorizontal({
+            : createAnnotationsHorizontalOrientation({
                 label: metric.label,
                 value: getRoundOf(data[metric.label][0], precisionValue),
                 index: metricIndex,
-                valueColor: selectedColor,
+                valueColor: '',
               })
         ),
         [`xaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
@@ -311,9 +315,9 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         fill: 'tozeroy',
         mode: 'lines',
         type: 'scatter',
-        fillcolor: fillColor,
+        fillcolor: '',
         line: {
-          color: selectedColor,
+          color: '',
         },
         name: metric.label,
         ...(metricIndex > 0 && {
@@ -329,9 +333,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
     if (sortedThresholds.length) {
       const sortedStatsData = calculatedStatsData
-        .map((i, j) => ({ ...i, oldIndex: j }))
-        .sort((a, b) => a.metricValue - b.metricValue);
-      const thresholdRanges: any = [];
+        .map((stat, statIndex) => ({ ...stat, oldIndex: statIndex }))
+        .sort((statCurrent, statNext) => statCurrent.metricValue - statNext.metricValue);
+      // threshold ranges with min, max values
+      const thresholdRanges: Array<Array<number>> = [];
       sortedThresholds.forEach((thresh, index) => {
         thresholdRanges.push([
           thresh.value,
