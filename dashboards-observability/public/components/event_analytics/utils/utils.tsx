@@ -373,6 +373,5 @@ export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHove
 export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
   parameter.filter((configItem: ConfigListEntry) => configItem.label);
 
-export const getRoundOf = (value: number, places: number) => {
-  return (Math.round(value * 10 ** places) / 10 ** places).toFixed(places);
-};
+export const getRoundOf = (value: number, places: number) =>
+  (Math.round(value * 10 ** places) / 10 ** places).toFixed(places);

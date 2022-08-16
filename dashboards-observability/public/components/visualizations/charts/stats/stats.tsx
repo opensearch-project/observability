@@ -33,6 +33,7 @@ import {
   FILLOPACITY_DIV_FACTOR,
 } from '../../../../../common/constants/shared';
 import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
+import { current } from 'immer';
 const {
   DefaultOrientation,
   DefaultTextMode,
@@ -104,7 +105,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   // margin from left of grid cell for label/value
   const ANNOTATION_MARGIN_LEFT = metricsLength > 1 ? 0.01 : 0;
-  let autoChartLayout: any = {
+  let autoChartLayout: object = {
     xaxis: {
       visible: false,
       showgrid: false,
@@ -118,11 +119,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     annotations: [],
   };
 
-  const selectedDimensionsData = dimensions
-    .map((dimension: ConfigListEntry) => data[dimension.name])
-    .reduce((prev, cur) =>
-      prev.map((item: string | number, index: number) => `${item},<br>${cur[index]}`)
+  const selectedDimensionsData = dimensions.reduce((prev, cur) => {
+    if (prev.length === 0) return data[cur.name].flat();
+    return prev.map(
+      (item: string | number, index: number) => `${item},<br>${data[cur.name][index]}`
     );
+  }, []);
 
   const createValueText = (value: string | number) =>
     `<b>${value}${
@@ -246,7 +248,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                 ? ((1 / metricsLength) * 1) / 2
                 : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
             xanchor: 'center',
-            y: 1 - 0.05,
+            // y: 1 - 0.05,
+            y: 0.95,
             yanchor: 'bottom',
             text: textMode === 'values' ? createValueText(value) : label,
             font: {
@@ -261,32 +264,35 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   const extendYaxisRange = (metric: ConfigListEntry) => {
     const sortedData = data[metric.label].slice().sort((curr: number, next: number) => next - curr);
-    const avgSeriesDiff = sortedData
-      .slice(0, 5)
-      .reduce(function (prev, curr, index: number) {
-        if (data[metric.label][index + 1])
-          prev.push(Number((data[metric.label][index + 1] - curr).toFixed(2)));
-        return prev;
-      }, [])
-      .reduce((curr: number, next: number) => Math.abs(curr) + Math.abs(next), 0);
-    return sortedData[0] + avgSeriesDiff;
+    const avgSeriesDiff = sortedData.slice(0, 5).reduce(function (prev, curr, index: number) {
+      if (data[metric.label][index + 1])
+        return (prev += Math.abs(Number((data[metric.label][index + 1] - curr).toFixed(2))));
+      return prev;
+    }, 0);
+    return sortedData[0] + (avgSeriesDiff ? avgSeriesDiff : 100);
   };
 
-  const generateLineTraces = () =>
-    metrics.map((metric: ConfigListEntry, metricIndex: number) => {
+  const generateLineTraces = () => {
+    return metrics.map((metric: ConfigListEntry, metricIndex: number) => {
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
           orientation === DefaultOrientation || metricsLength === 1
             ? createAnnotationVerticalOrientation({
                 label: metric.label,
-                value: getRoundOf(data[metric.label][0], precisionValue),
+                value:
+                  typeof data[metric.label][0] === 'number'
+                    ? getRoundOf(data[metric.label][0], precisionValue)
+                    : 0,
                 index: metricIndex,
                 valueColor: '',
               })
             : createAnnotationsHorizontalOrientation({
                 label: metric.label,
-                value: getRoundOf(data[metric.label][0], precisionValue),
+                value:
+                  typeof data[metric.label][0] === 'number'
+                    ? getRoundOf(data[metric.label][0], precisionValue)
+                    : 0,
                 index: metricIndex,
                 valueColor: '',
               })
@@ -307,7 +313,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       return {
         x: selectedDimensionsData,
         y: data[metric.label],
-        metricValue: getRoundOf(data[metric.label][0], precisionValue) || 0,
+        metricValue:
+          typeof data[metric.label][0] === 'number'
+            ? getRoundOf(data[metric.label][0], precisionValue)
+            : 0,
         fill: 'tozeroy',
         mode: 'lines',
         type: 'scatter',
@@ -322,6 +331,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         }),
       };
     });
+  };
 
   const [statsData, statsLayout]: Plotly.Data[] = useMemo(() => {
     let calculatedStatsData: Plotly.Data[] = [];
