@@ -7,6 +7,10 @@ import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer, EuiForm } from '@elastic/eui';
 import { PanelItem } from './config_panel_item';
 import { SPECTRUM, OPACITY } from '../../../../../../../../common/constants/colors';
+import {
+  ConfigChartOptionsEnum,
+  NUMBER_INPUT_MIN_LIMIT,
+} from '../../../../../../../../common/constants/explorer';
 
 export const ConfigChartOptions = ({
   visualizations,
@@ -15,12 +19,7 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-<<<<<<< HEAD
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-=======
-  const { metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
->>>>>>> e823f87 (feedback: in progress)
 
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
@@ -54,8 +53,9 @@ export const ConfigChartOptions = ({
           ...schema.props,
         };
         const DimensionComponent = schema.component || PanelItem;
+
         switch (schema.eleType) {
-          case 'palettePicker':
+          case ConfigChartOptionsEnum.palettePicker:
             params = {
               ...params,
               colorPalettes: schema.options || [],
@@ -64,7 +64,7 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'singleColorPicker':
+          case ConfigChartOptionsEnum.singleColorPicker:
             params = {
               ...params,
               selectedColor: vizState[schema.mapTo] || schema.defaultState,
@@ -72,7 +72,7 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'colorpicker':
+          case ConfigChartOptionsEnum.colorpicker:
             params = {
               ...params,
               selectedColor: vizState[schema.mapTo] || schema?.defaultState,
@@ -81,7 +81,7 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'treemapColorPicker':
+          case ConfigChartOptionsEnum.treemapColorPicker:
             params = {
               ...params,
               selectedColor: vizState[schema.mapTo] || schema?.defaultState,
@@ -93,16 +93,19 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'input':
+          case ConfigChartOptionsEnum.input:
             params = {
               ...params,
               currentValue: vizState[schema.mapTo] || '',
               numValue: vizState[schema.mapTo] || '',
               handleInputChange: handleConfigurationChange(schema.mapTo),
+              minLimit: schema.props?.hasOwnProperty('minLimit')
+                ? schema.props.minLimit
+                : NUMBER_INPUT_MIN_LIMIT,
             };
             break;
 
-          case 'textInput':
+          case ConfigChartOptionsEnum.textInput:
             params = {
               ...params,
               currentValue: vizState[schema.mapTo] || '',
@@ -111,7 +114,7 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'slider':
+          case ConfigChartOptionsEnum.slider:
             params = {
               ...params,
               maxRange: schema.props.max,
@@ -120,7 +123,7 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'switchButton':
+          case ConfigChartOptionsEnum.switchButton:
             params = {
               ...params,
               title: schema.name,
@@ -129,7 +132,7 @@ export const ConfigChartOptions = ({
             };
             break;
 
-          case 'buttons':
+          case ConfigChartOptionsEnum.buttons:
             params = {
               ...params,
               title: schema.name,

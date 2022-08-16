@@ -82,6 +82,7 @@ export const PLOTLY_GAUGE_COLUMN_NUMBER = 4;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
 export const ADD_BUTTON_TEXT = '+ Add color theme';
+export const NUMBER_INPUT_MIN_LIMIT = 1;
 
 export const VIZ_CONTAIN_XY_AXIS = [
   VIS_CHART_TYPES.Bar,
@@ -226,3 +227,15 @@ export const DefaultStatsParameters: DefaultStatsParametersProps = {
     isReadOnly: true,
   },
 };
+
+export enum ConfigChartOptionsEnum {
+  palettePicker = 'palettePicker',
+  singleColorPicker = 'singleColorPicker',
+  colorpicker = 'colorpicker',
+  treemapColorPicker = 'treemapColorPicker',
+  input = 'input',
+  textInput = 'textInput',
+  slider = 'slider',
+  switchButton = 'switchButton',
+  buttons = 'buttons',
+}

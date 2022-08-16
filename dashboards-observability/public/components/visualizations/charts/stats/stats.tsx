@@ -56,12 +56,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const dataConfigTab = visualizations?.data?.rawVizData?.Stats?.dataConfig;
-  // craete sigle method
-  const dimensions = dataConfigTab?.dimensions
-    ? filterDataConfigParameter(dataConfigTab.dimensions)
+  const dimensions = dataConfig?.valueOptions?.dimensions
+    ? filterDataConfigParameter(dataConfig.valueOptions.dimensions)
     : [];
-  const metrics = dataConfigTab?.metrics ? filterDataConfigParameter(dataConfigTab.metrics) : [];
+  const metrics = dataConfig?.valueOptions?.metrics
+    ? filterDataConfigParameter(dataConfig.valueOptions.metrics)
+    : [];
   const metricsLength = metrics.length;
   const chartType = dataConfig?.chartStyles?.chartType || vis.charttype;
 
@@ -101,10 +101,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     dataConfig?.chartStyles?.metricUnits?.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
   const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
-
-  // const getRoundOf = (value: number, places: number) => {
-  //   return (Math.round(value * 10 ** precisionValue) / 10 ** precisionValue).toFixed(places);
-  // };
 
   // margin from left of grid cell for label/value
   const ANNOTATION_MARGIN_LEFT = metricsLength > 1 ? 0.01 : 0;
@@ -311,7 +307,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       return {
         x: selectedDimensionsData,
         y: data[metric.label],
-        metricValue: getRoundOf(data[metric.label][0], precisionValue),
+        metricValue: getRoundOf(data[metric.label][0], precisionValue) || 0,
         fill: 'tozeroy',
         mode: 'lines',
         type: 'scatter',

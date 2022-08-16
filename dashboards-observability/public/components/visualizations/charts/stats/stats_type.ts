@@ -106,6 +106,9 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 component: InputFieldItem,
                 mapTo: 'precisionValue',
                 eleType: 'input',
+                props : {
+                  minLimit: 0
+                }
               },
               {
                 title: 'Title size',
