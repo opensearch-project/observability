@@ -1487,7 +1487,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           data={
             Array [
               Object {
+<<<<<<< HEAD
                 "hoverinfo": "all",
+=======
+>>>>>>> 62a6f486 (optimized the code and updated snapshots)
                 "marker": Object {
                   "color": "rgba(60,161,199,0.4)",
                   "line": Object {
@@ -1565,7 +1568,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             data={
               Array [
                 Object {
+<<<<<<< HEAD
                   "hoverinfo": "all",
+=======
+>>>>>>> 62a6f486 (optimized the code and updated snapshots)
                   "marker": Object {
                     "color": "rgba(60,161,199,0.4)",
                     "line": Object {
@@ -4317,7 +4323,10 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           data={
             Array [
               Object {
+<<<<<<< HEAD
                 "hoverinfo": "all",
+=======
+>>>>>>> 62a6f486 (optimized the code and updated snapshots)
                 "marker": Object {
                   "color": "rgba(60,161,199,NaN)",
                   "line": Object {
@@ -4395,7 +4404,10 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             data={
               Array [
                 Object {
+<<<<<<< HEAD
                   "hoverinfo": "all",
+=======
+>>>>>>> 62a6f486 (optimized the code and updated snapshots)
                   "marker": Object {
                     "color": "rgba(60,161,199,NaN)",
                     "line": Object {

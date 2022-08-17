@@ -45,11 +45,12 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
     label: vizField.name,
   }));
 
-  const mapXaxis = (): { [key: string]: string }[] =>
-    visName === visChartTypes.Line
-      ? vizFieldsWithLabel.filter((field) => field.type === 'timestamp').length === 0
+  const mapXaxis = (): { [key: string]: string }[] => {
+    const xaxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp');
+    return visName === visChartTypes.Line
+      ? xaxis.length === 0
         ? [initialConfigEntry]
-        : vizFieldsWithLabel.filter((field) => field.type === 'timestamp')
+        : xaxis
       : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
   };
 
