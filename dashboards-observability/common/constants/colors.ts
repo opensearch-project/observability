@@ -166,7 +166,7 @@ export const COLOR_PALETTES = [
     type: 'gradient',
   },
 ];
-export const HEX_CONTRAST_COLOR = 0xffffff;
+export const HEX_CONTRAST_COLOR = 0xFFFFFF;
 export const PIE_PALETTES = [
   {
     value: DEFAULT_PALETTE,

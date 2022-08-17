@@ -102,16 +102,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // margin from left of grid cell for label/value
   const ANNOTATION_MARGIN_LEFT = metricsLength > 1 ? 0.01 : 0;
   let autoChartLayout: object = {
-    xaxis: {
-      visible: false,
-      showgrid: false,
-      anchor: 'y1',
-    },
-    yaxis: {
-      visible: false,
-      showgrid: false,
-      anchor: 'x1',
-    },
     annotations: [],
   };
 
@@ -132,18 +122,18 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     value,
     index,
     valueColor,
-  }: createAnnotationType) =>
-    textMode === 'values+names' || textMode === DefaultTextMode
+  }: createAnnotationType) => {
+    return textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
             ...STATS_ANNOTATION,
             x: 0 + ANNOTATION_MARGIN_LEFT,
             y:
               index > 0
-                ? (index + 1) / metricsLength - ANNOTATION_MARGIN_LEFT
-                : 1 / metricsLength - ANNOTATION_MARGIN_LEFT,
+                ? (index + 1) / metricsLength
+                : 1 / metricsLength,
             xanchor: 'left',
-            yanchor: 'bottom',
+            yanchor: 'top',
             text: label,
             font: {
               size: titleSize,
@@ -158,10 +148,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             x: 1,
             y:
               index > 0
-                ? (index + 1) / metricsLength - ANNOTATION_MARGIN_LEFT
-                : 1 / metricsLength - ANNOTATION_MARGIN_LEFT,
+                ? (index + 1) / metricsLength
+                : 1 / metricsLength,
             xanchor: 'right',
-            yanchor: 'bottom',
+            yanchor: 'top',
             text: createValueText(value),
             font: {
               size: valueSize,
@@ -194,14 +184,15 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             metricValue: value,
           },
         ];
+  };
 
   const createAnnotationVerticalOrientation = ({
     label,
     value,
     index,
     valueColor,
-  }: createAnnotationType) =>
-    textMode === 'values+names' || textMode === DefaultTextMode
+  }: createAnnotationType) => {
+    return textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
             ...STATS_ANNOTATION,
@@ -256,6 +247,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             metricValue: value,
           },
         ];
+  };
 
   // extend y axis range to increase height of subplot w.r.t metric data
   const extendYaxisRange = (metric: ConfigListEntry) => {
@@ -268,51 +260,45 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     return sortedData[0] + (avgSeriesDiff ? avgSeriesDiff : 100);
   };
 
+  const getMetricValue = (label: string) =>
+    typeof data[label][data[label].length - 1] === 'number'
+      ? getRoundOf(data[label][data[label].length - 1], precisionValue)
+      : 0;
+
   const generateLineTraces = () => {
     return metrics.map((metric: ConfigListEntry, metricIndex: number) => {
+      const annotationOption = {
+        label: metric.label,
+        value: getMetricValue(metric.label),
+        index: metricIndex,
+        valueColor: '',
+      };
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
           orientation === DefaultOrientation || metricsLength === 1
-            ? createAnnotationVerticalOrientation({
-                label: metric.label,
-                value:
-                  typeof data[metric.label][data[metric.label].length - 1] === 'number'
-                    ? getRoundOf(data[metric.label][data[metric.label].length - 1], precisionValue)
-                    : 0,
-                index: metricIndex,
-                valueColor: '',
-              })
-            : createAnnotationsHorizontalOrientation({
-                label: metric.label,
-                value:
-                  typeof data[metric.label][data[metric.label].length - 1] === 'number'
-                    ? getRoundOf(data[metric.label][data[metric.label].length - 1], precisionValue)
-                    : 0,
-                index: metricIndex,
-                valueColor: '',
-              })
+            ? createAnnotationVerticalOrientation(annotationOption)
+            : createAnnotationsHorizontalOrientation(annotationOption)
         ),
         [`xaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
           visible: false,
           showgrid: false,
           anchor: `y${metricIndex > 0 ? metricIndex + 1 : ''}`,
+          layoutFor: metric.label
         },
         [`yaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
           visible: false,
           showgrid: false,
           anchor: `x${metricIndex > 0 ? metricIndex + 1 : ''}`,
           range: [0, extendYaxisRange(metric)],
+          layoutFor: metric.label
         },
       };
 
       return {
         x: selectedDimensionsData,
         y: data[metric.label],
-        metricValue:
-          typeof data[metric.label][data[metric.label].length - 1] === 'number'
-            ? getRoundOf(data[metric.label][data[metric.label].length - 1], precisionValue)
-            : 0,
+        metricValue: getMetricValue(metric.label),
         fill: 'tozeroy',
         mode: 'lines',
         type: 'scatter',
@@ -416,7 +402,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               rows: 1,
               columns: metricsLength,
               xgap: STATS_GRID_SPACE_BETWEEN_X_AXIS,
-              ygap: STATS_GRID_SPACE_BETWEEN_Y_AXIS,
             }
           : {
               rows: metricsLength,
