@@ -19,7 +19,7 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { data: vizData = {}, metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
 
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
