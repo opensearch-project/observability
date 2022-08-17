@@ -38,6 +38,17 @@ const initialConfigEntry = {
 
 const initialEntryTreemap = { label: '', name: '' };
 
+const initialConfigEntry = {
+  label: '',
+  aggregation: '',
+  custom_label: '',
+  name: '',
+  side: 'right',
+  type: '',
+};
+
+const initialEntryTreemap = { label: '', name: '' };
+
 const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   if (isEmpty(vizFields)) return {};
   const vizFieldsWithLabel: { [key: string]: string }[] = vizFields.map((vizField) => ({
@@ -45,12 +56,11 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
     label: vizField.name,
   }));
 
-  const mapXaxis = (): { [key: string]: string }[] => {
-    const xaxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp');
-    return visName === visChartTypes.Line
-      ? xaxis.length === 0
+  const mapXaxis = (): { [key: string]: string }[] =>
+    visName === visChartTypes.Line
+      ? vizFieldsWithLabel.filter((field) => field.type === 'timestamp').length === 0
         ? [initialConfigEntry]
-        : xaxis
+        : vizFieldsWithLabel.filter((field) => field.type === 'timestamp')
       : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
   };
 

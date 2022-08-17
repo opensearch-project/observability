@@ -52,11 +52,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       setConfigList({
         ...userConfigs.dataConfig.valueOptions,
       });
-    } else {
-      setConfigList({
-        dimensions: [initialConfigEntry],
-        metrics: [initialConfigEntry],
-      });
     }
   }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
 
