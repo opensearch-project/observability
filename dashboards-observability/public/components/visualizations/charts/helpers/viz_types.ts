@@ -65,7 +65,7 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   return { xaxis: mapXaxis(), yaxis: mapYaxis() };
 };
 
-const getUserConfigs = (userSelectedConfigs: any, vizFields: IField[], visName: string) => {
+const getUserConfigs = (userSelectedConfigs: object, vizFields: IField[], visName: string) => {
   let configOfUser = userSelectedConfigs;
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
   if (!userSelectedConfigs.dataConfig?.valueOptions) {
