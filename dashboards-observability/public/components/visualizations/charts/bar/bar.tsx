@@ -30,10 +30,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
+
   const visType: string = visualizations.vis.name;
-  const dataConfigTab =
-    visualizations.data?.rawVizData?.[visType]?.dataConfig &&
-    visualizations.data.rawVizData[visType].dataConfig;
   const xaxis = dataConfig?.valueOptions?.dimensions
     ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];
@@ -50,8 +48,10 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   let valueForXSeries;
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = isVertical ? [...yaxis] : [...xaxis];
-    valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
+    // valueSeries = isVertical ? [...yaxis] : [...xaxis];
+    // valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
+    valueSeries = [...yaxis];
+    valueForXSeries = [...xaxis];
   } else {
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
   }
@@ -68,9 +68,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showlegend
   );
   const legendPosition = dataConfig?.legend?.position || vis.legendposition;
-  visualizations.data?.rawVizData?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.dataConfig?.metrics
-    : [];
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
 
   const getSelectedColorTheme = (field: any, index: number) =>
@@ -112,12 +109,14 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         const selectedColor = getSelectedColorTheme(field, index);
         return dimensionsData.map((dimension: any, j: number) => {
           return {
-            x: isVertical
-              ? !isEmpty(xaxis)
-                ? dimension
-                : data[fields[lastIndex].name]
-              : data[field.label],
-            y: isVertical ? data[field.label][j] : dimensionsData, // TODO: orinetation
+            // x: isVertical
+            //   ? !isEmpty(xaxis)
+            //     ? dimension
+            //     : data[fields[lastIndex].name]
+            //   : data[field.label],
+            // y: isVertical ? data[field.label][j] : dimensionsData, // TODO: orinetation
+            x: isVertical ? dimension : data[field.label][j],
+            y: isVertical ? data[field.label][j] : dimensionsData,
             type: vis.type,
             marker: {
               color: hexToRgb(selectedColor, fillOpacity),
@@ -127,8 +126,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
               },
             },
             name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
-            hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
-            orientation: barOrientation,
+            orientation: isVertical ? 'v' : 'h',
           };
         });
       })
@@ -146,17 +144,22 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     );
   } else {
     // for multiple dimention and metrics without timestamp
+    console.log('NO TIMRSTAMP  =========');
     const dimensionsData = prepareData(valueForXSeries);
     const metricsData = prepareData(valueSeries);
+    console.log('dimensionsData', dimensionsData);
+    console.log('metricsData', metricsData);
     bars = valueSeries.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field, index);
       return {
-        x: isVertical
-          ? !isEmpty(xaxis)
-            ? dimensionsData
-            : data[fields[lastIndex].name]
-          : data[field.name],
-        y: isVertical ? data[field.name] : metricsData, // TODO: add if isempty true
+        // x: isVertical
+        //   ? !isEmpty(xaxis)
+        //     ? dimensionsData
+        //     : data[fields[lastIndex].name]
+        //   : data[field.name],
+        // y: isVertical ? data[field.name] : metricsData, // TODO: add if isempty true
+        x: isVertical ? dimensionsData : data[field.name],
+        y: isVertical ? data[field.name] : dimensionsData,
         type: vis.type,
         marker: {
           color: hexToRgb(selectedColor, fillOpacity),
@@ -166,8 +169,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           },
         },
         name: field.name,
-        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
-        orientation: barOrientation,
+        orientation: isVertical ? 'v' : 'h',
       };
     });
   }
