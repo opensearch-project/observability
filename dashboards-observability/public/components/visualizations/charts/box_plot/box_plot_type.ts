@@ -40,7 +40,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
   orientation: 'v',
   labelangle: 0,
   linewidth: 1,
-  fillOpacity: 80,
+  fillopacity: 80,
   groupwidth: 0.7,
   boxwidth: 0.97,
   showlegend: ShowLegend,

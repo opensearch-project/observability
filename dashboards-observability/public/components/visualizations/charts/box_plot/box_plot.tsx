@@ -9,9 +9,10 @@ import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { hexToRgb } from '../../../event_analytics/utils/utils';
+import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
+import { ConfigListEntry } from '../../../../../common/types/explorer';
 
 export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const DEFAULT_LABEL_SIZE = 10;
@@ -26,21 +27,22 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
-  const dataConfigTab =
-    visualizations?.data?.rawVizData?.box?.dataConfig &&
-    visualizations.data.rawVizData.box.dataConfig;
+  console.log('data====', data);
   const xaxis = dataConfig?.valueOptions?.dimensions
-    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
+    ? filterDataConfigParameter(dataConfig.valueOptions.dimensions)
     : [];
   const yaxis = dataConfig?.valueOptions?.metrics
-    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
+    ? filterDataConfigParameter(dataConfig.valueOptions.metrics)
     : [];
   const boxOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = boxOrientation === vis.orientation;
+
   let box, valueSeries, valueForXSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = isVertical ? [...yaxis] : [...xaxis];
-    valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
+    // valueSeries = isVertical ? [...yaxis] : [...xaxis];
+    // valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
+    valueSeries = [...yaxis]
+    valueForXSeries = [...xaxis]
   } else {
     return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
   }
@@ -50,7 +52,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const fillOpacity =
     dataConfig?.chartStyles?.fillOpacity !== undefined
       ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : vis.fillOpacity / FILLOPACITY_DIV_FACTOR;
+      : vis.fillopacity / FILLOPACITY_DIV_FACTOR;
   const boxWidth = 1 - (dataConfig?.chartStyles?.boxWidth || vis.boxWidth);
   const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupWidth);
   const showLegend = !(
@@ -69,13 +71,12 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   const prepareData = (valueForXSeries) => {
-    return (valueForXSeries.map((dimension: any) => data[dimension.label]))?.reduce(
-      (prev, cur) => {
+    return valueForXSeries
+      .map((dimension: ConfigListEntry) => data[dimension.label])
+      ?.reduce((prev, cur) => {
         return prev.map((i, j) => `${i}, ${cur[j]}`);
-      }
-    );
+      });
   };
-
 
   const metricsData = prepareData(valueSeries);
   box = valueSeries.map((field: any, index: number) => {
@@ -113,10 +114,19 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     font: {
       size: labelSize,
     },
-    xaxis: {
-      tickangle: tickAngle,
-      automargin: true,
-    },
+    ...(isVertical
+      ? {
+          xaxis: {
+            tickangle: tickAngle,
+            automargin: true,
+          },
+        }
+      : {
+          yaxis: {
+            tickangle: tickAngle,
+            automargin: true,
+          },
+        }),
     boxgap: groupWidth,
     boxgroupgap: boxWidth,
     legend: {
@@ -125,14 +135,13 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     },
     showlegend: showLegend,
   };
-  if (dataConfig.thresholds || availabilityConfig.level) {
+  if (availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
       y: [],
       mode: 'text',
       text: [],
     };
-    const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
@@ -159,7 +168,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       });
     };
 
-    mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
+    mergedLayout.shapes = [...mapToLine(levels, {})];
     box = [...box, thresholdTraces];
   }
   const mergedConfigs = {
