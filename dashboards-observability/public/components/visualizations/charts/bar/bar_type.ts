@@ -45,7 +45,7 @@ export const createBarTypeDefinition = (params: any) => ({
   mode: 'group',
   labelangle: 0,
   linewidth: 1,
-  fillOpacity: 80,
+  fillopacity: 80,
   groupwidth: 0.7,
   barwidth: 0.97,
   showlegend: ShowLegend,
