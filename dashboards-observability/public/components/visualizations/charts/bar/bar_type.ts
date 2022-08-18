@@ -8,18 +8,18 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
-import { ConfigBarChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_bar_chart_styles';
-import { SliderConfig } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 import {
   ConfigLegend,
   InputFieldItem,
+  ConfigColorTheme,
+  SliderConfig,
+  ConfigBarChartStyles,
+  ButtonGroupItem,
+  ConfigAvailability
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { DefaultChartStyles, visChartTypes } from '../../../../../common/constants/shared';
 
-import { ConfigColorTheme } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_color_theme';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
