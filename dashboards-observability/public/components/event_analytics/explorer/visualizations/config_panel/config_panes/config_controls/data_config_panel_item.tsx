@@ -276,7 +276,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   lists.length - 1 === index &&
                   renderAddButton(
                     (sectionName === 'breakdowns' &&
-                      configList.dimensions!.length - 1 === configList.breakdowns?.length) ||
+                      configList.dimensions!.length - 1 === configList.breakdowns!.length) ||
                       (sectionName === 'dimensions' &&
                         visualizations.vis.name === visChartTypes.Line),
                     sectionName

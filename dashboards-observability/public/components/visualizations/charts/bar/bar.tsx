@@ -26,9 +26,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
-  const dataConfigTab =
-    visualizations.data?.rawVizData?.bar?.dataConfig &&
-    visualizations.data.rawVizData.bar.dataConfig;
   const xaxis = dataConfig?.valueOptions?.dimensions
     ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];

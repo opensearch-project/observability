@@ -136,6 +136,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "userConfigs": Object {
             "dataConfig": Object {
               "valueOptions": Object {
+                "breakdowns": Array [],
                 "dimensions": Array [
                   Object {
                     "label": "Carrier",
@@ -620,6 +621,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "userConfigs": Object {
               "dataConfig": Object {
                 "valueOptions": Object {
+                  "breakdowns": Array [],
                   "dimensions": Array [
                     Object {
                       "label": "Carrier",
@@ -1127,6 +1129,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "userConfigs": Object {
                 "dataConfig": Object {
                   "valueOptions": Object {
+                    "breakdowns": Array [],
                     "dimensions": Array [
                       Object {
                         "label": "Carrier",

@@ -126,6 +126,19 @@ const getUserConfigs = (userSelectedConfigs: object, vizFields: IField[], visNam
           },
         };
         break;
+      case visChartTypes.Bar:
+        configOfUser = {
+          ...userSelectedConfigs,
+          dataConfig: {
+            ...userSelectedConfigs?.dataConfig,
+            valueOptions: {
+              metrics: axesData.yaxis ?? [],
+              dimensions: axesData.xaxis ?? [],
+              breakdowns: [],
+            },
+          },
+        };
+        break;
       default:
         configOfUser = {
           ...userSelectedConfigs,
