@@ -250,7 +250,6 @@ exports[`Services component renders empty services page 1`] = `
                         />
                       </EuiValidatableControl>
                       <EuiFormControlLayoutIcons
-                        compressed={false}
                         icon="search"
                         isLoading={false}
                       >
@@ -258,7 +257,6 @@ exports[`Services component renders empty services page 1`] = `
                           className="euiFormControlLayoutIcons"
                         >
                           <EuiFormControlLayoutCustomIcon
-                            size="m"
                             type="search"
                           >
                             <span
@@ -267,7 +265,6 @@ exports[`Services component renders empty services page 1`] = `
                               <EuiIcon
                                 aria-hidden="true"
                                 className="euiFormControlLayoutCustomIcon__icon"
-                                size="m"
                                 type="search"
                               >
                                 <EuiIconEmpty
@@ -533,95 +530,78 @@ exports[`Services component renders empty services page 1`] = `
                                 closePopover={[Function]}
                                 display="inlineBlock"
                                 hasArrow={true}
+                                id="QuickSelectPopover"
                                 isOpen={false}
                                 ownFocus={true}
                                 panelPaddingSize="m"
                               >
-                                <div
-                                  className="euiPopover euiPopover--anchorDownLeft"
+                                <EuiOutsideClickDetector
+                                  isDisabled={true}
+                                  onOutsideClick={[Function]}
                                 >
                                   <div
-                                    className="euiPopover__anchor euiQuickSelectPopover__anchor"
+                                    className="euiPopover euiPopover--anchorDownLeft"
+                                    id="QuickSelectPopover"
+                                    onKeyDown={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onTouchEnd={[Function]}
+                                    onTouchStart={[Function]}
                                   >
-                                    <EuiButtonEmpty
-                                      aria-label="Date quick select"
-                                      className="euiFormControlLayout__prepend"
-                                      data-test-subj="superDatePickerToggleQuickMenuButton"
-                                      iconSide="right"
-                                      iconType="arrowDown"
-                                      isDisabled={false}
-                                      onClick={[Function]}
-                                      size="xs"
-                                      textProps={
-                                        Object {
-                                          "className": "euiQuickSelectPopover__buttonText",
-                                        }
-                                      }
+                                    <div
+                                      className="euiPopover__anchor euiQuickSelectPopover__anchor"
                                     >
-                                      <button
+                                      <EuiButtonEmpty
                                         aria-label="Date quick select"
-                                        className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                        className="euiFormControlLayout__prepend"
                                         data-test-subj="superDatePickerToggleQuickMenuButton"
-                                        disabled={false}
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        isDisabled={false}
                                         onClick={[Function]}
-                                        type="button"
-                                      >
-                                        <EuiButtonContent
-                                          className="euiButtonEmpty__content"
-                                          iconSide="right"
-                                          iconSize="s"
-                                          iconType="arrowDown"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
-                                            }
+                                        size="xs"
+                                        textProps={
+                                          Object {
+                                            "className": "euiQuickSelectPopover__buttonText",
                                           }
+                                        }
+                                      >
+                                        <button
+                                          aria-label="Date quick select"
+                                          className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                          data-test-subj="superDatePickerToggleQuickMenuButton"
+                                          disabled={false}
+                                          onClick={[Function]}
+                                          type="button"
                                         >
-                                          <span
-                                            className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                          <EuiButtonContent
+                                            className="euiButtonEmpty__content"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            textProps={
+                                              Object {
+                                                "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
+                                              }
+                                            }
                                           >
-                                            <EuiIcon
-                                              className="euiButtonContent__icon"
-                                              color="inherit"
-                                              size="s"
-                                              type="arrowDown"
-                                            >
-                                              <EuiIconEmpty
-                                                aria-hidden={true}
-                                                className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                                focusable="false"
-                                                role="img"
-                                                style={null}
-                                              >
-                                                <svg
-                                                  aria-hidden={true}
-                                                  className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                                  focusable="false"
-                                                  height={16}
-                                                  role="img"
-                                                  style={null}
-                                                  viewBox="0 0 16 16"
-                                                  width={16}
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                                />
-                                              </EuiIconEmpty>
-                                            </EuiIcon>
                                             <span
-                                              className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                              className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                             >
                                               <EuiIcon
-                                                type="calendar"
+                                                className="euiButtonContent__icon"
+                                                size="m"
+                                                type="arrowDown"
                                               >
                                                 <EuiIconEmpty
                                                   aria-hidden={true}
-                                                  className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                                                   focusable="false"
                                                   role="img"
                                                   style={null}
                                                 >
                                                   <svg
                                                     aria-hidden={true}
-                                                    className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                                                     focusable="false"
                                                     height={16}
                                                     role="img"
@@ -632,13 +612,40 @@ exports[`Services component renders empty services page 1`] = `
                                                   />
                                                 </EuiIconEmpty>
                                               </EuiIcon>
+                                              <span
+                                                className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                              >
+                                                <EuiIcon
+                                                  type="calendar"
+                                                >
+                                                  <EuiIconEmpty
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                    focusable="false"
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                                      focusable="false"
+                                                      height={16}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                  </EuiIconEmpty>
+                                                </EuiIcon>
+                                              </span>
                                             </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonEmpty>
+                                          </EuiButtonContent>
+                                        </button>
+                                      </EuiButtonEmpty>
+                                    </div>
                                   </div>
-                                </div>
+                                </EuiOutsideClickDetector>
                               </EuiPopover>
                             </EuiQuickSelectPopover>
                             <div
@@ -697,7 +704,6 @@ exports[`Services component renders empty services page 1`] = `
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
-                  baseClassName="euiButton"
                   data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
@@ -711,11 +717,6 @@ exports[`Services component renders empty services page 1`] = `
                     data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
-                    style={
-                      Object {
-                        "minWidth": undefined,
-                      }
-                    }
                     type="button"
                   >
                     <EuiButtonContent
@@ -733,20 +734,19 @@ exports[`Services component renders empty services page 1`] = `
                       >
                         <EuiIcon
                           className="euiButtonContent__icon"
-                          color="inherit"
                           size="m"
                           type="refresh"
                         >
                           <EuiIconEmpty
                             aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                             focusable="false"
                             role="img"
                             style={null}
                           >
                             <svg
                               aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                               focusable="false"
                               height={16}
                               role="img"
@@ -837,62 +837,70 @@ exports[`Services component renders empty services page 1`] = `
                     display="inlineBlock"
                     hasArrow={true}
                     isOpen={false}
-                    ownFocus={true}
+                    ownFocus={false}
                     panelPaddingSize="none"
                     withTitle={true}
                   >
-                    <div
-                      className="euiPopover euiPopover--anchorRightUp"
-                      withTitle={true}
+                    <EuiOutsideClickDetector
+                      isDisabled={true}
+                      onOutsideClick={[Function]}
                     >
                       <div
-                        className="euiPopover__anchor"
+                        className="euiPopover euiPopover--anchorRightUp euiPopover--withTitle"
+                        onKeyDown={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchStart={[Function]}
                       >
-                        <EuiButtonIcon
-                          aria-label="Change all filters"
-                          iconType="filter"
-                          onClick={[Function]}
-                          title="Change all filters"
+                        <div
+                          className="euiPopover__anchor"
                         >
-                          <button
+                          <EuiButtonIcon
                             aria-label="Change all filters"
-                            className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall"
-                            disabled={false}
+                            iconType="filter"
                             onClick={[Function]}
                             title="Change all filters"
-                            type="button"
                           >
-                            <EuiIcon
-                              aria-hidden="true"
-                              className="euiButtonIcon__icon"
-                              color="inherit"
-                              size="m"
-                              type="filter"
+                            <button
+                              aria-label="Change all filters"
+                              className="euiButtonIcon euiButtonIcon--primary"
+                              disabled={false}
+                              onClick={[Function]}
+                              title="Change all filters"
+                              type="button"
                             >
-                              <EuiIconEmpty
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
-                                focusable="false"
-                                role="img"
-                                style={null}
+                              <EuiIcon
+                                aria-hidden="true"
+                                className="euiButtonIcon__icon"
+                                size="m"
+                                type="filter"
                               >
-                                <svg
+                                <EuiIconEmpty
                                   aria-hidden={true}
-                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
                                   focusable="false"
-                                  height={16}
                                   role="img"
                                   style={null}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                />
-                              </EuiIconEmpty>
-                            </EuiIcon>
-                          </button>
-                        </EuiButtonIcon>
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    height={16}
+                                    role="img"
+                                    style={null}
+                                    viewBox="0 0 16 16"
+                                    width={16}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  />
+                                </EuiIconEmpty>
+                              </EuiIcon>
+                            </button>
+                          </EuiButtonIcon>
+                        </div>
                       </div>
-                    </div>
+                    </EuiOutsideClickDetector>
                   </EuiPopover>
                 </GlobalFilterButton>
               </div>
@@ -918,51 +926,59 @@ exports[`Services component renders empty services page 1`] = `
                     display="inlineBlock"
                     hasArrow={true}
                     isOpen={false}
-                    ownFocus={true}
+                    ownFocus={false}
                     panelPaddingSize="m"
                     withTitle={true}
                   >
-                    <div
-                      className="euiPopover euiPopover--anchorDownLeft"
-                      withTitle={true}
+                    <EuiOutsideClickDetector
+                      isDisabled={true}
+                      onOutsideClick={[Function]}
                     >
                       <div
-                        className="euiPopover__anchor"
+                        className="euiPopover euiPopover--anchorDownLeft euiPopover--withTitle"
+                        onKeyDown={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchStart={[Function]}
                       >
-                        <EuiButtonEmpty
-                          onClick={[Function]}
-                          size="xs"
+                        <div
+                          className="euiPopover__anchor"
                         >
-                          <button
-                            className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
-                            disabled={false}
+                          <EuiButtonEmpty
                             onClick={[Function]}
-                            type="button"
+                            size="xs"
                           >
-                            <EuiButtonContent
-                              className="euiButtonEmpty__content"
-                              iconSide="left"
-                              iconSize="s"
-                              textProps={
-                                Object {
-                                  "className": "euiButtonEmpty__text",
-                                }
-                              }
+                            <button
+                              className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+                              disabled={false}
+                              onClick={[Function]}
+                              type="button"
                             >
-                              <span
-                                className="euiButtonContent euiButtonEmpty__content"
+                              <EuiButtonContent
+                                className="euiButtonEmpty__content"
+                                iconSide="left"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonEmpty__text",
+                                  }
+                                }
                               >
                                 <span
-                                  className="euiButtonEmpty__text"
+                                  className="euiButtonContent euiButtonEmpty__content"
                                 >
-                                  + Add filter
+                                  <span
+                                    className="euiButtonEmpty__text"
+                                  >
+                                    + Add filter
+                                  </span>
                                 </span>
-                              </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonEmpty>
+                              </EuiButtonContent>
+                            </button>
+                          </EuiButtonEmpty>
+                        </div>
                       </div>
-                    </div>
+                    </EuiOutsideClickDetector>
                   </EuiPopover>
                 </AddFilterButton>
               </div>
@@ -989,7 +1005,7 @@ exports[`Services component renders empty services page 1`] = `
     >
       <EuiPanel>
         <div
-          className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+          className="euiPanel euiPanel--paddingMedium"
         >
           <EuiFlexGroup
             alignItems="center"
@@ -1071,21 +1087,21 @@ exports[`Services component renders empty services page 1`] = `
               <div
                 className="euiEmptyPrompt"
               >
-                <EuiTitle
-                  size="m"
-                >
-                  <h2
-                    className="euiTitle euiTitle--medium"
-                  >
-                    Trace Analytics not set up
-                  </h2>
-                </EuiTitle>
                 <EuiTextColor
                   color="subdued"
                 >
                   <span
                     className="euiTextColor euiTextColor--subdued"
                   >
+                    <EuiTitle
+                      size="m"
+                    >
+                      <h2
+                        className="euiTitle euiTitle--medium"
+                      >
+                        Trace Analytics not set up
+                      </h2>
+                    </EuiTitle>
                     <EuiSpacer
                       size="m"
                     >
@@ -1115,6 +1131,13 @@ exports[`Services component renders empty services page 1`] = `
                     className="euiSpacer euiSpacer--l"
                   />
                 </EuiSpacer>
+                <EuiSpacer
+                  size="s"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--s"
+                  />
+                </EuiSpacer>
                 <EuiButton
                   color="primary"
                   iconSide="right"
@@ -1122,7 +1145,6 @@ exports[`Services component renders empty services page 1`] = `
                   onClick={[Function]}
                 >
                   <EuiButtonDisplay
-                    baseClassName="euiButton"
                     color="primary"
                     disabled={false}
                     element="button"
@@ -1136,11 +1158,6 @@ exports[`Services component renders empty services page 1`] = `
                       className="euiButton euiButton--primary"
                       disabled={false}
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
                       type="button"
                     >
                       <EuiButtonContent
@@ -1158,20 +1175,19 @@ exports[`Services component renders empty services page 1`] = `
                         >
                           <EuiIcon
                             className="euiButtonContent__icon"
-                            color="inherit"
                             size="m"
                             type="popout"
                           >
                             <EuiIconEmpty
                               aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                               focusable="false"
                               role="img"
                               style={null}
                             >
                               <svg
                                 aria-hidden={true}
-                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
                                 focusable="false"
                                 height={16}
                                 role="img"
@@ -1215,7 +1231,7 @@ exports[`Services component renders empty services page 1`] = `
     >
       <EuiPanel>
         <div
-          className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+          className="euiPanel euiPanel--paddingMedium"
         >
           <PanelTitle
             title="Service map"
@@ -1264,257 +1280,266 @@ exports[`Services component renders empty services page 1`] = `
             }
           >
             <fieldset
-              className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
-              disabled={false}
+              className="euiButtonGroup__fieldset"
             >
-              <EuiScreenReaderOnly>
-                <legend
-                  className="euiScreenReaderOnly"
-                />
-              </EuiScreenReaderOnly>
               <div
-                className="euiButtonGroup__buttons"
+                className="euiButtonGroup euiButtonGroup--s"
               >
-                <EuiButtonGroupButton
+                <EuiButtonToggle
+                  className="euiButtonGroup__button euiButtonGroup__button--selected"
                   color="text"
-                  element="label"
+                  fill={true}
                   id="latency"
-                  isDisabled={false}
-                  isIconOnly={false}
                   isSelected={true}
                   key="0"
                   label="Latency"
-                  name="random_html_id"
                   onChange={[Function]}
                   size="s"
+                  toggleClassName="euiButtonGroup__toggle"
+                  type="single"
                 >
-                  <EuiButtonDisplay
-                    baseClassName="euiButtonGroupButton"
-                    className="euiButtonGroupButton-isSelected"
-                    color="text"
-                    element="label"
-                    fill={true}
-                    htmlFor="random_html_id"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    size="s"
-                    textProps={
-                      Object {
-                        "className": "euiButtonGroupButton__textShift",
-                        "data-text": "Latency",
-                        "ref": [Function],
-                        "title": "Latency",
-                      }
-                    }
+                  <EuiToggle
+                    checked={true}
+                    className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                    inputClassName="euiButtonToggle__input"
+                    label="Latency"
+                    onChange={[Function]}
+                    title="Latency"
+                    type="single"
                   >
-                    <label
-                      className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
-                      disabled={false}
-                      htmlFor="random_html_id"
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
+                    <div
+                      className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
                     >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="left"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text euiButtonGroupButton__textShift",
-                            "data-text": "Latency",
-                            "ref": [Function],
-                            "title": "Latency",
-                          }
-                        }
+                      <input
+                        aria-label="Latency"
+                        checked={true}
+                        className="euiToggle__input euiButtonToggle__input"
+                        onChange={[Function]}
+                        title="Latency"
+                        type="radio"
+                      />
+                      <EuiButton
+                        className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
+                        color="text"
+                        fill={true}
+                        id="latency"
+                        size="s"
+                        tabIndex={-1}
                       >
-                        <span
-                          className="euiButtonContent euiButton__content"
+                        <EuiButtonDisplay
+                          className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
+                          color="text"
+                          disabled={false}
+                          element="button"
+                          fill={true}
+                          id="latency"
+                          isDisabled={false}
+                          size="s"
+                          tabIndex={-1}
+                          type="button"
                         >
-                          <span
-                            className="euiButton__text euiButtonGroupButton__textShift"
-                            data-text="Latency"
-                            title="Latency"
+                          <button
+                            className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
+                            disabled={false}
+                            id="latency"
+                            tabIndex={-1}
+                            type="button"
                           >
-                            <input
-                              checked={true}
-                              className="euiScreenReaderOnly"
-                              data-test-subj="latency"
-                              disabled={false}
-                              id="random_html_id"
-                              name="random_html_id"
-                              onChange={[Function]}
-                              type="radio"
-                            />
-                            Latency
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </label>
-                  </EuiButtonDisplay>
-                </EuiButtonGroupButton>
-                <EuiButtonGroupButton
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text"
+                                >
+                                  Latency
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonDisplay>
+                      </EuiButton>
+                    </div>
+                  </EuiToggle>
+                </EuiButtonToggle>
+                <EuiButtonToggle
+                  className="euiButtonGroup__button"
                   color="text"
-                  element="label"
+                  fill={false}
                   id="error_rate"
-                  isDisabled={false}
-                  isIconOnly={false}
                   isSelected={false}
                   key="1"
                   label="Error rate"
-                  name="random_html_id"
                   onChange={[Function]}
                   size="s"
+                  toggleClassName="euiButtonGroup__toggle"
+                  type="single"
                 >
-                  <EuiButtonDisplay
-                    baseClassName="euiButtonGroupButton"
-                    className=""
-                    color="text"
-                    element="label"
-                    fill={false}
-                    htmlFor="random_html_id"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    size="s"
-                    textProps={
-                      Object {
-                        "className": "euiButtonGroupButton__textShift",
-                        "data-text": "Error rate",
-                        "ref": [Function],
-                        "title": "Error rate",
-                      }
-                    }
+                  <EuiToggle
+                    checked={false}
+                    className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                    inputClassName="euiButtonToggle__input"
+                    label="Error rate"
+                    onChange={[Function]}
+                    title="Error rate"
+                    type="single"
                   >
-                    <label
-                      className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                      disabled={false}
-                      htmlFor="random_html_id"
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
+                    <div
+                      className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
                     >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="left"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text euiButtonGroupButton__textShift",
-                            "data-text": "Error rate",
-                            "ref": [Function],
-                            "title": "Error rate",
-                          }
-                        }
+                      <input
+                        aria-label="Error rate"
+                        checked={false}
+                        className="euiToggle__input euiButtonToggle__input"
+                        onChange={[Function]}
+                        title="Error rate"
+                        type="radio"
+                      />
+                      <EuiButton
+                        className="euiButtonToggle euiButtonGroup__button"
+                        color="text"
+                        fill={false}
+                        id="error_rate"
+                        size="s"
+                        tabIndex={-1}
                       >
-                        <span
-                          className="euiButtonContent euiButton__content"
+                        <EuiButtonDisplay
+                          className="euiButtonToggle euiButtonGroup__button"
+                          color="text"
+                          disabled={false}
+                          element="button"
+                          fill={false}
+                          id="error_rate"
+                          isDisabled={false}
+                          size="s"
+                          tabIndex={-1}
+                          type="button"
                         >
-                          <span
-                            className="euiButton__text euiButtonGroupButton__textShift"
-                            data-text="Error rate"
-                            title="Error rate"
+                          <button
+                            className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
+                            disabled={false}
+                            id="error_rate"
+                            tabIndex={-1}
+                            type="button"
                           >
-                            <input
-                              checked={false}
-                              className="euiScreenReaderOnly"
-                              data-test-subj="error_rate"
-                              disabled={false}
-                              id="random_html_id"
-                              name="random_html_id"
-                              onChange={[Function]}
-                              type="radio"
-                            />
-                            Error rate
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </label>
-                  </EuiButtonDisplay>
-                </EuiButtonGroupButton>
-                <EuiButtonGroupButton
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text"
+                                >
+                                  Error rate
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonDisplay>
+                      </EuiButton>
+                    </div>
+                  </EuiToggle>
+                </EuiButtonToggle>
+                <EuiButtonToggle
+                  className="euiButtonGroup__button"
                   color="text"
-                  element="label"
+                  fill={false}
                   id="throughput"
-                  isDisabled={false}
-                  isIconOnly={false}
                   isSelected={false}
                   key="2"
                   label="Throughput"
-                  name="random_html_id"
                   onChange={[Function]}
                   size="s"
+                  toggleClassName="euiButtonGroup__toggle"
+                  type="single"
                 >
-                  <EuiButtonDisplay
-                    baseClassName="euiButtonGroupButton"
-                    className=""
-                    color="text"
-                    element="label"
-                    fill={false}
-                    htmlFor="random_html_id"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    size="s"
-                    textProps={
-                      Object {
-                        "className": "euiButtonGroupButton__textShift",
-                        "data-text": "Throughput",
-                        "ref": [Function],
-                        "title": "Throughput",
-                      }
-                    }
+                  <EuiToggle
+                    checked={false}
+                    className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                    inputClassName="euiButtonToggle__input"
+                    label="Throughput"
+                    onChange={[Function]}
+                    title="Throughput"
+                    type="single"
                   >
-                    <label
-                      className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                      disabled={false}
-                      htmlFor="random_html_id"
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
+                    <div
+                      className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
                     >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="left"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text euiButtonGroupButton__textShift",
-                            "data-text": "Throughput",
-                            "ref": [Function],
-                            "title": "Throughput",
-                          }
-                        }
+                      <input
+                        aria-label="Throughput"
+                        checked={false}
+                        className="euiToggle__input euiButtonToggle__input"
+                        onChange={[Function]}
+                        title="Throughput"
+                        type="radio"
+                      />
+                      <EuiButton
+                        className="euiButtonToggle euiButtonGroup__button"
+                        color="text"
+                        fill={false}
+                        id="throughput"
+                        size="s"
+                        tabIndex={-1}
                       >
-                        <span
-                          className="euiButtonContent euiButton__content"
+                        <EuiButtonDisplay
+                          className="euiButtonToggle euiButtonGroup__button"
+                          color="text"
+                          disabled={false}
+                          element="button"
+                          fill={false}
+                          id="throughput"
+                          isDisabled={false}
+                          size="s"
+                          tabIndex={-1}
+                          type="button"
                         >
-                          <span
-                            className="euiButton__text euiButtonGroupButton__textShift"
-                            data-text="Throughput"
-                            title="Throughput"
+                          <button
+                            className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
+                            disabled={false}
+                            id="throughput"
+                            tabIndex={-1}
+                            type="button"
                           >
-                            <input
-                              checked={false}
-                              className="euiScreenReaderOnly"
-                              data-test-subj="throughput"
-                              disabled={false}
-                              id="random_html_id"
-                              name="random_html_id"
-                              onChange={[Function]}
-                              type="radio"
-                            />
-                            Throughput
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </label>
-                  </EuiButtonDisplay>
-                </EuiButtonGroupButton>
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text"
+                                >
+                                  Throughput
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonDisplay>
+                      </EuiButton>
+                    </div>
+                  </EuiToggle>
+                </EuiButtonToggle>
               </div>
             </fieldset>
           </EuiButtonGroup>
@@ -1579,7 +1604,7 @@ exports[`Services component renders empty services page 1`] = `
                             isInvalid={false}
                           >
                             <input
-                              className="euiFieldSearch"
+                              className="euiFieldSearch euiFieldSearch-isClearable"
                               onChange={[Function]}
                               onKeyUp={[Function]}
                               placeholder="Service name"
@@ -1588,7 +1613,6 @@ exports[`Services component renders empty services page 1`] = `
                             />
                           </EuiValidatableControl>
                           <EuiFormControlLayoutIcons
-                            compressed={false}
                             icon="search"
                             isLoading={false}
                           >
@@ -1596,7 +1620,6 @@ exports[`Services component renders empty services page 1`] = `
                               className="euiFormControlLayoutIcons"
                             >
                               <EuiFormControlLayoutCustomIcon
-                                size="m"
                                 type="search"
                               >
                                 <span
@@ -1605,7 +1628,6 @@ exports[`Services component renders empty services page 1`] = `
                                   <EuiIcon
                                     aria-hidden="true"
                                     className="euiFormControlLayoutCustomIcon__icon"
-                                    size="m"
                                     type="search"
                                   >
                                     <EuiIconEmpty
@@ -1677,21 +1699,21 @@ exports[`Services component renders empty services page 1`] = `
                 <div
                   className="euiEmptyPrompt"
                 >
-                  <EuiTitle
-                    size="m"
-                  >
-                    <h2
-                      className="euiTitle euiTitle--medium"
-                    >
-                      No matches
-                    </h2>
-                  </EuiTitle>
                   <EuiTextColor
                     color="subdued"
                   >
                     <span
                       className="euiTextColor euiTextColor--subdued"
                     >
+                      <EuiTitle
+                        size="m"
+                      >
+                        <h2
+                          className="euiTitle euiTitle--medium"
+                        >
+                          No matches
+                        </h2>
+                      </EuiTitle>
                       <EuiSpacer
                         size="m"
                       >
@@ -1982,7 +2004,6 @@ exports[`Services component renders services page 1`] = `
                         />
                       </EuiValidatableControl>
                       <EuiFormControlLayoutIcons
-                        compressed={false}
                         icon="search"
                         isLoading={false}
                       >
@@ -1990,7 +2011,6 @@ exports[`Services component renders services page 1`] = `
                           className="euiFormControlLayoutIcons"
                         >
                           <EuiFormControlLayoutCustomIcon
-                            size="m"
                             type="search"
                           >
                             <span
@@ -1999,7 +2019,6 @@ exports[`Services component renders services page 1`] = `
                               <EuiIcon
                                 aria-hidden="true"
                                 className="euiFormControlLayoutCustomIcon__icon"
-                                size="m"
                                 type="search"
                               >
                                 <EuiIconSearch
@@ -2269,100 +2288,78 @@ exports[`Services component renders services page 1`] = `
                                 closePopover={[Function]}
                                 display="inlineBlock"
                                 hasArrow={true}
+                                id="QuickSelectPopover"
                                 isOpen={false}
                                 ownFocus={true}
                                 panelPaddingSize="m"
                               >
-                                <div
-                                  className="euiPopover euiPopover--anchorDownLeft"
+                                <EuiOutsideClickDetector
+                                  isDisabled={true}
+                                  onOutsideClick={[Function]}
                                 >
                                   <div
-                                    className="euiPopover__anchor euiQuickSelectPopover__anchor"
+                                    className="euiPopover euiPopover--anchorDownLeft"
+                                    id="QuickSelectPopover"
+                                    onKeyDown={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseUp={[Function]}
+                                    onTouchEnd={[Function]}
+                                    onTouchStart={[Function]}
                                   >
-                                    <EuiButtonEmpty
-                                      aria-label="Date quick select"
-                                      className="euiFormControlLayout__prepend"
-                                      data-test-subj="superDatePickerToggleQuickMenuButton"
-                                      iconSide="right"
-                                      iconType="arrowDown"
-                                      isDisabled={false}
-                                      onClick={[Function]}
-                                      size="xs"
-                                      textProps={
-                                        Object {
-                                          "className": "euiQuickSelectPopover__buttonText",
-                                        }
-                                      }
+                                    <div
+                                      className="euiPopover__anchor euiQuickSelectPopover__anchor"
                                     >
-                                      <button
+                                      <EuiButtonEmpty
                                         aria-label="Date quick select"
-                                        className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                        className="euiFormControlLayout__prepend"
                                         data-test-subj="superDatePickerToggleQuickMenuButton"
-                                        disabled={false}
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        isDisabled={false}
                                         onClick={[Function]}
-                                        type="button"
-                                      >
-                                        <EuiButtonContent
-                                          className="euiButtonEmpty__content"
-                                          iconSide="right"
-                                          iconSize="s"
-                                          iconType="arrowDown"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
-                                            }
+                                        size="xs"
+                                        textProps={
+                                          Object {
+                                            "className": "euiQuickSelectPopover__buttonText",
                                           }
+                                        }
+                                      >
+                                        <button
+                                          aria-label="Date quick select"
+                                          className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                                          data-test-subj="superDatePickerToggleQuickMenuButton"
+                                          disabled={false}
+                                          onClick={[Function]}
+                                          type="button"
                                         >
-                                          <span
-                                            className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                          <EuiButtonContent
+                                            className="euiButtonEmpty__content"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            textProps={
+                                              Object {
+                                                "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
+                                              }
+                                            }
                                           >
-                                            <EuiIcon
-                                              className="euiButtonContent__icon"
-                                              color="inherit"
-                                              size="s"
-                                              type="arrowDown"
-                                            >
-                                              <EuiIconArrowDown
-                                                aria-hidden={true}
-                                                className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
-                                                focusable="false"
-                                                role="img"
-                                                style={null}
-                                              >
-                                                <svg
-                                                  aria-hidden={true}
-                                                  className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
-                                                  focusable="false"
-                                                  height={16}
-                                                  role="img"
-                                                  style={null}
-                                                  viewBox="0 0 16 16"
-                                                  width={16}
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                  <path
-                                                    d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                                    fillRule="non-zero"
-                                                  />
-                                                </svg>
-                                              </EuiIconArrowDown>
-                                            </EuiIcon>
                                             <span
-                                              className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                              className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                             >
                                               <EuiIcon
-                                                type="calendar"
+                                                className="euiButtonContent__icon"
+                                                size="m"
+                                                type="arrowDown"
                                               >
-                                                <EuiIconCalendar
+                                                <EuiIconArrowDown
                                                   aria-hidden={true}
-                                                  className="euiIcon euiIcon--medium"
+                                                  className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                   focusable="false"
                                                   role="img"
                                                   style={null}
                                                 >
                                                   <svg
                                                     aria-hidden={true}
-                                                    className="euiIcon euiIcon--medium"
+                                                    className="euiIcon euiIcon--medium euiButtonContent__icon"
                                                     focusable="false"
                                                     height={16}
                                                     role="img"
@@ -2372,19 +2369,51 @@ exports[`Services component renders services page 1`] = `
                                                     xmlns="http://www.w3.org/2000/svg"
                                                   >
                                                     <path
-                                                      d="M14 4v-.994C14 2.45 13.55 2 12.994 2H11v1h-1V2H6v1H5V2H3.006C2.45 2 2 2.45 2 3.006v9.988C2 13.55 2.45 14 3.006 14h9.988C13.55 14 14 13.55 14 12.994V5H2V4h12zm-3-3h1.994C14.102 1 15 1.897 15 3.006v9.988A2.005 2.005 0 0112.994 15H3.006A2.005 2.005 0 011 12.994V3.006C1 1.898 1.897 1 3.006 1H5V0h1v1h4V0h1v1zM4 7h2v1H4V7zm3 0h2v1H7V7zm3 0h2v1h-2V7zM4 9h2v1H4V9zm3 0h2v1H7V9zm3 0h2v1h-2V9zm-6 2h2v1H4v-1zm3 0h2v1H7v-1zm3 0h2v1h-2v-1z"
-                                                      fillRule="evenodd"
+                                                      d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                      fillRule="non-zero"
                                                     />
                                                   </svg>
-                                                </EuiIconCalendar>
+                                                </EuiIconArrowDown>
                                               </EuiIcon>
+                                              <span
+                                                className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                              >
+                                                <EuiIcon
+                                                  type="calendar"
+                                                >
+                                                  <EuiIconCalendar
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium"
+                                                    focusable="false"
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium"
+                                                      focusable="false"
+                                                      height={16}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M14 4v-.994C14 2.45 13.55 2 12.994 2H11v1h-1V2H6v1H5V2H3.006C2.45 2 2 2.45 2 3.006v9.988C2 13.55 2.45 14 3.006 14h9.988C13.55 14 14 13.55 14 12.994V5H2V4h12zm-3-3h1.994C14.102 1 15 1.897 15 3.006v9.988A2.005 2.005 0 0112.994 15H3.006A2.005 2.005 0 011 12.994V3.006C1 1.898 1.897 1 3.006 1H5V0h1v1h4V0h1v1zM4 7h2v1H4V7zm3 0h2v1H7V7zm3 0h2v1h-2V7zM4 9h2v1H4V9zm3 0h2v1H7V9zm3 0h2v1h-2V9zm-6 2h2v1H4v-1zm3 0h2v1H7v-1zm3 0h2v1h-2v-1z"
+                                                        fillRule="evenodd"
+                                                      />
+                                                    </svg>
+                                                  </EuiIconCalendar>
+                                                </EuiIcon>
+                                              </span>
                                             </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonEmpty>
+                                          </EuiButtonContent>
+                                        </button>
+                                      </EuiButtonEmpty>
+                                    </div>
                                   </div>
-                                </div>
+                                </EuiOutsideClickDetector>
                               </EuiPopover>
                             </EuiQuickSelectPopover>
                             <div
@@ -2443,7 +2472,6 @@ exports[`Services component renders services page 1`] = `
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
-                  baseClassName="euiButton"
                   data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
@@ -2457,11 +2485,6 @@ exports[`Services component renders services page 1`] = `
                     data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
-                    style={
-                      Object {
-                        "minWidth": undefined,
-                      }
-                    }
                     type="button"
                   >
                     <EuiButtonContent
@@ -2479,20 +2502,19 @@ exports[`Services component renders services page 1`] = `
                       >
                         <EuiIcon
                           className="euiButtonContent__icon"
-                          color="inherit"
                           size="m"
                           type="refresh"
                         >
                           <EuiIconRefresh
                             aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                            className="euiIcon euiIcon--medium euiButtonContent__icon"
                             focusable="false"
                             role="img"
                             style={null}
                           >
                             <svg
                               aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                              className="euiIcon euiIcon--medium euiButtonContent__icon"
                               focusable="false"
                               height={16}
                               role="img"
@@ -2587,67 +2609,75 @@ exports[`Services component renders services page 1`] = `
                     display="inlineBlock"
                     hasArrow={true}
                     isOpen={false}
-                    ownFocus={true}
+                    ownFocus={false}
                     panelPaddingSize="none"
                     withTitle={true}
                   >
-                    <div
-                      className="euiPopover euiPopover--anchorRightUp"
-                      withTitle={true}
+                    <EuiOutsideClickDetector
+                      isDisabled={true}
+                      onOutsideClick={[Function]}
                     >
                       <div
-                        className="euiPopover__anchor"
+                        className="euiPopover euiPopover--anchorRightUp euiPopover--withTitle"
+                        onKeyDown={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchStart={[Function]}
                       >
-                        <EuiButtonIcon
-                          aria-label="Change all filters"
-                          iconType="filter"
-                          onClick={[Function]}
-                          title="Change all filters"
+                        <div
+                          className="euiPopover__anchor"
                         >
-                          <button
+                          <EuiButtonIcon
                             aria-label="Change all filters"
-                            className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall"
-                            disabled={false}
+                            iconType="filter"
                             onClick={[Function]}
                             title="Change all filters"
-                            type="button"
                           >
-                            <EuiIcon
-                              aria-hidden="true"
-                              className="euiButtonIcon__icon"
-                              color="inherit"
-                              size="m"
-                              type="filter"
+                            <button
+                              aria-label="Change all filters"
+                              className="euiButtonIcon euiButtonIcon--primary"
+                              disabled={false}
+                              onClick={[Function]}
+                              title="Change all filters"
+                              type="button"
                             >
-                              <EuiIconFilter
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
-                                focusable="false"
-                                role="img"
-                                style={null}
+                              <EuiIcon
+                                aria-hidden="true"
+                                className="euiButtonIcon__icon"
+                                size="m"
+                                type="filter"
                               >
-                                <svg
+                                <EuiIconFilter
                                   aria-hidden={true}
-                                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                  className="euiIcon euiIcon--medium euiButtonIcon__icon"
                                   focusable="false"
-                                  height={16}
                                   role="img"
                                   style={null}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <path
-                                    d="M7.999 15.999a8 8 0 110-16 8 8 0 010 16zM8 15A7 7 0 108 1a7 7 0 000 14zM3.5 5h9a.5.5 0 110 1h-9a.5.5 0 010-1zm2 3h5a.5.5 0 110 1h-5a.5.5 0 010-1zm2 3h1a.5.5 0 110 1h-1a.5.5 0 110-1z"
-                                    fillRule="evenodd"
-                                  />
-                                </svg>
-                              </EuiIconFilter>
-                            </EuiIcon>
-                          </button>
-                        </EuiButtonIcon>
+                                  <svg
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiButtonIcon__icon"
+                                    focusable="false"
+                                    height={16}
+                                    role="img"
+                                    style={null}
+                                    viewBox="0 0 16 16"
+                                    width={16}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7.999 15.999a8 8 0 110-16 8 8 0 010 16zM8 15A7 7 0 108 1a7 7 0 000 14zM3.5 5h9a.5.5 0 110 1h-9a.5.5 0 010-1zm2 3h5a.5.5 0 110 1h-5a.5.5 0 010-1zm2 3h1a.5.5 0 110 1h-1a.5.5 0 110-1z"
+                                      fillRule="evenodd"
+                                    />
+                                  </svg>
+                                </EuiIconFilter>
+                              </EuiIcon>
+                            </button>
+                          </EuiButtonIcon>
+                        </div>
                       </div>
-                    </div>
+                    </EuiOutsideClickDetector>
                   </EuiPopover>
                 </GlobalFilterButton>
               </div>
@@ -2673,51 +2703,59 @@ exports[`Services component renders services page 1`] = `
                     display="inlineBlock"
                     hasArrow={true}
                     isOpen={false}
-                    ownFocus={true}
+                    ownFocus={false}
                     panelPaddingSize="m"
                     withTitle={true}
                   >
-                    <div
-                      className="euiPopover euiPopover--anchorDownLeft"
-                      withTitle={true}
+                    <EuiOutsideClickDetector
+                      isDisabled={true}
+                      onOutsideClick={[Function]}
                     >
                       <div
-                        className="euiPopover__anchor"
+                        className="euiPopover euiPopover--anchorDownLeft euiPopover--withTitle"
+                        onKeyDown={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchStart={[Function]}
                       >
-                        <EuiButtonEmpty
-                          onClick={[Function]}
-                          size="xs"
+                        <div
+                          className="euiPopover__anchor"
                         >
-                          <button
-                            className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
-                            disabled={false}
+                          <EuiButtonEmpty
                             onClick={[Function]}
-                            type="button"
+                            size="xs"
                           >
-                            <EuiButtonContent
-                              className="euiButtonEmpty__content"
-                              iconSide="left"
-                              iconSize="s"
-                              textProps={
-                                Object {
-                                  "className": "euiButtonEmpty__text",
-                                }
-                              }
+                            <button
+                              className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+                              disabled={false}
+                              onClick={[Function]}
+                              type="button"
                             >
-                              <span
-                                className="euiButtonContent euiButtonEmpty__content"
+                              <EuiButtonContent
+                                className="euiButtonEmpty__content"
+                                iconSide="left"
+                                textProps={
+                                  Object {
+                                    "className": "euiButtonEmpty__text",
+                                  }
+                                }
                               >
                                 <span
-                                  className="euiButtonEmpty__text"
+                                  className="euiButtonContent euiButtonEmpty__content"
                                 >
-                                  + Add filter
+                                  <span
+                                    className="euiButtonEmpty__text"
+                                  >
+                                    + Add filter
+                                  </span>
                                 </span>
-                              </span>
-                            </EuiButtonContent>
-                          </button>
-                        </EuiButtonEmpty>
+                              </EuiButtonContent>
+                            </button>
+                          </EuiButtonEmpty>
+                        </div>
                       </div>
-                    </div>
+                    </EuiOutsideClickDetector>
                   </EuiPopover>
                 </AddFilterButton>
               </div>
@@ -2744,7 +2782,7 @@ exports[`Services component renders services page 1`] = `
     >
       <EuiPanel>
         <div
-          className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+          className="euiPanel euiPanel--paddingMedium"
         >
           <EuiFlexGroup
             alignItems="center"
@@ -2825,21 +2863,21 @@ exports[`Services component renders services page 1`] = `
               <div
                 className="euiEmptyPrompt"
               >
-                <EuiTitle
-                  size="m"
-                >
-                  <h2
-                    className="euiTitle euiTitle--medium"
-                  >
-                    No matches
-                  </h2>
-                </EuiTitle>
                 <EuiTextColor
                   color="subdued"
                 >
                   <span
                     className="euiTextColor euiTextColor--subdued"
                   >
+                    <EuiTitle
+                      size="m"
+                    >
+                      <h2
+                        className="euiTitle euiTitle--medium"
+                      >
+                        No matches
+                      </h2>
+                    </EuiTitle>
                     <EuiSpacer
                       size="m"
                     >
@@ -2892,7 +2930,7 @@ exports[`Services component renders services page 1`] = `
     >
       <EuiPanel>
         <div
-          className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+          className="euiPanel euiPanel--paddingMedium"
         >
           <PanelTitle
             title="Service map"
@@ -2941,257 +2979,266 @@ exports[`Services component renders services page 1`] = `
             }
           >
             <fieldset
-              className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
-              disabled={false}
+              className="euiButtonGroup__fieldset"
             >
-              <EuiScreenReaderOnly>
-                <legend
-                  className="euiScreenReaderOnly"
-                />
-              </EuiScreenReaderOnly>
               <div
-                className="euiButtonGroup__buttons"
+                className="euiButtonGroup euiButtonGroup--s"
               >
-                <EuiButtonGroupButton
+                <EuiButtonToggle
+                  className="euiButtonGroup__button euiButtonGroup__button--selected"
                   color="text"
-                  element="label"
+                  fill={true}
                   id="latency"
-                  isDisabled={false}
-                  isIconOnly={false}
                   isSelected={true}
                   key="0"
                   label="Latency"
-                  name="random_html_id"
                   onChange={[Function]}
                   size="s"
+                  toggleClassName="euiButtonGroup__toggle"
+                  type="single"
                 >
-                  <EuiButtonDisplay
-                    baseClassName="euiButtonGroupButton"
-                    className="euiButtonGroupButton-isSelected"
-                    color="text"
-                    element="label"
-                    fill={true}
-                    htmlFor="random_html_id"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    size="s"
-                    textProps={
-                      Object {
-                        "className": "euiButtonGroupButton__textShift",
-                        "data-text": "Latency",
-                        "ref": [Function],
-                        "title": "Latency",
-                      }
-                    }
+                  <EuiToggle
+                    checked={true}
+                    className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                    inputClassName="euiButtonToggle__input"
+                    label="Latency"
+                    onChange={[Function]}
+                    title="Latency"
+                    type="single"
                   >
-                    <label
-                      className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
-                      disabled={false}
-                      htmlFor="random_html_id"
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
+                    <div
+                      className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
                     >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="left"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text euiButtonGroupButton__textShift",
-                            "data-text": "Latency",
-                            "ref": [Function],
-                            "title": "Latency",
-                          }
-                        }
+                      <input
+                        aria-label="Latency"
+                        checked={true}
+                        className="euiToggle__input euiButtonToggle__input"
+                        onChange={[Function]}
+                        title="Latency"
+                        type="radio"
+                      />
+                      <EuiButton
+                        className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
+                        color="text"
+                        fill={true}
+                        id="latency"
+                        size="s"
+                        tabIndex={-1}
                       >
-                        <span
-                          className="euiButtonContent euiButton__content"
+                        <EuiButtonDisplay
+                          className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
+                          color="text"
+                          disabled={false}
+                          element="button"
+                          fill={true}
+                          id="latency"
+                          isDisabled={false}
+                          size="s"
+                          tabIndex={-1}
+                          type="button"
                         >
-                          <span
-                            className="euiButton__text euiButtonGroupButton__textShift"
-                            data-text="Latency"
-                            title="Latency"
+                          <button
+                            className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
+                            disabled={false}
+                            id="latency"
+                            tabIndex={-1}
+                            type="button"
                           >
-                            <input
-                              checked={true}
-                              className="euiScreenReaderOnly"
-                              data-test-subj="latency"
-                              disabled={false}
-                              id="random_html_id"
-                              name="random_html_id"
-                              onChange={[Function]}
-                              type="radio"
-                            />
-                            Latency
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </label>
-                  </EuiButtonDisplay>
-                </EuiButtonGroupButton>
-                <EuiButtonGroupButton
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text"
+                                >
+                                  Latency
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonDisplay>
+                      </EuiButton>
+                    </div>
+                  </EuiToggle>
+                </EuiButtonToggle>
+                <EuiButtonToggle
+                  className="euiButtonGroup__button"
                   color="text"
-                  element="label"
+                  fill={false}
                   id="error_rate"
-                  isDisabled={false}
-                  isIconOnly={false}
                   isSelected={false}
                   key="1"
                   label="Error rate"
-                  name="random_html_id"
                   onChange={[Function]}
                   size="s"
+                  toggleClassName="euiButtonGroup__toggle"
+                  type="single"
                 >
-                  <EuiButtonDisplay
-                    baseClassName="euiButtonGroupButton"
-                    className=""
-                    color="text"
-                    element="label"
-                    fill={false}
-                    htmlFor="random_html_id"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    size="s"
-                    textProps={
-                      Object {
-                        "className": "euiButtonGroupButton__textShift",
-                        "data-text": "Error rate",
-                        "ref": [Function],
-                        "title": "Error rate",
-                      }
-                    }
+                  <EuiToggle
+                    checked={false}
+                    className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                    inputClassName="euiButtonToggle__input"
+                    label="Error rate"
+                    onChange={[Function]}
+                    title="Error rate"
+                    type="single"
                   >
-                    <label
-                      className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                      disabled={false}
-                      htmlFor="random_html_id"
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
+                    <div
+                      className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
                     >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="left"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text euiButtonGroupButton__textShift",
-                            "data-text": "Error rate",
-                            "ref": [Function],
-                            "title": "Error rate",
-                          }
-                        }
+                      <input
+                        aria-label="Error rate"
+                        checked={false}
+                        className="euiToggle__input euiButtonToggle__input"
+                        onChange={[Function]}
+                        title="Error rate"
+                        type="radio"
+                      />
+                      <EuiButton
+                        className="euiButtonToggle euiButtonGroup__button"
+                        color="text"
+                        fill={false}
+                        id="error_rate"
+                        size="s"
+                        tabIndex={-1}
                       >
-                        <span
-                          className="euiButtonContent euiButton__content"
+                        <EuiButtonDisplay
+                          className="euiButtonToggle euiButtonGroup__button"
+                          color="text"
+                          disabled={false}
+                          element="button"
+                          fill={false}
+                          id="error_rate"
+                          isDisabled={false}
+                          size="s"
+                          tabIndex={-1}
+                          type="button"
                         >
-                          <span
-                            className="euiButton__text euiButtonGroupButton__textShift"
-                            data-text="Error rate"
-                            title="Error rate"
+                          <button
+                            className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
+                            disabled={false}
+                            id="error_rate"
+                            tabIndex={-1}
+                            type="button"
                           >
-                            <input
-                              checked={false}
-                              className="euiScreenReaderOnly"
-                              data-test-subj="error_rate"
-                              disabled={false}
-                              id="random_html_id"
-                              name="random_html_id"
-                              onChange={[Function]}
-                              type="radio"
-                            />
-                            Error rate
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </label>
-                  </EuiButtonDisplay>
-                </EuiButtonGroupButton>
-                <EuiButtonGroupButton
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text"
+                                >
+                                  Error rate
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonDisplay>
+                      </EuiButton>
+                    </div>
+                  </EuiToggle>
+                </EuiButtonToggle>
+                <EuiButtonToggle
+                  className="euiButtonGroup__button"
                   color="text"
-                  element="label"
+                  fill={false}
                   id="throughput"
-                  isDisabled={false}
-                  isIconOnly={false}
                   isSelected={false}
                   key="2"
                   label="Throughput"
-                  name="random_html_id"
                   onChange={[Function]}
                   size="s"
+                  toggleClassName="euiButtonGroup__toggle"
+                  type="single"
                 >
-                  <EuiButtonDisplay
-                    baseClassName="euiButtonGroupButton"
-                    className=""
-                    color="text"
-                    element="label"
-                    fill={false}
-                    htmlFor="random_html_id"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    size="s"
-                    textProps={
-                      Object {
-                        "className": "euiButtonGroupButton__textShift",
-                        "data-text": "Throughput",
-                        "ref": [Function],
-                        "title": "Throughput",
-                      }
-                    }
+                  <EuiToggle
+                    checked={false}
+                    className="euiButtonToggle__wrapper euiButtonGroup__toggle"
+                    inputClassName="euiButtonToggle__input"
+                    label="Throughput"
+                    onChange={[Function]}
+                    title="Throughput"
+                    type="single"
                   >
-                    <label
-                      className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
-                      disabled={false}
-                      htmlFor="random_html_id"
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
+                    <div
+                      className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
                     >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="left"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text euiButtonGroupButton__textShift",
-                            "data-text": "Throughput",
-                            "ref": [Function],
-                            "title": "Throughput",
-                          }
-                        }
+                      <input
+                        aria-label="Throughput"
+                        checked={false}
+                        className="euiToggle__input euiButtonToggle__input"
+                        onChange={[Function]}
+                        title="Throughput"
+                        type="radio"
+                      />
+                      <EuiButton
+                        className="euiButtonToggle euiButtonGroup__button"
+                        color="text"
+                        fill={false}
+                        id="throughput"
+                        size="s"
+                        tabIndex={-1}
                       >
-                        <span
-                          className="euiButtonContent euiButton__content"
+                        <EuiButtonDisplay
+                          className="euiButtonToggle euiButtonGroup__button"
+                          color="text"
+                          disabled={false}
+                          element="button"
+                          fill={false}
+                          id="throughput"
+                          isDisabled={false}
+                          size="s"
+                          tabIndex={-1}
+                          type="button"
                         >
-                          <span
-                            className="euiButton__text euiButtonGroupButton__textShift"
-                            data-text="Throughput"
-                            title="Throughput"
+                          <button
+                            className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
+                            disabled={false}
+                            id="throughput"
+                            tabIndex={-1}
+                            type="button"
                           >
-                            <input
-                              checked={false}
-                              className="euiScreenReaderOnly"
-                              data-test-subj="throughput"
-                              disabled={false}
-                              id="random_html_id"
-                              name="random_html_id"
-                              onChange={[Function]}
-                              type="radio"
-                            />
-                            Throughput
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </label>
-                  </EuiButtonDisplay>
-                </EuiButtonGroupButton>
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text"
+                                >
+                                  Throughput
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonDisplay>
+                      </EuiButton>
+                    </div>
+                  </EuiToggle>
+                </EuiButtonToggle>
               </div>
             </fieldset>
           </EuiButtonGroup>
@@ -3256,7 +3303,7 @@ exports[`Services component renders services page 1`] = `
                             isInvalid={false}
                           >
                             <input
-                              className="euiFieldSearch"
+                              className="euiFieldSearch euiFieldSearch-isClearable"
                               onChange={[Function]}
                               onKeyUp={[Function]}
                               placeholder="Service name"
@@ -3265,7 +3312,6 @@ exports[`Services component renders services page 1`] = `
                             />
                           </EuiValidatableControl>
                           <EuiFormControlLayoutIcons
-                            compressed={false}
                             icon="search"
                             isLoading={false}
                           >
@@ -3273,7 +3319,6 @@ exports[`Services component renders services page 1`] = `
                               className="euiFormControlLayoutIcons"
                             >
                               <EuiFormControlLayoutCustomIcon
-                                size="m"
                                 type="search"
                               >
                                 <span
@@ -3282,7 +3327,6 @@ exports[`Services component renders services page 1`] = `
                                   <EuiIcon
                                     aria-hidden="true"
                                     className="euiFormControlLayoutCustomIcon__icon"
-                                    size="m"
                                     type="search"
                                   >
                                     <EuiIconSearch
@@ -3358,21 +3402,21 @@ exports[`Services component renders services page 1`] = `
                 <div
                   className="euiEmptyPrompt"
                 >
-                  <EuiTitle
-                    size="m"
-                  >
-                    <h2
-                      className="euiTitle euiTitle--medium"
-                    >
-                      No matches
-                    </h2>
-                  </EuiTitle>
                   <EuiTextColor
                     color="subdued"
                   >
                     <span
                       className="euiTextColor euiTextColor--subdued"
                     >
+                      <EuiTitle
+                        size="m"
+                      >
+                        <h2
+                          className="euiTitle euiTitle--medium"
+                        >
+                          No matches
+                        </h2>
+                      </EuiTitle>
                       <EuiSpacer
                         size="m"
                       >

@@ -19,7 +19,7 @@ exports[`<ParaOutput /> spec renders other types of outputs 1`] = `
   class="euiText euiText--medium"
 >
   <div
-    class="sc-crXcEl gqVnJo"
+    class="sc-fznyAO dwdNRd"
   />
 </div>
 `;
@@ -44,6 +44,11 @@ exports[`<ParaOutput /> spec renders query outputs 1`] = `
     />
     <div
       class="euiSpacer euiSpacer--l"
+    />
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="-1"
     />
     <div
       data-focus-guard="true"

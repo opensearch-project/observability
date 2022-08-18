@@ -147,3 +147,175 @@ exports[`Ploty base component Renders Ploty base component 1`] = `
   </PlotlyComponent>
 </Plt>
 `;
+
+exports[`Ploty base component Renders Ploty base component 2`] = `
+<Plt
+  config={Object {}}
+  data={
+    Array [
+      Object {
+        "displaylogo": false,
+        "marker": Object {
+          "color": Array [
+            "#3CA1C7",
+            "#8C55A3",
+            "#DB748A",
+            "#F2BE4B",
+          ],
+        },
+        "name": "avg(FlightDelayMin)",
+        "responsive": true,
+        "type": "bar",
+        "x": Array [
+          "JetBeats",
+          "Logstash Airways",
+          "OpenSearch Dashboards Airlines",
+          "OpenSearch-Air",
+        ],
+        "y": Array [
+          45.957544288332315,
+          49.55268688081657,
+          46.368274582560296,
+          47.41304347826087,
+        ],
+      },
+    ]
+  }
+  layout={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+      "xaxis": Object {
+        "autorange": true,
+        "range": Array [
+          -0.5,
+          3.5,
+        ],
+        "showgrid": false,
+        "type": "category",
+        "visible": true,
+      },
+      "yaxis": Object {
+        "autorange": true,
+        "range": Array [
+          0,
+          52.1607230324385,
+        ],
+        "showgrid": false,
+        "type": "linear",
+        "visible": true,
+      },
+    }
+  }
+>
+  <PlotlyComponent
+    config={
+      Object {
+        "displayModeBar": false,
+      }
+    }
+    data={
+      Array [
+        Object {
+          "displaylogo": false,
+          "marker": Object {
+            "color": Array [
+              "#3CA1C7",
+              "#8C55A3",
+              "#DB748A",
+              "#F2BE4B",
+            ],
+          },
+          "name": "avg(FlightDelayMin)",
+          "responsive": true,
+          "type": "bar",
+          "x": Array [
+            "JetBeats",
+            "Logstash Airways",
+            "OpenSearch Dashboards Airlines",
+            "OpenSearch-Air",
+          ],
+          "y": Array [
+            45.957544288332315,
+            49.55268688081657,
+            46.368274582560296,
+            47.41304347826087,
+          ],
+        },
+      ]
+    }
+    debug={false}
+    divId="explorerPlotComponent"
+    layout={
+      Object {
+        "autosize": true,
+        "barmode": "stack",
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "height": 220,
+        "hovermode": "closest",
+        "legend": Object {
+          "orientation": "h",
+          "traceorder": "normal",
+        },
+        "margin": Object {
+          "b": 15,
+          "l": 60,
+          "pad": 0,
+          "r": 10,
+          "t": 30,
+        },
+        "showlegend": true,
+        "xaxis": Object {
+          "autorange": true,
+          "range": Array [
+            -0.5,
+            3.5,
+          ],
+          "showgrid": false,
+          "type": "category",
+          "visible": true,
+        },
+        "yaxis": Object {
+          "autorange": true,
+          "range": Array [
+            0,
+            52.1607230324385,
+          ],
+          "showgrid": false,
+          "type": "linear",
+          "visible": true,
+        },
+      }
+    }
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+    useResizeHandler={true}
+  >
+    <div
+      id="explorerPlotComponent"
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </PlotlyComponent>
+</Plt>
+`;

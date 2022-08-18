@@ -223,7 +223,6 @@ exports[`Trace Config component renders empty trace config 1`] = `
               size="s"
             >
               <EuiButtonDisplay
-                baseClassName="euiButton"
                 data-test-subj="clearTraceGroupsButton"
                 disabled={true}
                 element="button"
@@ -237,11 +236,6 @@ exports[`Trace Config component renders empty trace config 1`] = `
                   data-test-subj="clearTraceGroupsButton"
                   disabled={true}
                   onClick={[Function]}
-                  style={
-                    Object {
-                      "minWidth": undefined,
-                    }
-                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -269,11 +263,8 @@ exports[`Trace Config component renders empty trace config 1`] = `
           </div>
         </div>
         <div
-          aria-labelledby="random_html_id"
           className="euiAccordion__childWrapper"
           id="traceGroups"
-          role="region"
-          tabIndex={-1}
         >
           <EuiResizeObserver
             onResize={[Function]}
@@ -317,7 +308,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
                       className="euiFormRow__fieldWrapper"
                     >
                       <EuiComboBox
-                        aria-describedby="random_html_id-help-0"
+                        aria-describedby="random_html_id-help"
                         aria-label="Select trace groups"
                         async={false}
                         compressed={false}
@@ -336,7 +327,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
                         sortMatchesBy="none"
                       >
                         <div
-                          aria-describedby="random_html_id-help-0"
+                          aria-describedby="random_html_id-help"
                           aria-expanded={false}
                           aria-haspopup="listbox"
                           aria-label="Select trace groups"
@@ -463,7 +454,6 @@ exports[`Trace Config component renders empty trace config 1`] = `
                                     </AutosizeInput>
                                   </div>
                                   <EuiFormControlLayoutIcons
-                                    compressed={false}
                                     icon={
                                       Object {
                                         "aria-label": "Open list of options",
@@ -484,7 +474,6 @@ exports[`Trace Config component renders empty trace config 1`] = `
                                         data-test-subj="comboBoxToggleListButton"
                                         iconRef={[Function]}
                                         onClick={[Function]}
-                                        size="m"
                                         type="arrowDown"
                                       >
                                         <button
@@ -497,7 +486,6 @@ exports[`Trace Config component renders empty trace config 1`] = `
                                           <EuiIcon
                                             aria-hidden="true"
                                             className="euiFormControlLayoutCustomIcon__icon"
-                                            size="m"
                                             type="arrowDown"
                                           >
                                             <EuiIconEmpty
@@ -532,12 +520,11 @@ exports[`Trace Config component renders empty trace config 1`] = `
                       </EuiComboBox>
                       <EuiFormHelpText
                         className="euiFormRow__text"
-                        id="random_html_id-help-0"
-                        key="Select one or multiple trace groups, or type a custom one"
+                        id="random_html_id-help"
                       >
                         <div
                           className="euiFormHelpText euiFormRow__text"
-                          id="random_html_id-help-0"
+                          id="random_html_id-help"
                         >
                           Select one or multiple trace groups, or type a custom one
                         </div>
@@ -561,7 +548,7 @@ exports[`Trace Config component renders empty trace config 1`] = `
                 >
                   <EuiPanel>
                     <div
-                      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                      className="euiPanel euiPanel--paddingMedium"
                     >
                       <EuiFlexGroup
                         alignItems="center"
@@ -734,21 +721,21 @@ exports[`Trace Config component renders empty trace config 1`] = `
                           <div
                             className="euiEmptyPrompt"
                           >
-                            <EuiTitle
-                              size="m"
-                            >
-                              <h2
-                                className="euiTitle euiTitle--medium"
-                              >
-                                No matches
-                              </h2>
-                            </EuiTitle>
                             <EuiTextColor
                               color="subdued"
                             >
                               <span
                                 className="euiTextColor euiTextColor--subdued"
                               >
+                                <EuiTitle
+                                  size="m"
+                                >
+                                  <h2
+                                    className="euiTitle euiTitle--medium"
+                                  >
+                                    No matches
+                                  </h2>
+                                </EuiTitle>
                                 <EuiSpacer
                                   size="m"
                                 >
@@ -1036,7 +1023,6 @@ exports[`Trace Config component renders with one trace selected 1`] = `
               size="s"
             >
               <EuiButtonDisplay
-                baseClassName="euiButton"
                 data-test-subj="clearTraceGroupsButton"
                 disabled={true}
                 element="button"
@@ -1050,11 +1036,6 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                   data-test-subj="clearTraceGroupsButton"
                   disabled={true}
                   onClick={[Function]}
-                  style={
-                    Object {
-                      "minWidth": undefined,
-                    }
-                  }
                   type="button"
                 >
                   <EuiButtonContent
@@ -1082,11 +1063,8 @@ exports[`Trace Config component renders with one trace selected 1`] = `
           </div>
         </div>
         <div
-          aria-labelledby="random_html_id"
           className="euiAccordion__childWrapper"
           id="traceGroups"
-          role="region"
-          tabIndex={-1}
         >
           <EuiResizeObserver
             onResize={[Function]}
@@ -1130,7 +1108,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                       className="euiFormRow__fieldWrapper"
                     >
                       <EuiComboBox
-                        aria-describedby="random_html_id-help-0"
+                        aria-describedby="random_html_id-help"
                         aria-label="Select trace groups"
                         async={false}
                         compressed={false}
@@ -1149,7 +1127,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                         sortMatchesBy="none"
                       >
                         <div
-                          aria-describedby="random_html_id-help-0"
+                          aria-describedby="random_html_id-help"
                           aria-expanded={false}
                           aria-haspopup="listbox"
                           aria-label="Select trace groups"
@@ -1276,7 +1254,6 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                                     </AutosizeInput>
                                   </div>
                                   <EuiFormControlLayoutIcons
-                                    compressed={false}
                                     icon={
                                       Object {
                                         "aria-label": "Open list of options",
@@ -1297,7 +1274,6 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                                         data-test-subj="comboBoxToggleListButton"
                                         iconRef={[Function]}
                                         onClick={[Function]}
-                                        size="m"
                                         type="arrowDown"
                                       >
                                         <button
@@ -1310,7 +1286,6 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                                           <EuiIcon
                                             aria-hidden="true"
                                             className="euiFormControlLayoutCustomIcon__icon"
-                                            size="m"
                                             type="arrowDown"
                                           >
                                             <EuiIconArrowDown
@@ -1350,12 +1325,11 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                       </EuiComboBox>
                       <EuiFormHelpText
                         className="euiFormRow__text"
-                        id="random_html_id-help-0"
-                        key="Select one or multiple trace groups, or type a custom one"
+                        id="random_html_id-help"
                       >
                         <div
                           className="euiFormHelpText euiFormRow__text"
-                          id="random_html_id-help-0"
+                          id="random_html_id-help"
                         >
                           Select one or multiple trace groups, or type a custom one
                         </div>
@@ -1379,7 +1353,7 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                 >
                   <EuiPanel>
                     <div
-                      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                      className="euiPanel euiPanel--paddingMedium"
                     >
                       <EuiFlexGroup
                         alignItems="center"
@@ -1552,21 +1526,21 @@ exports[`Trace Config component renders with one trace selected 1`] = `
                           <div
                             className="euiEmptyPrompt"
                           >
-                            <EuiTitle
-                              size="m"
-                            >
-                              <h2
-                                className="euiTitle euiTitle--medium"
-                              >
-                                No matches
-                              </h2>
-                            </EuiTitle>
                             <EuiTextColor
                               color="subdued"
                             >
                               <span
                                 className="euiTextColor euiTextColor--subdued"
                               >
+                                <EuiTitle
+                                  size="m"
+                                >
+                                  <h2
+                                    className="euiTitle euiTitle--medium"
+                                  >
+                                    No matches
+                                  </h2>
+                                </EuiTitle>
                                 <EuiSpacer
                                   size="m"
                                 >
