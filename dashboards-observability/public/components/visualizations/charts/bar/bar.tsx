@@ -10,11 +10,10 @@ import {
   LONG_CHART_COLOR,
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
-  visChartTypes,
 } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { hexToRgb } from '../../../event_analytics/utils/utils';
+import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
@@ -30,32 +29,23 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
-
-  const visType: string = visualizations.vis.name;
   const xaxis = dataConfig?.valueOptions?.dimensions
-    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
+    ? filterDataConfigParameter(dataConfig.valueOptions.dimensions)
     : [];
   const yaxis = dataConfig?.valueOptions?.metrics
-    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
+    ? filterDataConfigParameter(dataConfig.valueOptions.metrics)
     : [];
-  const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
-  const isVertical =
-    visType === visChartTypes.HorizontalBar
-      ? barOrientation !== vis.orientation
-      : barOrientation === vis.orientation;
+  const isVertical = vis.orientation === 'v' ? true : false;
   let bars;
   let valueSeries;
   let valueForXSeries;
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    // valueSeries = isVertical ? [...yaxis] : [...xaxis];
-    // valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
     valueSeries = [...yaxis];
     valueForXSeries = [...xaxis];
   } else {
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
   }
-
   const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || vis.labelangle;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || vis.linewidth;
   const fillOpacity =
@@ -109,14 +99,12 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         const selectedColor = getSelectedColorTheme(field, index);
         return dimensionsData.map((dimension: any, j: number) => {
           return {
-            // x: isVertical
-            //   ? !isEmpty(xaxis)
-            //     ? dimension
-            //     : data[fields[lastIndex].name]
-            //   : data[field.label],
-            // y: isVertical ? data[field.label][j] : dimensionsData, // TODO: orinetation
-            x: isVertical ? dimension : data[field.label][j],
-            y: isVertical ? data[field.label][j] : dimensionsData,
+            x: isVertical
+              ? !isEmpty(xaxis)
+                ? dimension
+                : data[fields[lastIndex].name]
+              : data[field.label][j],
+            y: isVertical ? data[field.label][j] : dimension,
             type: vis.type,
             marker: {
               color: hexToRgb(selectedColor, fillOpacity),
@@ -126,7 +114,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
               },
             },
             name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
-            orientation: isVertical ? 'v' : 'h',
+            orientation: vis.orientation,
           };
         });
       })
@@ -138,27 +126,20 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation, hoverinfo };
         acc[name].x.push(x);
         acc[name].y.push(y);
-
         return acc;
       }, {})
     );
   } else {
     // for multiple dimention and metrics without timestamp
-    console.log('NO TIMRSTAMP  =========');
     const dimensionsData = prepareData(valueForXSeries);
-    const metricsData = prepareData(valueSeries);
-    console.log('dimensionsData', dimensionsData);
-    console.log('metricsData', metricsData);
     bars = valueSeries.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field, index);
       return {
-        // x: isVertical
-        //   ? !isEmpty(xaxis)
-        //     ? dimensionsData
-        //     : data[fields[lastIndex].name]
-        //   : data[field.name],
-        // y: isVertical ? data[field.name] : metricsData, // TODO: add if isempty true
-        x: isVertical ? dimensionsData : data[field.name],
+        x: isVertical
+          ? !isEmpty(xaxis)
+            ? dimensionsData
+            : data[fields[lastIndex].name]
+          : data[field.name],
         y: isVertical ? data[field.name] : dimensionsData,
         type: vis.type,
         marker: {
@@ -169,7 +150,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           },
         },
         name: field.name,
-        orientation: isVertical ? 'v' : 'h',
+        orientation: vis.orientation,
       };
     });
   }
@@ -187,10 +168,19 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     font: {
       size: labelSize,
     },
-    xaxis: {
-      tickangle: tickAngle,
-      automargin: true,
-    },
+    ...(isVertical
+      ? {
+          xaxis: {
+            tickangle: tickAngle,
+            automargin: true,
+          },
+        }
+      : {
+          yaxis: {
+            tickangle: tickAngle,
+            automargin: true,
+          },
+        }),
     bargap: groupWidth,
     bargroupgap: barWidth,
     legend: {
@@ -199,14 +189,14 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     },
     showlegend: showLegend,
   };
-  if (dataConfig.thresholds || availabilityConfig.level) {
+  if (availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
       y: [],
       mode: 'text',
       text: [],
     };
-    const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
+
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
@@ -233,7 +223,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       });
     };
 
-    mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
+    mergedLayout.shapes = [...mapToLine(levels, {})];
     bars = [...bars, thresholdTraces];
   }
   const mergedConfigs = useMemo(

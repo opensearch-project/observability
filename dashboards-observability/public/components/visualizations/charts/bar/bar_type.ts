@@ -24,7 +24,8 @@ const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
 const { LegendPosition, ShowLegend } = DefaultChartStyles;
-const isHorizontalBar = (paramstype: string) => paramstype === visChartTypes.HorizontalBar ? true : false;
+const isHorizontalBar = (paramstype: string) =>
+  paramstype === visChartTypes.HorizontalBar ? true : false;
 
 export const createBarTypeDefinition = (params: any) => ({
   name: params.type ? params.type : 'bar',
