@@ -50,7 +50,7 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
 
   const mapXaxis = (): { [key: string]: string }[] => {
     const xaxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp');
-    return visName === visChartTypes.Line
+    return visName === visChartTypes.Line || visName === visChartTypes.Scatter
       ? xaxis.length === 0
         ? [initialDimensionEntry]
         : xaxis
@@ -58,7 +58,7 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   };
 
   const mapYaxis = (): { [key: string]: string }[] =>
-    visName === visChartTypes.Line
+    visName === visChartTypes.Line || visName === visChartTypes.Scatter
       ? vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
       : take(
           vizFieldsWithLabel,

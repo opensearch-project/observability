@@ -18,6 +18,7 @@ import {
   EuiText,
   EuiFieldNumber,
   htmlIdGenerator,
+  EuiIconTip,
 } from '@elastic/eui';
 import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
@@ -34,18 +35,23 @@ import { ConfigList } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 import { QueryManager } from '../../../../../../../../common/query_manager';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
+import '../../config_panel.scss';
 
 const initialDimensionEntry = {
   label: '',
   name: '',
 };
 
-const initialMetricEntry = {
-  alias: '',
-  label: '',
-  name: '',
-  aggregation: 'count',
-};
+  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+
+  const initialConfigEntry = {
+    label: '',
+    aggregation: '',
+    custom_label: '',
+    name: '',
+    side: 'right',
+    type: '',
+  };
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
@@ -163,7 +169,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
     return sectionName === 'metrics'
       ? unselectedFields
-      : visualizations.vis.name === visChartTypes.Line
+      : visualizations.vis.name === visChartTypes.Line ||
+        visualizations.vis.name === visChartTypes.Scatter
       ? unselectedFields.filter((i) => i.type === 'timestamp')
       : unselectedFields;
   };
@@ -285,7 +292,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               color="primary"
               onClick={() => handleServiceAdd(sectionName)}
               disabled={
-                sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.Line
+                sectionName === 'dimensions' &&
+                      (visualizations.vis.name === visChartTypes.Line ||
+                        visualizations.vis.name === visChartTypes.Scatter)
               }
             >
               Add
@@ -451,7 +460,11 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           <EuiTitle size="xxs">
             <h3>Dimensions</h3>
           </EuiTitle>
-          <EuiSpacer size="s" />
+          {fields.find((x) => x.type !== 'timestamp') &&
+            (visualizations.vis.name === visChartTypes.Line ||
+              visualizations.vis.name === visChartTypes.Scatter) && (
+              <EuiIconTip content={tooltipText} position="right" />
+            )}
           {getCommonUI(configList.dimensions, 'dimensions')}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
