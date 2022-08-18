@@ -4,6 +4,7 @@
  */
 
 import React, { useContext, useMemo } from 'react';
+import { isEmpty } from 'lodash';
 
 import { Plt } from '../../plotly/plot';
 import { TabContext } from '../../../event_analytics/hooks';
@@ -16,23 +17,30 @@ import { visChartTypes } from '../../../../../common/constants/shared';
 export const CoordinateMap = ({ visualizations }: any) => {
   const { explorerData } = useContext<any>(TabContext);
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const dataConfiguration = visualizations?.data?.rawVizData?.scattergeo?.dataConfig;
   const rawData = explorerData.jsonData;
 
+  if (isEmpty(rawData)) {
+    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
+  }
+
   const fetchPlotNames = () =>
-    rawData.map((data: any) => data?.[dataConfiguration?.metrics[0]?.plotName]);
+    rawData.map((data: any) => data?.[dataConfig?.valueOptions?.metrics[0]?.plotName]);
 
   const fetchLocationLats = () =>
-    rawData.map((data: any) => JSON.parse(data?.[dataConfiguration?.dimensions[0]?.name])?.lat);
+    rawData.map(
+      (data: any) => JSON.parse(data?.[dataConfig?.valueOptions?.dimensions[0]?.name])?.lat
+    );
 
   const fetchLocationLons = () =>
-    rawData.map((data: any) => JSON.parse(data?.[dataConfiguration?.dimensions[0]?.name])?.lon);
+    rawData.map(
+      (data: any) => JSON.parse(data?.[dataConfig?.valueOptions?.dimensions[0]?.name])?.lon
+    );
 
   const fetchColorDetectorField = () =>
-    rawData.map((data: any) => data?.[dataConfiguration?.metrics[0]?.name]);
+    rawData.map((data: any) => data?.[dataConfig?.valueOptions?.metrics[0]?.name]);
 
   if (
-    isInvalidCoordinateMapConfig(dataConfiguration) ||
+    isInvalidCoordinateMapConfig(dataConfig?.valueOptions) ||
     rawData === undefined ||
     rawData.length === 0 ||
     fetchPlotNames()[0] === undefined ||
@@ -93,7 +101,7 @@ export const CoordinateMap = ({ visualizations }: any) => {
         },
       },
     ],
-    [rawData, dataConfiguration, showText, textPosition]
+    [rawData, dataConfig?.valueOptions, showText, textPosition]
   );
 
   const layoutMap = {

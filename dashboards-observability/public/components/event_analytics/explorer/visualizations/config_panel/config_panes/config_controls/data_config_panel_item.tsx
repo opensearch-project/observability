@@ -25,7 +25,7 @@ import {
 } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
-import { ConfigList } from '../../../../../../../../common/types/explorer';
+import { ConfigList, IField } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
@@ -274,23 +274,47 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     </>
   );
 
+  const reduceFields = (dataFields: IField[], dataType: string) => {
+    return dataFields.reduce((acc: IField[], field: IField) => {
+      let isFilterable: boolean;
+      switch (dataType) {
+        case 'geo_point':
+          isFilterable = field.type === dataType;
+          break;
+        case 'number':
+          isFilterable = field.type === 'float' || field.type === 'integer';
+          break;
+        default:
+          isFilterable = true;
+      }
+      if (isFilterable) {
+        acc.push({ ...field, label: field.name });
+        return acc;
+      }
+      return acc;
+    }, []);
+  };
+
   const getOptionsAccordingToType = (dataType: string) => {
-    if (dataType === 'all') {
-      return data.indexFields.availableFields.map((field: any) => ({
-        label: field.name,
-      }));
+    switch (dataType) {
+      case 'all':
+        if (data.indexFields.queriedFields.length > 0) {
+          return reduceFields(data.indexFields.queriedFields, dataType);
+        }
+        return reduceFields(data.indexFields.availableFields, dataType);
+      case 'number':
+        if (data.indexFields.queriedFields.length > 0) {
+          return reduceFields(data.indexFields.queriedFields, dataType);
+        }
+        return reduceFields(data.indexFields.availableFields, dataType);
+      case 'geo_point':
+        if (data.indexFields.queriedFields.length > 0) {
+          return reduceFields(data.indexFields.queriedFields, dataType);
+        }
+        return reduceFields(data.indexFields.availableFields, dataType);
+      default:
+        return [];
     }
-    if (dataType === 'number') {
-      return data.indexFields.availableFields
-        .filter((field: any) => field.type === 'float' || field.type === 'integer')
-        .map((filteredField: any) => ({ label: filteredField.name }));
-    }
-    if (dataType === 'geo_point') {
-      return data.indexFields.availableFields
-        .filter((field: any) => field.type === dataType)
-        .map((filteredField: any) => ({ label: filteredField.name }));
-    }
-    return [];
   };
 
   const getSingleBlock = (type: string, dataType: string) => {
