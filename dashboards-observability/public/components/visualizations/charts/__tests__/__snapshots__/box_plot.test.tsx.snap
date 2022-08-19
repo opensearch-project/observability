@@ -199,10 +199,37 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
             "status": 200,
           },
         },
-        "userConfigs": Object {},
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "valueOptions": Object {
+              "dimensions": Array [
+                Object {
+                  "label": "host",
+                  "name": "host",
+                  "type": "text",
+                },
+              ],
+              "metrics": Array [
+                Object {
+                  "label": "max(bytes)",
+                  "name": "max(bytes)",
+                  "side": "left",
+                  "type": "long",
+                },
+                Object {
+                  "label": "avg(bytes)",
+                  "name": "avg(bytes)",
+                  "side": "right",
+                  "type": "double",
+                },
+              ],
+            },
+          },
+        },
       },
       "vis": Object {
-        "barwidth": 0.97,
+        "boxgap": 0.3,
+        "boxmode": "overlay",
         "category": "Visualizations",
         "categoryaxis": "xaxis",
         "component": [Function],
@@ -223,7 +250,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show legend",
+                      "name": "Show Legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -301,23 +328,23 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
-                      "mapTo": "mode",
+                      "mapTo": "boxMode",
                       "name": "Mode",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "id": "group",
-                            "name": "Group",
+                            "id": "overlay",
+                            "name": "Overlay",
                           },
                         ],
                         "options": Array [
                           Object {
-                            "id": "group",
-                            "name": "Group",
+                            "id": "overlay",
+                            "name": "Overlay",
                           },
                           Object {
-                            "id": "stack",
-                            "name": "Stack",
+                            "id": "group",
+                            "name": "Group",
                           },
                         ],
                       },
@@ -326,14 +353,14 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label size",
+                      "name": "Label Size",
                     },
                     Object {
                       "component": [Function],
                       "defaultState": 0,
                       "eleType": "slider",
-                      "mapTo": "rotateBarLabels",
-                      "name": "Rotate bar labels",
+                      "mapTo": "rotateBoxLabels",
+                      "name": "Rotate box labels",
                       "props": Object {
                         "max": 90,
                         "min": -90,
@@ -364,42 +391,45 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 0.7,
+                      "defaultState": 0.3,
                       "eleType": "slider",
-                      "mapTo": "groupWidth",
-                      "name": "Group width",
+                      "mapTo": "boxGap",
+                      "name": "Box gap",
                       "props": Object {
                         "max": 1,
-                        "step": 0.01,
+                        "min": 0,
+                        "step": 0.1,
                       },
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 0.97,
+                      "defaultState": 5,
                       "eleType": "slider",
-                      "mapTo": "barWidth",
-                      "name": "Bar width",
-                      "props": Object {
-                        "max": 1,
-                        "step": 0.01,
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 1,
-                      "eleType": "slider",
-                      "mapTo": "lineWidth",
-                      "name": "Line width",
+                      "mapTo": "markerSize",
+                      "name": "Marker size",
                       "props": Object {
                         "max": 10,
+                        "min": 1,
                       },
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 80,
+                      "defaultState": 0.3,
+                      "eleType": "slider",
+                      "mapTo": "jitter",
+                      "name": "Jitter",
+                      "props": Object {
+                        "max": 1,
+                        "min": 0,
+                        "step": 0.1,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 40,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill opacity",
+                      "name": "Fill Opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -410,7 +440,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color theme",
+                  "name": "Color Theme",
                   "schemas": Array [],
                 },
               ],
@@ -430,25 +460,24 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
             },
           ],
         },
-        "fillOpacity": 80,
-        "fulllabel": "Vertical bar",
-        "groupwidth": 0.7,
+        "fillopacity": 40,
+        "fulllabel": "Box plot",
         "icon": [Function],
         "icontype": "visBarVerticalStacked",
-        "id": "bar",
-        "label": "Vertical bar",
+        "id": "box_plot",
+        "jitter": 0.3,
+        "label": "Box plot",
         "labelangle": 0,
         "legendposition": "v",
-        "linewidth": 1,
-        "mode": "group",
-        "name": "bar",
+        "markersize": 5,
+        "name": "box",
         "orientation": "v",
         "selection": Object {
           "dataLoss": "nothing",
         },
         "seriesaxis": "yaxis",
         "showlegend": "show",
-        "type": "bar",
+        "type": "box",
         "visconfig": Object {
           "config": Object {
             "displaylogo": false,
@@ -475,82 +504,177 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder
-    icon="visBarVerticalStacked"
+  <Plt
+    config={Object {}}
+    data={
+      Array [
+        Object {
+          "boxmean": true,
+          "boxpoints": "all",
+          "fillcolor": "rgba(60,161,199,0.2)",
+          "jitter": 0.3,
+          "marker": Object {
+            "color": "rgba(60,161,199,0.2)",
+            "line": Object {
+              "color": "#3CA1C7",
+              "width": 5,
+            },
+          },
+          "name": "max(bytes)",
+          "pointpos": -1.8,
+          "type": "box",
+          "y": undefined,
+        },
+        Object {
+          "boxmean": true,
+          "boxpoints": "all",
+          "fillcolor": "rgba(140,85,163,0.2)",
+          "jitter": 0.3,
+          "marker": Object {
+            "color": "rgba(140,85,163,0.2)",
+            "line": Object {
+              "color": "#8C55A3",
+              "width": 5,
+            },
+          },
+          "name": "avg(bytes)",
+          "pointpos": -1.8,
+          "type": "box",
+          "y": undefined,
+        },
+      ]
+    }
+    layout={
+      Object {
+        "boxgap": 0.3,
+        "boxmode": "overlay",
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "font": Object {
+          "size": 10,
+        },
+        "height": 220,
+        "legend": Object {
+          "orientation": "v",
+        },
+        "margin": Object {
+          "b": 15,
+          "l": 60,
+          "pad": 0,
+          "r": 10,
+          "t": 30,
+        },
+        "showlegend": true,
+        "title": "",
+        "xaxis": Object {
+          "automargin": true,
+          "tickangle": 0,
+        },
+      }
+    }
   >
-    <EuiText
-      className="lnsChart__empty"
-      color="subdued"
-      data-test-subj="vizWorkspace__noData"
-      size="xs"
-      textAlign="center"
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
+      data={
+        Array [
+          Object {
+            "boxmean": true,
+            "boxpoints": "all",
+            "fillcolor": "rgba(60,161,199,0.2)",
+            "jitter": 0.3,
+            "marker": Object {
+              "color": "rgba(60,161,199,0.2)",
+              "line": Object {
+                "color": "#3CA1C7",
+                "width": 5,
+              },
+            },
+            "name": "max(bytes)",
+            "pointpos": -1.8,
+            "type": "box",
+            "y": undefined,
+          },
+          Object {
+            "boxmean": true,
+            "boxpoints": "all",
+            "fillcolor": "rgba(140,85,163,0.2)",
+            "jitter": 0.3,
+            "marker": Object {
+              "color": "rgba(140,85,163,0.2)",
+              "line": Object {
+                "color": "#8C55A3",
+                "width": 5,
+              },
+            },
+            "name": "avg(bytes)",
+            "pointpos": -1.8,
+            "type": "box",
+            "y": undefined,
+          },
+        ]
+      }
+      debug={false}
+      divId="explorerPlotComponent"
+      layout={
+        Object {
+          "autosize": true,
+          "barmode": "stack",
+          "boxgap": 0.3,
+          "boxmode": "overlay",
+          "colorway": Array [
+            "#8C55A3",
+          ],
+          "font": Object {
+            "size": 10,
+          },
+          "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "v",
+          },
+          "margin": Object {
+            "b": 15,
+            "l": 60,
+            "pad": 0,
+            "r": 10,
+            "t": 30,
+          },
+          "showlegend": true,
+          "title": "",
+          "xaxis": Object {
+            "automargin": true,
+            "tickangle": 0,
+          },
+          "yaxis": Object {
+            "rangemode": "normal",
+            "showgrid": true,
+            "zeroline": false,
+          },
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
     >
       <div
-        className="euiText euiText--extraSmall lnsChart__empty"
-        data-test-subj="vizWorkspace__noData"
-      >
-        <EuiTextAlign
-          textAlign="center"
-        >
-          <div
-            className="euiTextAlign euiTextAlign--center"
-          >
-            <EuiTextColor
-              color="subdued"
-              component="div"
-            >
-              <div
-                className="euiTextColor euiTextColor--subdued"
-              >
-                <EuiIcon
-                  color="subdued"
-                  size="xxl"
-                  type="visBarVerticalStacked"
-                >
-                  <EuiIconEmpty
-                    aria-hidden={true}
-                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                    focusable="false"
-                    role="img"
-                    style={null}
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                      focusable="false"
-                      height={16}
-                      role="img"
-                      style={null}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </EuiIconEmpty>
-                </EuiIcon>
-                <EuiSpacer
-                  size="l"
-                >
-                  <div
-                    className="euiSpacer euiSpacer--l"
-                  />
-                </EuiSpacer>
-                <p>
-                  <FormattedMessage
-                    defaultMessage="No results found"
-                    id="visualization_noData"
-                    values={Object {}}
-                  >
-                    <span>
-                      No results found
-                    </span>
-                  </FormattedMessage>
-                </p>
-              </div>
-            </EuiTextColor>
-          </div>
-        </EuiTextAlign>
-      </div>
-    </EuiText>
-  </EmptyPlaceholder>
+        id="explorerPlotComponent"
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </PlotlyComponent>
+  </Plt>
 </BoxPlot>
 `;

@@ -10,7 +10,8 @@ import { waitFor } from '@testing-library/react';
 import { BoxPlot } from '../box_plot/box_plot';
 import {
   LAYOUT_CONFIG,
-  TEST_VISUALIZATIONS_DATA
+  TEST_VISUALIZATIONS_DATA,
+  BOX_TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 
 describe('BoxPlot component', () => {
@@ -19,7 +20,7 @@ describe('BoxPlot component', () => {
   it('Renders BoxPlot component', async () => {
     const wrapper = mount(
       <BoxPlot
-        visualizations={TEST_VISUALIZATIONS_DATA}
+        visualizations={BOX_TEST_VISUALIZATIONS_DATA}
         layout={LAYOUT_CONFIG}
         config={true}
       />

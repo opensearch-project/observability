@@ -65,19 +65,22 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   const dimensionData = valueForXSeries.reduce((prev, cur) => {
-    if (prev.length === 0) return data[cur.name].flat();
+    if (prev.length === 0) {
+      return data[cur.name];
+    }
     return prev.map(
       (item: string | number, index: number) => `${item},<br>${data[cur.name][index]}`
     );
   }, []);
+
   box = valueSeries.map((field: ConfigListEntry, index: number) => {
     const selectedColor = getSelectedColorTheme(field, index);
     const axis = isVertical ? 'y' : 'x';
-    const alernateAxis = isVertical ? 'x' : 'y';
+    const alternateAxis = isVertical ? 'x' : 'y';
     return {
       [axis]: data[field.name],
       ...(boxMode === 'group' && {
-        [alernateAxis]: dimensionData,
+        [alternateAxis]: dimensionData,
       }),
       boxpoints: 'all',
       jitter: jitter,
