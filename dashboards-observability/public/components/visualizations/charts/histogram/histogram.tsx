@@ -29,7 +29,14 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const fillOpacity =
     (dataConfig?.chartStyles?.fillOpacity || FillOpacity) / FILLOPACITY_DIV_FACTOR;
-
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
   const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
 
   const xbins: any = {};
@@ -50,20 +57,24 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
   };
 
-  const hisValues = useMemo(() => valueSeries.map((field: any, index: number) => ({
-    x: data[field.name],
-    type: visChartTypes.Histogram,
-    name: field.name,
-    marker: {
-      color: selectedColorTheme(field, index, fillOpacity),
-      line: {
-        color: selectedColorTheme(field, index),
-        width: lineWidth,
-      },
-    },
-    xbins: !isEmpty(xbins) ? xbins : undefined,
-  }))
-    , [valueSeries, data, fillOpacity, lineWidth, xbins, selectedColorTheme]);
+  const hisValues = useMemo(
+    () =>
+      valueSeries.map((field: any, index: number) => ({
+        x: data[field.name],
+        type: visChartTypes.Histogram,
+        name: field.name,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
+        marker: {
+          color: selectedColorTheme(field, index, fillOpacity),
+          line: {
+            color: selectedColorTheme(field, index),
+            width: lineWidth,
+          },
+        },
+        xbins: !isEmpty(xbins) ? xbins : undefined,
+      })),
+    [valueSeries, data, fillOpacity, lineWidth, xbins, selectedColorTheme]
+  );
 
   const mergedLayout = {
     ...layout,
@@ -77,10 +88,13 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     showlegend: showLegend,
   };
 
-  const mergedConfigs = useMemo(() => ({
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  }), [config, layoutConfig.config]);
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={hisValues} layout={mergedLayout} config={mergedConfigs} />;
 };

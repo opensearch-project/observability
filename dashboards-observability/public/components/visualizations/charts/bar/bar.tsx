@@ -37,6 +37,15 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     : [];
   const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = barOrientation === vis.orientation;
+  console.log(dataConfig);
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
   let bars, valueSeries, valueForXSeries;
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -117,6 +126,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
               },
             },
             name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
+            hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
             orientation: barOrientation,
           };
         });
@@ -125,8 +135,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
 
     // merging x, y for same names
     bars = Object.values(
-      bars?.reduce((acc, { x, y, name, type, marker, orientation }) => {
-        acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation };
+      bars?.reduce((acc, { x, y, name, type, marker, orientation, hoverinfo }) => {
+        acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation, hoverinfo };
         acc[name].x.push(x);
         acc[name].y.push(y);
 
@@ -155,6 +165,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           },
         },
         name: field.name,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         orientation: barOrientation,
       };
     });
@@ -222,10 +233,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
     bars = [...bars, thresholdTraces];
   }
-  const mergedConfigs = useMemo(() => ({
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  }), [config, layoutConfig.config]);
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={bars} layout={mergedLayout} config={mergedConfigs} />;
 };

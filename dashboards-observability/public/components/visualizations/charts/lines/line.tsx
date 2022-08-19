@@ -46,6 +46,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const yaxis = dataConfig?.valueOptions?.metrics
     ? dataConfig.valueOptions.metrics.filter((item) => item.label)
     : [];
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   const lastIndex = fields.length - 1;
 
@@ -137,6 +145,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           width: lineWidth,
           color: selectedColor,
         },
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
           size: markerSize,
           ...(isBarMode && barMarker),
