@@ -64,7 +64,7 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
 >
   <EuiPanel>
     <div
-      className="euiPanel euiPanel--paddingMedium"
+      className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
     >
       <EuiFlexGroup>
         <div
@@ -123,7 +123,8 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                 }
               >
                 <fieldset
-                  className="euiButtonGroup__fieldset"
+                  className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
+                  disabled={false}
                 >
                   <EuiScreenReaderOnly>
                     <legend
@@ -133,178 +134,168 @@ exports[`Service breakdown panel component renders service breakdown panel 1`] =
                     </legend>
                   </EuiScreenReaderOnly>
                   <div
-                    className="euiButtonGroup euiButtonGroup--s"
+                    className="euiButtonGroup__buttons"
                   >
-                    <EuiButtonToggle
-                      className="euiButtonGroup__button euiButtonGroup__button--selected"
+                    <EuiButtonGroupButton
                       color="text"
-                      fill={true}
+                      element="label"
                       id="timeline"
+                      isDisabled={false}
+                      isIconOnly={false}
                       isSelected={true}
                       key="0"
                       label="Timeline"
+                      name="random_html_id"
                       onChange={[Function]}
                       size="s"
-                      toggleClassName="euiButtonGroup__toggle"
-                      type="single"
                     >
-                      <EuiToggle
-                        checked={true}
-                        className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                        inputClassName="euiButtonToggle__input"
-                        label="Timeline"
-                        onChange={[Function]}
-                        title="Timeline"
-                        type="single"
+                      <EuiButtonDisplay
+                        baseClassName="euiButtonGroupButton"
+                        className="euiButtonGroupButton-isSelected"
+                        color="text"
+                        element="label"
+                        fill={true}
+                        htmlFor="random_html_id"
+                        isDisabled={false}
+                        onClick={[Function]}
+                        size="s"
+                        textProps={
+                          Object {
+                            "className": "euiButtonGroupButton__textShift",
+                            "data-text": "Timeline",
+                            "ref": [Function],
+                            "title": "Timeline",
+                          }
+                        }
                       >
-                        <div
-                          className="euiToggle euiToggle--checked euiButtonToggle__wrapper euiButtonGroup__toggle"
+                        <label
+                          className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
+                          disabled={false}
+                          htmlFor="random_html_id"
+                          onClick={[Function]}
+                          style={
+                            Object {
+                              "minWidth": undefined,
+                            }
+                          }
                         >
-                          <input
-                            aria-label="Timeline"
-                            checked={true}
-                            className="euiToggle__input euiButtonToggle__input"
-                            onChange={[Function]}
-                            title="Timeline"
-                            type="radio"
-                          />
-                          <EuiButton
-                            className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                            color="text"
-                            fill={true}
-                            id="timeline"
-                            size="s"
-                            tabIndex={-1}
+                          <EuiButtonContent
+                            className="euiButton__content"
+                            iconSide="left"
+                            textProps={
+                              Object {
+                                "className": "euiButton__text euiButtonGroupButton__textShift",
+                                "data-text": "Timeline",
+                                "ref": [Function],
+                                "title": "Timeline",
+                              }
+                            }
                           >
-                            <EuiButtonDisplay
-                              className="euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected"
-                              color="text"
-                              disabled={false}
-                              element="button"
-                              fill={true}
-                              id="timeline"
-                              isDisabled={false}
-                              size="s"
-                              tabIndex={-1}
-                              type="button"
+                            <span
+                              className="euiButtonContent euiButton__content"
                             >
-                              <button
-                                className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button euiButtonGroup__button--selected euiButton--fill"
-                                disabled={false}
-                                id="timeline"
-                                tabIndex={-1}
-                                type="button"
+                              <span
+                                className="euiButton__text euiButtonGroupButton__textShift"
+                                data-text="Timeline"
+                                title="Timeline"
                               >
-                                <EuiButtonContent
-                                  className="euiButton__content"
-                                  iconSide="left"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButton__content"
-                                  >
-                                    <span
-                                      className="euiButton__text"
-                                    >
-                                      Timeline
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </div>
-                      </EuiToggle>
-                    </EuiButtonToggle>
-                    <EuiButtonToggle
-                      className="euiButtonGroup__button"
+                                <input
+                                  checked={true}
+                                  className="euiScreenReaderOnly"
+                                  data-test-subj="timeline"
+                                  disabled={false}
+                                  id="random_html_id"
+                                  name="random_html_id"
+                                  onChange={[Function]}
+                                  type="radio"
+                                />
+                                Timeline
+                              </span>
+                            </span>
+                          </EuiButtonContent>
+                        </label>
+                      </EuiButtonDisplay>
+                    </EuiButtonGroupButton>
+                    <EuiButtonGroupButton
                       color="text"
-                      fill={false}
+                      element="label"
                       id="span_list"
+                      isDisabled={false}
+                      isIconOnly={false}
                       isSelected={false}
                       key="1"
                       label="Span list"
+                      name="random_html_id"
                       onChange={[Function]}
                       size="s"
-                      toggleClassName="euiButtonGroup__toggle"
-                      type="single"
                     >
-                      <EuiToggle
-                        checked={false}
-                        className="euiButtonToggle__wrapper euiButtonGroup__toggle"
-                        inputClassName="euiButtonToggle__input"
-                        label="Span list"
-                        onChange={[Function]}
-                        title="Span list"
-                        type="single"
+                      <EuiButtonDisplay
+                        baseClassName="euiButtonGroupButton"
+                        className=""
+                        color="text"
+                        element="label"
+                        fill={false}
+                        htmlFor="random_html_id"
+                        isDisabled={false}
+                        onClick={[Function]}
+                        size="s"
+                        textProps={
+                          Object {
+                            "className": "euiButtonGroupButton__textShift",
+                            "data-text": "Span list",
+                            "ref": [Function],
+                            "title": "Span list",
+                          }
+                        }
                       >
-                        <div
-                          className="euiToggle euiButtonToggle__wrapper euiButtonGroup__toggle"
+                        <label
+                          className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                          disabled={false}
+                          htmlFor="random_html_id"
+                          onClick={[Function]}
+                          style={
+                            Object {
+                              "minWidth": undefined,
+                            }
+                          }
                         >
-                          <input
-                            aria-label="Span list"
-                            checked={false}
-                            className="euiToggle__input euiButtonToggle__input"
-                            onChange={[Function]}
-                            title="Span list"
-                            type="radio"
-                          />
-                          <EuiButton
-                            className="euiButtonToggle euiButtonGroup__button"
-                            color="text"
-                            fill={false}
-                            id="span_list"
-                            size="s"
-                            tabIndex={-1}
+                          <EuiButtonContent
+                            className="euiButton__content"
+                            iconSide="left"
+                            textProps={
+                              Object {
+                                "className": "euiButton__text euiButtonGroupButton__textShift",
+                                "data-text": "Span list",
+                                "ref": [Function],
+                                "title": "Span list",
+                              }
+                            }
                           >
-                            <EuiButtonDisplay
-                              className="euiButtonToggle euiButtonGroup__button"
-                              color="text"
-                              disabled={false}
-                              element="button"
-                              fill={false}
-                              id="span_list"
-                              isDisabled={false}
-                              size="s"
-                              tabIndex={-1}
-                              type="button"
+                            <span
+                              className="euiButtonContent euiButton__content"
                             >
-                              <button
-                                className="euiButton euiButton--text euiButton--small euiButtonToggle euiButtonGroup__button"
-                                disabled={false}
-                                id="span_list"
-                                tabIndex={-1}
-                                type="button"
+                              <span
+                                className="euiButton__text euiButtonGroupButton__textShift"
+                                data-text="Span list"
+                                title="Span list"
                               >
-                                <EuiButtonContent
-                                  className="euiButton__content"
-                                  iconSide="left"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButton__content"
-                                  >
-                                    <span
-                                      className="euiButton__text"
-                                    >
-                                      Span list
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </div>
-                      </EuiToggle>
-                    </EuiButtonToggle>
+                                <input
+                                  checked={false}
+                                  className="euiScreenReaderOnly"
+                                  data-test-subj="span_list"
+                                  disabled={false}
+                                  id="random_html_id"
+                                  name="random_html_id"
+                                  onChange={[Function]}
+                                  type="radio"
+                                />
+                                Span list
+                              </span>
+                            </span>
+                          </EuiButtonContent>
+                        </label>
+                      </EuiButtonDisplay>
+                    </EuiButtonGroupButton>
                   </div>
                 </fieldset>
               </EuiButtonGroup>

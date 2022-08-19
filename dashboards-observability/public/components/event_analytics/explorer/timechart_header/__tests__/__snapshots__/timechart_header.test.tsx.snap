@@ -272,6 +272,7 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
                           </select>
                         </EuiValidatableControl>
                         <EuiFormControlLayoutIcons
+                          compressed={true}
                           icon={
                             Object {
                               "side": "right",
@@ -284,6 +285,7 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
                             className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
                           >
                             <EuiFormControlLayoutCustomIcon
+                              size="s"
                               type="arrowDown"
                             >
                               <span
@@ -292,18 +294,19 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
                                 <EuiIcon
                                   aria-hidden="true"
                                   className="euiFormControlLayoutCustomIcon__icon"
+                                  size="s"
                                   type="arrowDown"
                                 >
                                   <EuiIconEmpty
                                     aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                    className="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
                                     focusable="false"
                                     role="img"
                                     style={null}
                                   >
                                     <svg
                                       aria-hidden={true}
-                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                      className="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
                                       focusable="false"
                                       height={16}
                                       role="img"

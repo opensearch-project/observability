@@ -1,1054 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `
-<div>
-  <div>
-    <div
-      data-focus-guard="true"
-      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-      tabindex="0"
-    />
-    <div
-      data-focus-guard="true"
-      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-      tabindex="1"
-    />
-    <div
-      data-focus-lock-disabled="false"
-    >
-      <div
-        class="euiFlyout euiFlyout--small"
-        data-test-subj="spanDetailFlyout"
-        role="dialog"
-        tabindex="0"
-      >
-        <button
-          aria-label="Close this dialog"
-          class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-          data-test-subj="euiFlyoutCloseButton"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="euiIcon euiIcon--medium euiButtonIcon__icon"
-            focusable="false"
-            height="16"
-            role="img"
-            viewBox="0 0 16 16"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"
-            />
-          </svg>
-        </button>
-        <div
-          class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-        >
-          <h2
-            class="euiTitle euiTitle--medium"
-          >
-            Span detail
-          </h2>
-        </div>
-        <div
-          class="euiFlyoutBody"
-        >
-          <div
-            class="euiFlyoutBody__overflow"
-          >
-            <div
-              class="euiFlyoutBody__overflowContent"
-            >
-              <div
-                class="euiText euiText--medium"
-              >
-                <span
-                  class="panel-title"
-                >
-                  Overview
-                </span>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="Span IDDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Span ID
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            <div
-                              class="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
-                              style="margin-top: -4px; margin-bottom: -4px;"
-                            >
-                              <div
-                                class="euiFlexItem euiFlexItem--flexGrowZero"
-                              >
-                                <span
-                                  class="euiToolTipAnchor"
-                                >
-                                  <button
-                                    aria-label="copy-button"
-                                    class="euiButtonIcon euiButtonIcon--primary"
-                                    type="button"
-                                  >
-                                    <svg
-                                      aria-hidden="true"
-                                      class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                      focusable="false"
-                                      height="16"
-                                      role="img"
-                                      viewBox="0 0 16 16"
-                                      width="16"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </button>
-                                </span>
-                              </div>
-                              <div
-                                class="euiFlexItem"
-                              >
-                                67c279e1100d75c3
-                              </div>
-                            </div>
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="Parent span IDDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Parent span ID
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                    >
-                      <b>
-                        -
-                      </b>
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="ServiceDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Service
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            frontend-client
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="OperationDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Operation
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            client_pay_order
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="DurationDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Duration
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            225 ms
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="Start timeDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Start time
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            03/25/2021 17:23:45
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="End timeDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        End time
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            03/25/2021 17:23:45
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="ErrorsDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        Errors
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            No
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div
-                class="euiSpacer euiSpacer--xs"
-              />
-              <hr
-                class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
-              />
-              <div
-                class="euiText euiText--medium"
-              >
-                <span
-                  class="panel-title"
-                >
-                  Span attributes
-                </span>
-                <span
-                  class="panel-title-count"
-                >
-                   (12)
-                </span>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="droppedAttributesCountDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        droppedAttributesCount
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            0
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="droppedEventsCountDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        droppedEventsCount
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            0
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="droppedLinksCountDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        droppedLinksCount
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            0
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="instrumentationLibrary.nameDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        instrumentationLibrary.name
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            __main__
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="kindDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        kind
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            SPAN_KIND_INTERNAL
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="resource.attributes.host@hostnameDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        resource.attributes.host@hostname
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            ip-172-31-10-8.us-west-2.compute.internal
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="resource.attributes.service@nameDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        resource.attributes.service@name
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            frontend-client
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="resource.attributes.telemetry@sdk@languageDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        resource.attributes.telemetry@sdk@language
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            python
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="resource.attributes.telemetry@sdk@nameDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        resource.attributes.telemetry@sdk@name
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            opentelemetry
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="resource.attributes.telemetry@sdk@versionDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        resource.attributes.telemetry@sdk@version
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiFlexGroup euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <div
-                        class="euiFlexItem"
-                      >
-                        <div
-                          class="euiText euiText--small"
-                          style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                        >
-                          <b>
-                            0.14b0
-                          </b>
-                        </div>
-                      </div>
-                      <div
-                        class="euiFlexItem euiFlexItem--flexGrowZero"
-                      />
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="linksDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        links
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                    >
-                      <b>
-                        -
-                      </b>
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-              <div>
-                <dl
-                  class="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
-                  data-test-subj="traceStateDescriptionList"
-                >
-                  <dt
-                    class="euiDescriptionList__title"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word;"
-                    >
-                      <div
-                        class="euiTextColor euiTextColor--subdued"
-                      >
-                        traceState
-                      </div>
-                    </div>
-                  </dt>
-                  <dd
-                    class="euiDescriptionList__description"
-                  >
-                    <div
-                      class="euiText euiText--small"
-                      style="word-break: break-all; word-wrap: break-word; white-space: pre-line;"
-                    >
-                      <b>
-                        -
-                      </b>
-                    </div>
-                  </dd>
-                </dl>
-              </div>
-              <div
-                class="euiSpacer euiSpacer--s"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      data-focus-guard="true"
-      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-      tabindex="0"
-    />
-  </div>
-</div>
-`;
+exports[`<SpanDetailFlyout /> spec renders the component with data 1`] = `<div />`;
 
 exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
 <SpanDetailFlyout
@@ -1067,111 +19,237 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
       event="keydown"
       handler={[Function]}
     />
-    <EuiFocusTrap
-      clickOutsideDisables={true}
+    <EuiOverlayMask
+      headerZindexLocation="below"
+      onClick={[MockFunction]}
     >
-      <EuiOutsideClickDetector
-        isDisabled={false}
-        onOutsideClick={[Function]}
-      >
-        <OutsideEventDetector
-          handleEvent={[Function]}
-          onMouseDown={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchStart={[Function]}
-        >
+      <Portal
+        containerInfo={
           <div
-            onMouseDown={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchStart={[Function]}
+            class="euiOverlayMask euiOverlayMask--belowHeader"
+          >
+            <div
+              aria-hidden="true"
+              data-aria-hidden="true"
+              data-focus-guard="true"
+              style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+              tabindex="0"
+            />
+            <div
+              data-focus-lock-disabled="false"
+            >
+              <div
+                class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                data-test-subj="spanDetailFlyout"
+                role="dialog"
+                tabindex="-1"
+              >
+                <button
+                  aria-label="Close this dialog"
+                  class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                  data-test-subj="euiFlyoutCloseButton"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </button>
+                <div
+                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                >
+                  <h2
+                    class="euiTitle euiTitle--medium"
+                  >
+                    Span detail
+                  </h2>
+                </div>
+                <div
+                  class="euiFlyoutBody"
+                >
+                  <div
+                    class="euiFlyoutBody__overflow"
+                    tabindex="0"
+                  >
+                    <div
+                      class="euiFlyoutBody__overflowContent"
+                    >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-hidden="true"
+              data-aria-hidden="true"
+              data-focus-guard="true"
+              style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+              tabindex="0"
+            />
+          </div>
+        }
+      >
+        <EuiFocusTrap
+          clickOutsideDisables={false}
+          disabled={false}
+          noIsolation={true}
+          returnFocus={true}
+          scrollLock={false}
+        >
+          <ForwardRef
+            enabled={true}
+            noIsolation={true}
+            onClickOutside={[Function]}
+            returnFocus={true}
+            scrollLock={false}
           >
             <ForwardRef
               enabled={true}
               noIsolation={true}
+              onClickOutside={[Function]}
               returnFocus={true}
               scrollLock={false}
+              sideCar={[Function]}
             >
-              <ForwardRef
-                enabled={true}
-                noIsolation={true}
+              <ForwardRef(FocusLockUI)
+                as={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "classNames": Object {
+                      "fullWidth": "width-before-scroll-bar",
+                      "zeroRight": "right-scroll-bar-position",
+                    },
+                    "defaultProps": Object {
+                      "enabled": true,
+                      "inert": false,
+                      "removeScrollBar": true,
+                    },
+                    "render": [Function],
+                  }
+                }
+                autoFocus={true}
+                crossFrame={true}
+                disabled={false}
+                lockProps={
+                  Object {
+                    "allowPinchZoom": undefined,
+                    "as": undefined,
+                    "enabled": false,
+                    "inert": undefined,
+                    "onMouseDown": [Function],
+                    "onTouchStart": [Function],
+                    "shards": undefined,
+                    "sideCar": [Function],
+                    "style": undefined,
+                  }
+                }
+                noFocusGuards={false}
+                onActivation={[Function]}
+                onDeactivation={[Function]}
+                persistentFocus={false}
                 returnFocus={true}
-                scrollLock={false}
                 sideCar={[Function]}
               >
-                <ForwardRef
-                  as={
+                <div
+                  data-focus-guard={true}
+                  key="guard-first"
+                  style={
                     Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "classNames": Object {
-                        "fullWidth": "width-before-scroll-bar",
-                        "zeroRight": "right-scroll-bar-position",
-                      },
-                      "defaultProps": Object {
-                        "enabled": true,
-                        "inert": false,
-                        "removeScrollBar": true,
-                      },
-                      "render": [Function],
+                      "height": "0px",
+                      "left": "1px",
+                      "overflow": "hidden",
+                      "padding": 0,
+                      "position": "fixed",
+                      "top": "1px",
+                      "width": "1px",
                     }
                   }
+                  tabIndex={0}
+                />
+                <RequireSideCar
                   autoFocus={true}
                   crossFrame={true}
                   disabled={false}
-                  lockProps={
-                    Object {
-                      "allowPinchZoom": undefined,
-                      "as": undefined,
-                      "enabled": false,
-                      "inert": undefined,
-                      "onMouseDown": [Function],
-                      "onTouchStart": [Function],
-                      "shards": undefined,
-                      "sideCar": [Function],
-                      "style": undefined,
-                    }
+                  id={Object {}}
+                  observed={
+                    <div
+                      data-focus-lock-disabled="false"
+                    >
+                      <div
+                        class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
+                        data-test-subj="spanDetailFlyout"
+                        role="dialog"
+                        tabindex="-1"
+                      >
+                        <button
+                          aria-label="Close this dialog"
+                          class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                          data-test-subj="euiFlyoutCloseButton"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                            focusable="false"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </button>
+                        <div
+                          class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                        >
+                          <h2
+                            class="euiTitle euiTitle--medium"
+                          >
+                            Span detail
+                          </h2>
+                        </div>
+                        <div
+                          class="euiFlyoutBody"
+                        >
+                          <div
+                            class="euiFlyoutBody__overflow"
+                            tabindex="0"
+                          >
+                            <div
+                              class="euiFlyoutBody__overflowContent"
+                            >
+                              -
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   }
-                  noFocusGuards={false}
                   onActivation={[Function]}
                   onDeactivation={[Function]}
                   persistentFocus={false}
-                  returnFocus={true}
-                  sideCar={[Function]}
+                  returnFocus={[Function]}
+                  shards={Array []}
+                  sideCar={
+                    Object {
+                      "assignMedium": [Function],
+                      "assignSyncMedium": [Function],
+                      "options": Object {
+                        "async": true,
+                        "ssr": false,
+                      },
+                      "read": [Function],
+                      "useMedium": [Function],
+                    }
+                  }
                 >
-                  <div
-                    data-focus-guard={true}
-                    key="guard-first"
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={0}
-                  />
-                  <div
-                    data-focus-guard={true}
-                    key="guard-nearest"
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={1}
-                  />
-                  <RequireSideCar
+                  <SideCar
                     autoFocus={true}
                     crossFrame={true}
                     disabled={false}
@@ -1181,20 +259,20 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                         data-focus-lock-disabled="false"
                       >
                         <div
-                          class="euiFlyout euiFlyout--small"
+                          class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
                           data-test-subj="spanDetailFlyout"
                           role="dialog"
-                          tabindex="0"
+                          tabindex="-1"
                         >
                           <button
                             aria-label="Close this dialog"
-                            class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                            class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
                             data-test-subj="euiFlyoutCloseButton"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                              class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                               focusable="false"
                               height="16"
                               role="img"
@@ -1217,6 +295,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                           >
                             <div
                               class="euiFlyoutBody__overflow"
+                              tabindex="0"
                             >
                               <div
                                 class="euiFlyoutBody__overflowContent"
@@ -1246,7 +325,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                       }
                     }
                   >
-                    <SideCar
+                    <SideEffect(FocusWatcher)
                       autoFocus={true}
                       crossFrame={true}
                       disabled={false}
@@ -1256,20 +335,20 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                           data-focus-lock-disabled="false"
                         >
                           <div
-                            class="euiFlyout euiFlyout--small"
+                            class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
                             data-test-subj="spanDetailFlyout"
                             role="dialog"
-                            tabindex="0"
+                            tabindex="-1"
                           >
                             <button
                               aria-label="Close this dialog"
-                              class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                              class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
                               data-test-subj="euiFlyoutCloseButton"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                 focusable="false"
                                 height="16"
                                 role="img"
@@ -1292,6 +371,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                             >
                               <div
                                 class="euiFlyoutBody__overflow"
+                                tabindex="0"
                               >
                                 <div
                                   class="euiFlyoutBody__overflowContent"
@@ -1308,20 +388,8 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                       persistentFocus={false}
                       returnFocus={[Function]}
                       shards={Array []}
-                      sideCar={
-                        Object {
-                          "assignMedium": [Function],
-                          "assignSyncMedium": [Function],
-                          "options": Object {
-                            "async": true,
-                            "ssr": false,
-                          },
-                          "read": [Function],
-                          "useMedium": [Function],
-                        }
-                      }
                     >
-                      <SideEffect(FocusWatcher)
+                      <FocusWatcher
                         autoFocus={true}
                         crossFrame={true}
                         disabled={false}
@@ -1331,20 +399,20 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                             data-focus-lock-disabled="false"
                           >
                             <div
-                              class="euiFlyout euiFlyout--small"
+                              class="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
                               data-test-subj="spanDetailFlyout"
                               role="dialog"
-                              tabindex="0"
+                              tabindex="-1"
                             >
                               <button
                                 aria-label="Close this dialog"
-                                class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                                class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
                                 data-test-subj="euiFlyoutCloseButton"
                                 type="button"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                  class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                   focusable="false"
                                   height="16"
                                   role="img"
@@ -1367,6 +435,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                               >
                                 <div
                                   class="euiFlyoutBody__overflow"
+                                  tabindex="0"
                                 >
                                   <div
                                     class="euiFlyoutBody__overflowContent"
@@ -1383,99 +452,44 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                         persistentFocus={false}
                         returnFocus={[Function]}
                         shards={Array []}
-                      >
-                        <FocusWatcher
-                          autoFocus={true}
-                          crossFrame={true}
-                          disabled={false}
-                          id={Object {}}
-                          observed={
-                            <div
-                              data-focus-lock-disabled="false"
-                            >
-                              <div
-                                class="euiFlyout euiFlyout--small"
-                                data-test-subj="spanDetailFlyout"
-                                role="dialog"
-                                tabindex="0"
-                              >
-                                <button
-                                  aria-label="Close this dialog"
-                                  class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-                                  data-test-subj="euiFlyoutCloseButton"
-                                  type="button"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                    focusable="false"
-                                    height="16"
-                                    role="img"
-                                    viewBox="0 0 16 16"
-                                    width="16"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  />
-                                </button>
-                                <div
-                                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-                                >
-                                  <h2
-                                    class="euiTitle euiTitle--medium"
-                                  >
-                                    Span detail
-                                  </h2>
-                                </div>
-                                <div
-                                  class="euiFlyoutBody"
-                                >
-                                  <div
-                                    class="euiFlyoutBody__overflow"
-                                  >
-                                    <div
-                                      class="euiFlyoutBody__overflowContent"
-                                    >
-                                      -
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                          onActivation={[Function]}
-                          onDeactivation={[Function]}
-                          persistentFocus={false}
-                          returnFocus={[Function]}
-                          shards={Array []}
-                        />
-                      </SideEffect(FocusWatcher)>
-                    </SideCar>
-                  </RequireSideCar>
-                  <ForwardRef
+                      />
+                    </SideEffect(FocusWatcher)>
+                  </SideCar>
+                </RequireSideCar>
+                <ForwardRef
+                  data-focus-lock-disabled={false}
+                  enabled={false}
+                  inert={false}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onTouchStart={[Function]}
+                  removeScrollBar={true}
+                  sideCar={[Function]}
+                >
+                  <div
                     data-focus-lock-disabled={false}
-                    enabled={false}
-                    inert={false}
                     onBlur={[Function]}
                     onFocus={[Function]}
                     onMouseDown={[Function]}
+                    onScrollCapture={[Function]}
+                    onTouchMoveCapture={[Function]}
                     onTouchStart={[Function]}
-                    removeScrollBar={true}
-                    sideCar={[Function]}
+                    onWheelCapture={[Function]}
                   >
-                    <div
-                      data-focus-lock-disabled={false}
-                      onBlur={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onScrollCapture={[Function]}
-                      onTouchMoveCapture={[Function]}
-                      onTouchStart={[Function]}
-                      onWheelCapture={[Function]}
+                    <EuiOutsideClickDetector
+                      isDisabled={true}
+                      onOutsideClick={[Function]}
                     >
                       <div
-                        className="euiFlyout euiFlyout--small"
+                        className="euiFlyout euiFlyout--small euiFlyout--paddingLarge"
                         data-test-subj="spanDetailFlyout"
+                        onMouseDown={[Function]}
+                        onMouseUp={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchStart={[Function]}
                         role="dialog"
-                        tabIndex={0}
+                        tabIndex={-1}
                       >
                         <EuiI18n
                           default="Close this dialog"
@@ -1483,36 +497,38 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                         >
                           <EuiButtonIcon
                             aria-label="Close this dialog"
-                            className="euiFlyout__closeButton"
+                            className="euiFlyout__closeButton euiFlyout__closeButton--inside"
                             color="text"
                             data-test-subj="euiFlyoutCloseButton"
+                            display="empty"
                             iconType="cross"
-                            onClick={[MockFunction]}
+                            onClick={[Function]}
                           >
                             <button
                               aria-label="Close this dialog"
-                              className="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
+                              className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
                               data-test-subj="euiFlyoutCloseButton"
                               disabled={false}
-                              onClick={[MockFunction]}
+                              onClick={[Function]}
                               type="button"
                             >
                               <EuiIcon
                                 aria-hidden="true"
                                 className="euiButtonIcon__icon"
+                                color="inherit"
                                 size="m"
                                 type="cross"
                               >
                                 <EuiIconEmpty
                                   aria-hidden={true}
-                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                   focusable="false"
                                   role="img"
                                   style={null}
                                 >
                                   <svg
                                     aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                     focusable="false"
                                     height={16}
                                     role="img"
@@ -1547,6 +563,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                           >
                             <div
                               className="euiFlyoutBody__overflow"
+                              tabIndex={0}
                             >
                               <div
                                 className="euiFlyoutBody__overflowContent"
@@ -1557,609 +574,45 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
                           </div>
                         </EuiFlyoutBody>
                       </div>
-                    </div>
-                  </ForwardRef>
-                  <div
-                    data-focus-guard={true}
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={0}
-                  />
+                    </EuiOutsideClickDetector>
+                  </div>
                 </ForwardRef>
-                <RequireSideCar
-                  noIsolation={true}
-                  setLockProps={[Function]}
-                  sideCar={
+                <div
+                  data-focus-guard={true}
+                  style={
                     Object {
-                      "assignMedium": [Function],
-                      "assignSyncMedium": [Function],
-                      "options": Object {
-                        "async": true,
-                        "ssr": false,
-                      },
-                      "read": [Function],
-                      "useMedium": [Function],
+                      "height": "0px",
+                      "left": "1px",
+                      "overflow": "hidden",
+                      "padding": 0,
+                      "position": "fixed",
+                      "top": "1px",
+                      "width": "1px",
                     }
                   }
-                >
-                  <SideCar
-                    noIsolation={true}
-                    setLockProps={[Function]}
-                    sideCar={
-                      Object {
-                        "assignMedium": [Function],
-                        "assignSyncMedium": [Function],
-                        "options": Object {
-                          "async": true,
-                          "ssr": false,
-                        },
-                        "read": [Function],
-                        "useMedium": [Function],
-                      }
-                    }
-                  >
-                    <Effect
-                      noIsolation={true}
-                      setLockProps={[Function]}
-                    >
-                      <Component>
-                        <Sheet
-                          styles="
- [data-focus-on-hidden] {
-   pointer-events: none !important;
- }
-"
-                        />
-                      </Component>
-                    </Effect>
-                  </SideCar>
-                </RequireSideCar>
-              </ForwardRef>
-            </ForwardRef>
-          </div>
-        </OutsideEventDetector>
-      </EuiOutsideClickDetector>
-    </EuiFocusTrap>
-  </EuiFlyout>
-</SpanDetailFlyout>
-`;
-
-exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
-<SpanDetailFlyout
-  addSpanFilter={[MockFunction]}
-  closeFlyout={[MockFunction]}
-  http={[MockFunction]}
-  isFlyoutVisible={true}
-  spanId="test"
->
-  <EuiFlyout
-    data-test-subj="spanDetailFlyout"
-    onClose={[MockFunction]}
-    size="s"
-  >
-    <EuiWindowEvent
-      event="keydown"
-      handler={[Function]}
-    />
-    <EuiFocusTrap
-      clickOutsideDisables={true}
-    >
-      <EuiOutsideClickDetector
-        isDisabled={false}
-        onOutsideClick={[Function]}
-      >
-        <OutsideEventDetector
-          handleEvent={[Function]}
-          onMouseDown={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchStart={[Function]}
-        >
-          <div
-            onMouseDown={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchStart={[Function]}
-          >
-            <ForwardRef
-              enabled={true}
-              noIsolation={true}
-              returnFocus={true}
-              scrollLock={false}
-            >
-              <ForwardRef
-                enabled={true}
+                  tabIndex={0}
+                />
+              </ForwardRef(FocusLockUI)>
+              <RequireSideCar
                 noIsolation={true}
-                returnFocus={true}
-                scrollLock={false}
-                sideCar={[Function]}
+                onClickOutside={[Function]}
+                setLockProps={[Function]}
+                sideCar={
+                  Object {
+                    "assignMedium": [Function],
+                    "assignSyncMedium": [Function],
+                    "options": Object {
+                      "async": true,
+                      "ssr": false,
+                    },
+                    "read": [Function],
+                    "useMedium": [Function],
+                  }
+                }
               >
-                <ForwardRef
-                  as={
-                    Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "classNames": Object {
-                        "fullWidth": "width-before-scroll-bar",
-                        "zeroRight": "right-scroll-bar-position",
-                      },
-                      "defaultProps": Object {
-                        "enabled": true,
-                        "inert": false,
-                        "removeScrollBar": true,
-                      },
-                      "render": [Function],
-                    }
-                  }
-                  autoFocus={true}
-                  crossFrame={true}
-                  disabled={false}
-                  lockProps={
-                    Object {
-                      "allowPinchZoom": undefined,
-                      "as": undefined,
-                      "enabled": false,
-                      "inert": undefined,
-                      "onMouseDown": [Function],
-                      "onTouchStart": [Function],
-                      "shards": undefined,
-                      "sideCar": [Function],
-                      "style": undefined,
-                    }
-                  }
-                  noFocusGuards={false}
-                  onActivation={[Function]}
-                  onDeactivation={[Function]}
-                  persistentFocus={false}
-                  returnFocus={true}
-                  sideCar={[Function]}
-                >
-                  <div
-                    data-focus-guard={true}
-                    key="guard-first"
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={0}
-                  />
-                  <div
-                    data-focus-guard={true}
-                    key="guard-nearest"
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={1}
-                  />
-                  <RequireSideCar
-                    autoFocus={true}
-                    crossFrame={true}
-                    disabled={false}
-                    id={Object {}}
-                    observed={
-                      <div
-                        data-focus-lock-disabled="false"
-                      >
-                        <div
-                          class="euiFlyout euiFlyout--small"
-                          data-test-subj="spanDetailFlyout"
-                          role="dialog"
-                          tabindex="0"
-                        >
-                          <button
-                            aria-label="Close this dialog"
-                            class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-                            data-test-subj="euiFlyoutCloseButton"
-                            type="button"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                              focusable="false"
-                              height="16"
-                              role="img"
-                              viewBox="0 0 16 16"
-                              width="16"
-                              xmlns="http://www.w3.org/2000/svg"
-                            />
-                          </button>
-                          <div
-                            class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-                          >
-                            <h2
-                              class="euiTitle euiTitle--medium"
-                            >
-                              Span detail
-                            </h2>
-                          </div>
-                          <div
-                            class="euiFlyoutBody"
-                          >
-                            <div
-                              class="euiFlyoutBody__overflow"
-                            >
-                              <div
-                                class="euiFlyoutBody__overflowContent"
-                              >
-                                -
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    }
-                    onActivation={[Function]}
-                    onDeactivation={[Function]}
-                    persistentFocus={false}
-                    returnFocus={[Function]}
-                    shards={Array []}
-                    sideCar={
-                      Object {
-                        "assignMedium": [Function],
-                        "assignSyncMedium": [Function],
-                        "options": Object {
-                          "async": true,
-                          "ssr": false,
-                        },
-                        "read": [Function],
-                        "useMedium": [Function],
-                      }
-                    }
-                  >
-                    <SideCar
-                      autoFocus={true}
-                      crossFrame={true}
-                      disabled={false}
-                      id={Object {}}
-                      observed={
-                        <div
-                          data-focus-lock-disabled="false"
-                        >
-                          <div
-                            class="euiFlyout euiFlyout--small"
-                            data-test-subj="spanDetailFlyout"
-                            role="dialog"
-                            tabindex="0"
-                          >
-                            <button
-                              aria-label="Close this dialog"
-                              class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-                              data-test-subj="euiFlyoutCloseButton"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                focusable="false"
-                                height="16"
-                                role="img"
-                                viewBox="0 0 16 16"
-                                width="16"
-                                xmlns="http://www.w3.org/2000/svg"
-                              />
-                            </button>
-                            <div
-                              class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-                            >
-                              <h2
-                                class="euiTitle euiTitle--medium"
-                              >
-                                Span detail
-                              </h2>
-                            </div>
-                            <div
-                              class="euiFlyoutBody"
-                            >
-                              <div
-                                class="euiFlyoutBody__overflow"
-                              >
-                                <div
-                                  class="euiFlyoutBody__overflowContent"
-                                >
-                                  -
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      }
-                      onActivation={[Function]}
-                      onDeactivation={[Function]}
-                      persistentFocus={false}
-                      returnFocus={[Function]}
-                      shards={Array []}
-                      sideCar={
-                        Object {
-                          "assignMedium": [Function],
-                          "assignSyncMedium": [Function],
-                          "options": Object {
-                            "async": true,
-                            "ssr": false,
-                          },
-                          "read": [Function],
-                          "useMedium": [Function],
-                        }
-                      }
-                    >
-                      <SideEffect(FocusWatcher)
-                        autoFocus={true}
-                        crossFrame={true}
-                        disabled={false}
-                        id={Object {}}
-                        observed={
-                          <div
-                            data-focus-lock-disabled="false"
-                          >
-                            <div
-                              class="euiFlyout euiFlyout--small"
-                              data-test-subj="spanDetailFlyout"
-                              role="dialog"
-                              tabindex="0"
-                            >
-                              <button
-                                aria-label="Close this dialog"
-                                class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-                                data-test-subj="euiFlyoutCloseButton"
-                                type="button"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                  focusable="false"
-                                  height="16"
-                                  role="img"
-                                  viewBox="0 0 16 16"
-                                  width="16"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                />
-                              </button>
-                              <div
-                                class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-                              >
-                                <h2
-                                  class="euiTitle euiTitle--medium"
-                                >
-                                  Span detail
-                                </h2>
-                              </div>
-                              <div
-                                class="euiFlyoutBody"
-                              >
-                                <div
-                                  class="euiFlyoutBody__overflow"
-                                >
-                                  <div
-                                    class="euiFlyoutBody__overflowContent"
-                                  >
-                                    -
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        }
-                        onActivation={[Function]}
-                        onDeactivation={[Function]}
-                        persistentFocus={false}
-                        returnFocus={[Function]}
-                        shards={Array []}
-                      >
-                        <FocusWatcher
-                          autoFocus={true}
-                          crossFrame={true}
-                          disabled={false}
-                          id={Object {}}
-                          observed={
-                            <div
-                              data-focus-lock-disabled="false"
-                            >
-                              <div
-                                class="euiFlyout euiFlyout--small"
-                                data-test-subj="spanDetailFlyout"
-                                role="dialog"
-                                tabindex="0"
-                              >
-                                <button
-                                  aria-label="Close this dialog"
-                                  class="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-                                  data-test-subj="euiFlyoutCloseButton"
-                                  type="button"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                    focusable="false"
-                                    height="16"
-                                    role="img"
-                                    viewBox="0 0 16 16"
-                                    width="16"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  />
-                                </button>
-                                <div
-                                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-                                >
-                                  <h2
-                                    class="euiTitle euiTitle--medium"
-                                  >
-                                    Span detail
-                                  </h2>
-                                </div>
-                                <div
-                                  class="euiFlyoutBody"
-                                >
-                                  <div
-                                    class="euiFlyoutBody__overflow"
-                                  >
-                                    <div
-                                      class="euiFlyoutBody__overflowContent"
-                                    >
-                                      -
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                          onActivation={[Function]}
-                          onDeactivation={[Function]}
-                          persistentFocus={false}
-                          returnFocus={[Function]}
-                          shards={Array []}
-                        />
-                      </SideEffect(FocusWatcher)>
-                    </SideCar>
-                  </RequireSideCar>
-                  <ForwardRef
-                    data-focus-lock-disabled={false}
-                    enabled={false}
-                    inert={false}
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onTouchStart={[Function]}
-                    removeScrollBar={true}
-                    sideCar={[Function]}
-                  >
-                    <div
-                      data-focus-lock-disabled={false}
-                      onBlur={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onScrollCapture={[Function]}
-                      onTouchMoveCapture={[Function]}
-                      onTouchStart={[Function]}
-                      onWheelCapture={[Function]}
-                    >
-                      <div
-                        className="euiFlyout euiFlyout--small"
-                        data-test-subj="spanDetailFlyout"
-                        role="dialog"
-                        tabIndex={0}
-                      >
-                        <EuiI18n
-                          default="Close this dialog"
-                          token="euiFlyout.closeAriaLabel"
-                        >
-                          <EuiButtonIcon
-                            aria-label="Close this dialog"
-                            className="euiFlyout__closeButton"
-                            color="text"
-                            data-test-subj="euiFlyoutCloseButton"
-                            iconType="cross"
-                            onClick={[MockFunction]}
-                          >
-                            <button
-                              aria-label="Close this dialog"
-                              className="euiButtonIcon euiButtonIcon--text euiFlyout__closeButton"
-                              data-test-subj="euiFlyoutCloseButton"
-                              disabled={false}
-                              onClick={[MockFunction]}
-                              type="button"
-                            >
-                              <EuiIcon
-                                aria-hidden="true"
-                                className="euiButtonIcon__icon"
-                                size="m"
-                                type="cross"
-                              >
-                                <EuiIconEmpty
-                                  aria-hidden={true}
-                                  className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                  focusable="false"
-                                  role="img"
-                                  style={null}
-                                >
-                                  <svg
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
-                                    focusable="false"
-                                    height={16}
-                                    role="img"
-                                    style={null}
-                                    viewBox="0 0 16 16"
-                                    width={16}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  />
-                                </EuiIconEmpty>
-                              </EuiIcon>
-                            </button>
-                          </EuiButtonIcon>
-                        </EuiI18n>
-                        <EuiFlyoutHeader
-                          hasBorder={true}
-                        >
-                          <div
-                            className="euiFlyoutHeader euiFlyoutHeader--hasBorder"
-                          >
-                            <EuiTitle>
-                              <h2
-                                className="euiTitle euiTitle--medium"
-                              >
-                                Span detail
-                              </h2>
-                            </EuiTitle>
-                          </div>
-                        </EuiFlyoutHeader>
-                        <EuiFlyoutBody>
-                          <div
-                            className="euiFlyoutBody"
-                          >
-                            <div
-                              className="euiFlyoutBody__overflow"
-                            >
-                              <div
-                                className="euiFlyoutBody__overflowContent"
-                              >
-                                -
-                              </div>
-                            </div>
-                          </div>
-                        </EuiFlyoutBody>
-                      </div>
-                    </div>
-                  </ForwardRef>
-                  <div
-                    data-focus-guard={true}
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={0}
-                  />
-                </ForwardRef>
-                <RequireSideCar
+                <SideCar
                   noIsolation={true}
+                  onClickOutside={[Function]}
                   setLockProps={[Function]}
                   sideCar={
                     Object {
@@ -2174,44 +627,28 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 2`] = `
                     }
                   }
                 >
-                  <SideCar
+                  <Effect
                     noIsolation={true}
+                    onClickOutside={[Function]}
                     setLockProps={[Function]}
-                    sideCar={
-                      Object {
-                        "assignMedium": [Function],
-                        "assignSyncMedium": [Function],
-                        "options": Object {
-                          "async": true,
-                          "ssr": false,
-                        },
-                        "read": [Function],
-                        "useMedium": [Function],
-                      }
-                    }
                   >
-                    <Effect
-                      noIsolation={true}
-                      setLockProps={[Function]}
-                    >
-                      <Component>
-                        <Sheet
-                          styles="
+                    <Component>
+                      <Sheet
+                        styles="
  [data-focus-on-hidden] {
    pointer-events: none !important;
  }
 "
-                        />
-                      </Component>
-                    </Effect>
-                  </SideCar>
-                </RequireSideCar>
-              </ForwardRef>
+                      />
+                    </Component>
+                  </Effect>
+                </SideCar>
+              </RequireSideCar>
             </ForwardRef>
-          </div>
-        </OutsideEventDetector>
-      </EuiOutsideClickDetector>
-    </EuiFocusTrap>
+          </ForwardRef>
+        </EuiFocusTrap>
+      </Portal>
+    </EuiOverlayMask>
   </EuiFlyout>
 </SpanDetailFlyout>
 `;

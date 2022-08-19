@@ -70,17 +70,17 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
   >
     <EuiPage>
       <div
-        className="euiPage"
+        className="euiPage euiPage--paddingMedium euiPage--grow"
       >
         <EuiPageBody
           component="div"
         >
           <div
-            className="euiPageBody"
+            className="euiPageBody euiPageBody--borderRadiusNone"
           >
             <EuiPageHeader>
-              <div
-                className="euiPageHeader euiPageHeader--responsive"
+              <header
+                className="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
               >
                 <EuiPageHeaderSection>
                   <div
@@ -97,7 +97,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                     </EuiTitle>
                   </div>
                 </EuiPageHeaderSection>
-              </div>
+              </header>
             </EuiPageHeader>
             <EuiPageContent
               id="customPanelArea"
@@ -106,10 +106,12 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                 className="euiPageContent"
                 id="customPanelArea"
                 paddingSize="l"
+                role="main"
               >
                 <div
-                  className="euiPanel euiPanel--paddingLarge euiPageContent"
+                  className="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
                   id="customPanelArea"
+                  role="main"
                 >
                   <EuiPageContentHeader>
                     <div
@@ -170,39 +172,34 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                       target="blank"
                                     >
                                       Learn more
-                                      <EuiI18n
-                                        default="External link"
-                                        token="euiLink.external.ariaLabel"
+                                      <EuiIcon
+                                        aria-label="External link"
+                                        className="euiLink__externalIcon"
+                                        size="s"
+                                        type="popout"
                                       >
-                                        <EuiIcon
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
                                           aria-label="External link"
-                                          className="euiLink__externalIcon"
-                                          size="s"
-                                          type="popout"
+                                          className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
                                         >
-                                          <EuiIconEmpty
+                                          <svg
                                             aria-hidden={true}
                                             aria-label="External link"
                                             className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
                                             focusable="false"
+                                            height={16}
                                             role="img"
                                             style={null}
-                                          >
-                                            <svg
-                                              aria-hidden={true}
-                                              aria-label="External link"
-                                              className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
-                                              focusable="false"
-                                              height={16}
-                                              role="img"
-                                              style={null}
-                                              viewBox="0 0 16 16"
-                                              width={16}
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            />
-                                          </EuiIconEmpty>
-                                        </EuiIcon>
-                                      </EuiI18n>
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
                                     </a>
                                   </EuiLink>
                                 </div>
@@ -241,98 +238,95 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     display="inlineBlock"
                                     hasArrow={true}
                                     isOpen={false}
-                                    ownFocus={false}
+                                    ownFocus={true}
                                     panelPaddingSize="none"
                                   >
-                                    <EuiOutsideClickDetector
-                                      isDisabled={true}
-                                      onOutsideClick={[Function]}
+                                    <div
+                                      className="euiPopover euiPopover--anchorDownCenter"
                                     >
                                       <div
-                                        className="euiPopover euiPopover--anchorDownCenter"
-                                        onKeyDown={[Function]}
-                                        onMouseDown={[Function]}
-                                        onMouseUp={[Function]}
-                                        onTouchEnd={[Function]}
-                                        onTouchStart={[Function]}
+                                        className="euiPopover__anchor"
                                       >
-                                        <div
-                                          className="euiPopover__anchor"
+                                        <EuiButton
+                                          data-test-subj="operationalPanelsActionsButton"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          onClick={[Function]}
                                         >
-                                          <EuiButton
+                                          <EuiButtonDisplay
+                                            baseClassName="euiButton"
                                             data-test-subj="operationalPanelsActionsButton"
+                                            disabled={false}
+                                            element="button"
                                             iconSide="right"
                                             iconType="arrowDown"
+                                            isDisabled={false}
                                             onClick={[Function]}
+                                            type="button"
                                           >
-                                            <EuiButtonDisplay
+                                            <button
+                                              className="euiButton euiButton--primary"
                                               data-test-subj="operationalPanelsActionsButton"
                                               disabled={false}
-                                              element="button"
-                                              iconSide="right"
-                                              iconType="arrowDown"
-                                              isDisabled={false}
                                               onClick={[Function]}
+                                              style={
+                                                Object {
+                                                  "minWidth": undefined,
+                                                }
+                                              }
                                               type="button"
                                             >
-                                              <button
-                                                className="euiButton euiButton--primary"
-                                                data-test-subj="operationalPanelsActionsButton"
-                                                disabled={false}
-                                                onClick={[Function]}
-                                                type="button"
-                                              >
-                                                <EuiButtonContent
-                                                  className="euiButton__content"
-                                                  iconSide="right"
-                                                  iconType="arrowDown"
-                                                  textProps={
-                                                    Object {
-                                                      "className": "euiButton__text",
-                                                    }
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="right"
+                                                iconType="arrowDown"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
                                                   }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButtonContent--iconRight euiButton__content"
                                                 >
-                                                  <span
-                                                    className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                  <EuiIcon
+                                                    className="euiButtonContent__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="arrowDown"
                                                   >
-                                                    <EuiIcon
-                                                      className="euiButtonContent__icon"
-                                                      size="m"
-                                                      type="arrowDown"
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
                                                     >
-                                                      <EuiIconEmpty
+                                                      <svg
                                                         aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
                                                         focusable="false"
+                                                        height={16}
                                                         role="img"
                                                         style={null}
-                                                      >
-                                                        <svg
-                                                          aria-hidden={true}
-                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonContent__icon"
-                                                          focusable="false"
-                                                          height={16}
-                                                          role="img"
-                                                          style={null}
-                                                          viewBox="0 0 16 16"
-                                                          width={16}
-                                                          xmlns="http://www.w3.org/2000/svg"
-                                                        />
-                                                      </EuiIconEmpty>
-                                                    </EuiIcon>
-                                                    <span
-                                                      className="euiButton__text"
-                                                    >
-                                                      Actions
-                                                    </span>
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Actions
                                                   </span>
-                                                </EuiButtonContent>
-                                              </button>
-                                            </EuiButtonDisplay>
-                                          </EuiButton>
-                                        </div>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
                                       </div>
-                                    </EuiOutsideClickDetector>
+                                    </div>
                                   </EuiPopover>
                                 </div>
                               </EuiFlexItem>
@@ -346,6 +340,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     onClick={[Function]}
                                   >
                                     <EuiButtonDisplay
+                                      baseClassName="euiButton"
                                       data-test-subj="customPanels__createNewPanels"
                                       disabled={false}
                                       element="button"
@@ -359,6 +354,11 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                         data-test-subj="customPanels__createNewPanels"
                                         disabled={false}
                                         onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "minWidth": undefined,
+                                          }
+                                        }
                                         type="button"
                                       >
                                         <EuiButtonContent
@@ -476,6 +476,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                             onClick={[Function]}
                           >
                             <EuiButtonDisplay
+                              baseClassName="euiButton"
                               data-test-subj="customPanels__emptyCreateNewPanels"
                               disabled={false}
                               element="button"
@@ -489,6 +490,11 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                 data-test-subj="customPanels__emptyCreateNewPanels"
                                 disabled={false}
                                 onClick={[Function]}
+                                style={
+                                  Object {
+                                    "minWidth": undefined,
+                                  }
+                                }
                                 type="button"
                               >
                                 <EuiButtonContent
@@ -526,6 +532,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                             onClick={[Function]}
                           >
                             <EuiButtonDisplay
+                              baseClassName="euiButton"
                               disabled={false}
                               element="button"
                               fullWidth={false}
@@ -537,6 +544,11 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                 className="euiButton euiButton--primary"
                                 disabled={false}
                                 onClick={[Function]}
+                                style={
+                                  Object {
+                                    "minWidth": undefined,
+                                  }
+                                }
                                 type="button"
                               >
                                 <EuiButtonContent
@@ -680,17 +692,17 @@ exports[`Panels Table Component renders panel table container 1`] = `
   >
     <EuiPage>
       <div
-        className="euiPage"
+        className="euiPage euiPage--paddingMedium euiPage--grow"
       >
         <EuiPageBody
           component="div"
         >
           <div
-            className="euiPageBody"
+            className="euiPageBody euiPageBody--borderRadiusNone"
           >
             <EuiPageHeader>
-              <div
-                className="euiPageHeader euiPageHeader--responsive"
+              <header
+                className="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
               >
                 <EuiPageHeaderSection>
                   <div
@@ -707,7 +719,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                     </EuiTitle>
                   </div>
                 </EuiPageHeaderSection>
-              </div>
+              </header>
             </EuiPageHeader>
             <EuiPageContent
               id="customPanelArea"
@@ -716,10 +728,12 @@ exports[`Panels Table Component renders panel table container 1`] = `
                 className="euiPageContent"
                 id="customPanelArea"
                 paddingSize="l"
+                role="main"
               >
                 <div
-                  className="euiPanel euiPanel--paddingLarge euiPageContent"
+                  className="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
                   id="customPanelArea"
+                  role="main"
                 >
                   <EuiPageContentHeader>
                     <div
@@ -780,41 +794,36 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                       target="blank"
                                     >
                                       Learn more
-                                      <EuiI18n
-                                        default="External link"
-                                        token="euiLink.external.ariaLabel"
+                                      <EuiIcon
+                                        aria-label="External link"
+                                        className="euiLink__externalIcon"
+                                        size="s"
+                                        type="popout"
                                       >
-                                        <EuiIcon
+                                        <EuiIconPopout
                                           aria-label="External link"
-                                          className="euiLink__externalIcon"
-                                          size="s"
-                                          type="popout"
+                                          className="euiIcon euiIcon--small euiLink__externalIcon"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
                                         >
-                                          <EuiIconPopout
+                                          <svg
                                             aria-label="External link"
                                             className="euiIcon euiIcon--small euiLink__externalIcon"
                                             focusable="false"
+                                            height={16}
                                             role="img"
                                             style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
                                           >
-                                            <svg
-                                              aria-label="External link"
-                                              className="euiIcon euiIcon--small euiLink__externalIcon"
-                                              focusable="false"
-                                              height={16}
-                                              role="img"
-                                              style={null}
-                                              viewBox="0 0 16 16"
-                                              width={16}
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                d="M13 8.5a.5.5 0 111 0V12a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2h3.5a.5.5 0 010 1H4a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8.5zm-5.12.339a.5.5 0 11-.706-.707L13.305 2H10.5a.5.5 0 110-1H14a1 1 0 011 1v3.5a.5.5 0 11-1 0V2.72L7.88 8.838z"
-                                              />
-                                            </svg>
-                                          </EuiIconPopout>
-                                        </EuiIcon>
-                                      </EuiI18n>
+                                            <path
+                                              d="M13 8.5a.5.5 0 111 0V12a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2h3.5a.5.5 0 010 1H4a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8.5zm-5.12.339a.5.5 0 11-.706-.707L13.305 2H10.5a.5.5 0 110-1H14a1 1 0 011 1v3.5a.5.5 0 11-1 0V2.72L7.88 8.838z"
+                                            />
+                                          </svg>
+                                        </EuiIconPopout>
+                                      </EuiIcon>
                                     </a>
                                   </EuiLink>
                                 </div>
@@ -853,103 +862,100 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                     display="inlineBlock"
                                     hasArrow={true}
                                     isOpen={false}
-                                    ownFocus={false}
+                                    ownFocus={true}
                                     panelPaddingSize="none"
                                   >
-                                    <EuiOutsideClickDetector
-                                      isDisabled={true}
-                                      onOutsideClick={[Function]}
+                                    <div
+                                      className="euiPopover euiPopover--anchorDownCenter"
                                     >
                                       <div
-                                        className="euiPopover euiPopover--anchorDownCenter"
-                                        onKeyDown={[Function]}
-                                        onMouseDown={[Function]}
-                                        onMouseUp={[Function]}
-                                        onTouchEnd={[Function]}
-                                        onTouchStart={[Function]}
+                                        className="euiPopover__anchor"
                                       >
-                                        <div
-                                          className="euiPopover__anchor"
+                                        <EuiButton
+                                          data-test-subj="operationalPanelsActionsButton"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          onClick={[Function]}
                                         >
-                                          <EuiButton
+                                          <EuiButtonDisplay
+                                            baseClassName="euiButton"
                                             data-test-subj="operationalPanelsActionsButton"
+                                            disabled={false}
+                                            element="button"
                                             iconSide="right"
                                             iconType="arrowDown"
+                                            isDisabled={false}
                                             onClick={[Function]}
+                                            type="button"
                                           >
-                                            <EuiButtonDisplay
+                                            <button
+                                              className="euiButton euiButton--primary"
                                               data-test-subj="operationalPanelsActionsButton"
                                               disabled={false}
-                                              element="button"
-                                              iconSide="right"
-                                              iconType="arrowDown"
-                                              isDisabled={false}
                                               onClick={[Function]}
+                                              style={
+                                                Object {
+                                                  "minWidth": undefined,
+                                                }
+                                              }
                                               type="button"
                                             >
-                                              <button
-                                                className="euiButton euiButton--primary"
-                                                data-test-subj="operationalPanelsActionsButton"
-                                                disabled={false}
-                                                onClick={[Function]}
-                                                type="button"
-                                              >
-                                                <EuiButtonContent
-                                                  className="euiButton__content"
-                                                  iconSide="right"
-                                                  iconType="arrowDown"
-                                                  textProps={
-                                                    Object {
-                                                      "className": "euiButton__text",
-                                                    }
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="right"
+                                                iconType="arrowDown"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
                                                   }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButtonContent--iconRight euiButton__content"
                                                 >
-                                                  <span
-                                                    className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                  <EuiIcon
+                                                    className="euiButtonContent__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="arrowDown"
                                                   >
-                                                    <EuiIcon
-                                                      className="euiButtonContent__icon"
-                                                      size="m"
-                                                      type="arrowDown"
+                                                    <EuiIconArrowDown
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
                                                     >
-                                                      <EuiIconArrowDown
+                                                      <svg
                                                         aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
                                                         focusable="false"
+                                                        height={16}
                                                         role="img"
                                                         style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
                                                       >
-                                                        <svg
-                                                          aria-hidden={true}
-                                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                                          focusable="false"
-                                                          height={16}
-                                                          role="img"
-                                                          style={null}
-                                                          viewBox="0 0 16 16"
-                                                          width={16}
-                                                          xmlns="http://www.w3.org/2000/svg"
-                                                        >
-                                                          <path
-                                                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                                            fillRule="non-zero"
-                                                          />
-                                                        </svg>
-                                                      </EuiIconArrowDown>
-                                                    </EuiIcon>
-                                                    <span
-                                                      className="euiButton__text"
-                                                    >
-                                                      Actions
-                                                    </span>
+                                                        <path
+                                                          d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                          fillRule="non-zero"
+                                                        />
+                                                      </svg>
+                                                    </EuiIconArrowDown>
+                                                  </EuiIcon>
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Actions
                                                   </span>
-                                                </EuiButtonContent>
-                                              </button>
-                                            </EuiButtonDisplay>
-                                          </EuiButton>
-                                        </div>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
                                       </div>
-                                    </EuiOutsideClickDetector>
+                                    </div>
                                   </EuiPopover>
                                 </div>
                               </EuiFlexItem>
@@ -963,6 +969,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                     onClick={[Function]}
                                   >
                                     <EuiButtonDisplay
+                                      baseClassName="euiButton"
                                       data-test-subj="customPanels__createNewPanels"
                                       disabled={false}
                                       element="button"
@@ -976,6 +983,11 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                         data-test-subj="customPanels__createNewPanels"
                                         disabled={false}
                                         onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "minWidth": undefined,
+                                          }
+                                        }
                                         type="button"
                                       >
                                         <EuiButtonContent
@@ -1040,7 +1052,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                         >
                           <EuiValidatableControl>
                             <input
-                              className="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch-isClearable"
+                              className="euiFieldSearch euiFieldSearch--fullWidth"
                               data-test-subj="operationalPanelSearchBar"
                               onChange={[Function]}
                               onKeyUp={[Function]}
@@ -1050,6 +1062,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                             />
                           </EuiValidatableControl>
                           <EuiFormControlLayoutIcons
+                            compressed={false}
                             icon="search"
                             isLoading={false}
                           >
@@ -1057,6 +1070,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                               className="euiFormControlLayoutIcons"
                             >
                               <EuiFormControlLayoutCustomIcon
+                                size="m"
                                 type="search"
                               >
                                 <span
@@ -1065,6 +1079,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                   <EuiIcon
                                     aria-hidden="true"
                                     className="euiFormControlLayoutCustomIcon__icon"
+                                    size="m"
                                     type="search"
                                   >
                                     <EuiIconEmpty
@@ -1392,94 +1407,86 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                             ownFocus={true}
                                             panelPaddingSize="none"
                                           >
-                                            <EuiOutsideClickDetector
-                                              isDisabled={true}
-                                              onOutsideClick={[Function]}
+                                            <div
+                                              className="euiPopover euiPopover--anchorDownRight"
                                             >
                                               <div
-                                                className="euiPopover euiPopover--anchorDownRight"
-                                                onKeyDown={[Function]}
-                                                onMouseDown={[Function]}
-                                                onMouseUp={[Function]}
-                                                onTouchEnd={[Function]}
-                                                onTouchStart={[Function]}
+                                                className="euiPopover__anchor"
                                               >
-                                                <div
-                                                  className="euiPopover__anchor"
+                                                <EuiButtonEmpty
+                                                  flush="right"
+                                                  iconSide="right"
+                                                  iconType="arrowDown"
+                                                  onClick={[Function]}
+                                                  size="xs"
                                                 >
-                                                  <EuiButtonEmpty
-                                                    flush="right"
-                                                    iconSide="right"
-                                                    iconType="arrowDown"
+                                                  <button
+                                                    className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                                                    disabled={false}
                                                     onClick={[Function]}
-                                                    size="xs"
+                                                    type="button"
                                                   >
-                                                    <button
-                                                      className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
-                                                      disabled={false}
-                                                      onClick={[Function]}
-                                                      type="button"
-                                                    >
-                                                      <EuiButtonContent
-                                                        className="euiButtonEmpty__content"
-                                                        iconSide="right"
-                                                        iconType="arrowDown"
-                                                        textProps={
-                                                          Object {
-                                                            "className": "euiButtonEmpty__text",
-                                                          }
+                                                    <EuiButtonContent
+                                                      className="euiButtonEmpty__content"
+                                                      iconSide="right"
+                                                      iconSize="s"
+                                                      iconType="arrowDown"
+                                                      textProps={
+                                                        Object {
+                                                          "className": "euiButtonEmpty__text",
                                                         }
+                                                      }
+                                                    >
+                                                      <span
+                                                        className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                                       >
-                                                        <span
-                                                          className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                                        <EuiIcon
+                                                          className="euiButtonContent__icon"
+                                                          color="inherit"
+                                                          size="s"
+                                                          type="arrowDown"
                                                         >
-                                                          <EuiIcon
-                                                            className="euiButtonContent__icon"
-                                                            size="m"
-                                                            type="arrowDown"
+                                                          <EuiIconArrowDown
+                                                            aria-hidden={true}
+                                                            className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
+                                                            focusable="false"
+                                                            role="img"
+                                                            style={null}
                                                           >
-                                                            <EuiIconArrowDown
+                                                            <svg
                                                               aria-hidden={true}
-                                                              className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                              className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
                                                               focusable="false"
+                                                              height={16}
                                                               role="img"
                                                               style={null}
+                                                              viewBox="0 0 16 16"
+                                                              width={16}
+                                                              xmlns="http://www.w3.org/2000/svg"
                                                             >
-                                                              <svg
-                                                                aria-hidden={true}
-                                                                className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                                                focusable="false"
-                                                                height={16}
-                                                                role="img"
-                                                                style={null}
-                                                                viewBox="0 0 16 16"
-                                                                width={16}
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                              >
-                                                                <path
-                                                                  d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                                                  fillRule="non-zero"
-                                                                />
-                                                              </svg>
-                                                            </EuiIconArrowDown>
-                                                          </EuiIcon>
-                                                          <span
-                                                            className="euiButtonEmpty__text"
+                                                              <path
+                                                                d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                                fillRule="non-zero"
+                                                              />
+                                                            </svg>
+                                                          </EuiIconArrowDown>
+                                                        </EuiIcon>
+                                                        <span
+                                                          className="euiButtonEmpty__text"
+                                                        >
+                                                          <EuiI18n
+                                                            default="Sorting"
+                                                            token="euiTableSortMobile.sorting"
                                                           >
-                                                            <EuiI18n
-                                                              default="Sorting"
-                                                              token="euiTableSortMobile.sorting"
-                                                            >
-                                                              Sorting
-                                                            </EuiI18n>
-                                                          </span>
+                                                            Sorting
+                                                          </EuiI18n>
                                                         </span>
-                                                      </EuiButtonContent>
-                                                    </button>
-                                                  </EuiButtonEmpty>
-                                                </div>
+                                                      </span>
+                                                    </EuiButtonContent>
+                                                  </button>
+                                                </EuiButtonEmpty>
                                               </div>
-                                            </EuiOutsideClickDetector>
+                                            </div>
                                           </EuiPopover>
                                         </div>
                                       </EuiTableSortMobile>
@@ -1566,7 +1573,6 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                     </EuiTableHeaderCellCheckbox>
                                     <EuiTableHeaderCell
                                       align="left"
-                                      allowNeutralSort={false}
                                       data-test-subj="tableHeaderCell_name_0"
                                       isSorted={false}
                                       key="_data_h_name_0"
@@ -1591,47 +1597,40 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           onClick={[Function]}
                                           type="button"
                                         >
-                                          <span
+                                          <CellContents
                                             className="euiTableCellContent"
+                                            isSorted={false}
+                                            showSortMsg={true}
                                           >
-                                            <EuiInnerText>
-                                              <EuiI18n
-                                                default="{innerText}; Sorted in {ariaSortValue} order"
-                                                token="euiTableHeaderCell.titleTextWithSort"
-                                                values={
-                                                  Object {
-                                                    "ariaSortValue": "none",
-                                                    "innerText": "Name",
-                                                  }
-                                                }
-                                              >
-                                                <span
-                                                  className="euiTableCellContent__text"
-                                                  title="Name"
-                                                >
-                                                  Name
-                                                </span>
-                                              </EuiI18n>
-                                            </EuiInnerText>
-                                            <EuiScreenReaderOnly>
-                                              <span
-                                                className="euiScreenReaderOnly"
-                                              >
+                                            <span
+                                              className="euiTableCellContent"
+                                            >
+                                              <EuiInnerText>
                                                 <EuiI18n
-                                                  default="Click to sort in ascending order"
-                                                  token="euiTableHeaderCell.clickForAscending"
+                                                  default="{innerText}; {description}"
+                                                  token="euiTableHeaderCell.titleTextWithDesc"
+                                                  values={
+                                                    Object {
+                                                      "description": undefined,
+                                                      "innerText": "Name",
+                                                    }
+                                                  }
                                                 >
-                                                  Click to sort in ascending order
+                                                  <span
+                                                    className="euiTableCellContent__text"
+                                                    title="Name"
+                                                  >
+                                                    Name
+                                                  </span>
                                                 </EuiI18n>
-                                              </span>
-                                            </EuiScreenReaderOnly>
-                                          </span>
+                                              </EuiInnerText>
+                                            </span>
+                                          </CellContents>
                                         </button>
                                       </th>
                                     </EuiTableHeaderCell>
                                     <EuiTableHeaderCell
                                       align="left"
-                                      allowNeutralSort={false}
                                       data-test-subj="tableHeaderCell_dateModified_1"
                                       isSortAscending={false}
                                       isSorted={true}
@@ -1657,46 +1656,41 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           onClick={[Function]}
                                           type="button"
                                         >
-                                          <span
+                                          <CellContents
                                             className="euiTableCellContent"
+                                            isSortAscending={false}
+                                            isSorted={true}
+                                            showSortMsg={true}
                                           >
-                                            <EuiInnerText>
-                                              <EuiI18n
-                                                default="{innerText}; Sorted in {ariaSortValue} order"
-                                                token="euiTableHeaderCell.titleTextWithSort"
-                                                values={
-                                                  Object {
-                                                    "ariaSortValue": "descending",
-                                                    "innerText": "Last updated",
-                                                  }
-                                                }
-                                              >
-                                                <span
-                                                  className="euiTableCellContent__text"
-                                                  title="Last updated; Sorted in descending order"
-                                                >
-                                                  Last updated
-                                                </span>
-                                              </EuiI18n>
-                                            </EuiInnerText>
-                                            <EuiI18n
-                                              default="Sorted in {ariaSortValue} order"
-                                              token="euiTableHeaderCell.sortedAriaLabel"
-                                              values={
-                                                Object {
-                                                  "ariaSortValue": "descending",
-                                                }
-                                              }
+                                            <span
+                                              className="euiTableCellContent"
                                             >
+                                              <EuiInnerText>
+                                                <EuiI18n
+                                                  default="{innerText}; {description}"
+                                                  token="euiTableHeaderCell.titleTextWithDesc"
+                                                  values={
+                                                    Object {
+                                                      "description": undefined,
+                                                      "innerText": "Last updated",
+                                                    }
+                                                  }
+                                                >
+                                                  <span
+                                                    className="euiTableCellContent__text"
+                                                    title="Last updated"
+                                                  >
+                                                    Last updated
+                                                  </span>
+                                                </EuiI18n>
+                                              </EuiInnerText>
                                               <EuiIcon
-                                                aria-label="Sorted in descending order"
                                                 className="euiTableSortIcon"
                                                 size="m"
                                                 type="sortDown"
                                               >
                                                 <EuiIconEmpty
                                                   aria-hidden={true}
-                                                  aria-label="Sorted in descending order"
                                                   className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
                                                   focusable="false"
                                                   role="img"
@@ -1704,7 +1698,6 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                 >
                                                   <svg
                                                     aria-hidden={true}
-                                                    aria-label="Sorted in descending order"
                                                     className="euiIcon euiIcon--medium euiIcon-isLoading euiTableSortIcon"
                                                     focusable="false"
                                                     height={16}
@@ -1716,26 +1709,13 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                   />
                                                 </EuiIconEmpty>
                                               </EuiIcon>
-                                            </EuiI18n>
-                                            <EuiScreenReaderOnly>
-                                              <span
-                                                className="euiScreenReaderOnly"
-                                              >
-                                                <EuiI18n
-                                                  default="Click to sort in ascending order"
-                                                  token="euiTableHeaderCell.clickForAscending"
-                                                >
-                                                  Click to sort in ascending order
-                                                </EuiI18n>
-                                              </span>
-                                            </EuiScreenReaderOnly>
-                                          </span>
+                                            </span>
+                                          </CellContents>
                                         </button>
                                       </th>
                                     </EuiTableHeaderCell>
                                     <EuiTableHeaderCell
                                       align="left"
-                                      allowNeutralSort={false}
                                       data-test-subj="tableHeaderCell_dateCreated_2"
                                       isSorted={false}
                                       key="_data_h_dateCreated_2"
@@ -1760,41 +1740,35 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                           onClick={[Function]}
                                           type="button"
                                         >
-                                          <span
+                                          <CellContents
                                             className="euiTableCellContent"
+                                            isSorted={false}
+                                            showSortMsg={true}
                                           >
-                                            <EuiInnerText>
-                                              <EuiI18n
-                                                default="{innerText}; Sorted in {ariaSortValue} order"
-                                                token="euiTableHeaderCell.titleTextWithSort"
-                                                values={
-                                                  Object {
-                                                    "ariaSortValue": "none",
-                                                    "innerText": "Created",
-                                                  }
-                                                }
-                                              >
-                                                <span
-                                                  className="euiTableCellContent__text"
-                                                  title="Created"
-                                                >
-                                                  Created
-                                                </span>
-                                              </EuiI18n>
-                                            </EuiInnerText>
-                                            <EuiScreenReaderOnly>
-                                              <span
-                                                className="euiScreenReaderOnly"
-                                              >
+                                            <span
+                                              className="euiTableCellContent"
+                                            >
+                                              <EuiInnerText>
                                                 <EuiI18n
-                                                  default="Click to sort in ascending order"
-                                                  token="euiTableHeaderCell.clickForAscending"
+                                                  default="{innerText}; {description}"
+                                                  token="euiTableHeaderCell.titleTextWithDesc"
+                                                  values={
+                                                    Object {
+                                                      "description": undefined,
+                                                      "innerText": "Created",
+                                                    }
+                                                  }
                                                 >
-                                                  Click to sort in ascending order
+                                                  <span
+                                                    className="euiTableCellContent__text"
+                                                    title="Created"
+                                                  >
+                                                    Created
+                                                  </span>
                                                 </EuiI18n>
-                                              </span>
-                                            </EuiScreenReaderOnly>
-                                          </span>
+                                              </EuiInnerText>
+                                            </span>
+                                          </CellContents>
                                         </button>
                                       </th>
                                     </EuiTableHeaderCell>
@@ -2552,102 +2526,93 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                         display="inlineBlock"
                                         hasArrow={true}
                                         isOpen={false}
-                                        ownFocus={false}
+                                        ownFocus={true}
                                         panelPaddingSize="none"
-                                        withTitle={true}
                                       >
-                                        <EuiOutsideClickDetector
-                                          isDisabled={true}
-                                          onOutsideClick={[Function]}
+                                        <div
+                                          className="euiPopover euiPopover--anchorUpRight"
                                         >
                                           <div
-                                            className="euiPopover euiPopover--anchorUpRight euiPopover--withTitle"
-                                            onKeyDown={[Function]}
-                                            onMouseDown={[Function]}
-                                            onMouseUp={[Function]}
-                                            onTouchEnd={[Function]}
-                                            onTouchStart={[Function]}
+                                            className="euiPopover__anchor"
                                           >
-                                            <div
-                                              className="euiPopover__anchor"
+                                            <EuiButtonEmpty
+                                              color="text"
+                                              data-test-subj="tablePaginationPopoverButton"
+                                              iconSide="right"
+                                              iconType="arrowDown"
+                                              onClick={[Function]}
+                                              size="xs"
                                             >
-                                              <EuiButtonEmpty
-                                                color="text"
+                                              <button
+                                                className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
                                                 data-test-subj="tablePaginationPopoverButton"
-                                                iconSide="right"
-                                                iconType="arrowDown"
+                                                disabled={false}
                                                 onClick={[Function]}
-                                                size="xs"
+                                                type="button"
                                               >
-                                                <button
-                                                  className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall"
-                                                  data-test-subj="tablePaginationPopoverButton"
-                                                  disabled={false}
-                                                  onClick={[Function]}
-                                                  type="button"
-                                                >
-                                                  <EuiButtonContent
-                                                    className="euiButtonEmpty__content"
-                                                    iconSide="right"
-                                                    iconType="arrowDown"
-                                                    textProps={
-                                                      Object {
-                                                        "className": "euiButtonEmpty__text",
-                                                      }
+                                                <EuiButtonContent
+                                                  className="euiButtonEmpty__content"
+                                                  iconSide="right"
+                                                  iconSize="s"
+                                                  iconType="arrowDown"
+                                                  textProps={
+                                                    Object {
+                                                      "className": "euiButtonEmpty__text",
                                                     }
+                                                  }
+                                                >
+                                                  <span
+                                                    className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
                                                   >
-                                                    <span
-                                                      className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                                                    <EuiIcon
+                                                      className="euiButtonContent__icon"
+                                                      color="inherit"
+                                                      size="s"
+                                                      type="arrowDown"
                                                     >
-                                                      <EuiIcon
-                                                        className="euiButtonContent__icon"
-                                                        size="m"
-                                                        type="arrowDown"
+                                                      <EuiIconArrowDown
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
+                                                        focusable="false"
+                                                        role="img"
+                                                        style={null}
                                                       >
-                                                        <EuiIconArrowDown
+                                                        <svg
                                                           aria-hidden={true}
-                                                          className="euiIcon euiIcon--medium euiButtonContent__icon"
+                                                          className="euiIcon euiIcon--small euiIcon--inherit euiButtonContent__icon"
                                                           focusable="false"
+                                                          height={16}
                                                           role="img"
                                                           style={null}
+                                                          viewBox="0 0 16 16"
+                                                          width={16}
+                                                          xmlns="http://www.w3.org/2000/svg"
                                                         >
-                                                          <svg
-                                                            aria-hidden={true}
-                                                            className="euiIcon euiIcon--medium euiButtonContent__icon"
-                                                            focusable="false"
-                                                            height={16}
-                                                            role="img"
-                                                            style={null}
-                                                            viewBox="0 0 16 16"
-                                                            width={16}
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                          >
-                                                            <path
-                                                              d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
-                                                              fillRule="non-zero"
-                                                            />
-                                                          </svg>
-                                                        </EuiIconArrowDown>
-                                                      </EuiIcon>
-                                                      <span
-                                                        className="euiButtonEmpty__text"
+                                                          <path
+                                                            d="M13.069 5.157L8.384 9.768a.546.546 0 01-.768 0L2.93 5.158a.552.552 0 00-.771 0 .53.53 0 000 .759l4.684 4.61c.641.631 1.672.63 2.312 0l4.684-4.61a.53.53 0 000-.76.552.552 0 00-.771 0z"
+                                                            fillRule="non-zero"
+                                                          />
+                                                        </svg>
+                                                      </EuiIconArrowDown>
+                                                    </EuiIcon>
+                                                    <span
+                                                      className="euiButtonEmpty__text"
+                                                    >
+                                                      <EuiI18n
+                                                        default="Rows per page"
+                                                        token="euiTablePagination.rowsPerPage"
                                                       >
-                                                        <EuiI18n
-                                                          default="Rows per page"
-                                                          token="euiTablePagination.rowsPerPage"
-                                                        >
-                                                          Rows per page
-                                                        </EuiI18n>
-                                                        : 
-                                                        10
-                                                      </span>
+                                                        Rows per page
+                                                      </EuiI18n>
+                                                      : 
+                                                      10
                                                     </span>
-                                                  </EuiButtonContent>
-                                                </button>
-                                              </EuiButtonEmpty>
-                                            </div>
+                                                  </span>
+                                                </EuiButtonContent>
+                                              </button>
+                                            </EuiButtonEmpty>
                                           </div>
-                                        </EuiOutsideClickDetector>
+                                        </div>
                                       </EuiPopover>
                                     </div>
                                   </EuiFlexItem>
@@ -2689,7 +2654,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                               >
                                                 <button
                                                   aria-label="Previous page"
-                                                  className="euiButtonIcon euiButtonIcon--text"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
                                                   data-test-subj="pagination-button-previous"
                                                   disabled={true}
                                                   onClick={[Function]}
@@ -2698,19 +2663,20 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                   <EuiIcon
                                                     aria-hidden="true"
                                                     className="euiButtonIcon__icon"
+                                                    color="inherit"
                                                     size="m"
                                                     type="arrowLeft"
                                                   >
                                                     <EuiIconEmpty
                                                       aria-hidden={true}
-                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                                       focusable="false"
                                                       role="img"
                                                       style={null}
                                                     >
                                                       <svg
                                                         aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                                         focusable="false"
                                                         height={16}
                                                         role="img"
@@ -2772,13 +2738,13 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                         href="#random_html_id"
                                                         isDisabled={true}
                                                         onClick={[Function]}
-                                                        size="xs"
+                                                        size="s"
                                                       >
                                                         <button
                                                           aria-controls="random_html_id"
                                                           aria-current={true}
                                                           aria-label="Page 1 of 1"
-                                                          className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--xSmall euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
+                                                          className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiButtonEmpty-isDisabled euiPaginationButton euiPaginationButton-isActive euiPaginationButton--hideOnMobile"
                                                           data-test-subj="pagination-button-0"
                                                           disabled={true}
                                                           onClick={[Function]}
@@ -2787,6 +2753,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                           <EuiButtonContent
                                                             className="euiButtonEmpty__content"
                                                             iconSide="left"
+                                                            iconSize="m"
                                                             textProps={
                                                               Object {
                                                                 "className": "euiButtonEmpty__text",
@@ -2834,7 +2801,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                               >
                                                 <button
                                                   aria-label="Next page"
-                                                  className="euiButtonIcon euiButtonIcon--text"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
                                                   data-test-subj="pagination-button-next"
                                                   disabled={true}
                                                   onClick={[Function]}
@@ -2843,19 +2810,20 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                   <EuiIcon
                                                     aria-hidden="true"
                                                     className="euiButtonIcon__icon"
+                                                    color="inherit"
                                                     size="m"
                                                     type="arrowRight"
                                                   >
                                                     <EuiIconEmpty
                                                       aria-hidden={true}
-                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                                       focusable="false"
                                                       role="img"
                                                       style={null}
                                                     >
                                                       <svg
                                                         aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                                         focusable="false"
                                                         height={16}
                                                         role="img"

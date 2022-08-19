@@ -30,7 +30,7 @@ exports[`Datagrid Doc viewer row component Renders Doc viewer row component 1`] 
         onClick={[Function]}
       >
         <button
-          className="euiButtonIcon euiButtonIcon--primary euiButtonIcon euiButtonIcon--text"
+          className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall euiButtonIcon euiButtonIcon--text"
           disabled={false}
           onClick={[Function]}
           type="button"
@@ -38,19 +38,20 @@ exports[`Datagrid Doc viewer row component Renders Doc viewer row component 1`] 
           <EuiIcon
             aria-hidden="true"
             className="euiButtonIcon__icon"
+            color="inherit"
             size="m"
             type="arrowRight"
           >
             <EuiIconEmpty
               aria-hidden={true}
-              className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
               focusable="false"
               role="img"
               style={null}
             >
               <svg
                 aria-hidden={true}
-                className="euiIcon euiIcon--medium euiIcon-isLoading euiButtonIcon__icon"
+                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                 focusable="false"
                 height={16}
                 role="img"
