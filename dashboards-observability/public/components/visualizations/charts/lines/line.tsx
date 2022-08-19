@@ -137,7 +137,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
             }),
           },
           ...(index > 0 && { overlaying: 'y' }),
-          side: field.side,
+          side: field.side ?? 'left',
         },
       };
 

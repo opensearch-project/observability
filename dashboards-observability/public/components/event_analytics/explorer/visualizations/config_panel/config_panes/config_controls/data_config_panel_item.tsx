@@ -49,7 +49,7 @@ const initialDimensionEntry = {
     aggregation: '',
     custom_label: '',
     name: '',
-    side: 'right',
+    side: 'left',
     type: '',
   };
 
@@ -269,7 +269,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                             { id: 'left', label: 'Left' },
                             { id: 'right', label: 'Right' },
                           ]}
-                          idSelected={singleField.side || 'right'}
+                          idSelected={singleField.side || 'left'}
                           handleButtonChange={(id: string) =>
                             updateList(id, index, sectionName, 'side')
                           }
@@ -460,7 +460,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           <EuiTitle size="xxs">
             <h3>Dimensions</h3>
           </EuiTitle>
-          {fields.find((x) => x.type !== 'timestamp') &&
+          {!fields.find((x) => x.type === 'timestamp') &&
             (visualizations.vis.name === visChartTypes.Line ||
               visualizations.vis.name === visChartTypes.Scatter) && (
               <EuiIconTip content={tooltipText} position="right" />
