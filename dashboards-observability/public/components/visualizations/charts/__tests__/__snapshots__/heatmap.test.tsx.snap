@@ -464,7 +464,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
             },
           ],
         },
-        "fillOpacity": 80,
+        "fillopacity": 80,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
