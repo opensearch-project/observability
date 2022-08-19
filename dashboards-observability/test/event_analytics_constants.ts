@@ -5,6 +5,7 @@
 
 import { LONG_CHART_COLOR } from '../common/constants/shared';
 import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
+import { createBoxPlotTypeDefinition } from '../public/components/visualizations/charts/box_plot/box_plot_type';
 import {
   SELECTED_FIELDS,
   AVAILABLE_FIELDS as AVAILABLE_FIELDS_NAME,
@@ -15,111 +16,111 @@ import {
 export const AVAILABLE_FIELDS = [
   {
     name: 'agent',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'bytes',
-    type: 'long'
+    type: 'long',
   },
   {
     name: 'clientip',
-    type: 'ip'
+    type: 'ip',
   },
   {
     name: 'event',
-    type: 'struct'
+    type: 'struct',
   },
   {
     name: 'extension',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'geo',
-    type: 'struct'
+    type: 'struct',
   },
   {
     name: 'host',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'index',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'ip',
-    type: 'ip'
+    type: 'ip',
   },
   {
     name: 'machine',
-    type: 'struct'
+    type: 'struct',
   },
   {
     name: 'memory',
-    type: 'double'
+    type: 'double',
   },
   {
     name: 'message',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'phpmemory',
-    type: 'long'
+    type: 'long',
   },
   {
     name: 'referer',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'request',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'response',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'tags',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'timestamp',
-    type: 'timestamp'
+    type: 'timestamp',
   },
   {
     name: 'url',
-    type: 'string'
+    type: 'string',
   },
   {
     name: 'utc_time',
-    type: 'timestamp'
-  }
+    type: 'timestamp',
+  },
 ];
 
 export const QUERY_FIELDS = [
   {
     name: 'double_per_ip_bytes',
-    type: 'long'
+    type: 'long',
   },
   {
     name: 'host',
-    type: 'text'
+    type: 'text',
   },
   {
     name: 'ip_count',
-    type: 'integer'
+    type: 'integer',
   },
   {
     name: 'per_ip_bytes',
-    type: 'long'
+    type: 'long',
   },
   {
     name: 'resp_code',
-    type: 'text'
+    type: 'text',
   },
   {
     name: 'sum_bytes',
-    type: 'long'
-  }
+    type: 'long',
+  },
 ];
 
 export const JSON_DATA = [
@@ -129,7 +130,7 @@ export const JSON_DATA = [
     host: 'artifacts.opensearch.org',
     resp_code: '404',
     per_ip_bytes: 5803,
-    double_per_ip_bytes: 11606
+    double_per_ip_bytes: 11606,
   },
   {
     ip_count: 111,
@@ -137,7 +138,7 @@ export const JSON_DATA = [
     host: 'www.opensearch.org',
     resp_code: '404',
     per_ip_bytes: 5050,
-    double_per_ip_bytes: 10100
+    double_per_ip_bytes: 10100,
   },
   {
     ip_count: 94,
@@ -145,7 +146,7 @@ export const JSON_DATA = [
     host: 'artifacts.opensearch.org',
     resp_code: '503',
     per_ip_bytes: 0,
-    double_per_ip_bytes: 0
+    double_per_ip_bytes: 0,
   },
   {
     ip_count: 78,
@@ -153,7 +154,7 @@ export const JSON_DATA = [
     host: 'www.opensearch.org',
     resp_code: '503',
     per_ip_bytes: 0,
-    double_per_ip_bytes: 0
+    double_per_ip_bytes: 0,
   },
   {
     ip_count: 43,
@@ -161,7 +162,7 @@ export const JSON_DATA = [
     host: 'cdn.opensearch-opensearch-opensearch.org',
     resp_code: '404',
     per_ip_bytes: 5763,
-    double_per_ip_bytes: 11526
+    double_per_ip_bytes: 11526,
   },
   {
     ip_count: 34,
@@ -169,7 +170,7 @@ export const JSON_DATA = [
     host: 'cdn.opensearch-opensearch-opensearch.org',
     resp_code: '503',
     per_ip_bytes: 0,
-    double_per_ip_bytes: 0
+    double_per_ip_bytes: 0,
   },
   {
     ip_count: 13,
@@ -177,7 +178,7 @@ export const JSON_DATA = [
     host: 'opensearch-opensearch-opensearch.org',
     resp_code: '404',
     per_ip_bytes: 4441,
-    double_per_ip_bytes: 8882
+    double_per_ip_bytes: 8882,
   },
   {
     ip_count: 6,
@@ -185,8 +186,8 @@ export const JSON_DATA = [
     host: 'opensearch-opensearch-opensearch.org',
     resp_code: '503',
     per_ip_bytes: 0,
-    double_per_ip_bytes: 0
-  }
+    double_per_ip_bytes: 0,
+  },
 ];
 
 export const JSON_DATA_ALL = [
@@ -196,7 +197,8 @@ export const JSON_DATA_ALL = [
     agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1',
     extension: 'deb',
     memory: 'null',
-    geo: '{"srcdest":"IN:US","src":"IN","coordinates":{"lat":39.41042861,"lon":-88.8454325},"dest":"US"}',
+    geo:
+      '{"srcdest":"IN:US","src":"IN","coordinates":{"lat":39.41042861,"lon":-88.8454325},"dest":"US"}',
     utc_time: '2021-11-14 00:39:02.912',
     clientip: '223.87.60.27',
     host: 'artifacts.opensearch.org',
@@ -205,12 +207,13 @@ export const JSON_DATA_ALL = [
     timestamp: '2021-11-14 00:39:02.912',
     ip: '223.87.60.27',
     index: 'opensearch_dashboards_sample_data_logs',
-    message: '223.87.60.27 - - [2018-07-22T00:39:02.912Z] "GET /opensearch/opensearch-1.0.0.deb_1 HTTP/1.1" 200 6219 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1"',
+    message:
+      '223.87.60.27 - - [2018-07-22T00:39:02.912Z] "GET /opensearch/opensearch-1.0.0.deb_1 HTTP/1.1" 200 6219 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1"',
     url: 'https://artifacts.opensearch.org/downloads/opensearch/opensearch-1.0.0.deb_1',
     tags: 'success',
     bytes: 6219,
     machine: '{"os":"win 8","ram":8589934592}',
-    response: '200'
+    response: '200',
   },
   {
     referer: 'http://www.opensearch-opensearch-opensearch.com/success/james-mcdivitt',
@@ -218,7 +221,8 @@ export const JSON_DATA_ALL = [
     agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1',
     extension: '',
     memory: 'null',
-    geo: '{"srcdest":"JP:IN","src":"JP","coordinates":{"lat":38.58338806,"lon":-86.46248778},"dest":"IN"}',
+    geo:
+      '{"srcdest":"JP:IN","src":"JP","coordinates":{"lat":38.58338806,"lon":-86.46248778},"dest":"IN"}',
     utc_time: '2021-11-14 03:26:21.326',
     clientip: '130.246.123.197',
     host: 'www.opensearch.org',
@@ -227,7 +231,8 @@ export const JSON_DATA_ALL = [
     timestamp: '2021-11-14 03:26:21.326',
     ip: '130.246.123.197',
     index: 'opensearch_dashboards_sample_data_logs',
-    message: '130.246.123.197 - - [2018-07-22T03:26:21.326Z] "GET /beats/metricbeat_1 HTTP/1.1" 200 6850 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1"',
+    message:
+      '130.246.123.197 - - [2018-07-22T03:26:21.326Z] "GET /beats/metricbeat_1 HTTP/1.1" 200 6850 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1"',
     url: 'https://www.opensearch.org/downloads/beats/metricbeat_1',
     tags: 'success',
     bytes: 6850,
@@ -237,10 +242,12 @@ export const JSON_DATA_ALL = [
   {
     referer: 'http://twitter.com/success/konstantin-feoktistov',
     request: '/styles/main.css',
-    agent: 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24',
+    agent:
+      'Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24',
     extension: 'css',
     memory: 'null',
-    geo: '{"srcdest":"CO:DE","src":"CO","coordinates":{"lat":36.96015,"lon":-78.18499861},"dest":"DE"}',
+    geo:
+      '{"srcdest":"CO:DE","src":"CO","coordinates":{"lat":36.96015,"lon":-78.18499861},"dest":"DE"}',
     utc_time: '2021-11-14 03:30:25.131',
     clientip: '120.49.143.213',
     host: 'cdn.opensearch-opensearch-opensearch.org',
@@ -249,18 +256,19 @@ export const JSON_DATA_ALL = [
     timestamp: '2021-11-14 03:30:25.131',
     ip: '120.49.143.213',
     index: 'opensearch_dashboards_sample_data_logs',
-    message: '120.49.143.213 - - [2018-07-22T03:30:25.131Z] "GET /styles/main.css_1 HTTP/1.1" 503 0 "-" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24"',
+    message:
+      '120.49.143.213 - - [2018-07-22T03:30:25.131Z] "GET /styles/main.css_1 HTTP/1.1" 503 0 "-" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24"',
     url: 'https://cdn.opensearch-opensearch-opensearch.org/styles/main.css_1',
     tags: 'success',
     bytes: 0,
     machine: '{"os":"ios","ram":20401094656}',
-    response: '503'
+    response: '503',
   },
 ];
 
 export const AGENT_FIELD = {
   name: 'agent',
-  type: 'string'
+  type: 'string',
 };
 
 export const SAVED_HISTORIES = [
@@ -271,21 +279,22 @@ export const SAVED_HISTORIES = [
     savedVisualization: {
       description: '',
       name: 'Mock Flight count by destination save to panel',
-      query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
+      query:
+        'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
       type: 'bar',
       selected_date_range: {
         end: 'now',
         start: 'now-15m',
-        text: ''
+        text: '',
       },
       selected_fields: {
         text: '',
-        tokens: []
+        tokens: [],
       },
       selected_timestamp: {
         name: 'timestamp',
-        type: 'timestamp'
-      }
+        type: 'timestamp',
+      },
     },
     tenant: '',
   },
@@ -296,24 +305,25 @@ export const SAVED_HISTORIES = [
     savedVisualization: {
       description: '',
       name: 'Mock Flight count by destination',
-      query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
+      query:
+        'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
       type: 'bar',
       selected_date_range: {
         end: 'now',
         start: 'now-15m',
-        text: ''
+        text: '',
       },
       selected_fields: {
         text: '',
-        tokens: []
+        tokens: [],
       },
       selected_timestamp: {
         name: 'timestamp',
-        type: 'timestamp'
-      }
+        type: 'timestamp',
+      },
     },
     tenant: '',
-  }
+  },
 ];
 
 export const SELECTED_PANELS_OPTIONS = [
@@ -323,7 +333,7 @@ export const SELECTED_PANELS_OPTIONS = [
       dateCreated: 1637781403888,
       dateModified: 1637781403888,
       id: 'uRZgU30B661cwDZT-ILw',
-      name: '[Logs] Web traffic Panel'
+      name: '[Logs] Web traffic Panel',
     },
   },
   {
@@ -332,9 +342,9 @@ export const SELECTED_PANELS_OPTIONS = [
       dateCreated: 1637781403888,
       dateModified: 1637781403888,
       id: 'uRZgU30B661cwDZT-ILw',
-      name: '[Logs] Web traffic Panel'
+      name: '[Logs] Web traffic Panel',
     },
-  }
+  },
 ];
 
 export const DATA_GRID_ROWS = [
@@ -346,9 +356,9 @@ export const DATA_GRID_ROWS = [
     DestAirportID: 'SYD',
     DestCityName: 'Sydney',
     DestCountry: 'AU',
-    DestLocation: '{\"lat\":-33.94609833,\"lon\":151.177002}',
+    DestLocation: '{"lat":-33.94609833,"lon":151.177002}',
     DestRegion: 'SE-BD',
-    DestWeather: "Rain",
+    DestWeather: 'Rain',
     DistanceKilometers: 16492.326,
     DistanceMiles: 10247.856,
     FlightDelay: 'false',
@@ -358,14 +368,14 @@ export const DATA_GRID_ROWS = [
     FlightTimeHour: '17.179506930998397',
     FlightTimeMin: 1030.7704,
     Origin: 'Frankfurt am Main Airport',
-    OriginAirportID: "FRA",
+    OriginAirportID: 'FRA',
     OriginCityName: 'Frankfurt am Main',
     OriginCountry: 'DE',
-    OriginLocation: '{\"lat\":50.033333,\"lon\":8.570556}',
+    OriginLocation: '{"lat":50.033333,"lon":8.570556}',
     OriginRegion: 'DE-HE',
     OriginWeather: 'Sunny',
     dayOfWeek: 0,
-    timestamp: "2021-05-24 00:00:00"
+    timestamp: '2021-05-24 00:00:00',
   },
   {
     AvgTicketPrice: 882.98267,
@@ -375,9 +385,9 @@ export const DATA_GRID_ROWS = [
     DestAirportID: 'VE05',
     DestCityName: 'Venice',
     DestCountry: 'IT',
-    DestLocation: '{\"lat\":45.505299,\"lon\":12.3519}',
+    DestLocation: '{"lat":45.505299,"lon":12.3519}',
     DestRegion: 'IT-34',
-    DestWeather: "Sunny",
+    DestWeather: 'Sunny',
     DistanceKilometers: 8823.4,
     DistanceMiles: 5482.6064,
     FlightDelay: 'false',
@@ -387,52 +397,48 @@ export const DATA_GRID_ROWS = [
     FlightTimeHour: '7.73982468459836',
     FlightTimeMin: 464.3895,
     Origin: 'Cape Town International Airport',
-    OriginAirportID: "CPT",
+    OriginAirportID: 'CPT',
     OriginCityName: 'Cape Town',
     OriginCountry: 'ZA',
-    OriginLocation: '{\"lat\":-33.96480179,\"lon\":18.60169983}',
+    OriginLocation: '{"lat":-33.96480179,"lon":18.60169983}',
     OriginRegion: 'SE-BD',
     OriginWeather: 'Clear',
     dayOfWeek: 0,
-    timestamp: "2021-05-24 18:27:00"
-  }
+    timestamp: '2021-05-24 18:27:00',
+  },
 ];
 
 export const SAMPLE_VISUALIZATIONS = {
   data: {
     'count()': [2549, 9337, 1173],
-    'span(timestamp,1M)': [
-      '2021-05-01 00:00:00',
-      '2021-06-01 00:00:00',
-      '2021-07-01 00:00:00'
-    ],
+    'span(timestamp,1M)': ['2021-05-01 00:00:00', '2021-06-01 00:00:00', '2021-07-01 00:00:00'],
   },
   jsonData: [
     {
       'count()': 2549,
-      'span(timestamp,1M)': '2021-05-01 00:00:00'
+      'span(timestamp,1M)': '2021-05-01 00:00:00',
     },
     {
       'count()': 9337,
-      'span(timestamp,1M)': '2021-06-01 00:00:00'
+      'span(timestamp,1M)': '2021-06-01 00:00:00',
     },
     {
       'count()': 2549,
-      'span(timestamp,1M)': '2021-07-01 00:00:00'
-    }
+      'span(timestamp,1M)': '2021-07-01 00:00:00',
+    },
   ],
   metadata: {
     fields: [
       {
         name: 'count()',
-        type: 'integer'
+        type: 'integer',
       },
       {
         name: 'span(timestamp,1M)',
-        type: 'timestamp'
-      }
-    ]
-  }
+        type: 'timestamp',
+      },
+    ],
+  },
 };
 
 export const VISUALIZATION_TYPES = [
@@ -441,28 +447,28 @@ export const VISUALIZATION_TYPES = [
     id: 'bar',
     label: 'bar',
     selection: {
-      dataLoss: 'nothing'
+      dataLoss: 'nothing',
     },
-    visualizationid: 'vis-bar-6636'
+    visualizationid: 'vis-bar-6636',
   },
   {
     fulllabel: 'H. Bar',
     id: 'horizontal_bar',
     label: 'H. Bar',
     selection: {
-      dataLoss: 'nothing'
+      dataLoss: 'nothing',
     },
-    visualizationid: 'vis-bar-6637'
+    visualizationid: 'vis-bar-6637',
   },
   {
     fulllabel: 'Line',
     id: 'line',
     label: 'line',
     selection: {
-      dataLoss: 'nothing'
+      dataLoss: 'nothing',
     },
-    visualizationid: 'vis-bar-6638'
-  }
+    visualizationid: 'vis-bar-6638',
+  },
 ];
 
 export const LAYOUT_CONFIG = {
@@ -488,47 +494,69 @@ export const EXPLORER_FIELDS = {
 export const EXPLORER_VISUALIZATIONS = {
   data: {
     'count()': [154, 1753, 116, 468, 1964, 219],
-    tags:["error", "info", "login", "security", "success", "warning"],
+    tags: ['error', 'info', 'login', 'security', 'success', 'warning'],
   },
   jsonData: [
-    {'count()': 154, tags: "error"},
-    {'count()': 1753, tags: "info"},
-    {'count()': 116, tags: "login"},
-    {'count()': 468, tags: "security"},
-    {'count()': 1964, tags: "success"},
-    {'count()': 219, tags: "warning"}
+    { 'count()': 154, tags: 'error' },
+    { 'count()': 1753, tags: 'info' },
+    { 'count()': 116, tags: 'login' },
+    { 'count()': 468, tags: 'security' },
+    { 'count()': 1964, tags: 'success' },
+    { 'count()': 219, tags: 'warning' },
   ],
   metadata: {
     fields: [
-      {name: "count()", type: "integer"},
-      {name: "tags", type: "text"}
+      { name: 'count()', type: 'integer' },
+      { name: 'tags', type: 'text' },
     ],
     size: 6,
-    status: 200
+    status: 200,
   },
 };
 
 export const TEST_VISUALIZATIONS_DATA = {
   data: {
-    appData: {fromApp: false},
+    appData: { fromApp: false },
     defaultAxes: {},
     indexFields: EXPLORER_FIELDS,
     query: {},
     rawVizData: EXPLORER_VISUALIZATIONS,
-    userConfigs: {}
+    userConfigs: {},
   },
-  vis: createBarTypeDefinition({})
+  vis: createBarTypeDefinition({}),
 };
 
 export const PIE_TEST_VISUALIZATIONS_DATA = {
   data: {
     ...TEST_VISUALIZATIONS_DATA.data,
     defaultAxes: {
-      xaxis: [{name: "tags", type: "text"}], 
-      yaxis: [{name: "count()", type: "integer"}]
-    }
+      xaxis: [{ name: 'tags', type: 'text' }],
+      yaxis: [{ name: 'count()', type: 'integer' }],
+    },
   },
   vis: {
-    ...TEST_VISUALIZATIONS_DATA.vis
-  }
+    ...TEST_VISUALIZATIONS_DATA.vis,
+  },
+};
+
+export const BOX_TEST_VISUALIZATIONS_DATA = {
+  data: {
+    appData: { fromApp: false },
+    defaultAxes: {},
+    indexFields: EXPLORER_FIELDS,
+    query: {},
+    rawVizData: EXPLORER_VISUALIZATIONS,
+    userConfigs: {
+      dataConfig: {
+        valueOptions: {
+          dimensions: [{ name: 'host', type: 'text', label: 'host' }],
+          metrics: [
+            { name: 'max(bytes)', type: 'long', label: 'max(bytes)', side: 'left' },
+            { name: 'avg(bytes)', type: 'double', label: 'avg(bytes)', side: 'right' },
+          ],
+        },
+      },
+    },
+  },
+  vis: createBoxPlotTypeDefinition({}),
 };

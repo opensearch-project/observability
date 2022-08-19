@@ -38,7 +38,6 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const boxOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = boxOrientation === vis.orientation;
   const boxMode = dataConfig?.chartStyles?.boxMode || visualizations.vis.boxmode;
-
   let box;
 
   if (isEmpty(valueSeries) || (boxMode === 'group' && valueForXSeries.length === 0)) {
