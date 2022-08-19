@@ -91,6 +91,7 @@ export const ConfigChartOptions = ({
           params = {
             ...params,
             maxRange: schema.props.max,
+            minRange: schema.props.min || 0,
             currentRange: vizState[schema.mapTo] || schema?.defaultState,
             handleSliderChange: handleConfigurationChange(schema.mapTo),
           };

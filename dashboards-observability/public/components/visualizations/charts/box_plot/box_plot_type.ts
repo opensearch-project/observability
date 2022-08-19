@@ -7,22 +7,24 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
-import { ConfigBoxChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_box_chart_styles';
-import { SliderConfig } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
 import {
   ConfigLegend,
   InputFieldItem,
+  ConfigChartOptions,
+  ConfigAvailability,
+  ButtonGroupItem,
+  SliderConfig,
+  ConfigColorTheme,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
-
-import { ConfigColorTheme } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_color_theme';
 import { BoxPlot } from './box_plot';
+import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DefaultBoxChartStyles } from '../../../../../common/constants/explorer';
+
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-const { LegendPosition, ShowLegend } = DefaultChartStyles;
+const { LegendPosition, ShowLegend, LabelAngle, FillOpacity, MarkerSize } = DefaultChartStyles;
+const { BoxGap, Jitter, BoxMode, Orientation } = DefaultBoxChartStyles;
 export const createBoxPlotTypeDefinition = (params: any) => ({
   name: 'box',
   type: 'box',
@@ -38,11 +40,12 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
   categoryaxis: 'xaxis',
   seriesaxis: 'yaxis',
   orientation: 'v',
-  labelangle: 0,
-  linewidth: 1,
-  fillopacity: 80,
-  groupwidth: 0.7,
-  boxwidth: 0.97,
+  labelangle: LabelAngle,
+  markersize: MarkerSize,
+  fillopacity: FillOpacity,
+  boxgap: BoxGap,
+  jitter: Jitter,
+  boxmode: BoxMode,
   showlegend: ShowLegend,
   legendposition: LegendPosition,
   component: BoxPlot,
@@ -89,7 +92,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
           {
             id: 'chart_styles',
             name: 'Chart styles',
-            editor: ConfigBoxChartStyles,
+            editor: ConfigChartOptions,
             mapTo: 'chartStyles',
             schemas: [
               {
@@ -102,7 +105,20 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                     { name: 'Vertical', id: 'v' },
                     { name: 'Horizontal', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Vertical', id: 'v' }],
+                  defaultSelections: [{ name: 'Vertical', id: Orientation }],
+                },
+              },
+              {
+                name: 'Mode',
+                component: ButtonGroupItem,
+                mapTo: 'boxMode',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Overlay', id: 'overlay' },
+                    { name: 'Group', id: 'group' },
+                  ],
+                  defaultSelections: [{ name: 'Overlay', id: BoxMode }],
                 },
               },
               {
@@ -116,7 +132,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                 component: SliderConfig,
                 mapTo: 'rotateBoxLabels',
                 eleType: 'slider',
-                defaultState: 0,
+                defaultState: LabelAngle,
                 props: {
                   ticks: [
                     { label: '-90°', value: -90 },
@@ -131,34 +147,37 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                 },
               },
               {
-                name: 'Group width',
+                name: 'Box gap',
                 component: SliderConfig,
-                mapTo: 'groupWidth',
-                defaultState: 0.7,
+                mapTo: 'boxGap',
+                defaultState: BoxGap,
                 props: {
                   max: 1,
-                  step: 0.01,
+                  step: 0.1,
+                  min: 0,
                 },
                 eleType: 'slider',
               },
               {
-                name: 'Box width',
+                name: 'Marker size',
                 component: SliderConfig,
-                mapTo: 'boxWidth',
-                defaultState: 0.97,
-                props: {
-                  max: 1,
-                  step: 0.01,
-                },
-                eleType: 'slider',
-              },
-              {
-                name: 'Line width',
-                component: SliderConfig,
-                mapTo: 'lineWidth',
-                defaultState: 1,
+                mapTo: 'markerSize',
+                defaultState: MarkerSize,
                 props: {
                   max: 10,
+                  min: 1,
+                },
+                eleType: 'slider',
+              },
+              {
+                name: 'Jitter',
+                component: SliderConfig,
+                mapTo: 'jitter',
+                defaultState: Jitter,
+                props: {
+                  max: 1,
+                  min: 0,
+                  step: 0.1,
                 },
                 eleType: 'slider',
               },
@@ -166,7 +185,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                 name: 'Fill Opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
-                defaultState: 80,
+                defaultState: FillOpacity,
                 props: {
                   max: 100,
                 },
