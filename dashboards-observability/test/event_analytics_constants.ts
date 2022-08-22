@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LONG_CHART_COLOR } from '../common/constants/shared';
+import { LONG_CHART_COLOR, visChartTypes } from '../common/constants/shared';
 import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
 import {
   SELECTED_FIELDS,
@@ -508,6 +508,11 @@ export const EXPLORER_VISUALIZATIONS = {
   },
 };
 
+export const VALUE_OPTIONS = {
+  dimensions: [{ name: 'tags', type: 'text', label: 'tags' }],
+  metrics: [{ name: 'count()', type: 'integer', label: 'count()', side: 'left' }],
+};
+
 export const TEST_VISUALIZATIONS_DATA = {
   data: {
     appData: {fromApp: false},
@@ -515,7 +520,11 @@ export const TEST_VISUALIZATIONS_DATA = {
     indexFields: EXPLORER_FIELDS,
     query: {},
     rawVizData: EXPLORER_VISUALIZATIONS,
-    userConfigs: {}
+    userConfigs: {
+      dataConfig: {
+        valueOptions: VALUE_OPTIONS,
+      }
+    }
   },
   vis: createBarTypeDefinition({})
 };
@@ -531,4 +540,11 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
   vis: {
     ...TEST_VISUALIZATIONS_DATA.vis
   }
+};
+
+export const HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA = {
+  ...TEST_VISUALIZATIONS_DATA,
+  vis: createBarTypeDefinition({
+    type: visChartTypes.HorizontalBar
+  })
 };

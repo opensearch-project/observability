@@ -232,66 +232,8 @@ exports[`Bar component Renders bar component 1`] = `
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Style",
+              "name": "Data",
               "sections": Array [
-                Object {
-                  "editor": [Function],
-                  "id": "tooltip_options",
-                  "mapTo": "tooltipOptions",
-                  "name": "Tooltip options",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipMode",
-                      "name": "Tooltip mode",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                          Object {
-                            "id": "hidden",
-                            "name": "Hidden",
-                          },
-                        ],
-                      },
-                    },
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipText",
-                      "name": "Tooltip text",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                          Object {
-                            "id": "x",
-                            "name": "Dimension",
-                          },
-                          Object {
-                            "id": "y",
-                            "name": "Metrics",
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
                 Object {
                   "editor": [Function],
                   "id": "legend",
@@ -485,18 +427,18 @@ exports[`Bar component Renders bar component 1`] = `
           ],
         },
         "fillopacity": 80,
-        "fulllabel": "Vertical bar",
+        "fulllabel": "Horizontal bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
-        "id": "bar",
-        "label": "Vertical bar",
+        "icontype": "visBarHorizontalStacked",
+        "id": "horizontal_bar",
+        "label": "Horizontal bar",
         "labelangle": 0,
         "legendposition": "v",
         "linewidth": 1,
         "mode": "group",
-        "name": "bar",
-        "orientation": "v",
+        "name": "horizontal_bar",
+        "orientation": "h",
         "selection": Object {
           "dataLoss": "nothing",
         },
@@ -542,23 +484,23 @@ exports[`Bar component Renders bar component 1`] = `
             },
           },
           "name": "count()",
-          "orientation": "v",
+          "orientation": "h",
           "type": "bar",
           "x": Array [
-            "error",
-            "info",
-            "login",
-            "security",
-            "success",
-            "warning",
-          ],
-          "y": Array [
             154,
             1753,
             116,
             468,
             1964,
             219,
+          ],
+          "y": Array [
+            "error",
+            "info",
+            "login",
+            "security",
+            "success",
+            "warning",
           ],
         },
       ]
@@ -587,7 +529,7 @@ exports[`Bar component Renders bar component 1`] = `
         },
         "showlegend": true,
         "title": "",
-        "xaxis": Object {
+        "yaxis": Object {
           "automargin": true,
           "tickangle": 0,
         },
@@ -611,23 +553,23 @@ exports[`Bar component Renders bar component 1`] = `
               },
             },
             "name": "count()",
-            "orientation": "v",
+            "orientation": "h",
             "type": "bar",
             "x": Array [
-              "error",
-              "info",
-              "login",
-              "security",
-              "success",
-              "warning",
-            ],
-            "y": Array [
               154,
               1753,
               116,
               468,
               1964,
               219,
+            ],
+            "y": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
             ],
           },
         ]
@@ -662,12 +604,13 @@ exports[`Bar component Renders bar component 1`] = `
           "title": "",
           "xaxis": Object {
             "automargin": true,
-            "tickangle": 0,
-          },
-          "yaxis": Object {
             "rangemode": "normal",
             "showgrid": true,
             "zeroline": false,
+          },
+          "yaxis": Object {
+            "automargin": true,
+            "tickangle": 0,
           },
         }
       }
