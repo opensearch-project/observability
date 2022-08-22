@@ -72,6 +72,16 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "size": 4,
               "status": 200,
             },
+            "explorerFields": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+              Object {
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
           },
           "indexFields": Object {},
           "query": Object {},
@@ -488,6 +498,16 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "size": 4,
                 "status": 200,
               },
+              "explorerFields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
             },
             "indexFields": Object {},
             "query": Object {},
@@ -927,6 +947,16 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "size": 4,
                   "status": 200,
                 },
+                "explorerFields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
               },
               "indexFields": Object {},
               "query": Object {},
@@ -1539,6 +1569,16 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "size": 4,
               "status": 200,
             },
+            "explorerFields": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+              Object {
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
           },
           "indexFields": Object {},
           "query": Object {},
@@ -2008,6 +2048,16 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "size": 4,
                 "status": 200,
               },
+              "explorerFields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
             },
             "indexFields": Object {},
             "query": Object {},
@@ -2531,6 +2581,16 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   "size": 4,
                   "status": 200,
                 },
+                "explorerFields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
               },
               "indexFields": Object {},
               "query": Object {},
@@ -3077,6 +3137,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "size": 4,
               "status": 200,
             },
+            "explorerFields": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+              Object {
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
           },
           "indexFields": Object {},
           "query": Object {},
@@ -3356,6 +3426,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "size": 4,
                 "status": 200,
               },
+              "explorerFields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
             },
             "indexFields": Object {},
             "query": Object {},
@@ -3658,6 +3738,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "size": 4,
                   "status": 200,
                 },
+                "explorerFields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
               },
               "indexFields": Object {},
               "query": Object {},
@@ -4098,6 +4188,16 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "size": 0,
               "status": 200,
             },
+            "explorerFields": Array [
+              Object {
+                "name": "count('ip')",
+                "type": "integer",
+              },
+              Object {
+                "name": "span(timestamp,1h)",
+                "type": "timestamp",
+              },
+            ],
           },
           "indexFields": Object {},
           "query": Object {},
@@ -4323,6 +4423,16 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "size": 0,
                 "status": 200,
               },
+              "explorerFields": Array [
+                Object {
+                  "name": "count('ip')",
+                  "type": "integer",
+                },
+                Object {
+                  "name": "span(timestamp,1h)",
+                  "type": "timestamp",
+                },
+              ],
             },
             "indexFields": Object {},
             "query": Object {},
@@ -4571,6 +4681,16 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "size": 0,
                   "status": 200,
                 },
+                "explorerFields": Array [
+                  Object {
+                    "name": "count('ip')",
+                    "type": "integer",
+                  },
+                  Object {
+                    "name": "span(timestamp,1h)",
+                    "type": "timestamp",
+                  },
+                ],
               },
               "indexFields": Object {},
               "query": Object {},

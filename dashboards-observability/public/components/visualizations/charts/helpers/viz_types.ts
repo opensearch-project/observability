@@ -113,6 +113,19 @@ const getUserConfigs = (userSelectedConfigs: object, vizFields: IField[], visNam
           },
         };
         break;
+      case visChartTypes.LogsView:
+        configOfUser = {
+          ...userSelectedConfigs,
+          dataConfig: {
+            ...userSelectedConfigs?.dataConfig,
+            valueOptions: {
+              dimensions:
+                axesData.xaxis && axesData.yaxis ? axesData.xaxis.concat(axesData.yaxis) : [],
+              metrics: [],
+            },
+          },
+        };
+        break;
       default:
         configOfUser = {
           ...userSelectedConfigs,
