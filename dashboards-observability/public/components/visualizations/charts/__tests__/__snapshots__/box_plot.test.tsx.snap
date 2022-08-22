@@ -204,23 +204,17 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
             "valueOptions": Object {
               "dimensions": Array [
                 Object {
-                  "label": "host",
-                  "name": "host",
+                  "label": "tags",
+                  "name": "tags",
                   "type": "text",
                 },
               ],
               "metrics": Array [
                 Object {
-                  "label": "max(bytes)",
-                  "name": "max(bytes)",
+                  "label": "count()",
+                  "name": "count()",
                   "side": "left",
-                  "type": "long",
-                },
-                Object {
-                  "label": "avg(bytes)",
-                  "name": "avg(bytes)",
-                  "side": "right",
-                  "type": "double",
+                  "type": "integer",
                 },
               ],
             },
@@ -520,27 +514,17 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
               "width": 5,
             },
           },
-          "name": "max(bytes)",
+          "name": "count()",
           "pointpos": -1.8,
           "type": "box",
-          "y": undefined,
-        },
-        Object {
-          "boxmean": true,
-          "boxpoints": "all",
-          "fillcolor": "rgba(140,85,163,0.2)",
-          "jitter": 0.3,
-          "marker": Object {
-            "color": "rgba(140,85,163,0.2)",
-            "line": Object {
-              "color": "#8C55A3",
-              "width": 5,
-            },
-          },
-          "name": "avg(bytes)",
-          "pointpos": -1.8,
-          "type": "box",
-          "y": undefined,
+          "y": Array [
+            154,
+            1753,
+            116,
+            468,
+            1964,
+            219,
+          ],
         },
       ]
     }
@@ -594,27 +578,17 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                 "width": 5,
               },
             },
-            "name": "max(bytes)",
+            "name": "count()",
             "pointpos": -1.8,
             "type": "box",
-            "y": undefined,
-          },
-          Object {
-            "boxmean": true,
-            "boxpoints": "all",
-            "fillcolor": "rgba(140,85,163,0.2)",
-            "jitter": 0.3,
-            "marker": Object {
-              "color": "rgba(140,85,163,0.2)",
-              "line": Object {
-                "color": "#8C55A3",
-                "width": 5,
-              },
-            },
-            "name": "avg(bytes)",
-            "pointpos": -1.8,
-            "type": "box",
-            "y": undefined,
+            "y": Array [
+              154,
+              1753,
+              116,
+              468,
+              1964,
+              219,
+            ],
           },
         ]
       }

@@ -37,7 +37,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     : [];
   const boxOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = boxOrientation === vis.orientation;
-  const boxMode = dataConfig?.chartStyles?.boxMode || visualizations.vis.boxmode;
+  const boxMode = dataConfig?.chartStyles?.boxMode || vis.boxmode;
   let box;
 
   if (isEmpty(valueSeries) || (boxMode === 'group' && valueForXSeries.length === 0)) {
@@ -55,8 +55,8 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   );
   const legendPosition = dataConfig?.legend?.position || vis.legendposition;
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
-  const boxGap = dataConfig?.chartStyles?.boxGap || visualizations.vis.boxgap;
-  const jitter = dataConfig?.chartStyles?.jitter || visualizations.vis.jitter;
+  const boxGap = dataConfig?.chartStyles?.boxGap || vis.boxgap;
+  const jitter = dataConfig?.chartStyles?.jitter || vis.jitter;
 
   const getSelectedColorTheme = (field: ConfigListEntry, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
@@ -66,7 +66,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
 
   const dimensionData = valueForXSeries.reduce((prev, cur) => {
     if (prev.length === 0) {
-      return data[cur.name];
+      return data[cur.name].flat();
     }
     return prev.map(
       (item: string | number, index: number) => `${item},<br>${data[cur.name][index]}`

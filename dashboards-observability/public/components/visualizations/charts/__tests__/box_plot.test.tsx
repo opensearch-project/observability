@@ -10,7 +10,6 @@ import { waitFor } from '@testing-library/react';
 import { BoxPlot } from '../box_plot/box_plot';
 import {
   LAYOUT_CONFIG,
-  TEST_VISUALIZATIONS_DATA,
   BOX_TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 

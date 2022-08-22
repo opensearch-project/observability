@@ -514,6 +514,11 @@ export const EXPLORER_VISUALIZATIONS = {
   },
 };
 
+export const VALUE_OPTIONS = {
+  dimensions: [{ name: 'tags', type: 'text', label: 'tags' }],
+  metrics: [{ name: 'count()', type: 'integer', label: 'count()', side: 'left' }],
+};
+
 export const TEST_VISUALIZATIONS_DATA = {
   data: {
     appData: { fromApp: false },
@@ -521,7 +526,11 @@ export const TEST_VISUALIZATIONS_DATA = {
     indexFields: EXPLORER_FIELDS,
     query: {},
     rawVizData: EXPLORER_VISUALIZATIONS,
-    userConfigs: {},
+    userConfigs: {
+      dataConfig: {
+        valueOptions: VALUE_OPTIONS,
+      },
+    },
   },
   vis: createBarTypeDefinition({}),
 };
@@ -540,23 +549,6 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
 };
 
 export const BOX_TEST_VISUALIZATIONS_DATA = {
-  data: {
-    appData: { fromApp: false },
-    defaultAxes: {},
-    indexFields: EXPLORER_FIELDS,
-    query: {},
-    rawVizData: EXPLORER_VISUALIZATIONS,
-    userConfigs: {
-      dataConfig: {
-        valueOptions: {
-          dimensions: [{ name: 'host', type: 'text', label: 'host' }],
-          metrics: [
-            { name: 'max(bytes)', type: 'long', label: 'max(bytes)', side: 'left' },
-            { name: 'avg(bytes)', type: 'double', label: 'avg(bytes)', side: 'right' },
-          ],
-        },
-      },
-    },
-  },
+  ...TEST_VISUALIZATIONS_DATA,
   vis: createBoxPlotTypeDefinition({}),
 };
