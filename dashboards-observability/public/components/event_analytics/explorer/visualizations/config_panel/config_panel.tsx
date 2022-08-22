@@ -121,7 +121,7 @@ export const ConfigPanel = ({
         valueOptions?.valueField?.length !== 0,
       gauge: true,
       heatmap: Boolean(
-        curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0
+        curVisId === HeatMap && valueOptions?.metrics && valueOptions.metrics?.length !== 0
       ),
       bar: isValidValueOptionsXYAxes,
       line: isValidValueOptionsXYAxes,

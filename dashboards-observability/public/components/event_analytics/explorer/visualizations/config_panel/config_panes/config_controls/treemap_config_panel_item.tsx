@@ -38,34 +38,8 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
       setConfigList({
         ...userConfigs.dataConfig.valueOptions,
       });
-    } else if (data.defaultAxes.xaxis || data.defaultAxes.yaxis) {
-      const { xaxis, yaxis } = data.defaultAxes;
-      setConfigList({
-        dimensions: [{ childField: { ...xaxis[0] }, parentFields: [] }],
-        metrics: [{ valueField: { ...yaxis[0] } }],
-      });
-      dispatch(
-        changeVisualizationConfig({
-          tabId,
-          vizId: curVisId,
-          data: {
-            ...userConfigs,
-            dataConfig: {
-              ...userConfigs.dataConfig,
-              valueOptions: {
-                dimensions: [{ childField: { ...xaxis[0] }, parentFields: [] }],
-                metrics: [{ valueField: { ...yaxis[0] } }],
-              },
-            },
-          },
-        })
-      );
     }
-  }, [
-    data.defaultAxes,
-    data.rawVizData?.[visualizations.vis.name]?.dataConfig,
-    visualizations.vis.name,
-  ]);
+  }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
 
   const updateList = (configName: string, fieldName: string, value: string | any[]) => {
     let list = { ...configList };
