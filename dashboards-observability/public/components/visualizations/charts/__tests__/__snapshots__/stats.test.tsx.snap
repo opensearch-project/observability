@@ -1,0 +1,520 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bar component Renders bar component 1`] = `
+<Bar
+  config={true}
+  layout={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+    }
+  }
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {},
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "count()": Array [
+              154,
+              1753,
+              116,
+              468,
+              1964,
+              219,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "count()": 154,
+              "tags": "error",
+            },
+            Object {
+              "count()": 1753,
+              "tags": "info",
+            },
+            Object {
+              "count()": 116,
+              "tags": "login",
+            },
+            Object {
+              "count()": 468,
+              "tags": "security",
+            },
+            Object {
+              "count()": 1964,
+              "tags": "success",
+            },
+            Object {
+              "count()": 219,
+              "tags": "warning",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "count()",
+                "type": "integer",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+            "size": 6,
+            "status": 200,
+          },
+        },
+        "userConfigs": Object {},
+      },
+      "vis": Object {
+        "category": "Visualizations",
+        "categoryaxis": "xaxis",
+        "charttype": "auto",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "chartType",
+                      "name": "Chart type",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                          Object {
+                            "id": "horizontal",
+                            "name": "Horizontal",
+                          },
+                          Object {
+                            "id": "text",
+                            "name": "Text mode",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "orientation",
+                      "name": "Orientation",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Horizontal",
+                          },
+                          Object {
+                            "id": "v",
+                            "name": "Vertical",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "textInput",
+                      "mapTo": "metricUnits",
+                      "name": "Metric units",
+                      "title": "Metrics units",
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "precisionValue",
+                      "name": "Metrics precision",
+                      "props": Object {
+                        "minLimit": 0,
+                      },
+                      "title": "Metrics precision",
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "titleSize",
+                      "name": "Title size",
+                      "title": "Title size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "valueSize",
+                      "name": "Value size",
+                      "title": "Value size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "textMode",
+                      "name": "Text mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Values + Names",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                          Object {
+                            "id": "names",
+                            "name": "Names",
+                          },
+                          Object {
+                            "id": "values",
+                            "name": "Values",
+                          },
+                          Object {
+                            "id": "values+names",
+                            "name": "Values + Names",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "defaultState": Array [
+                    Object {
+                      "color": "#3CA1C7",
+                      "isReadOnly": true,
+                      "name": "Base",
+                      "thid": "random_html_id",
+                      "value": 0,
+                    },
+                  ],
+                  "editor": [Function],
+                  "id": "thresholds",
+                  "mapTo": "thresholds",
+                  "name": "Thresholds",
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "content": Array [],
+              "editor": [Function],
+              "id": "style-panel",
+              "mapTo": "layoutConfig",
+              "name": "Layout",
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fulllabel": "Stats",
+        "icon": [Function],
+        "icontype": "stats",
+        "id": "stats",
+        "label": "Stats",
+        "name": "Stats",
+        "orientation": "auto",
+        "precisionvalue": 1,
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesaxis": "yaxis",
+        "textmode": "auto",
+        "titlesize": 30,
+        "type": "stats",
+        "valuesize": 80,
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "layout": Object {
+            "colorway": Array [
+              "#3CA1C7",
+              "#8C55A3",
+              "#DB748A",
+              "#F2BE4B",
+              "#68CCC2",
+              "#2A7866",
+              "#843769",
+              "#374FB8",
+              "#BD6F26",
+              "#4C636F",
+            ],
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "paper_bgcolor": "rgba(0, 0, 0, 0)",
+            "plot_bgcolor": "rgba(0, 0, 0, 0)",
+            "showlegend": true,
+            "xaxis": Object {
+              "fixedrange": true,
+              "showgrid": false,
+              "visible": true,
+            },
+            "yaxis": Object {
+              "fixedrange": true,
+              "showgrid": false,
+              "visible": true,
+            },
+          },
+        },
+      },
+    }
+  }
+>
+  <EmptyPlaceholder
+    icon="stats"
+  >
+    <EuiText
+      className="lnsChart__empty"
+      color="subdued"
+      data-test-subj="vizWorkspace__noData"
+      size="xs"
+      textAlign="center"
+    >
+      <div
+        className="euiText euiText--extraSmall lnsChart__empty"
+        data-test-subj="vizWorkspace__noData"
+      >
+        <EuiTextAlign
+          textAlign="center"
+        >
+          <div
+            className="euiTextAlign euiTextAlign--center"
+          >
+            <EuiTextColor
+              color="subdued"
+              component="div"
+            >
+              <div
+                className="euiTextColor euiTextColor--subdued"
+              >
+                <EuiIcon
+                  color="subdued"
+                  size="xxl"
+                  type="stats"
+                >
+                  <EuiIconEmpty
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                    focusable="false"
+                    role="img"
+                    style={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+                <EuiSpacer
+                  size="l"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <p>
+                  <FormattedMessage
+                    defaultMessage="No results found"
+                    id="visualization_noData"
+                    values={Object {}}
+                  >
+                    <span>
+                      No results found
+                    </span>
+                  </FormattedMessage>
+                </p>
+              </div>
+            </EuiTextColor>
+          </div>
+        </EuiTextAlign>
+      </div>
+    </EuiText>
+  </EmptyPlaceholder>
+</Bar>
+`;
