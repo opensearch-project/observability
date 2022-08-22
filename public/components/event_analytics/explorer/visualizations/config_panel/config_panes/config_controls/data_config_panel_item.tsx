@@ -48,58 +48,12 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   const [configList, setConfigList] = useState<ConfigList>({});
 
   useEffect(() => {
-    if (configList.dimensions && configList.metrics && !userConfigs.dataConfig) {
-      dispatch(
-        changeVisualizationConfig({
-          tabId,
-          vizId: curVisId,
-          data: {
-            ...userConfigs,
-            dataConfig: {
-              ...userConfigs.dataConfig,
-              valueOptions: {
-                dimensions: configList.dimensions,
-                metrics: configList.metrics,
-              },
-            },
-          },
-        })
-      );
-    }
-  }, [configList]);
-
-  useEffect(() => {
     if (userConfigs && userConfigs.dataConfig && userConfigs.dataConfig.valueOptions) {
       setConfigList({
         ...userConfigs.dataConfig.valueOptions,
       });
-    } else if (
-      visualizations.vis.name !== visChartTypes.HeatMap &&
-      visualizations.vis.name !== visChartTypes.Histogram &&
-      (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
-    ) {
-      const { xaxis, yaxis } = data.defaultAxes;
-      setConfigList({
-        dimensions: [...(xaxis && xaxis)],
-        metrics: [
-          ...(yaxis && yaxis.map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }))),
-        ],
-      });
-    } else if (visualizations.vis.name === visChartTypes.HeatMap) {
-      setConfigList({
-        dimensions: [initialConfigEntry, initialConfigEntry],
-        metrics: [initialConfigEntry],
-      });
-    } else if (visualizations.vis.name === visChartTypes.Histogram) {
-      setConfigList({
-        dimensions: [{ bucketSize: '', bucketOffset: '' }],
-      });
     }
-  }, [
-    data.defaultAxes,
-    data.rawVizData?.[visualizations.vis.name]?.dataConfig,
-    visualizations.vis.name,
-  ]);
+  }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     let list = { ...configList };
