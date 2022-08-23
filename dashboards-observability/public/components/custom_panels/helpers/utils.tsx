@@ -14,7 +14,6 @@ import { Layout } from 'react-grid-layout';
 import {
   PPL_DATE_FORMAT,
   PPL_INDEX_REGEX,
-  visChartTypes,
 } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../src/core/public';
@@ -22,7 +21,6 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
-import { getVisType } from '../../visualizations/charts/vis_types';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -290,25 +288,6 @@ export const isPPLFilterValid = (
     return false;
   }
   return true;
-};
-
-const isLineOrScatter = (vs: string) => vs === visChartTypes.Line || vs === visChartTypes.Scatter;
-const isVerticalorHorizontalBar = (vs: string) =>
-  vs === visChartTypes.Bar || vs === visChartTypes.HorizontalBar;
-
-//get visType data from visId
-export const getVisTypeData = (vizId: string) => {
-  if (isLineOrScatter(vizId)) {
-    return vizId === visChartTypes.Line
-      ? getVisType(vizId, { type: visChartTypes.Line })
-      : getVisType(vizId, { type: visChartTypes.Scatter });
-  } else if (isVerticalorHorizontalBar(vizId)) {
-    return vizId === visChartTypes.Bar
-      ? getVisType(vizId, { type: visChartTypes.Bar })
-      : getVisType(vizId, { type: visChartTypes.HorizontalBar });
-  } else {
-    return getVisType(vizId);
-  }
 };
 
 // Renders visualization in the vizualization container component

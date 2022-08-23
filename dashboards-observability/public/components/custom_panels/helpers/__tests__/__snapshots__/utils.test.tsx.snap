@@ -4484,35 +4484,35 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               Object {
                 "hoverinfo": "all",
                 "marker": Object {
-                  "color": "rgba(60,161,199,NaN)",
+                  "color": "rgba(60,161,199,0.4)",
                   "line": Object {
                     "color": "#3CA1C7",
-                    "width": undefined,
+                    "width": 1,
                   },
                 },
                 "name": "avg(FlightDelayMin)",
                 "orientation": "h",
                 "type": "bar",
                 "x": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
-                ],
-                "y": Array [
                   53.65384615384615,
                   45.36144578313253,
                   63.1578947368421,
                   46.81318681318681,
+                ],
+                "y": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
                 ],
               },
             ]
           }
           layout={
             Object {
-              "bargap": NaN,
-              "bargroupgap": NaN,
-              "barmode": undefined,
+              "bargap": 0.30000000000000004,
+              "bargroupgap": 0.030000000000000027,
+              "barmode": "group",
               "colorway": Array [
                 "#3CA1C7",
                 "#8C55A3",
@@ -4530,7 +4530,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
               "height": 1180,
               "legend": Object {
-                "orientation": undefined,
+                "orientation": "v",
                 "traceorder": "normal",
               },
               "margin": Object {
@@ -4542,9 +4542,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
               "showlegend": true,
               "title": "",
-              "xaxis": Object {
+              "yaxis": Object {
                 "automargin": true,
-                "tickangle": undefined,
+                "tickangle": 0,
               },
             }
           }
@@ -4562,26 +4562,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 Object {
                   "hoverinfo": "all",
                   "marker": Object {
-                    "color": "rgba(60,161,199,NaN)",
+                    "color": "rgba(60,161,199,0.4)",
                     "line": Object {
                       "color": "#3CA1C7",
-                      "width": undefined,
+                      "width": 1,
                     },
                   },
                   "name": "avg(FlightDelayMin)",
                   "orientation": "h",
                   "type": "bar",
                   "x": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
-                  ],
-                  "y": Array [
                     53.65384615384615,
                     45.36144578313253,
                     63.1578947368421,
                     46.81318681318681,
+                  ],
+                  "y": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
                   ],
                 },
               ]
@@ -4591,9 +4591,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             layout={
               Object {
                 "autosize": true,
-                "bargap": NaN,
-                "bargroupgap": NaN,
-                "barmode": undefined,
+                "bargap": 0.30000000000000004,
+                "bargroupgap": 0.030000000000000027,
+                "barmode": "group",
                 "colorway": Array [
                   "#3CA1C7",
                   "#8C55A3",
@@ -4612,7 +4612,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "height": 1180,
                 "hovermode": "closest",
                 "legend": Object {
-                  "orientation": undefined,
+                  "orientation": "v",
                   "traceorder": "normal",
                 },
                 "margin": Object {
@@ -4626,12 +4626,13 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "title": "",
                 "xaxis": Object {
                   "automargin": true,
-                  "tickangle": undefined,
-                },
-                "yaxis": Object {
                   "rangemode": "normal",
                   "showgrid": true,
                   "zeroline": false,
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                  "tickangle": 0,
                 },
               }
             }
@@ -5739,9 +5740,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           data={Array []}
           layout={
             Object {
-              "bargap": NaN,
-              "bargroupgap": NaN,
-              "barmode": undefined,
+              "bargap": 0.30000000000000004,
+              "bargroupgap": 0.030000000000000027,
+              "barmode": "group",
               "colorway": Array [
                 "#3CA1C7",
                 "#8C55A3",
@@ -5759,7 +5760,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
               "height": 1180,
               "legend": Object {
-                "orientation": undefined,
+                "orientation": "v",
                 "traceorder": "normal",
               },
               "margin": Object {
@@ -5771,9 +5772,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
               "showlegend": true,
               "title": "",
-              "xaxis": Object {
+              "yaxis": Object {
                 "automargin": true,
-                "tickangle": undefined,
+                "tickangle": 0,
               },
             }
           }
@@ -5792,9 +5793,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             layout={
               Object {
                 "autosize": true,
-                "bargap": NaN,
-                "bargroupgap": NaN,
-                "barmode": undefined,
+                "bargap": 0.30000000000000004,
+                "bargroupgap": 0.030000000000000027,
+                "barmode": "group",
                 "colorway": Array [
                   "#3CA1C7",
                   "#8C55A3",
@@ -5813,7 +5814,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "height": 1180,
                 "hovermode": "closest",
                 "legend": Object {
-                  "orientation": undefined,
+                  "orientation": "v",
                   "traceorder": "normal",
                 },
                 "margin": Object {
@@ -5827,12 +5828,13 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "title": "",
                 "xaxis": Object {
                   "automargin": true,
-                  "tickangle": undefined,
-                },
-                "yaxis": Object {
                   "rangemode": "normal",
                   "showgrid": true,
                   "zeroline": false,
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                  "tickangle": 0,
                 },
               }
             }

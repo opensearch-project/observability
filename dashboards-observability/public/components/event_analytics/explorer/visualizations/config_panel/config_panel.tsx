@@ -31,7 +31,7 @@ import {
   visChartTypes,
 } from '../../../../../../common/constants/shared';
 import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
-import { getVisTypeData } from '../../../../custom_panels/helpers/utils';
+import { getVisTypeData } from '../../../../visualizations/charts/helpers/viz_types';
 
 
 const CONFIG_LAYOUT_TEMPLATE = `
