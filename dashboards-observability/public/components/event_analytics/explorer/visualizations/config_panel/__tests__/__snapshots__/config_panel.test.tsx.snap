@@ -1280,7 +1280,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "name": "Legend",
                             "schemas": Array [
                               Object {
-                                "component": null,
+                                "component": [Function],
+                                "eleType": "buttons",
                                 "mapTo": "showLegend",
                                 "name": "Show legend",
                                 "props": Object {
@@ -1303,7 +1304,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               },
                               Object {
-                                "component": null,
+                                "component": [Function],
+                                "eleType": "buttons",
                                 "mapTo": "position",
                                 "name": "Position",
                                 "props": Object {
@@ -1402,25 +1404,25 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "name": "Chart styles",
                             "schemas": Array [
                               Object {
-                                "component": null,
-                                "defaultState": Array [
-                                  Object {
-                                    "label": "Pie",
-                                    "modeId": "pie",
-                                    "name": "Pie",
-                                  },
-                                ],
+                                "component": [Function],
+                                "eleType": "buttons",
                                 "isSingleSelection": true,
                                 "mapTo": "mode",
                                 "name": "Mode",
                                 "props": Object {
-                                  "dropdownList": Array [
+                                  "defaultSelections": Array [
                                     Object {
-                                      "modeId": "pie",
+                                      "id": "pie",
+                                      "name": "Pie",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "pie",
                                       "name": "Pie",
                                     },
                                     Object {
-                                      "modeId": "donut",
+                                      "id": "donut",
                                       "name": "Donut",
                                     },
                                   ],
@@ -1472,7 +1474,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "icontype": "visPie",
                   "id": "pie",
                   "label": "Pie",
+                  "labelsize": 12,
                   "legendposition": "v",
+                  "legendsize": 12,
+                  "mode": "pie",
                   "name": "pie",
                   "selection": Object {
                     "dataLoss": "nothing",

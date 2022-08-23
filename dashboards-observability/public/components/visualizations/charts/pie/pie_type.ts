@@ -14,6 +14,7 @@ import {
   ConfigChartOptions,
   ConfigLegend,
   InputFieldItem,
+  ButtonGroupItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
@@ -31,6 +32,9 @@ export const createPieTypeDefinition = (params: any) => ({
   category: VIS_CATEGORY.BASICS,
   showlegend: true,
   legendposition: 'v',
+  mode: 'pie',
+  labelsize: 12,
+  legendsize: 12,
   selection: {
     dataLoss: 'nothing',
   },
@@ -54,7 +58,8 @@ export const createPieTypeDefinition = (params: any) => ({
               {
                 name: 'Show legend',
                 mapTo: 'showLegend',
-                component: null,
+                component: ButtonGroupItem,
+                eleType: 'buttons',
                 props: {
                   options: [
                     { name: 'Show', id: 'show' },
@@ -66,7 +71,8 @@ export const createPieTypeDefinition = (params: any) => ({
               {
                 name: 'Position',
                 mapTo: 'position',
-                component: null,
+                component: ButtonGroupItem,
+                eleType: 'buttons',
                 props: {
                   options: [
                     { name: 'Right', id: 'v' },
@@ -101,15 +107,16 @@ export const createPieTypeDefinition = (params: any) => ({
               {
                 name: 'Mode',
                 isSingleSelection: true,
-                component: null,
+                component: ButtonGroupItem,
+                eleType: 'buttons',
                 mapTo: 'mode',
                 props: {
-                  dropdownList: [
-                    { name: 'Pie', modeId: 'pie' },
-                    { name: 'Donut', modeId: 'donut' },
+                  options: [
+                    { name: 'Pie', id: 'pie' },
+                    { name: 'Donut', id: 'donut' },
                   ],
+                  defaultSelections: [{ name: 'Pie', id: 'pie' }],
                 },
-                defaultState: [{ name: 'Pie', modeId: 'pie', label: 'Pie' }],
               },
               {
                 name: 'Label size',
