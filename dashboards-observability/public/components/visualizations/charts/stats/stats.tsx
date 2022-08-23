@@ -68,7 +68,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     chartType !== DefaultChartType
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
-
   // style panel parameters
   const thresholds = Array.isArray(dataConfig?.thresholds)
     ? dataConfig?.thresholds
@@ -117,7 +116,19 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       metricUnits ? `<span style="font-size: ${metricUnitsSize}px"}> ${metricUnits}</span>` : ''
     }</b>`;
 
-  const createAnnotationsHorizontalOrientation = ({
+  const calculateTextCooridinate = (metricsLength: number, index: number) => {
+    if (metricsLength === 1) {
+      return 0.5;
+    } else {
+      if (index === 0) {
+        return ((1 / metricsLength) * 1) / 2;
+      } else {
+        return (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2;
+      }
+    }
+  };
+
+  const createAnnotationsAutoModeHorizontal = ({
     label,
     value,
     index,
@@ -128,10 +139,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           {
             ...STATS_ANNOTATION,
             x: 0 + ANNOTATION_MARGIN_LEFT,
-            y:
-              index > 0
-                ? (index + 1) / metricsLength
-                : 1 / metricsLength,
+            y: index > 0 ? (index + 1) / metricsLength : 1 / metricsLength,
             xanchor: 'left',
             yanchor: 'top',
             text: label,
@@ -146,10 +154,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           {
             ...STATS_ANNOTATION,
             x: 1,
-            y:
-              index > 0
-                ? (index + 1) / metricsLength
-                : 1 / metricsLength,
+            y: index > 0 ? (index + 1) / metricsLength : 1 / metricsLength,
             xanchor: 'right',
             yanchor: 'top',
             text: createValueText(value),
@@ -166,12 +171,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           {
             ...STATS_ANNOTATION,
             x: 0.5,
-            y:
-              metricsLength === 1
-                ? 0.5
-                : index === 0
-                ? ((1 / metricsLength) * 1) / 2
-                : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
+            y: calculateTextCooridinate(metricsLength, index),
             xanchor: 'center',
             yanchor: 'bottom',
             text: textMode === 'values' ? createValueText(value) : label,
@@ -186,7 +186,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ];
   };
 
-  const createAnnotationVerticalOrientation = ({
+  const createAnnotationAutoModeVertical = ({
     label,
     value,
     index,
@@ -228,12 +228,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       : [
           {
             ...STATS_ANNOTATION,
-            x:
-              metricsLength === 1
-                ? 0.5
-                : index === 0
-                ? ((1 / metricsLength) * 1) / 2
-                : (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2,
+            x: calculateTextCooridinate(metricsLength, index),
             xanchor: 'center',
             y: 0.95,
             yanchor: 'bottom',
@@ -252,12 +247,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // extend y axis range to increase height of subplot w.r.t metric data
   const extendYaxisRange = (metric: ConfigListEntry) => {
     const sortedData = data[metric.label].slice().sort((curr: number, next: number) => next - curr);
-    const avgSeriesDiff = sortedData.slice(0, 5).reduce(function (prev, curr, index: number) {
-      if (data[metric.label][index + 1])
-        return (prev += Math.abs(Number((data[metric.label][index + 1] - curr).toFixed(2))));
-      return prev;
-    }, 0);
-    return sortedData[0] + (avgSeriesDiff ? avgSeriesDiff : 100);
+    return isNaN(sortedData[0]) ? 100 : sortedData[0] + sortedData[0] / 2;
   };
 
   const getMetricValue = (label: string) =>
@@ -273,25 +263,26 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         index: metricIndex,
         valueColor: '',
       };
+      const layoutAxisIndex = metricIndex > 0 ? metricIndex + 1 : '';
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
           orientation === DefaultOrientation || metricsLength === 1
-            ? createAnnotationVerticalOrientation(annotationOption)
-            : createAnnotationsHorizontalOrientation(annotationOption)
+            ? createAnnotationAutoModeVertical(annotationOption)
+            : createAnnotationsAutoModeHorizontal(annotationOption)
         ),
-        [`xaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
+        [`xaxis${layoutAxisIndex}`]: {
           visible: false,
           showgrid: false,
-          anchor: `y${metricIndex > 0 ? metricIndex + 1 : ''}`,
-          layoutFor: metric.label
+          anchor: `y${layoutAxisIndex}`,
+          layoutFor: metric.label,
         },
-        [`yaxis${metricIndex > 0 ? metricIndex + 1 : ''}`]: {
+        [`yaxis${layoutAxisIndex}`]: {
           visible: false,
           showgrid: false,
-          anchor: `x${metricIndex > 0 ? metricIndex + 1 : ''}`,
+          anchor: `x${layoutAxisIndex}`,
           range: [0, extendYaxisRange(metric)],
-          layoutFor: metric.label
+          layoutFor: metric.label,
         },
       };
 
