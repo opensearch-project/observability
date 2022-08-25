@@ -3354,7 +3354,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": null,
                                 "mapTo": "showLegend",
-                                "name": "Show Legend",
+                                "name": "Show legend",
                                 "props": Object {
                                   "defaultSelections": Array [
                                     Object {
@@ -3396,6 +3396,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                   ],
                                 },
+                              },
+                              Object {
+                                "component": [Function],
+                                "eleType": "input",
+                                "mapTo": "legendSize",
+                                "name": "Legend size",
+                                "title": "Legend size",
                               },
                             ],
                           },
@@ -3457,7 +3464,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "component": [Function],
                                 "eleType": "input",
                                 "mapTo": "labelSize",
-                                "name": "Label Size",
+                                "name": "Label size",
                               },
                               Object {
                                 "component": [Function],
@@ -3533,7 +3540,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "defaultState": 40,
                                 "eleType": "slider",
                                 "mapTo": "fillOpacity",
-                                "name": "Fill Opacity",
+                                "name": "Fill opacity",
                                 "props": Object {
                                   "max": 100,
                                 },
@@ -3544,7 +3551,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "editor": [Function],
                             "id": "color-theme",
                             "mapTo": "colorTheme",
-                            "name": "Color Theme",
+                            "name": "Color theme",
                             "schemas": Array [],
                           },
                         ],

@@ -244,7 +244,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show Legend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -286,6 +286,13 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                           },
                         ],
                       },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
                     },
                   ],
                 },
@@ -347,7 +354,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label Size",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
@@ -423,7 +430,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                       "defaultState": 40,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill Opacity",
+                      "name": "Fill opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -434,7 +441,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color Theme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
@@ -507,12 +514,17 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
           "boxpoints": "all",
           "fillcolor": "rgba(60,161,199,0.2)",
           "jitter": 0.3,
+          "line": Object {
+            "color": "#3CA1C7",
+          },
           "marker": Object {
-            "color": "rgba(60,161,199,0.2)",
+            "color": "#3CA1C7",
             "line": Object {
               "color": "#3CA1C7",
-              "width": 5,
+              "width": 4,
             },
+            "opacity": 0.2,
+            "size": 5,
           },
           "name": "count()",
           "pointpos": -1.8,
@@ -535,9 +547,6 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
         "colorway": Array [
           "#8C55A3",
         ],
-        "font": Object {
-          "size": 10,
-        },
         "height": 220,
         "legend": Object {
           "orientation": "v",
@@ -554,6 +563,15 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
         "xaxis": Object {
           "automargin": true,
           "tickangle": 0,
+          "tickfont": Object {
+            "size": 10,
+          },
+        },
+        "yaxis": Object {
+          "automargin": true,
+          "tickfont": Object {
+            "size": 10,
+          },
         },
       }
     }
@@ -571,12 +589,17 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
             "boxpoints": "all",
             "fillcolor": "rgba(60,161,199,0.2)",
             "jitter": 0.3,
+            "line": Object {
+              "color": "#3CA1C7",
+            },
             "marker": Object {
-              "color": "rgba(60,161,199,0.2)",
+              "color": "#3CA1C7",
               "line": Object {
                 "color": "#3CA1C7",
-                "width": 5,
+                "width": 4,
               },
+              "opacity": 0.2,
+              "size": 5,
             },
             "name": "count()",
             "pointpos": -1.8,
@@ -603,9 +626,6 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
           "colorway": Array [
             "#8C55A3",
           ],
-          "font": Object {
-            "size": 10,
-          },
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
@@ -623,11 +643,15 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
           "xaxis": Object {
             "automargin": true,
             "tickangle": 0,
+            "tickfont": Object {
+              "size": 10,
+            },
           },
           "yaxis": Object {
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
+            "automargin": true,
+            "tickfont": Object {
+              "size": 10,
+            },
           },
         }
       }
