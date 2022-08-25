@@ -97,6 +97,13 @@ export const createBarTypeDefinition = (params: any) => ({
                   defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
               },
+              {
+                title: 'Legend size',
+                name: 'Legend size',
+                component: InputFieldItem,
+                mapTo: 'legendSize',
+                eleType: 'input',
+              },
             ],
           },
           {

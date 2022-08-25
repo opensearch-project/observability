@@ -60,6 +60,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   );
   const legendPosition = dataConfig?.legend?.position || vis.legendposition;
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
+  const legendSize = dataConfig?.legend?.legendSize;
 
   const getSelectedColorTheme = (field: any, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
@@ -165,27 +166,34 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
-    font: {
-      size: labelSize,
-    },
-    ...(isVertical
-      ? {
-          xaxis: {
-            tickangle: tickAngle,
-            automargin: true,
-          },
-        }
-      : {
-          yaxis: {
-            tickangle: tickAngle,
-            automargin: true,
-          },
+    xaxis: {
+      ...(isVertical && { tickangle: tickAngle }),
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
         }),
+      },
+    },
+    yaxis: {
+      ...(!isVertical && { tickangle: tickAngle }),
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
+    },
     bargap: groupWidth,
     bargroupgap: barWidth,
     legend: {
       ...layout.legend,
       orientation: legendPosition,
+      ...(legendSize && {
+        font: {
+          size: legendSize,
+        },
+      }),
     },
     showlegend: showLegend,
   };
