@@ -212,7 +212,7 @@ exports[`Histogram component Renders histogram component 1`] = `
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Data",
+              "name": "Style",
               "sections": Array [
                 Object {
                   "editor": [Function],

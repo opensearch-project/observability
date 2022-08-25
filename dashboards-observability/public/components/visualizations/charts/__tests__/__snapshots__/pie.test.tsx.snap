@@ -212,7 +212,7 @@ exports[`Pie component Renders pie component 1`] = `
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Data",
+              "name": "Style",
               "sections": Array [
                 Object {
                   "editor": [Function],
