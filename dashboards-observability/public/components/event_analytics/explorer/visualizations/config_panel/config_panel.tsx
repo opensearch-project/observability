@@ -129,7 +129,7 @@ export const ConfigPanel = ({
       pie: isValidValueOptionsXYAxes,
       scatter: isValidValueOptionsXYAxes,
       logs_view: true,
-      box_plot: isValidValueOptionsXYAxes,
+      box_plot: valueOptions?.metrics?.length !== 0,
     };
     return isValid_valueOptions[curVisId];
   }, [vizConfigs.dataConfig]);

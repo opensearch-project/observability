@@ -170,6 +170,7 @@ export interface DefaultBoxChartStylesProps {
   BoxMode: string;
   Orientation: string;
   PointPosition: number;
+  MarkerLineWidth: number;
 }
 
 export const DefaultBoxChartStyles: DefaultBoxChartStylesProps = {
@@ -178,4 +179,7 @@ export const DefaultBoxChartStyles: DefaultBoxChartStylesProps = {
   BoxMode: 'overlay',
   Orientation: 'v',
   PointPosition: -1.8,
+  MarkerLineWidth: 4
 };
+
+export const FILTER_CHART_LEGEND_FIELDS = ['legendSize', 'position'];

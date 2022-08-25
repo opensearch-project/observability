@@ -7,6 +7,7 @@ import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer, EuiForm } from '@elastic/eui';
 import { PanelItem } from './config_panel_item';
 import { SPECTRUM, OPACITY } from '../../../../../../../../common/constants/colors';
+import { SLIDER_MIN_VALUE } from '../../../../../../../../common/constants/shared'
 
 export const ConfigChartOptions = ({
   visualizations,
@@ -91,7 +92,7 @@ export const ConfigChartOptions = ({
           params = {
             ...params,
             maxRange: schema.props.max,
-            minRange: schema.props.min || 0,
+            minRange: schema.props.min || SLIDER_MIN_VALUE,
             currentRange: vizState[schema.mapTo] || schema?.defaultState,
             handleSliderChange: handleConfigurationChange(schema.mapTo),
           };

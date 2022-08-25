@@ -39,7 +39,7 @@ export const createBoxPlotTypeDefinition = () => ({
   icon: LensIconChartBar,
   categoryaxis: 'xaxis',
   seriesaxis: 'yaxis',
-  orientation: 'v',
+  orientation: Orientation,
   labelangle: LabelAngle,
   markersize: MarkerSize,
   fillopacity: FillOpacity,

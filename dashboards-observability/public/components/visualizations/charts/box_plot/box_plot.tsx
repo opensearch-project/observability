@@ -12,10 +12,16 @@ import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizati
 import { ConfigListEntry } from '../../../../../common/types/explorer';
 import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
 import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
-import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  LONG_CHART_COLOR,
+  PLOTLY_COLOR,
+  THRESHOLD_LINE_WIDTH,
+  THRESHOLD_LINE_OPACITY,
+  MAX_BUCKET_LENGTH,
+} from '../../../../../common/constants/shared';
 import { DefaultBoxChartStyles } from '../../../../../common/constants/explorer';
 
-const { PointPosition } = DefaultBoxChartStyles;
+const { PointPosition, MarkerLineWidth } = DefaultBoxChartStyles;
 export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const DEFAULT_LABEL_SIZE = 10;
   const { vis } = visualizations;
@@ -25,44 +31,41 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const lastIndex = fields.length - 1;
   const {
-    dataConfig = {},
+    dataConfig: {
+      chartStyles = {},
+      valueOptions = {},
+      legend = {},
+      colorTheme = [],
+      panelOptions = {},
+    },
     layoutConfig = {},
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
-  const valueForXSeries = dataConfig?.valueOptions?.dimensions
-    ? filterDataConfigParameter(dataConfig.valueOptions.dimensions)
+
+  const valueForXSeries = valueOptions.dimensions
+    ? filterDataConfigParameter(valueOptions.dimensions)
     : [];
-  const valueSeries = dataConfig?.valueOptions?.metrics
-    ? filterDataConfigParameter(dataConfig.valueOptions.metrics)
-    : [];
-  const boxOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
+  const valueSeries = valueOptions.metrics ? filterDataConfigParameter(valueOptions.metrics) : [];
+  const boxOrientation = chartStyles.orientation || vis.orientation;
   const isVertical = boxOrientation === vis.orientation;
-  const boxMode = dataConfig?.chartStyles?.boxMode || vis.boxmode;
+  const boxMode = chartStyles.boxMode || vis.boxmode;
   let box;
 
   if (isEmpty(valueSeries) || (boxMode === 'group' && valueForXSeries.length === 0)) {
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
   }
-
-  const tickAngle = dataConfig?.chartStyles?.rotateBoxLabels || vis.labelangle;
-  const markerSize = dataConfig?.chartStyles?.markerSize || vis.markersize;
+  const tickAngle = chartStyles.rotateBoxLabels || vis.labelangle;
   const fillOpacity =
-    dataConfig?.chartStyles?.fillOpacity !== undefined
-      ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
+    chartStyles.fillOpacity !== undefined
+      ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
       : vis.fillopacity / FILLOPACITY_DIV_FACTOR;
-  const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showlegend
-  );
-  const legendPosition = dataConfig?.legend?.position || vis.legendposition;
-  const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
-  const boxGap = dataConfig?.chartStyles?.boxGap || vis.boxgap;
-  const jitter = dataConfig?.chartStyles?.jitter || vis.jitter;
-  const legendSize = dataConfig?.legend?.legendSize;
+  const showLegend = !(legend.showLegend && legend.showLegend !== vis.showlegend);
+  const labelSize = chartStyles.labelSize || DEFAULT_LABEL_SIZE;
+  const legendSize = legend.legendSize;
 
   const getSelectedColorTheme = (field: ConfigListEntry, index: number) =>
-    (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected: any) => colorSelected?.name.name === field.label)
-        ?.color) ||
+    (colorTheme.length > 0 &&
+      colorTheme.find((colorSelected: any) => colorSelected?.name.name === field.label)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   const dimensionData = valueForXSeries.reduce((prev, cur) => {
@@ -85,7 +88,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
         orientation: boxOrientation,
       }),
       boxpoints: 'all',
-      jitter: jitter,
+      jitter: chartStyles.jitter || vis.jitter,
       pointpos: PointPosition,
       type: 'box',
       line: {
@@ -93,12 +96,12 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       },
       fillcolor: hexToRgb(selectedColor, fillOpacity),
       marker: {
-        size: markerSize,
+        size: chartStyles.markerSize || vis.markersize,
         color: selectedColor,
         opacity: fillOpacity,
         line: {
           color: selectedColor,
-          width: 4,
+          width: MarkerLineWidth,
         },
       },
       name: field.name,
@@ -106,14 +109,15 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     };
   });
 
-  // then use the LONG_CHART_COLOR for all the box in the chart
+  // If chart has length of result buckets < 16
+  // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
-    data[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
+    data[fields[lastIndex].name].length < MAX_BUCKET_LENGTH ? PLOTLY_COLOR : [LONG_CHART_COLOR];
   const mergedLayout = {
     colorway: plotlyColorway,
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+    title: panelOptions?.title || layoutConfig.layout?.title || '',
     boxmode: boxMode,
     xaxis: {
       ...(isVertical && { tickangle: tickAngle }),
@@ -133,10 +137,10 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
         }),
       },
     },
-    boxgap: boxGap,
+    boxgap: chartStyles.boxGap || vis.boxgap,
     legend: {
       ...layout.legend,
-      orientation: legendPosition,
+      orientation: legend.position || vis.legendposition,
       ...(legendSize && {
         font: {
           size: legendSize,
@@ -145,6 +149,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     },
     showlegend: showLegend,
   };
+
   if (availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
@@ -153,25 +158,31 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       text: [],
     };
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
-
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
       return list.map((thr: ThresholdUnitType) => {
         thresholdTraces.x.push(
-          data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
+          data[
+            !isEmpty(valueForXSeries)
+              ? valueForXSeries[valueForXSeries.length - 1]?.label
+              : fields[lastIndex].name
+          ][0]
         );
         thresholdTraces.y.push(thr.value * (1 + 0.06));
         thresholdTraces.text.push(thr.name);
         return {
-          type: 'box',
-          x0: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+          type: 'line',
+          x0:
+            data[!isEmpty(valueForXSeries) ? valueForXSeries[0]?.label : fields[lastIndex].name][0],
           y0: thr.value,
-          x1: last(data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+          x1: last(
+            data[!isEmpty(valueForXSeries) ? valueForXSeries[0]?.label : fields[lastIndex].name]
+          ),
           y1: thr.value,
           name: thr.name || '',
-          opacity: 0.7,
+          opacity: THRESHOLD_LINE_OPACITY,
           line: {
             color: thr.color,
-            width: 3,
+            width: THRESHOLD_LINE_WIDTH,
             ...lineStyle,
           },
         };
