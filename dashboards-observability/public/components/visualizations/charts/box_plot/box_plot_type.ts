@@ -25,7 +25,7 @@ const VIS_CATEGORY = getPlotlyCategory();
 
 const { LegendPosition, ShowLegend, LabelAngle, FillOpacity, MarkerSize } = DefaultChartStyles;
 const { BoxGap, Jitter, BoxMode, Orientation } = DefaultBoxChartStyles;
-export const createBoxPlotTypeDefinition = (params: any) => ({
+export const createBoxPlotTypeDefinition = () => ({
   name: 'box',
   type: 'box',
   id: 'box_plot',
@@ -64,7 +64,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -86,6 +86,13 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                   ],
                   defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
+              },
+              {
+                title: 'Legend size',
+                name: 'Legend size',
+                component: InputFieldItem,
+                mapTo: 'legendSize',
+                eleType: 'input',
               },
             ],
           },
@@ -122,7 +129,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                 },
               },
               {
-                name: 'Label Size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
@@ -182,7 +189,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
                 eleType: 'slider',
               },
               {
-                name: 'Fill Opacity',
+                name: 'Fill opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: FillOpacity,
@@ -195,7 +202,7 @@ export const createBoxPlotTypeDefinition = (params: any) => ({
           },
           {
             id: 'color-theme',
-            name: 'Color Theme',
+            name: 'Color theme',
             editor: ConfigColorTheme,
             mapTo: 'colorTheme',
             schemas: [],

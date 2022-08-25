@@ -6,13 +6,13 @@
 import React from 'react';
 import { isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
+import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
+import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
+import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { DefaultBoxChartStyles } from '../../../../../common/constants/explorer';
 
 const { PointPosition } = DefaultBoxChartStyles;
@@ -57,6 +57,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
   const boxGap = dataConfig?.chartStyles?.boxGap || vis.boxgap;
   const jitter = dataConfig?.chartStyles?.jitter || vis.jitter;
+  const legendSize = dataConfig?.legend?.legendSize;
 
   const getSelectedColorTheme = (field: ConfigListEntry, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
@@ -81,17 +82,23 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       [axis]: data[field.name],
       ...(boxMode === 'group' && {
         [alternateAxis]: dimensionData,
+        orientation: boxOrientation,
       }),
       boxpoints: 'all',
       jitter: jitter,
       pointpos: PointPosition,
       type: 'box',
+      line: {
+        color: selectedColor,
+      },
       fillcolor: hexToRgb(selectedColor, fillOpacity),
       marker: {
-        color: hexToRgb(selectedColor, fillOpacity),
+        size: markerSize,
+        color: selectedColor,
+        opacity: fillOpacity,
         line: {
           color: selectedColor,
-          width: markerSize,
+          width: 4,
         },
       },
       name: field.name,
@@ -108,26 +115,33 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     boxmode: boxMode,
-    font: {
-      size: labelSize,
-    },
-    ...(isVertical
-      ? {
-          xaxis: {
-            tickangle: tickAngle,
-            automargin: true,
-          },
-        }
-      : {
-          yaxis: {
-            tickangle: tickAngle,
-            automargin: true,
-          },
+    xaxis: {
+      ...(isVertical && { tickangle: tickAngle }),
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
         }),
+      },
+    },
+    yaxis: {
+      ...(!isVertical && { tickangle: tickAngle }),
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
+    },
     boxgap: boxGap,
     legend: {
       ...layout.legend,
       orientation: legendPosition,
+      ...(legendSize && {
+        font: {
+          size: legendSize,
+        },
+      }),
     },
     showlegend: showLegend,
   };
