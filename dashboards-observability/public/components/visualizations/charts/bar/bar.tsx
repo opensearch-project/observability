@@ -37,7 +37,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     : [];
   const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = barOrientation === vis.orientation;
-  console.log(dataConfig);
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
