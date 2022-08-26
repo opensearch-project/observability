@@ -277,6 +277,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           ],
                         },
                       },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "legendSize",
+                        "name": "Legend size",
+                        "title": "Legend size",
+                      },
                     ],
                   },
                   Object {
@@ -736,6 +743,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                               },
                             ],
                           },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "legendSize",
+                          "name": "Legend size",
+                          "title": "Legend size",
                         },
                       ],
                     },
@@ -1220,6 +1234,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
                         ],
                       },
                       Object {
@@ -1458,9 +1479,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "#BD6F26",
                 "#4C636F",
               ],
-              "font": Object {
-                "size": 10,
-              },
               "height": 1180,
               "legend": Object {
                 "orientation": "v",
@@ -1478,6 +1496,11 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "xaxis": Object {
                 "automargin": true,
                 "tickangle": 0,
+                "tickfont": Object {},
+              },
+              "yaxis": Object {
+                "automargin": true,
+                "tickfont": Object {},
               },
             }
           }
@@ -1539,9 +1562,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "#BD6F26",
                   "#4C636F",
                 ],
-                "font": Object {
-                  "size": 10,
-                },
                 "height": 1180,
                 "hovermode": "closest",
                 "legend": Object {
@@ -1560,11 +1580,11 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "xaxis": Object {
                   "automargin": true,
                   "tickangle": 0,
+                  "tickfont": Object {},
                 },
                 "yaxis": Object {
-                  "rangemode": "normal",
-                  "showgrid": true,
-                  "zeroline": false,
+                  "automargin": true,
+                  "tickfont": Object {},
                 },
               }
             }
@@ -3562,6 +3582,13 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                           ],
                         },
                       },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "legendSize",
+                        "name": "Legend size",
+                        "title": "Legend size",
+                      },
                     ],
                   },
                   Object {
@@ -3963,6 +3990,13 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                               },
                             ],
                           },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "legendSize",
+                          "name": "Legend size",
+                          "title": "Legend size",
                         },
                       ],
                     },
@@ -4389,6 +4423,13 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
                         ],
                       },
                       Object {
@@ -4525,9 +4566,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "#BD6F26",
                 "#4C636F",
               ],
-              "font": Object {
-                "size": 10,
-              },
               "height": 1180,
               "legend": Object {
                 "orientation": "v",
@@ -4542,9 +4580,14 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
               "showlegend": true,
               "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickfont": Object {},
+              },
               "yaxis": Object {
                 "automargin": true,
                 "tickangle": 0,
+                "tickfont": Object {},
               },
             }
           }
@@ -4606,9 +4649,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "#BD6F26",
                   "#4C636F",
                 ],
-                "font": Object {
-                  "size": 10,
-                },
                 "height": 1180,
                 "hovermode": "closest",
                 "legend": Object {
@@ -4626,13 +4666,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "title": "",
                 "xaxis": Object {
                   "automargin": true,
-                  "rangemode": "normal",
-                  "showgrid": true,
-                  "zeroline": false,
+                  "tickfont": Object {},
                 },
                 "yaxis": Object {
                   "automargin": true,
                   "tickangle": 0,
+                  "tickfont": Object {},
                 },
               }
             }
@@ -4825,6 +4864,13 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                             },
                           ],
                         },
+                      },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "legendSize",
+                        "name": "Legend size",
+                        "title": "Legend size",
                       },
                     ],
                   },
@@ -5173,6 +5219,13 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                               },
                             ],
                           },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "legendSize",
+                          "name": "Legend size",
+                          "title": "Legend size",
                         },
                       ],
                     },
@@ -5545,6 +5598,13 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
                         ],
                       },
                       Object {
@@ -5755,9 +5815,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "#BD6F26",
                 "#4C636F",
               ],
-              "font": Object {
-                "size": 10,
-              },
               "height": 1180,
               "legend": Object {
                 "orientation": "v",
@@ -5772,9 +5829,14 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
               "showlegend": true,
               "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickfont": Object {},
+              },
               "yaxis": Object {
                 "automargin": true,
                 "tickangle": 0,
+                "tickfont": Object {},
               },
             }
           }
@@ -5808,9 +5870,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "#BD6F26",
                   "#4C636F",
                 ],
-                "font": Object {
-                  "size": 10,
-                },
                 "height": 1180,
                 "hovermode": "closest",
                 "legend": Object {
@@ -5828,13 +5887,12 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "title": "",
                 "xaxis": Object {
                   "automargin": true,
-                  "rangemode": "normal",
-                  "showgrid": true,
-                  "zeroline": false,
+                  "tickfont": Object {},
                 },
                 "yaxis": Object {
                   "automargin": true,
                   "tickangle": 0,
+                  "tickfont": Object {},
                 },
               }
             }

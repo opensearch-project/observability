@@ -344,6 +344,13 @@ exports[`Bar component Renders bar component 1`] = `
                         ],
                       },
                     },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
                   ],
                 },
                 Object {
@@ -571,9 +578,6 @@ exports[`Bar component Renders bar component 1`] = `
         "colorway": Array [
           "#8C55A3",
         ],
-        "font": Object {
-          "size": 10,
-        },
         "height": 220,
         "legend": Object {
           "orientation": "v",
@@ -590,6 +594,11 @@ exports[`Bar component Renders bar component 1`] = `
         "xaxis": Object {
           "automargin": true,
           "tickangle": 0,
+          "tickfont": Object {},
+        },
+        "yaxis": Object {
+          "automargin": true,
+          "tickfont": Object {},
         },
       }
     }
@@ -643,9 +652,6 @@ exports[`Bar component Renders bar component 1`] = `
           "colorway": Array [
             "#8C55A3",
           ],
-          "font": Object {
-            "size": 10,
-          },
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
@@ -663,11 +669,11 @@ exports[`Bar component Renders bar component 1`] = `
           "xaxis": Object {
             "automargin": true,
             "tickangle": 0,
+            "tickfont": Object {},
           },
           "yaxis": Object {
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
+            "automargin": true,
+            "tickfont": Object {},
           },
         }
       }
