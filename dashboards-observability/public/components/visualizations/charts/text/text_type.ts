@@ -31,7 +31,7 @@ export const createTextTypeDefinition = (params: any = {}) => ({
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
