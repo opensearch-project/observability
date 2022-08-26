@@ -7,10 +7,7 @@ import React, { Fragment, useCallback, useMemo } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
-import { DefaultChartStyles } from '../../../../../../../../common/constants/shared';
-import { FILTER_CHART_LEGEND_FIELDS } from '../../../../../../../../common/constants/explorer';
 
-const { ShowLegend } = DefaultChartStyles;
 export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => {
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
@@ -23,21 +20,10 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
     },
     [handleConfigChange, vizState]
   );
-  /* filter out legend position and legend size if legend visibility is off*/
-  const currentSchemas = useMemo(() => {
-    if (vizState.hasOwnProperty('showLegend') && vizState.showLegend !== ShowLegend) {
-      return schemas.filter(
-        (schema: IConfigPanelOptionSection) => !FILTER_CHART_LEGEND_FIELDS.includes(schema.mapTo)
-      );
-    } else {
-      return schemas;
-    }
-  }, [vizState]);
 
   const dimensions = useMemo(() => {
     return (
-      currentSchemas &&
-      currentSchemas.map((schema: IConfigPanelOptionSection, index: number) => {
+      schemas.map((schema: IConfigPanelOptionSection, index: number) => {
         const DimensionComponent = schema.component || ButtonGroupItem;
         let params = {
           title: schema.name,

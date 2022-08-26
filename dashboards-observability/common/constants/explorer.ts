@@ -181,5 +181,3 @@ export const DefaultBoxChartStyles: DefaultBoxChartStylesProps = {
   PointPosition: -1.8,
   MarkerLineWidth: 4
 };
-
-export const FILTER_CHART_LEGEND_FIELDS = ['legendSize', 'position'];
