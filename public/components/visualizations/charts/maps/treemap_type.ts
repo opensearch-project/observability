@@ -46,7 +46,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [

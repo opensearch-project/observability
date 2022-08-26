@@ -165,7 +165,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -649,7 +649,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -1156,7 +1156,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
@@ -1845,7 +1845,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -2382,7 +2382,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -2973,7 +2973,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
@@ -3579,7 +3579,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -3868,7 +3868,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -4180,7 +4180,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
@@ -4605,7 +4605,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -4840,7 +4840,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -5098,7 +5098,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
