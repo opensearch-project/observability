@@ -2775,11 +2775,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fulllabel": "Logs View",
+                  "fulllabel": "Logs view",
                   "icon": [Function],
                   "icontype": "visTable",
                   "id": "logs_view",
-                  "label": "Logs View",
+                  "label": "Logs view",
                   "name": "logs_view",
                   "selection": Object {
                     "dataLoss": "nothing",

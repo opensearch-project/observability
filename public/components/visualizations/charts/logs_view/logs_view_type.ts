@@ -16,8 +16,8 @@ export const createLogsViewTypeDefinition = (params: any = {}) => ({
   name: 'logs_view',
   type: 'logs_view',
   id: 'logs_view',
-  label: 'Logs View',
-  fulllabel: 'Logs View',
+  label: 'Logs view',
+  fulllabel: 'Logs view',
   icontype: 'visTable',
   category: VIS_CATEGORY.BASICS,
   selection: {
