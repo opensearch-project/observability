@@ -61,7 +61,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const groupWidth = 1 - (chartStyles.groupWidth || vis.groupwidth);
   const showLegend = !(legend.showLegend && legend.showLegend !== vis.showlegend);
   const legendPosition = legend.position || vis.legendposition;
-  const labelSize = chartStyles.labelSize
+  const labelSize = chartStyles.labelSize;
   const legendSize = legend.legendSize;
 
   const getSelectedColorTheme = (field: any, index: number) =>

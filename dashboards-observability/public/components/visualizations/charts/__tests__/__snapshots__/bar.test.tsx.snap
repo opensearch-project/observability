@@ -457,7 +457,7 @@ exports[`Bar component Renders bar component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 80,
+                      "defaultState": 40,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -491,7 +491,7 @@ exports[`Bar component Renders bar component 1`] = `
             },
           ],
         },
-        "fillopacity": 80,
+        "fillopacity": 40,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
@@ -542,7 +542,7 @@ exports[`Bar component Renders bar component 1`] = `
       Array [
         Object {
           "marker": Object {
-            "color": "rgba(60,161,199,0.4)",
+            "color": "rgba(60,161,199,0.2)",
             "line": Object {
               "color": "#3CA1C7",
               "width": 1,
@@ -613,7 +613,7 @@ exports[`Bar component Renders bar component 1`] = `
         Array [
           Object {
             "marker": Object {
-              "color": "rgba(60,161,199,0.4)",
+              "color": "rgba(60,161,199,0.2)",
               "line": Object {
                 "color": "#3CA1C7",
                 "width": 1,
