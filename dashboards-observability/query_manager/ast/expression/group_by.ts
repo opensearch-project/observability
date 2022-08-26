@@ -24,7 +24,7 @@ export class GroupBy extends PPLNode {
   }
 
   toString(): string {
-    return `by ${this.span ? `${this.span.toString()}, ` : ''}${this.fields
+    return `by ${this.span ? `${this.span.toString()}` : ''}${this.fields
       .map((field) => field.toString())
       .join(', ')}`;
   }
