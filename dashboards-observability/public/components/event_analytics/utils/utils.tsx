@@ -356,4 +356,4 @@ export const fetchConfigObject = (editor: string, propsOptions: any) => {
 };
 
 export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
-  parameter.filter((i: ConfigListEntry) => i.label !== '');
+  parameter.filter((configItem: ConfigListEntry) => configItem.label !== '');

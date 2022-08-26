@@ -189,3 +189,9 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
 };
 
 export const FILLOPACITY_DIV_FACTOR = 200;
+export const SLIDER_MIN_VALUE = 0;
+export const SLIDER_MAX_VALUE = 100;
+export const SLIDER_STEP = 1;
+export const THRESHOLD_LINE_WIDTH = 3;
+export const THRESHOLD_LINE_OPACITY = 0.7;
+export const MAX_BUCKET_LENGTH = 16;
