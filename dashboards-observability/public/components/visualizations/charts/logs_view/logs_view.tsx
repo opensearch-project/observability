@@ -19,7 +19,7 @@ export const LogsView = ({ visualizations }: any) => {
 
   const emptyExplorerFields: IExplorerFields = {
     availableFields: [],
-    queriedFields: [],
+    queriedFields: explorerFields,
     selectedFields: [],
     unselectedFields: [],
   };
@@ -31,7 +31,7 @@ export const LogsView = ({ visualizations }: any) => {
         pplService={pplService}
         rows={explorerData?.jsonData !== undefined ? explorerData.jsonData : []}
         rowsAll={explorerData?.jsonDataAll !== undefined ? explorerData.jsonDataAll : []}
-        explorerFields={explorerFields !== undefined ? explorerFields : emptyExplorerFields}
+        explorerFields={query !== undefined ? explorerFields : emptyExplorerFields}
         timeStampField={query?.[SELECTED_TIMESTAMP] !== undefined ? query[SELECTED_TIMESTAMP] : ''}
         rawQuery={query?.[RAW_QUERY] !== undefined ? query[RAW_QUERY] : ''}
       />

@@ -90,6 +90,7 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
           data: {
             [UNSELECTED_FIELDS]: res?.schema ? [...res.schema] : [],
             [QUERIED_FIELDS]: [],
+            [SELECTED_FIELDS]: [],
             [AVAILABLE_FIELDS]: res?.schema
               ? isEmpty(selectedFields)
                 ? [...res.schema]
