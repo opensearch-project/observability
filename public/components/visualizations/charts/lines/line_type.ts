@@ -23,6 +23,7 @@ import {
 } from '../../../../../common/constants/shared';
 import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
 import { SliderConfig } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_style_slider';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 const {
@@ -98,6 +99,14 @@ export const createLineTypeDefinition = (params: any = {}) => ({
               },
             ],
           },
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Dimension', id: 'x' },
+              { name: 'Metrics', id: 'y' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'chart_styles',
             name: 'Chart styles',

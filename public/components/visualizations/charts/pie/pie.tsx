@@ -32,6 +32,14 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const legendPosition = dataConfig?.legend?.position || vis.legendposition;
   const legendSize = dataConfig?.legend?.size || vis.legendSize;
   const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelSize;
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   if (isEmpty(xaxis) || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
@@ -88,6 +96,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       hole: type === 'pie' ? 0 : 0.5,
       text: field.name,
       textinfo: 'percent',
+      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
       automargin: true,
       textposition: 'outside',
       domain: {

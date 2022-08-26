@@ -34,6 +34,14 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     dataConfig?.valueOptions?.dimensions && dataConfig.valueOptions.dimensions[0].parentFields
       ? dataConfig.valueOptions.dimensions[0].parentFields
       : [];
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig?.tooltipOptions?.tooltipText
+      : 'all';
 
   const valueField =
     dataConfig?.valueOptions?.metrics && dataConfig.valueOptions.metrics[0].valueField
@@ -164,6 +172,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         labels: labelsArray,
         parents: parentsArray,
         values: valuesArray,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         textinfo: 'label+value+percent parent+percent entry',
         tiling: {
           packing: tilingAlgorithm.value,

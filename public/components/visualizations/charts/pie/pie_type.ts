@@ -16,7 +16,7 @@ import {
   InputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
-
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -83,6 +83,15 @@ export const createPieTypeDefinition = (params: any) => ({
               },
             ],
           },
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Label', id: 'label' },
+              { name: 'Value', id: 'value' },
+              { name: 'Percent', id: 'percent' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'chart_styles',
             name: 'Chart styles',
