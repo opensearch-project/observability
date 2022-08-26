@@ -198,7 +198,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             "status": 200,
           },
         },
-        "userConfigs": Object {},
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "valueOptions": Object {
+              "dimensions": Array [
+                Object {
+                  "label": "tags",
+                  "name": "tags",
+                  "type": "text",
+                },
+              ],
+              "metrics": Array [
+                Object {
+                  "label": "count()",
+                  "name": "count()",
+                  "side": "left",
+                  "type": "integer",
+                },
+              ],
+            },
+          },
+        },
       },
       "vis": Object {
         "barwidth": 0.97,
@@ -1330,7 +1350,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               Object {
                                 "component": [Function],
                                 "eleType": "input",
-                                "mapTo": "size",
+                                "mapTo": "legendSize",
                                 "name": "Legend size",
                               },
                             ],
@@ -1474,16 +1494,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "icontype": "visPie",
                   "id": "pie",
                   "label": "Pie",
-                  "labelsize": 12,
                   "legendposition": "v",
-                  "legendsize": 12,
                   "mode": "pie",
                   "name": "pie",
-                  "selection": Object {
-                    "dataLoss": "nothing",
-                  },
                   "seriesaxis": "yaxis",
-                  "showlegend": true,
+                  "showlegend": "show",
                   "type": "pie",
                   "visconfig": Object {
                     "config": Object {
@@ -6034,7 +6049,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "status": 200,
                               },
                             },
-                            "userConfigs": Object {},
+                            "userConfigs": Object {
+                              "dataConfig": Object {
+                                "valueOptions": Object {
+                                  "dimensions": Array [
+                                    Object {
+                                      "label": "tags",
+                                      "name": "tags",
+                                      "type": "text",
+                                    },
+                                  ],
+                                  "metrics": Array [
+                                    Object {
+                                      "label": "count()",
+                                      "name": "count()",
+                                      "side": "left",
+                                      "type": "integer",
+                                    },
+                                  ],
+                                },
+                              },
+                            },
                           },
                           "vis": Object {
                             "barwidth": 0.97,
@@ -6364,6 +6399,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "showlegend": true,
                               },
                             },
+                          },
+                        }
+                      }
+                      vizState={
+                        Object {
+                          "valueOptions": Object {
+                            "dimensions": Array [
+                              Object {
+                                "label": "tags",
+                                "name": "tags",
+                                "type": "text",
+                              },
+                            ],
+                            "metrics": Array [
+                              Object {
+                                "label": "count()",
+                                "name": "count()",
+                                "side": "left",
+                                "type": "integer",
+                              },
+                            ],
                           },
                         }
                       }
@@ -6825,7 +6881,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "status": 200,
                                 },
                               },
-                              "userConfigs": Object {},
+                              "userConfigs": Object {
+                                "dataConfig": Object {
+                                  "valueOptions": Object {
+                                    "dimensions": Array [
+                                      Object {
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "type": "text",
+                                      },
+                                    ],
+                                    "metrics": Array [
+                                      Object {
+                                        "label": "count()",
+                                        "name": "count()",
+                                        "side": "left",
+                                        "type": "integer",
+                                      },
+                                    ],
+                                  },
+                                },
+                              },
                             },
                             "vis": Object {
                               "barwidth": 0.97,
@@ -7158,6 +7234,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             },
                           }
                         }
+                        vizState={
+                          Object {
+                            "valueOptions": Object {
+                              "dimensions": Array [
+                                Object {
+                                  "label": "tags",
+                                  "name": "tags",
+                                  "type": "text",
+                                },
+                              ],
+                              "metrics": Array [
+                                Object {
+                                  "label": "count()",
+                                  "name": "count()",
+                                  "side": "left",
+                                  "type": "integer",
+                                },
+                              ],
+                            },
+                          }
+                        }
                       />,
                       "id": "data-panel",
                       "name": "Style",
@@ -7372,7 +7469,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "status": 200,
                                 },
                               },
-                              "userConfigs": Object {},
+                              "userConfigs": Object {
+                                "dataConfig": Object {
+                                  "valueOptions": Object {
+                                    "dimensions": Array [
+                                      Object {
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "type": "text",
+                                      },
+                                    ],
+                                    "metrics": Array [
+                                      Object {
+                                        "label": "count()",
+                                        "name": "count()",
+                                        "side": "left",
+                                        "type": "integer",
+                                      },
+                                    ],
+                                  },
+                                },
+                              },
                             },
                             "vis": Object {
                               "barwidth": 0.97,
@@ -8252,7 +8369,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "status": 200,
                               },
                             },
-                            "userConfigs": Object {},
+                            "userConfigs": Object {
+                              "dataConfig": Object {
+                                "valueOptions": Object {
+                                  "dimensions": Array [
+                                    Object {
+                                      "label": "tags",
+                                      "name": "tags",
+                                      "type": "text",
+                                    },
+                                  ],
+                                  "metrics": Array [
+                                    Object {
+                                      "label": "count()",
+                                      "name": "count()",
+                                      "side": "left",
+                                      "type": "integer",
+                                    },
+                                  ],
+                                },
+                              },
+                            },
                           },
                           "vis": Object {
                             "barwidth": 0.97,
@@ -8585,6 +8722,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         }
                       }
+                      vizState={
+                        Object {
+                          "valueOptions": Object {
+                            "dimensions": Array [
+                              Object {
+                                "label": "tags",
+                                "name": "tags",
+                                "type": "text",
+                              },
+                            ],
+                            "metrics": Array [
+                              Object {
+                                "label": "count()",
+                                "name": "count()",
+                                "side": "left",
+                                "type": "integer",
+                              },
+                            ],
+                          },
+                        }
+                      }
                     >
                       <div
                         className="visEditorSidebar__config"
@@ -8795,7 +8953,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               "status": 200,
                                             },
                                           },
-                                          "userConfigs": Object {},
+                                          "userConfigs": Object {
+                                            "dataConfig": Object {
+                                              "valueOptions": Object {
+                                                "dimensions": Array [
+                                                  Object {
+                                                    "label": "tags",
+                                                    "name": "tags",
+                                                    "type": "text",
+                                                  },
+                                                ],
+                                                "metrics": Array [
+                                                  Object {
+                                                    "label": "count()",
+                                                    "name": "count()",
+                                                    "side": "left",
+                                                    "type": "integer",
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          },
                                         },
                                         "vis": Object {
                                           "barwidth": 0.97,
@@ -10949,7 +11127,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               "status": 200,
                                             },
                                           },
-                                          "userConfigs": Object {},
+                                          "userConfigs": Object {
+                                            "dataConfig": Object {
+                                              "valueOptions": Object {
+                                                "dimensions": Array [
+                                                  Object {
+                                                    "label": "tags",
+                                                    "name": "tags",
+                                                    "type": "text",
+                                                  },
+                                                ],
+                                                "metrics": Array [
+                                                  Object {
+                                                    "label": "count()",
+                                                    "name": "count()",
+                                                    "side": "left",
+                                                    "type": "integer",
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          },
                                         },
                                         "vis": Object {
                                           "barwidth": 0.97,
@@ -12252,7 +12450,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               "status": 200,
                                             },
                                           },
-                                          "userConfigs": Object {},
+                                          "userConfigs": Object {
+                                            "dataConfig": Object {
+                                              "valueOptions": Object {
+                                                "dimensions": Array [
+                                                  Object {
+                                                    "label": "tags",
+                                                    "name": "tags",
+                                                    "type": "text",
+                                                  },
+                                                ],
+                                                "metrics": Array [
+                                                  Object {
+                                                    "label": "count()",
+                                                    "name": "count()",
+                                                    "side": "left",
+                                                    "type": "integer",
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          },
                                         },
                                         "vis": Object {
                                           "barwidth": 0.97,
@@ -15174,7 +15392,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               "status": 200,
                                             },
                                           },
-                                          "userConfigs": Object {},
+                                          "userConfigs": Object {
+                                            "dataConfig": Object {
+                                              "valueOptions": Object {
+                                                "dimensions": Array [
+                                                  Object {
+                                                    "label": "tags",
+                                                    "name": "tags",
+                                                    "type": "text",
+                                                  },
+                                                ],
+                                                "metrics": Array [
+                                                  Object {
+                                                    "label": "count()",
+                                                    "name": "count()",
+                                                    "side": "left",
+                                                    "type": "integer",
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          },
                                         },
                                         "vis": Object {
                                           "barwidth": 0.97,

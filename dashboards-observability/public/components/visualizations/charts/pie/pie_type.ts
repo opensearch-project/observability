@@ -6,7 +6,6 @@
 import { Pie } from './pie';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartPie } from '../../assets/chart_pie';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import {
@@ -18,10 +17,13 @@ import {
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
+import { PLOTLY_COLOR, DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DefaultPieChartParameters } from '../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-
+const { ShowLegend, LegendPosition } = DefaultChartStyles;
+const { DefaultMode } = DefaultPieChartParameters;
 export const createPieTypeDefinition = (params: any) => ({
   name: 'pie',
   type: 'pie',
@@ -30,14 +32,9 @@ export const createPieTypeDefinition = (params: any) => ({
   fulllabel: 'Pie',
   icontype: 'visPie',
   category: VIS_CATEGORY.BASICS,
-  showlegend: true,
-  legendposition: 'v',
-  mode: 'pie',
-  labelsize: 12,
-  legendsize: 12,
-  selection: {
-    dataLoss: 'nothing',
-  },
+  showlegend: ShowLegend,
+  legendposition: LegendPosition,
+  mode: DefaultMode,
   categoryaxis: 'xaxis',
   seriesaxis: 'yaxis',
   icon: LensIconChartPie,
@@ -65,7 +62,7 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Show', id: 'show' },
                     { name: 'Hidden', id: 'hidden' },
                   ],
-                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
                 },
               },
               {
@@ -78,13 +75,13 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Right', id: 'v' },
                     { name: 'Bottom', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Right', id: 'v' }],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
               },
               {
                 name: 'Legend size',
                 component: InputFieldItem,
-                mapTo: 'size',
+                mapTo: 'legendSize',
                 eleType: 'input',
               },
             ],
@@ -115,7 +112,7 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Pie', id: 'pie' },
                     { name: 'Donut', id: 'donut' },
                   ],
-                  defaultSelections: [{ name: 'Pie', id: 'pie' }],
+                  defaultSelections: [{ name: 'Pie', id: DefaultMode }],
                 },
               },
               {
@@ -149,20 +146,18 @@ export const createPieTypeDefinition = (params: any) => ({
   visconfig: {
     layout: {
       ...sharedConfigs.layout,
-      ...{
-        colorway: PLOTLY_COLOR,
-        plot_bgcolor: 'rgba(0, 0, 0, 0)',
-        paper_bgcolor: 'rgba(0, 0, 0, 0)',
-        xaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        yaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
+      colorway: PLOTLY_COLOR,
+      plot_bgcolor: 'rgba(0, 0, 0, 0)',
+      paper_bgcolor: 'rgba(0, 0, 0, 0)',
+      xaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
+      },
+      yaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
       },
     },
     config: {

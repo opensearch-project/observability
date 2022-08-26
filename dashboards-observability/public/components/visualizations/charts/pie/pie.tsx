@@ -9,7 +9,11 @@ import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { filterDataConfigParameter } from '../../../event_analytics/utils/utils';
 import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
-import { PLOTLY_PIE_COLUMN_NUMBER } from '../../../../../common/constants/explorer';
+import {
+  PLOTLY_PIE_COLUMN_NUMBER,
+  PIE_YAXIS_GAP,
+  PIE_XAXIS_GAP,
+} from '../../../../../common/constants/explorer';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const { vis } = visualizations;
@@ -18,31 +22,28 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis = dataConfig?.valueOptions?.dimensions
-    ? filterDataConfigParameter(dataConfig.valueOptions.dimensions)
-    : [];
-  const yaxis = dataConfig?.valueOptions?.metrics
-    ? filterDataConfigParameter(dataConfig.valueOptions.metrics)
-    : [];
-  const type = dataConfig?.chartStyles?.mode || vis.mode;
+  const {
+    dataConfig: {
+      chartStyles = {},
+      valueOptions = {},
+      legend = {},
+      panelOptions = {},
+      tooltipOptions = {},
+    },
+    layoutConfig = {},
+  } = visualizations?.data?.userConfigs;
+  const xaxis = valueOptions.dimensions ? filterDataConfigParameter(valueOptions.dimensions) : [];
+  const yaxis = valueOptions.metrics ? filterDataConfigParameter(valueOptions.metrics) : [];
+  const type = chartStyles.mode || vis.mode;
   const lastIndex = fields.length - 1;
-  const colorTheme = dataConfig?.chartStyles?.colorTheme
-    ? dataConfig?.chartStyles?.colorTheme
-    : { name: DEFAULT_PALETTE };
-  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showlegend;
-  const legendPosition = dataConfig?.legend?.position || vis.legendposition;
-  const legendSize = dataConfig?.legend?.size || vis.legendsize;
-  const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelsize;
-  const title = dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '';
+  const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
+  const showLegend = legend.showLegend === 'hidden' ? false : vis.showlegend;
+  const legendSize = legend.legendSize;
+  const labelSize = chartStyles.labelSize;
+  const title = panelOptions.title || layoutConfig.layout?.title || '';
   const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig.tooltipOptions.tooltipText
-      : 'all';
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
   if (isEmpty(xaxis) || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
@@ -121,23 +122,25 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     const isAtleastOneFullRow = Math.floor(valueSeries.length / PLOTLY_PIE_COLUMN_NUMBER) > 0;
     return {
       grid: {
-        xgap: 0.2,
-        ygap: 0.1,
+        xgap: PIE_XAXIS_GAP,
+        ygap: PIE_YAXIS_GAP,
         rows: Math.floor(valueSeries.length / PLOTLY_PIE_COLUMN_NUMBER) + 1,
         columns: isAtleastOneFullRow ? PLOTLY_PIE_COLUMN_NUMBER : valueSeries.length,
         pattern: 'independent',
       },
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      title,
       legend: {
         ...layout.legend,
-        orientation: legendPosition,
-        font: { size: legendSize },
+        orientation: legend.position || vis.legendposition,
+        ...(legendSize && {
+          font: { size: legendSize },
+        }),
       },
       showlegend: showLegend,
     };
-  }, [valueSeries, layoutConfig.layout, title, layout.legend, legendPosition, legendSize]);
+  }, [valueSeries, layoutConfig.layout, title, layout.legend]);
 
   const mergedConfigs = useMemo(
     () => ({

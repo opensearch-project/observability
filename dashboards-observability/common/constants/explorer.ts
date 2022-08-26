@@ -153,3 +153,14 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   LegendPlacement: 'center',
   ThresholdsMaxLimit: 1
 }
+
+// pie chart default parameters
+export const PIE_XAXIS_GAP = 0.2
+export const PIE_YAXIS_GAP = 0.1
+export interface DefaultPieChartParametersProps {
+  DefaultMode: string
+};
+
+export const DefaultPieChartParameters: DefaultPieChartParametersProps = {
+  DefaultMode: 'pie'
+}
