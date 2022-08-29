@@ -17,6 +17,7 @@ import {
   ConfigColorTheme,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { BoxPlot } from './box_plot';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { DefaultChartStyles } from '../../../../../common/constants/shared';
 import { DefaultBoxChartStyles } from '../../../../../common/constants/explorer';
 
@@ -54,6 +55,14 @@ export const createBoxPlotTypeDefinition = () => ({
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Dimension', id: 'x' },
+              { name: 'Metrics', id: 'y' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'legend',
             name: 'Legend',

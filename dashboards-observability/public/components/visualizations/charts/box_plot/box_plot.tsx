@@ -36,6 +36,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       legend = {},
       colorTheme = [],
       panelOptions = {},
+      tooltipOptions = {},
     },
     layoutConfig = {},
     availabilityConfig = {},
@@ -61,6 +62,18 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const showLegend = !(legend.showLegend && legend.showLegend !== vis.showlegend);
   const labelSize = chartStyles.labelSize;
   const legendSize = legend.legendSize;
+
+  const getHoverText = () => {
+    if (tooltipOptions.tooltipMode === 'hidden') {
+      return 'none';
+    } else {
+      if (tooltipOptions.tooltipText === undefined) {
+        return 'all';
+      } else {
+        return tooltipOptions.tooltipText;
+      }
+    }
+  };
 
   const getSelectedColorTheme = (field: ConfigListEntry, index: number) =>
     (colorTheme.length > 0 &&
@@ -105,6 +118,8 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       },
       name: field.name,
       boxmean: true,
+      hoverinfo: getHoverText(),
+      hovertext: panelOptions.description,
     };
   });
 
