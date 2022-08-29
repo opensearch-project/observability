@@ -176,3 +176,10 @@ export const DefaultBarChartStyles: DefaultBarChartStylesProps = {
   BarWidth: 0.97,
   LineWidth: 1,
 };
+
+export const SIMILAR_VIZ_TYPES = [
+  visChartTypes.Line,
+  visChartTypes.Scatter,
+  visChartTypes.HorizontalBar,
+  visChartTypes.Bar,
+];

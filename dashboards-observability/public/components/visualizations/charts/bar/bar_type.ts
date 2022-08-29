@@ -30,9 +30,9 @@ const isHorizontalBar = (paramstype: string) =>
   paramstype === visChartTypes.HorizontalBar ? true : false;
 
 export const createBarTypeDefinition = (params: any) => ({
-  name: params.type ? params.type : 'bar',
+  name: params.type || 'bar',
   type: 'bar',
-  id: params.type ? params.type : 'bar',
+  id: params.type || 'bar',
   label: isHorizontalBar(params.type) ? 'Horizontal bar' : 'Vertical bar',
   fulllabel: isHorizontalBar(params.type) ? 'Horizontal bar' : 'Vertical bar',
   icontype: isHorizontalBar(params.type) ? 'visBarHorizontalStacked' : 'visBarVerticalStacked',

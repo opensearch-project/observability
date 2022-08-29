@@ -357,3 +357,21 @@ export const fetchConfigObject = (editor: string, propsOptions: any) => {
 
 export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
   parameter.filter((configItem: ConfigListEntry) => configItem.label !== '');
+
+export const getTooltipHoverInfo = ({
+  tooltipMode,
+  tooltipText,
+}: {
+  tooltipMode: string;
+  tooltipText: string;
+}) => {
+  if (tooltipMode === 'hidden') {
+    return 'none';
+  } else {
+    if (tooltipText === undefined) {
+      return 'all';
+    } else {
+      return tooltipText;
+    }
+  }
+};

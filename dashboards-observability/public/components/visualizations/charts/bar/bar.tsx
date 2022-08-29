@@ -16,7 +16,11 @@ import {
 } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
+import {
+  hexToRgb,
+  filterDataConfigParameter,
+  getTooltipHoverInfo,
+} from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
 
@@ -34,6 +38,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       legend = {},
       colorTheme = [],
       panelOptions = {},
+      tooltipOptions = {},
     },
     layoutConfig = {},
     availabilityConfig = {},
@@ -117,6 +122,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
             },
             name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
             orientation: vis.orientation,
+            hoverinfo: getTooltipHoverInfo({
+              tooltipMode: tooltipOptions.tooltipMode,
+              tooltipText: tooltipOptions.tooltipText,
+            }),
+            hovertext: panelOptions.description,
           };
         });
       })
@@ -124,8 +134,17 @@ export const Bar = ({ visualizations, layout, config }: any) => {
 
     // merging x, y for same names
     bars = Object.values(
-      bars?.reduce((acc, { x, y, name, type, marker, orientation, hoverinfo }) => {
-        acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation, hoverinfo };
+      bars?.reduce((acc, { x, y, name, type, marker, orientation, hoverinfo, hovertext }) => {
+        acc[name] = acc[name] || {
+          x: [],
+          y: [],
+          name,
+          type,
+          marker,
+          orientation,
+          hoverinfo,
+          hovertext,
+        };
         acc[name].x.push(x);
         acc[name].y.push(y);
         return acc;
@@ -153,6 +172,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         },
         name: field.name,
         orientation: vis.orientation,
+        hoverinfo: getTooltipHoverInfo({
+          tooltipMode: tooltipOptions.tooltipMode,
+          tooltipText: tooltipOptions.tooltipText,
+        }),
+        hovertext: panelOptions.description,
       };
     });
   }
@@ -197,6 +221,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       }),
     },
     showlegend: showLegend,
+    hovermode: 'closest',
   };
   if (availabilityConfig.level) {
     const thresholdTraces = {
