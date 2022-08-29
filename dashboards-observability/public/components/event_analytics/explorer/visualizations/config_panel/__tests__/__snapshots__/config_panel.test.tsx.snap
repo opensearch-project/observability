@@ -892,8 +892,66 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "editor": [Function],
                         "id": "data-panel",
                         "mapTo": "dataConfig",
-                        "name": "Data",
+                        "name": "Style",
                         "sections": Array [
+                          Object {
+                            "editor": [Function],
+                            "id": "tooltip_options",
+                            "mapTo": "tooltipOptions",
+                            "name": "Tooltip options",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "tooltipMode",
+                                "name": "Tooltip mode",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "tooltipText",
+                                "name": "Tooltip text",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "all",
+                                      "name": "All",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "all",
+                                      "name": "All",
+                                    },
+                                    Object {
+                                      "id": "x",
+                                      "name": "Dimension",
+                                    },
+                                    Object {
+                                      "id": "y",
+                                      "name": "Metrics",
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                          },
                           Object {
                             "editor": [Function],
                             "id": "legend",
@@ -4321,13 +4379,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                         },
-                                        Object {
-                                          "component": [Function],
-                                          "eleType": "input",
-                                          "mapTo": "legendSize",
-                                          "name": "Legend size",
-                                          "title": "Legend size",
-                                        },
                                       ],
                                     },
                                     Object {
@@ -4381,6 +4432,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
+                                        },
+                                        Object {
+                                          "component": [Function],
+                                          "eleType": "input",
+                                          "mapTo": "legendSize",
+                                          "name": "Legend size",
+                                          "title": "Legend size",
                                         },
                                       ],
                                     },
@@ -6241,13 +6299,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                         },
-                                        Object {
-                                          "component": [Function],
-                                          "eleType": "input",
-                                          "mapTo": "legendSize",
-                                          "name": "Legend size",
-                                          "title": "Legend size",
-                                        },
                                       ],
                                     },
                                     Object {
@@ -6301,6 +6352,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
+                                        },
+                                        Object {
+                                          "component": [Function],
+                                          "eleType": "input",
+                                          "mapTo": "legendSize",
+                                          "name": "Legend size",
+                                          "title": "Legend size",
                                         },
                                       ],
                                     },
@@ -6650,30 +6708,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "mapTo": "chartStyles",
                                 "name": "Chart styles",
                                 "schemas": Array [
-                                  Object {
-                                    "component": [Function],
-                                    "eleType": "buttons",
-                                    "mapTo": "orientation",
-                                    "name": "Orientation",
-                                    "props": Object {
-                                      "defaultSelections": Array [
-                                        Object {
-                                          "id": "v",
-                                          "name": "Vertical",
-                                        },
-                                      ],
-                                      "options": Array [
-                                        Object {
-                                          "id": "v",
-                                          "name": "Vertical",
-                                        },
-                                        Object {
-                                          "id": "h",
-                                          "name": "Horizontal",
-                                        },
-                                      ],
-                                    },
-                                  },
                                   Object {
                                     "component": [Function],
                                     "eleType": "buttons",
@@ -9139,30 +9173,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       Object {
                                                         "component": [Function],
                                                         "eleType": "buttons",
-                                                        "mapTo": "orientation",
-                                                        "name": "Orientation",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Horizontal",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
                                                         "mapTo": "mode",
                                                         "name": "Mode",
                                                         "props": Object {
@@ -9834,7 +9844,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               "status": 200,
                                             },
                                           },
-                                          "userConfigs": Object {},
+                                          "userConfigs": Object {
+                                            "dataConfig": Object {
+                                              "valueOptions": Object {
+                                                "dimensions": Array [
+                                                  Object {
+                                                    "label": "tags",
+                                                    "name": "tags",
+                                                    "type": "text",
+                                                  },
+                                                ],
+                                                "metrics": Array [
+                                                  Object {
+                                                    "label": "count()",
+                                                    "name": "count()",
+                                                    "side": "left",
+                                                    "type": "integer",
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          },
                                         },
                                         "vis": Object {
                                           "barwidth": 0.97,
@@ -9847,7 +9877,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "editor": [Function],
                                                 "id": "data-panel",
                                                 "mapTo": "dataConfig",
-                                                "name": "Data",
+                                                "name": "Style",
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
@@ -9959,6 +9989,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                           ],
                                                         },
                                                       },
+                                                      Object {
+                                                        "component": [Function],
+                                                        "eleType": "input",
+                                                        "mapTo": "legendSize",
+                                                        "name": "Legend size",
+                                                        "title": "Legend size",
+                                                      },
                                                     ],
                                                   },
                                                   Object {
@@ -9967,30 +10004,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     "mapTo": "chartStyles",
                                                     "name": "Chart styles",
                                                     "schemas": Array [
-                                                      Object {
-                                                        "component": [Function],
-                                                        "eleType": "buttons",
-                                                        "mapTo": "orientation",
-                                                        "name": "Orientation",
-                                                        "props": Object {
-                                                          "defaultSelections": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                          ],
-                                                          "options": Array [
-                                                            Object {
-                                                              "id": "v",
-                                                              "name": "Vertical",
-                                                            },
-                                                            Object {
-                                                              "id": "h",
-                                                              "name": "Horizontal",
-                                                            },
-                                                          ],
-                                                        },
-                                                      },
                                                       Object {
                                                         "component": [Function],
                                                         "eleType": "buttons",
@@ -10089,7 +10102,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       },
                                                       Object {
                                                         "component": [Function],
-                                                        "defaultState": 80,
+                                                        "defaultState": 40,
                                                         "eleType": "slider",
                                                         "mapTo": "fillOpacity",
                                                         "name": "Fill opacity",
@@ -10123,7 +10136,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                             ],
                                           },
-                                          "fillOpacity": 80,
+                                          "fillopacity": 40,
                                           "fulllabel": "Vertical bar",
                                           "groupwidth": 0.7,
                                           "icon": [Function],

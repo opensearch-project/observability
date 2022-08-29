@@ -232,8 +232,66 @@ exports[`Bar component Renders bar component 1`] = `
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Data",
+              "name": "Style",
               "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Metrics",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
                 Object {
                   "editor": [Function],
                   "id": "legend",
@@ -483,6 +541,8 @@ exports[`Bar component Renders bar component 1`] = `
     data={
       Array [
         Object {
+          "hoverinfo": "all",
+          "hovertext": undefined,
           "marker": Object {
             "color": "rgba(60,161,199,0.2)",
             "line": Object {
@@ -521,6 +581,7 @@ exports[`Bar component Renders bar component 1`] = `
           "#8C55A3",
         ],
         "height": 220,
+        "hovermode": "closest",
         "legend": Object {
           "orientation": "v",
         },
@@ -554,6 +615,8 @@ exports[`Bar component Renders bar component 1`] = `
       data={
         Array [
           Object {
+            "hoverinfo": "all",
+            "hovertext": undefined,
             "marker": Object {
               "color": "rgba(60,161,199,0.2)",
               "line": Object {

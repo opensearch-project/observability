@@ -1437,6 +1437,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             Array [
               Object {
                 "hoverinfo": "all",
+                "hovertext": undefined,
                 "marker": Object {
                   "color": "rgba(60,161,199,0.2)",
                   "line": Object {
@@ -1480,6 +1481,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "#4C636F",
               ],
               "height": 1180,
+              "hovermode": "closest",
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -1517,6 +1519,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               Array [
                 Object {
                   "hoverinfo": "all",
+                  "hovertext": undefined,
                   "marker": Object {
                     "color": "rgba(60,161,199,0.2)",
                     "line": Object {
@@ -3532,6 +3535,64 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "sections": Array [
                   Object {
                     "editor": [Function],
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Metrics",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
                     "id": "legend",
                     "mapTo": "legend",
                     "name": "Legend",
@@ -3939,6 +4000,64 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "mapTo": "dataConfig",
                   "name": "Style",
                   "sections": Array [
+                    Object {
+                      "editor": [Function],
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Metrics",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
                     Object {
                       "editor": [Function],
                       "id": "legend",
@@ -4373,6 +4492,64 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "sections": Array [
                       Object {
                         "editor": [Function],
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Metrics",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
                         "id": "legend",
                         "mapTo": "legend",
                         "name": "Legend",
@@ -4462,7 +4639,96 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0,
+                            "eleType": "slider",
+                            "mapTo": "rotateBarLabels",
+                            "name": "Rotate bar labels",
+                            "props": Object {
+                              "max": 90,
+                              "min": -90,
+                              "showTicks": true,
+                              "ticks": Array [
+                                Object {
+                                  "label": "-90°",
+                                  "value": -90,
+                                },
+                                Object {
+                                  "label": "-45°",
+                                  "value": -45,
+                                },
+                                Object {
+                                  "label": "0°",
+                                  "value": 0,
+                                },
+                                Object {
+                                  "label": "45°",
+                                  "value": 45,
+                                },
+                                Object {
+                                  "label": "90°",
+                                  "value": 90,
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0.7,
+                            "eleType": "slider",
+                            "mapTo": "groupWidth",
+                            "name": "Group width",
+                            "props": Object {
+                              "max": 1,
+                              "step": 0.01,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0.97,
+                            "eleType": "slider",
+                            "mapTo": "barWidth",
+                            "name": "Bar width",
+                            "props": Object {
+                              "max": 1,
+                              "step": 0.01,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 1,
+                            "eleType": "slider",
+                            "mapTo": "lineWidth",
+                            "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 40,
+                            "eleType": "slider",
+                            "mapTo": "fillOpacity",
+                            "name": "Fill opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
+                          },
                         ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "color-theme",
+                        "mapTo": "colorTheme",
+                        "name": "Color theme",
+                        "schemas": Array [],
                       },
                     ],
                   },
@@ -4473,19 +4739,32 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "mapTo": "layoutConfig",
                     "name": "Layout",
                   },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
                 ],
               },
-              "fulllabel": "Bar",
+              "fillopacity": 40,
+              "fulllabel": "Horizontal bar",
+              "groupwidth": 0.7,
               "icon": [Function],
-              "icontype": "visBarVerticalStacked",
+              "icontype": "visBarHorizontalStacked",
               "id": "horizontal_bar",
-              "label": "Bar",
+              "label": "Horizontal bar",
+              "labelangle": 0,
+              "legendposition": "v",
+              "linewidth": 1,
+              "mode": "group",
               "name": "horizontal_bar",
               "orientation": "h",
               "selection": Object {
                 "dataLoss": "nothing",
               },
               "seriesaxis": "yaxis",
+              "showlegend": "show",
               "type": "bar",
               "visconfig": Object {
                 "config": Object {
@@ -4524,6 +4803,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             Array [
               Object {
                 "hoverinfo": "all",
+                "hovertext": undefined,
                 "marker": Object {
                   "color": "rgba(60,161,199,0.2)",
                   "line": Object {
@@ -4567,6 +4847,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "#4C636F",
               ],
               "height": 1180,
+              "hovermode": "closest",
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",
@@ -4604,6 +4885,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               Array [
                 Object {
                   "hoverinfo": "all",
+                  "hovertext": undefined,
                   "marker": Object {
                     "color": "rgba(60,161,199,0.2)",
                     "line": Object {
@@ -4813,6 +5095,64 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "mapTo": "dataConfig",
                 "name": "Style",
                 "sections": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Metrics",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
                   Object {
                     "editor": [Function],
                     "id": "legend",
@@ -5168,6 +5508,64 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "mapTo": "dataConfig",
                   "name": "Style",
                   "sections": Array [
+                    Object {
+                      "editor": [Function],
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Metrics",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
                     Object {
                       "editor": [Function],
                       "id": "legend",
@@ -5548,6 +5946,64 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "sections": Array [
                       Object {
                         "editor": [Function],
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Metrics",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
                         "id": "legend",
                         "mapTo": "legend",
                         "name": "Legend",
@@ -5816,6 +6272,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "#4C636F",
               ],
               "height": 1180,
+              "hovermode": "closest",
               "legend": Object {
                 "orientation": "v",
                 "traceorder": "normal",

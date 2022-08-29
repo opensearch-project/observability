@@ -541,6 +541,8 @@ exports[`Bar component Renders bar component 1`] = `
     data={
       Array [
         Object {
+          "hoverinfo": "all",
+          "hovertext": undefined,
           "marker": Object {
             "color": "rgba(60,161,199,0.2)",
             "line": Object {
@@ -579,6 +581,7 @@ exports[`Bar component Renders bar component 1`] = `
           "#8C55A3",
         ],
         "height": 220,
+        "hovermode": "closest",
         "legend": Object {
           "orientation": "v",
         },
@@ -612,6 +615,8 @@ exports[`Bar component Renders bar component 1`] = `
       data={
         Array [
           Object {
+            "hoverinfo": "all",
+            "hovertext": undefined,
             "marker": Object {
               "color": "rgba(60,161,199,0.2)",
               "line": Object {
