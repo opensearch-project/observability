@@ -8,7 +8,12 @@ import { uniqueId } from 'lodash';
 import React from 'react';
 import moment from 'moment';
 import dateMath from '@elastic/datemath';
-import { IExplorerFields, IField, ConfigListEntry } from '../../../../common/types/explorer';
+import {
+  IExplorerFields,
+  IField,
+  ConfigListEntry,
+  GetTooltipHoverInfoType,
+} from '../../../../common/types/explorer';
 import { DocViewRow, IDocType } from '../explorer/events_views';
 import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
@@ -358,13 +363,7 @@ export const fetchConfigObject = (editor: string, propsOptions: any) => {
 export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
   parameter.filter((configItem: ConfigListEntry) => configItem.label !== '');
 
-export const getTooltipHoverInfo = ({
-  tooltipMode,
-  tooltipText,
-}: {
-  tooltipMode: string;
-  tooltipText: string;
-}) => {
+export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHoverInfoType) => {
   if (tooltipMode === 'hidden') {
     return 'none';
   } else {

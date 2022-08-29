@@ -274,3 +274,8 @@ export interface ConfigList {
   dimensions?: ConfigListEntry[] | HistogramConfigList[];
   metrics?: ConfigListEntry[];
 }
+
+export interface GetTooltipHoverInfoType {
+  tooltipMode: string;
+  tooltipText: string;
+}
