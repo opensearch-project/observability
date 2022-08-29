@@ -10,7 +10,11 @@ import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizatio
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
-import { hexToRgb, filterDataConfigParameter } from '../../../event_analytics/utils/utils';
+import {
+  hexToRgb,
+  filterDataConfigParameter,
+  getTooltipHoverInfo,
+} from '../../../event_analytics/utils/utils';
 import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 import {
   LONG_CHART_COLOR,
@@ -63,18 +67,6 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
   const labelSize = chartStyles.labelSize;
   const legendSize = legend.legendSize;
 
-  const getHoverText = () => {
-    if (tooltipOptions.tooltipMode === 'hidden') {
-      return 'none';
-    } else {
-      if (tooltipOptions.tooltipText === undefined) {
-        return 'all';
-      } else {
-        return tooltipOptions.tooltipText;
-      }
-    }
-  };
-
   const getSelectedColorTheme = (field: ConfigListEntry, index: number) =>
     (colorTheme.length > 0 &&
       colorTheme.find((colorSelected: any) => colorSelected?.name.name === field.label)?.color) ||
@@ -118,8 +110,10 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       },
       name: field.name,
       boxmean: true,
-      hoverinfo: getHoverText(),
-      hovertext: panelOptions.description,
+      hoverinfo: getTooltipHoverInfo({
+        tooltipMode: tooltipOptions.tooltipMode,
+        tooltipText: tooltipOptions?.tooltipText,
+      }),
     };
   });
 

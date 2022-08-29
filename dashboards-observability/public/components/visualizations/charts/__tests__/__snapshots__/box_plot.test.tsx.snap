@@ -569,7 +569,6 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
           "boxpoints": "all",
           "fillcolor": "rgba(60,161,199,0.2)",
           "hoverinfo": "all",
-          "hovertext": undefined,
           "jitter": 0.3,
           "line": Object {
             "color": "#3CA1C7",
@@ -642,7 +641,6 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
             "boxpoints": "all",
             "fillcolor": "rgba(60,161,199,0.2)",
             "hoverinfo": "all",
-            "hovertext": undefined,
             "jitter": 0.3,
             "line": Object {
               "color": "#3CA1C7",
