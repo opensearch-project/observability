@@ -16,7 +16,7 @@ import {
   htmlIdGenerator,
   EuiComboBox,
 } from '@elastic/eui';
-import { take, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { ADD_BUTTON_TEXT } from '../../../../../../../../common/constants/explorer';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
 
