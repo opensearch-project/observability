@@ -32,9 +32,6 @@ export const createBoxPlotTypeDefinition = () => ({
   label: 'Box plot',
   fulllabel: 'Box plot',
   icontype: 'visBarVerticalStacked',
-  selection: {
-    dataLoss: 'nothing',
-  },
   category: VIS_CATEGORY.BASICS,
   icon: LensIconChartBar,
   categoryaxis: 'xaxis',

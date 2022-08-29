@@ -23,7 +23,6 @@ import { DefaultBoxChartStyles } from '../../../../../common/constants/explorer'
 
 const { PointPosition, MarkerLineWidth } = DefaultBoxChartStyles;
 export const BoxPlot = ({ visualizations, layout, config }: any) => {
-  const DEFAULT_LABEL_SIZE = 10;
   const { vis } = visualizations;
   const {
     data,
@@ -60,7 +59,7 @@ export const BoxPlot = ({ visualizations, layout, config }: any) => {
       ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
       : vis.fillopacity / FILLOPACITY_DIV_FACTOR;
   const showLegend = !(legend.showLegend && legend.showLegend !== vis.showlegend);
-  const labelSize = chartStyles.labelSize || DEFAULT_LABEL_SIZE;
+  const labelSize = chartStyles.labelSize;
   const legendSize = legend.legendSize;
 
   const getSelectedColorTheme = (field: ConfigListEntry, index: number) =>
