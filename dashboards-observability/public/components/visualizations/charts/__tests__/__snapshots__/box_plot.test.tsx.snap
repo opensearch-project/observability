@@ -473,9 +473,6 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
         "markersize": 5,
         "name": "box",
         "orientation": "v",
-        "selection": Object {
-          "dataLoss": "nothing",
-        },
         "seriesaxis": "yaxis",
         "showlegend": "show",
         "type": "box",
@@ -563,15 +560,11 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
         "xaxis": Object {
           "automargin": true,
           "tickangle": 0,
-          "tickfont": Object {
-            "size": 10,
-          },
+          "tickfont": Object {},
         },
         "yaxis": Object {
           "automargin": true,
-          "tickfont": Object {
-            "size": 10,
-          },
+          "tickfont": Object {},
         },
       }
     }
@@ -643,15 +636,11 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
           "xaxis": Object {
             "automargin": true,
             "tickangle": 0,
-            "tickfont": Object {
-              "size": 10,
-            },
+            "tickfont": Object {},
           },
           "yaxis": Object {
             "automargin": true,
-            "tickfont": Object {
-              "size": 10,
-            },
+            "tickfont": Object {},
           },
         }
       }

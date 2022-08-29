@@ -3583,9 +3583,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "markersize": 5,
                   "name": "box",
                   "orientation": "v",
-                  "selection": Object {
-                    "dataLoss": "nothing",
-                  },
                   "seriesaxis": "yaxis",
                   "showlegend": "show",
                   "type": "box",
@@ -10085,7 +10082,27 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               "status": 200,
                                             },
                                           },
-                                          "userConfigs": Object {},
+                                          "userConfigs": Object {
+                                            "dataConfig": Object {
+                                              "valueOptions": Object {
+                                                "dimensions": Array [
+                                                  Object {
+                                                    "label": "tags",
+                                                    "name": "tags",
+                                                    "type": "text",
+                                                  },
+                                                ],
+                                                "metrics": Array [
+                                                  Object {
+                                                    "label": "count()",
+                                                    "name": "count()",
+                                                    "side": "left",
+                                                    "type": "integer",
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          },
                                         },
                                         "vis": Object {
                                           "barwidth": 0.97,
@@ -10098,7 +10115,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "editor": [Function],
                                                 "id": "data-panel",
                                                 "mapTo": "dataConfig",
-                                                "name": "Data",
+                                                "name": "Style",
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
