@@ -18,7 +18,7 @@ import {
   EuiText,
   EuiFieldNumber,
   htmlIdGenerator,
-  EuiIconTip,
+  EuiCallOut,
 } from '@elastic/eui';
 import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
@@ -449,6 +449,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         <h3>Data Configurations</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
+      {!fields.find((x) => x.type === 'timestamp') &&
+        (visualizations.vis.name === visChartTypes.Line ||
+          visualizations.vis.name === visChartTypes.Scatter) && (
+          <>
+            <EuiCallOut title={tooltipText} color="warning" iconType="help" />
+            <EuiSpacer size="s" />
+          </>
+        )}
       {visualizations.vis.name !== visChartTypes.Histogram ? (
         <>
           <EuiTitle size="xxs">
@@ -460,11 +468,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           <EuiTitle size="xxs">
             <h3>Dimensions</h3>
           </EuiTitle>
-          {!fields.find((x) => x.type === 'timestamp') &&
-            (visualizations.vis.name === visChartTypes.Line ||
-              visualizations.vis.name === visChartTypes.Scatter) && (
-              <EuiIconTip content={tooltipText} position="right" />
-            )}
           {getCommonUI(configList.dimensions, 'dimensions')}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
