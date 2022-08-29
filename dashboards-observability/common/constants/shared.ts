@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { IField } from '../../common/types/explorer';
 import CSS from 'csstype';
+import { IField } from '../../common/types/explorer';
 
 // Client route
 export const PPL_BASE = '/api/ppl';
@@ -114,7 +114,7 @@ export const ENABLED_VIS_TYPES = [
   visChartTypes.Box,
 ];
 
-//Live tail constants
+// Live tail constants
 export const LIVE_OPTIONS = [
   {
     label: '5s',
@@ -194,4 +194,4 @@ export const FILLOPACITY_DIV_FACTOR = 200;
 export const SLIDER_MIN_VALUE = 0;
 export const THRESHOLD_LINE_WIDTH = 3;
 export const THRESHOLD_LINE_OPACITY = 0.7;
-export const MAX_BUCKET_LENGTH = 16
+export const MAX_BUCKET_LENGTH = 16;
