@@ -32,7 +32,7 @@ const renderBoxPlot = () => {
     .type('{enter}');
 };
 
-describe('Render box plot and verify default behaviour ', () => {
+describe('Render box plot and verify default behaviour', () => {
   beforeEach(() => {
     renderBoxPlot();
   });
