@@ -2876,7 +2876,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "editor": [Function],
                         "id": "data-panel",
                         "mapTo": "dataConfig",
-                        "name": "Data",
+                        "name": "Style",
                         "sections": Array [
                           Object {
                             "editor": [Function],
@@ -2936,6 +2936,64 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "mapTo": "legendSize",
                                 "name": "Legend size",
                                 "title": "Legend size",
+                              },
+                            ],
+                          },
+                          Object {
+                            "editor": [Function],
+                            "id": "tooltip_options",
+                            "mapTo": "tooltipOptions",
+                            "name": "Tooltip options",
+                            "schemas": Array [
+                              Object {
+                                "component": null,
+                                "mapTo": "tooltipMode",
+                                "name": "Tooltip mode",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "show",
+                                      "name": "Show",
+                                    },
+                                    Object {
+                                      "id": "hidden",
+                                      "name": "Hidden",
+                                    },
+                                  ],
+                                },
+                              },
+                              Object {
+                                "component": null,
+                                "mapTo": "tooltipText",
+                                "name": "Tooltip text",
+                                "props": Object {
+                                  "defaultSelections": Array [
+                                    Object {
+                                      "id": "all",
+                                      "name": "All",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "all",
+                                      "name": "All",
+                                    },
+                                    Object {
+                                      "id": "x",
+                                      "name": "Dimension",
+                                    },
+                                    Object {
+                                      "id": "y",
+                                      "name": "Metrics",
+                                    },
+                                  ],
+                                },
                               },
                             ],
                           },
@@ -3189,11 +3247,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fulllabel": "Logs View",
+                  "fulllabel": "Logs view",
                   "icon": [Function],
                   "icontype": "visTable",
                   "id": "logs_view",
-                  "label": "Logs View",
+                  "label": "Logs view",
                   "name": "logs_view",
                   "selection": Object {
                     "dataLoss": "nothing",
@@ -3262,7 +3320,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "editor": [Function],
                         "id": "data-panel",
                         "mapTo": "dataConfig",
-                        "name": "Style",
+                        "name": "Data",
                         "sections": Array [
                           Object {
                             "editor": [Function],
@@ -3328,64 +3386,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "editor": [Function],
-                            "id": "tooltip_options",
-                            "mapTo": "tooltipOptions",
-                            "name": "Tooltip options",
-                            "schemas": Array [
-                              Object {
-                                "component": null,
-                                "mapTo": "tooltipMode",
-                                "name": "Tooltip mode",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": "show",
-                                      "name": "Show",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "show",
-                                      "name": "Show",
-                                    },
-                                    Object {
-                                      "id": "hidden",
-                                      "name": "Hidden",
-                                    },
-                                  ],
-                                },
-                              },
-                              Object {
-                                "component": null,
-                                "mapTo": "tooltipText",
-                                "name": "Tooltip text",
-                                "props": Object {
-                                  "defaultSelections": Array [
-                                    Object {
-                                      "id": "all",
-                                      "name": "All",
-                                    },
-                                  ],
-                                  "options": Array [
-                                    Object {
-                                      "id": "all",
-                                      "name": "All",
-                                    },
-                                    Object {
-                                      "id": "x",
-                                      "name": "Dimension",
-                                    },
-                                    Object {
-                                      "id": "y",
-                                      "name": "Metrics",
-                                    },
-                                  ],
-                                },
-                              },
-                            ],
-                          },
-                          Object {
-                            "editor": [Function],
                             "id": "chart_styles",
                             "mapTo": "chartStyles",
                             "name": "Chart styles",
@@ -3442,96 +3442,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "fontsize": 14,
                   "fulllabel": "Coordinate map",
                   "icon": [Function],
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  "icontype": "visLine",
-                  "id": "scatter",
-                  "label": "Scatter",
-                  "name": "scatter",
-                  "selection": Object {
-                    "dataLoss": "nothing",
-                  },
-                  "seriesaxis": "yaxis",
-                  "type": "scatter",
-                  "visconfig": Object {
-                    "config": Object {
-                      "barmode": "scatter",
-                      "displaylogo": false,
-                      "responsive": true,
-                      "xaxis": Object {
-                        "automargin": true,
-                      },
-                      "yaxis": Object {
-                        "automargin": true,
-                      },
-                    },
-                    "layout": Object {
-                      "colorway": Array [
-                        "#3CA1C7",
-                        "#8C55A3",
-                        "#DB748A",
-                        "#F2BE4B",
-                        "#68CCC2",
-                        "#2A7866",
-                        "#843769",
-                        "#374FB8",
-                        "#BD6F26",
-                        "#4C636F",
-                      ],
-                      "height": 1180,
-                      "legend": Object {
-                        "orientation": "v",
-                        "traceorder": "normal",
-                      },
-                      "margin": Object {
-                        "b": 30,
-                        "l": 60,
-                        "pad": 0,
-                        "r": 30,
-                        "t": 50,
-                      },
-                      "paper_bgcolor": "rgba(0, 0, 0, 0)",
-                      "plot_bgcolor": "rgba(0, 0, 0, 0)",
-                      "showlegend": true,
-                      "xaxis": Object {
-                        "fixedrange": true,
-                        "showgrid": false,
-                        "visible": true,
-                      },
-                      "yaxis": Object {
-                        "fixedrange": true,
-                        "showgrid": false,
-                        "visible": true,
-                      },
-                    },
-                  },
-                },
-                Object {
-                  "category": "Visualizations",
-                  "categoryaxis": "xaxis",
-                  "component": [Function],
-                  "editorconfig": Object {
-                    "panelTabs": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "data-panel",
-                        "mapTo": "dataConfig",
-                        "name": "Style",
-                        "sections": Array [],
-                      },
-                    ],
-                  },
-                  "fulllabel": "Logs view",
-                  "icon": [Function],
-                  "icontype": "visTable",
-                  "id": "logs_view",
-                  "label": "Logs view",
-                  "name": "logs_view",
-=======
-                  "iconType": "visMapCoordinate",
-=======
                   "icontype": "visMapCoordinate",
->>>>>>> ca6332e3 (issues resolved and snapshots updated)
                   "id": "scattergeo",
                   "label": "Coordinate map",
                   "latrange": Array [
@@ -3543,7 +3454,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     -55,
                   ],
                   "name": "scattergeo",
->>>>>>> 61b8412b (built coordinate map and added config options)
                   "selection": Object {
                     "dataLoss": "nothing",
                   },
@@ -5579,7 +5489,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             ],
                                           },
                                           Object {
-                                            "edi,tor": [Function],
+                                            "editor": [Function],
                                             "id": "color-theme",
                                             "mapTo": "colorTheme",
                                             "name": "Color theme",
@@ -5933,7 +5843,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       Object {
                                         "id": "hidden",
                                         "name": "Hidden",
-                     ,                 },
+                                      },
                                     ],
                                   },
                                 },
@@ -9895,7 +9805,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "editor": [Function],
                                                 "id": "data-panel",
                                                 "mapTo": "dataConfig",
-                                                "name": "Data",
+                                                "name": "Style",
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
@@ -10283,7 +10193,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           role="region"
                                           tabIndex={-1}
                                         >
-  ,                                        <EuiResizeObserver
+                                          <EuiResizeObserver
                                             onResize={[Function]}
                                           >
                                             <div>
@@ -13920,7 +13830,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                           -90°
                                                                         </button>
                                                                         <button
-                                                                ,          class="euiRangeTick euiRangeTick--isCustom"
+                                                                          class="euiRangeTick euiRangeTick--isCustom"
                                                                           style="left: calc(-Infinity% + 8px);"
                                                                           tabindex="-1"
                                                                           title="-45°"
@@ -14122,7 +14032,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                     ]
                                                                   }
                                                                   tickValue={45}
-                  ,                                                ticks={
+                                                                  ticks={
                                                                     Array [
                                                                       Object {
                                                                         "label": "-90°",

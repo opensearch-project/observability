@@ -38,17 +38,6 @@ const initialConfigEntry = {
 
 const initialEntryTreemap = { label: '', name: '' };
 
-const initialConfigEntry = {
-  label: '',
-  aggregation: '',
-  custom_label: '',
-  name: '',
-  side: 'right',
-  type: '',
-};
-
-const initialEntryTreemap = { label: '', name: '' };
-
 const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   if (isEmpty(vizFields)) return {};
   const vizFieldsWithLabel: { [key: string]: string }[] = vizFields.map((vizField) => ({
