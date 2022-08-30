@@ -79,9 +79,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // thresholds
   const appliedThresholds = thresholds.length ? thresholds : [BaseThreshold];
   const sortedThresholds = uniqBy(
-    appliedThresholds
-      .slice()
-      .sort((a: ThresholdUnitType, b: ThresholdUnitType) => a.value - b.value),
+    [...appliedThresholds].sort((a: ThresholdUnitType, b: ThresholdUnitType) => a.value - b.value),
     'value'
   );
   // style panel parameters
@@ -129,10 +127,11 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     if (metricLength === 1) {
       return 0.5;
     } else {
+      // calculate center of respective axis in each subplot based on metric length
       if (index === 0) {
-        return ((1 / metricLength) * 1) / 2;
+        return 1 / metricLength / 2;
       } else {
-        return (index + 1) / metricLength - ((1 / metricLength) * 1) / 2;
+        return (index + 1) / metricLength - 1 / metricLength / 2;
       }
     }
   };
