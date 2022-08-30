@@ -16,6 +16,7 @@ import {
   ConfigChartOptions,
   TextInputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { DefaultStatsParameters } from '../../../../../common/constants/explorer';
 
@@ -59,6 +60,14 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Dimension', id: 'x' },
+              { name: 'Metrics', id: 'y' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'chart_styles',
             name: 'Chart styles',
@@ -106,9 +115,9 @@ export const createStatsTypeDefinition = (params: any = {}) => ({
                 component: InputFieldItem,
                 mapTo: 'precisionValue',
                 eleType: 'input',
-                props : {
-                  minLimit: 0
-                }
+                props: {
+                  minLimit: 0,
+                },
               },
               {
                 title: 'Title size',

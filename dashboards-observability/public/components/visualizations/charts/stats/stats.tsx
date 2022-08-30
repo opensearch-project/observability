@@ -5,15 +5,16 @@
 
 import React, { useMemo } from 'react';
 import Plotly from 'plotly.js-dist';
+import { uniqBy } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { uniqBy } from 'lodash';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
 import {
   hexToRgb,
   filterDataConfigParameter,
   getRoundOf,
+  getTooltipHoverInfo,
 } from '../../../event_analytics/utils/utils';
 import { uiSettingsService } from '../../../../../common/utils';
 import {
@@ -37,7 +38,7 @@ const {
   BaseThreshold,
 } = DefaultStatsParameters;
 
-interface createAnnotationType {
+interface CreateAnnotationType {
   index: number;
   label: string;
   value: number | string;
@@ -52,15 +53,22 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   } = visualizations?.data?.rawVizData;
 
   // data config parametrs
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const dimensions = dataConfig?.valueOptions?.dimensions
-    ? filterDataConfigParameter(dataConfig.valueOptions.dimensions)
+  const {
+    dataConfig: {
+      chartStyles = {},
+      valueOptions = {},
+      panelOptions = {},
+      tooltipOptions = {},
+      thresholds = [],
+    },
+    layoutConfig = {},
+  } = visualizations?.data?.userConfigs;
+  const dimensions = valueOptions?.dimensions
+    ? filterDataConfigParameter(valueOptions.dimensions)
     : [];
-  const metrics = dataConfig?.valueOptions?.metrics
-    ? filterDataConfigParameter(dataConfig.valueOptions.metrics)
-    : [];
+  const metrics = valueOptions?.metrics ? filterDataConfigParameter(valueOptions.metrics) : [];
   const metricsLength = metrics.length;
-  const chartType = dataConfig?.chartStyles?.chartType || vis.charttype;
+  const chartType = chartStyles.chartType || vis.charttype;
 
   if (
     (chartType === DefaultChartType && dimensions.length === 0) ||
@@ -68,33 +76,34 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     chartType !== DefaultChartType
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
-  // style panel parameters
-  const thresholds = Array.isArray(dataConfig?.thresholds)
-    ? dataConfig?.thresholds
-    : [BaseThreshold];
+  // thresholds
+  const appliedThresholds = thresholds.length ? thresholds : [BaseThreshold];
   const sortedThresholds = uniqBy(
-    thresholds.slice().sort((a: ThresholdUnitType, b: ThresholdUnitType) => a.value - b.value),
+    appliedThresholds
+      .slice()
+      .sort((a: ThresholdUnitType, b: ThresholdUnitType) => a.value - b.value),
     'value'
   );
+  // style panel parameters
   const titleSize =
-    dataConfig?.chartStyles?.titleSize ||
+    chartStyles.titleSize ||
     vis.titlesize - vis.titlesize * metricsLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
-    dataConfig?.chartStyles?.valueSize ||
+    chartStyles.valueSize ||
     vis.valuesize - vis.valuesize * metricsLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
-  const selectedOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
+  const selectedOrientation = chartStyles.orientation || vis.orientation;
   const orientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
       ? DefaultOrientation
       : 'h';
-  const selectedTextMode = dataConfig?.chartStyles?.textMode || vis.textmode;
+  const selectedTextMode = chartStyles.textMode || vis.textmode;
   const textMode =
     selectedTextMode === DefaultTextMode || selectedTextMode === 'values+names'
       ? DefaultTextMode
       : selectedTextMode;
-  const precisionValue = dataConfig?.chartStyles?.precisionValue || vis.precisionvalue;
+  const precisionValue = chartStyles.precisionValue || vis.precisionvalue;
   const metricUnits =
-    dataConfig?.chartStyles?.metricUnits?.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
+    chartStyles.metricUnits?.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
   const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
 
@@ -116,14 +125,14 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       metricUnits ? `<span style="font-size: ${metricUnitsSize}px"}> ${metricUnits}</span>` : ''
     }</b>`;
 
-  const calculateTextCooridinate = (metricsLength: number, index: number) => {
-    if (metricsLength === 1) {
+  const calculateTextCooridinate = (metricLength: number, index: number) => {
+    if (metricLength === 1) {
       return 0.5;
     } else {
       if (index === 0) {
-        return ((1 / metricsLength) * 1) / 2;
+        return ((1 / metricLength) * 1) / 2;
       } else {
-        return (index + 1) / metricsLength - ((1 / metricsLength) * 1) / 2;
+        return (index + 1) / metricLength - ((1 / metricLength) * 1) / 2;
       }
     }
   };
@@ -133,7 +142,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     value,
     index,
     valueColor,
-  }: createAnnotationType) => {
+  }: CreateAnnotationType) => {
     return textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
@@ -191,7 +200,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     value,
     index,
     valueColor,
-  }: createAnnotationType) => {
+  }: CreateAnnotationType) => {
     return textMode === 'values+names' || textMode === DefaultTextMode
       ? [
           {
@@ -252,7 +261,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   const getMetricValue = (label: string) =>
     typeof data[label][data[label].length - 1] === 'number'
-      ? getRoundOf(data[label][data[label].length - 1], precisionValue)
+      ? getRoundOf(data[label][data[label].length - 1], Math.abs(precisionValue))
       : 0;
 
   const generateLineTraces = () => {
@@ -302,6 +311,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           xaxis: `x${metricIndex + 1}`,
           yaxis: `y${metricIndex + 1}`,
         }),
+        hoverinfo: getTooltipHoverInfo({
+          tooltipMode: tooltipOptions.tooltipMode,
+          tooltipText: tooltipOptions.tooltipText,
+        }),
       };
     });
   };
@@ -315,7 +328,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         .map((stat, statIndex) => ({ ...stat, oldIndex: statIndex }))
         .sort((statCurrent, statNext) => statCurrent.metricValue - statNext.metricValue);
       // threshold ranges with min, max values
-      const thresholdRanges: Array<Array<number>> = [];
+      const thresholdRanges: number[][] = [];
       sortedThresholds.forEach((thresh, index) => {
         thresholdRanges.push([
           thresh.value,
@@ -372,7 +385,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     metrics,
     data,
     fields,
-    thresholds,
+    appliedThresholds,
     orientation,
     titleSize,
     valueSize,
@@ -402,18 +415,9 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         pattern: 'independent',
         roworder: 'bottom to top',
       },
-      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      title: panelOptions?.title || layoutConfig.layout?.title || '',
     };
-  }, [
-    data,
-    layout,
-    layoutConfig.layout,
-    dataConfig?.panelOptions?.title,
-    orientation,
-    metricsLength,
-    statsLayout,
-    thresholds,
-  ]);
+  }, [layout, layoutConfig.layout, panelOptions?.title, orientation, metricsLength, statsLayout]);
 
   const mergedConfigs = {
     ...config,
