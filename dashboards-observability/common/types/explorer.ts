@@ -283,3 +283,8 @@ export interface ConfigList {
   breakdowns?: ConfigListEntry[] | HistogramConfigList[];
   span?: DimensionSpan;
 }
+
+export interface GetTooltipHoverInfoType {
+  tooltipMode: string;
+  tooltipText: string;
+}

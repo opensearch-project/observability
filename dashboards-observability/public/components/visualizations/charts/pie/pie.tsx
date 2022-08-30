@@ -7,7 +7,10 @@ import React, { useMemo } from 'react';
 import { take, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { filterDataConfigParameter } from '../../../event_analytics/utils/utils';
+import {
+  filterDataConfigParameter,
+  getTooltipHoverInfo,
+} from '../../../event_analytics/utils/utils';
 import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
 import {
   PLOTLY_PIE_COLUMN_NUMBER,
@@ -41,9 +44,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const legendSize = legend.legendSize;
   const labelSize = chartStyles.labelSize;
   const title = panelOptions.title || layoutConfig.layout?.title || '';
-  const tooltipMode =
-    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
-  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
+
   if (isEmpty(xaxis) || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
@@ -112,7 +113,10 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           outsidetextfont: {
             size: labelSize,
           },
-          hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
+          hoverinfo: getTooltipHoverInfo({
+            tooltipMode: tooltipOptions.tooltipMode,
+            tooltipText: tooltipOptions?.tooltipText,
+          }),
         };
       }),
     [valueSeries, data, labelSize, labelsOfXAxis, colorTheme]
