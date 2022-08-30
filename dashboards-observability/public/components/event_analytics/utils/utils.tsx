@@ -365,11 +365,9 @@ export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
 export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHoverInfoType) => {
   if (tooltipMode === 'hidden') {
     return 'none';
+  } else if (tooltipText === undefined) {
+    return 'all';
   } else {
-    if (tooltipText === undefined) {
-      return 'all';
-    } else {
-      return tooltipText;
-    }
+    return tooltipText;
   }
 };

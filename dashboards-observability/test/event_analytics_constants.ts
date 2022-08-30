@@ -550,5 +550,5 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
 
 export const BOX_TEST_VISUALIZATIONS_DATA = {
   ...TEST_VISUALIZATIONS_DATA,
-  vis: createBoxPlotTypeDefinition({}),
+  vis: createBoxPlotTypeDefinition(),
 };

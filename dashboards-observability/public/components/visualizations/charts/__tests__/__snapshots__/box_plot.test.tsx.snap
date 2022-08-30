@@ -583,7 +583,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
             "size": 5,
           },
           "name": "count()",
-          "pointpos": -1.8,
+          "pointpos": 1.8,
           "type": "box",
           "y": Array [
             154,
@@ -655,7 +655,7 @@ exports[`BoxPlot component Renders BoxPlot component 1`] = `
               "size": 5,
             },
             "name": "count()",
-            "pointpos": -1.8,
+            "pointpos": 1.8,
             "type": "box",
             "y": Array [
               154,

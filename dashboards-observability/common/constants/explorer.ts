@@ -178,6 +178,6 @@ export const DefaultBoxChartStyles: DefaultBoxChartStylesProps = {
   Jitter: 0.3,
   BoxMode: 'overlay',
   Orientation: 'v',
-  PointPosition: -1.8,
-  MarkerLineWidth: 4
+  PointPosition: 1.8,
+  MarkerLineWidth: 4,
 };
