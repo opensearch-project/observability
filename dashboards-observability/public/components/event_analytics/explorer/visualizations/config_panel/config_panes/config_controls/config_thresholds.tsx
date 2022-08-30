@@ -61,7 +61,7 @@ export const ConfigThresholds = ({
     let res = vizState;
     if (isEmpty(vizState)) res = [];
     handleConfigChange([getThresholdUnit(), ...res]);
-  }, [vizState, handleConfigChange, type]);
+  }, [vizState, handleConfigChange]);
 
   const handleThresholdChange = useCallback(
     (thrId, thrName) => {

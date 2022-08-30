@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import CSS from 'csstype';
+import { IField } from '../../common/types/explorer';
 
 // Client route
 export const PPL_BASE = '/api/ppl';
