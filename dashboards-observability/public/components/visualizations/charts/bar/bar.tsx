@@ -42,7 +42,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig?.tooltipOptions?.tooltipText !== undefined
       ? dataConfig.tooltipOptions.tooltipText
       : 'all';
-  const breakdowns = dataConfigTab?.breakdowns ? dataConfigTab.breakdowns : [];
+  const breakdowns = dataConfig?.valueOptions?.breakdowns ? dataConfig.valueOptions.breakdowns : [];
   let bars: Plotly.Data[], valueForYSeries: Plotly.Data[], valueForXSeries: Plotly.Data[];
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
