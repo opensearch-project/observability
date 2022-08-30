@@ -327,15 +327,13 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         .map((stat, statIndex) => ({ ...stat, oldIndex: statIndex }))
         .sort((statCurrent, statNext) => statCurrent.metricValue - statNext.metricValue);
       // threshold ranges with min, max values
-      const thresholdRanges: number[][] = [];
-      sortedThresholds.forEach((thresh, index) => {
-        thresholdRanges.push([
-          thresh.value,
-          index === sortedThresholds.length - 1
-            ? sortedStatsData[sortedStatsData.length - 1].metricValue
-            : sortedThresholds[index + 1].value,
-        ]);
-      });
+      let thresholdRanges: number[][] = [];
+      thresholdRanges = sortedThresholds.map((thresh, index) => [
+        thresh.value,
+        index === sortedThresholds.length - 1
+          ? sortedStatsData[sortedStatsData.length - 1].metricValue
+          : sortedThresholds[index + 1].value,
+      ]);
 
       if (thresholdRanges.length) {
         // change color for line traces
@@ -363,13 +361,13 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           annotationIndex < autoChartLayout.annotations.length;
           annotationIndex++
         ) {
+          const isMetricValueText = autoChartLayout.annotations[annotationIndex].type === 'value';
+          const metricValue = Number(autoChartLayout.annotations[annotationIndex].metricValue);
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
             if (
-              autoChartLayout.annotations[annotationIndex].type === 'value' &&
-              Number(autoChartLayout.annotations[annotationIndex].metricValue) >=
-                Number(thresholdRanges[threshIndex][0]) &&
-              Number(autoChartLayout.annotations[annotationIndex].metricValue) <=
-                Number(thresholdRanges[threshIndex][1])
+              isMetricValueText &&
+              metricValue >= Number(thresholdRanges[threshIndex][0]) &&
+              metricValue <= Number(thresholdRanges[threshIndex][1])
             ) {
               autoChartLayout.annotations[annotationIndex].font.color =
                 sortedThresholds[threshIndex].color;
