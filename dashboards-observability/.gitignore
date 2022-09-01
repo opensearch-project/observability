@@ -4,3 +4,4 @@ build/
 coverage/
 .cypress/screenshots
 .cypress/videos
+query_manager/antlr/output

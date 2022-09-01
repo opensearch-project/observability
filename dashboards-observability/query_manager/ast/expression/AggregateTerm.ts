@@ -24,7 +24,7 @@ export class AggregateTerm extends PPLNode {
 
   toString(): string {
     if (this.alias) {
-      return `${this.statsFunction.toString()} as ${this.alias}`;
+      return `${this.statsFunction.toString()}${this.alias ? ` as ${this.alias}` : ''}`;
     }
     return `${this.statsFunction.toString()}`;
   }

@@ -4,7 +4,7 @@
  */
 
 import { PPLSyntaxParser } from '../antlr/ppl_syntax_parser';
-import { OpenSearchPPLParser } from '../antlr/bin/OpenSearchPPLParser';
+import { OpenSearchPPLParser } from '../antlr/output/OpenSearchPPLParser';
 import { StatsAstBuilder } from '../ast/builder/stats_ast_builder';
 
 export class PPLQueryParser {

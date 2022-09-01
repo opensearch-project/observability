@@ -25,8 +25,8 @@ import {
   TimespanUnitContext,
   ValueExpressionContext,
   WcFieldExpressionContext,
-} from '../../antlr/bin/OpenSearchPPLParser';
-import { OpenSearchPPLParserVisitor } from '../../antlr/bin/OpenSearchPPLParserVisitor';
+} from '../../antlr/output/OpenSearchPPLParser';
+import { OpenSearchPPLParserVisitor } from '../../antlr/output/OpenSearchPPLParserVisitor';
 import { PPLNode } from '../node';
 import { Aggregations } from '../tree/aggragations';
 import {

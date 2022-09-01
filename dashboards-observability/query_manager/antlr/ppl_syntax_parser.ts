@@ -5,8 +5,8 @@
 
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import { CaseInsensitiveCharStream } from '../antlr/adaptors/case_insensitive_char_stream';
-import { OpenSearchPPLLexer } from '../antlr/bin/OpenSearchPPLLexer';
-import { OpenSearchPPLParser } from '../antlr/bin/OpenSearchPPLParser';
+import { OpenSearchPPLLexer } from '../antlr/output/OpenSearchPPLLexer';
+import { OpenSearchPPLParser } from '../antlr/output/OpenSearchPPLParser';
 
 /**
  * PPL Syntax Parser.
