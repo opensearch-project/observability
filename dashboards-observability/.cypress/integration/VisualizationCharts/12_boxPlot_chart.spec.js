@@ -66,7 +66,7 @@ describe('Render box plot for data configuration panel', () => {
     renderBoxPlot();
   });
 
-  it('Render box plot and verify data config panel', () => {
+  it('Render box plot and verify data config panel ', () => {
     cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(0).should('contain', 'tags');
     cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(1).should('contain', 'count()');
     cy.get('.euiComboBoxPill.euiComboBoxPill--plainText').eq(2).should('contain', 'avg(bytes)');
