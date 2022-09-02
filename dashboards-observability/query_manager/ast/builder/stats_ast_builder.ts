@@ -48,6 +48,7 @@ export class StatsAstBuilder
   }
 
   visitRoot(ctx: RootContext) {
+    if (!ctx.pplStatement()) return this.defaultResult();
     return this.visitChildren(ctx.pplStatement()!);
   }
 
