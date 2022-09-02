@@ -27,11 +27,12 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
-  const dataConfigTab = visualizations?.data?.rawVizData?.Gauge?.dataConfig;
-  const dimensions = dataConfigTab?.dimensions
-    ? dataConfigTab.dimensions.filter((i) => i.name !== '')
+  const dimensions = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((item) => item.name !== '')
     : [];
-  const metrics = dataConfigTab?.metrics ? dataConfigTab.metrics.filter((i) => i.name !== '') : [];
+  const metrics = dataConfig?.valueOptions?.metrics
+    ? dataConfig.valueOptions.metrics.filter((item) => item.name !== '')
+    : [];
   const dimensionsLength = dimensions.length;
   const metricsLength = metrics.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
@@ -47,7 +48,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const isEmptyPlot = !metricsLength;
 
-  if (isEmptyPlot) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+  if (isEmptyPlot) return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];

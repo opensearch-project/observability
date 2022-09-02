@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { PanelItem } from './config_panel_item';
 
@@ -65,10 +65,10 @@ export const ConfigValueOptions = ({
         };
       }
       return (
-        <>
+        <Fragment key={`viz-series-${index}`}>
           <DimensionComponent key={`viz-series-${index}`} {...params} />
           <EuiSpacer size="s" />
-        </>
+        </Fragment>
       );
     });
   }, [schemas, fields, vizState, handleConfigurationChange]);

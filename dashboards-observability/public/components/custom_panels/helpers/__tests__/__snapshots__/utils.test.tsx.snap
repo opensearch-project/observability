@@ -23,6 +23,66 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
             ],
           },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+            "explorerFields": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+              Object {
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
+          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -73,21 +133,98 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "valueOptions": Object {
+                "dimensions": Array [
+                  Object {
+                    "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+                "metrics": Array [
+                  Object {
+                    "label": "avg(FlightDelayMin)",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
-          "barWidth": 0.97,
+          "barwidth": 0.97,
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Metrics",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
                   Object {
                     "editor": [Function],
                     "id": "legend",
@@ -97,7 +234,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       Object {
                         "component": null,
                         "mapTo": "showLegend",
-                        "name": "Show Legend",
+                        "name": "Show legend",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
@@ -200,7 +337,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "component": [Function],
                         "eleType": "input",
                         "mapTo": "labelSize",
-                        "name": "Label Size",
+                        "name": "Label size",
                       },
                       Object {
                         "component": [Function],
@@ -273,7 +410,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "defaultState": 80,
                         "eleType": "slider",
                         "mapTo": "fillOpacity",
-                        "name": "Fill Opacity",
+                        "name": "Fill opacity",
                         "props": Object {
                           "max": 100,
                         },
@@ -284,7 +421,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "editor": [Function],
                     "id": "color-theme",
                     "mapTo": "colorTheme",
-                    "name": "Color Theme",
+                    "name": "Color theme",
                     "schemas": Array [],
                   },
                 ],
@@ -305,25 +442,25 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             ],
           },
           "fillOpacity": 80,
-          "fullLabel": "Bar",
-          "groupWidth": 0.7,
+          "fulllabel": "Vertical bar",
+          "groupwidth": 0.7,
           "icon": [Function],
-          "iconType": "visBarVerticalStacked",
+          "icontype": "visBarVerticalStacked",
           "id": "bar",
-          "label": "Bar",
-          "labelAngle": 0,
-          "legendPosition": "v",
-          "lineWidth": 1,
+          "label": "Vertical bar",
+          "labelangle": 0,
+          "legendposition": "v",
+          "linewidth": 1,
           "mode": "group",
           "name": "bar",
           "orientation": "v",
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
-          "showLegend": "show",
+          "seriesaxis": "yaxis",
+          "showlegend": "show",
           "type": "bar",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
@@ -367,6 +504,66 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "label": "avg(FlightDelayMin)",
                   "name": "avg(FlightDelayMin)",
                   "type": "double",
+                },
+              ],
+            },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+              "explorerFields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
                 },
               ],
             },
@@ -420,21 +617,98 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "valueOptions": Object {
+                  "dimensions": Array [
+                    Object {
+                      "label": "Carrier",
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                  "metrics": Array [
+                    Object {
+                      "label": "avg(FlightDelayMin)",
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
-            "barWidth": 0.97,
+            "barwidth": 0.97,
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
+                    Object {
+                      "editor": [Function],
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Metrics",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
                     Object {
                       "editor": [Function],
                       "id": "legend",
@@ -444,7 +718,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         Object {
                           "component": null,
                           "mapTo": "showLegend",
-                          "name": "Show Legend",
+                          "name": "Show legend",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
@@ -547,7 +821,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           "component": [Function],
                           "eleType": "input",
                           "mapTo": "labelSize",
-                          "name": "Label Size",
+                          "name": "Label size",
                         },
                         Object {
                           "component": [Function],
@@ -620,7 +894,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           "defaultState": 80,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
-                          "name": "Fill Opacity",
+                          "name": "Fill opacity",
                           "props": Object {
                             "max": 100,
                           },
@@ -631,7 +905,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       "editor": [Function],
                       "id": "color-theme",
                       "mapTo": "colorTheme",
-                      "name": "Color Theme",
+                      "name": "Color theme",
                       "schemas": Array [],
                     },
                   ],
@@ -652,25 +926,25 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ],
             },
             "fillOpacity": 80,
-            "fullLabel": "Bar",
-            "groupWidth": 0.7,
+            "fulllabel": "Vertical bar",
+            "groupwidth": 0.7,
             "icon": [Function],
-            "iconType": "visBarVerticalStacked",
+            "icontype": "visBarVerticalStacked",
             "id": "bar",
-            "label": "Bar",
-            "labelAngle": 0,
-            "legendPosition": "v",
-            "lineWidth": 1,
+            "label": "Vertical bar",
+            "labelangle": 0,
+            "legendposition": "v",
+            "linewidth": 1,
             "mode": "group",
             "name": "bar",
             "orientation": "v",
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
-            "showLegend": "show",
+            "seriesaxis": "yaxis",
+            "showlegend": "show",
             "type": "bar",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
@@ -740,6 +1014,66 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   },
                 ],
               },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
+                  },
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                  "size": 4,
+                  "status": 200,
+                },
+                "explorerFields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
               "indexFields": Object {},
               "query": Object {},
               "rawVizData": Object {
@@ -790,21 +1124,98 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "valueOptions": Object {
+                    "dimensions": Array [
+                      Object {
+                        "label": "Carrier",
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                    "metrics": Array [
+                      Object {
+                        "label": "avg(FlightDelayMin)",
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
-              "barWidth": 0.97,
+              "barwidth": 0.97,
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Metrics",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
                       Object {
                         "editor": [Function],
                         "id": "legend",
@@ -814,7 +1225,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           Object {
                             "component": null,
                             "mapTo": "showLegend",
-                            "name": "Show Legend",
+                            "name": "Show legend",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
@@ -917,7 +1328,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             "component": [Function],
                             "eleType": "input",
                             "mapTo": "labelSize",
-                            "name": "Label Size",
+                            "name": "Label size",
                           },
                           Object {
                             "component": [Function],
@@ -990,7 +1401,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             "defaultState": 80,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
-                            "name": "Fill Opacity",
+                            "name": "Fill opacity",
                             "props": Object {
                               "max": 100,
                             },
@@ -1001,7 +1412,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "editor": [Function],
                         "id": "color-theme",
                         "mapTo": "colorTheme",
-                        "name": "Color Theme",
+                        "name": "Color theme",
                         "schemas": Array [],
                       },
                     ],
@@ -1022,25 +1433,25 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 ],
               },
               "fillOpacity": 80,
-              "fullLabel": "Bar",
-              "groupWidth": 0.7,
+              "fulllabel": "Vertical bar",
+              "groupwidth": 0.7,
               "icon": [Function],
-              "iconType": "visBarVerticalStacked",
+              "icontype": "visBarVerticalStacked",
               "id": "bar",
-              "label": "Bar",
-              "labelAngle": 0,
-              "legendPosition": "v",
-              "lineWidth": 1,
+              "label": "Vertical bar",
+              "labelangle": 0,
+              "legendposition": "v",
+              "linewidth": 1,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
-              "showLegend": "show",
+              "seriesaxis": "yaxis",
+              "showlegend": "show",
               "type": "bar",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
@@ -1066,83 +1477,188 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           }
         }
       >
-        <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+        <Plt
+          config={
+            Object {
+              "displaylogo": false,
+              "responsive": true,
+            }
+          }
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.4)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 1,
+                  },
+                },
+                "name": "avg(FlightDelayMin)",
+                "orientation": "v",
+                "type": "bar",
+                "x": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "y": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+            ]
+          }
+          layout={
+            Object {
+              "bargap": 0.30000000000000004,
+              "bargroupgap": 0.030000000000000027,
+              "barmode": "group",
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
+              "font": Object {
+                "size": 10,
+              },
+              "height": 1180,
+              "legend": Object {
+                "orientation": "v",
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "showlegend": true,
+              "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickangle": 0,
+              },
+            }
+          }
         >
-          <EuiText
-            className="lnsChart__empty"
-            color="subdued"
-            data-test-subj="vizWorkspace__noData"
-            size="xs"
-            textAlign="center"
+          <PlotlyComponent
+            config={
+              Object {
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.4)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 1,
+                    },
+                  },
+                  "name": "avg(FlightDelayMin)",
+                  "orientation": "v",
+                  "type": "bar",
+                  "x": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "bargap": 0.30000000000000004,
+                "bargroupgap": 0.030000000000000027,
+                "barmode": "group",
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "font": Object {
+                  "size": 10,
+                },
+                "height": 1180,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "tickangle": 0,
+                },
+                "yaxis": Object {
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
           >
             <div
-              className="euiText euiText--extraSmall lnsChart__empty"
-              data-test-subj="vizWorkspace__noData"
-            >
-              <EuiTextAlign
-                textAlign="center"
-              >
-                <div
-                  className="euiTextAlign euiTextAlign--center"
-                >
-                  <EuiTextColor
-                    color="subdued"
-                    component="div"
-                  >
-                    <div
-                      className="euiTextColor euiTextColor--subdued"
-                    >
-                      <EuiIcon
-                        color="subdued"
-                        size="xxl"
-                        type="visBarVerticalStacked"
-                      >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                      <EuiSpacer
-                        size="l"
-                      >
-                        <div
-                          className="euiSpacer euiSpacer--l"
-                        />
-                      </EuiSpacer>
-                      <p>
-                        <FormattedMessage
-                          defaultMessage="No results found"
-                          id="visualization_noData"
-                          values={Object {}}
-                        >
-                          <span>
-                            No results found
-                          </span>
-                        </FormattedMessage>
-                      </p>
-                    </div>
-                  </EuiTextColor>
-                </div>
-              </EuiTextAlign>
-            </div>
-          </EuiText>
-        </EmptyPlaceholder>
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
       </Bar>
     </VisualizationChart>
   </Visualization>
@@ -1157,7 +1673,16 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
         "data": Object {
           "appData": Object {},
           "defaultAxes": Object {
-            "xaxis": Array [],
+            "xaxis": Array [
+              Object {
+                "aggregation": "",
+                "custom_label": "",
+                "label": "",
+                "name": "",
+                "side": "right",
+                "type": "",
+              },
+            ],
             "yaxis": Array [
               Object {
                 "label": "avg(FlightDelayMin)",
@@ -1166,6 +1691,66 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               },
               Object {
                 "label": "Carrier",
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
+          },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+            "explorerFields": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+              Object {
                 "name": "Carrier",
                 "type": "keyword",
               },
@@ -1221,19 +1806,46 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "valueOptions": Object {
+                "dimensions": Array [
+                  Object {
+                    "aggregation": "",
+                    "custom_label": "",
+                    "label": "",
+                    "name": "",
+                    "side": "right",
+                    "type": "",
+                  },
+                ],
+                "metrics": Array [
+                  Object {
+                    "label": "avg(FlightDelayMin)",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -1244,7 +1856,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                       Object {
                         "component": null,
                         "mapTo": "showLegend",
-                        "name": "Show Legend",
+                        "name": "Show legend",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
@@ -1291,8 +1903,66 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "component": [Function],
                         "eleType": "input",
                         "mapTo": "legendSize",
-                        "name": "Legend Size",
-                        "title": "Legend Size",
+                        "name": "Legend size",
+                        "title": "Legend size",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Metrics",
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -1377,7 +2047,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "defaultState": 40,
                         "eleType": "slider",
                         "mapTo": "fillOpacity",
-                        "name": "Fill Opacity",
+                        "name": "Fill opacity",
                         "props": Object {
                           "max": 100,
                         },
@@ -1387,7 +2057,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "defaultState": 5,
                         "eleType": "slider",
                         "mapTo": "pointSize",
-                        "name": "Point Size",
+                        "name": "Point size",
                         "props": Object {
                           "max": 40,
                         },
@@ -1396,8 +2066,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "component": [Function],
                         "eleType": "input",
                         "mapTo": "labelSize",
-                        "name": "Label Size",
-                        "title": "Label Size",
+                        "name": "Label size",
+                        "title": "Label size",
                       },
                       Object {
                         "component": [Function],
@@ -1467,18 +2137,18 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               },
             ],
           },
-          "fullLabel": "Time series",
+          "fulllabel": "Time series",
           "icon": [Function],
-          "iconType": "visLine",
+          "icontype": "visLine",
           "id": "line",
           "label": "Time series",
           "name": "line",
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "type": "line",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "barmode": "line",
               "displaylogo": false,
@@ -1540,7 +2210,16 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           "data": Object {
             "appData": Object {},
             "defaultAxes": Object {
-              "xaxis": Array [],
+              "xaxis": Array [
+                Object {
+                  "aggregation": "",
+                  "custom_label": "",
+                  "label": "",
+                  "name": "",
+                  "side": "right",
+                  "type": "",
+                },
+              ],
               "yaxis": Array [
                 Object {
                   "label": "avg(FlightDelayMin)",
@@ -1549,6 +2228,66 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 },
                 Object {
                   "label": "Carrier",
+                  "name": "Carrier",
+                  "type": "keyword",
+                },
+              ],
+            },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+              "explorerFields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
                   "name": "Carrier",
                   "type": "keyword",
                 },
@@ -1604,19 +2343,46 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "valueOptions": Object {
+                  "dimensions": Array [
+                    Object {
+                      "aggregation": "",
+                      "custom_label": "",
+                      "label": "",
+                      "name": "",
+                      "side": "right",
+                      "type": "",
+                    },
+                  ],
+                  "metrics": Array [
+                    Object {
+                      "label": "avg(FlightDelayMin)",
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "label": "Carrier",
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -1627,7 +2393,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         Object {
                           "component": null,
                           "mapTo": "showLegend",
-                          "name": "Show Legend",
+                          "name": "Show legend",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
@@ -1674,8 +2440,66 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "component": [Function],
                           "eleType": "input",
                           "mapTo": "legendSize",
-                          "name": "Legend Size",
-                          "title": "Legend Size",
+                          "name": "Legend size",
+                          "title": "Legend size",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Metrics",
+                              },
+                            ],
+                          },
                         },
                       ],
                     },
@@ -1760,7 +2584,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "defaultState": 40,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
-                          "name": "Fill Opacity",
+                          "name": "Fill opacity",
                           "props": Object {
                             "max": 100,
                           },
@@ -1770,7 +2594,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "defaultState": 5,
                           "eleType": "slider",
                           "mapTo": "pointSize",
-                          "name": "Point Size",
+                          "name": "Point size",
                           "props": Object {
                             "max": 40,
                           },
@@ -1779,8 +2603,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "component": [Function],
                           "eleType": "input",
                           "mapTo": "labelSize",
-                          "name": "Label Size",
-                          "title": "Label Size",
+                          "name": "Label size",
+                          "title": "Label size",
                         },
                         Object {
                           "component": [Function],
@@ -1850,18 +2674,18 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 },
               ],
             },
-            "fullLabel": "Time series",
+            "fulllabel": "Time series",
             "icon": [Function],
-            "iconType": "visLine",
+            "icontype": "visLine",
             "id": "line",
             "label": "Time series",
             "name": "line",
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "type": "line",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "barmode": "line",
                 "displaylogo": false,
@@ -1977,7 +2801,16 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "data": Object {
               "appData": Object {},
               "defaultAxes": Object {
-                "xaxis": Array [],
+                "xaxis": Array [
+                  Object {
+                    "aggregation": "",
+                    "custom_label": "",
+                    "label": "",
+                    "name": "",
+                    "side": "right",
+                    "type": "",
+                  },
+                ],
                 "yaxis": Array [
                   Object {
                     "label": "avg(FlightDelayMin)",
@@ -1986,6 +2819,66 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   },
                   Object {
                     "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
+                  },
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                  "size": 4,
+                  "status": 200,
+                },
+                "explorerFields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
                     "name": "Carrier",
                     "type": "keyword",
                   },
@@ -2041,19 +2934,46 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "valueOptions": Object {
+                    "dimensions": Array [
+                      Object {
+                        "aggregation": "",
+                        "custom_label": "",
+                        "label": "",
+                        "name": "",
+                        "side": "right",
+                        "type": "",
+                      },
+                    ],
+                    "metrics": Array [
+                      Object {
+                        "label": "avg(FlightDelayMin)",
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "label": "Carrier",
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
@@ -2064,7 +2984,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           Object {
                             "component": null,
                             "mapTo": "showLegend",
-                            "name": "Show Legend",
+                            "name": "Show legend",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
@@ -2111,8 +3031,66 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "component": [Function],
                             "eleType": "input",
                             "mapTo": "legendSize",
-                            "name": "Legend Size",
-                            "title": "Legend Size",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Metrics",
+                                },
+                              ],
+                            },
                           },
                         ],
                       },
@@ -2197,7 +3175,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "defaultState": 40,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
-                            "name": "Fill Opacity",
+                            "name": "Fill opacity",
                             "props": Object {
                               "max": 100,
                             },
@@ -2207,7 +3185,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "defaultState": 5,
                             "eleType": "slider",
                             "mapTo": "pointSize",
-                            "name": "Point Size",
+                            "name": "Point size",
                             "props": Object {
                               "max": 40,
                             },
@@ -2216,8 +3194,8 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "component": [Function],
                             "eleType": "input",
                             "mapTo": "labelSize",
-                            "name": "Label Size",
-                            "title": "Label Size",
+                            "name": "Label size",
+                            "title": "Label size",
                           },
                           Object {
                             "component": [Function],
@@ -2287,18 +3265,18 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   },
                 ],
               },
-              "fullLabel": "Time series",
+              "fulllabel": "Time series",
               "icon": [Function],
-              "iconType": "visLine",
+              "icontype": "visLine",
               "id": "line",
               "label": "Time series",
               "name": "line",
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "type": "line",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "barmode": "line",
                   "displaylogo": false,
@@ -2460,6 +3438,66 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
             ],
           },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
+              "size": 4,
+              "status": 200,
+            },
+            "explorerFields": Array [
+              Object {
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
+              },
+              Object {
+                "name": "Carrier",
+                "type": "keyword",
+              },
+            ],
+          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -2510,19 +3548,38 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "valueOptions": Object {
+                "dimensions": Array [
+                  Object {
+                    "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+                "metrics": Array [
+                  Object {
+                    "label": "avg(FlightDelayMin)",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -2611,9 +3668,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
             ],
           },
-          "fullLabel": "Bar",
+          "fulllabel": "Bar",
           "icon": [Function],
-          "iconType": "visBarVerticalStacked",
+          "icontype": "visBarVerticalStacked",
           "id": "horizontal_bar",
           "label": "Bar",
           "name": "horizontal_bar",
@@ -2621,9 +3678,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "type": "bar",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
@@ -2667,6 +3724,66 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "label": "avg(FlightDelayMin)",
                   "name": "avg(FlightDelayMin)",
                   "type": "double",
+                },
+              ],
+            },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                    Object {
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                },
+                "size": 4,
+                "status": 200,
+              },
+              "explorerFields": Array [
+                Object {
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
+                },
+                Object {
+                  "name": "Carrier",
+                  "type": "keyword",
                 },
               ],
             },
@@ -2720,19 +3837,38 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "valueOptions": Object {
+                  "dimensions": Array [
+                    Object {
+                      "label": "Carrier",
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                  ],
+                  "metrics": Array [
+                    Object {
+                      "label": "avg(FlightDelayMin)",
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -2821,9 +3957,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 },
               ],
             },
-            "fullLabel": "Bar",
+            "fulllabel": "Bar",
             "icon": [Function],
-            "iconType": "visBarVerticalStacked",
+            "icontype": "visBarVerticalStacked",
             "id": "horizontal_bar",
             "label": "Bar",
             "name": "horizontal_bar",
@@ -2831,9 +3967,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "type": "bar",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
@@ -2903,6 +4039,66 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   },
                 ],
               },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
+                  },
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                      Object {
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                  },
+                  "size": 4,
+                  "status": 200,
+                },
+                "explorerFields": Array [
+                  Object {
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
+                  Object {
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                ],
+              },
               "indexFields": Object {},
               "query": Object {},
               "rawVizData": Object {
@@ -2953,19 +4149,38 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "valueOptions": Object {
+                    "dimensions": Array [
+                      Object {
+                        "label": "Carrier",
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                    ],
+                    "metrics": Array [
+                      Object {
+                        "label": "avg(FlightDelayMin)",
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
@@ -3054,9 +4269,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   },
                 ],
               },
-              "fullLabel": "Bar",
+              "fulllabel": "Bar",
               "icon": [Function],
-              "iconType": "visBarVerticalStacked",
+              "icontype": "visBarVerticalStacked",
               "id": "horizontal_bar",
               "label": "Bar",
               "name": "horizontal_bar",
@@ -3064,9 +4279,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "type": "bar",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
@@ -3092,83 +4307,188 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           }
         }
       >
-        <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+        <Plt
+          config={
+            Object {
+              "displaylogo": false,
+              "responsive": true,
+            }
+          }
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,NaN)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": undefined,
+                  },
+                },
+                "name": "avg(FlightDelayMin)",
+                "orientation": "h",
+                "type": "bar",
+                "x": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "y": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
+              },
+            ]
+          }
+          layout={
+            Object {
+              "bargap": NaN,
+              "bargroupgap": NaN,
+              "barmode": undefined,
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
+              "font": Object {
+                "size": 10,
+              },
+              "height": 1180,
+              "legend": Object {
+                "orientation": undefined,
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "showlegend": true,
+              "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickangle": undefined,
+              },
+            }
+          }
         >
-          <EuiText
-            className="lnsChart__empty"
-            color="subdued"
-            data-test-subj="vizWorkspace__noData"
-            size="xs"
-            textAlign="center"
+          <PlotlyComponent
+            config={
+              Object {
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,NaN)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": undefined,
+                    },
+                  },
+                  "name": "avg(FlightDelayMin)",
+                  "orientation": "h",
+                  "type": "bar",
+                  "x": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "bargap": NaN,
+                "bargroupgap": NaN,
+                "barmode": undefined,
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "font": Object {
+                  "size": 10,
+                },
+                "height": 1180,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": undefined,
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "tickangle": undefined,
+                },
+                "yaxis": Object {
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
           >
             <div
-              className="euiText euiText--extraSmall lnsChart__empty"
-              data-test-subj="vizWorkspace__noData"
-            >
-              <EuiTextAlign
-                textAlign="center"
-              >
-                <div
-                  className="euiTextAlign euiTextAlign--center"
-                >
-                  <EuiTextColor
-                    color="subdued"
-                    component="div"
-                  >
-                    <div
-                      className="euiTextColor euiTextColor--subdued"
-                    >
-                      <EuiIcon
-                        color="subdued"
-                        size="xxl"
-                        type="visBarVerticalStacked"
-                      >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                      <EuiSpacer
-                        size="l"
-                      >
-                        <div
-                          className="euiSpacer euiSpacer--l"
-                        />
-                      </EuiSpacer>
-                      <p>
-                        <FormattedMessage
-                          defaultMessage="No results found"
-                          id="visualization_noData"
-                          values={Object {}}
-                        >
-                          <span>
-                            No results found
-                          </span>
-                        </FormattedMessage>
-                      </p>
-                    </div>
-                  </EuiTextColor>
-                </div>
-              </EuiTextAlign>
-            </div>
-          </EuiText>
-        </EmptyPlaceholder>
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
       </Bar>
     </VisualizationChart>
   </Visualization>
@@ -3198,6 +4518,39 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
             ],
           },
+          "explorer": Object {
+            "explorerData": Object {
+              "data": Object {
+                "count('ip')": Array [],
+                "span(timestamp,1h)": Array [],
+              },
+              "jsonData": Array [],
+              "metadata": Object {
+                "fields": Array [
+                  Object {
+                    "name": "count('ip')",
+                    "type": "integer",
+                  },
+                  Object {
+                    "name": "span(timestamp,1h)",
+                    "type": "timestamp",
+                  },
+                ],
+              },
+              "size": 0,
+              "status": 200,
+            },
+            "explorerFields": Array [
+              Object {
+                "name": "count('ip')",
+                "type": "integer",
+              },
+              Object {
+                "name": "span(timestamp,1h)",
+                "type": "timestamp",
+              },
+            ],
+          },
           "indexFields": Object {},
           "query": Object {},
           "rawVizData": Object {
@@ -3221,19 +4574,38 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "size": 0,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "valueOptions": Object {
+                "dimensions": Array [
+                  Object {
+                    "label": "span(timestamp,1h)",
+                    "name": "span(timestamp,1h)",
+                    "type": "timestamp",
+                  },
+                ],
+                "metrics": Array [
+                  Object {
+                    "label": "count('ip')",
+                    "name": "count('ip')",
+                    "type": "integer",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
           "category": "Visualizations",
-          "categoryAxis": "xaxis",
+          "categoryaxis": "xaxis",
           "component": [Function],
-          "editorConfig": Object {
+          "editorconfig": Object {
             "panelTabs": Array [
               Object {
                 "editor": [Function],
                 "id": "data-panel",
                 "mapTo": "dataConfig",
-                "name": "Data",
+                "name": "Style",
                 "sections": Array [
                   Object {
                     "editor": [Function],
@@ -3322,9 +4694,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               },
             ],
           },
-          "fullLabel": "Bar",
+          "fulllabel": "Bar",
           "icon": [Function],
-          "iconType": "visBarVerticalStacked",
+          "icontype": "visBarVerticalStacked",
           "id": "horizontal_bar",
           "label": "Bar",
           "name": "horizontal_bar",
@@ -3332,9 +4704,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "selection": Object {
             "dataLoss": "nothing",
           },
-          "seriesAxis": "yaxis",
+          "seriesaxis": "yaxis",
           "type": "bar",
-          "visConfig": Object {
+          "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
@@ -3381,6 +4753,39 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 },
               ],
             },
+            "explorer": Object {
+              "explorerData": Object {
+                "data": Object {
+                  "count('ip')": Array [],
+                  "span(timestamp,1h)": Array [],
+                },
+                "jsonData": Array [],
+                "metadata": Object {
+                  "fields": Array [
+                    Object {
+                      "name": "count('ip')",
+                      "type": "integer",
+                    },
+                    Object {
+                      "name": "span(timestamp,1h)",
+                      "type": "timestamp",
+                    },
+                  ],
+                },
+                "size": 0,
+                "status": 200,
+              },
+              "explorerFields": Array [
+                Object {
+                  "name": "count('ip')",
+                  "type": "integer",
+                },
+                Object {
+                  "name": "span(timestamp,1h)",
+                  "type": "timestamp",
+                },
+              ],
+            },
             "indexFields": Object {},
             "query": Object {},
             "rawVizData": Object {
@@ -3404,19 +4809,38 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "size": 0,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "valueOptions": Object {
+                  "dimensions": Array [
+                    Object {
+                      "label": "span(timestamp,1h)",
+                      "name": "span(timestamp,1h)",
+                      "type": "timestamp",
+                    },
+                  ],
+                  "metrics": Array [
+                    Object {
+                      "label": "count('ip')",
+                      "name": "count('ip')",
+                      "type": "integer",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
             "category": "Visualizations",
-            "categoryAxis": "xaxis",
+            "categoryaxis": "xaxis",
             "component": [Function],
-            "editorConfig": Object {
+            "editorconfig": Object {
               "panelTabs": Array [
                 Object {
                   "editor": [Function],
                   "id": "data-panel",
                   "mapTo": "dataConfig",
-                  "name": "Data",
+                  "name": "Style",
                   "sections": Array [
                     Object {
                       "editor": [Function],
@@ -3505,9 +4929,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 },
               ],
             },
-            "fullLabel": "Bar",
+            "fulllabel": "Bar",
             "icon": [Function],
-            "iconType": "visBarVerticalStacked",
+            "icontype": "visBarVerticalStacked",
             "id": "horizontal_bar",
             "label": "Bar",
             "name": "horizontal_bar",
@@ -3515,9 +4939,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "selection": Object {
               "dataLoss": "nothing",
             },
-            "seriesAxis": "yaxis",
+            "seriesaxis": "yaxis",
             "type": "bar",
-            "visConfig": Object {
+            "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
@@ -3587,6 +5011,39 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   },
                 ],
               },
+              "explorer": Object {
+                "explorerData": Object {
+                  "data": Object {
+                    "count('ip')": Array [],
+                    "span(timestamp,1h)": Array [],
+                  },
+                  "jsonData": Array [],
+                  "metadata": Object {
+                    "fields": Array [
+                      Object {
+                        "name": "count('ip')",
+                        "type": "integer",
+                      },
+                      Object {
+                        "name": "span(timestamp,1h)",
+                        "type": "timestamp",
+                      },
+                    ],
+                  },
+                  "size": 0,
+                  "status": 200,
+                },
+                "explorerFields": Array [
+                  Object {
+                    "name": "count('ip')",
+                    "type": "integer",
+                  },
+                  Object {
+                    "name": "span(timestamp,1h)",
+                    "type": "timestamp",
+                  },
+                ],
+              },
               "indexFields": Object {},
               "query": Object {},
               "rawVizData": Object {
@@ -3610,19 +5067,38 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "size": 0,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "valueOptions": Object {
+                    "dimensions": Array [
+                      Object {
+                        "label": "span(timestamp,1h)",
+                        "name": "span(timestamp,1h)",
+                        "type": "timestamp",
+                      },
+                    ],
+                    "metrics": Array [
+                      Object {
+                        "label": "count('ip')",
+                        "name": "count('ip')",
+                        "type": "integer",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
               "category": "Visualizations",
-              "categoryAxis": "xaxis",
+              "categoryaxis": "xaxis",
               "component": [Function],
-              "editorConfig": Object {
+              "editorconfig": Object {
                 "panelTabs": Array [
                   Object {
                     "editor": [Function],
                     "id": "data-panel",
                     "mapTo": "dataConfig",
-                    "name": "Data",
+                    "name": "Style",
                     "sections": Array [
                       Object {
                         "editor": [Function],
@@ -3711,9 +5187,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   },
                 ],
               },
-              "fullLabel": "Bar",
+              "fulllabel": "Bar",
               "icon": [Function],
-              "iconType": "visBarVerticalStacked",
+              "icontype": "visBarVerticalStacked",
               "id": "horizontal_bar",
               "label": "Bar",
               "name": "horizontal_bar",
@@ -3721,9 +5197,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "selection": Object {
                 "dataLoss": "nothing",
               },
-              "seriesAxis": "yaxis",
+              "seriesaxis": "yaxis",
               "type": "bar",
-              "visConfig": Object {
+              "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
@@ -3749,83 +5225,132 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           }
         }
       >
-        <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+        <Plt
+          config={
+            Object {
+              "displaylogo": false,
+              "responsive": true,
+            }
+          }
+          data={Array []}
+          layout={
+            Object {
+              "bargap": NaN,
+              "bargroupgap": NaN,
+              "barmode": undefined,
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
+              "font": Object {
+                "size": 10,
+              },
+              "height": 1180,
+              "legend": Object {
+                "orientation": undefined,
+                "traceorder": "normal",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 60,
+                "pad": 0,
+                "r": 30,
+                "t": 50,
+              },
+              "showlegend": true,
+              "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickangle": undefined,
+              },
+            }
+          }
         >
-          <EuiText
-            className="lnsChart__empty"
-            color="subdued"
-            data-test-subj="vizWorkspace__noData"
-            size="xs"
-            textAlign="center"
+          <PlotlyComponent
+            config={
+              Object {
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+              }
+            }
+            data={Array []}
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "bargap": NaN,
+                "bargroupgap": NaN,
+                "barmode": undefined,
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
+                "font": Object {
+                  "size": 10,
+                },
+                "height": 1180,
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": undefined,
+                  "traceorder": "normal",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 60,
+                  "pad": 0,
+                  "r": 30,
+                  "t": 50,
+                },
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "tickangle": undefined,
+                },
+                "yaxis": Object {
+                  "rangemode": "normal",
+                  "showgrid": true,
+                  "zeroline": false,
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
           >
             <div
-              className="euiText euiText--extraSmall lnsChart__empty"
-              data-test-subj="vizWorkspace__noData"
-            >
-              <EuiTextAlign
-                textAlign="center"
-              >
-                <div
-                  className="euiTextAlign euiTextAlign--center"
-                >
-                  <EuiTextColor
-                    color="subdued"
-                    component="div"
-                  >
-                    <div
-                      className="euiTextColor euiTextColor--subdued"
-                    >
-                      <EuiIcon
-                        color="subdued"
-                        size="xxl"
-                        type="visBarVerticalStacked"
-                      >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                      <EuiSpacer
-                        size="l"
-                      >
-                        <div
-                          className="euiSpacer euiSpacer--l"
-                        />
-                      </EuiSpacer>
-                      <p>
-                        <FormattedMessage
-                          defaultMessage="No results found"
-                          id="visualization_noData"
-                          values={Object {}}
-                        >
-                          <span>
-                            No results found
-                          </span>
-                        </FormattedMessage>
-                      </p>
-                    </div>
-                  </EuiTextColor>
-                </div>
-              </EuiTextAlign>
-            </div>
-          </EuiText>
-        </EmptyPlaceholder>
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
       </Bar>
     </VisualizationChart>
   </Visualization>

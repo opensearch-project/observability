@@ -307,8 +307,6 @@ export const Explorer = ({
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
-    // console.log('curQuery fetchdata: ', curQuery);
-    console.log('fetchdata curQuery![RAW_QUERY]: ', curQuery![RAW_QUERY]);
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
@@ -358,8 +356,21 @@ export const Explorer = ({
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
+      const cusVisIds = userVizConfigs ? Object.keys(userVizConfigs) : [];
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
+      for (const visId of cusVisIds) {
+        dispatch(
+          changeVisualizationConfig({
+            tabId,
+            vizId: visId,
+            data: {
+              ...userVizConfigs[visId],
+              dataConfig: {},
+            },
+          })
+        );
+      }
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -475,11 +486,6 @@ export const Explorer = ({
       </EuiLink>
     );
   };
-
-  // console.log('outside query[RAW_QUERY]: ', query[RAW_QUERY]);
-  // const handleTimeRangePickerRefresh = useCallback((availability?: boolean) => {
-  //   handleQuerySearch(tempQuery, query, selectedContentTabId, availability);
-  // }, [tempQuery, query, selectedContentTabId]);
 
   const handleTimeRangePickerRefresh = (availability?: boolean) => {
     handleQuerySearch(availability);
@@ -728,6 +734,7 @@ export const Explorer = ({
       indexFields: explorerFields,
       userConfigs: userVizConfigs[curVisId] || {},
       appData: { fromApp: appLogEvents },
+      explorer: { explorerData, explorerFields, query, http, pplService },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -840,7 +847,7 @@ export const Explorer = ({
             .queryParser()
             .parse(tempQuery)
             .getStats();
-        console.log('stats tokens: ', statsTokens);
+            
         await dispatch(
           changeVizConfig({
             tabId,
@@ -1178,7 +1185,11 @@ export const Explorer = ({
         handleQuerySearch,
         handleQueryChange,
         setTempQuery,
-        fetchData
+        fetchData,
+        explorerFields,
+        explorerData,
+        http,
+        query
       }}
     >
       <div className="dscAppContainer">

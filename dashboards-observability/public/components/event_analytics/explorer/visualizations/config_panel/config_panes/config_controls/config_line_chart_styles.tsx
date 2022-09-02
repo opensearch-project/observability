@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
+import { visChartTypes } from '../../../../../../../../common/constants/shared';
 
 export const ConfigLineChartStyles = ({
   visualizations,
@@ -33,24 +34,32 @@ export const ConfigLineChartStyles = ({
 
   /* To update the schema options based on current style mode selection */
   const currentSchemas = useMemo(() => {
-    if (!vizState?.style || vizState?.style === 'lines') {
-      return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
-    }
-    if (vizState?.style === 'bar') {
-      return schemas.filter(
-        (schema: IConfigPanelOptionSection) =>
-          !['interpolation', 'pointSize'].includes(schema.mapTo)
-      );
-    }
-    if (vizState?.style === 'markers') {
+    if (vizState?.style) {
+      switch (vizState.style) {
+        case 'lines':
+          return schemas.filter(
+            (schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize'
+          );
+        case 'bar':
+          return schemas.filter(
+            (schema: IConfigPanelOptionSection) =>
+              !['interpolation', 'pointSize'].includes(schema.mapTo)
+          );
+        case 'markers':
+          return schemas.filter((schema: IConfigPanelOptionSection) =>
+            ['style', 'pointSize'].includes(schema.mapTo)
+          );
+        case 'lines+markers':
+          return schemas.filter(
+            (schema: IConfigPanelOptionSection) => schema.mapTo !== 'interpolation'
+          );
+      }
+    } else if (visualizations?.vis?.name === visChartTypes.Scatter) {
       return schemas.filter((schema: IConfigPanelOptionSection) =>
         ['style', 'pointSize'].includes(schema.mapTo)
       );
-    }
-    if (vizState?.style === 'lines+markers') {
-      return schemas.filter(
-        (schema: IConfigPanelOptionSection) => schema.mapTo !== 'interpolation'
-      );
+    } else {
+      return schemas.filter((schema: IConfigPanelOptionSection) => schema.mapTo !== 'pointSize');
     }
   }, [vizState]);
 
@@ -94,10 +103,10 @@ export const ConfigLineChartStyles = ({
           };
         }
         return (
-          <>
-            <DimensionComponent key={`viz-series-${index}`} {...params} />
+          <Fragment key={`viz-series-${index}`}>
+            <DimensionComponent  {...params} />
             <EuiSpacer size="s" />
-          </>
+          </Fragment>
         );
       }),
     [currentSchemas, vizState, handleConfigurationChange]

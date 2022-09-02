@@ -23,12 +23,12 @@ import { useDispatch, useSelector, batch } from 'react-redux';
 import {
   render as renderExplorerVis,
   selectExplorerVisualization,
-} from '../../../../../../event_analytics/redux/slices/visualization_slice';
-import { changeQuery } from '../../../../../../event_analytics/redux/slices/query_slice';
+} from '../../../../../redux/slices/visualization_slice';
+import { changeQuery } from '../../../../../redux/slices/query_slice';
 import {
   change as changeVizConfig,
   selectVisualizationConfig,
-} from '../../../../../../event_analytics/redux/slices/viualization_config_slice';
+} from '../../../../../redux/slices/viualization_config_slice';
 import {
   AGGREGATION_OPTIONS,
   numericalTypes,
@@ -63,12 +63,17 @@ const DEFAULT_DATA_CONFIGS = {
 
 const SPECIAL_RENDERING_VIZS = [visChartTypes.HeatMap, visChartTypes.Histogram];
 
+const getStandardedOuiField = (name?: string, type?: string) => ({
+  name,
+  label: name,
+  type,
+});
+
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
   const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
     TabContext
   );
-  // const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const explorerVisualizationConfigs = useSelector(selectVisualizationConfig)[tabId];
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
@@ -76,53 +81,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     indexFields: { availableFields },
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
-
-  // useEffect(() => {
-  //   const qm = new QueryManager();
-  //   const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-  //   console.log('statsToekns useEffect: ', statsTokens);
-  //   if (!statsTokens) {
-  //     setConfigList({
-  //       metrics: [],
-  //       dimensions: [],
-  //     });
-  //   } else {
-  //     setConfigList({
-  //       metrics: statsTokens.aggregations.map((agg) => ({
-  //         label: agg.function?.value_expression,
-  //         name: agg.function?.value_expression,
-  //         aggregation: agg.function?.name,
-  //       })),
-  //       dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-  //         label: agg.name ?? '',
-  //         name: agg.name ?? '',
-  //       })),
-  //     });
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     configList.dimensions &&
-  //     configList.metrics &&
-  //     visualizations.data?.rawVizData?.[visualizations.vis.name] === undefined
-  //   ) {
-  //     dispatch(
-  //       renderExplorerVis({
-  //         tabId,
-  //         data: {
-  //           ...explorerVisualizations,
-  //           [visualizations.vis.name]: {
-  //             dataConfig: {
-  //               metrics: configList.metrics,
-  //               dimensions: configList.dimensions,
-  //             },
-  //           },
-  //         },
-  //       })
-  //     );
-  //   }
-  // }, [configList]);
 
   useEffect(() => {
     if (
@@ -150,6 +108,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           dimensions: [],
         });
       } else {
+        const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
         setConfigList({
           metrics: statsTokens.aggregations.map((agg) => ({
             alias: agg.alias,
@@ -161,39 +120,18 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
             label: agg.name ?? '',
             name: agg.name ?? '',
           })),
+          span: {
+            time_field: statsTokens.groupby?.span?.span_expression?.field
+              ? [getStandardedOuiField(fieldInfo, 'timestamp')]
+              : [],
+            interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
+            unit: statsTokens.groupby?.span?.span_expression?.time_unit
+              ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
+              : [],
+          },
         });
       }
     }
-
-    // if (
-    //   data.rawVizData?.[visualizations.vis.name] &&
-    //   data.rawVizData?.[visualizations.vis.name].dataConfig
-    // ) {
-    //   setConfigList({
-    //     ...data.rawVizData[visualizations.vis.name].dataConfig,
-    //   });
-    // } else if (
-    //   visualizations.vis.name !== visChartTypes.HeatMap &&
-    //   visualizations.vis.name !== visChartTypes.Histogram &&
-    //   (data.defaultAxes.xaxis || data.defaultAxes.yaxis)
-    // ) {
-    //   // const { xaxis, yaxis } = data.defaultAxes;
-    //   // setConfigList({
-    //   //   dimensions: [...(xaxis && xaxis)],
-    //   //   metrics: [
-    //   //     ...(yaxis && yaxis.map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }))),
-    //   //   ],
-    //   // });
-    // } else if (visualizations.vis.name === visChartTypes.HeatMap) {
-    //   setConfigList({
-    //     dimensions: [initialConfigEntry, initialConfigEntry],
-    //     metrics: [initialConfigEntry],
-    //   });
-    // } else if (visualizations.vis.name === visChartTypes.Histogram) {
-    //   setConfigList({
-    //     dimensions: [{ bucketSize: '', bucketOffset: '' }],
-    //   });
-    // }
   }, [
     data.defaultAxes,
     data.rawVizData?.[visualizations.vis.name]?.dataConfig,
@@ -220,7 +158,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       ],
     };
     setConfigList(updatedList);
-    // updateChart(updatedList);
   };
 
   const updateHistogramConfig = (configName: string, fieldName: string, value: string) => {
@@ -240,7 +177,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     arr.splice(index, 1);
     const updatedList = { ...list, [name]: arr };
     setConfigList(updatedList);
-    // updateChart(updatedList);
   };
 
   const handleServiceAdd = (name: string) => {
@@ -251,19 +187,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   const updateChart = (updatedConfigList = configList) => {
     const qm = new QueryManager();
     const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-    // const test_updatedConfigList = {
-    //   ...updatedConfigList,
-    //   span: statsTokens.groupby?.span ?? null,
-    // };
-    console.log('statsTokens: ', statsTokens);
-    // console.log('test_updatedConfigList: ', test_updatedConfigList);
-    // console.log('composed config: ', composeAggregations(updatedConfigList, statsTokens));
-    console.log('updatedConfigList: ', updatedConfigList);
     const newQuery = qm
       .queryBuilder()
       .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
-
-    // console.log('newly built query: ', newQuery);
 
     batch(async () => {
       await handleQueryChange(newQuery);
@@ -286,6 +212,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               metrics: updatedConfigList.metrics,
               dimensions: updatedConfigList.dimensions,
               breakdowns: updatedConfigList.breakdowns,
+              span: updatedConfigList.span,
             },
           },
         })
@@ -298,12 +225,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
 
   const getOptionsAvailable = (sectionName: string) => {
     const selectedFields = {};
-    // for (const key in configList) {
-    //   configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
-    // }
-    // fieldOptionList.filter((field) => !selectedFields[field.label]);
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
-    // console.log('unselectedFields: ', unselectedFields);
     return sectionName === 'metrics'
       ? unselectedFields
       : visualizations.vis.name === visChartTypes.Line
@@ -338,15 +260,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                                 onClick={() => handleServiceRemove(index, sectionName)}
                               />
                             </EuiText>
-                            // Array.isArray(lists) &&
-                            // lists.length !== 1 && (
-                            //   <EuiText size="xs">
-                            //     <EuiIcon
-                            //       type="cross"
-                            //       color="danger"
-                            //       onClick={() => handleServiceRemove(index, sectionName)}
-                            //     />
-                            //   </EuiText>
                           )
                         }
                       >
@@ -463,7 +376,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
             : ''
         }
         onChange={(e) => updateHistogramConfig('dimensions', type, e.target.value)}
-        // onBlur={() => updateChart()}
         data-test-subj="valueFieldNumber"
       />
       <EuiSpacer size="s" />
@@ -491,7 +403,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   options={configList.dimensions}
                   selectedOptions={configList.breakdowns ?? []}
                   onChange={(fields) => {
-                    console.log('breakdown fields: ', fields);
                     setConfigList((staleState) => {
                       return {
                         ...staleState,
@@ -507,9 +418,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       </>
     );
   }, [configList.dimensions, configList.breakdowns]);
-  // console.log('visualizations: ', visualizations);
+
   const DateHistogram = useMemo(() => {
-    console.log('configList: ', configList);
     return (
       <>
         <div className="services">
@@ -519,13 +429,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 <EuiComboBox
                   aria-label="Accessible screen reader label"
                   placeholder="Select fields"
-                  singleSelection={{ asPlainText: false }}
+                  singleSelection
                   options={availableFields
                     .filter((idxField) => idxField.type === 'timestamp')
                     .map((field) => ({ ...field, label: field.name }))}
-                  selectedOptions={configList.span?.time_field ? [...configList.span?.time_field] : []}
+                  selectedOptions={
+                    configList.span?.time_field ? [...configList.span?.time_field] : []
+                  }
                   onChange={(field) => {
-                    console.log('timestamp fields: ', field);
                     setConfigList((staleState) => {
                       return {
                         ...staleState,
@@ -543,13 +454,13 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   placeholder="Placeholder text"
                   value={configList.span?.interval ?? 1}
                   min={1}
-                  onChange={(val) => {
+                  onChange={(e) => {
                     setConfigList((staleState) => {
                       return {
                         ...staleState,
                         span: {
                           ...staleState.span,
-                          interval: val,
+                          interval: e.target.value,
                         },
                       };
                     });
@@ -561,7 +472,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                 <EuiComboBox
                   aria-label="Accessible screen reader label"
                   placeholder="Select fields"
-                  singleSelection={false}
+                  singleSelection
                   options={TIME_INTERVAL_OPTIONS.map((option) => {
                     return {
                       ...option,
@@ -598,7 +509,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       {visualizations.vis.name !== visChartTypes.Histogram ? (
         <>
           <EuiTitle size="xxs">
-            <h3>Metrics</h3>
+            <h3>Series</h3>
           </EuiTitle>
           <EuiSpacer size="s" />
           {getCommonUI(configList.metrics, 'metrics')}
@@ -639,7 +550,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
           iconType="play"
           onClick={() => updateChart()}
           size="s"
-          // disabled
         >
           Update chart
         </EuiButton>
