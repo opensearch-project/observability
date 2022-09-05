@@ -124,7 +124,6 @@ describe('Render stats chart verfiy functionality for Tooltip text', () => {
     .click();
     cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(4).should('have.text', 'Metrics')
     .click();
-
   });
 });
 
@@ -133,70 +132,36 @@ describe('Render stats chart for Chart Styles ', () => {
     renderStatsChart();
   });
 
-  it('Render stats chart and verfiy the default/Auto chart type selected', () => {
+  it('Render stats chart and verify the various chart type selected', () => {
     cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(5).should('have.text', 'Auto');
+    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(6).should('have.text', 'Horizontal').click();
+    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(7).should('have.text', 'Text mode').click();
   });
 
-  it('Render stats chart and verify the horizontal chart type', () => {
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(6)
-    .should('have.text', 'Horizontal')
-    .click();
-    cy.wait(delay);
-  });
-
-  it('Render stats chart and verify the Text mode chart type', () => {
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(7)
-    .should('have.text', 'Text mode')
-    .click();
-    cy.wait(delay);
-  });
-
-  
-  it('Render stats chart and verfiy the default/Auto chart type selected', () => {
+  it('Render stats chart and verify the various chart orientation selected', () => {
     cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(8).should('have.text', 'Auto');
+    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(9).should('have.text', 'Horizontal').click();
+    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(10).should('have.text', 'Vertical').click();
   });
 
-  it('Render stats chart and verify the horizontal orientation type', () => {
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(9)
-    .should('have.text', 'Horizontal')
-    .click();
-    cy.wait(delay);
-  });
-
-  it('Render stats chart and verfiy the vertical orientation type', () => {
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(10)
-    .should('have.text', 'Vertical')
-    .click();
-    cy.wait(delay);
-  });
-
-  it('Render stats chart and Metrics unit on chart ', () => {
+  it('Render stats chart and verify Metric unit and Metric Precision on chart ', () => {
     cy.get('[data-test-subj="valueFieldText"]').click().type(metricUnit);
     cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-  });
-
-  it('Render stats chart and Metrics Precision on chart ', () => {
     cy.get('[data-test-subj="valueFieldNumber"]').eq(0).click().type(metricsPrecisionUpdated);
     cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
   });
 
-  it('Render stats chart and Title size on chart ', () => {
+  it('Render stats chart and verify behaviour for Title size and Value size on chart ', () => {
     cy.get('.annotation-text').eq(0).should('have.css', 'font-size', titleSize);
     cy.get('.annotation-text').eq(2).should('have.css', 'font-size', titleSize);
     cy.get('.annotation-text').eq(4).should('have.css', 'font-size', titleSize);
     cy.get('[data-test-subj="valueFieldNumber"]').eq(1).click().type(titleSizeUpdated);
     cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-    cy.wait(delay);
-
-  });
-
-  it('Render stats chart and Value size on chart ', () => {
     cy.get('.annotation-text').eq(1).should('have.css', 'font-size', valueSize);
     cy.get('.annotation-text').eq(3).should('have.css', 'font-size', valueSize);
     cy.get('.annotation-text').eq(5).should('have.css', 'font-size', valueSize);
     cy.get('[data-test-subj="valueFieldNumber"]').eq(2).click().type(valueSizeUpdated);
     cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-    cy.wait(delay);
   });
 });
 
@@ -207,11 +172,9 @@ describe('Render stats chart and verify the Text Mode options' , () => {
 
   it('Render stats chart and verify text modes ', () => {
       cy.get('[data-text="Names"]').should('have.text', 'Names').click();
-//       cy.get('[data-text="Names"] [data-test-subj="names"]').should('have.attr', 'checked');
       cy.get('[data-text="Values"]').should('have.text', 'Values').click();
       cy.get('[data-text="Values + Names"]').should('have.text', 'Values + Names').click();
       cy.wait(delay);
-
   });
 });
 
@@ -235,21 +198,14 @@ describe('Render stats chart and verify the reset button' , () => {
   it('Render stats chart and test the Reset button functionality' , () => {
       cy.get('[data-test-subj="valueFieldText"]').click().type(metricUnit);
       cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-      cy.wait(delay);
       cy.get('[data-test-subj="valueFieldNumber"]').eq(0).click().type(metricsPrecisionUpdated);
       cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-      cy.wait(delay);
       cy.get('[data-test-subj="valueFieldNumber"]').eq(1).click().type(titleSizeUpdated);
       cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-      cy.wait(delay);
       cy.get('[data-test-subj="valueFieldNumber"]').eq(2).click().type(valueSizeUpdated);
       cy.get('.euiSpacer.euiSpacer--s').eq(12).click();
-      cy.wait(delay);
       cy.get('[data-test-subj="euiColorPickerAnchor"]').click();
       cy.get('.euiColorPickerSwatch.euiColorPicker__swatchSelect').eq(5).click();
-      cy.wait(delay);
       cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
-
   });
-
 });
