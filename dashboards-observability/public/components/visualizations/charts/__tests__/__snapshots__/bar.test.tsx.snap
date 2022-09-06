@@ -212,8 +212,66 @@ exports[`Bar component Renders bar component 1`] = `
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Data",
+              "name": "Style",
               "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Metrics",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
                 Object {
                   "editor": [Function],
                   "id": "legend",
@@ -223,7 +281,7 @@ exports[`Bar component Renders bar component 1`] = `
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show Legend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -326,7 +384,7 @@ exports[`Bar component Renders bar component 1`] = `
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label Size",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
@@ -399,7 +457,7 @@ exports[`Bar component Renders bar component 1`] = `
                       "defaultState": 80,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill Opacity",
+                      "name": "Fill opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -410,7 +468,7 @@ exports[`Bar component Renders bar component 1`] = `
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color Theme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
@@ -430,13 +488,13 @@ exports[`Bar component Renders bar component 1`] = `
             },
           ],
         },
-        "fillopacity": 80,
-        "fulllabel": "Bar",
+        "fillOpacity": 80,
+        "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
         "icontype": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Bar",
+        "label": "Vertical bar",
         "labelangle": 0,
         "legendposition": "v",
         "linewidth": 1,

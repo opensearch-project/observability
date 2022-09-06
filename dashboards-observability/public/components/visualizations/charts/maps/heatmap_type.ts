@@ -21,6 +21,7 @@ import {
   HEATMAP_SINGLE_COLOR,
   HEATMAP_PALETTE_COLOR,
 } from '../../../../../common/constants/colors';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -41,10 +42,19 @@ export const createMapsVisDefinition = () => ({
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Dim 1', id: 'x' },
+              { name: 'Dim 2', id: 'y' },
+              { name: 'Metrics', id: 'z' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'legend',
             name: 'Legend',
@@ -52,7 +62,7 @@ export const createMapsVisDefinition = () => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Colorscale',
+                name: 'Show colorscale',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -67,12 +77,12 @@ export const createMapsVisDefinition = () => ({
           },
           {
             id: 'chart_styles',
-            name: 'Chart Styles',
+            name: 'Chart styles',
             editor: ConfigChartOptions,
             mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Color Mode',
+                name: 'Color mode',
                 component: PanelItem,
                 mapTo: 'colorMode',
                 eleType: 'list',

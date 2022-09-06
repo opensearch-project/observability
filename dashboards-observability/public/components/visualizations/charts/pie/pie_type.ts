@@ -16,7 +16,7 @@ import {
   InputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
-
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -41,7 +41,7 @@ export const createPieTypeDefinition = (params: any) => ({
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
@@ -52,7 +52,7 @@ export const createPieTypeDefinition = (params: any) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -76,16 +76,25 @@ export const createPieTypeDefinition = (params: any) => ({
                 },
               },
               {
-                name: 'Legend Size',
+                name: 'Legend size',
                 component: InputFieldItem,
                 mapTo: 'size',
                 eleType: 'input',
               },
             ],
           },
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Label', id: 'label' },
+              { name: 'Value', id: 'value' },
+              { name: 'Percent', id: 'percent' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'chart_styles',
-            name: 'Chart Styles',
+            name: 'Chart styles',
             editor: ConfigChartOptions,
             mapTo: 'chartStyles',
             schemas: [
@@ -103,13 +112,13 @@ export const createPieTypeDefinition = (params: any) => ({
                 defaultState: [{ name: 'Pie', modeId: 'pie', label: 'Pie' }],
               },
               {
-                name: 'Label Size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
               },
               {
-                name: 'Color Theme',
+                name: 'Color theme',
                 isSingleSelection: true,
                 component: ColorPalettePicker,
                 mapTo: 'colorTheme',

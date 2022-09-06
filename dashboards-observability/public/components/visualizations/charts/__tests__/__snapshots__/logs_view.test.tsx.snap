@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Line component Renders line component 1`] = `
-<Line
+exports[`Logs View component Renders logs view component 1`] = `
+<LogsView
   config={Object {}}
   layout={
     Object {
@@ -212,66 +212,8 @@ exports[`Line component Renders line component 1`] = `
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Style",
+              "name": "Data",
               "sections": Array [
-                Object {
-                  "editor": [Function],
-                  "id": "tooltip_options",
-                  "mapTo": "tooltipOptions",
-                  "name": "Tooltip options",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipMode",
-                      "name": "Tooltip mode",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                          Object {
-                            "id": "hidden",
-                            "name": "Hidden",
-                          },
-                        ],
-                      },
-                    },
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipText",
-                      "name": "Tooltip text",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                          Object {
-                            "id": "x",
-                            "name": "Dimension",
-                          },
-                          Object {
-                            "id": "y",
-                            "name": "Metrics",
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
                 Object {
                   "editor": [Function],
                   "id": "legend",
@@ -533,82 +475,54 @@ exports[`Line component Renders line component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder
-    icon="visBarVerticalStacked"
+  <div
+    className="logs-view-container"
   >
-    <EuiText
-      className="lnsChart__empty"
-      color="subdued"
-      data-test-subj="vizWorkspace__noData"
-      size="xs"
-      textAlign="center"
+    <DataGrid
+      explorerFields={
+        Object {
+          "availableFields": Array [],
+          "queriedFields": undefined,
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        }
+      }
+      rawQuery=""
+      rows={Array []}
+      rowsAll={Array []}
+      timeStampField=""
     >
       <div
-        className="euiText euiText--extraSmall lnsChart__empty"
-        data-test-subj="vizWorkspace__noData"
+        className="dscTable dscTableFixedScroll"
       >
-        <EuiTextAlign
-          textAlign="center"
+        <table
+          className="osd-table table"
+          data-test-subj="docTable"
         >
-          <div
-            className="euiTextAlign euiTextAlign--center"
-          >
-            <EuiTextColor
-              color="subdued"
-              component="div"
+          <thead>
+            <tr
+              className="osdDocTableHeader"
             >
-              <div
-                className="euiTextColor euiTextColor--subdued"
+              <th
+                key="datagrid-header-5"
+              />
+              <th
+                key="datagrid-header-6"
               >
-                <EuiIcon
-                  color="subdued"
-                  size="xxl"
-                  type="visBarVerticalStacked"
-                >
-                  <EuiIconEmpty
-                    aria-hidden={true}
-                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                    focusable="false"
-                    role="img"
-                    style={null}
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                      focusable="false"
-                      height={16}
-                      role="img"
-                      style={null}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </EuiIconEmpty>
-                </EuiIcon>
-                <EuiSpacer
-                  size="l"
-                >
-                  <div
-                    className="euiSpacer euiSpacer--l"
-                  />
-                </EuiSpacer>
-                <p>
-                  <FormattedMessage
-                    defaultMessage="No results found"
-                    id="visualization_noData"
-                    values={Object {}}
-                  >
-                    <span>
-                      No results found
-                    </span>
-                  </FormattedMessage>
-                </p>
-              </div>
-            </EuiTextColor>
-          </div>
-        </EuiTextAlign>
+                Time
+              </th>
+              <th
+                key="datagrid-header-7"
+              >
+                _source
+              </th>
+            </tr>
+          </thead>
+          <tbody />
+        </table>
       </div>
-    </EuiText>
-  </EmptyPlaceholder>
-</Line>
+      <div />
+    </DataGrid>
+  </div>
+</LogsView>
 `;

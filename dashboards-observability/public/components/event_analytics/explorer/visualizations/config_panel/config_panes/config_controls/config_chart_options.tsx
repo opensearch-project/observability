@@ -15,7 +15,8 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-  const {  metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
+  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
@@ -75,8 +76,8 @@ export const ConfigChartOptions = ({
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             numberOfParents:
-              (tree_map?.dataConfig?.dimensions !== undefined &&
-                tree_map?.dataConfig.dimensions[0].parentFields.length) | 0,
+              (dataConfig?.valueOptions?.dimensions !== undefined &&
+                dataConfig.valueOptions.dimensions[0].parentFields.length) | 0,
             onSelectChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'input') {
@@ -142,7 +143,7 @@ export const ConfigChartOptions = ({
     <EuiAccordion
       initialIsOpen
       id="configPanel__chartStyles"
-      buttonContent="Chart Styles"
+      buttonContent="Chart styles"
       paddingSize="s"
     >
       {dimensions}

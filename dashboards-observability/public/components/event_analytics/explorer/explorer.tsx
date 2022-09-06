@@ -355,8 +355,21 @@ export const Explorer = ({
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
+      const cusVisIds = userVizConfigs ? Object.keys(userVizConfigs) : [];
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
+      for (const visId of cusVisIds) {
+        dispatch(
+          changeVisualizationConfig({
+            tabId,
+            vizId: visId,
+            data: {
+              ...userVizConfigs[visId],
+              dataConfig: {},
+            },
+          })
+        );
+      }
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -719,6 +732,7 @@ export const Explorer = ({
       indexFields: explorerFields,
       userConfigs: userVizConfigs[curVisId] || {},
       appData: { fromApp: appLogEvents },
+      explorer: { explorerData, explorerFields, query, http, pplService },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -1183,6 +1197,10 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        explorerFields,
+        explorerData,
+        http,
+        query
       }}
     >
       <div className="dscAppContainer">

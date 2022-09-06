@@ -17,8 +17,8 @@ export const createTextTypeDefinition = (params: any = {}) => ({
   name: 'text',
   type: 'text',
   id: 'text',
-  label: 'Text',
-  fulllabel: 'Text',
+  label: 'Markdown',
+  fulllabel: 'Markdown',
   icontype: 'visText',
   category: VIS_CATEGORY.BASICS,
   selection: {
@@ -31,7 +31,7 @@ export const createTextTypeDefinition = (params: any = {}) => ({
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [

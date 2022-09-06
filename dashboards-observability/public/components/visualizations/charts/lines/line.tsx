@@ -12,19 +12,21 @@ import {
   DefaultChartStyles,
   FILLOPACITY_DIV_FACTOR,
   PLOTLY_COLOR,
+  visChartTypes,
 } from '../../../../../common/constants/shared';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
-    DefaultMode,
+    DefaultModeLine,
     Interpolation,
     LineWidth,
     FillOpacity,
     MarkerSize,
     LegendPosition,
     ShowLegend,
+    DefaultModeScatter,
     LabelAngle,
   } = DefaultChartStyles;
   const {
@@ -38,15 +40,27 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const dataConfigTab =
-    visualizations.data?.rawVizData?.line?.dataConfig &&
-    visualizations.data.rawVizData.line.dataConfig;
-  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions.filter((item) => item.label) : [];
-  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics.filter((item) => item.label) : [];
+  const xaxis = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
+    : [];
+  const yaxis = dataConfig?.valueOptions?.metrics
+    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
+    : [];
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   const lastIndex = fields.length - 1;
 
-  const mode = dataConfig?.chartStyles?.style || DefaultMode;
+  let visType: string = visualizations.vis.name;
+  const mode =
+    dataConfig?.chartStyles?.style ||
+    (visType === visChartTypes.Line ? DefaultModeLine : DefaultModeScatter);
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend = !(
@@ -75,8 +89,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
-    valueSeries = (defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1))
-      .map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
+    valueSeries = (
+      defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1)
+    ).map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
   }
 
   const isDimensionTimestamp = isEmpty(xaxis)
@@ -130,6 +145,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           width: lineWidth,
           color: selectedColor,
         },
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
           size: markerSize,
           ...(isBarMode && barMarker),
@@ -211,10 +227,13 @@ export const Line = ({ visualizations, layout, config }: any) => {
     return [mergedLayout, calculatedLineValues];
   }, [data, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
 
-  const mergedConfigs = useMemo(() => ({
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  }), [config, layoutConfig.config]);
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return isDimensionTimestamp ? (
     <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />

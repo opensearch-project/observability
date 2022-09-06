@@ -17,11 +17,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions.filter((item) => item.label)
+  const xaxis = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];
-  const yaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics.filter((item) => item.label)
+  const yaxis = dataConfig?.valueOptions?.metrics
+    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
     : [];
   const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
   const lastIndex = fields.length - 1;
@@ -32,6 +32,14 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const legendPosition = dataConfig?.legend?.position || vis.legendposition;
   const legendSize = dataConfig?.legend?.size || vis.legendSize;
   const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelSize;
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   if (isEmpty(xaxis) || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
@@ -88,6 +96,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       hole: type === 'pie' ? 0 : 0.5,
       text: field.name,
       textinfo: 'percent',
+      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
       automargin: true,
       textposition: 'outside',
       domain: {

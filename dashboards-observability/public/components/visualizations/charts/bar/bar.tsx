@@ -29,12 +29,22 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const dataConfigTab =
     visualizations.data?.rawVizData?.bar?.dataConfig &&
     visualizations.data.rawVizData.bar.dataConfig;
-  const xaxis = dataConfigTab?.dimensions
-    ? dataConfigTab.dimensions.filter((item) => item.label)
+  const xaxis = dataConfig?.valueOptions?.dimensions
+    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
     : [];
-  const yaxis = dataConfigTab?.metrics ? dataConfigTab.metrics.filter((item) => item.label) : [];
+  const yaxis = dataConfig?.valueOptions?.metrics
+    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
+    : [];
   const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
   const isVertical = barOrientation === vis.orientation;
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
   let bars, valueSeries, valueForXSeries;
 
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -49,7 +59,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const fillOpacity =
     dataConfig?.chartStyles?.fillOpacity !== undefined
       ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : vis.fillopacity / FILLOPACITY_DIV_FACTOR;
+      : vis.fillOpacity / FILLOPACITY_DIV_FACTOR;
   const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barwidth);
   const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupwidth);
   const showLegend = !(
@@ -68,11 +78,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   const prepareData = (valueForXSeries) => {
-    return (valueForXSeries.map((dimension: any) => data[dimension.label]))?.reduce(
-      (prev, cur) => {
+    return valueForXSeries
+      .map((dimension: any) => data[dimension.label])
+      ?.reduce((prev, cur) => {
         return prev.map((i, j) => `${i}, ${cur[j]}`);
-      }
-    );
+      });
   };
 
   const createNameData = (nameData, metricName: string) =>
@@ -82,48 +92,50 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   if (valueForXSeries.some((e) => e.type === 'timestamp')) {
     const nameData =
       valueForXSeries.length > 1
-        ? (valueForXSeries
-              .filter((item) => item.type !== 'timestamp')
-              .map((dimension) => data[dimension.label])
-          ).reduce((prev, cur) => {
-            return prev.map((i, j) => `${i}, ${cur[j]}`);
-          })
+        ? valueForXSeries
+            .filter((item) => item.type !== 'timestamp')
+            .map((dimension) => data[dimension.label])
+            .reduce((prev, cur) => {
+              return prev.map((i, j) => `${i}, ${cur[j]}`);
+            })
         : [];
 
-    let dimensionsData = 
-      valueForXSeries
-        .filter((item) => item.type === 'timestamp')
-        .map((dimension) => data[dimension.label]).flat();
+    let dimensionsData = valueForXSeries
+      .filter((item) => item.type === 'timestamp')
+      .map((dimension) => data[dimension.label])
+      .flat();
 
-    bars = (valueSeries.map((field: any, index: number) => {
-      const selectedColor = getSelectedColorTheme(field, index);
-      return dimensionsData.map((dimension: any, j: number) => {
-        return {
-          x: isVertical
-            ? !isEmpty(xaxis)
-              ? dimension
-              : data[fields[lastIndex].name]
-            : data[field.label],
-          y: isVertical ? data[field.label][j] : dimensionsData, // TODO: orinetation
-          type: vis.type,
-          marker: {
-            color: hexToRgb(selectedColor, fillOpacity),
-            line: {
-              color: selectedColor,
-              width: lineWidth,
+    bars = valueSeries
+      .map((field: any, index: number) => {
+        const selectedColor = getSelectedColorTheme(field, index);
+        return dimensionsData.map((dimension: any, j: number) => {
+          return {
+            x: isVertical
+              ? !isEmpty(xaxis)
+                ? dimension
+                : data[fields[lastIndex].name]
+              : data[field.label],
+            y: isVertical ? data[field.label][j] : dimensionsData, // TODO: orinetation
+            type: vis.type,
+            marker: {
+              color: hexToRgb(selectedColor, fillOpacity),
+              line: {
+                color: selectedColor,
+                width: lineWidth,
+              },
             },
-          },
-          name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
-          orientation: barOrientation,
-        };
-      });
-    })).flat();
-
+            name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
+            hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
+            orientation: barOrientation,
+          };
+        });
+      })
+      .flat();
 
     // merging x, y for same names
     bars = Object.values(
-      bars?.reduce((acc, { x, y, name, type, marker, orientation }) => {
-        acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation };
+      bars?.reduce((acc, { x, y, name, type, marker, orientation, hoverinfo }) => {
+        acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation, hoverinfo };
         acc[name].x.push(x);
         acc[name].y.push(y);
 
@@ -152,6 +164,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           },
         },
         name: field.name,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         orientation: barOrientation,
       };
     });
@@ -219,10 +232,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
     bars = [...bars, thresholdTraces];
   }
-  const mergedConfigs = useMemo(() => ({
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  }), [config, layoutConfig.config]);
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={bars} layout={mergedLayout} config={mergedConfigs} />;
 };

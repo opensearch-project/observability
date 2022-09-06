@@ -27,9 +27,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
-  const xaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[0];
-  const yaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[1];
-  const zMetrics = visualizations.data?.rawVizData?.heatmap?.dataConfig?.metrics[0];
+  const xaxisField = dataConfig?.valueOptions?.dimensions[0];
+  const yaxisField = dataConfig?.valueOptions?.dimensions[1];
+  const zMetrics = dataConfig?.valueOptions?.metrics[0];
 
   if (
     isEmpty(xaxisField) ||
@@ -46,6 +46,14 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const uniqueXaxis = uniq(data[xaxisField.label]);
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   const colorField = dataConfig?.chartStyles
     ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === OPACITY
@@ -110,6 +118,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
+      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
       colorscale: colorField.name === SINGLE_COLOR_PALETTE ? traceColor : colorField.name,
       type: 'heatmap',
       showscale: showColorscale === 'show',
