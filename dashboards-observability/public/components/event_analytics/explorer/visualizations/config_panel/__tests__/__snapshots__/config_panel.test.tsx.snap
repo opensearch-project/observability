@@ -9634,7 +9634,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 "editor": [Function],
                                                 "id": "data-panel",
                                                 "mapTo": "dataConfig",
-                                                "name": "Data",
+                                                "name": "Style",
                                                 "sections": Array [
                                                   Object {
                                                     "editor": [Function],
