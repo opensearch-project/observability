@@ -150,34 +150,36 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               </EuiTitle>
             )}
             <EuiPanel color="subdued" style={{ padding: '0px' }}>
+            {sectionName == 'metrics' && (
               <EuiFormRow
-                label="Aggregation"
-                labelAppend={
-                  visualizations.vis.name !== visChartTypes.HeatMap &&
-                  lists.length !== 1 && (
-                    <EuiText size="xs">
-                      <EuiIcon
-                        type="cross"
-                        color="danger"
-                        onClick={() => handleServiceRemove(index, sectionName)}
-                      />
-                    </EuiText>
-                  )
+              label="Aggregation"
+              labelAppend={
+                visualizations.vis.name !== visChartTypes.HeatMap &&
+                lists.length !== 1 && (
+                  <EuiText size="xs">
+                    <EuiIcon
+                      type="cross"
+                      color="danger"
+                      onClick={() => handleServiceRemove(index, sectionName)}
+                    />
+                  </EuiText>
+                )
+              }
+            >
+              <EuiComboBox
+                aria-label="Accessible screen reader label"
+                placeholder="Select a aggregation"
+                singleSelection={{ asPlainText: true }}
+                options={AGGREGATION_OPTIONS}
+                selectedOptions={
+                  singleField.aggregation ? [{ label: singleField.aggregation }] : []
                 }
-              >
-                <EuiComboBox
-                  aria-label="Accessible screen reader label"
-                  placeholder="Select a aggregation"
-                  singleSelection={{ asPlainText: true }}
-                  options={AGGREGATION_OPTIONS}
-                  selectedOptions={
-                    singleField.aggregation ? [{ label: singleField.aggregation }] : []
-                  }
-                  onChange={(e) =>
-                    updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')
-                  }
-                />
-              </EuiFormRow>
+                onChange={(e) =>
+                  updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'aggregation')
+                }
+              />
+            </EuiFormRow>
+            )}
               <EuiFormRow label="Field">
                 <EuiComboBox
                   aria-label="Accessible screen reader label"
