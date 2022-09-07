@@ -832,6 +832,7 @@ export const Explorer = ({
         !isEmpty(query[RAW_QUERY]) &&
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
+
         await updateCurrentTimeStamp('');
       }
       if (availability !== true) {

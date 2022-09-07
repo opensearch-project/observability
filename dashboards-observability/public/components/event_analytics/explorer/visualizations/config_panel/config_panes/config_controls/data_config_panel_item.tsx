@@ -308,7 +308,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                         }
                       />
                     </EuiFormRow>
-
                     <EuiFormRow label="Custom label">
                       <EuiFieldText
                         placeholder="Custom label"
