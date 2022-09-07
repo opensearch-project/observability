@@ -23,6 +23,6 @@ export class Span extends PPLNode {
   }
 
   toString(): string {
-    return `${this.spanExpression.toString()} as ${this.alias}`;
+    return `${this.spanExpression.toString()}${this.alias ? ` as ${this.alias}` : ''}`;
   }
 }

@@ -91,31 +91,31 @@ export const VIZ_CONTAIN_XY_AXIS = [
 // default ppl aggregation method options
 export const AGGREGATION_OPTIONS = [
   {
-    label: 'COUNT',
+    label: 'count',
   },
   {
-    label: 'SUM',
+    label: 'sum',
   },
   {
-    label: 'AVERAGE',
+    label: 'avg',
   },
   {
-    label: 'MAX',
+    label: 'max',
   },
   {
-    label: 'MIN',
+    label: 'min',
   },
   {
-    label: 'VAR_SAMP',
+    label: 'var_samp',
   },
   {
-    label: 'VAR_POP',
+    label: 'var_pop',
   },
   {
-    label: 'STDDEV_SAMP',
+    label: 'stddev_samp',
   },
   {
-    label: 'STDDEV_POP',
+    label: 'stddev_pop',
   },
 ];
 

@@ -4,7 +4,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { isEmpty, last, take } from 'lodash';
+import { forEach, isEmpty, last, some, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
@@ -12,60 +12,53 @@ import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizati
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const DEFAULT_LABEL_SIZE = 10;
-  const { vis } = visualizations;
   const {
-    data,
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
   const lastIndex = fields.length - 1;
-  const {
-    dataConfig = {},
-    layoutConfig = {},
-    availabilityConfig = {},
-  } = visualizations?.data?.userConfigs;
-  const dataConfigTab =
-    visualizations.data?.rawVizData?.bar?.dataConfig &&
-    visualizations.data.rawVizData.bar.dataConfig;
-  const xaxis = dataConfig?.valueOptions?.dimensions
-    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
-    : [];
-  const yaxis = dataConfig?.valueOptions?.metrics
-    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
-    : [];
-  const barOrientation = dataConfig?.chartStyles?.orientation || vis.orientation;
-  const isVertical = barOrientation === vis.orientation;
-  const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig.tooltipOptions.tooltipText
-      : 'all';
-  let bars, valueSeries, valueForXSeries;
+  const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
+  console.log('bar dataConfig: ', dataConfig);
 
-  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = isVertical ? [...yaxis] : [...xaxis];
-    valueForXSeries = isVertical ? [...xaxis] : [...yaxis];
-  } else {
-    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
-  }
+  if (
+    isEmpty(queriedVizData) ||
+    !Array.isArray(dataConfig.dimensions) ||
+    !Array.isArray(dataConfig.metrics) ||
+    (dataConfig.breakdowns && !Array.isArray(dataConfig.breakdowns))
+  )
+    return <EmptyPlaceholder icon={visMetaData?.iconType} />;
 
-  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || vis.labelangle;
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || vis.linewidth;
+  /**
+   * determine stylings
+   */
+  const barOrientation = dataConfig.chartStyles?.orientation || visMetaData.orientation;
+  const isVertical = barOrientation === visMetaData.orientation;
+
+  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visMetaData.labelangle;
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || visMetaData.linewidth;
   const fillOpacity =
     dataConfig?.chartStyles?.fillOpacity !== undefined
       ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : vis.fillOpacity / FILLOPACITY_DIV_FACTOR;
-  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || vis.barwidth);
-  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || vis.groupwidth);
+      : visMetaData.fillOpacity / FILLOPACITY_DIV_FACTOR;
+  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || visMetaData.barwidth);
+  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || visMetaData.groupwidth);
   const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== vis.showlegend
+    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== visMetaData.showlegend
   );
-  const legendPosition = dataConfig?.legend?.position || vis.legendposition;
+  const legendPosition = dataConfig?.legend?.position || visMetaData.legendposition;
   visualizations.data?.rawVizData?.dataConfig?.metrics
     ? visualizations.data?.rawVizData?.dataConfig?.metrics
     : [];
@@ -77,103 +70,77 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
-  const prepareData = (valueForXSeries) => {
-    return valueForXSeries
-      .map((dimension: any) => data[dimension.label])
-      ?.reduce((prev, cur) => {
-        return prev.map((i, j) => `${i}, ${cur[j]}`);
-      });
-  };
+  let bars, valueSeries, valueForXSeries;
 
-  const createNameData = (nameData, metricName: string) =>
-    nameData?.map((el) => el + ',' + metricName);
+  /**
+   * determine x axis
+   */
+  const xaxes = useMemo(() => {
+    // breakdown selections
+    if (dataConfig.breakdowns) {
+      return [
+        ...dataConfig.dimensions.filter(
+          (dimension) =>
+            !some(dataConfig.breakdowns, (breakdown) => breakdown.label === dimension.label)
+        ),
+      ];
+    }
 
-  // for multiple dimention and metrics with timestamp
-  if (valueForXSeries.some((e) => e.type === 'timestamp')) {
-    const nameData =
-      valueForXSeries.length > 1
-        ? valueForXSeries
-            .filter((item) => item.type !== 'timestamp')
-            .map((dimension) => data[dimension.label])
-            .reduce((prev, cur) => {
-              return prev.map((i, j) => `${i}, ${cur[j]}`);
-            })
-        : [];
+    // span selection
+    const timestampField = find(fields, (field) => field.type === 'timestamp');
+    if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+      return [timestampField, ...dataConfig.dimensions];
+    }
 
-    let dimensionsData = valueForXSeries
-      .filter((item) => item.type === 'timestamp')
-      .map((dimension) => data[dimension.label])
-      .flat();
+    return [...dataConfig.dimensions];
+  }, [dataConfig.dimensions, dataConfig.breakdowns]);
 
-    bars = valueSeries
-      .map((field: any, index: number) => {
-        const selectedColor = getSelectedColorTheme(field, index);
-        return dimensionsData.map((dimension: any, j: number) => {
-          return {
-            x: isVertical
-              ? !isEmpty(xaxis)
-                ? dimension
-                : data[fields[lastIndex].name]
-              : data[field.label],
-            y: isVertical ? data[field.label][j] : dimensionsData, // TODO: orinetation
-            type: vis.type,
-            marker: {
-              color: hexToRgb(selectedColor, fillOpacity),
-              line: {
-                color: selectedColor,
-                width: lineWidth,
-              },
-            },
-            name: nameData.length > 0 ? createNameData(nameData, field.label)[j] : field.label, // dimensionsData[index]+ ',' + field.label,
-            hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
-            orientation: barOrientation,
-          };
-        });
-      })
-      .flat();
+  /**
+   * determine y axis
+   */
+  const yaxes = useMemo(() => {
+    return Array.isArray(dataConfig.metrics) ? [...dataConfig.metrics] : [];
+  }, [dataConfig.metrics]);
 
-    // merging x, y for same names
-    bars = Object.values(
-      bars?.reduce((acc, { x, y, name, type, marker, orientation, hoverinfo }) => {
-        acc[name] = acc[name] || { x: [], y: [], name, type, marker, orientation, hoverinfo };
-        acc[name].x.push(x);
-        acc[name].y.push(y);
+  /**
+   * prepare data for visualization, map x-xais to y-xais
+   */
+  const chartAxis = useMemo(() => {
+    return Array.isArray(queriedVizData[`${yaxes[0].aggregation}(${yaxes[0].name})`])
+      ? queriedVizData[`${yaxes[0].aggregation}(${yaxes[0].name})`].map((_, idx) => {
+          // let combineXaxis = '';
+          const xaxisName = xaxes.map((xaxis) => {
+            return queriedVizData[xaxis.name] && queriedVizData[xaxis.name][idx]
+              ? queriedVizData[xaxis.name][idx]
+              : '';
+          });
+          return xaxisName.join(', ');
+        })
+      : [];
+  }, [queriedVizData, xaxes, yaxes]);
 
-        return acc;
-      }, {})
-    );
-  } else {
-    // for multiple dimention and metrics without timestamp
-    const dimensionsData = prepareData(valueForXSeries);
-    const metricsData = prepareData(valueSeries);
-    bars = valueSeries.map((field: any, index: number) => {
-      const selectedColor = getSelectedColorTheme(field, index);
-      return {
-        x: isVertical
-          ? !isEmpty(xaxis)
-            ? dimensionsData
-            : data[fields[lastIndex].name]
-          : data[field.name],
-        y: isVertical ? data[field.name] : metricsData, // TODO: add if isempty true
-        type: vis.type,
-        marker: {
-          color: hexToRgb(selectedColor, fillOpacity),
-          line: {
-            color: selectedColor,
-            width: lineWidth,
-          },
+  bars = yaxes?.map((yMetric, idx) => {
+    return {
+      y: isVertical ? queriedVizData[`${yMetric.aggregation}(${yMetric.name})`] : chartAxis,
+      x: isVertical ? chartAxis : queriedVizData[`${yMetric.aggregation}(${yMetric.name})`],
+      type: visMetaData.type,
+      marker: {
+        color: getSelectedColorTheme(yMetric, idx),
+        line: {
+          color: getSelectedColorTheme(yMetric, idx),
+          width: lineWidth,
         },
-        name: field.name,
-        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
-        orientation: barOrientation,
-      };
-    });
-  }
+      },
+      name: yMetric.name,
+      orientation: barOrientation,
+    };
+  });
 
   // If chart has length of result buckets < 16
   // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
-    data[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
+    queriedVizData[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
+
   const mergedLayout = {
     colorway: plotlyColorway,
     ...layout,
@@ -208,15 +175,17 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
       return list.map((thr: ThresholdUnitType) => {
         thresholdTraces.x.push(
-          data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
+          queriedVizData[
+            !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name
+          ][0]
         );
         thresholdTraces.y.push(thr.value * (1 + 0.06));
         thresholdTraces.text.push(thr.name);
         return {
           type: 'line',
-          x0: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+          x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
           y0: thr.value,
-          x1: last(data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+          x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
           y1: thr.value,
           name: thr.name || '',
           opacity: 0.7,
@@ -232,13 +201,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
     bars = [...bars, thresholdTraces];
   }
-  const mergedConfigs = useMemo(
-    () => ({
-      ...config,
-      ...(layoutConfig.config && layoutConfig.config),
-    }),
-    [config, layoutConfig.config]
-  );
+
+  const mergedConfigs = {
+    ...config,
+    ...(layoutConfig.config && layoutConfig.config),
+  };
 
   return <Plt data={bars} layout={mergedLayout} config={mergedConfigs} />;
 };
