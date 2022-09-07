@@ -77,6 +77,7 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -820,27 +821,73 @@ export const Explorer = ({
     );
   };
 
+  const testAntlr = (query: string) => {
+    const qm = new QueryManager();
+    // const pplQueryBuilder = new PPLQueryBuilder();
+    
+    // build query
+    const res = 
+      qm
+      .queryBuilder()
+      .addSource('index')
+      .addPipe()
+      .addStats()
+      .addMetrics([
+        {
+          field: '',
+          agg_func: 'count'
+        },  
+        {
+          field: 'bytes',
+          agg_func: 'avg',
+          alias: 'avg_bytes'
+        }
+      ])
+      .addBy()
+      .addGroupBy([{
+          field: 'host'
+        },
+        {
+          field: 'tags'
+        }
+      ])
+      .getQuery();
+
+    console.log('built res: ', res);
+
+    // parse query
+    const parsed_res = 
+      qm
+        .queryParser()
+        .parse(query)
+        .getStats();
+
+    console.log('parsed res: ', parsed_res);
+
+  };
+
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
+
       // clear previous selected timestamp when index pattern changes
       if (
         !isEmpty(tempQuery) &&
         !isEmpty(query[RAW_QUERY]) &&
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
+
         await updateCurrentTimeStamp('');
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
+      testAntlr(query[RAW_QUERY]);
       fetchData();
     },
     [tempQuery, query[RAW_QUERY]]
   );
 
-  const handleQueryChange = async (newQuery: string) => {
-    setTempQuery(newQuery);
-  };
+  const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
