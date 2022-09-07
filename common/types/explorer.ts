@@ -265,12 +265,21 @@ export interface ConfigListEntry {
   side: string;
   type: string;
 }
+
 export interface HistogramConfigList {
   bucketSize: string;
   bucketOffset: string;
 }
 
+export interface DimensionSpan {
+  time_field: IField;
+  interval: number;
+  unit: string;
+}
+
 export interface ConfigList {
   dimensions?: ConfigListEntry[] | HistogramConfigList[];
   metrics?: ConfigListEntry[];
+  breakdowns?: ConfigListEntry[] | HistogramConfigList[];
+  span?: DimensionSpan;
 }

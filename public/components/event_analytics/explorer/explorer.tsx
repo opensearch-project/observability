@@ -66,6 +66,7 @@ import { selectFields, updateFields, sortFields } from '../redux/slices/field_sl
 import { updateTabName } from '../redux/slices/query_tab_slice';
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
@@ -490,6 +491,7 @@ export const Explorer = ({
     handleQuerySearch(availability);
   };
 
+
   /**
    * Toggle fields between selected and unselected sets
    * @param field field to be toggled
@@ -821,51 +823,6 @@ export const Explorer = ({
     );
   };
 
-  const testAntlr = (query: string) => {
-    const qm = new QueryManager();
-    // const pplQueryBuilder = new PPLQueryBuilder();
-    
-    // build query
-    const res = 
-      qm
-      .queryBuilder()
-      .addSource('index')
-      .addPipe()
-      .addStats()
-      .addMetrics([
-        {
-          field: '',
-          agg_func: 'count'
-        },  
-        {
-          field: 'bytes',
-          agg_func: 'avg',
-          alias: 'avg_bytes'
-        }
-      ])
-      .addBy()
-      .addGroupBy([{
-          field: 'host'
-        },
-        {
-          field: 'tags'
-        }
-      ])
-      .getQuery();
-
-    console.log('built res: ', res);
-
-    // parse query
-    const parsed_res = 
-      qm
-        .queryParser()
-        .parse(query)
-        .getStats();
-
-    console.log('parsed res: ', parsed_res);
-
-  };
-
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
 
@@ -881,10 +838,39 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      testAntlr(query[RAW_QUERY]);
-      fetchData();
+      await fetchData();
+
+      if (selectedContentTabId === TAB_CHART_ID) {
+        // parse stats section on every search
+        const qm = new QueryManager();
+        const statsTokens = 
+          qm
+            .queryParser()
+            .parse(tempQuery)
+            .getStats();
+            
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: curVisId,
+            data: {
+              dataConfig: {
+                metrics: statsTokens.aggregations.map((agg) => ({
+                  label: agg.function?.value_expression,
+                  name: agg.function?.value_expression,
+                  aggregation: agg.function?.name,
+                })),
+                dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+                  label: agg.name ?? '',
+                  name: agg.name ?? '',
+                })),
+              },
+            },
+          })
+        );
+      }
     },
-    [tempQuery, query[RAW_QUERY]]
+    [tempQuery, query, selectedContentTabId]
   );
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
@@ -1197,6 +1183,10 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        handleQuerySearch,
+        handleQueryChange,
+        setTempQuery,
+        fetchData,
         explorerFields,
         explorerData,
         http,
@@ -1236,6 +1226,7 @@ export const Explorer = ({
           stopLive={stopLive}
           setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
           liveTailName={liveTailNameRef.current}
+          searchError={explorerVisualizations}
         />
         <EuiTabbedContent
           className="mainContentTabs"
