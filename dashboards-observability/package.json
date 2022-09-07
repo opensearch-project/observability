@@ -10,7 +10,7 @@
     "cypress:run": "TZ=America/Los_Angeles cypress run",
     "cypress:open": "TZ=America/Los_Angeles cypress open",
     "plugin_helpers": "node ../../scripts/plugin_helpers",
-    "postinstall": "antlr4ts -visitor ./query_manager/antlr/grammar/OpenSearchPPLLexer.g4 -Xexact-output-dir -o ./query_manager/antlr/output && antlr4ts -visitor ./query_manager/antlr/grammar/OpenSearchPPLParser.g4 -Xexact-output-dir -o ./query_manager/antlr/output"
+    "postinstall": "antlr4ts -visitor ./common/query_manager/antlr/grammar/OpenSearchPPLLexer.g4 -Xexact-output-dir -o ./common/query_manager/antlr/output && antlr4ts -visitor ./common/query_manager/antlr/grammar/OpenSearchPPLParser.g4 -Xexact-output-dir -o ./common/query_manager/antlr/output"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.4.1",
