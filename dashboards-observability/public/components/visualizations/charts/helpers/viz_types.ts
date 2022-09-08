@@ -12,7 +12,7 @@ import {
   ExplorerData,
 } from '../../../../../common/types/explorer';
 import { visChartTypes } from '../../../../../common/constants/shared';
-
+import { QueryManager } from '../../../../../common/query_manager';
 interface IVizContainerProps {
   vizId: string;
   appData?: { fromApp: boolean };
@@ -65,10 +65,59 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
   return { xaxis: mapXaxis(), yaxis: mapYaxis() };
 };
 
-const getUserConfigs = (userSelectedConfigs: object, vizFields: IField[], visName: string) => {
+const getStandardedOuiField = (name?: string, type?: string) => ({
+  name,
+  label: name,
+  type,
+});
+
+const defaultUserConfigs = (queryString) => {
+  let obj = {};
+  const qm = new QueryManager();
+  const statsTokens = qm.queryParser().parse(queryString.rawQuery).getStats();
+  console.log(statsTokens, 'Stats Tokens');
+  if (!statsTokens) {
+    obj = {
+      metrics: [],
+      dimensions: [],
+    };
+  } else {
+    const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
+    obj = {
+      metrics: statsTokens.aggregations.map((agg) => ({
+        alias: agg.alias,
+        label: agg.function?.value_expression,
+        name: agg.function?.value_expression,
+        aggregation: agg.function?.name,
+      })),
+      dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+        label: agg.name ?? '',
+        name: agg.name ?? '',
+      })),
+      span: {
+        time_field: statsTokens.groupby?.span?.span_expression?.field
+          ? [getStandardedOuiField(fieldInfo, 'timestamp')]
+          : [],
+        interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
+        unit: statsTokens.groupby?.span?.span_expression?.time_unit
+          ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
+          : [],
+      },
+    };
+  }
+  return obj;
+};
+
+const getUserConfigs = (
+  userSelectedConfigs: object,
+  vizFields: IField[],
+  visName: string,
+  query
+) => {
   let configOfUser = userSelectedConfigs;
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
-  if (!userSelectedConfigs.dataConfig?.valueOptions) {
+  if (!(userSelectedConfigs.dataConfig?.dimensions || userSelectedConfigs.dataConfig?.metrics)) {
+    console.log(userSelectedConfigs, 'UserSelectedConfigs from if');
     switch (visName) {
       case visChartTypes.HeatMap:
         configOfUser = {
@@ -131,10 +180,9 @@ const getUserConfigs = (userSelectedConfigs: object, vizFields: IField[], visNam
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            valueOptions: {
-              metrics: axesData.yaxis ?? [],
-              dimensions: axesData.xaxis ?? [],
-            },
+            ...defaultUserConfigs(query),
+            // metrics: axesData.yaxis ?? [],
+            // dimensions: axesData.xaxis ?? [],
           },
         };
         break;
@@ -164,7 +212,7 @@ export const getVizContainerProps = ({
       query: { ...query },
       indexFields: { ...indexFields },
       userConfigs: {
-        ...getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData().name),
+        ...getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData().name, query),
       },
       defaultAxes: {
         ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData().name),

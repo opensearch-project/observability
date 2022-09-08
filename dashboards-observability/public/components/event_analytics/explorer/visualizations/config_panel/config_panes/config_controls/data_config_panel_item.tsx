@@ -81,17 +81,15 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     indexFields: { availableFields },
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
+  const { userConfigs } = data;
+
+  // console.log(configList, 'COnfig List');
+  // console.log(visualizations, 'Visualization');
 
   useEffect(() => {
-    if (
-      data.rawVizData?.[visualizations.vis.name] &&
-      data.rawVizData?.[visualizations.vis.name].dataConfig
-    ) {
-      setConfigList((staleState) => {
-        return {
-          ...staleState,
-          ...data.rawVizData[visualizations.vis.name].dataConfig,
-        };
+    if (userConfigs && userConfigs.dataConfig && userConfigs.dataConfig.valueOptions) {
+      setConfigList({
+        ...userConfigs.dataConfig.valueOptions,
       });
     } else if (some(SPECIAL_RENDERING_VIZS, (visType) => visType === visualizations.vis.name)) {
       // any vis that doesn't conform normal metrics/dimensions data confiurations
@@ -102,6 +100,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       // default
       const qm = new QueryManager();
       const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
+      console.log(statsTokens, 'Stats Tokens');
       if (!statsTokens) {
         setConfigList({
           metrics: [],
@@ -132,11 +131,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
         });
       }
     }
-  }, [
-    data.defaultAxes,
-    data.rawVizData?.[visualizations.vis.name]?.dataConfig,
-    visualizations.vis.name,
-  ]);
+  }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     const list = { ...configList };
