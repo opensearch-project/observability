@@ -150,7 +150,7 @@ export const Field = (props: IFieldProps) => {
       panelClassName="dscSidebarItem__fieldPopoverPanel"
       button={
         <FieldButton
-          size="s"
+          size="m"
           className="dscSidebarItem"
           isActive={isFieldDetailsOpen}
           dataTestSubj={`field-${field.name}-showDetails`}
