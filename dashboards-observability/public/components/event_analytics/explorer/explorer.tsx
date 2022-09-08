@@ -66,6 +66,7 @@ import { selectFields, updateFields, sortFields } from '../redux/slices/field_sl
 import { updateTabName } from '../redux/slices/query_tab_slice';
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
@@ -77,6 +78,7 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -141,6 +143,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<Boolean>(false);
 
   const queryRef = useRef();
   const appBasedRef = useRef('');
@@ -353,8 +356,21 @@ export const Explorer = ({
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
+      const cusVisIds = userVizConfigs ? Object.keys(userVizConfigs) : [];
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
+      for (const visId of cusVisIds) {
+        dispatch(
+          changeVisualizationConfig({
+            tabId,
+            vizId: visId,
+            data: {
+              ...userVizConfigs[visId],
+              dataConfig: {},
+            },
+          })
+        );
+      }
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -474,6 +490,7 @@ export const Explorer = ({
   const handleTimeRangePickerRefresh = (availability?: boolean) => {
     handleQuerySearch(availability);
   };
+
 
   /**
    * Toggle fields between selected and unselected sets
@@ -717,6 +734,7 @@ export const Explorer = ({
       indexFields: explorerFields,
       userConfigs: userVizConfigs[curVisId] || {},
       appData: { fromApp: appLogEvents },
+      explorer: { explorerData, explorerFields, query, http, pplService },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -726,6 +744,9 @@ export const Explorer = ({
       setTriggerAvailability(false);
     }
   };
+
+  const changeIsValidConfigOptionState = (isValidConfig: Boolean) =>
+  setIsValidDataConfigOptionSelected(isValidConfig);
 
   const getExplorerVis = () => {
     return (
@@ -741,6 +762,7 @@ export const Explorer = ({
         visualizations={visualizations}
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
+        changeIsValidConfigOptionState={changeIsValidConfigOptionState}
       />
     );
   };
@@ -803,25 +825,55 @@ export const Explorer = ({
 
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
+
       // clear previous selected timestamp when index pattern changes
       if (
         !isEmpty(tempQuery) &&
         !isEmpty(query[RAW_QUERY]) &&
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
+
         await updateCurrentTimeStamp('');
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      fetchData();
+      await fetchData();
+
+      if (selectedContentTabId === TAB_CHART_ID) {
+        // parse stats section on every search
+        const qm = new QueryManager();
+        const statsTokens = 
+          qm
+            .queryParser()
+            .parse(tempQuery)
+            .getStats();
+            
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: curVisId,
+            data: {
+              dataConfig: {
+                metrics: statsTokens.aggregations.map((agg) => ({
+                  label: agg.function?.value_expression,
+                  name: agg.function?.value_expression,
+                  aggregation: agg.function?.name,
+                })),
+                dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+                  label: agg.name ?? '',
+                  name: agg.name ?? '',
+                })),
+              },
+            },
+          })
+        );
+      }
     },
-    [tempQuery, query[RAW_QUERY]]
+    [tempQuery, query, selectedContentTabId]
   );
 
-  const handleQueryChange = async (newQuery: string) => {
-    setTempQuery(newQuery);
-  };
+  const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
@@ -833,6 +885,10 @@ export const Explorer = ({
     if (isEmpty(selectedPanelNameRef.current)) {
       setIsPanelTextFieldInvalid(true);
       setToast('Name field cannot be empty.', 'danger');
+      return;
+    }
+    if (!isValidDataConfigOptionSelected) {
+      setToast('Invalid value options configuration selected.', 'danger');
       return;
     }
     setIsPanelTextFieldInvalid(false);
@@ -1127,6 +1183,14 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        handleQuerySearch,
+        handleQueryChange,
+        setTempQuery,
+        fetchData,
+        explorerFields,
+        explorerData,
+        http,
+        query
       }}
     >
       <div className="dscAppContainer">
@@ -1162,6 +1226,7 @@ export const Explorer = ({
           stopLive={stopLive}
           setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
           liveTailName={liveTailNameRef.current}
+          searchError={explorerVisualizations}
         />
         <EuiTabbedContent
           className="mainContentTabs"

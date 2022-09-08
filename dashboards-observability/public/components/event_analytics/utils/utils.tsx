@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
@@ -13,6 +14,7 @@ import { HttpStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
 import { TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
+import { ConfigTooltip } from '../explorer/visualizations/config_panel/config_panes/config_controls';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -119,8 +121,8 @@ export const populateDataGrid = (
           </table>
         )}
         {explorerFields?.queriedFields &&
-        explorerFields?.queriedFields?.length > 0 &&
-        explorerFields.selectedFields?.length === 0 ? null : (
+          explorerFields?.queriedFields?.length > 0 &&
+          explorerFields.selectedFields?.length === 0 ? null : (
           <table className="osd-table table" data-test-subj="docTable">
             <thead>{header2}</thead>
             <tbody>{body2}</tbody>
@@ -284,4 +286,71 @@ export const findAutoInterval = (start: string = '', end: string = '') => {
   else if (diffSeconds <= 86400 * 366) minInterval = 'M';
 
   return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
+};
+
+export const hexToRgb = (
+  hex: string = '#3CA1C7',
+  opacity: number = 1,
+  colorWithOpacity: boolean = true
+) => {
+  // default color PLOTLY_COLOR[0]: '#3CA1C7'
+  const defaultColor = [hex, '60', '161', '199'];
+  const rgbElements = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) || defaultColor;
+  const [, r, g, b] = rgbElements.map((color) => parseInt(color, 16));
+  const rgbaFormat = colorWithOpacity ? `rgba(${r},${g},${b},${opacity})` : `rgb(${r},${g},${b})`;
+  return rgbaFormat;
+};
+
+export const lightenColor = (color: string, percent: number) => {
+  const num = parseInt(color.replace('#', ''), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const B = ((num >> 8) & 0x00ff) + amt;
+  const G = (num & 0x0000ff) + amt;
+  return (
+    '#' +
+    (
+      0x1000000 +
+      (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+      (B < 255 ? (B < 1 ? 0 : B) : 255) * 0x100 +
+      (G < 255 ? (G < 1 ? 0 : G) : 255)
+    )
+      .toString(16)
+      .slice(1)
+  );
+};
+
+// Get config objects according to specific editor
+export const fetchConfigObject = (editor: string, propsOptions: any) => {
+  switch (editor) {
+    case 'Tooltip':
+      return {
+        id: 'tooltip_options',
+        name: 'Tooltip options',
+        editor: ConfigTooltip,
+        mapTo: 'tooltipOptions',
+        schemas: [
+          {
+            name: 'Tooltip mode',
+            component: null,
+            mapTo: 'tooltipMode',
+            props: {
+              options: [
+                { name: 'Show', id: 'show' },
+                { name: 'Hidden', id: 'hidden' },
+              ],
+              defaultSelections: [{ name: 'Show', id: 'show' }],
+            },
+          },
+          {
+            name: 'Tooltip text',
+            component: null,
+            mapTo: 'tooltipText',
+            props: propsOptions,
+          },
+        ],
+      };
+    default:
+      return null;
+  }
 };

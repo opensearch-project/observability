@@ -16,7 +16,7 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
 } from '../constants/explorer';
-import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import { CoreStart, HttpSetup, HttpStart, NotificationsStart } from '../../../../src/core/public';
 import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
@@ -31,6 +31,7 @@ export interface IQueryTab {
 export interface IField {
   name: string;
   type: string;
+  label?: string;
 }
 
 export interface ITabQueryResults {
@@ -150,6 +151,31 @@ export interface SavedVizRes {
   tenant: string;
 }
 
+export interface ExplorerDataType {
+  jsonData: object[];
+  jsonDataAll: object[];
+}
+
+export interface Query {
+  finalQuery: string;
+  index: string;
+  isLoaded: boolean;
+  objectType: string;
+  rawQuery: string;
+  savedObjectId: string;
+  selectedDateRange: string[];
+  selectedTimestamp: string;
+  tabCreatedType: string;
+}
+
+export interface ExplorerData {
+  explorerData?: ExplorerDataType;
+  explorerFields?: IExplorerFields;
+  query?: Query;
+  http?: HttpSetup;
+  pplService?: PPLService;
+}
+
 export interface IVisualizationContainerPropsData {
   appData?: { fromApp: boolean };
   rawVizData?: any;
@@ -160,6 +186,7 @@ export interface IVisualizationContainerPropsData {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: ExplorerData;
 }
 
 export interface IVisualizationContainerPropsVis {
@@ -186,9 +213,11 @@ export interface IConfigPanelOptions {
 export interface IConfigPanelOptionSection {
   name: string;
   component: null;
-  mapTo: 'mode';
+  mapTo: string;
   props?: any;
   isSingleSelection?: boolean;
+  defaultState?: boolean | string;
+  eleType?: string;
 }
 
 export interface IVisualizationTypeDefination {
@@ -196,13 +225,13 @@ export interface IVisualizationTypeDefination {
   type: string;
   id: string;
   label: string;
-  fullLabel: string;
+  fulllabel: string;
   category: string;
   icon: React.ReactNode;
-  editorConfig: {
+  editorconfig: {
     panelTabs: IConfigPanelTab;
   };
-  visConfig: {
+  visconfig: {
     layout: Partial<Plotly.Layout>;
     config: Partial<Plotly.Config>;
   };
@@ -226,4 +255,31 @@ export interface LiveTailProps {
   liveTailName: string;
   isLiveTailPopoverOpen: boolean;
   dataTestSubj: string;
+}
+
+export interface ConfigListEntry {
+  label: string;
+  aggregation: string;
+  custom_label: string;
+  name: string;
+  side: string;
+  type: string;
+}
+
+export interface HistogramConfigList {
+  bucketSize: string;
+  bucketOffset: string;
+}
+
+export interface DimensionSpan {
+  time_field: IField;
+  interval: number;
+  unit: string;
+}
+
+export interface ConfigList {
+  dimensions?: ConfigListEntry[] | HistogramConfigList[];
+  metrics?: ConfigListEntry[];
+  breakdowns?: ConfigListEntry[] | HistogramConfigList[];
+  span?: DimensionSpan;
 }

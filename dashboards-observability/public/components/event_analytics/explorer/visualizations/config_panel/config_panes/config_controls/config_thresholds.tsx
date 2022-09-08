@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -16,6 +16,7 @@ import {
   EuiFlexItem,
   EuiFieldText,
   htmlIdGenerator,
+  EuiToolTip,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 
@@ -32,8 +33,18 @@ export const ConfigThresholds = ({
   vizState = [],
   handleConfigChange,
   sectionName = 'Thresholds',
+  props,
 }: any) => {
-  const addButtonText = '+ Add threadshold';
+  const addButtonText = '+ Add threshold';
+  const AddButtonTextWrapper = () =>
+    props?.maxLimit && !isEmpty(vizState) && vizState.length === props.maxLimit ? (
+      <EuiToolTip position="top" content="Only one threshold can be applied">
+        <Fragment key="tooltip-button">{addButtonText}</Fragment>
+      </EuiToolTip>
+    ) : (
+      <Fragment key="tooltip-button">{addButtonText}</Fragment>
+    );
+
   const getThresholdUnit = () => {
     return {
       thid: htmlIdGenerator('thr')(),
@@ -87,14 +98,17 @@ export const ConfigThresholds = ({
         fullWidth
         size="s"
         onClick={handleAddThreshold}
+        {...(props?.maxLimit && {
+          isDisabled: !isEmpty(vizState) && vizState.length === props.maxLimit,
+        })}
       >
-        {addButtonText}
+        <AddButtonTextWrapper />
       </EuiButton>
       <EuiSpacer size="s" />
       {!isEmpty(vizState) &&
         vizState.map((thr: ThresholdUnitType) => {
           return (
-            <>
+            <Fragment key={thr.thid}>
               <EuiFormRow fullWidth label="">
                 <EuiFlexGroup alignItems="center" gutterSize="xs">
                   <EuiFlexItem grow={3}>
@@ -135,7 +149,7 @@ export const ConfigThresholds = ({
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiFormRow>
-            </>
+            </Fragment>
           );
         })}
     </EuiAccordion>
