@@ -55,7 +55,7 @@ describe.only('Render Pie chart and verify default behavior', () => {
     cy.get('.euiButton__text').contains('Update chart').should('exist');
   });
 
-  it('Render Pie chart and verify Style section for Logs view', () => {
+  it('Render Pie chart and verify Style section for Pie chart', () => {
     cy.get('#data-panel').contains('Style').should('exist');
     cy.get('[aria-controls="configPanel__panelOptions"]').contains('Panel options').should('exist');
     cy.get('[aria-controls="configPanel__legend"]').contains('Legend').should('exist');
