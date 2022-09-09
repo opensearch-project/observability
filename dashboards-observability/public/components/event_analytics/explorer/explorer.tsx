@@ -580,7 +580,7 @@ export const Explorer = ({
             data-test-subj="eventExplorer__sidebar"
           >
             {!isSidebarClosed && (
-              <div className="dscFieldChooser">
+              <div className="explorerFieldSelector">
                 <Sidebar
                   query={query}
                   explorerFields={explorerFields}

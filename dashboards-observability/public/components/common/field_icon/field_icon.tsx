@@ -26,7 +26,7 @@ export interface FieldIconProps extends Omit<EuiTokenProps, 'iconType'> {
 }
 
 // defaultIcon => a unknown datatype
-const defaultIcon = { iconType: 'questionInCircle', color: 'gray' };
+const defaultIcon = { iconType: 'tokenString' };
 
 export const typeToEuiIconMap: Partial<Record<string, EuiTokenProps>> = {
   boolean: { iconType: 'tokenBoolean' },
@@ -50,13 +50,12 @@ export const typeToEuiIconMap: Partial<Record<string, EuiTokenProps>> = {
 export function FieldIcon({
   type,
   label,
-  size = 's',
+  size = 'l',
   scripted,
   className,
   ...rest
 }: FieldIconProps) {
   const token = typeToEuiIconMap[type] || defaultIcon;
-
   return (
     <EuiToken
       {...token}

@@ -45,7 +45,6 @@ export const Sidebar = (props: ISidebarProps) => {
   return (
     <I18nProvider>
       <section className="sidebar-list">
-        <EuiSpacer size="m" />
         <div className="dscSidebar__item">
           <EuiFieldSearch
             compressed

@@ -37,7 +37,7 @@
   background-color: lightOrDarkTheme(tint($euiColorPrimary, 90%), $euiColorLightShade);
 }
 
-.dscFieldChooser {
+.explorerFieldSelector {
   // padding-left: $euiSize;
   padding: 0;
 }
@@ -110,4 +110,37 @@
 
 .override_timestamp_loading {
   vertical-align: middle;
+}
+
+.dscAppContainer {
+  .euiPanel--paddingMedium {
+    padding: 0;
+  }
+}
+
+.explorer__insights {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100%;
+  .explorerFieldSelector, .explorer__vizDataConfig {
+    padding: $euiSizeS;
+
+    &__fieldGroups {
+      @include euiYScrollWithShadows;
+
+      overflow-y: auto;
+      margin-right: -$euiSizeS;
+      padding-right: $euiSizeS;
+      margin-top: $euiSizeS;
+    }
+
+    &__fieldGroup {
+      margin-top: $euiSizeS;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
 }

@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import './data_configurations_panel.scss'
+
 import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { some } from 'lodash';
 import {
@@ -502,7 +504,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   return (
     <>
       <EuiTitle size="xxs">
-        <h3>Data Configurations</h3>
+        <h3>Configuration</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
       {visualizations.vis.name !== visChartTypes.Histogram ? (

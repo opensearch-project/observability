@@ -91,29 +91,36 @@ export const ExplorerVisualizations = ({
       {(EuiResizablePanel, EuiResizableButton) => (
         <>
           <EuiResizablePanel
-            initialSize={17}
-            minSize="300"
+            initialSize={20}
+            minSize="17%"
             mode={['collapsible', { position: 'top' }]}
+            // paddingSize="s"
           >
-            <div className="dscFieldChooser">
-              <Sidebar
-                query={query}
-                explorerFields={explorerFields}
-                explorerData={explorerData}
-                selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
-                handleOverrideTimestamp={handleOverrideTimestamp}
-                handleAddField={(field: IField) => handleAddField(field)}
-                handleRemoveField={(field: IField) => handleRemoveField(field)}
-                isFieldToggleButtonDisabled={
-                  vis.name === visChartTypes.LogsView
-                    ? isEmpty(explorerData.jsonData) ||
-                      !isEmpty(query[RAW_QUERY].match(PPL_STATS_REGEX))
-                    : true
-                }
-              />
+            <div className='explorer__insights'>
+              <div className="explorerFieldSelector">
+                <Sidebar
+                  query={query}
+                  explorerFields={explorerFields}
+                  explorerData={explorerData}
+                  selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
+                  handleOverrideTimestamp={handleOverrideTimestamp}
+                  handleAddField={(field: IField) => handleAddField(field)}
+                  handleRemoveField={(field: IField) => handleRemoveField(field)}
+                  isFieldToggleButtonDisabled={
+                    vis.name === visChartTypes.LogsView
+                      ? isEmpty(explorerData.jsonData) ||
+                        !isEmpty(query[RAW_QUERY].match(PPL_STATS_REGEX))
+                      : true
+                  }
+                />
+              </div>
+              <div className='explorer__vizDataConfig'>
+                { renderDataConfigContainer() }
+              </div>
             </div>
+            
           </EuiResizablePanel>
-          <EuiResizableButton />
+          {/* <EuiResizableButton />
           <EuiResizablePanel
             mode={[
               'collapsible',
@@ -131,10 +138,16 @@ export const ExplorerVisualizations = ({
             <EuiPanel paddingSize="s" className="dataConfigContainer">
               {renderDataConfigContainer()}
             </EuiPanel>
-          </EuiResizablePanel>
+          </EuiResizablePanel> */}
 
           <EuiResizableButton />
-          <EuiResizablePanel className="containerPanel" initialSize={65} minSize="30%" mode="main">
+          <EuiResizablePanel 
+            className="containerPanel" 
+            initialSize={60}
+            minSize="55%"
+            mode="main"
+            paddingSize="s"
+          >
             <WorkspacePanel
               curVisId={curVisId}
               setCurVisId={setCurVisId}
@@ -145,8 +158,9 @@ export const ExplorerVisualizations = ({
           <EuiResizablePanel
             className="containerPanel"
             initialSize={20}
-            minSize="200px"
+            minSize="15%"
             mode={['collapsible', { position: 'top' }]}
+            // paddingSize="s"
           >
             <ConfigPanel
               vizVectors={explorerVis}
