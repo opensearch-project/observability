@@ -51,30 +51,23 @@ const initialConfigEntry = {
   type: '',
 };
 
-const DEFAULT_DATA_CONFIGS = {
-  [visChartTypes.HeatMap]: {
-    dimensions: [initialConfigEntry, initialConfigEntry],
-    metrics: [initialConfigEntry],
-  },
-  [visChartTypes.Histogram]: {
-    dimensions: [{ bucketSize: '', bucketOffset: '' }],
-  },
+const initialDimensionEntry = {
+  label: '',
+  name: '',
 };
 
-const SPECIAL_RENDERING_VIZS = [visChartTypes.HeatMap, visChartTypes.Histogram];
-
-const getStandardedOuiField = (name?: string, type?: string) => ({
-  name,
-  label: name,
-  type,
-});
+const initialMetricEntry = {
+  alias: '',
+  label: '',
+  name: '',
+  aggregation: 'count',
+};
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
   const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
     TabContext
   );
-  const explorerVisualizationConfigs = useSelector(selectVisualizationConfig)[tabId];
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
@@ -83,65 +76,22 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   const [configList, setConfigList] = useState<ConfigList>({});
   const { userConfigs } = data;
 
-  // console.log(configList, 'COnfig List');
-  // console.log(visualizations, 'Visualization');
-
   useEffect(() => {
-    if (userConfigs && userConfigs.dataConfig && userConfigs.dataConfig.valueOptions) {
+    if (userConfigs && userConfigs.dataConfig) {
       setConfigList({
-        ...userConfigs.dataConfig.valueOptions,
+        ...userConfigs.dataConfig,
       });
-    } else if (some(SPECIAL_RENDERING_VIZS, (visType) => visType === visualizations.vis.name)) {
-      // any vis that doesn't conform normal metrics/dimensions data confiurations
-      setConfigList({
-        ...DEFAULT_DATA_CONFIGS[visualizations.vis.name],
-      });
-    } else {
-      // default
-      const qm = new QueryManager();
-      const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-      console.log(statsTokens, 'Stats Tokens');
-      if (!statsTokens) {
-        setConfigList({
-          metrics: [],
-          dimensions: [],
-        });
-      } else {
-        const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
-        setConfigList({
-          metrics: statsTokens.aggregations.map((agg) => ({
-            alias: agg.alias,
-            label: agg.function?.value_expression,
-            name: agg.function?.value_expression,
-            aggregation: agg.function?.name,
-          })),
-          dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-            label: agg.name ?? '',
-            name: agg.name ?? '',
-          })),
-          span: {
-            time_field: statsTokens.groupby?.span?.span_expression?.field
-              ? [getStandardedOuiField(fieldInfo, 'timestamp')]
-              : [],
-            interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
-            unit: statsTokens.groupby?.span?.span_expression?.time_unit
-              ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
-              : [],
-          },
-        });
-      }
     }
-  }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
+  }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     const list = { ...configList };
     let listItem = { ...list[name][index] };
     listItem = {
       ...listItem,
-      [field]: value,
+      [field === 'custom_label' ? 'alias' : field]: value,
     };
     if (field === 'label') {
-      listItem.type = value !== '' ? fields.find((x) => x.name === value)?.type : '';
       listItem.name = value;
     }
     const updatedList = {
@@ -175,8 +125,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const handleServiceAdd = (name: string) => {
-    const updatedList = { ...configList, [name]: [...configList[name], initialConfigEntry] };
-    setConfigList(updatedList);
+    const list = {
+      ...configList,
+      [name]: [
+        ...configList[name],
+        name === 'metrics' ? initialMetricEntry : initialDimensionEntry,
+      ],
+    };
+    setConfigList(list);
   };
 
   const updateChart = (updatedConfigList = configList) => {

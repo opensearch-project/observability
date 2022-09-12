@@ -27,13 +27,16 @@ interface IVizContainerProps {
   explorer?: ExplorerData;
 }
 
-const initialConfigEntry = {
+const initialDimensionEntry = {
   label: '',
-  aggregation: '',
-  custom_label: '',
   name: '',
-  side: 'right',
-  type: '',
+};
+
+const initialMetricEntry = {
+  alias: '',
+  label: '',
+  name: '',
+  aggregation: 'count',
 };
 
 const initialEntryTreemap = { label: '', name: '' };
@@ -49,7 +52,7 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
     const xaxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp');
     return visName === visChartTypes.Line
       ? xaxis.length === 0
-        ? [initialConfigEntry]
+        ? [initialDimensionEntry]
         : xaxis
       : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
   };
@@ -71,29 +74,18 @@ const getStandardedOuiField = (name?: string, type?: string) => ({
   type,
 });
 
-const defaultUserConfigs = (queryString) => {
-  let obj = {};
+const defaultUserConfigs = (queryString, visualizationName: string) => {
+  let tempUserConfigs = {};
   const qm = new QueryManager();
   const statsTokens = qm.queryParser().parse(queryString.rawQuery).getStats();
-  console.log(statsTokens, 'Stats Tokens');
   if (!statsTokens) {
-    obj = {
+    tempUserConfigs = {
       metrics: [],
       dimensions: [],
     };
   } else {
     const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
-    obj = {
-      metrics: statsTokens.aggregations.map((agg) => ({
-        alias: agg.alias,
-        label: agg.function?.value_expression,
-        name: agg.function?.value_expression,
-        aggregation: agg.function?.name,
-      })),
-      dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-        label: agg.name ?? '',
-        name: agg.name ?? '',
-      })),
+    tempUserConfigs = {
       span: {
         time_field: statsTokens.groupby?.span?.span_expression?.field
           ? [getStandardedOuiField(fieldInfo, 'timestamp')]
@@ -104,8 +96,45 @@ const defaultUserConfigs = (queryString) => {
           : [],
       },
     };
+    if (visualizationName === visChartTypes.LogsView) {
+      tempUserConfigs = {
+        ...tempUserConfigs,
+        metrics: [],
+        dimensions: statsTokens.aggregations
+          .map((agg) => ({
+            label: agg.name ?? '',
+            name: agg.name ?? '',
+          }))
+          .concat(
+            statsTokens.groupby?.group_fields?.map((agg) => ({
+              label: agg.name ?? '',
+              name: agg.name ?? '',
+            }))
+          ),
+      };
+    } else if (visualizationName === visChartTypes.HeatMap) {
+      tempUserConfigs = {
+        ...tempUserConfigs,
+        dimensions: [initialDimensionEntry, initialDimensionEntry],
+        metrics: [initialMetricEntry],
+      };
+    } else {
+      tempUserConfigs = {
+        ...tempUserConfigs,
+        metrics: statsTokens.aggregations.map((agg) => ({
+          alias: agg.alias,
+          label: agg.function?.value_expression,
+          name: agg.function?.value_expression,
+          aggregation: agg.function?.name,
+        })),
+        dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+          label: agg.name ?? '',
+          name: agg.name ?? '',
+        })),
+      };
+    }
   }
-  return obj;
+  return tempUserConfigs;
 };
 
 const getUserConfigs = (
@@ -116,18 +145,19 @@ const getUserConfigs = (
 ) => {
   let configOfUser = userSelectedConfigs;
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
-  if (!(userSelectedConfigs.dataConfig?.dimensions || userSelectedConfigs.dataConfig?.metrics)) {
-    console.log(userSelectedConfigs, 'UserSelectedConfigs from if');
+  if (
+    !(
+      userSelectedConfigs.dataConfig?.dimensions?.length > 0 ||
+      userSelectedConfigs.dataConfig?.metrics?.length > 0
+    )
+  ) {
     switch (visName) {
       case visChartTypes.HeatMap:
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            valueOptions: {
-              dimensions: [initialConfigEntry, initialConfigEntry],
-              metrics: [initialConfigEntry],
-            },
+            ...defaultUserConfigs(query, visName),
           },
         };
         break;
@@ -167,11 +197,7 @@ const getUserConfigs = (
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            valueOptions: {
-              dimensions:
-                axesData.xaxis && axesData.yaxis ? axesData.xaxis.concat(axesData.yaxis) : [],
-              metrics: [],
-            },
+            ...defaultUserConfigs(query, visName),
           },
         };
         break;
@@ -180,9 +206,7 @@ const getUserConfigs = (
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            ...defaultUserConfigs(query),
-            // metrics: axesData.yaxis ?? [],
-            // dimensions: axesData.xaxis ?? [],
+            ...defaultUserConfigs(query, visName),
           },
         };
         break;

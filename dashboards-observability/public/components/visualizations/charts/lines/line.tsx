@@ -40,12 +40,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const xaxis = dataConfig?.valueOptions?.dimensions
-    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
-    : [];
-  const yaxis = dataConfig?.valueOptions?.metrics
-    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
-    : [];
+  const xaxis = dataConfig?.dimensions ? dataConfig.dimensions.filter((item) => item.label) : [];
+  const yaxis = dataConfig?.metrics ? dataConfig.metrics.filter((item) => item.label) : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode

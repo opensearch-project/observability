@@ -31,7 +31,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const lastIndex = fields.length - 1;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
-  console.log('bar dataConfig: ', dataConfig);
 
   if (
     isEmpty(queriedVizData) ||
@@ -102,9 +101,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     return Array.isArray(dataConfig.metrics) ? [...dataConfig.metrics] : [];
   }, [dataConfig.metrics]);
 
-  console.log(xaxes, 'xaxes');
-  console.log(yaxes, 'yaxes');
-
   /**
    * prepare data for visualization, map x-xais to y-xais
    */
@@ -122,7 +118,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       : [];
   }, [queriedVizData, xaxes, yaxes]);
 
-  console.log(chartAxis, 'Chart Axis');
   bars = yaxes?.map((yMetric, idx) => {
     return {
       y: isVertical ? queriedVizData[`${yMetric.aggregation}(${yMetric.name})`] : chartAxis,
@@ -210,6 +205,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-  console.log(bars, 'bars');
+
   return <Plt data={bars} layout={mergedLayout} config={mergedConfigs} />;
 };
