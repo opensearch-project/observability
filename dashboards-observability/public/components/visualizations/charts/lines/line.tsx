@@ -57,7 +57,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
   const lastIndex = fields.length - 1;
 
-  let visType: string = visualizations.vis.name;
+  const visType: string = visualizations.vis.name;
   const mode =
     dataConfig?.chartStyles?.style ||
     (visType === visChartTypes.Line ? DefaultModeLine : DefaultModeScatter);
@@ -128,7 +128,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
               size: labelSize,
             }),
           },
-          overlaying: 'y',
+          ...(index > 0 && { overlaying: 'y' }),
           side: field.side,
         },
       };
@@ -154,7 +154,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
     });
 
-    let layoutForBarMode = {
+    const layoutForBarMode = {
       barmode: 'group',
     };
     const mergedLayout = {
