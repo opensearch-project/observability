@@ -9,7 +9,14 @@ import { LensIconChartPie } from '../../assets/chart_pie';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  ColorPalettePicker,
+  ConfigChartOptions,
+  ConfigLegend,
+  InputFieldItem,
+} from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -19,50 +26,77 @@ export const createPieTypeDefinition = (params: any) => ({
   type: 'pie',
   id: 'pie',
   label: 'Pie',
-  fullLabel: 'Pie',
-  iconType: 'visPie',
+  fulllabel: 'Pie',
+  icontype: 'visPie',
   category: VIS_CATEGORY.BASICS,
+  showlegend: true,
+  legendposition: 'v',
   selection: {
     dataLoss: 'nothing',
   },
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   icon: LensIconChartPie,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigValueOptions,
-            mapTo: 'valueOptions',
+            id: 'legend',
+            name: 'Legend',
+            editor: ConfigLegend,
+            mapTo: 'legend',
             schemas: [
               {
-                name: 'Label',
-                onChangeHandler: 'setXaxisSelections',
-                isSingleSelection: false,
+                name: 'Show legend',
+                mapTo: 'showLegend',
                 component: null,
-                mapTo: 'xaxis',
+                props: {
+                  options: [
+                    { name: 'Show', id: 'show' },
+                    { name: 'Hidden', id: 'hidden' },
+                  ],
+                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                },
               },
               {
-                name: 'Value',
-                onChangeHandler: 'setYaxisSelections',
-                isSingleSelection: false,
+                name: 'Position',
+                mapTo: 'position',
                 component: null,
-                mapTo: 'yaxis',
+                props: {
+                  options: [
+                    { name: 'Right', id: 'v' },
+                    { name: 'Bottom', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Right', id: 'v' }],
+                },
+              },
+              {
+                name: 'Legend size',
+                component: InputFieldItem,
+                mapTo: 'size',
+                eleType: 'input',
               },
             ],
           },
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Label', id: 'label' },
+              { name: 'Value', id: 'value' },
+              { name: 'Percent', id: 'percent' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
-            id: 'chart_options',
-            name: 'Chart options',
-            editor: ConfigValueOptions,
-            mapTo: 'chartOptions',
+            id: 'chart_styles',
+            name: 'Chart styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
             schemas: [
               {
                 name: 'Mode',
@@ -74,8 +108,23 @@ export const createPieTypeDefinition = (params: any) => ({
                     { name: 'Pie', modeId: 'pie' },
                     { name: 'Donut', modeId: 'donut' },
                   ],
-                  defaultSelections: [{ name: 'Pie', modeId: 'pie' }],
                 },
+                defaultState: [{ name: 'Pie', modeId: 'pie', label: 'Pie' }],
+              },
+              {
+                name: 'Label size',
+                component: InputFieldItem,
+                mapTo: 'labelSize',
+                eleType: 'input',
+              },
+              {
+                name: 'Color theme',
+                isSingleSelection: true,
+                component: ColorPalettePicker,
+                mapTo: 'colorTheme',
+                eleType: 'colorpicker',
+                options: PIE_PALETTES,
+                defaultState: { name: DEFAULT_PALETTE },
               },
             ],
           },
@@ -90,7 +139,7 @@ export const createPieTypeDefinition = (params: any) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{

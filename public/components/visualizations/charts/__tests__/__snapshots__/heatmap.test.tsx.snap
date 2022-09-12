@@ -202,92 +202,274 @@ exports[`Heatmap component Renders heatmap component 1`] = `
         "userConfigs": Object {},
       },
       "vis": Object {
+        "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryAxis": "xaxis",
+        "categoryaxis": "xaxis",
         "component": [Function],
-        "editorConfig": Object {
+        "editorconfig": Object {
           "panelTabs": Array [
             Object {
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Data",
+              "name": "Style",
               "sections": Array [
                 Object {
                   "editor": [Function],
-                  "id": "value_options",
-                  "mapTo": "valueOptions",
-                  "name": "Value options",
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
                   "schemas": Array [
                     Object {
                       "component": null,
-                      "isSingleSelection": false,
-                      "mapTo": "xaxis",
-                      "name": "X-axis",
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
                     },
                     Object {
                       "component": null,
-                      "isSingleSelection": false,
-                      "mapTo": "yaxis",
-                      "name": "Y-axis",
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Metrics",
+                          },
+                        ],
+                      },
                     },
                   ],
                 },
                 Object {
                   "editor": [Function],
-                  "id": "chart_options",
-                  "mapTo": "chartOptions",
-                  "name": "Chart options",
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
                   "schemas": Array [
                     Object {
                       "component": null,
-                      "isSingleSelection": true,
-                      "mapTo": "orientation",
-                      "name": "Orientation",
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "name": "Vertical",
-                            "orientationId": "v",
+                            "id": "show",
+                            "name": "Show",
                           },
                         ],
-                        "dropdownList": Array [
+                        "options": Array [
                           Object {
-                            "name": "Vertical",
-                            "orientationId": "v",
+                            "id": "show",
+                            "name": "Show",
                           },
                           Object {
-                            "name": "Horizontal",
-                            "orientationId": "h",
+                            "id": "hidden",
+                            "name": "Hidden",
                           },
                         ],
                       },
                     },
                     Object {
                       "component": null,
-                      "isSingleSelection": true,
-                      "mapTo": "mode",
-                      "name": "Mode",
+                      "mapTo": "position",
+                      "name": "Position",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "modeId": "group",
-                            "name": "Group",
+                            "id": "v",
+                            "name": "Right",
                           },
                         ],
-                        "dropdownList": Array [
+                        "options": Array [
                           Object {
-                            "modeId": "group",
-                            "name": "Group",
+                            "id": "v",
+                            "name": "Right",
                           },
                           Object {
-                            "modeId": "stack",
-                            "name": "Stack",
+                            "id": "h",
+                            "name": "Bottom",
                           },
                         ],
                       },
                     },
                   ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "orientation",
+                      "name": "Orientation",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Vertical",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Vertical",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Horizontal",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "id": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 1,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 80,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
+                  "schemas": Array [],
                 },
               ],
             },
@@ -306,26 +488,33 @@ exports[`Heatmap component Renders heatmap component 1`] = `
             },
           ],
         },
-        "fullLabel": "Bar",
+        "fillOpacity": 80,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
         "icon": [Function],
-        "iconType": "visBarVerticalStacked",
+        "icontype": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Bar",
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 1,
+        "mode": "group",
         "name": "bar",
         "orientation": "v",
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesAxis": "yaxis",
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
         "type": "bar",
-        "visConfig": Object {
+        "visconfig": Object {
           "config": Object {
             "displaylogo": false,
             "responsive": true,
           },
           "isUniColor": false,
           "layout": Object {
-            "height": 500,
+            "height": 1180,
             "legend": Object {
               "orientation": "v",
               "traceorder": "normal",
@@ -373,19 +562,19 @@ exports[`Heatmap component Renders heatmap component 1`] = `
               >
                 <EuiIcon
                   color="subdued"
-                  size="l"
+                  size="xxl"
                   type="visBarVerticalStacked"
                 >
                   <EuiIconEmpty
                     aria-hidden={true}
-                    className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                     focusable="false"
                     role="img"
                     style={null}
                   >
                     <svg
                       aria-hidden={true}
-                      className="euiIcon euiIcon--large euiIcon--subdued euiIcon-isLoading"
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                       focusable="false"
                       height={16}
                       role="img"
@@ -397,10 +586,10 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                   </EuiIconEmpty>
                 </EuiIcon>
                 <EuiSpacer
-                  size="s"
+                  size="l"
                 >
                   <div
-                    className="euiSpacer euiSpacer--s"
+                    className="euiSpacer euiSpacer--l"
                   />
                 </EuiSpacer>
                 <p>

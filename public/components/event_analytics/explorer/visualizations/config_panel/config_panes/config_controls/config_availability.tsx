@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -17,8 +17,10 @@ import {
   EuiFieldText,
   EuiSelect,
   htmlIdGenerator,
+  EuiText,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
+import { AvailabilityInfoFlyout } from '../../../../../../application_analytics/components/flyout_components/availability_info_flyout';
 import { PPL_SPAN_REGEX } from '../../../../../../../../common/constants/shared';
 
 export interface AvailabilityUnitType {
@@ -30,6 +32,8 @@ export interface AvailabilityUnitType {
 }
 
 export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = {} }: any) => {
+  const [flyoutOpen, setFlyoutOpen] = useState(false);
+  const closeFlyout = () => setFlyoutOpen(false);
   const addButtonText = '+ Add availability level';
   const getAvailabilityUnit = () => {
     return {
@@ -49,6 +53,13 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
     { value: '=', text: '=' },
     { value: '≠', text: '≠' },
   ];
+
+  const availabilityAccordionButton = (
+    <EuiFlexGroup direction="row" justifyContent="center">
+      <EuiText>&nbsp;&nbsp;Availability&nbsp;</EuiText>
+      <EuiIcon type="questionInCircle" onClick={() => setFlyoutOpen(true)} size="m" />
+    </EuiFlexGroup>
+  );
 
   const hasSpanInApp =
     visualizations.data.query.finalQuery.search(PPL_SPAN_REGEX) > 0 &&
@@ -105,7 +116,7 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
       <EuiAccordion
         initialIsOpen
         id={`configPanel__Availability`}
-        buttonContent={'Availability'}
+        buttonContent={availabilityAccordionButton}
         paddingSize="s"
       >
         <EuiButton
@@ -177,6 +188,7 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
             );
           })}
       </EuiAccordion>
+      {flyoutOpen && <AvailabilityInfoFlyout closeFlyout={closeFlyout} />}
     </>
   );
 };
