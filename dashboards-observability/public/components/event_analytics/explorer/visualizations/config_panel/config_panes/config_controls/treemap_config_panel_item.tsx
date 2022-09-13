@@ -13,14 +13,23 @@ import {
   EuiFormRow,
   EuiPanel,
 } from '@elastic/eui';
-import { useDispatch } from 'react-redux';
+import { useDispatch, batch } from 'react-redux';
+import { changeQuery } from '../../../../../redux/slices/query_slice';
+import {
+  change as changeVizConfig,
+  selectVisualizationConfig,
+} from '../../../../../redux/slices/viualization_config_slice';
 import { ConfigTreemapParentFields } from './config_treemap_parents';
-import { numericalTypes } from '../../../../../../../../common/constants/explorer';
+import { numericalTypes, RAW_QUERY } from '../../../../../../../../common/constants/explorer';
 import { TabContext } from '../../../../../hooks';
+import { QueryManager } from '../../../../../../../../common/query_manager';
+import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
 
 export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: any) => {
   const dispatch = useDispatch();
-  const { tabId, curVisId, changeVisualizationConfig } = useContext<any>(TabContext);
+  const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<
+    any
+  >(TabContext);
 
   const { data } = visualizations;
   const { userConfigs } = data;
@@ -34,12 +43,12 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   });
 
   useEffect(() => {
-    if (userConfigs && userConfigs.dataConfig && userConfigs.dataConfig.valueOptions) {
+    if (userConfigs && userConfigs.dataConfig) {
       setConfigList({
-        ...userConfigs.dataConfig.valueOptions,
+        ...userConfigs.dataConfig,
       });
     }
-  }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
+  }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (configName: string, fieldName: string, value: string | any[]) => {
     let list = { ...configList };
@@ -58,23 +67,38 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
     setConfigList(newList);
   };
 
-  const updateChart = () => {
-    dispatch(
-      changeVisualizationConfig({
-        tabId,
-        vizId: curVisId,
-        data: {
-          ...userConfigs,
-          dataConfig: {
-            ...userConfigs.dataConfig,
-            valueOptions: {
-              dimensions: configList.dimensions,
-              metrics: configList.metrics,
+  const updateChart = (updatedConfigList = configList) => {
+    const qm = new QueryManager();
+    const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
+    const newQuery = qm
+      .queryBuilder()
+      .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
+
+    batch(async () => {
+      await handleQueryChange(newQuery);
+      await dispatch(
+        changeQuery({
+          tabId,
+          query: {
+            ...data.query,
+            [RAW_QUERY]: newQuery,
+          },
+        })
+      );
+      await fetchData();
+      await dispatch(
+        changeVizConfig({
+          tabId,
+          vizId: visualizations.vis.name,
+          data: {
+            dataConfig: {
+              metrics: updatedConfigList.metrics,
+              dimensions: updatedConfigList.dimensions,
             },
           },
-        },
-      })
-    );
+        })
+      );
+    });
   };
 
   const getOptionsAvailable = (sectionName: string) => {
@@ -169,7 +193,7 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
-          onClick={updateChart}
+          onClick={() => updateChart()}
           size="s"
         >
           Update chart

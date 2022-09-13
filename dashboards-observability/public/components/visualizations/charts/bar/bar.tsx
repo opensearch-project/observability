@@ -31,7 +31,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const lastIndex = fields.length - 1;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
-  console.log('bar dataConfig: ', dataConfig);
 
   if (
     isEmpty(queriedVizData) ||

@@ -19,16 +19,9 @@ import {
   EuiFieldNumber,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { useDispatch, useSelector, batch } from 'react-redux';
-import {
-  render as renderExplorerVis,
-  selectExplorerVisualization,
-} from '../../../../../redux/slices/visualization_slice';
+import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
-import {
-  change as changeVizConfig,
-  selectVisualizationConfig,
-} from '../../../../../redux/slices/viualization_config_slice';
+import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
 import {
   AGGREGATION_OPTIONS,
   numericalTypes,
@@ -42,111 +35,47 @@ import { TabContext } from '../../../../../hooks';
 import { QueryManager } from '../../../../../../../../common/query_manager';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
 
-const initialConfigEntry = {
+const initialDimensionEntry = {
   label: '',
-  aggregation: '',
-  custom_label: '',
   name: '',
-  side: 'right',
-  type: '',
 };
 
-const DEFAULT_DATA_CONFIGS = {
-  [visChartTypes.HeatMap]: {
-    dimensions: [initialConfigEntry, initialConfigEntry],
-    metrics: [initialConfigEntry],
-  },
-  [visChartTypes.Histogram]: {
-    dimensions: [{ bucketSize: '', bucketOffset: '' }],
-  },
+const initialMetricEntry = {
+  alias: '',
+  label: '',
+  name: '',
+  aggregation: 'count',
 };
-
-const SPECIAL_RENDERING_VIZS = [visChartTypes.HeatMap, visChartTypes.Histogram];
-
-const getStandardedOuiField = (name?: string, type?: string) => ({
-  name,
-  label: name,
-  type,
-});
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
   const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
     TabContext
   );
-  const explorerVisualizationConfigs = useSelector(selectVisualizationConfig)[tabId];
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
     indexFields: { availableFields },
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
+  const { userConfigs } = data;
 
   useEffect(() => {
-    if (
-      data.rawVizData?.[visualizations.vis.name] &&
-      data.rawVizData?.[visualizations.vis.name].dataConfig
-    ) {
-      setConfigList((staleState) => {
-        return {
-          ...staleState,
-          ...data.rawVizData[visualizations.vis.name].dataConfig,
-        };
-      });
-    } else if (some(SPECIAL_RENDERING_VIZS, (visType) => visType === visualizations.vis.name)) {
-      // any vis that doesn't conform normal metrics/dimensions data confiurations
+    if (userConfigs && userConfigs.dataConfig) {
       setConfigList({
-        ...DEFAULT_DATA_CONFIGS[visualizations.vis.name],
+        ...userConfigs.dataConfig,
       });
-    } else {
-      // default
-      const qm = new QueryManager();
-      const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-      if (!statsTokens) {
-        setConfigList({
-          metrics: [],
-          dimensions: [],
-        });
-      } else {
-        const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
-        setConfigList({
-          metrics: statsTokens.aggregations.map((agg) => ({
-            alias: agg.alias,
-            label: agg.function?.value_expression,
-            name: agg.function?.value_expression,
-            aggregation: agg.function?.name,
-          })),
-          dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-            label: agg.name ?? '',
-            name: agg.name ?? '',
-          })),
-          span: {
-            time_field: statsTokens.groupby?.span?.span_expression?.field
-              ? [getStandardedOuiField(fieldInfo, 'timestamp')]
-              : [],
-            interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
-            unit: statsTokens.groupby?.span?.span_expression?.time_unit
-              ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
-              : [],
-          },
-        });
-      }
     }
-  }, [
-    data.defaultAxes,
-    data.rawVizData?.[visualizations.vis.name]?.dataConfig,
-    visualizations.vis.name,
-  ]);
+  }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     const list = { ...configList };
     let listItem = { ...list[name][index] };
     listItem = {
       ...listItem,
-      [field]: value,
+      [field === 'custom_label' ? 'alias' : field]: value,
     };
     if (field === 'label') {
-      listItem.type = value !== '' ? fields.find((x) => x.name === value)?.type : '';
       listItem.name = value;
     }
     const updatedList = {
@@ -180,8 +109,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const handleServiceAdd = (name: string) => {
-    const updatedList = { ...configList, [name]: [...configList[name], initialConfigEntry] };
-    setConfigList(updatedList);
+    const list = {
+      ...configList,
+      [name]: [
+        ...configList[name],
+        name === 'metrics' ? initialMetricEntry : initialDimensionEntry,
+      ],
+    };
+    setConfigList(list);
   };
 
   const updateChart = (updatedConfigList = configList) => {
