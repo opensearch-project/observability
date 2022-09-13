@@ -199,7 +199,27 @@ exports[`Bar component Renders bar component 1`] = `
             "status": 200,
           },
         },
-        "userConfigs": Object {},
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "valueOptions": Object {
+              "dimensions": Array [
+                Object {
+                  "label": "tags",
+                  "name": "tags",
+                  "type": "text",
+                },
+              ],
+              "metrics": Array [
+                Object {
+                  "label": "count()",
+                  "name": "count()",
+                  "side": "left",
+                  "type": "integer",
+                },
+              ],
+            },
+          },
+        },
       },
       "vis": Object {
         "barwidth": 0.97,
