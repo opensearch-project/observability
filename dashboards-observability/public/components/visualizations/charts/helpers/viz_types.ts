@@ -118,6 +118,34 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
         dimensions: [initialDimensionEntry, initialDimensionEntry],
         metrics: [initialMetricEntry],
       };
+    } else if (visualizationName === visChartTypes.TreeMap) {
+      tempUserConfigs = {
+        dimensions: [
+          {
+            childField: {
+              ...(statsTokens.groupby?.group_fields.length > 0
+                ? {
+                    label: statsTokens.groupby?.group_fields[0].name,
+                    name: statsTokens.groupby?.group_fields[0].name,
+                  }
+                : initialEntryTreemap),
+            },
+            parentFields: [],
+          },
+        ],
+        metrics: [
+          {
+            valueField: {
+              ...(statsTokens.aggregations.length > 0
+                ? {
+                    label: statsTokens.aggregations[0].function?.value_expression,
+                    name: statsTokens.aggregations[0].function?.value_expression,
+                  }
+                : initialEntryTreemap),
+            },
+          },
+        ],
+      };
     } else {
       tempUserConfigs = {
         ...tempUserConfigs,
@@ -161,17 +189,7 @@ const getUserConfigs = (
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            valueOptions: {
-              dimensions: [
-                {
-                  childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
-                  parentFields: [],
-                },
-              ],
-              metrics: [
-                { valueField: { ...(axesData.yaxis ? axesData.yaxis[0] : initialEntryTreemap) } },
-              ],
-            },
+            ...defaultUserConfigs(query, visName),
           },
         };
         break;
@@ -224,6 +242,9 @@ export const getVizContainerProps = ({
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
 
+  const userSetConfigs = isEmpty(query)
+    ? userConfigs
+    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData().name, query);
   return {
     data: {
       appData: { ...appData },
@@ -231,7 +252,7 @@ export const getVizContainerProps = ({
       query: { ...query },
       indexFields: { ...indexFields },
       userConfigs: {
-        ...getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData().name, query),
+        ...userSetConfigs,
       },
       defaultAxes: {
         ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData().name),

@@ -19,16 +19,9 @@ import {
   EuiFieldNumber,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { useDispatch, useSelector, batch } from 'react-redux';
-import {
-  render as renderExplorerVis,
-  selectExplorerVisualization,
-} from '../../../../../redux/slices/visualization_slice';
+import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
-import {
-  change as changeVizConfig,
-  selectVisualizationConfig,
-} from '../../../../../redux/slices/viualization_config_slice';
+import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
 import {
   AGGREGATION_OPTIONS,
   numericalTypes,
@@ -41,15 +34,6 @@ import { ConfigList } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 import { QueryManager } from '../../../../../../../../common/query_manager';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
-
-const initialConfigEntry = {
-  label: '',
-  aggregation: '',
-  custom_label: '',
-  name: '',
-  side: 'right',
-  type: '',
-};
 
 const initialDimensionEntry = {
   label: '',
