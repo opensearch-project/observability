@@ -145,12 +145,7 @@ const getUserConfigs = (
 ) => {
   let configOfUser = userSelectedConfigs;
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
-  if (
-    !(
-      userSelectedConfigs.dataConfig?.dimensions?.length > 0 ||
-      userSelectedConfigs.dataConfig?.metrics?.length > 0
-    )
-  ) {
+  if (!(userSelectedConfigs.dataConfig?.dimensions || userSelectedConfigs.dataConfig?.metrics)) {
     switch (visName) {
       case visChartTypes.HeatMap:
         configOfUser = {
