@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Histogram component Renders histogram component 1`] = `
-<Histogram
+exports[`Gauge component Renders gauge component 1`] = `
+<Gauge
   config={true}
   layout={
     Object {
@@ -222,9 +222,7 @@ exports[`Histogram component Renders histogram component 1`] = `
         },
       },
       "vis": Object {
-        "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryaxis": "xaxis",
         "component": [Function],
         "editorconfig": Object {
           "panelTabs": Array [
@@ -236,119 +234,7 @@ exports[`Histogram component Renders histogram component 1`] = `
               "sections": Array [
                 Object {
                   "editor": [Function],
-                  "id": "tooltip_options",
-                  "mapTo": "tooltipOptions",
-                  "name": "Tooltip options",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipMode",
-                      "name": "Tooltip mode",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                          Object {
-                            "id": "hidden",
-                            "name": "Hidden",
-                          },
-                        ],
-                      },
-                    },
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipText",
-                      "name": "Tooltip text",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                          Object {
-                            "id": "x",
-                            "name": "Dimension",
-                          },
-                          Object {
-                            "id": "y",
-                            "name": "Metrics",
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-                Object {
-                  "editor": [Function],
-                  "id": "legend",
-                  "mapTo": "legend",
-                  "name": "Legend",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "mapTo": "showLegend",
-                      "name": "Show legend",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                          Object {
-                            "id": "hidden",
-                            "name": "Hidden",
-                          },
-                        ],
-                      },
-                    },
-                    Object {
-                      "component": null,
-                      "mapTo": "position",
-                      "name": "Position",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Right",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Right",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Bottom",
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-                Object {
-                  "editor": [Function],
-                  "id": "chart_styles",
+                  "id": "chart-styles",
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
@@ -360,11 +246,15 @@ exports[`Histogram component Renders histogram component 1`] = `
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "id": "v",
-                            "name": "Vertical",
+                            "id": "auto",
+                            "name": "Auto",
                           },
                         ],
                         "options": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
                           Object {
                             "id": "v",
                             "name": "Vertical",
@@ -379,23 +269,27 @@ exports[`Histogram component Renders histogram component 1`] = `
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
-                      "mapTo": "mode",
-                      "name": "Mode",
+                      "mapTo": "legendPlacement",
+                      "name": "Legend placement",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "id": "group",
-                            "name": "Group",
+                            "id": "center",
+                            "name": "Center",
                           },
                         ],
                         "options": Array [
                           Object {
-                            "id": "group",
-                            "name": "Group",
+                            "id": "center",
+                            "name": "Center",
                           },
                           Object {
-                            "id": "stack",
-                            "name": "Stack",
+                            "id": "right",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "left",
+                            "name": "Left",
                           },
                         ],
                       },
@@ -403,92 +297,44 @@ exports[`Histogram component Renders histogram component 1`] = `
                     Object {
                       "component": [Function],
                       "eleType": "input",
-                      "mapTo": "labelSize",
-                      "name": "Label size",
+                      "mapTo": "titleSize",
+                      "name": "Title size",
+                      "title": "Title size",
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 0,
-                      "eleType": "slider",
-                      "mapTo": "rotateBarLabels",
-                      "name": "Rotate bar labels",
-                      "props": Object {
-                        "max": 90,
-                        "min": -90,
-                        "showTicks": true,
-                        "ticks": Array [
-                          Object {
-                            "label": "-90°",
-                            "value": -90,
-                          },
-                          Object {
-                            "label": "-45°",
-                            "value": -45,
-                          },
-                          Object {
-                            "label": "0°",
-                            "value": 0,
-                          },
-                          Object {
-                            "label": "45°",
-                            "value": 45,
-                          },
-                          Object {
-                            "label": "90°",
-                            "value": 90,
-                          },
-                        ],
-                      },
+                      "eleType": "input",
+                      "mapTo": "valueSize",
+                      "name": "Value size",
+                      "title": "Value size",
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 0.7,
-                      "eleType": "slider",
-                      "mapTo": "groupWidth",
-                      "name": "Group width",
-                      "props": Object {
-                        "max": 1,
-                        "step": 0.01,
-                      },
+                      "currentValue": false,
+                      "eleType": "switchButton",
+                      "mapTo": "showThresholdLabels",
+                      "name": "Show threshold labels",
+                      "title": "Show threshold labels",
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 0.97,
-                      "eleType": "slider",
-                      "mapTo": "barWidth",
-                      "name": "Bar width",
-                      "props": Object {
-                        "max": 1,
-                        "step": 0.01,
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 1,
-                      "eleType": "slider",
-                      "mapTo": "lineWidth",
-                      "name": "Line width",
-                      "props": Object {
-                        "max": 10,
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 80,
-                      "eleType": "slider",
-                      "mapTo": "fillOpacity",
-                      "name": "Fill opacity",
-                      "props": Object {
-                        "max": 100,
-                      },
+                      "currentValue": true,
+                      "eleType": "switchButton",
+                      "mapTo": "showThresholdMarkers",
+                      "name": "Show threshold markers",
+                      "title": "Show threshold markers",
                     },
                   ],
                 },
                 Object {
+                  "defaultState": Array [],
                   "editor": [Function],
-                  "id": "color-theme",
-                  "mapTo": "colorTheme",
-                  "name": "Color theme",
+                  "id": "thresholds",
+                  "mapTo": "thresholds",
+                  "name": "Thresholds",
+                  "props": Object {
+                    "maxLimit": 1,
+                  },
                   "schemas": Array [],
                 },
               ],
@@ -500,39 +346,24 @@ exports[`Histogram component Renders histogram component 1`] = `
               "mapTo": "layoutConfig",
               "name": "Layout",
             },
-            Object {
-              "editor": [Function],
-              "id": "availability-panel",
-              "mapTo": "availabilityConfig",
-              "name": "Availability",
-            },
           ],
         },
-        "fillOpacity": 80,
-        "fulllabel": "Vertical bar",
-        "groupwidth": 0.7,
+        "fulllabel": "Gauge",
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
-        "id": "bar",
-        "label": "Vertical bar",
-        "labelangle": 0,
-        "legendposition": "v",
-        "linewidth": 1,
-        "mode": "group",
-        "name": "bar",
-        "orientation": "v",
+        "icontype": "visGauge",
+        "id": "gauge",
+        "label": "Gauge",
+        "name": "Gauge",
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesaxis": "yaxis",
-        "showlegend": "show",
-        "type": "bar",
+        "type": "indicator",
+        "valueseries": "yaxis",
         "visconfig": Object {
           "config": Object {
             "displaylogo": false,
             "responsive": true,
           },
-          "isUniColor": false,
           "layout": Object {
             "height": 1180,
             "legend": Object {
@@ -558,38 +389,35 @@ exports[`Histogram component Renders histogram component 1`] = `
     data={
       Array [
         Object {
-          "hoverinfo": "all",
-          "marker": Object {
-            "color": "rgba(60,161,199,0.2)",
-            "line": Object {
-              "color": "rgba(60,161,199,1)",
-              "width": 2,
-            },
+          "domain": Object {
+            "column": 0,
+            "row": 0,
           },
-          "name": "count()",
-          "type": "histogram",
-          "x": Array [
-            154,
-            1753,
-            116,
-            468,
-            1964,
-            219,
-          ],
-          "xbins": undefined,
+          "gauge": Object {},
+          "mode": "gauge+number+delta",
+          "title": Object {
+            "align": "center",
+            "font": Object {
+              "size": 14,
+            },
+            "text": "error, count()",
+          },
+          "type": "indicator",
+          "value": 154,
         },
       ]
     }
     layout={
       Object {
-        "barmode": "group",
         "colorway": Array [
           "#8C55A3",
         ],
-        "height": 220,
-        "legend": Object {
-          "orientation": "v",
+        "grid": Object {
+          "columns": 1,
+          "pattern": "independent",
+          "rows": 1,
         },
+        "height": 220,
         "margin": Object {
           "b": 15,
           "l": 60,
@@ -611,25 +439,21 @@ exports[`Histogram component Renders histogram component 1`] = `
       data={
         Array [
           Object {
-            "hoverinfo": "all",
-            "marker": Object {
-              "color": "rgba(60,161,199,0.2)",
-              "line": Object {
-                "color": "rgba(60,161,199,1)",
-                "width": 2,
-              },
+            "domain": Object {
+              "column": 0,
+              "row": 0,
             },
-            "name": "count()",
-            "type": "histogram",
-            "x": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
-            ],
-            "xbins": undefined,
+            "gauge": Object {},
+            "mode": "gauge+number+delta",
+            "title": Object {
+              "align": "center",
+              "font": Object {
+                "size": 14,
+              },
+              "text": "error, count()",
+            },
+            "type": "indicator",
+            "value": 154,
           },
         ]
       }
@@ -638,14 +462,20 @@ exports[`Histogram component Renders histogram component 1`] = `
       layout={
         Object {
           "autosize": true,
-          "barmode": "group",
+          "barmode": "stack",
           "colorway": Array [
             "#8C55A3",
           ],
+          "grid": Object {
+            "columns": 1,
+            "pattern": "independent",
+            "rows": 1,
+          },
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
-            "orientation": "v",
+            "orientation": "h",
+            "traceorder": "normal",
           },
           "margin": Object {
             "b": 15,
@@ -688,5 +518,5 @@ exports[`Histogram component Renders histogram component 1`] = `
       />
     </PlotlyComponent>
   </Plt>
-</Histogram>
+</Gauge>
 `;
