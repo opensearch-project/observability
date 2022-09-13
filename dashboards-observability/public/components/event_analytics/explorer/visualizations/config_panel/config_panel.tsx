@@ -299,14 +299,6 @@ export const ConfigPanel = ({
             />
           </EuiPanel>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <DefaultEditorControls
-            isDirty={true}
-            isInvalid={false}
-            onConfigUpdate={handleConfigUpdate}
-            onConfigDiscard={handleDiscardConfig}
-          />
-        </EuiFlexItem>
       </EuiFlexGroup>
     </>
   );
