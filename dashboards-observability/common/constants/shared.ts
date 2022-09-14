@@ -84,6 +84,7 @@ export enum VIS_CHART_TYPES {
   Scatter = 'scatter',
   LogsView = 'logs_view',
   Stats = 'stats',
+  TableView = 'data_table',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];

@@ -3,17 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, {
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-  useEffect,
-} from 'react';
-import {
-  EuiFlexGroup,
-  EuiFlexItem,
-} from '@elastic/eui';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 
 // ag-data-grid
 import { AgGridReact } from 'ag-grid-react';
@@ -25,15 +16,11 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 import './data_table.scss';
 
 // grid elements
-import { CustomOverlay, RowConfigType, GridHeader,  } from "./data_table_header"
-import { GridFooter } from "./data_table_footer"
+import { CustomOverlay, RowConfigType, GridHeader } from './data_table_header';
+import { GridFooter } from './data_table_footer';
 
 // constants
-import {
-  COLUMN_DEFAULT_MIN_WIDTH,
-  HEADER_HEIGHT,
-} from '../../../../../common/constants/explorer';
-
+import { COLUMN_DEFAULT_MIN_WIDTH, HEADER_HEIGHT } from '../../../../../common/constants/explorer';
 
 const doubleValueGetter = (params) => {
   return params.data[params.column.colId];
@@ -45,6 +32,30 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     jsonData,
     metadata: { fields = [] },
   } = visualizations.data.rawVizData;
+
+  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const enablePagination =
+    typeof dataConfig?.chartStyles?.enablePagination !== 'undefined'
+      ? dataConfig?.chartStyles?.enablePagination
+      : visualizations.vis.enablepagination;
+
+  const showTableHeader =
+    typeof dataConfig?.chartStyles?.showTableHeader !== 'undefined'
+      ? dataConfig?.chartStyles?.showTableHeader
+      : visualizations.vis.showtableheader;
+
+  const colunmFilter =
+    typeof dataConfig?.chartStyles?.colunmFilter !== 'undefined'
+      ? dataConfig?.chartStyles?.colunmFilter
+      : visualizations.vis.colunmfilter;
+
+  const columnAlignment =
+    dataConfig?.chartStyles?.columnAlignment || visualizations.vis.columnalignment;
+
+  const columnWidth =
+    typeof dataConfig?.chartStyles?.columnWidth !== 'undefined'
+      ? dataConfig?.chartStyles?.columnWidth
+      : visualizations.vis.columnwidth;
 
   useEffect(() => {
     document.addEventListener('keydown', hideGridFullScreenHandler);
@@ -92,13 +103,24 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     return {
       sortable: true,
       resizable: true,
-      filter: true,
+      filter: colunmFilter,
       flex: 1,
-      suppressMenu: true,
+      suppressMenu: false,
       minWidth: COLUMN_DEFAULT_MIN_WIDTH,
       headerHeight: 400,
+      type: columnAlignment,
     };
-  }, []);
+  }, [colunmFilter, columnAlignment]);
+
+  useEffect(() => {
+    if (!dataConfig?.chartStyles?.columnWidth) {
+      gridRef?.current?.api?.sizeColumnsToFit();
+    } else {
+      columns.forEach((col: any) =>
+        gridRef?.current?.columnApi?.setColumnWidth(col.field, Number(columnWidth))
+      );
+    }
+  }, [columnWidth, columns, dataConfig]);
 
   const onPageSizeChanged = useCallback(
     (val: number) => {
@@ -155,17 +177,20 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
       setIsFullScreen(false);
     }
   };
+
   return (
     <>
-      <GridHeader
-        isFullScreen={isFullScreen}
-        setIsFullScreenHandler={setIsFullScreenHandler}
-        selectedRowDensity={selectedRowDensity}
-        selectDensityHandler={selectDensityHandler}
-        columnVisiblityHandler={columnVisiblityHandler}
-        columns={columns}
-        columnVisibility={columnVisibility}
-      />
+      {showTableHeader && (
+        <GridHeader
+          isFullScreen={isFullScreen}
+          setIsFullScreenHandler={setIsFullScreenHandler}
+          selectedRowDensity={selectedRowDensity}
+          selectDensityHandler={selectDensityHandler}
+          columnVisiblityHandler={columnVisiblityHandler}
+          columns={columns}
+          columnVisibility={columnVisibility}
+        />
+      )}
       <AgGridReact
         ref={gridRef}
         rowData={raw_data}
@@ -173,7 +198,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         defaultColDef={defaultColDef}
         domLayout={'autoHeight'}
         animateRows
-        pagination
+        pagination={enablePagination}
         paginationPageSize={pageSize}
         suppressPaginationPanel
         rowHeight={selectedRowDensity.height}
@@ -181,13 +206,15 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
           gridRef?.current?.api.setHeaderHeight(HEADER_HEIGHT);
         }}
       />
-      <GridFooter
-        onPageSizeChanged={onPageSizeChanged}
-        pageSize={pageSize}
-        activePage={activePage}
-        goToPage={goToPage}
-        pageCount={pageCount}
-      />
+      {enablePagination && (
+        <GridFooter
+          onPageSizeChanged={onPageSizeChanged}
+          pageSize={pageSize}
+          activePage={activePage}
+          goToPage={goToPage}
+          pageCount={pageCount}
+        />
+      )}
       {isFullScreen && (
         <CustomOverlay>
           <EuiFlexGroup direction="column">
@@ -223,5 +250,3 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
     </>
   );
 };
-
-

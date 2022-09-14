@@ -2,46 +2,6 @@
 
 exports[`Data table component Renders data table component 1`] = `
 <Fragment>
-  <GridHeader
-    columnVisibility={Array []}
-    columnVisiblityHandler={[Function]}
-    columns={
-      Array [
-        Object {
-          "colId": "count()",
-          "columnsMenuParams": Object {
-            "suppressColumnExpandAll": true,
-            "suppressColumnFilter": true,
-            "suppressColumnSelectAll": true,
-          },
-          "field": "count()",
-          "headerName": "count()",
-          "lockVisible": true,
-        },
-        Object {
-          "colId": "tags",
-          "columnsMenuParams": Object {
-            "suppressColumnExpandAll": true,
-            "suppressColumnFilter": true,
-            "suppressColumnSelectAll": true,
-          },
-          "field": "tags",
-          "headerName": "tags",
-          "lockVisible": true,
-        },
-      ]
-    }
-    isFullScreen={false}
-    selectDensityHandler={[Function]}
-    selectedRowDensity={
-      Object {
-        "height": 35,
-        "icon": "tableDensityCompact",
-        "selected": true,
-      }
-    }
-    setIsFullScreenHandler={[Function]}
-  />
   <AgGridReact
     animateRows={true}
     columnDefs={
@@ -72,18 +32,18 @@ exports[`Data table component Renders data table component 1`] = `
     }
     defaultColDef={
       Object {
-        "filter": true,
+        "filter": undefined,
         "flex": 1,
         "headerHeight": 400,
         "minWidth": 100,
         "resizable": true,
         "sortable": true,
-        "suppressMenu": true,
+        "suppressMenu": false,
+        "type": undefined,
       }
     }
     domLayout="autoHeight"
     onGridReady={[Function]}
-    pagination={true}
     paginationPageSize={10}
     rowData={
       Array [
@@ -115,13 +75,6 @@ exports[`Data table component Renders data table component 1`] = `
     }
     rowHeight={35}
     suppressPaginationPanel={true}
-  />
-  <GridFooter
-    activePage={0}
-    goToPage={[Function]}
-    onPageSizeChanged={[Function]}
-    pageCount={1}
-    pageSize={10}
   />
 </Fragment>
 `;
