@@ -5,7 +5,7 @@
 
 import React, { useMemo } from 'react';
 import Plotly from 'plotly.js-dist';
-import { uniqBy } from 'lodash';
+import { uniqBy, find, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
@@ -30,6 +30,7 @@ import {
 } from '../../../../../common/constants/explorer';
 import { DefaultChartStyles, FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
 import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 
 const {
   DefaultOrientation,
@@ -46,32 +47,49 @@ interface CreateAnnotationType {
 }
 
 export const Stats = ({ visualizations, layout, config }: any) => {
-  const { vis } = visualizations;
   const {
-    data,
-    metadata: { fields },
-  } = visualizations?.data?.rawVizData;
+    data: {
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
 
   // data config parametrs
   const {
     dataConfig: {
+      span = {},
+      dimensions = [],
+      metrics = [],
       chartStyles = {},
-      valueOptions = {},
       panelOptions = {},
       tooltipOptions = {},
       thresholds = [],
     },
     layoutConfig = {},
-  } = visualizations?.data?.userConfigs;
-  const dimensions = valueOptions?.dimensions
-    ? filterDataConfigParameter(valueOptions.dimensions)
-    : [];
-  const metrics = valueOptions?.metrics ? filterDataConfigParameter(valueOptions.metrics) : [];
+  } = userConfigs;
+
+  /**
+   * determine x axis
+   */
+  const selectedDimensions = useMemo(() => {
+    // span selection
+    const timestampField = find(fields, (field) => field.type === 'timestamp');
+    if (span && span.time_field && timestampField) {
+      return [timestampField, ...dimensions];
+    }
+    return [...dimensions];
+  }, [dimensions, fields, span]);
+
   const metricsLength = metrics.length;
-  const chartType = chartStyles.chartType || vis.charttype;
+  const chartType = chartStyles.chartType || visMetaData.charttype;
 
   if (
-    (chartType === DefaultChartType && dimensions.length === 0) ||
+    isEmpty(queriedVizData) ||
+    (chartType === DefaultChartType && selectedDimensions.length === 0) ||
     metricsLength === 0 ||
     chartType !== DefaultChartType
   )
@@ -85,21 +103,23 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // style panel parameters
   const titleSize =
     chartStyles.titleSize ||
-    vis.titlesize - vis.titlesize * metricsLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
+    visMetaData.titlesize -
+      visMetaData.titlesize * metricsLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
     chartStyles.valueSize ||
-    vis.valuesize - vis.valuesize * metricsLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
-  const selectedOrientation = chartStyles.orientation || vis.orientation;
+    visMetaData.valuesize -
+      visMetaData.valuesize * metricsLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
+  const selectedOrientation = chartStyles.orientation || visMetaData.orientation;
   const orientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
       ? DefaultOrientation
       : 'h';
-  const selectedTextMode = chartStyles.textMode || vis.textmode;
+  const selectedTextMode = chartStyles.textMode || visMetaData.textmode;
   const textMode =
     selectedTextMode === DefaultTextMode || selectedTextMode === 'values+names'
       ? DefaultTextMode
       : selectedTextMode;
-  const precisionValue = chartStyles.precisionValue || vis.precisionvalue;
+  const precisionValue = chartStyles.precisionValue || visMetaData.precisionvalue;
   const metricUnits =
     chartStyles.metricUnits?.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
   const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
@@ -110,12 +130,13 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   let autoChartLayout: object = {
     annotations: [],
   };
-
-  const selectedDimensionsData = dimensions.reduce((prev, cur) => {
-    if (prev.length === 0) return data[cur.name].flat();
-    return prev.map(
-      (item: string | number, index: number) => `${item},<br>${data[cur.name][index]}`
-    );
+  const selectedDimensionsData = selectedDimensions.reduce((prev, cur) => {
+    if (queriedVizData[cur.name]) {
+      if (prev.length === 0) return queriedVizData[cur.name].flat();
+      return prev.map(
+        (item: string | number, index: number) => `${item},<br>${queriedVizData[cur.name][index]}`
+      );
+    }
   }, []);
 
   const createValueText = (value: string | number) =>
@@ -253,21 +274,28 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   };
 
   // extend y axis range to increase height of subplot w.r.t metric data
-  const extendYaxisRange = (metric: ConfigListEntry) => {
-    const sortedData = data[metric.label].slice().sort((curr: number, next: number) => next - curr);
+  const extendYaxisRange = (metricLabel: string) => {
+    const sortedData = queriedVizData[metricLabel]
+      .slice()
+      .sort((curr: number, next: number) => next - curr);
     return isNaN(sortedData[0]) ? 100 : sortedData[0] + sortedData[0] / 2;
   };
 
   const getMetricValue = (label: string) =>
-    typeof data[label][data[label].length - 1] === 'number'
-      ? getRoundOf(data[label][data[label].length - 1], Math.abs(precisionValue))
+    typeof queriedVizData[label][queriedVizData[label].length - 1] === 'number'
+      ? getRoundOf(
+          queriedVizData[label][queriedVizData[label].length - 1],
+          Math.abs(precisionValue)
+        )
       : 0;
 
   const generateLineTraces = () => {
     return metrics.map((metric: ConfigListEntry, metricIndex: number) => {
+      const metricLabel = `${metric.aggregation}(${metric.name})`;
+      const isLabelExisted = queriedVizData[metricLabel] ? true : false;
       const annotationOption = {
-        label: metric.label,
-        value: getMetricValue(metric.label),
+        label: metricLabel,
+        value: isLabelExisted ? getMetricValue(metricLabel) : 0,
         index: metricIndex,
         valueColor: '',
       };
@@ -283,21 +311,21 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           visible: false,
           showgrid: false,
           anchor: `y${layoutAxisIndex}`,
-          layoutFor: metric.label,
+          layoutFor: metricLabel,
         },
         [`yaxis${layoutAxisIndex}`]: {
           visible: false,
           showgrid: false,
           anchor: `x${layoutAxisIndex}`,
-          range: [0, extendYaxisRange(metric)],
-          layoutFor: metric.label,
+          range: isLabelExisted ? [0, extendYaxisRange(metricLabel)] : [0, 100],
+          layoutFor: metricLabel,
         },
       };
 
       return {
         x: selectedDimensionsData,
-        y: data[metric.label],
-        metricValue: getMetricValue(metric.label),
+        y: queriedVizData[metricLabel],
+        metricValue: isLabelExisted ? getMetricValue(metricLabel) : 0,
         fill: 'tozeroy',
         mode: 'lines',
         type: 'scatter',
@@ -305,7 +333,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         line: {
           color: '',
         },
-        name: metric.label,
+        name: metricLabel,
         ...(metricIndex > 0 && {
           xaxis: `x${metricIndex + 1}`,
           yaxis: `y${metricIndex + 1}`,
@@ -380,7 +408,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   }, [
     dimensions,
     metrics,
-    data,
     fields,
     appliedThresholds,
     orientation,
@@ -388,6 +415,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     valueSize,
     textMode,
     metricUnits,
+    queriedVizData,
+    precisionValue,
   ]);
 
   const mergedLayout = useMemo(() => {

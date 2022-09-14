@@ -33,7 +33,7 @@ const {
 } = DefaultStatsParameters;
 
 export const createStatsTypeDefinition = (params: any = {}) => ({
-  name: 'Stats',
+  name: 'stats',
   type: 'stats',
   id: 'stats',
   label: 'Stats',
