@@ -42,16 +42,14 @@ const initialDimensionEntry = {
   name: '',
 };
 
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
-
-  const initialConfigEntry = {
-    label: '',
-    aggregation: '',
-    custom_label: '',
-    name: '',
-    side: 'left',
-    type: '',
-  };
+const initialConfigEntry = {
+  label: '',
+  aggregation: '',
+  custom_label: '',
+  name: '',
+  side: 'left',
+  type: '',
+};
 
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
@@ -65,6 +63,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
   const { userConfigs } = data;
+
+  const tooltipText =
+    'You need to have a timestamp field in the PPL query to render this visualization';
 
   useEffect(() => {
     if (userConfigs && userConfigs.dataConfig) {
@@ -293,8 +294,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               onClick={() => handleServiceAdd(sectionName)}
               disabled={
                 sectionName === 'dimensions' &&
-                      (visualizations.vis.name === visChartTypes.Line ||
-                        visualizations.vis.name === visChartTypes.Scatter)
+                (visualizations.vis.name === visChartTypes.Line ||
+                  visualizations.vis.name === visChartTypes.Scatter)
               }
             >
               Add
