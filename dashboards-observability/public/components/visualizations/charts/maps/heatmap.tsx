@@ -40,7 +40,6 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(data[`${zMetrics.aggregation}(${zMetrics.name})`]) ||
     dataConfig?.dimensions.length > 2 ||
     dataConfig?.metrics.length > 1
-    // indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
