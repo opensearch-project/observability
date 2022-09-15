@@ -282,6 +282,7 @@ export interface ConfigListEntry {
   name: string;
   side: string;
   type: string;
+  alias?: string;
 }
 
 export interface HistogramConfigList {

@@ -286,7 +286,9 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   const generateLineTraces = () => {
     return metrics.map((metric: ConfigListEntry, metricIndex: number) => {
-      const metricLabel = `${metric.aggregation}(${metric.name})`;
+      const metricLabel = `${
+        metric.alias ? metric.alias : `${metric.aggregation}(${metric.name})`
+      }`;
       const isLabelExisted = queriedVizData[metricLabel] ? true : false;
       const annotationOption = {
         label: metricLabel,
