@@ -10,12 +10,7 @@ import { Plt } from '../../plotly/plot';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { ConfigListEntry } from '../../../../../common/types/explorer';
-import {
-  hexToRgb,
-  filterDataConfigParameter,
-  getRoundOf,
-  getTooltipHoverInfo,
-} from '../../../event_analytics/utils/utils';
+import { hexToRgb, getRoundOf, getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
 import { uiSettingsService } from '../../../../../common/utils';
 import {
   STATS_GRID_SPACE_BETWEEN_X_AXIS,
@@ -145,16 +140,14 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     }</b>`;
 
   const calculateTextCooridinate = (metricLength: number, index: number) => {
+    // calculating center of each subplot based on orienation vertical(single column) or horizontal(single row)
+    // splitting whole plot area with metric length and find center of each individual subplot w.r.t index of metric
     if (metricLength === 1) {
       return 0.5;
-    } else {
-      // calculate center of respective axis in each subplot based on metric length
-      if (index === 0) {
-        return 1 / metricLength / 2;
-      } else {
-        return (index + 1) / metricLength - 1 / metricLength / 2;
-      }
+    } else if (index === 0) {
+      return 1 / metricLength / 2;
     }
+    return (index + 1) / metricLength - 1 / metricLength / 2;
   };
 
   const createAnnotationsAutoModeHorizontal = ({
@@ -163,12 +156,13 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     index,
     valueColor,
   }: CreateAnnotationType) => {
-    return textMode === 'values+names' || textMode === DefaultTextMode
+    const yCordinate = index > 0 ? (index + 1) / metricsLength : 1 / metricsLength;
+    return textMode === DefaultTextMode
       ? [
           {
             ...STATS_ANNOTATION,
-            x: 0 + ANNOTATION_MARGIN_LEFT,
-            y: index > 0 ? (index + 1) / metricsLength : 1 / metricsLength,
+            x: ANNOTATION_MARGIN_LEFT,
+            y: yCordinate,
             xanchor: 'left',
             yanchor: 'top',
             text: label,
@@ -183,7 +177,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           {
             ...STATS_ANNOTATION,
             x: 1,
-            y: index > 0 ? (index + 1) / metricsLength : 1 / metricsLength,
+            y: yCordinate,
             xanchor: 'right',
             yanchor: 'top',
             text: createValueText(value),
@@ -221,7 +215,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     index,
     valueColor,
   }: CreateAnnotationType) => {
-    return textMode === 'values+names' || textMode === DefaultTextMode
+    const xCoordinate = index / metricsLength + ANNOTATION_MARGIN_LEFT;
+    return textMode === DefaultTextMode
       ? [
           {
             ...STATS_ANNOTATION,
@@ -233,7 +228,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               color: isDarkMode ? COLOR_WHITE : COLOR_BLACK,
               family: 'Roboto',
             },
-            x: index / metricsLength + ANNOTATION_MARGIN_LEFT,
+            x: xCoordinate,
             y: 1,
             metricValue: value,
             type: 'name',
@@ -248,7 +243,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
               color: valueColor,
               family: 'Roboto',
             },
-            x: index / metricsLength + ANNOTATION_MARGIN_LEFT,
+            x: xCoordinate,
             y: 1,
             type: 'value',
             metricValue: value,
