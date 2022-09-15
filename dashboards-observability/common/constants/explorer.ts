@@ -120,7 +120,16 @@ export const AGGREGATION_OPTIONS = [
 ];
 
 // numeric fields type for metrics
-export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte', 'integer'];
+export const numericalTypes = [
+  'float',
+  'double',
+  'bigint',
+  'long',
+  'octet',
+  'short',
+  'byte',
+  'integer',
+];
 // Data table constants
 export const GRID_HEADER_COLUMN_MAX_WIDTH = '150px';
 export const GRID_PAGE_RANGE_DISPLAY = 5;
@@ -136,13 +145,13 @@ export const HEADER_HEIGHT = 35;
 
 // gauge chart default parameters
 export interface DefaultGaugeChartParametersProps {
-  GaugeTitleSize: number,
-  DisplayDefaultGauges: number,
-  OrientationDefault: string,
-  TickLength: number, 
-  LegendPlacement: string,
-  ThresholdsMaxLimit: number
-};
+  GaugeTitleSize: number;
+  DisplayDefaultGauges: number;
+  OrientationDefault: string;
+  TickLength: number;
+  LegendPlacement: string;
+  ThresholdsMaxLimit: number;
+}
 
 export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   GaugeTitleSize: 14,
@@ -150,5 +159,17 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   OrientationDefault: 'h',
   TickLength: 5,
   LegendPlacement: 'center',
-  ThresholdsMaxLimit: 1
+  ThresholdsMaxLimit: 1,
+};
+
+// pie chart default parameters
+export const PLOTLY_PIE_COLUMN_NUMBER = 2;
+export const PIE_XAXIS_GAP = 0.2;
+export const PIE_YAXIS_GAP = 0.1;
+export interface DefaultPieChartParametersProps {
+  DefaultMode: string;
 }
+
+export const DefaultPieChartParameters: DefaultPieChartParametersProps = {
+  DefaultMode: 'pie',
+};
