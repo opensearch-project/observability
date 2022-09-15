@@ -13,6 +13,7 @@ import {
 } from '../../../../../common/types/explorer';
 import { visChartTypes } from '../../../../../common/constants/shared';
 import { QueryManager } from '../../../../../common/query_manager';
+import { TIME_INTERVAL_OPTIONS } from '../../../../../common/constants/explorer';
 interface IVizContainerProps {
   vizId: string;
   appData?: { fromApp: boolean };
@@ -92,7 +93,14 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
           : [],
         interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
         unit: statsTokens.groupby?.span?.span_expression?.time_unit
-          ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
+          ? [
+              getStandardedOuiField(
+                TIME_INTERVAL_OPTIONS.find(
+                  (time_unit) =>
+                    time_unit.value === statsTokens.groupby?.span.span_expression.time_unit
+                )?.text
+              ),
+            ]
           : [],
       },
     };
