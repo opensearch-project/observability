@@ -457,7 +457,7 @@ exports[`Stats component Renders stats component 1`] = `
         "icontype": "stats",
         "id": "stats",
         "label": "Stats",
-        "name": "Stats",
+        "name": "stats",
         "orientation": "auto",
         "precisionvalue": 1,
         "selection": Object {
@@ -517,256 +517,82 @@ exports[`Stats component Renders stats component 1`] = `
     }
   }
 >
-  <Plt
-    config={Object {}}
-    data={
-      Array [
-        Object {
-          "fill": "tozeroy",
-          "fillcolor": "rgba(60,161,199,0.2)",
-          "hoverinfo": "all",
-          "line": Object {
-            "color": "#3CA1C7",
-          },
-          "metricValue": "219.0",
-          "mode": "lines",
-          "name": "count()",
-          "type": "scatter",
-          "x": Array [
-            "error",
-            "info",
-            "login",
-            "security",
-            "success",
-            "warning",
-          ],
-          "y": Array [
-            154,
-            1753,
-            116,
-            468,
-            1964,
-            219,
-          ],
-        },
-      ]
-    }
-    layout={
-      Object {
-        "annotations": Array [
-          Object {
-            "font": Object {
-              "color": "rgb(0,0,0)",
-              "family": "Roboto",
-              "size": 28.5,
-            },
-            "metricValue": "219.0",
-            "showarrow": false,
-            "text": "count()",
-            "type": "name",
-            "x": 0,
-            "xanchor": "left",
-            "xref": "paper",
-            "y": 1,
-            "yanchor": "bottom",
-            "yref": "paper",
-          },
-          Object {
-            "font": Object {
-              "color": "#3CA1C7",
-              "family": "Roboto",
-              "size": 73.6,
-            },
-            "metricValue": "219.0",
-            "showarrow": false,
-            "text": "<b>219.0</b>",
-            "type": "value",
-            "x": 0,
-            "xanchor": "left",
-            "xref": "paper",
-            "y": 1,
-            "yanchor": "top",
-            "yref": "paper",
-          },
-        ],
-        "colorway": Array [
-          "#8C55A3",
-        ],
-        "grid": Object {
-          "columns": 1,
-          "pattern": "independent",
-          "roworder": "bottom to top",
-          "rows": 1,
-          "xgap": 0.01,
-        },
-        "height": 220,
-        "margin": Object {
-          "b": 0,
-          "l": 0,
-          "r": 0,
-          "t": 80,
-        },
-        "showlegend": false,
-        "title": "",
-        "xaxis": Object {
-          "anchor": "y",
-          "layoutFor": "count()",
-          "showgrid": false,
-          "visible": false,
-        },
-        "yaxis": Object {
-          "anchor": "x",
-          "layoutFor": "count()",
-          "range": Array [
-            0,
-            2946,
-          ],
-          "showgrid": false,
-          "visible": false,
-        },
-      }
-    }
+  <EmptyPlaceholder
+    icon="stats"
   >
-    <PlotlyComponent
-      config={
-        Object {
-          "displayModeBar": false,
-        }
-      }
-      data={
-        Array [
-          Object {
-            "fill": "tozeroy",
-            "fillcolor": "rgba(60,161,199,0.2)",
-            "hoverinfo": "all",
-            "line": Object {
-              "color": "#3CA1C7",
-            },
-            "metricValue": "219.0",
-            "mode": "lines",
-            "name": "count()",
-            "type": "scatter",
-            "x": Array [
-              "error",
-              "info",
-              "login",
-              "security",
-              "success",
-              "warning",
-            ],
-            "y": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
-            ],
-          },
-        ]
-      }
-      debug={false}
-      divId="explorerPlotComponent"
-      layout={
-        Object {
-          "annotations": Array [
-            Object {
-              "font": Object {
-                "color": "rgb(0,0,0)",
-                "family": "Roboto",
-                "size": 28.5,
-              },
-              "metricValue": "219.0",
-              "showarrow": false,
-              "text": "count()",
-              "type": "name",
-              "x": 0,
-              "xanchor": "left",
-              "xref": "paper",
-              "y": 1,
-              "yanchor": "bottom",
-              "yref": "paper",
-            },
-            Object {
-              "font": Object {
-                "color": "#3CA1C7",
-                "family": "Roboto",
-                "size": 73.6,
-              },
-              "metricValue": "219.0",
-              "showarrow": false,
-              "text": "<b>219.0</b>",
-              "type": "value",
-              "x": 0,
-              "xanchor": "left",
-              "xref": "paper",
-              "y": 1,
-              "yanchor": "top",
-              "yref": "paper",
-            },
-          ],
-          "autosize": true,
-          "barmode": "stack",
-          "colorway": Array [
-            "#8C55A3",
-          ],
-          "grid": Object {
-            "columns": 1,
-            "pattern": "independent",
-            "roworder": "bottom to top",
-            "rows": 1,
-            "xgap": 0.01,
-          },
-          "height": 220,
-          "hovermode": "closest",
-          "legend": Object {
-            "orientation": "h",
-            "traceorder": "normal",
-          },
-          "margin": Object {
-            "b": 0,
-            "l": 0,
-            "r": 0,
-            "t": 80,
-          },
-          "showlegend": false,
-          "title": "",
-          "xaxis": Object {
-            "anchor": "y",
-            "layoutFor": "count()",
-            "showgrid": false,
-            "visible": false,
-          },
-          "yaxis": Object {
-            "anchor": "x",
-            "layoutFor": "count()",
-            "range": Array [
-              0,
-              2946,
-            ],
-            "showgrid": false,
-            "visible": false,
-          },
-        }
-      }
-      style={
-        Object {
-          "height": "100%",
-          "width": "100%",
-        }
-      }
-      useResizeHandler={true}
+    <EuiText
+      className="lnsChart__empty"
+      color="subdued"
+      data-test-subj="vizWorkspace__noData"
+      size="xs"
+      textAlign="center"
     >
       <div
-        id="explorerPlotComponent"
-        style={
-          Object {
-            "height": "100%",
-            "width": "100%",
-          }
-        }
-      />
-    </PlotlyComponent>
-  </Plt>
+        className="euiText euiText--extraSmall lnsChart__empty"
+        data-test-subj="vizWorkspace__noData"
+      >
+        <EuiTextAlign
+          textAlign="center"
+        >
+          <div
+            className="euiTextAlign euiTextAlign--center"
+          >
+            <EuiTextColor
+              color="subdued"
+              component="div"
+            >
+              <div
+                className="euiTextColor euiTextColor--subdued"
+              >
+                <EuiIcon
+                  color="subdued"
+                  size="xxl"
+                  type="stats"
+                >
+                  <EuiIconEmpty
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                    focusable="false"
+                    role="img"
+                    style={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+                <EuiSpacer
+                  size="l"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <p>
+                  <FormattedMessage
+                    defaultMessage="No results found"
+                    id="visualization_noData"
+                    values={Object {}}
+                  >
+                    <span>
+                      No results found
+                    </span>
+                  </FormattedMessage>
+                </p>
+              </div>
+            </EuiTextColor>
+          </div>
+        </EuiTextAlign>
+      </div>
+    </EuiText>
+  </EmptyPlaceholder>
 </Stats>
 `;
