@@ -66,7 +66,11 @@ export const Sidebar = (props: ISidebarProps) => {
                 <EuiAccordion
                   initialIsOpen
                   id="fieldSelector__queriedFields"
-                  buttonContent="Query fields"
+                  buttonContent={
+                    <EuiTitle size="xxxs">
+                      <span>Query fields</span>
+                    </EuiTitle>
+                  }
                   paddingSize="xs"
                 >
                   <ul
@@ -102,7 +106,11 @@ export const Sidebar = (props: ISidebarProps) => {
               <EuiAccordion
                 initialIsOpen
                 id="fieldSelector__selectedFields"
-                buttonContent="Selected Fields"
+                buttonContent={
+                  <EuiTitle size="xxxs">
+                    <span>Selected Fields</span>
+                  </EuiTitle>
+                }
                 paddingSize="xs"
               >
                 <ul
@@ -140,7 +148,11 @@ export const Sidebar = (props: ISidebarProps) => {
               <EuiAccordion
                 initialIsOpen
                 id="fieldSelector__availableFields"
-                buttonContent="Available Fields"
+                buttonContent={
+                  <EuiTitle size="xxxs">
+                    <span>Available Fields</span>
+                  </EuiTitle>
+                }
                 paddingSize="xs"
               >
                 <ul
