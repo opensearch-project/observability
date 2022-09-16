@@ -78,7 +78,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
   let xaxis;
-
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   if (dataConfig.span && dataConfig.span.time_field && timestampField) {
