@@ -31,7 +31,8 @@ interface IExplorerVisualizationsProps {
   visualizations: IVisualizationContainerProps;
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
-  changeIsValidConfigOptionState: (isValidConfigOptionSelected: Boolean) => void;
+  changeIsValidConfigOptionState: (isValidConfigOptionSelected: boolean) => void;
+  queryManager: any;
 }
 
 export const ExplorerVisualizations = ({
@@ -47,13 +48,13 @@ export const ExplorerVisualizations = ({
   handleOverrideTimestamp,
   callback,
   changeIsValidConfigOptionState,
+  queryManager,
 }: IExplorerVisualizationsProps) => {
   const { tabId } = useContext<any>(TabContext);
   const { data, vis } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
-
   const fieldOptionList = explorerFields.availableFields.map((field) => {
-  // const fieldOptionList = fields.map((field) => {
+    // const fieldOptionList = fields.map((field) => {
     return { ...field, label: field.name };
   });
 
@@ -65,6 +66,7 @@ export const ExplorerVisualizations = ({
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
             tabID={tabId}
+            queryManager={queryManager}
           />
         );
       case visChartTypes.LogsView:
@@ -81,6 +83,7 @@ export const ExplorerVisualizations = ({
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
             tabID={tabId}
+            queryManager={queryManager}
           />
         );
     }
