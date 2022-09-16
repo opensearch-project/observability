@@ -83,6 +83,7 @@ export interface ILogExplorerProps {
   ) => void;
   savedObjectId: string;
   getExistingEmptyTab: (params: EmptyTabParams) => string;
+  queryManager: any;
 }
 
 export interface IExplorerProps {
@@ -113,6 +114,7 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
+  queryManager: any;
 }
 
 export interface SavedQuery {

@@ -22,10 +22,14 @@ import {
 import { ConfigTreemapParentFields } from './config_treemap_parents';
 import { numericalTypes, RAW_QUERY } from '../../../../../../../../common/constants/explorer';
 import { TabContext } from '../../../../../hooks';
-import { QueryManager } from '../../../../../../../../common/query_manager';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
 
-export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: any) => {
+export const TreemapConfigPanelItem = ({
+  fieldOptionList,
+  visualizations,
+  tabID,
+  queryManager,
+}: any) => {
   const dispatch = useDispatch();
   const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<
     any
@@ -51,7 +55,7 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (configName: string, fieldName: string, value: string | any[]) => {
-    let list = { ...configList };
+    const list = { ...configList };
     let listItem = { ...list[configName][0] };
 
     const newField = {
@@ -68,9 +72,8 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   };
 
   const updateChart = (updatedConfigList = configList) => {
-    const qm = new QueryManager();
-    const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-    const newQuery = qm
+    const statsTokens = queryManager.queryParser().parse(data.query.rawQuery).getStats();
+    const newQuery = queryManager
       .queryBuilder()
       .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 
@@ -103,7 +106,7 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
 
   const getOptionsAvailable = (sectionName: string) => {
     const { dimensions, metrics } = configList;
-    let selectedFields = {};
+    const selectedFields = {};
     let allSelectedFields = [];
 
     for (const key in configList) {

@@ -23,6 +23,7 @@ export const EventAnalytics = ({
   timestampUtils,
   http,
   notifications,
+  queryManager,
   ...props
 }: any) => {
   const history = useHistory();
@@ -84,6 +85,7 @@ export const EventAnalytics = ({
                   getExistingEmptyTab={getExistingEmptyTab}
                   history={history}
                   notifications={notifications}
+                  queryManager={queryManager}
                 />
               );
             }}

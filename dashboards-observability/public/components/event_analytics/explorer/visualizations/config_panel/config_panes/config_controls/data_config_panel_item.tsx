@@ -47,7 +47,7 @@ const initialMetricEntry = {
   aggregation: 'count',
 };
 
-export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
+export const DataConfigPanelItem = ({ fieldOptionList, visualizations, queryManager }: any) => {
   const dispatch = useDispatch();
   const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
     TabContext
@@ -120,9 +120,8 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const updateChart = (updatedConfigList = configList) => {
-    const qm = new QueryManager();
-    const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-    const newQuery = qm
+    const statsTokens = queryManager.queryParser().parse(data.query.rawQuery).getStats();
+    const newQuery = queryManager
       .queryBuilder()
       .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 

@@ -17,7 +17,7 @@ import { AppPluginStartDependencies, ObservabilitySetup, ObservabilityStart } fr
 import { convertLegacyNotebooksUrl } from './components/notebooks/components/helpers/legacy_route_helpers';
 import { convertLegacyTraceAnalyticsUrl } from './components/trace_analytics/components/common/legacy_route_helpers';
 import { uiSettingsService } from '../common/utils';
-
+import { QueryManager } from '../common/query_manager';
 export class ObservabilityPlugin implements Plugin<ObservabilitySetup, ObservabilityStart> {
   public setup(core: CoreSetup): ObservabilitySetup {
     uiSettingsService.init(core.uiSettings, core.notifications);
@@ -48,6 +48,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         const dslService = new DSLService(coreStart.http);
         const savedObjects = new SavedObjects(coreStart.http);
         const timestampUtils = new TimestampUtils(dslService);
+        const queryManagerInstance = new QueryManager();
         return Observability(
           coreStart,
           depsStart as AppPluginStartDependencies,
@@ -55,7 +56,8 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
           pplService,
           dslService,
           savedObjects,
-          timestampUtils
+          timestampUtils,
+          queryManagerInstance
         );
       },
     });
