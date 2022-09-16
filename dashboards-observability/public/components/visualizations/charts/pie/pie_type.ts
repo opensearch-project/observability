@@ -107,11 +107,13 @@ export const createPieTypeDefinition = (params: any) => ({
                 component: ButtonGroupItem,
                 eleType: 'buttons',
                 mapTo: 'mode',
-                options: [
-                  { name: 'Pie', id: 'pie' },
-                  { name: 'Donut', id: 'donut' },
-                ],
-                defaultSelections: [{ name: 'Pie', id: DefaultMode }],
+                props: {
+                  options: [
+                    { name: 'Pie', id: DefaultMode },
+                    { name: 'Donut', id: 'donut' },
+                  ],
+                  defaultSelections: [{ name: 'Pie', id: DefaultMode }],
+                },
               },
               {
                 name: 'Label size',

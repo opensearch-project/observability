@@ -22,7 +22,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { defaultAxes } = visualizations.data;
-  console.log('data====', data);
   const {
     dataConfig: {
       chartStyles = {},
@@ -35,8 +34,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     },
     layoutConfig = {},
   } = visualizations?.data?.userConfigs;
-  // const xaxis = dimensions ? dimensions.filter((item) => item.label) : [];
-  // const yaxis = metrics ? metrics.filter((item) => item.label) : [];
   const type = chartStyles.mode || vis.mode;
   const lastIndex = fields.length - 1;
   const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
@@ -57,8 +54,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     return [...dimensions];
   }, [dimensions, fields, span]);
 
-  console.log('xaxes===', xaxes);
-
   if (isEmpty(xaxes) || isEmpty(metrics))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
@@ -69,39 +64,41 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
   }
 
-  console.log('valueSeries===', valueSeries);
   const invertHex = (hex: string) =>
     (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
+
+  const createLegendLabels = (dimLabels: string[], xaxisLables: string[]) => {
+    return dimLabels.map((label: string, index: number) => {
+      return [xaxisLables[index], label].join(',');
+    });
+  };
 
   const labelsOfXAxis = useMemo(() => {
     let legendLabels = [];
     if (xaxes.length > 0) {
-      const createLegendLabels = (dimLabels: string[], xaxisLables: string[]) => {
-        return dimLabels.map((label: string, index: number) => {
-          return [xaxisLables[index], label].join(',');
-        });
-      };
-      // let dimLabelsArray = data[xaxes[0].label];
       let dimLabelsArray = data[`${xaxes[0].name}`];
       for (let i = 0; i < xaxes.length - 1; i++) {
-        dimLabelsArray = createLegendLabels(dimLabelsArray, data[xaxes[i + 1].label]);
+        dimLabelsArray = createLegendLabels(
+          dimLabelsArray,
+          data[xaxes[i + 1].name] ? data[xaxes[i + 1].name] : []
+        );
       }
       legendLabels = dimLabelsArray;
     } else {
-      legendLabels = data[fields[lastIndex].name];
+      legendLabels = data[fields[lastIndex].name] ? data[fields[lastIndex].name] : '';
     }
     return legendLabels;
   }, [xaxes, data, fields, lastIndex]);
-
   const hexColor = invertHex(colorTheme);
   const pies = useMemo(
     () =>
       valueSeries.map((field: any, index: number) => {
+        const fieldName = field.alias ? field.alias : `${field.aggregation}(${field.name})`;
         const marker =
           colorTheme.name !== DEFAULT_PALETTE
             ? {
                 marker: {
-                  colors: [...Array(data[field.name].length).fill(colorTheme.childColor)],
+                  colors: [...Array(data[fieldName].length).fill(colorTheme.childColor)],
                   line: {
                     color: hexColor,
                     width: 1,
@@ -111,12 +108,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
             : undefined;
         return {
           labels: labelsOfXAxis,
-          // values: data[field.label],
-          values: data[`${field.aggregation}(${field.name})`],
+          values: data[fieldName],
           type: 'pie',
-          name: field.name,
+          name: fieldName,
           hole: type === 'pie' ? 0 : 0.5,
-          text: field.name,
+          text: fieldName,
           textinfo: 'percent',
           hoverinfo: getTooltipHoverInfo({
             tooltipMode: tooltipOptions.tooltipMode,
@@ -124,7 +120,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           }),
           automargin: true,
           textposition: 'outside',
-          title: { text: field.label },
+          title: { text: fieldName },
           domain: {
             row: Math.floor(index / PLOTLY_PIE_COLUMN_NUMBER),
             column: index % PLOTLY_PIE_COLUMN_NUMBER,
