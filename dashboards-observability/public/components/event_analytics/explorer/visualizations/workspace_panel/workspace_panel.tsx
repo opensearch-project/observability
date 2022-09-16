@@ -27,55 +27,73 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
   }, [visualizations]);
 
   return (
-    <>
-      <EuiFlexGroup
-        className="visEditorSidebar"
-        direction="column"
-        justifyContent="spaceBetween"
-        gutterSize="none"
-        responsive={false}
+    <div className="ws__visCanvas">
+      <EuiPanel 
+        className="ws__visCanvasControl"
+        paddingSize="s"
+        color="plain"
+        hasBorder={false}
       >
-        <EuiFlexItem
-          className={
-            uiSettingsService.get('theme:darkMode') ? 'ws__header-dark' : 'ws__header-light'
-          }
-        >
-          <EuiSpacer size="s" />
-          <EuiFlexGroup
-            className="visEditorSidebar"
-            direction="rowReverse"
-            gutterSize="none"
-            responsive={false}
-          >
-            <EuiFlexItem grow={false}>
-              <EuiPanel paddingSize="s">
-                <EuiSwitch
-                  label="Table view"
-                  disabled={isEmpty(visualizations?.data?.rawVizData)}
-                  checked={isTableViewOn}
-                  onChange={() => {
-                    setIsTableViewOn((staleState) => !staleState);
-                  }}
-                  aria-describedby="table view switcher"
-                  data-test-subj="workspace__dataTableViewSwitch"
-                  compressed
-                />
-              </EuiPanel>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-          <EuiSpacer size="s" />
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiPanel
-            paddingSize="s"
-            className={
-              uiSettingsService.get('theme:darkMode') ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
-            }
-          >
-            {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
-          </EuiPanel>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </>
+        <EuiSwitch
+          className="ws__visCanvasControl--switch"
+          label="Table view"
+          type="button"
+          disabled={isEmpty(visualizations?.data?.rawVizData)}
+          checked={isTableViewOn}
+          onChange={() => {
+            setIsTableViewOn((staleState) => !staleState);
+          }}
+          aria-describedby="table view switcher"
+          data-test-subj="workspace__dataTableViewSwitch"
+          compressed
+        />
+      </EuiPanel>
+      <EuiPanel
+        paddingSize="s"
+        className={`ws__visCanvas--space ${
+          uiSettingsService.get('theme:darkMode') ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
+        }`}
+      >
+        {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
+      </EuiPanel>
+    </div>
+    // <EuiFlexGroup
+    //   className="ws__visCanvas"
+    //   direction="column"
+    //   // justifyContent="spaceBetween"
+    //   gutterSize="none"
+    //   responsive={false}
+    // >
+    //   <EuiFlexItem
+    //     className={`ws__visCanvasControl ${uiSettingsService.get('theme:darkMode') ? 'ws__header-dark' : 'ws__header-light'}`}
+    //   >
+    //     <EuiPanel paddingSize="s">
+    //       <EuiSwitch
+    //         className="ws__visCanvasControl--switch"
+    //         label="Table view"
+    //         type="button"
+    //         disabled={isEmpty(visualizations?.data?.rawVizData)}
+    //         checked={isTableViewOn}
+    //         onChange={() => {
+    //           setIsTableViewOn((staleState) => !staleState);
+    //         }}
+    //         aria-describedby="table view switcher"
+    //         data-test-subj="workspace__dataTableViewSwitch"
+    //         compressed
+    //       />
+    //     </EuiPanel>
+    //   </EuiFlexItem>
+    //   <EuiSpacer size="s" />
+    //   <EuiFlexItem className="configPane__visCanvasFlexitem" grow={false}>
+    //     <EuiPanel
+    //       paddingSize="s"
+    //       className={
+    //         uiSettingsService.get('theme:darkMode') ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
+    //       }
+    //     >
+    //       {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
+    //     </EuiPanel>
+    //   </EuiFlexItem>
+    // </EuiFlexGroup>
   );
 }

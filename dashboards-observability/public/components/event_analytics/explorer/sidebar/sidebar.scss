@@ -38,7 +38,6 @@
 }
 
 .explorerFieldSelector {
-  // padding-left: $euiSize;
   padding: 0;
 }
 
@@ -112,12 +111,6 @@
   vertical-align: middle;
 }
 
-.dscAppContainer {
-  .euiPanel--paddingMedium {
-    padding: 0;
-  }
-}
-
 .explorer__insights {
   min-height: 0;
   display: grid;
@@ -141,6 +134,11 @@
       &:first-child {
         margin-top: 0;
       }
+    }
+  }
+  .explorerFieldSelector {
+    .sidebar-list {
+      height: 100%;
     }
   }
 }
