@@ -5,6 +5,7 @@
 
 import React, { useMemo } from 'react';
 import Plotly from 'plotly.js-dist';
+import { find, isEmpty } from 'lodash';
 import { Plt } from '../../../plotly/plot';
 import {
   AGGREGATIONS,
@@ -41,14 +42,8 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
-  const dimensions = dataConfig[GROUPBY]
-    ? dataConfig[GROUPBY].filter((item) => item.name !== '')
-    : [];
-  const series = dataConfig[AGGREGATIONS]
-    ? dataConfig[AGGREGATIONS].filter((item) => item.name !== '')
-    : [];
-  const metrics = dataConfig?.metrics ? dataConfig.metrics.filter((item) => item.name !== '') : [];
-  const dimensionsLength = dimensions.length;
+  let xaxes = dataConfig[GROUPBY] ? dataConfig[GROUPBY] : [];
+  const series = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS] : [];
   const seriesLength = series.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
 
@@ -61,7 +56,19 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const orientation = dataConfig?.chartStyles?.orientation || OrientationDefault;
   const legendPlacement = dataConfig?.chartStyles?.legendPlacement || LegendPlacement;
 
-  const isEmptyPlot = !seriesLength;
+  const isEmptyPlot = !seriesLength || isEmpty(queriedVizData);
+
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
+
+  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+    xaxes = [timestampField, ...xaxes];
+  }
+
+  const dimensionsLength = xaxes.length;
+
+  const getAggValue = (metric: any) => {
+    return metric.alias ? metric.alias : metric.aggregation + '' + '(' + metric.name + ')';
+  };
 
   if (isEmptyPlot) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
@@ -79,22 +86,30 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       }
 
       // case 3: multiple dimensions and multiple metrics
+
       if (dimensionsLength && seriesLength) {
-        const selectedDimensionsData = dimensions
-          .map((dimension: any) => queriedVizData[dimension.name].slice(0, numberOfGauges))
+        const selectedDimensionsData = xaxes
+          .map((dimension: any) => {
+            return queriedVizData[dimension.name]
+              ? queriedVizData[dimension.name].slice(0, numberOfGauges)
+              : [];
+          })
           .reduce((prev, cur) => {
             return prev.map((i, j) => `${i}, ${cur[j]}`);
           });
-        const selectedSeriesData = series.map((seriesItem: any) =>
-          queriedVizData[`${seriesItem.aggregation}(${seriesItem.name})`].slice(0, numberOfGauges)
-        );
+        const selectedSeriesData = series.map((seriesItem: any) => {
+          const val = getAggValue(seriesItem);
+          return queriedVizData[`${val}`] ? queriedVizData[`${val}`].slice(0, numberOfGauges) : [];
+        });
 
         selectedSeriesData.map((seriesSlice: any, seriesSliceIndex: number) => {
           calculatedGaugeData = [
             ...calculatedGaugeData,
             ...seriesSlice.map((seriesSliceData: any, seriesSliceDataIndex: number) => {
               return {
-                field_name: `${selectedDimensionsData[seriesSliceDataIndex]}, ${series[seriesSliceIndex].name}`,
+                field_name: `${selectedDimensionsData[seriesSliceDataIndex]}, ${getAggValue(
+                  series[seriesSliceData]
+                )}`,
                 value: seriesSliceData,
               };
             }),
@@ -140,7 +155,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
                   value: thresholds[0]?.value || 0,
                 },
               }),
-            //threshold labels
+            // threshold labels
             ...(showThresholdLabels && thresholds && thresholds.length
               ? {
                   axis: {
@@ -156,7 +171,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     }
     return calculatedGaugeData;
   }, [
-    dimensions,
+    xaxes,
     series,
     queriedVizData,
     fields,
@@ -193,6 +208,5 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     ...config,
     ...(layoutConfig.config && layoutConfig.config),
   };
-
   return <Plt data={gaugeData} layout={mergedLayout} config={mergedConfigs} />;
 };
