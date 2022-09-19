@@ -87,10 +87,10 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
-    let labelsArray: string[] = [],
-      parentsArray: string[] = [],
-      valuesArray: number[] = [],
-      colorsArray: string[] = [];
+    let labelsArray: string[] = [];
+    let parentsArray: string[] = [];
+    let valuesArray: number[] = [];
+    let colorsArray: string[] = [];
 
     if (parentFields.length === 0) {
       labelsArray = [...queriedVizData[childField.name]];

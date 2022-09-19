@@ -155,7 +155,6 @@ export const Explorer = ({
   const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
     false
   );
-
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;

@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState, useContext } from 'react';
 import {
-  EuiTitle,
-  EuiComboBox,
-  EuiSpacer,
   EuiButton,
+  EuiComboBox,
   EuiFlexItem,
   EuiFormRow,
   EuiPanel,
+  EuiSpacer,
+  EuiTitle,
 } from '@elastic/eui';
 import { useDispatch } from 'react-redux';
 import { ConfigTreemapParentFields } from './config_treemap_parents';
@@ -22,6 +21,10 @@ import {
 } from '../../../../../../../../common/constants/explorer';
 import { DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
+import { ConfigTreemapParentFields, ParentUnitType } from './config_treemap_parents';
+import { DataConfigItemClickPanel } from './data_config_item_click_panel';
+import { DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
+
 
 export const TreemapConfigPanelItem = ({
   fieldOptionList,
@@ -37,11 +40,19 @@ export const TreemapConfigPanelItem = ({
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const newEntry = { label: '', name: '' };
-
+  const initialParentState = {
+    name: '',
+    label: '',
+    type: '',
+  };
   const [configList, setConfigList] = useState({
     [GROUPBY]: [{ childField: { ...newEntry }, parentFields: [] }],
     [AGGREGATIONS]: [{ valueField: { ...newEntry } }],
   });
+  const [selectedParentItem, setSelectedParentItem] = useState<{
+    isClicked: boolean;
+    index: number;
+  }>({ isClicked: false, index: -1 });
 
   useEffect(() => {
     if (userConfigs && userConfigs.dataConfig) {
@@ -110,7 +121,72 @@ export const TreemapConfigPanelItem = ({
       : unselectedFields;
   };
 
-  return (
+  const options = getOptionsAvailable(DIMENSIONS)
+    .map((opt) => ({
+      label: opt.label,
+      name: opt.label,
+    }))
+    .map((item) => {
+      return {
+        ...item,
+        label: item.name,
+      };
+    });
+
+  const renderParentPanel = () => {
+    const selectedAxis = configList.dimensions[0]?.parentFields;
+    const { index } = selectedParentItem;
+    return (
+      <>
+        <DataConfigItemClickPanel
+          isSecondary
+          title={`Parent ${index + 1}`}
+          closeMenu={() => isHandlePanelClickBack(selectedAxis)}
+        />
+        <EuiComboBox
+          id={uniqueId('axis-select-')}
+          placeholder="Select a field"
+          options={options}
+          selectedOptions={selectedAxis[index].label !== '' ? [selectedAxis[index]] : []}
+          isClearable={true}
+          singleSelection={{ asPlainText: true }}
+          onChange={(option) => {
+            handleParentChange(option);
+          }}
+          aria-label="Use aria labels when no actual label is in use"
+        />
+      </>
+    );
+  };
+  const handleUpdateParentFields = (arr: ParentUnitType[]) =>
+    updateList(DIMENSIONS, PARENTFIELDS, arr);
+
+  const handleParentChange = (options: Array<EuiComboBoxOptionOption<unknown>>) => {
+    const selectedAxis = configList.dimensions[0]?.parentFields;
+    const { index } = selectedParentItem;
+    const val = [
+      ...selectedAxis.slice(0, index),
+      (options[0] as ParentUnitType) ?? initialParentState,
+      ...selectedAxis.slice(index + 1, selectedAxis.length),
+    ];
+    handleUpdateParentFields(val);
+  };
+
+  const isHandlePanelClickBack = (selectedAxis: ParentUnitType[]) => {
+    const { index } = selectedParentItem;
+    if (selectedAxis[index].name === '') {
+      const arr = [
+        ...selectedAxis.slice(0, index),
+        ...selectedAxis.slice(index + 1, selectedAxis.length),
+      ];
+      handleUpdateParentFields(arr);
+    }
+    setSelectedParentItem({ isClicked: false, index: -1 });
+  };
+
+  return selectedParentItem.isClicked ? (
+    renderParentPanel()
+  ) : (
     <div style={{ height: 'auto' }}>
       <EuiTitle size="xxs">
         <h3>Data Configurations</h3>
@@ -138,6 +214,9 @@ export const TreemapConfigPanelItem = ({
           </EuiFormRow>
 
           <EuiSpacer size="s" />
+          <EuiTitle size="xxxs">
+            <h3>Parent Fields</h3>
+          </EuiTitle>
           <ConfigTreemapParentFields
             dropdownList={getOptionsAvailable(GROUPBY).map((opt) => ({
               label: opt.label,
@@ -149,6 +228,7 @@ export const TreemapConfigPanelItem = ({
           <EuiSpacer size="s" />
         </EuiPanel>
       </div>
+      <EuiSpacer size="s" />
       <EuiTitle size="xxs">
         <h3>Metrics</h3>
       </EuiTitle>
