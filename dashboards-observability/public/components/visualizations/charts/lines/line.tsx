@@ -81,7 +81,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-    xaxis = dataConfig.dimensions ? [timestampField, ...dataConfig.dimensions] : [timestampField, []];
+    xaxis = [timestampField, ...dataConfig.dimensions];
   } else {
     xaxis = dataConfig.dimensions;
   }
