@@ -67,12 +67,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     new Set([...parentFields.map((field) => field.name)]).size !== parentFields.length ||
     parentFields.some((field) => isEmpty(data[field.name]) || isEqual(childField.name, field.name));
 
-  if (
-    isEmpty(data[childField.name]) ||
-    isEmpty(data[valueField.name]) ||
-    // indexOf(NUMERICAL_FIELDS, valueField.type) < 0 ||
-    areParentFieldsInvalid
-  )
+  if (isEmpty(data[childField.name]) || isEmpty(data[valueField.name]) || areParentFieldsInvalid)
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
