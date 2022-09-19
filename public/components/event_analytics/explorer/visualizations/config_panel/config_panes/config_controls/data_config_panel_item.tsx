@@ -389,12 +389,13 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                   value={configList.span?.interval ?? 1}
                   min={1}
                   onChange={(e) => {
+                    e.persist();
                     setConfigList((staleState) => {
                       return {
                         ...staleState,
                         span: {
                           ...staleState.span,
-                          interval: e.target.value,
+                          interval: e.target?.value ?? 1,
                         },
                       };
                     });
