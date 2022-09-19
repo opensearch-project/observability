@@ -205,6 +205,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         onGridReady={() => {
           gridRef?.current?.api.setHeaderHeight(HEADER_HEIGHT);
         }}
+        suppressFieldDotNotation // added for key contains dot operator
       />
       {enablePagination && (
         <GridFooter
@@ -233,6 +234,8 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
                 onGridReady={() => {
                   gridRefFullScreen?.current?.api.setHeaderHeight(HEADER_HEIGHT);
                 }}
+                // added for key contains dot operator
+                suppressFieldDotNotation
               />
             </EuiFlexItem>
             <EuiFlexItem>

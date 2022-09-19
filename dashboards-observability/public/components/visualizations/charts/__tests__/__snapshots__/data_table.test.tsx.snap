@@ -74,6 +74,7 @@ exports[`Data table component Renders data table component 1`] = `
       ]
     }
     rowHeight={35}
+    suppressFieldDotNotation={true}
     suppressPaginationPanel={true}
   />
 </Fragment>
