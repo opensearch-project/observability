@@ -844,7 +844,33 @@ export const Explorer = ({
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
         const statsTokens = qm.queryParser().parse(tempQuery).getStats();
+        const dimStatsToken = statsTokens.groupby;
+        const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+          (time_unit) => time_unit.value === dimStatsToken?.span?.span_expression.time_unit
+        )?.text;
+        const span =
+          dimStatsToken?.span !== null
+            ? {
+                time_field: [
+                  {
+                    name: dimStatsToken?.span.span_expression.field,
+                    type: 'timestamp',
+                    label: dimStatsToken?.span.span_expression.field,
+                  },
+                ],
+                unit: [
+                  {
+                    text: timeUnitValue,
+                    value: dimStatsToken?.span.span_expression.time_unit,
+                    label: timeUnitValue,
+                  },
+                ],
+                interval: dimStatsToken?.span.span_expression.literal_value,
+              }
+            : undefined;
+
         if (curVisId === visChartTypes.TreeMap) {
+          const metricStatsToken = statsTokens.aggregations && statsTokens.aggregations[0];
           await dispatch(
             changeVisualizationConfig({
               tabId,
@@ -854,10 +880,10 @@ export const Explorer = ({
                   dimensions: [
                     {
                       childField: {
-                        ...(statsTokens.groupby?.group_fields
+                        ...(dimStatsToken?.group_fields
                           ? {
-                              label: statsTokens.groupby?.group_fields[0].name ?? '',
-                              name: statsTokens.groupby?.group_fields[0].name ?? '',
+                              label: dimStatsToken?.group_fields[0].name ?? '',
+                              name: dimStatsToken?.group_fields[0].name ?? '',
                             }
                           : { label: '', name: '' }),
                       },
@@ -867,10 +893,10 @@ export const Explorer = ({
                   metrics: [
                     {
                       valueField: {
-                        ...(statsTokens.aggregations
+                        ...(metricStatsToken
                           ? {
-                              label: `${statsTokens.aggregations[0].function?.name}(${statsTokens.aggregations[0].function?.value_expression})`,
-                              name: `${statsTokens.aggregations[0].function?.name}(${statsTokens.aggregations[0].function?.value_expression})`,
+                              label: `${metricStatsToken.function?.name}(${metricStatsToken.function?.value_expression})`,
+                              name: `${metricStatsToken.function?.name}(${metricStatsToken.function?.value_expression})`,
                             }
                           : { label: '', name: '' }),
                       },
@@ -905,10 +931,11 @@ export const Explorer = ({
                     name: agg.function?.value_expression,
                     aggregation: agg.function?.name,
                   })),
-                  dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+                  dimensions: dimStatsToken?.group_fields?.map((agg) => ({
                     label: agg.name ?? '',
                     name: agg.name ?? '',
                   })),
+                  span,
                 },
               },
             })

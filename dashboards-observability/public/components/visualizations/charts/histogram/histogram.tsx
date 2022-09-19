@@ -40,10 +40,10 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
 
   const xbins: any = {};
-  if (dataConfig?.dimensions[0].bucketSize) {
+  if (dataConfig?.dimensions && dataConfig?.dimensions[0].bucketSize) {
     xbins.size = dataConfig.dimensions[0].bucketSize;
   }
-  if (dataConfig?.dimensions[0].bucketOffset) {
+  if (dataConfig?.dimensions && dataConfig?.dimensions[0].bucketOffset) {
     xbins.start = dataConfig.dimensions[0].bucketOffset;
   }
 
