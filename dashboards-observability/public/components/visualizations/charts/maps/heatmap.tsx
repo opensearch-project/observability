@@ -37,8 +37,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(zMetrics) ||
     isEmpty(data[xaxisField.label]) ||
     isEmpty(data[yaxisField.label]) ||
-    isEmpty(data[`${zMetrics.aggregation}(${zMetrics.name})`])
-    // indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
+    isEmpty(data[`${zMetrics.aggregation}(${zMetrics.name})`]) ||
+    dataConfig?.dimensions.length > 2 ||
+    dataConfig?.metrics.length > 1
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
