@@ -18,6 +18,7 @@ import {
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const COLUMN_WIDTH = 150;
 
 export const createDatatableTypeDefinition = (params: any = {}) => ({
   name: 'data_table',
@@ -27,15 +28,12 @@ export const createDatatableTypeDefinition = (params: any = {}) => ({
   fulllabel: 'Table View',
   icontype: 'visTable',
   category: VIS_CATEGORY.BASICS,
-  selection: {
-    dataLoss: 'nothing',
-  },
   icon: LensIconChartDatatable,
   showtableheader: true,
   enablepagination: true,
   colunmfilter: false,
   columnalignment: 'leftAligned',
-  columnwidth: 150,
+  columnwidth: COLUMN_WIDTH,
   editorconfig: {
     panelTabs: [
       {
