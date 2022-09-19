@@ -156,14 +156,17 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const isPositionButtonVisible = (sectionName: string) =>
-    sectionName === 'metrics' && visualizations.vis.name === visChartTypes.Line;
+    sectionName === 'metrics' &&
+    (visualizations.vis.name === visChartTypes.Line ||
+      visualizations.vis.name === visChartTypes.Scatter);
 
   const getOptionsAvailable = (sectionName: string) => {
     const selectedFields = {};
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
     return sectionName === 'metrics'
       ? unselectedFields
-      : visualizations.vis.name === visChartTypes.Line
+      : visualizations.vis.name === visChartTypes.Line ||
+        visualizations.vis.name === visChartTypes.Scatter
       ? unselectedFields.filter((i) => i.type === 'timestamp')
       : unselectedFields;
   };
@@ -285,7 +288,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
               color="primary"
               onClick={() => handleServiceAdd(sectionName)}
               disabled={
-                sectionName === 'dimensions' && visualizations.vis.name === visChartTypes.Line
+                sectionName === 'dimensions' &&
+                (visualizations.vis.name === visChartTypes.Line ||
+                  visualizations.vis.name === visChartTypes.Scatter)
               }
             >
               Add
