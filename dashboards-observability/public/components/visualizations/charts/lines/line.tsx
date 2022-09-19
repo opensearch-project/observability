@@ -77,18 +77,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
-  /**
-   * determine x axis
-   */
-  const xaxis = useMemo(() => {
-    // span selection
-    const timestampField = find(fields, (field) => field.type === 'timestamp');
-    if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-      return [timestampField, ...dataConfig.dimensions];
-    }
+  let xaxis;
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
 
-    return dataConfig.dimensions;
-  }, [dataConfig.dimensions]);
+  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+    xaxis = [timestampField, ...dataConfig.dimensions];
+  } else {
+    xaxis = dataConfig.dimensions;
+  }
 
   if (isEmpty(xaxis) || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
