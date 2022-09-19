@@ -334,3 +334,8 @@ export interface SelectedConfigItem {
   index: number;
   name: string;
 }
+
+export interface SelectedConfigItem {
+  index: number;
+  name: string;
+}
