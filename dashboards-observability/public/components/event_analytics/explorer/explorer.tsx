@@ -57,6 +57,7 @@ import {
   PPL_NEWLINE_REGEX,
   LIVE_OPTIONS,
   LIVE_END_TIME,
+  visChartTypes,
 } from '../../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
@@ -843,50 +844,76 @@ export const Explorer = ({
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
         const statsTokens = qm.queryParser().parse(tempQuery).getStats();
-        const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
-          (time_unit) => time_unit.value === statsTokens.groupby?.span.span_expression.time_unit
-        )?.text;
-        const span =
-          statsTokens.groupby?.span !== null
-            ? {
-                time_field: [
-                  {
-                    name: statsTokens.groupby?.span.span_expression.field,
-                    type: 'timestamp',
-                    label: statsTokens.groupby?.span.span_expression.field,
-                  },
-                ],
-                unit: [
-                  {
-                    text: timeUnitValue,
-                    value: statsTokens.groupby?.span.span_expression.time_unit,
-                    label: timeUnitValue,
-                  },
-                ],
-                interval: statsTokens.groupby?.span.span_expression.literal_value,
-              }
-            : undefined;
-
-        await dispatch(
-          changeVizConfig({
-            tabId,
-            vizId: curVisId,
-            data: {
-              dataConfig: {
-                metrics: statsTokens.aggregations.map((agg) => ({
-                  label: agg.function?.value_expression,
-                  name: agg.function?.value_expression,
-                  aggregation: agg.function?.name,
-                })),
-                dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-                  label: agg.name ?? '',
-                  name: agg.name ?? '',
-                })),
-                span,
+        if (curVisId === visChartTypes.TreeMap) {
+          await dispatch(
+            changeVisualizationConfig({
+              tabId,
+              vizId: curVisId,
+              data: {
+                dataConfig: {
+                  dimensions: [
+                    {
+                      childField: {
+                        ...(statsTokens.groupby?.group_fields
+                          ? {
+                              label: statsTokens.groupby?.group_fields[0].name ?? '',
+                              name: statsTokens.groupby?.group_fields[0].name ?? '',
+                            }
+                          : { label: '', name: '' }),
+                      },
+                      parentFields: [],
+                    },
+                  ],
+                  metrics: [
+                    {
+                      valueField: {
+                        ...(statsTokens.aggregations
+                          ? {
+                              label: `${statsTokens.aggregations[0].function?.name}(${statsTokens.aggregations[0].function?.value_expression})`,
+                              name: `${statsTokens.aggregations[0].function?.name}(${statsTokens.aggregations[0].function?.value_expression})`,
+                            }
+                          : { label: '', name: '' }),
+                      },
+                    },
+                  ],
+                },
               },
-            },
-          })
-        );
+            })
+          );
+        } else if (curVisId === visChartTypes.Histogram) {
+          dispatch(
+            changeVisualizationConfig({
+              tabId,
+              vizId: curVisId,
+              data: {
+                dataConfig: {
+                  dimensions: [{ bucketSize: '', bucketOffset: '' }],
+                  metrics: [],
+                },
+              },
+            })
+          );
+        } else {
+          await dispatch(
+            changeVizConfig({
+              tabId,
+              vizId: curVisId,
+              data: {
+                dataConfig: {
+                  metrics: statsTokens.aggregations.map((agg) => ({
+                    label: agg.function?.value_expression,
+                    name: agg.function?.value_expression,
+                    aggregation: agg.function?.name,
+                  })),
+                  dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+                    label: agg.name ?? '',
+                    name: agg.name ?? '',
+                  })),
+                },
+              },
+            })
+          );
+        }
       }
     },
     [tempQuery, query, selectedContentTabId]

@@ -52,9 +52,15 @@ export const DataConfigPanelItem = ({
   qm,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
-    TabContext
-  );
+  const {
+    tabId,
+    handleQuerySearch,
+    handleQueryChange,
+    setTempQuery,
+    fetchData,
+    changeVisualizationConfig,
+    curVisId,
+  } = useContext<any>(TabContext);
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
@@ -123,38 +129,57 @@ export const DataConfigPanelItem = ({
   };
 
   const updateChart = (updatedConfigList = configList) => {
-    const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-    const newQuery = qm
-      .queryBuilder()
-      .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
-
-    batch(async () => {
-      await handleQueryChange(newQuery);
-      await dispatch(
-        changeQuery({
+    if (visualizations.vis.name === visChartTypes.Histogram) {
+      dispatch(
+        changeVisualizationConfig({
           tabId,
-          query: {
-            ...data.query,
-            [RAW_QUERY]: newQuery,
-          },
-        })
-      );
-      await fetchData();
-      await dispatch(
-        changeVizConfig({
-          tabId,
-          vizId: visualizations.vis.name,
+          vizId: curVisId,
           data: {
+            ...userConfigs,
             dataConfig: {
-              metrics: updatedConfigList.metrics,
-              dimensions: updatedConfigList.dimensions,
-              breakdowns: updatedConfigList.breakdowns,
-              span: updatedConfigList.span,
+              ...userConfigs.dataConfig,
+              dimensions: configList.dimensions,
+              metrics: configList.metrics,
             },
           },
         })
       );
-    });
+    } else {
+      const qm = new QueryManager();
+      const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
+      const newQuery = qm
+        .queryBuilder()
+        .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
+
+      batch(async () => {
+        await handleQueryChange(newQuery);
+        await dispatch(
+          changeQuery({
+            tabId,
+            query: {
+              ...data.query,
+              [RAW_QUERY]: newQuery,
+            },
+          })
+        );
+        await fetchData();
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: visualizations.vis.name,
+            data: {
+              dataConfig: {
+                ...userConfigs.dataConfig,
+                metrics: updatedConfigList.metrics,
+                dimensions: updatedConfigList.dimensions,
+                breakdowns: updatedConfigList.breakdowns,
+                span: updatedConfigList.span,
+              },
+            },
+          })
+        );
+      });
+    }
   };
 
   const isPositionButtonVisible = (sectionName: string) =>

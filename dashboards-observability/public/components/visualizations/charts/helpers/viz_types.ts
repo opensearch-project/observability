@@ -197,7 +197,15 @@ const getUserConfigs = (
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            ...defaultUserConfigs(query, visName),
+            dimensions: [
+              {
+                childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
+                parentFields: [],
+              },
+            ],
+            metrics: [
+              { valueField: { ...(axesData.yaxis ? axesData.yaxis[0] : initialEntryTreemap) } },
+            ],
           },
         };
         break;
@@ -206,10 +214,8 @@ const getUserConfigs = (
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            valueOptions: {
-              dimensions: [{ bucketSize: '', bucketOffset: '' }],
-              metrics: [],
-            },
+            dimensions: [{ bucketSize: '', bucketOffset: '' }],
+            metrics: [],
           },
         };
         break;

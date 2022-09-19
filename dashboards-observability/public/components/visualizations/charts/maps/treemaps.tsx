@@ -26,13 +26,13 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const childField =
-    dataConfig?.valueOptions?.dimensions && dataConfig.valueOptions.dimensions[0].childField
-      ? dataConfig.valueOptions.dimensions[0].childField
+    dataConfig?.dimensions && dataConfig.dimensions[0].childField
+      ? dataConfig.dimensions[0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    dataConfig?.valueOptions?.dimensions && dataConfig.valueOptions.dimensions[0].parentFields
-      ? dataConfig.valueOptions.dimensions[0].parentFields
+    dataConfig?.dimensions && dataConfig.dimensions[0].parentFields
+      ? dataConfig.dimensions[0].parentFields
       : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
@@ -44,8 +44,8 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       : 'all';
 
   const valueField =
-    dataConfig?.valueOptions?.metrics && dataConfig.valueOptions.metrics[0].valueField
-      ? dataConfig.valueOptions.metrics[0].valueField
+    dataConfig?.metrics && dataConfig.metrics[0].valueField
+      ? dataConfig.metrics[0].valueField
       : fields[0];
 
   const colorField =
@@ -70,7 +70,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   if (
     isEmpty(data[childField.name]) ||
     isEmpty(data[valueField.name]) ||
-    indexOf(NUMERICAL_FIELDS, valueField.type) < 0 ||
+    // indexOf(NUMERICAL_FIELDS, valueField.type) < 0 ||
     areParentFieldsInvalid
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
