@@ -10,7 +10,12 @@ import { isEmpty } from 'lodash';
 import React, { useContext } from 'react';
 import { EuiPanel, EuiResizableContainer, EuiSpacer } from '@elastic/eui';
 import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
-import { IField, IQuery, IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import {
+  IField,
+  IQuery,
+  IVisualizationContainerProps,
+  ExplorerFields,
+} from '../../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
@@ -24,7 +29,7 @@ interface IExplorerVisualizationsProps {
   curVisId: string;
   setCurVisId: (visId: string) => void;
   explorerVis: any;
-  explorerFields: IField[];
+  explorerFields: ExplorerFields;
   explorerData: any;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
@@ -53,10 +58,10 @@ export const ExplorerVisualizations = ({
   const { tabId } = useContext<any>(TabContext);
   const { data, vis } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
-  const fieldOptionList = explorerFields.availableFields.map((field) => {
-    // const fieldOptionList = fields.map((field) => {
-    return { ...field, label: field.name };
-  });
+  const fieldOptionList = explorerFields.availableFields.map((field) => ({
+    ...field,
+    label: field.name,
+  }));
 
   const renderDataConfigContainer = () => {
     switch (curVisId) {

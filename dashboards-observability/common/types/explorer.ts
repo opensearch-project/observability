@@ -34,6 +34,13 @@ export interface IField {
   label?: string;
 }
 
+export interface ExplorerFields {
+  availableFields: IField[];
+  queriedFields: IField[];
+  selectedFields: IField[];
+  unselectedFields: IField[];
+}
+
 export interface ITabQueryResults {
   [tabId: string]: any;
 }
