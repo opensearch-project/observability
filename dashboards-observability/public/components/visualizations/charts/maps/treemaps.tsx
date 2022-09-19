@@ -59,13 +59,8 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       : fields[0];
 
   const colorField =
-    dataConfig?.chartStyles && dataConfig.chartStyles.colorTheme
       ? dataConfig.chartStyles.colorTheme
       : { name: DEFAULT_PALETTE };
-
-  const tilingAlgorithm =
-    dataConfig?.treemapOptions &&
-    dataConfig.treemapOptions.tilingAlgorithm &&
     !isEmpty(dataConfig.treemapOptions.tilingAlgorithm)
       ? dataConfig.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
