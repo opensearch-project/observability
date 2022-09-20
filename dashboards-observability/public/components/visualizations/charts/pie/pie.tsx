@@ -89,7 +89,9 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     }
     return legendLabels;
   }, [xaxes, data, fields, lastIndex]);
+
   const hexColor = invertHex(colorTheme);
+
   const pies = useMemo(
     () =>
       valueSeries.map((field: any, index: number) => {
