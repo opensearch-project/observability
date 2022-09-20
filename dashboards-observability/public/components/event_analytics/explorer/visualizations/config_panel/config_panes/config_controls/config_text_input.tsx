@@ -19,10 +19,9 @@ export const TextInputFieldItem: React.FC<InputFieldProps> = ({
   currentValue,
   handleInputChange,
 }) => {
-  const [fieldValue, setFieldValue] = useState<string>(currentValue);
+  const [fieldValue, setFieldValue] = useState<string>('');
 
   useEffect(() => {
-    setFieldValue('');
     if (currentValue !== undefined || currentValue !== '') {
       setFieldValue(currentValue);
     }

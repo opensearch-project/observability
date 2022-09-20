@@ -19,10 +19,9 @@ export const InputFieldItem: React.FC<InputFieldProps> = ({
   handleInputChange,
   minLimit,
 }) => {
-  const [fieldValue, setFieldValue] = useState<number | string>(numValue);
+  const [fieldValue, setFieldValue] = useState<number | string>('');
 
   useEffect(() => {
-    setFieldValue('');
     if (numValue !== undefined || numValue !== '') {
       setFieldValue(numValue);
     }
