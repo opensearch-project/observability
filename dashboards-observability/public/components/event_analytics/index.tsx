@@ -5,7 +5,7 @@
 
 import { EuiGlobalToastList } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
-import { EmptyTabParams } from 'common/types/explorer';
+import { EmptyTabParams, EventAnalyticsProps } from 'common/types/explorer';
 import { isEmpty } from 'lodash';
 import React, { ReactChild, useState } from 'react';
 import { HashRouter, Route, Switch, useHistory } from 'react-router-dom';
@@ -23,8 +23,9 @@ export const EventAnalytics = ({
   timestampUtils,
   http,
   notifications,
+  qm,
   ...props
-}: any) => {
+}: EventAnalyticsProps) => {
   const history = useHistory();
   const [toasts, setToasts] = useState<Toast[]>([]);
 
@@ -84,6 +85,7 @@ export const EventAnalytics = ({
                   getExistingEmptyTab={getExistingEmptyTab}
                   history={history}
                   notifications={notifications}
+                  qm={qm}
                 />
               );
             }}

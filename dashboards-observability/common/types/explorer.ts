@@ -5,6 +5,7 @@
 
 import { History } from 'history';
 import Plotly from 'plotly.js-dist';
+import { QueryManager } from 'common/query_manager';
 import {
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -16,12 +17,18 @@ import {
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
 } from '../constants/explorer';
-import { CoreStart, HttpSetup, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import {
+  CoreStart,
+  CoreSetup,
+  HttpSetup,
+  HttpStart,
+  NotificationsStart,
+} from '../../../../src/core/public';
 import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
 import DSLService from '../../public/services/requests/dsl';
-
+import { SavedObjectsStart } from '../../../../src/core/public/saved_objects';
 export interface IQueryTab {
   id: string;
   name: React.ReactNode | string;
@@ -32,6 +39,13 @@ export interface IField {
   name: string;
   type: string;
   label?: string;
+}
+
+export interface ExplorerFields {
+  availableFields: IField[];
+  queriedFields: IField[];
+  selectedFields: IField[];
+  unselectedFields: IField[];
 }
 
 export interface ITabQueryResults {
@@ -83,6 +97,7 @@ export interface ILogExplorerProps {
   ) => void;
   savedObjectId: string;
   getExistingEmptyTab: (params: EmptyTabParams) => string;
+  qm: QueryManager;
 }
 
 export interface IExplorerProps {
@@ -113,6 +128,7 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
+  qm: QueryManager;
 }
 
 export interface SavedQuery {
@@ -282,4 +298,27 @@ export interface ConfigList {
   metrics?: ConfigListEntry[];
   breakdowns?: ConfigListEntry[] | HistogramConfigList[];
   span?: DimensionSpan;
+}
+
+export interface Breadcrumbs {
+  text: string;
+  href: string;
+}
+
+export interface EventAnalyticsProps {
+  chrome: CoreSetup;
+  parentBreadcrumbs: Breadcrumbs[];
+  pplService: any;
+  dslService: any;
+  savedObjects: SavedObjectsStart;
+  timestampUtils: TimestampUtils;
+  http: HttpStart;
+  notifications: NotificationsStart;
+  qm: QueryManager;
+}
+
+export interface DataConfigPanelProps {
+  fieldOptionList: IField[];
+  visualizations: IVisualizationContainerProps;
+  qm?: QueryManager;
 }

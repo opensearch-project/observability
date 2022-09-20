@@ -78,7 +78,6 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
-import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -107,6 +106,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
+  qm,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -143,7 +143,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<Boolean>(
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
     false
   );
 
@@ -631,7 +631,7 @@ export const Explorer = ({
                               0
                             )}
                             showResetButton={false}
-                            onResetQuery={() => { }}
+                            onResetQuery={() => {}}
                           />
                         </EuiFlexItem>
                         <EuiFlexItem grow={false}>
@@ -672,7 +672,7 @@ export const Explorer = ({
                               <HitsCounter
                                 hits={totalHits}
                                 showResetButton={false}
-                                onResetQuery={() => { }}
+                                onResetQuery={() => {}}
                               />
                             </EuiFlexItem>
                             <EuiFlexItem grow={false}>since {liveTimestamp}</EuiFlexItem>
@@ -746,7 +746,7 @@ export const Explorer = ({
     }
   };
 
-  const changeIsValidConfigOptionState = (isValidConfig: Boolean) =>
+  const changeIsValidConfigOptionState = (isValidConfig: boolean) =>
     setIsValidDataConfigOptionSelected(isValidConfig);
 
   const getExplorerVis = () => {
@@ -764,6 +764,7 @@ export const Explorer = ({
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
         changeIsValidConfigOptionState={changeIsValidConfigOptionState}
+        qm={qm}
       />
     );
   };
@@ -841,7 +842,6 @@ export const Explorer = ({
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
-        const qm = new QueryManager();
         const statsTokens = qm.queryParser().parse(tempQuery).getStats();
         const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
           (time_unit) => time_unit.value === statsTokens.groupby?.span.span_expression.time_unit
@@ -849,22 +849,22 @@ export const Explorer = ({
         const span =
           statsTokens.groupby?.span !== null
             ? {
-              time_field: [
-                {
-                  name: statsTokens.groupby?.span.span_expression.field,
-                  type: 'timestamp',
-                  label: statsTokens.groupby?.span.span_expression.field,
-                },
-              ],
-              unit: [
-                {
-                  text: timeUnitValue,
-                  value: statsTokens.groupby?.span.span_expression.time_unit,
-                  label: timeUnitValue,
-                },
-              ],
-              interval: statsTokens.groupby?.span.span_expression.literal_value,
-            }
+                time_field: [
+                  {
+                    name: statsTokens.groupby?.span.span_expression.field,
+                    type: 'timestamp',
+                    label: statsTokens.groupby?.span.span_expression.field,
+                  },
+                ],
+                unit: [
+                  {
+                    text: timeUnitValue,
+                    value: statsTokens.groupby?.span.span_expression.time_unit,
+                    label: timeUnitValue,
+                  },
+                ],
+                interval: statsTokens.groupby?.span.span_expression.literal_value,
+              }
             : undefined;
 
         await dispatch(
