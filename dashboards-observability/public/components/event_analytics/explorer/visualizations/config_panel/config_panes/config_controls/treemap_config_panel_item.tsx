@@ -23,13 +23,13 @@ import { ConfigTreemapParentFields } from './config_treemap_parents';
 import { numericalTypes, RAW_QUERY } from '../../../../../../../../common/constants/explorer';
 import { TabContext } from '../../../../../hooks';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
+import { DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 
 export const TreemapConfigPanelItem = ({
   fieldOptionList,
   visualizations,
-  tabID,
-  queryManager,
-}: any) => {
+  qm,
+}: DataConfigPanelProps) => {
   const dispatch = useDispatch();
   const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<
     any
@@ -72,8 +72,8 @@ export const TreemapConfigPanelItem = ({
   };
 
   const updateChart = (updatedConfigList = configList) => {
-    const statsTokens = queryManager.queryParser().parse(data.query.rawQuery).getStats();
-    const newQuery = queryManager
+    const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
+    const newQuery = qm
       .queryBuilder()
       .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 

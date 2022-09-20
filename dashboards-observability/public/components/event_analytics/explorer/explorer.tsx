@@ -106,7 +106,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
-  queryManager,
+  qm,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -764,7 +764,7 @@ export const Explorer = ({
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
         changeIsValidConfigOptionState={changeIsValidConfigOptionState}
-        queryManager={queryManager}
+        qm={qm}
       />
     );
   };
@@ -842,7 +842,7 @@ export const Explorer = ({
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
-        const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
+        const statsTokens = qm.queryParser().parse(tempQuery).getStats();
         const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
           (time_unit) => time_unit.value === statsTokens.groupby?.span.span_expression.time_unit
         )?.text;

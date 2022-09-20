@@ -5,6 +5,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { QueryManager } from 'common/query_manager';
 import { AppMountParameters, CoreStart } from '../../../../src/core/public';
 import { AppPluginStartDependencies } from '../types';
 import { App } from './app';
@@ -17,7 +18,7 @@ export const Observability = (
   dslService: any,
   savedObjects: any,
   timestampUtils: any,
-  queryManagerInstance: any
+  qm: QueryManager
 ) => {
   ReactDOM.render(
     <App
@@ -27,7 +28,7 @@ export const Observability = (
       dslService={dslService}
       savedObjects={savedObjects}
       timestampUtils={timestampUtils}
-      queryManagerInstance={queryManagerInstance}
+      qm={qm}
     />,
     AppMountParametersProp.element
   );

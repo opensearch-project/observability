@@ -9,6 +9,7 @@ import { isEmpty } from 'lodash';
 
 import React, { useContext } from 'react';
 import { EuiPanel, EuiResizableContainer, EuiSpacer } from '@elastic/eui';
+import { QueryManager } from 'common/query_manager';
 import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import {
   IField,
@@ -24,6 +25,7 @@ import { TabContext } from '../../hooks';
 import { PPL_STATS_REGEX, visChartTypes } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 import { LogsViewConfigPanelItem } from './config_panel/config_panes/config_controls/logs_view_config_panel_item';
+
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -37,7 +39,7 @@ interface IExplorerVisualizationsProps {
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
   changeIsValidConfigOptionState: (isValidConfigOptionSelected: boolean) => void;
-  queryManager: any;
+  qm: QueryManager;
 }
 
 export const ExplorerVisualizations = ({
@@ -53,7 +55,7 @@ export const ExplorerVisualizations = ({
   handleOverrideTimestamp,
   callback,
   changeIsValidConfigOptionState,
-  queryManager,
+  qm,
 }: IExplorerVisualizationsProps) => {
   const { tabId } = useContext<any>(TabContext);
   const { data, vis } = visualizations;
@@ -70,8 +72,7 @@ export const ExplorerVisualizations = ({
           <TreemapConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
-            tabID={tabId}
-            queryManager={queryManager}
+            qm={qm}
           />
         );
       case visChartTypes.LogsView:
@@ -79,7 +80,6 @@ export const ExplorerVisualizations = ({
           <LogsViewConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
-            tabID={tabId}
           />
         );
       default:
@@ -87,8 +87,7 @@ export const ExplorerVisualizations = ({
           <DataConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
-            tabID={tabId}
-            queryManager={queryManager}
+            qm={qm}
           />
         );
     }

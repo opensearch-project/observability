@@ -7,6 +7,7 @@ import { I18nProvider } from '@osd/i18n/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import { QueryManager } from 'common/query_manager';
 import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
@@ -24,7 +25,7 @@ interface ObservabilityAppDeps {
   dslService: any;
   savedObjects: any;
   timestampUtils: any;
-  queryManagerInstance: any;
+  qm: QueryManager;
 }
 
 // for cypress to test redux store
@@ -39,7 +40,7 @@ export const App = ({
   dslService,
   savedObjects,
   timestampUtils,
-  queryManagerInstance,
+  qm,
 }: ObservabilityAppDeps) => {
   const { chrome, http, notifications } = CoreStartProp;
   const parentBreadcrumb = {
@@ -132,7 +133,7 @@ export const App = ({
                       timestampUtils={timestampUtils}
                       http={http}
                       notifications={notifications}
-                      queryManager={queryManagerInstance}
+                      qm={qm}
                       {...props}
                     />
                   );

@@ -48,7 +48,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         const dslService = new DSLService(coreStart.http);
         const savedObjects = new SavedObjects(coreStart.http);
         const timestampUtils = new TimestampUtils(dslService);
-        const queryManagerInstance = new QueryManager();
+        const qm = new QueryManager();
         return Observability(
           coreStart,
           depsStart as AppPluginStartDependencies,
@@ -57,7 +57,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
           dslService,
           savedObjects,
           timestampUtils,
-          queryManagerInstance
+          qm
         );
       },
     });

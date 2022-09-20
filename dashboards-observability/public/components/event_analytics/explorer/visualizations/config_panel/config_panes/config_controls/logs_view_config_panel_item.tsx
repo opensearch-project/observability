@@ -15,20 +15,27 @@ import {
   EuiText,
 } from '@elastic/eui';
 import { batch, useDispatch, useSelector } from 'react-redux';
+import { cloneDeep } from 'lodash';
 import {
   AVAILABLE_FIELDS,
   SELECTED_FIELDS,
 } from '../../../../../../../../common/constants/explorer';
-import { ConfigList, ConfigListEntry } from '../../../../../../../../common/types/explorer';
+import {
+  ConfigList,
+  ConfigListEntry,
+  DataConfigPanelProps,
+} from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 import {
   selectFields,
   sortFields,
   updateFields,
 } from '../../../../../../event_analytics/redux/slices/field_slice';
-import { cloneDeep } from 'lodash';
 
-export const LogsViewConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
+export const LogsViewConfigPanelItem = ({
+  fieldOptionList,
+  visualizations,
+}: DataConfigPanelProps) => {
   const dispatch = useDispatch();
   const { tabId, curVisId, changeVisualizationConfig } = useContext<any>(TabContext);
   const explorerFields = useSelector(selectFields)[tabId];
@@ -159,7 +166,7 @@ export const LogsViewConfigPanelItem = ({ fieldOptionList, visualizations }: any
   };
 
   const getLogsViewUI = () => {
-    let list = configList.dimensions ? configList.dimensions : [];
+    const list = configList.dimensions ? configList.dimensions : [];
     const listUI = list.map((field, index) => (
       <EuiFormRow
         label="Field"
