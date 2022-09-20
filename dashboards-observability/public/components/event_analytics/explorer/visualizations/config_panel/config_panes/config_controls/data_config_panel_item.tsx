@@ -31,9 +31,8 @@ import {
 } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
 import { visChartTypes } from '../../../../../../../../common/constants/shared';
-import { ConfigList } from '../../../../../../../../common/types/explorer';
+import { ConfigList, DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
-import { QueryManager } from '../../../../../../../../common/query_manager';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
 
 const initialDimensionEntry = {
@@ -48,7 +47,11 @@ const initialMetricEntry = {
   aggregation: 'count',
 };
 
-export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
+export const DataConfigPanelItem = ({
+  fieldOptionList,
+  visualizations,
+  qm,
+}: DataConfigPanelProps) => {
   const dispatch = useDispatch();
   const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
     TabContext
@@ -121,7 +124,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const updateChart = (updatedConfigList = configList) => {
-    const qm = new QueryManager();
     const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
     const newQuery = qm
       .queryBuilder()
