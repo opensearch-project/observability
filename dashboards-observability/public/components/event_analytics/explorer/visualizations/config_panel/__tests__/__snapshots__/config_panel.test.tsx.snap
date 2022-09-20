@@ -343,6 +343,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                     },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
                   ],
                 },
                 Object {
@@ -351,30 +358,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
-                    Object {
-                      "component": [Function],
-                      "eleType": "buttons",
-                      "mapTo": "orientation",
-                      "name": "Orientation",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Horizontal",
-                          },
-                        ],
-                      },
-                    },
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
@@ -473,7 +456,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 80,
+                      "defaultState": 40,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -507,7 +490,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             },
           ],
         },
-        "fillOpacity": 80,
+        "fillopacity": 40,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
@@ -1395,6 +1378,21 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             },
                           },
+                          Object {
+                            "editor": [Function],
+                            "id": "color-theme",
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "schemas": Array [],
+                          },
+                          Object {
+                            "defaultState": Array [],
+                            "editor": [Function],
+                            "id": "thresholds",
+                            "mapTo": "thresholds",
+                            "name": "Thresholds",
+                            "schemas": Array [],
+                          },
                         ],
                       },
                       Object {
@@ -1890,6 +1888,16 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 "title": "Yellow-Green-Blue",
                                 "type": "gradient",
                                 "value": "YlGnBu",
+                              },
+                              Object {
+                                "component": [Function],
+                                "defaultState": Object {
+                                  "color": "#000000",
+                                  "name": "singleColor",
+                                },
+                                "eleType": "singleColorPicker",
+                                "mapTo": "color",
+                                "name": "Color",
                               },
                             ],
                           },
@@ -3950,6 +3958,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "label": "90°",
                                   "value": 90,
                                 },
+                                Object {
+                                  "component": [Function],
+                                  "eleType": "input",
+                                  "mapTo": "legendSize",
+                                  "name": "Legend size",
+                                  "title": "Legend size",
+                                },
                               ],
                             },
                           },
@@ -5594,6 +5609,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               ],
                                             },
                                           },
+                                          Object {
+                                            "component": [Function],
+                                            "eleType": "input",
+                                            "mapTo": "legendSize",
+                                            "name": "Legend size",
+                                            "title": "Legend size",
+                                          },
                                         ],
                                       },
                                       Object {
@@ -5602,30 +5624,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         "mapTo": "chartStyles",
                                         "name": "Chart styles",
                                         "schemas": Array [
-                                          Object {
-                                            "component": [Function],
-                                            "eleType": "buttons",
-                                            "mapTo": "orientation",
-                                            "name": "Orientation",
-                                            "props": Object {
-                                              "defaultSelections": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                              ],
-                                              "options": Array [
-                                                Object {
-                                                  "id": "v",
-                                                  "name": "Vertical",
-                                                },
-                                                Object {
-                                                  "id": "h",
-                                                  "name": "Horizontal",
-                                                },
-                                              ],
-                                            },
-                                          },
                                           Object {
                                             "component": [Function],
                                             "eleType": "buttons",
@@ -5724,7 +5722,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           },
                                           Object {
                                             "component": [Function],
-                                            "defaultState": 80,
+                                            "defaultState": 40,
                                             "eleType": "slider",
                                             "mapTo": "fillOpacity",
                                             "name": "Fill opacity",
@@ -8894,6 +8892,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
+                                },
+                                Object {
+                                  "component": [Function],
+                                  "eleType": "input",
+                                  "mapTo": "legendSize",
+                                  "name": "Legend size",
+                                  "title": "Legend size",
                                 },
                               ],
                             },
