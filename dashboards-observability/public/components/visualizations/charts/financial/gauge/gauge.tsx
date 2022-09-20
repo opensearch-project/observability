@@ -56,7 +56,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
         calculatedGaugeData = metrics.map((metric: any) => {
           return {
             field_name: metric.name,
-            value: data[metric.name][0],
+            value: data[metric.name] ? data[metric.name][0] : '',
           };
         });
       }

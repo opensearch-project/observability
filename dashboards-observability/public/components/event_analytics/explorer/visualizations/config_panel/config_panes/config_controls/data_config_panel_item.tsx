@@ -18,6 +18,7 @@ import {
   EuiText,
   EuiFieldNumber,
   htmlIdGenerator,
+  EuiToolTip,
 } from '@elastic/eui';
 import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
@@ -192,11 +193,18 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                         labelAppend={
                           visualizations.vis.name !== visChartTypes.HeatMap && (
                             <EuiText size="xs">
-                              <EuiIcon
-                                type="cross"
-                                color="danger"
-                                onClick={() => handleServiceRemove(index, sectionName)}
-                              />
+                              <EuiToolTip
+                                position="bottom"
+                                content="At least one metrics required to render a chart"
+                                delay="regular"
+                                anchorClassName="eui-textTruncate"
+                              >
+                                <EuiIcon
+                                  type="cross"
+                                  color="danger"
+                                  onClick={() => handleServiceRemove(index, sectionName)}
+                                />
+                              </EuiToolTip>
                             </EuiText>
                           )
                         }
