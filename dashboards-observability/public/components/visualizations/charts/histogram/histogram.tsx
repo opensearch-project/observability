@@ -14,6 +14,7 @@ import {
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
   const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
@@ -49,11 +50,11 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
 
   const xbins: any = {};
-  if (dataConfig?.dimensions && dataConfig?.dimensions[0].bucketSize) {
-    xbins.size = dataConfig.dimensions[0].bucketSize;
+  if (dataConfig?[GROUPBY] && dataConfig?[GROUPBY][0].bucketSize) {
+    xbins.size = dataConfig[GROUPBY][0].bucketSize;
   }
-  if (dataConfig?.dimensions && dataConfig?.dimensions[0].bucketOffset) {
-    xbins.start = dataConfig.dimensions[0].bucketOffset;
+  if (dataConfig?[GROUPBY] && dataConfig?[GROUPBY][0].bucketOffset) {
+    xbins.start = dataConfig[GROUPBY][0].bucketOffset;
   }
 
   const selectedColorTheme = (field: any, index: number, opacity?: number) => {

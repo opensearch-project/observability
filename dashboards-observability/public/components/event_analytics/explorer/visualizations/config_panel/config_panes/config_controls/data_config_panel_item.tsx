@@ -70,7 +70,6 @@ export const DataConfigPanelItem = ({
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
   const { userConfigs } = data;
-  // console.log(configList, 'Config List');
 
   useEffect(() => {
     if (userConfigs && userConfigs.dataConfig) {
@@ -131,7 +130,7 @@ export const DataConfigPanelItem = ({
     setConfigList(list);
   };
 
-  const updateChart = (updatedConfigList = configList) => {
+  const updateChart = (updatedConfigList: ConfigList = configList) => {
     if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
       dispatch(
         changeVizConfig({
@@ -348,10 +347,10 @@ export const DataConfigPanelItem = ({
   );
 
   const getBreakDownFields = useCallback(
-    (configList) => {
-      return configList.dimensions;
+    (configList: ConfigList) => {
+      return configList[GROUPBY];
     },
-    [configList.dimensions]
+    [configList[GROUPBY]]
   );
 
   const Breakdowns = useMemo(() => {
@@ -365,7 +364,7 @@ export const DataConfigPanelItem = ({
                   aria-label="Accessible screen reader label"
                   placeholder="Select fields"
                   singleSelection={false}
-                  options={configList.dimensions}
+                  options={configList[GROUPBY]}
                   selectedOptions={configList.breakdowns ?? []}
                   onChange={(fields) => {
                     setConfigList((staleState) => {
@@ -382,7 +381,7 @@ export const DataConfigPanelItem = ({
         </div>
       </>
     );
-  }, [configList.dimensions, configList.breakdowns]);
+  }, [configList[GROUPBY], configList.breakdowns]);
 
   const DateHistogram = useMemo(() => {
     return (

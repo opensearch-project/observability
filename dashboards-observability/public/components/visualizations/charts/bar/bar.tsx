@@ -15,7 +15,7 @@ import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualiz
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { GROUPBY } from '../../../../../common/constants/explorer';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
@@ -39,7 +39,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   if (
     isEmpty(queriedVizData) ||
     !Array.isArray(dataConfig[GROUPBY]) ||
-    !Array.isArray(dataConfig.series) ||
+    !Array.isArray(dataConfig[AGGREGATIONS]) ||
     (dataConfig.breakdowns && !Array.isArray(dataConfig.breakdowns))
   )
     return <EmptyPlaceholder icon={visMetaData?.icontype} />;
@@ -100,8 +100,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * determine y axis
    */
   const yaxes = useMemo(() => {
-    return Array.isArray(dataConfig.series) ? [...dataConfig.series] : [];
-  }, [dataConfig.series]);
+    return Array.isArray(dataConfig[AGGREGATIONS]) ? [...dataConfig[AGGREGATIONS]] : [];
+  }, [dataConfig[AGGREGATIONS]]);
 
   /**
    * prepare data for visualization, map x-xais to y-xais

@@ -17,6 +17,7 @@ import {
 } from '../../../../../common/constants/colors';
 import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
@@ -36,9 +37,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
-  const xaxisField = dataConfig?.dimensions[0];
-  const yaxisField = dataConfig?.dimensions[1];
-  const zMetrics = dataConfig?.series[0];
+  const xaxisField = dataConfig?[GROUPBY][0];
+  const yaxisField = dataConfig?[GROUPBY][1];
+  const zMetrics = dataConfig?[AGGREGATIONS][0];
 
   if (
     isEmpty(xaxisField) ||
@@ -47,8 +48,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(queriedVizData[xaxisField.label]) ||
     isEmpty(queriedVizData[yaxisField.label]) ||
     isEmpty(queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`]) ||
-    dataConfig?.dimensions.length > 2 ||
-    dataConfig?.series.length > 1
+    dataConfig?[GROUPBY].length > 2 ||
+    dataConfig?[AGGREGATIONS].length > 1
   )
     return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 

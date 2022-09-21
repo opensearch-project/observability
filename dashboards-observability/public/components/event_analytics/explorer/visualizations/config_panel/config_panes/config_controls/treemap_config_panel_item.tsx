@@ -75,8 +75,8 @@ export const TreemapConfigPanelItem = ({
           ...userConfigs,
           dataConfig: {
             ...userConfigs.dataConfig,
-            [GROUPBY]: configList.dimensions,
-            [AGGREGATIONS]: configList.series,
+            [GROUPBY]: configList[GROUPBY],
+            [AGGREGATIONS]: configList[AGGREGATIONS],
           },
         },
       })
@@ -157,8 +157,8 @@ export const TreemapConfigPanelItem = ({
               placeholder="Select a field"
               options={getOptionsAvailable(AGGREGATIONS)}
               selectedOptions={
-                configList.series[0].valueField?.label !== ''
-                  ? [{ label: configList.series[0].valueField?.label }]
+                configList[AGGREGATIONS][0].valueField?.label !== ''
+                  ? [{ label: configList[AGGREGATIONS][0].valueField?.label }]
                   : []
               }
               singleSelection={{ asPlainText: true }}

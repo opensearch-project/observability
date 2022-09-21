@@ -17,6 +17,7 @@ import {
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
@@ -45,7 +46,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const yaxis = dataConfig?.series ? dataConfig.series.filter((item) => item.label) : [];
+  const yaxis = dataConfig?[AGGREGATIONS] ? dataConfig[AGGREGATIONS].filter((item) => item.label) : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
@@ -85,9 +86,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-    xaxis = [timestampField, ...dataConfig.dimensions];
+    xaxis = [timestampField, ...dataConfig[GROUPBY]];
   } else {
-    xaxis = dataConfig.dimensions;
+    xaxis = dataConfig[GROUPBY];
   }
 
   if (isEmpty(xaxis) || isEmpty(yaxis))

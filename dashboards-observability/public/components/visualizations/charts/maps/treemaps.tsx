@@ -15,7 +15,8 @@ import {
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
 import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
-import { IVisualizationContainerProps } from '../../../../../../common/types/explorer';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { GROUPBY, AGGREGATIONS } from '../../../../../common/constants/explorer';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { DefaultSortSectors } = DEFAULT_CHART_STYLES;
@@ -35,13 +36,13 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
   const childField =
-    dataConfig?.dimensions && dataConfig.dimensions[0].childField
-      ? dataConfig.dimensions[0].childField
+    dataConfig?[GROUPBY] && dataConfig[GROUPBY][0].childField
+      ? dataConfig[GROUPBY][0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    dataConfig?.dimensions && dataConfig.dimensions[0].parentFields
-      ? dataConfig.dimensions[0].parentFields
+    dataConfig?[GROUPBY] && dataConfig[GROUPBY][0].parentFields
+      ? dataConfig[GROUPBY][0].parentFields
       : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
@@ -53,8 +54,8 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       : 'all';
 
   const valueField =
-    dataConfig?.series && dataConfig.series[0].valueField
-      ? dataConfig.series[0].valueField
+    dataConfig?[AGGREGATIONS] && dataConfig[AGGREGATIONS][0].valueField
+      ? dataConfig[AGGREGATIONS][0].valueField
       : fields[0];
 
   const colorField =
