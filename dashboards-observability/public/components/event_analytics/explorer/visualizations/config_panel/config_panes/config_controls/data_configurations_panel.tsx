@@ -205,15 +205,7 @@ export const DataConfigPanelItem = ({
                 ...userConfigs.dataConfig,
                 [GROUPBY]: configList[GROUPBY],
                 [AGGREGATIONS]: configList[AGGREGATIONS],
-                breakdowns: updatedConfigList.breakdowns,
-                span: updatedConfigList.span,
-              },
-            },
           })
-        );
-      });
-    }
-  };
 
   const isPositionButtonVisible = (sectionName: string) =>
     sectionName === AGGREGATIONS &&
