@@ -6,12 +6,16 @@
 import React, { useMemo } from 'react';
 import { forEach, isEmpty, last, some, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  LONG_CHART_COLOR,
+  PLOTLY_COLOR,
+  FILLOPACITY_DIV_FACTOR,
+} from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
@@ -34,7 +38,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
 
   if (
     isEmpty(queriedVizData) ||
-    !Array.isArray(dataConfig.dimensions) ||
+    !Array.isArray(dataConfig[GROUPBY]) ||
     !Array.isArray(dataConfig.series) ||
     (dataConfig.breakdowns && !Array.isArray(dataConfig.breakdowns))
   )
@@ -76,7 +80,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     // breakdown selections
     if (dataConfig.breakdowns) {
       return [
-        ...dataConfig.dimensions.filter(
+        ...dataConfig[GROUPBY].filter(
           (dimension) =>
             !some(dataConfig.breakdowns, (breakdown) => breakdown.label === dimension.label)
         ),
@@ -86,11 +90,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     // span selection
     const timestampField = find(fields, (field) => field.type === 'timestamp');
     if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-      return [timestampField, ...dataConfig.dimensions];
+      return [timestampField, ...dataConfig[GROUPBY]];
     }
 
-    return [...dataConfig.dimensions];
-  }, [dataConfig.dimensions, dataConfig.breakdowns]);
+    return [...dataConfig[GROUPBY]];
+  }, [dataConfig[GROUPBY], dataConfig.breakdowns]);
 
   /**
    * determine y axis

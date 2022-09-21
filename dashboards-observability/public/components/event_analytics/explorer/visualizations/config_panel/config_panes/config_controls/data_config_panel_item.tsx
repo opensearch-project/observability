@@ -70,6 +70,7 @@ export const DataConfigPanelItem = ({
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
   const { userConfigs } = data;
+  // console.log(configList, 'Config List');
 
   useEffect(() => {
     if (userConfigs && userConfigs.dataConfig) {
@@ -172,7 +173,7 @@ export const DataConfigPanelItem = ({
               dataConfig: {
                 ...userConfigs.dataConfig,
                 [GROUPBY]: configList[GROUPBY],
-              [AGGREGATIONS]: configList[AGGREGATIONS],
+                [AGGREGATIONS]: configList[AGGREGATIONS],
                 breakdowns: updatedConfigList.breakdowns,
                 span: updatedConfigList.span,
               },
@@ -335,10 +336,8 @@ export const DataConfigPanelItem = ({
         fullWidth
         placeholder="auto"
         value={
-          configList?.dimensions &&
-          configList?.dimensions.length > 0 &&
-          configList.dimensions[0][type]
-            ? configList.dimensions[0][type]
+          configList[GROUPBY] && configList[GROUPBY].length > 0 && configList[GROUPBY][0][type]
+            ? configList[GROUPBY][0][type]
             : ''
         }
         onChange={(e) => updateHistogramConfig('dimensions', type, e.target.value)}
