@@ -204,7 +204,11 @@ export const DataConfigPanelItem = ({
               dataConfig: {
                 ...userConfigs.dataConfig,
                 [GROUPBY]: configList[GROUPBY],
-                [AGGREGATIONS]: configList[AGGREGATIONS],
+              [AGGREGATIONS]: configList[AGGREGATIONS],
+                breakdowns: updatedConfigList.breakdowns,
+                span: updatedConfigList.span,
+              },
+            },
           })
 
   const isPositionButtonVisible = (sectionName: string) =>
