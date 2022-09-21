@@ -46,7 +46,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const yaxis = dataConfig?[AGGREGATIONS] ? dataConfig[AGGREGATIONS].filter((item) => item.label) : [];
+  const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS].filter((item) => item.label) : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode

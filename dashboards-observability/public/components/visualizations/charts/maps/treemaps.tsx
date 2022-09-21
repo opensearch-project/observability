@@ -36,12 +36,12 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
   const childField =
-    dataConfig?[GROUPBY] && dataConfig[GROUPBY][0].childField
+    dataConfig[GROUPBY] && dataConfig[GROUPBY][0].childField
       ? dataConfig[GROUPBY][0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    dataConfig?[GROUPBY] && dataConfig[GROUPBY][0].parentFields
+    dataConfig[GROUPBY] && dataConfig[GROUPBY][0].parentFields
       ? dataConfig[GROUPBY][0].parentFields
       : [];
   const tooltipMode =
@@ -54,7 +54,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       : 'all';
 
   const valueField =
-    dataConfig?[AGGREGATIONS] && dataConfig[AGGREGATIONS][0].valueField
+    dataConfig[AGGREGATIONS] && dataConfig[AGGREGATIONS][0].valueField
       ? dataConfig[AGGREGATIONS][0].valueField
       : fields[0];
 

@@ -6,7 +6,11 @@
 import React, { useMemo } from 'react';
 import Plotly from 'plotly.js-dist';
 import { Plt } from '../../../plotly/plot';
-import { AGGREGATIONS, GROUPBY, PLOTLY_GAUGE_COLUMN_NUMBER } from '../../../../../../common/constants/explorer';
+import {
+  AGGREGATIONS,
+  GROUPBY,
+  PLOTLY_GAUGE_COLUMN_NUMBER,
+} from '../../../../../../common/constants/explorer';
 import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../common/constants/explorer';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
@@ -37,10 +41,12 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
-  const dimensions = dataConfig?[GROUPBY]
+  const dimensions = dataConfig[GROUPBY]
     ? dataConfig[GROUPBY].filter((item) => item.name !== '')
     : [];
-  const series = dataConfig?[AGGREGATIONS] ? dataConfig[AGGREGATIONS].filter((item) => item.name !== '') : [];
+  const series = dataConfig[AGGREGATIONS]
+    ? dataConfig[AGGREGATIONS].filter((item) => item.name !== '')
+    : [];
   const dimensionsLength = dimensions.length;
   const seriesLength = series.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
