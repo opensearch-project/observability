@@ -147,7 +147,6 @@ export const DataConfigPanelItem = ({
         })
       );
     } else {
-      const qm = new QueryManager();
       const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
       const newQuery = qm
         .queryBuilder()
@@ -172,8 +171,8 @@ export const DataConfigPanelItem = ({
             data: {
               dataConfig: {
                 ...userConfigs.dataConfig,
-                [GROUPBY]: updatedConfigList.dimensions,
-                [AGGREGATIONS]: updatedConfigList.series,
+                [GROUPBY]: configList[GROUPBY],
+              [AGGREGATIONS]: configList[AGGREGATIONS],
                 breakdowns: updatedConfigList.breakdowns,
                 span: updatedConfigList.span,
               },
@@ -480,13 +479,13 @@ export const DataConfigPanelItem = ({
             <h3>Series</h3>
           </EuiTitle>
           <EuiSpacer size="s" />
-          {getCommonUI(configList.series, AGGREGATIONS)}
+          {getCommonUI(configList[AGGREGATIONS], AGGREGATIONS)}
           <EuiSpacer size="m" />
           <EuiTitle size="xxs">
             <h3>Dimensions</h3>
           </EuiTitle>
           <EuiSpacer size="s" />
-          {getCommonUI(configList.dimensions, GROUPBY)}
+          {getCommonUI(configList[GROUPBY], GROUPBY)}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
             <h3>Date Histogram</h3>

@@ -16,7 +16,6 @@ import {
 } from '@elastic/eui';
 import { cloneDeep } from 'lodash';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { cloneDeep } from 'lodash';
 import {
   AGGREGATIONS,
   AVAILABLE_FIELDS,

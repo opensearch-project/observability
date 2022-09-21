@@ -81,7 +81,6 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
-import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
 import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
 
 const TYPE_TAB_MAPPING = {
