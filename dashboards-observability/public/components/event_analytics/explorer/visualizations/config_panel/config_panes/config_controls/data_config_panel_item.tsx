@@ -195,7 +195,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
                             <EuiText size="xs">
                               <EuiToolTip
                                 position="bottom"
-                                content="At least one metrics required to render a chart"
+                                content="At least one metric required to render a chart"
                                 delay="regular"
                                 anchorClassName="eui-textTruncate"
                               >
