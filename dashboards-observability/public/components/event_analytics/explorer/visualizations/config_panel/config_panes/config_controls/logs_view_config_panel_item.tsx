@@ -156,14 +156,14 @@ export const LogsViewConfigPanelItem = ({
 
   const updateLogsViewConfig = (value: string, field: ConfigListEntry) => {
     const list = { ...configList };
-    const index = (list.[GROUPBY] as ConfigListEntry[]).findIndex(
+    const index = (list[GROUPBY] as ConfigListEntry[]).findIndex(
       (dim) => dim.label === field.label
     );
     const selectedField = visualizations?.data?.explorer?.explorerFields?.availableFields.find(
       (fld) => fld.name === value
     );
     const newField = { ...selectedField, label: value };
-    list.[GROUPBY][index] = newField;
+    list[GROUPBY][index] = newField;
     setConfigList(list);
   };
 
