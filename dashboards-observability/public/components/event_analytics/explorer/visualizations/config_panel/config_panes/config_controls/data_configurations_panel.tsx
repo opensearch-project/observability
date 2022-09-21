@@ -65,7 +65,6 @@ export const DataConfigPanelItem = ({
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
   const { userConfigs } = data;
-  // console.log(configList, 'Config List');
 
   useEffect(() => {
     if (userConfigs && userConfigs.dataConfig) {
