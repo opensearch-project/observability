@@ -16,13 +16,13 @@ import {
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-const { SortSectors } = DefaultChartStyles;
+const { SortSectors } = DEFAULT_CHART_STYLES;
 
 export interface BarTypeParams {}
 

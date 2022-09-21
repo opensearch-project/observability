@@ -35,10 +35,10 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   if (
     isEmpty(queriedVizData) ||
     !Array.isArray(dataConfig.dimensions) ||
-    !Array.isArray(dataConfig.metrics) ||
+    !Array.isArray(dataConfig.series) ||
     (dataConfig.breakdowns && !Array.isArray(dataConfig.breakdowns))
   )
-    return <EmptyPlaceholder icon={visMetaData?.iconType} />;
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   /**
    * determine stylings
@@ -58,9 +58,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== visMetaData.showlegend
   );
   const legendPosition = dataConfig?.legend?.position || visMetaData.legendposition;
-  visualizations.data?.rawVizData?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.dataConfig?.metrics
-    : [];
+
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
 
   const getSelectedColorTheme = (field: any, index: number) =>
@@ -98,8 +96,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * determine y axis
    */
   const yaxes = useMemo(() => {
-    return Array.isArray(dataConfig.metrics) ? [...dataConfig.metrics] : [];
-  }, [dataConfig.metrics]);
+    return Array.isArray(dataConfig.series) ? [...dataConfig.series] : [];
+  }, [dataConfig.series]);
 
   /**
    * prepare data for visualization, map x-xais to y-xais

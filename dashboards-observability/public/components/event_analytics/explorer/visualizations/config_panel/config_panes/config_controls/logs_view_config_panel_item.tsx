@@ -14,10 +14,13 @@ import {
   EuiIcon,
   EuiText,
 } from '@elastic/eui';
+import { cloneDeep } from 'lodash';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import {
+  AGGREGATIONS,
   AVAILABLE_FIELDS,
+  GROUPBY,
   SELECTED_FIELDS,
 } from '../../../../../../../../common/constants/explorer';
 import {
@@ -64,8 +67,8 @@ export const LogsViewConfigPanelItem = ({
   useEffect(() => {
     if (fieldOptionList.length === 0) {
       setConfigList({
-        metrics: [],
-        dimensions: visualizations?.data?.explorer?.explorerFields?.selectedFields.map((field) => ({
+        [AGGREGATIONS]: [],
+        [GROUPBY]: visualizations?.data?.explorer?.explorerFields?.selectedFields.map((field) => ({
           ...field,
           label: field.name,
         })),
@@ -129,8 +132,8 @@ export const LogsViewConfigPanelItem = ({
           dataConfig: {
             ...userConfigs.dataConfig,
             valueOptions: {
-              dimensions: configList.dimensions,
-              metrics: configList.metrics,
+              [GROUPBY]: configList.dimensions,
+              [AGGREGATIONS]: configList.series,
             },
           },
         },

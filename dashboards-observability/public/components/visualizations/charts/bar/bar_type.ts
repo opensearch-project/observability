@@ -16,13 +16,13 @@ import {
   ConfigLegend,
   InputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { ConfigColorTheme } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_color_theme';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-const { LegendPosition, ShowLegend } = DefaultChartStyles;
+const { LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
 export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',

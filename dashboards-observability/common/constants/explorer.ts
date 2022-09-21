@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { visChartTypes } from './shared';
+import { VIS_CHART_TYPES } from './shared';
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
   'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
 export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
@@ -81,11 +81,11 @@ export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h 
 export const ADD_BUTTON_TEXT = '+ Add color theme';
 
 export const VIZ_CONTAIN_XY_AXIS = [
-  visChartTypes.Bar,
-  visChartTypes.Histogram,
-  visChartTypes.Line,
-  visChartTypes.Pie,
-  visChartTypes.Scatter,
+  VIS_CHART_TYPES.Bar,
+  VIS_CHART_TYPES.Histogram,
+  VIS_CHART_TYPES.Line,
+  VIS_CHART_TYPES.Pie,
+  VIS_CHART_TYPES.Scatter,
 ];
 
 // default ppl aggregation method options
@@ -153,7 +153,7 @@ export interface DefaultGaugeChartParametersProps {
   ThresholdsMaxLimit: number;
 }
 
-export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
+export const DEFAULT_GAUGE_CHART_PARAMETERS: DefaultGaugeChartParametersProps = {
   GaugeTitleSize: 14,
   DisplayDefaultGauges: 1,
   OrientationDefault: 'h',
@@ -166,10 +166,12 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
 export const PLOTLY_PIE_COLUMN_NUMBER = 2;
 export const PIE_XAXIS_GAP = 0.2;
 export const PIE_YAXIS_GAP = 0.1;
-export interface DefaultPieChartParametersProps {
+export interface DefaultPieChartParameterProps {
   DefaultMode: string;
 }
 
-export const DefaultPieChartParameters: DefaultPieChartParametersProps = {
+export const DEFAULT_PIE_CHART_PARAMETERS: DefaultPieChartParameterProps = {
   DefaultMode: 'pie',
 };
+export const GROUPBY = 'dimensions';
+export const AGGREGATIONS = 'series';

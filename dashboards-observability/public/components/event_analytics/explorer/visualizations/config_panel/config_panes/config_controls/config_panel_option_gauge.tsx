@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { EuiFormRow, EuiFieldNumber } from '@elastic/eui';
-import { DefaultGaugeChartParameters } from '../../../../../../../../common/constants/explorer';
+import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../../../common/constants/explorer';
 
 const helpText = `Limit number of gauges.`;
 
@@ -20,12 +20,12 @@ export const ConfigPanelOptionGauge = ({
     ? dataConfig.valueOptions.dimensions.filter((i) => i.name !== '')
     : [];
   const [numberOfGauges, setNumberOfGauges] = useState<number>(
-    DefaultGaugeChartParameters.DisplayDefaultGauges
+    DEFAULT_GAUGE_CHART_PARAMETERS.DisplayDefaultGauges
   );
 
   useEffect(() => {
     if (!vizState) {
-      setNumberOfGauges(DefaultGaugeChartParameters.DisplayDefaultGauges);
+      setNumberOfGauges(DEFAULT_GAUGE_CHART_PARAMETERS.DisplayDefaultGauges);
     }
   }, [vizState?.numberOfGauges]);
 
@@ -37,7 +37,7 @@ export const ConfigPanelOptionGauge = ({
           setNumberOfGauges(Number(e.target.value));
         }}
         value={numberOfGauges}
-        min={DefaultGaugeChartParameters.DisplayDefaultGauges}
+        min={DEFAULT_GAUGE_CHART_PARAMETERS.DisplayDefaultGauges}
         onBlur={() => {
           const newPanelOptions = {
             ...panelOptionsValues,

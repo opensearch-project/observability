@@ -23,13 +23,15 @@ import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
 import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
 import {
+  AGGREGATIONS,
   AGGREGATION_OPTIONS,
-  numericalTypes,
+  GROUPBY,
+  NUMERICAL_TYPES,
   RAW_QUERY,
   TIME_INTERVAL_OPTIONS,
 } from '../../../../../../../../common/constants/explorer';
 import { ButtonGroupItem } from './config_button_group';
-import { visChartTypes } from '../../../../../../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import { ConfigList, DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
@@ -39,7 +41,7 @@ const initialDimensionEntry = {
   name: '',
 };
 
-const initialMetricEntry = {
+const initialSeriesEntry = {
   alias: '',
   label: '',
   name: '',
@@ -122,24 +124,24 @@ export const DataConfigPanelItem = ({
       ...configList,
       [name]: [
         ...configList[name],
-        name === 'metrics' ? initialMetricEntry : initialDimensionEntry,
+        name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
       ],
     };
     setConfigList(list);
   };
 
   const updateChart = (updatedConfigList = configList) => {
-    if (visualizations.vis.name === visChartTypes.Histogram) {
+    if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
       dispatch(
-        changeVisualizationConfig({
+        changeVizConfig({
           tabId,
           vizId: curVisId,
           data: {
             ...userConfigs,
             dataConfig: {
               ...userConfigs.dataConfig,
-              dimensions: configList.dimensions,
-              metrics: configList.metrics,
+              [GROUPBY]: configList[GROUPBY],
+              [AGGREGATIONS]: configList[AGGREGATIONS],
             },
           },
         })
@@ -170,8 +172,8 @@ export const DataConfigPanelItem = ({
             data: {
               dataConfig: {
                 ...userConfigs.dataConfig,
-                metrics: updatedConfigList.metrics,
-                dimensions: updatedConfigList.dimensions,
+                [GROUPBY]: updatedConfigList.dimensions,
+                [AGGREGATIONS]: updatedConfigList.series,
                 breakdowns: updatedConfigList.breakdowns,
                 span: updatedConfigList.span,
               },
@@ -183,17 +185,17 @@ export const DataConfigPanelItem = ({
   };
 
   const isPositionButtonVisible = (sectionName: string) =>
-    sectionName === 'metrics' &&
-    (visualizations.vis.name === visChartTypes.Line ||
-      visualizations.vis.name === visChartTypes.Scatter);
+    sectionName === AGGREGATIONS &&
+    (visualizations.vis.name === VIS_CHART_TYPES.Line ||
+      visualizations.vis.name === VIS_CHART_TYPES.Scatter);
 
   const getOptionsAvailable = (sectionName: string) => {
     const selectedFields = {};
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
-    return sectionName === 'metrics'
+    return sectionName === AGGREGATIONS
       ? unselectedFields
-      : visualizations.vis.name === visChartTypes.Line ||
-        visualizations.vis.name === visChartTypes.Scatter
+      : visualizations.vis.name === VIS_CHART_TYPES.Line ||
+        visualizations.vis.name === VIS_CHART_TYPES.Scatter
       ? unselectedFields.filter((i) => i.type === 'timestamp')
       : unselectedFields;
   };
@@ -206,18 +208,17 @@ export const DataConfigPanelItem = ({
             <>
               <div key={index} className="services">
                 <div className="first-division">
-                  {sectionName === 'dimensions' &&
-                    visualizations.vis.name === visChartTypes.HeatMap && (
-                      <EuiTitle size="xxs">
-                        <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
-                      </EuiTitle>
-                    )}
+                  {sectionName === GROUPBY && visualizations.vis.name === VIS_CHART_TYPES.HeatMap && (
+                    <EuiTitle size="xxs">
+                      <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
+                    </EuiTitle>
+                  )}
                   <EuiPanel color="subdued" style={{ padding: '0px' }}>
-                    {sectionName === 'metrics' && (
+                    {sectionName === AGGREGATIONS && (
                       <EuiFormRow
                         label="Aggregation"
                         labelAppend={
-                          visualizations.vis.name !== visChartTypes.HeatMap && (
+                          visualizations.vis.name !== VIS_CHART_TYPES.HeatMap && (
                             <EuiText size="xs">
                               <EuiIcon
                                 type="cross"
@@ -250,8 +251,8 @@ export const DataConfigPanelItem = ({
                     <EuiFormRow
                       label="Field"
                       labelAppend={
-                        visualizations.vis.name !== visChartTypes.HeatMap &&
-                        sectionName !== 'metrics' && (
+                        visualizations.vis.name !== VIS_CHART_TYPES.HeatMap &&
+                        sectionName !== AGGREGATIONS && (
                           <EuiText size="xs">
                             <EuiIcon
                               type="cross"
@@ -306,7 +307,7 @@ export const DataConfigPanelItem = ({
               <EuiSpacer size="s" />
             </>
           ))}
-        {visualizations.vis.name !== visChartTypes.HeatMap && (
+        {visualizations.vis.name !== VIS_CHART_TYPES.HeatMap && (
           <EuiFlexItem grow>
             <EuiButton
               fullWidth
@@ -316,8 +317,8 @@ export const DataConfigPanelItem = ({
               onClick={() => handleServiceAdd(sectionName)}
               disabled={
                 sectionName === 'dimensions' &&
-                (visualizations.vis.name === visChartTypes.Line ||
-                  visualizations.vis.name === visChartTypes.Scatter)
+                (visualizations.vis.name === VIS_CHART_TYPES.Line ||
+                  visualizations.vis.name === VIS_CHART_TYPES.Scatter)
               }
             >
               Add
@@ -473,19 +474,19 @@ export const DataConfigPanelItem = ({
         <h3>Data Configurations</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
-      {visualizations.vis.name !== visChartTypes.Histogram ? (
+      {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
         <>
           <EuiTitle size="xxs">
             <h3>Series</h3>
           </EuiTitle>
           <EuiSpacer size="s" />
-          {getCommonUI(configList.metrics, 'metrics')}
+          {getCommonUI(configList.series, AGGREGATIONS)}
           <EuiSpacer size="m" />
           <EuiTitle size="xxs">
             <h3>Dimensions</h3>
           </EuiTitle>
           <EuiSpacer size="s" />
-          {getCommonUI(configList.dimensions, 'dimensions')}
+          {getCommonUI(configList.dimensions, GROUPBY)}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
             <h3>Date Histogram</h3>

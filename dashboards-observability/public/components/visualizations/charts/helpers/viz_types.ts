@@ -11,9 +11,13 @@ import {
   IQuery,
   ExplorerData,
 } from '../../../../../common/types/explorer';
-import { visChartTypes } from '../../../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { QueryManager } from '../../../../../common/query_manager';
-import { TIME_INTERVAL_OPTIONS } from '../../../../../common/constants/explorer';
+import {
+  AGGREGATIONS,
+  GROUPBY,
+  TIME_INTERVAL_OPTIONS,
+} from '../../../../../common/constants/explorer';
 interface IVizContainerProps {
   vizId: string;
   appData?: { fromApp: boolean };
@@ -33,7 +37,7 @@ const initialDimensionEntry = {
   name: '',
 };
 
-const initialMetricEntry = {
+const initialSeriesEntry = {
   alias: '',
   label: '',
   name: '',
@@ -51,15 +55,15 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
 
   const mapXaxis = (): Array<{ [key: string]: string }> => {
     const xaxis = vizFieldsWithLabel.filter((field) => field.type === 'timestamp');
-    return visName === visChartTypes.Line
+    return visName === VIS_CHART_TYPES.Line
       ? xaxis.length === 0
         ? [initialDimensionEntry]
         : xaxis
       : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
   };
 
-  const mapYaxis = (): Array<{ [key: string]: string }> =>
-    visName === visChartTypes.Line
+  const mapYaxis = (): { [key: string]: string }[] =>
+    visName === VIS_CHART_TYPES.Line
       ? vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
       : take(
           vizFieldsWithLabel,
@@ -81,8 +85,8 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
   const statsTokens = qm.queryParser().parse(queryString.rawQuery).getStats();
   if (!statsTokens) {
     tempUserConfigs = {
-      metrics: [],
-      dimensions: [],
+      [AGGREGATIONS]: [],
+      [GROUPBY]: [],
     };
   } else {
     const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
@@ -104,11 +108,11 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
           : [],
       },
     };
-    if (visualizationName === visChartTypes.LogsView) {
+    if (visualizationName === VIS_CHART_TYPES.LogsView) {
       tempUserConfigs = {
         ...tempUserConfigs,
-        metrics: [],
-        dimensions: statsTokens.aggregations
+        [AGGREGATIONS]: [],
+        [GROUPBY]: statsTokens.aggregations
           .map((agg) => ({
             label: agg.name ?? '',
             name: agg.name ?? '',
@@ -120,50 +124,22 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
             }))
           ),
       };
-    } else if (visualizationName === visChartTypes.HeatMap) {
+    } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
       tempUserConfigs = {
         ...tempUserConfigs,
-        dimensions: [initialDimensionEntry, initialDimensionEntry],
-        metrics: [initialMetricEntry],
-      };
-    } else if (visualizationName === visChartTypes.TreeMap) {
-      tempUserConfigs = {
-        dimensions: [
-          {
-            childField: {
-              ...(statsTokens.groupby?.group_fields.length > 0
-                ? {
-                    label: statsTokens.groupby?.group_fields[0].name,
-                    name: statsTokens.groupby?.group_fields[0].name,
-                  }
-                : initialEntryTreemap),
-            },
-            parentFields: [],
-          },
-        ],
-        metrics: [
-          {
-            valueField: {
-              ...(statsTokens.aggregations.length > 0
-                ? {
-                    label: statsTokens.aggregations[0].function?.value_expression,
-                    name: statsTokens.aggregations[0].function?.value_expression,
-                  }
-                : initialEntryTreemap),
-            },
-          },
-        ],
+        [GROUPBY]: [initialDimensionEntry, initialDimensionEntry],
+        [AGGREGATIONS]: [initialSeriesEntry],
       };
     } else {
       tempUserConfigs = {
         ...tempUserConfigs,
-        metrics: statsTokens.aggregations.map((agg) => ({
+        [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
           alias: agg.alias,
           label: agg.function?.value_expression,
           name: agg.function?.value_expression,
           aggregation: agg.function?.name,
         })),
-        dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+        [GROUPBY]: statsTokens.groupby?.group_fields?.map((agg) => ({
           label: agg.name ?? '',
           name: agg.name ?? '',
         })),
@@ -181,9 +157,9 @@ const getUserConfigs = (
 ) => {
   let configOfUser = userSelectedConfigs;
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
-  if (!(userSelectedConfigs.dataConfig?.dimensions || userSelectedConfigs.dataConfig?.metrics)) {
+  if (!(userSelectedConfigs.dataConfig?.dimensions || userSelectedConfigs.dataConfig?.series)) {
     switch (visName) {
-      case visChartTypes.HeatMap:
+      case VIS_CHART_TYPES.HeatMap:
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
@@ -192,34 +168,34 @@ const getUserConfigs = (
           },
         };
         break;
-      case visChartTypes.TreeMap:
+      case VIS_CHART_TYPES.TreeMap:
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            dimensions: [
+            [GROUPBY]: [
               {
                 childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
                 parentFields: [],
               },
             ],
-            metrics: [
+            [AGGREGATIONS]: [
               { valueField: { ...(axesData.yaxis ? axesData.yaxis[0] : initialEntryTreemap) } },
             ],
           },
         };
         break;
-      case visChartTypes.Histogram:
+      case VIS_CHART_TYPES.Histogram:
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
-            dimensions: [{ bucketSize: '', bucketOffset: '' }],
-            metrics: [],
+            [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
+            [AGGREGATIONS]: [],
           },
         };
         break;
-      case visChartTypes.LogsView:
+      case VIS_CHART_TYPES.LogsView:
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
@@ -252,7 +228,7 @@ export const getVizContainerProps = ({
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
   const getVisTypeData = () =>
-    vizId === visChartTypes.Line || vizId === visChartTypes.Scatter
+    vizId === VIS_CHART_TYPES.Line || vizId === VIS_CHART_TYPES.Scatter
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
 

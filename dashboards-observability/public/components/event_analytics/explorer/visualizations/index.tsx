@@ -22,7 +22,7 @@ import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
 import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
 import { TabContext } from '../../hooks';
-import { PPL_STATS_REGEX, visChartTypes } from '../../../../../common/constants/shared';
+import { PPL_STATS_REGEX, VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 import { LogsViewConfigPanelItem } from './config_panel/config_panes/config_controls/logs_view_config_panel_item';
 
@@ -67,7 +67,7 @@ export const ExplorerVisualizations = ({
 
   const renderDataConfigContainer = () => {
     switch (curVisId) {
-      case visChartTypes.TreeMap:
+      case VIS_CHART_TYPES.TreeMap:
         return (
           <TreemapConfigPanelItem
             fieldOptionList={fieldOptionList}
@@ -75,7 +75,7 @@ export const ExplorerVisualizations = ({
             qm={qm}
           />
         );
-      case visChartTypes.LogsView:
+      case VIS_CHART_TYPES.LogsView:
         return (
           <LogsViewConfigPanelItem
             fieldOptionList={fieldOptionList}
@@ -112,7 +112,7 @@ export const ExplorerVisualizations = ({
                 handleAddField={(field: IField) => handleAddField(field)}
                 handleRemoveField={(field: IField) => handleRemoveField(field)}
                 isFieldToggleButtonDisabled={
-                  vis.name === visChartTypes.LogsView
+                  vis.name === VIS_CHART_TYPES.LogsView
                     ? isEmpty(explorerData.jsonData) ||
                       !isEmpty(query[RAW_QUERY].match(PPL_STATS_REGEX))
                     : true

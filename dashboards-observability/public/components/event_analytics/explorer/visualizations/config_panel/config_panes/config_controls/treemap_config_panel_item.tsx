@@ -15,7 +15,11 @@ import {
 } from '@elastic/eui';
 import { useDispatch } from 'react-redux';
 import { ConfigTreemapParentFields } from './config_treemap_parents';
-import { numericalTypes } from '../../../../../../../../common/constants/explorer';
+import {
+  AGGREGATIONS,
+  GROUPBY,
+  NUMERICAL_TYPES,
+} from '../../../../../../../../common/constants/explorer';
 import { TabContext } from '../../../../../hooks';
 
 export const TreemapConfigPanelItem = ({
@@ -33,8 +37,8 @@ export const TreemapConfigPanelItem = ({
   const newEntry = { label: '', name: '' };
 
   const [configList, setConfigList] = useState({
-    dimensions: [{ childField: { ...newEntry }, parentFields: [] }],
-    metrics: [{ valueField: { ...newEntry } }],
+    [GROUPBY]: [{ childField: { ...newEntry }, parentFields: [] }],
+    [AGGREGATIONS]: [{ valueField: { ...newEntry } }],
   });
 
   useEffect(() => {
@@ -71,8 +75,8 @@ export const TreemapConfigPanelItem = ({
           ...userConfigs,
           dataConfig: {
             ...userConfigs.dataConfig,
-            dimensions: configList.dimensions,
-            metrics: configList.metrics,
+            [GROUPBY]: configList.dimensions,
+            [AGGREGATIONS]: configList.series,
           },
         },
       })
@@ -80,8 +84,8 @@ export const TreemapConfigPanelItem = ({
   };
 
   const getOptionsAvailable = (sectionName: string) => {
-    const { dimensions, metrics } = configList;
-    const selectedFields = {};
+    const { dimensions, series } = configList;
+    let selectedFields = {};
     let allSelectedFields = [];
 
     for (const key in configList) {
@@ -89,9 +93,9 @@ export const TreemapConfigPanelItem = ({
         const [dimElements] = dimensions;
         const { childField, parentFields } = dimElements;
         allSelectedFields = [childField, ...parentFields];
-      } else if (key === 'metrics') {
-        const [metricsElement] = metrics;
-        allSelectedFields = [metricsElement.valueField];
+      } else if (key === AGGREGATIONS) {
+        const [seriesElement] = series;
+        allSelectedFields = [seriesElement.valueField];
       }
       const allValidSelectedFields = allSelectedFields.filter((item) => item?.label);
       allValidSelectedFields.length > 0 &&
@@ -99,8 +103,8 @@ export const TreemapConfigPanelItem = ({
     }
 
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
-    return sectionName === 'metrics'
-      ? unselectedFields.filter((field) => numericalTypes.includes(field.type))
+    return sectionName === AGGREGATIONS
+      ? unselectedFields.filter((field) => NUMERICAL_TYPES.includes(field.type))
       : unselectedFields;
   };
 
@@ -118,7 +122,7 @@ export const TreemapConfigPanelItem = ({
           <EuiFormRow label="Child Field">
             <EuiComboBox
               placeholder="Select a field"
-              options={getOptionsAvailable('dimensions')}
+              options={getOptionsAvailable(GROUPBY)}
               selectedOptions={
                 configList.dimensions[0].childField?.label !== ''
                   ? [{ label: configList.dimensions[0].childField?.label }]
@@ -126,19 +130,19 @@ export const TreemapConfigPanelItem = ({
               }
               singleSelection={{ asPlainText: true }}
               onChange={(val) =>
-                updateList('dimensions', 'childField', val.length > 0 ? val[0].label : '')
+                updateList(GROUPBY, 'childField', val.length > 0 ? val[0].label : '')
               }
             />
           </EuiFormRow>
 
           <EuiSpacer size="s" />
           <ConfigTreemapParentFields
-            dropdownList={getOptionsAvailable('dimensions').map((opt) => ({
+            dropdownList={getOptionsAvailable(GROUPBY).map((opt) => ({
               label: opt.label,
               name: opt.label,
             }))}
             selectedAxis={configList.dimensions[0]?.parentFields}
-            onSelectChange={(val) => updateList('dimensions', 'parentFields', val)}
+            onSelectChange={(val) => updateList(GROUPBY, 'parentFields', val)}
           />
           <EuiSpacer size="s" />
         </EuiPanel>
@@ -151,15 +155,15 @@ export const TreemapConfigPanelItem = ({
           <EuiFormRow label="Value Field">
             <EuiComboBox
               placeholder="Select a field"
-              options={getOptionsAvailable('metrics')}
+              options={getOptionsAvailable(AGGREGATIONS)}
               selectedOptions={
-                configList.metrics[0].valueField?.label !== ''
-                  ? [{ label: configList.metrics[0].valueField?.label }]
+                configList.series[0].valueField?.label !== ''
+                  ? [{ label: configList.series[0].valueField?.label }]
                   : []
               }
               singleSelection={{ asPlainText: true }}
               onChange={(val) =>
-                updateList('metrics', 'valueField', val.length > 0 ? val[0].label : '')
+                updateList(AGGREGATIONS, 'valueField', val.length > 0 ? val[0].label : '')
               }
             />
           </EuiFormRow>

@@ -51,13 +51,15 @@ import {
   TAB_CHART_ID,
   DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
+  GROUPBY,
+  AGGREGATIONS,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
   PPL_NEWLINE_REGEX,
   LIVE_OPTIONS,
   LIVE_END_TIME,
-  visChartTypes,
+  VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
@@ -79,6 +81,8 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
+import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -826,6 +830,85 @@ export const Explorer = ({
     );
   };
 
+  const getSpanValue = (groupByToken: GroupByChunk) => {
+    const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+      (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+    )?.text;
+    return groupByToken?.span !== null
+      ? {
+          time_field: [
+            {
+              name: groupByToken?.span.span_expression.field,
+              type: 'timestamp',
+              label: groupByToken?.span.span_expression.field,
+            },
+          ],
+          unit: [
+            {
+              text: timeUnitValue,
+              value: groupByToken?.span.span_expression.time_unit,
+              label: timeUnitValue,
+            },
+          ],
+          interval: groupByToken?.span.span_expression.literal_value,
+        }
+      : undefined;
+  };
+
+  const getUpdatedDataConfig = (statsToken: statsChunk) => {
+    const groupByToken = statsToken.groupby;
+    const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+    const span = getSpanValue(groupByToken);
+    switch (curVisId) {
+      case VIS_CHART_TYPES.TreeMap:
+        return {
+          [GROUPBY]: [
+            {
+              childField: {
+                ...(groupByToken?.group_fields
+                  ? {
+                      label: groupByToken?.group_fields[0].name ?? '',
+                      name: groupByToken?.group_fields[0].name ?? '',
+                    }
+                  : { label: '', name: '' }),
+              },
+              parentFields: [],
+            },
+          ],
+          [AGGREGATIONS]: [
+            {
+              valueField: {
+                ...(seriesToken
+                  ? {
+                      label: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                      name: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                    }
+                  : { label: '', name: '' }),
+              },
+            },
+          ],
+        };
+      case VIS_CHART_TYPES.Histogram:
+        return {
+          [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
+          [AGGREGATIONS]: [],
+        };
+      default:
+        return {
+          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+            label: agg.function?.value_expression,
+            name: agg.function?.value_expression,
+            aggregation: agg.function?.name,
+          })),
+          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+            label: agg.name ?? '',
+            name: agg.name ?? '',
+          })),
+          span,
+        };
+    }
+  };
+
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
       // clear previous selected timestamp when index pattern changes
@@ -843,104 +926,17 @@ export const Explorer = ({
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
+        const qm = new QueryManager();
         const statsTokens = qm.queryParser().parse(tempQuery).getStats();
-        const dimStatsToken = statsTokens.groupby;
-        const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
-          (time_unit) => time_unit.value === dimStatsToken?.span?.span_expression.time_unit
-        )?.text;
-        const span =
-          dimStatsToken?.span !== null
-            ? {
-                time_field: [
-                  {
-                    name: dimStatsToken?.span.span_expression.field,
-                    type: 'timestamp',
-                    label: dimStatsToken?.span.span_expression.field,
-                  },
-                ],
-                unit: [
-                  {
-                    text: timeUnitValue,
-                    value: dimStatsToken?.span.span_expression.time_unit,
-                    label: timeUnitValue,
-                  },
-                ],
-                interval: dimStatsToken?.span.span_expression.literal_value,
-              }
-            : undefined;
 
-        if (curVisId === visChartTypes.TreeMap) {
-          const metricStatsToken = statsTokens.aggregations && statsTokens.aggregations[0];
-          await dispatch(
-            changeVisualizationConfig({
-              tabId,
-              vizId: curVisId,
-              data: {
-                dataConfig: {
-                  dimensions: [
-                    {
-                      childField: {
-                        ...(dimStatsToken?.group_fields
-                          ? {
-                              label: dimStatsToken?.group_fields[0].name ?? '',
-                              name: dimStatsToken?.group_fields[0].name ?? '',
-                            }
-                          : { label: '', name: '' }),
-                      },
-                      parentFields: [],
-                    },
-                  ],
-                  metrics: [
-                    {
-                      valueField: {
-                        ...(metricStatsToken
-                          ? {
-                              label: `${metricStatsToken.function?.name}(${metricStatsToken.function?.value_expression})`,
-                              name: `${metricStatsToken.function?.name}(${metricStatsToken.function?.value_expression})`,
-                            }
-                          : { label: '', name: '' }),
-                      },
-                    },
-                  ],
-                },
-              },
-            })
-          );
-        } else if (curVisId === visChartTypes.Histogram) {
-          dispatch(
-            changeVisualizationConfig({
-              tabId,
-              vizId: curVisId,
-              data: {
-                dataConfig: {
-                  dimensions: [{ bucketSize: '', bucketOffset: '' }],
-                  metrics: [],
-                },
-              },
-            })
-          );
-        } else {
-          await dispatch(
-            changeVizConfig({
-              tabId,
-              vizId: curVisId,
-              data: {
-                dataConfig: {
-                  metrics: statsTokens.aggregations.map((agg) => ({
-                    label: agg.function?.value_expression,
-                    name: agg.function?.value_expression,
-                    aggregation: agg.function?.name,
-                  })),
-                  dimensions: dimStatsToken?.group_fields?.map((agg) => ({
-                    label: agg.name ?? '',
-                    name: agg.name ?? '',
-                  })),
-                  span,
-                },
-              },
-            })
-          );
-        }
+        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: curVisId,
+            data: { ...updatedDataConfig },
+          })
+        );
       }
     },
     [tempQuery, query, selectedContentTabId]

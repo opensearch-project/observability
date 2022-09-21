@@ -15,11 +15,11 @@ import {
   ConfigChartOptions,
   ButtonGroupItem,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DefaultGaugeChartParameters } from '../../../../../../common/constants/explorer';
+import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { ThresholdsMaxLimit } = DefaultGaugeChartParameters;
+const { ThresholdsMaxLimit } = DEFAULT_GAUGE_CHART_PARAMETERS;
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
   name: 'Gauge',

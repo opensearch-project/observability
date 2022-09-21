@@ -7,21 +7,30 @@ import React, { useMemo } from 'react';
 import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import {
-  DefaultChartStyles,
+  DEFAULT_CHART_STYLES,
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
-  visChartTypes,
+  VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
-  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DefaultChartStyles;
+  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
   const {
-    data = {},
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations?.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
+  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
   const lastIndex = fields.length - 1;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend =
@@ -60,8 +69,8 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const hisValues = useMemo(
     () =>
       valueSeries.map((field: any, index: number) => ({
-        x: data[field.name],
-        type: visChartTypes.Histogram,
+        x: queriedVizData[field.name],
+        type: VIS_CHART_TYPES.Histogram,
         name: field.name,
         hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
@@ -73,7 +82,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
         },
         xbins: !isEmpty(xbins) ? xbins : undefined,
       })),
-    [valueSeries, data, fillOpacity, lineWidth, xbins, selectedColorTheme]
+    [valueSeries, queriedVizData, fillOpacity, lineWidth, xbins, selectedColorTheme]
   );
 
   const mergedLayout = {
