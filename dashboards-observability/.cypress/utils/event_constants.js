@@ -3,42 +3,53 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { supressResizeObserverIssue } from './constants'
+import { supressResizeObserverIssue } from './constants';
 
 export const delay = 1000;
-export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]'
+export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]';
 
 export const TEST_QUERIES = [
   {
     query: 'source = opensearch_dashboards_sample_data_flights',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_logs'
+    query: 'source = opensearch_dashboards_sample_data_logs',
   },
   {
-    query: 'source=opensearch_dashboards_sample_data_flights | stats max(AvgTicketPrice) by DestCountry, DestCityName, Carrier',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source=opensearch_dashboards_sample_data_flights | stats max(AvgTicketPrice) by DestCountry, DestCityName, Carrier',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source = opensearch_dashboards_sample_data_logs | stats count(), avg(bytes) by host, tags',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source=opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by DestCountry, DestCityName',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source=opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by DestCountry, DestCityName',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: "source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)",
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      "source = opensearch_dashboards_sample_data_logs | where response='503' or response='404' | stats count() by span(timestamp,1d)",
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
   {
-    query: 'source=opensearch_dashboards_sample_data_flights |where FlightDelayMin > 0 | stats sum(FlightDelayMin) as total_delay_min, count() as total_delayed by Carrier |eval avg_delay=total_delay_min / total_delayed | sort - avg_delay',
-    dateRangeDOM: YEAR_TO_DATE_DOM_ID
+    query:
+      'source=opensearch_dashboards_sample_data_flights |where FlightDelayMin > 0 | stats sum(FlightDelayMin) as total_delay_min, count() as total_delayed by Carrier |eval avg_delay=total_delay_min / total_delayed | sort - avg_delay',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
+  },
+  {
+    query:
+      'source = opensearch_dashboards_sample_data_logs | stats count(), max(bytes) by span(timestamp,1d), clientip, host',
+    dateRangeDOM: YEAR_TO_DATE_DOM_ID,
   },
 ];
 
@@ -48,7 +59,17 @@ export const SAVE_QUERY2 = 'Mock Flight count by destination';
 export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
 export const SAVE_QUERY4 = 'Mock Flight peek';
 
-export const aggregationValues = ["COUNT", "SUM", "AVERAGE", "MAX", "MIN", "VAR_SAMP", "VAR_POP", "STDDEV_SAMP", "STDDEV_POP"];
+export const aggregationValues = [
+  'COUNT',
+  'SUM',
+  'AVERAGE',
+  'MAX',
+  'MIN',
+  'VAR_SAMP',
+  'VAR_POP',
+  'STDDEV_SAMP',
+  'STDDEV_POP',
+];
 
 export const querySearch = (query, rangeSelected) => {
   cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(query);
@@ -91,7 +112,9 @@ export const saveVisualizationAndVerify = () => {
   cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
   cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click();
   cy.get('.euiComboBoxOptionsList__rowWrap .euiFilterSelectItem').eq(0).click();
-  cy.get('.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]')
+  cy.get(
+    '.euiPopover__panel .euiFormControlLayoutIcons [data-test-subj="comboBoxToggleListButton"]'
+  )
     .eq(0)
     .click();
   cy.get('.euiPopover__panel input')
@@ -110,9 +133,9 @@ export const saveVisualizationAndVerify = () => {
 export const deleteVisualization = () => {
   cy.get('a[href = "#/event_analytics"]').click();
   cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input')
-  .eq(0)
-  .type(`Test visualization` + vis_name_sub_string)
-  .type('{enter}');
+    .eq(0)
+    .type(`Test visualization` + vis_name_sub_string)
+    .type('{enter}');
   cy.get('input[data-test-subj = "checkboxSelectAll"]').click();
   cy.get('.euiButtonContent.euiButtonContent--iconRight.euiButton__content').click();
   cy.get('.euiContextMenuItem .euiContextMenuItem__text').eq(0).click();
@@ -141,27 +164,33 @@ export const renderPieChart = () => {
   cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').click();
   cy.get('[data-test-subj="comboBoxOptionsList "] button span').contains('Pie').click();
   cy.wait(delay);
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Pie chart');
-    cy.get('[aria-controls="configPanel__legend"]').contains('Legend').should('exist');
-    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(0).contains('Show Legend');
-    cy.get('span[data-text="Show"]').contains('Show').should('exist');
-    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(1).contains('Position');
-    cy.get('span[data-text="Right"]').contains('Right').should('exist');
-    cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(2).contains('Legend Size');
-    cy.get('[aria-controls="configPanel__chartStyles"]').contains('Chart Styles').should('exist');
-    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(0).contains('Mode').click();
-    cy.get('#configPanel__chartStyles .euiComboBox__inputWrap.euiComboBox__inputWrap--noWrap.euiComboBox__inputWrap-isClearable').click();
-    cy.get('.euiComboBoxOption__content').contains('Donut').click();
-    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(1).contains('Label Size');
-    cy.get('#configPanel__chartStyles input[type="number"]').click().type('10');
-    cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(2).contains('Color Theme');
-    cy.get('.euiSuperSelectControl').click();
-    cy.get('.euiColorPalettePicker__item').eq(1).contains('Single Color').click();
-    cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
-    cy.get('[aria-label="Select #D36086 as the color"]').click();
-    cy.get('.visEditorSidebar__controls [data-test-subj="visualizeEditorRenderButton"]').contains('Preview').click();
-    cy.get('.plot-container.plotly').should('exist');
+  cy.get('#configPanel__panelOptions .euiFieldText').click().type('Pie chart');
+  cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]')
+    .click()
+    .type('This is the description for Pie chart');
+  cy.get('[aria-controls="configPanel__legend"]').contains('Legend').should('exist');
+  cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(0).contains('Show Legend');
+  cy.get('span[data-text="Show"]').contains('Show').should('exist');
+  cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(1).contains('Position');
+  cy.get('span[data-text="Right"]').contains('Right').should('exist');
+  cy.get('#configPanel__legend .euiTitle.euiTitle--xxsmall').eq(2).contains('Legend Size');
+  cy.get('[aria-controls="configPanel__chartStyles"]').contains('Chart Styles').should('exist');
+  cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(0).contains('Mode').click();
+  cy.get(
+    '#configPanel__chartStyles .euiComboBox__inputWrap.euiComboBox__inputWrap--noWrap.euiComboBox__inputWrap-isClearable'
+  ).click();
+  cy.get('.euiComboBoxOption__content').contains('Donut').click();
+  cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(1).contains('Label Size');
+  cy.get('#configPanel__chartStyles input[type="number"]').click().type('10');
+  cy.get('#configPanel__chartStyles .euiTitle.euiTitle--xxsmall').eq(2).contains('Color Theme');
+  cy.get('.euiSuperSelectControl').click();
+  cy.get('.euiColorPalettePicker__item').eq(1).contains('Single Color').click();
+  cy.get('.euiFieldText.euiColorPicker__input.euiFieldText--withIcon').click();
+  cy.get('[aria-label="Select #D36086 as the color"]').click();
+  cy.get('.visEditorSidebar__controls [data-test-subj="visualizeEditorRenderButton"]')
+    .contains('Preview')
+    .click();
+  cy.get('.plot-container.plotly').should('exist');
 };
 
 export const renderDataConfig = () => {
@@ -207,11 +236,15 @@ export const renderAddParent = () => {
   cy.get('.first-division .euiFormLabel.euiFormRow__label').contains('Parent 3').should('exist');
   cy.get('p.euiComboBoxPlaceholder').click({ force: true });
   cy.get('.euiComboBoxOption__content').eq(2).click();
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Line').type('{enter}');
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+    .type('Line')
+    .type('{enter}');
 };
 
 export const renderGaugeChart = () => {
   landOnEventVisualizations();
   querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Gauge').type('{enter}');
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+    .type('Gauge')
+    .type('{enter}');
 };

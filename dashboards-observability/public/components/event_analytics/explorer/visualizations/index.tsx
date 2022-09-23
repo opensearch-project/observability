@@ -53,7 +53,7 @@ export const ExplorerVisualizations = ({
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const fieldOptionList = explorerFields.availableFields.map((field) => {
-    // const fieldOptionList = fields.map((field) => {
+  // const fieldOptionList = fields.map((field) => {
     return { ...field, label: field.name };
   });
 

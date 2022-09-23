@@ -4,7 +4,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { take, isEmpty, last } from 'lodash';
+import { take, isEmpty, last, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
@@ -40,12 +40,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
     availabilityConfig = {},
   } = visualizations?.data?.userConfigs;
 
-  const xaxis = dataConfig?.valueOptions?.dimensions
-    ? dataConfig.valueOptions.dimensions.filter((item) => item.label)
-    : [];
-  const yaxis = dataConfig?.valueOptions?.metrics
-    ? dataConfig.valueOptions.metrics.filter((item) => item.label)
-    : [];
+  // const xaxis = dataConfig?.dimensions ? dataConfig.dimensions.filter((item) => item.label) : [];
+  const yaxis = dataConfig?.metrics ? dataConfig.metrics.filter((item) => item.label) : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
@@ -57,7 +53,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
   const lastIndex = fields.length - 1;
 
-  let visType: string = visualizations.vis.name;
+  const visType: string = visualizations.vis.name;
   const mode =
     dataConfig?.chartStyles?.style ||
     (visType === visChartTypes.Line ? DefaultModeLine : DefaultModeScatter);
@@ -81,6 +77,18 @@ export const Line = ({ visualizations, layout, config }: any) => {
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
+  /**
+   * determine x axis
+   */
+  const xaxis = useMemo(() => {
+    // span selection
+    const timestampField = find(fields, (field) => field.type === 'timestamp');
+    if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+      return [timestampField, ...dataConfig.dimensions];
+    }
+
+    return dataConfig.dimensions;
+  }, [dataConfig.dimensions]);
 
   if (isEmpty(xaxis) || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
@@ -128,14 +136,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
               size: labelSize,
             }),
           },
-          overlaying: 'y',
+          ...(index > 0 && { overlaying: 'y' }),
           side: field.side,
         },
       };
 
       return {
         x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
-        y: data[field.label],
+        y: data[`${field.aggregation}(${field.name})`],
         type: isBarMode ? 'bar' : 'scatter',
         name: field.label,
         mode,
@@ -154,7 +162,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
     });
 
-    let layoutForBarMode = {
+    const layoutForBarMode = {
       barmode: 'group',
     };
     const mergedLayout = {

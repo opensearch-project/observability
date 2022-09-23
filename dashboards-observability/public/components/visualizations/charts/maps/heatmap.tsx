@@ -27,9 +27,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
   if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
-  const xaxisField = dataConfig?.valueOptions?.dimensions[0];
-  const yaxisField = dataConfig?.valueOptions?.dimensions[1];
-  const zMetrics = dataConfig?.valueOptions?.metrics[0];
+  const xaxisField = dataConfig?.dimensions[0];
+  const yaxisField = dataConfig?.dimensions[1];
+  const zMetrics = dataConfig?.metrics[0];
 
   if (
     isEmpty(xaxisField) ||
@@ -37,8 +37,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(zMetrics) ||
     isEmpty(data[xaxisField.label]) ||
     isEmpty(data[yaxisField.label]) ||
-    isEmpty(data[zMetrics.label]) ||
-    indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
+    isEmpty(data[`${zMetrics.aggregation}(${zMetrics.name})`])
+    // indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
@@ -80,7 +80,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     // maps bukcets to metrics
     for (let i = 0; i < data[xaxisField.label].length; i++) {
       buckets[`${data[xaxisField.label][i]},${data[yaxisField.label][i]}`] =
-        data[zMetrics.label][i];
+        data[`${zMetrics.aggregation}(${zMetrics.name})`][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis
@@ -131,11 +131,13 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
-
-  const mergedConfigs = useMemo(() => ({
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  }), [config, layoutConfig.config]);
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={heapMapData} layout={mergedLayout} config={mergedConfigs} />;
 };

@@ -71,6 +71,18 @@ const getStandardedOuiField = (name?: string, type?: string) => ({
   type,
 });
 
+const initialDimensionEntry = {
+  label: '',
+  name: '',
+};
+
+const initialMetricEntry = {
+  alias: '',
+  label: '',
+  name: '',
+  aggregation: 'count',
+};
+
 export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
   const { tabId, handleQuerySearch, handleQueryChange, setTempQuery, fetchData } = useContext<any>(
@@ -83,6 +95,7 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     indexFields: { availableFields },
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
+  const { userConfigs } = data;
 
   useEffect(() => {
     if (
@@ -145,10 +158,9 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
     let listItem = { ...list[name][index] };
     listItem = {
       ...listItem,
-      [field]: value,
+      [field === 'custom_label' ? 'alias' : field]: value,
     };
     if (field === 'label') {
-      listItem.type = value !== '' ? fields.find((x) => x.name === value)?.type : '';
       listItem.name = value;
     }
     const updatedList = {
@@ -182,8 +194,14 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
   };
 
   const handleServiceAdd = (name: string) => {
-    const updatedList = { ...configList, [name]: [...configList[name], initialConfigEntry] };
-    setConfigList(updatedList);
+    const list = {
+      ...configList,
+      [name]: [
+        ...configList[name],
+        name === 'metrics' ? initialMetricEntry : initialDimensionEntry,
+      ],
+    };
+    setConfigList(list);
   };
 
   const updateChart = (updatedConfigList = configList) => {
@@ -525,10 +543,6 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
             <h3>Date Histogram</h3>
           </EuiTitle>
           {DateHistogram}
-          {/* <EuiTitle size="xxs">
-            <h3>Breakdowns</h3>
-          </EuiTitle>
-          {Breakdowns} */}
         </>
       ) : (
         <>

@@ -47,12 +47,12 @@ export const LogsViewConfigPanelItem = ({ fieldOptionList, visualizations }: any
   const [configList, setConfigList] = useState<ConfigList>({});
 
   useEffect(() => {
-    if (userConfigs && userConfigs.dataConfig && userConfigs.dataConfig.valueOptions) {
+    if (userConfigs && userConfigs.dataConfig) {
       setConfigList({
-        ...userConfigs.dataConfig.valueOptions,
+        ...userConfigs.dataConfig,
       });
     }
-  }, [userConfigs?.dataConfig?.valueOptions, visualizations.vis.name]);
+  }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   useEffect(() => {
     if (fieldOptionList.length === 0) {
