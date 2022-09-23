@@ -4,10 +4,11 @@
  */
 
 import React, { useMemo } from 'react';
-import { take, isEmpty, find } from 'lodash';
+import { isEmpty, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import { ConfigListEntry } from '../../../../../common/types/explorer';
 import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
 import {
   PLOTLY_PIE_COLUMN_NUMBER,
@@ -21,7 +22,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations.data;
   const {
     dataConfig: {
       chartStyles = {},
@@ -35,66 +35,44 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     layoutConfig = {},
   } = visualizations?.data?.userConfigs;
   const type = chartStyles.mode || vis.mode;
-  const lastIndex = fields.length - 1;
   const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
   const showLegend = legend.showLegend === 'hidden' ? false : vis.showlegend;
   const legendSize = legend.size || vis.legendSize;
   const labelSize = chartStyles.labelSize || vis.labelSize;
   const title = panelOptions.title || layoutConfig.layout?.title || '';
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   /**
    * determine x axis
    */
-  const xaxes = useMemo(() => {
-    // span selection
-    const timestampField = find(fields, (field) => field.type === 'timestamp');
-    if (span && span.time_field && timestampField) {
-      return [timestampField, ...dimensions];
-    }
-    return [...dimensions];
-  }, [dimensions, fields, span]);
-
-  if (isEmpty(xaxes) || isEmpty(metrics))
-    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
-
-  let valueSeries;
-  if (!isEmpty(xaxes) && !isEmpty(metrics)) {
-    valueSeries = [...metrics];
+  let xaxes: ConfigListEntry[];
+  if (span && span.time_field && timestampField) {
+    xaxes = [timestampField, ...dimensions];
   } else {
-    valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
+    xaxes = dimensions;
+  }
+
+  if (isEmpty(xaxes) || isEmpty(metrics)) {
+    return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
   }
 
   const invertHex = (hex: string) =>
     (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
 
-  const createLegendLabels = (dimLabels: string[], xaxisLables: string[]) => {
-    return dimLabels.map((label: string, index: number) => {
-      return [xaxisLables[index], label].join(',');
-    });
-  };
-
-  const labelsOfXAxis = useMemo(() => {
-    let legendLabels = [];
-    if (xaxes.length > 0) {
-      let dimLabelsArray = data[`${xaxes[0].name}`];
-      for (let i = 0; i < xaxes.length - 1; i++) {
-        dimLabelsArray = createLegendLabels(
-          dimLabelsArray,
-          data[xaxes[i + 1].name] ? data[xaxes[i + 1].name] : []
-        );
-      }
-      legendLabels = dimLabelsArray;
-    } else {
-      legendLabels = data[fields[lastIndex].name] ? data[fields[lastIndex].name] : '';
+  const labelsOfXAxis = xaxes.reduce((prev, cur) => {
+    if (data[cur.name]) {
+      if (prev.length === 0) return data[cur.name].flat();
+      return prev.map(
+        (item: string | number, index: number) => `${item}, ${data[cur.name][index]}`
+      );
     }
-    return legendLabels;
-  }, [xaxes, data, fields, lastIndex]);
+  }, []);
 
   const hexColor = invertHex(colorTheme);
 
   const pies = useMemo(
     () =>
-      valueSeries.map((field: any, index: number) => {
+      metrics.map((field: any, index: number) => {
         const fieldName = field.alias ? field.alias : `${field.aggregation}(${field.name})`;
         const marker =
           colorTheme.name !== DEFAULT_PALETTE
@@ -133,17 +111,17 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           },
         };
       }),
-    [valueSeries, valueSeries, data, labelSize, labelsOfXAxis, colorTheme]
+    [metrics, data, labelSize, labelsOfXAxis, colorTheme]
   );
 
   const mergedLayout = useMemo(() => {
-    const isAtleastOneFullRow = Math.floor(valueSeries.length / PLOTLY_PIE_COLUMN_NUMBER) > 0;
+    const isAtleastOneFullRow = Math.floor(metrics.length / PLOTLY_PIE_COLUMN_NUMBER) > 0;
     return {
       grid: {
         xgap: PIE_XAXIS_GAP,
         ygap: PIE_YAXIS_GAP,
-        rows: Math.floor(valueSeries.length / PLOTLY_PIE_COLUMN_NUMBER) + 1,
-        columns: isAtleastOneFullRow ? PLOTLY_PIE_COLUMN_NUMBER : valueSeries.length,
+        rows: Math.floor(metrics.length / PLOTLY_PIE_COLUMN_NUMBER) + 1,
+        columns: isAtleastOneFullRow ? PLOTLY_PIE_COLUMN_NUMBER : metrics.length,
         pattern: 'independent',
       },
       ...layout,
@@ -158,7 +136,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       },
       showlegend: showLegend,
     };
-  }, [valueSeries, layoutConfig.layout, title, layout.legend]);
+  }, [metrics, layoutConfig.layout, title, layout.legend]);
 
   const mergedConfigs = useMemo(
     () => ({
