@@ -53,7 +53,7 @@ export const DataConfigPanelFields = ({
           <EuiText size="s">{addButtonText}</EuiText>
           <EuiButtonIcon
             iconType="plusInCircle"
-            aria-label="clear-field"
+            aria-label="add-field"
             iconSize="s"
             color="primary"
             disabled={sectionName === 'dimensions' && visType === visChartTypes.Line}

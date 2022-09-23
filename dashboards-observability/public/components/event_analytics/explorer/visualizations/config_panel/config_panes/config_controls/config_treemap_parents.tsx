@@ -6,12 +6,7 @@
 import { EuiButtonIcon, EuiPanel, EuiSpacer, EuiText } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 import React from 'react';
-
-export interface ParentUnitType {
-  name: string;
-  label: string;
-  type: string;
-}
+import { ParentUnitType } from '../../../../../../../../common/types/explorer';
 
 export const ConfigTreemapParentFields = ({
   selectedAxis,
@@ -25,10 +20,13 @@ export const ConfigTreemapParentFields = ({
     type: '',
   };
 
-  const handleAddEditParent = (isAdd: boolean, index: number) => {
-    if (isAdd) {
-      handleUpdateParentFields([...selectedAxis, initialParentState]);
-    }
+  const handleAddParent = () => {
+    const arr = [...selectedAxis, initialParentState];
+    handleUpdateParentFields(arr);
+    setSelectedParentItem({ index: arr.length - 1, isClicked: true });
+  };
+
+  const handleEditParent = (index: number) => {
     setSelectedParentItem({ index, isClicked: true });
   };
 
@@ -47,11 +45,7 @@ export const ConfigTreemapParentFields = ({
             <>
               <EuiSpacer size="s" />
               <EuiPanel key={index} paddingSize="s" className="panelItem_button">
-                <EuiText
-                  size="s"
-                  className="field_text"
-                  onClick={() => handleAddEditParent(false, index)}
-                >
+                <EuiText size="s" className="field_text" onClick={() => handleEditParent(index)}>
                   <a role="button" tabIndex={0}>
                     {obj.label !== '' ? obj.label : `Parent ${index + 1}`}
                   </a>
@@ -75,7 +69,7 @@ export const ConfigTreemapParentFields = ({
           aria-label="clear-field"
           iconSize="s"
           color="primary"
-          onClick={() => handleAddEditParent(true, selectedAxis.length)}
+          onClick={handleAddParent}
         />
       </EuiPanel>
     </>

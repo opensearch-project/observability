@@ -23,16 +23,14 @@ export const DataConfigItemClickPanel = ({ title, isSecondary, closeMenu }: Titl
   );
   return (
     <>
-      <div className="wizConfig__title">
-        <EuiFlexGroup gutterSize="s" alignItems="center">
-          {icon && <EuiFlexItem grow={false}>{icon}</EuiFlexItem>}
-          <EuiFlexItem>
-            <EuiTitle size="xxs">
-              <h2>{title}</h2>
-            </EuiTitle>
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </div>
+      <EuiFlexGroup gutterSize="s" alignItems="center">
+        {icon && <EuiFlexItem grow={false}>{icon}</EuiFlexItem>}
+        <EuiFlexItem>
+          <EuiTitle size="xxs">
+            <h2>{title}</h2>
+          </EuiTitle>
+        </EuiFlexItem>
+      </EuiFlexGroup>
       {isSecondary ? <EuiHorizontalRule margin="s" /> : <EuiSpacer size="s" />}
     </>
   );
