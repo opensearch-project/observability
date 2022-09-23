@@ -322,3 +322,7 @@ export interface DataConfigPanelProps {
   visualizations: IVisualizationContainerProps;
   qm?: QueryManager;
 }
+export interface GetTooltipHoverInfoType {
+  tooltipMode: string;
+  tooltipText: string;
+}
