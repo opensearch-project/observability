@@ -4,10 +4,11 @@
  */
 
 import React, { useMemo } from 'react';
-import { take, isEmpty, last, find } from 'lodash';
+import { isEmpty, last, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { ConfigListEntry } from '../../../../../common/types/explorer';
 import {
   DEFAULT_CHART_STYLES,
   FILLOPACITY_DIV_FACTOR,
@@ -46,9 +47,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const yaxis = dataConfig[AGGREGATIONS]
-    ? dataConfig[AGGREGATIONS].filter((item) => item.label)
-    : [];
+  const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS] : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
@@ -93,20 +92,13 @@ export const Line = ({ visualizations, layout, config }: any) => {
     xaxis = dataConfig[GROUPBY];
   }
 
-  if (isEmpty(xaxis) || isEmpty(yaxis)) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (isEmpty(xaxis) || xaxis.length > 1 || isEmpty(yaxis))
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
-  let valueSeries;
+  let valueSeries: ConfigListEntry[];
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
-  } else {
-    valueSeries = (
-      defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1)
-    ).map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
   }
-
-  const isDimensionTimestamp = isEmpty(xaxis)
-    ? defaultAxes?.xaxis?.length && defaultAxes.xaxis[0].type === 'timestamp'
-    : xaxis.length === 1 && xaxis[0].type === 'timestamp';
 
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
@@ -247,9 +239,5 @@ export const Line = ({ visualizations, layout, config }: any) => {
     [config, layoutConfig.config]
   );
 
-  return isDimensionTimestamp ? (
-    <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />
-  ) : (
-    <EmptyPlaceholder icon={visMetaData?.icontype} />
-  );
+  return <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />;
 };
