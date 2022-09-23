@@ -1422,25 +1422,25 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "name": "Chart styles",
                             "schemas": Array [
                               Object {
-                                "component": null,
-                                "defaultState": Array [
-                                  Object {
-                                    "label": "Pie",
-                                    "modeId": "pie",
-                                    "name": "Pie",
-                                  },
-                                ],
+                                "component": [Function],
+                                "eleType": "buttons",
                                 "isSingleSelection": true,
                                 "mapTo": "mode",
                                 "name": "Mode",
                                 "props": Object {
-                                  "dropdownList": Array [
+                                  "defaultSelections": Array [
                                     Object {
-                                      "modeId": "pie",
+                                      "id": "pie",
+                                      "name": "Pie",
+                                    },
+                                  ],
+                                  "options": Array [
+                                    Object {
+                                      "id": "pie",
                                       "name": "Pie",
                                     },
                                     Object {
-                                      "modeId": "donut",
+                                      "id": "donut",
                                       "name": "Donut",
                                     },
                                   ],
@@ -1493,12 +1493,10 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "id": "pie",
                   "label": "Pie",
                   "legendposition": "v",
+                  "mode": "pie",
                   "name": "pie",
-                  "selection": Object {
-                    "dataLoss": "nothing",
-                  },
                   "seriesaxis": "yaxis",
-                  "showlegend": true,
+                  "showlegend": "show",
                   "type": "pie",
                   "visconfig": Object {
                     "config": Object {
