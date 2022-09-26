@@ -17,14 +17,14 @@ import {
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
-import { PLOTLY_COLOR, DefaultChartStyles } from '../../../../../common/constants/shared';
-import { DefaultPieChartParameters } from '../../../../../common/constants/explorer';
+import { PLOTLY_COLOR, DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { DEFAULT_PIE_CHART_PARAMETERS } from '../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-const { ShowLegend, LegendPosition } = DefaultChartStyles;
-const { DefaultMode } = DefaultPieChartParameters;
+const { ShowLegend, LegendPosition } = DEFAULT_CHART_STYLES;
+const { DefaultMode } = DEFAULT_PIE_CHART_PARAMETERS;
 
 export const createPieTypeDefinition = (params: any) => ({
   name: 'pie',

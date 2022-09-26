@@ -7,21 +7,31 @@ import React, { useMemo } from 'react';
 import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import {
-  DefaultChartStyles,
+  DEFAULT_CHART_STYLES,
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
-  visChartTypes,
+  VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
-  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DefaultChartStyles;
+  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
   const {
-    data = {},
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations?.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
+  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
   const lastIndex = fields.length - 1;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend =
@@ -40,11 +50,11 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
 
   const xbins: any = {};
-  if (dataConfig?.valueOptions?.dimensions[0].bucketSize) {
-    xbins.size = dataConfig.valueOptions.dimensions[0].bucketSize;
+  if (dataConfig[GROUPBY] && dataConfig[GROUPBY][0].bucketSize) {
+    xbins.size = dataConfig[GROUPBY][0].bucketSize;
   }
-  if (dataConfig?.valueOptions?.dimensions[0].bucketOffset) {
-    xbins.start = dataConfig.valueOptions.dimensions[0].bucketOffset;
+  if (dataConfig[GROUPBY] && dataConfig[GROUPBY][0].bucketOffset) {
+    xbins.start = dataConfig[GROUPBY][0].bucketOffset;
   }
 
   const selectedColorTheme = (field: any, index: number, opacity?: number) => {
@@ -60,8 +70,8 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const hisValues = useMemo(
     () =>
       valueSeries.map((field: any, index: number) => ({
-        x: data[field.name],
-        type: visChartTypes.Histogram,
+        x: queriedVizData[field.name],
+        type: VIS_CHART_TYPES.Histogram,
         name: field.name,
         hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
@@ -73,7 +83,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
         },
         xbins: !isEmpty(xbins) ? xbins : undefined,
       })),
-    [valueSeries, data, fillOpacity, lineWidth, xbins, selectedColorTheme]
+    [valueSeries, queriedVizData, fillOpacity, lineWidth, xbins, selectedColorTheme]
   );
 
   const mergedLayout = {
