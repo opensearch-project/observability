@@ -79,12 +79,14 @@
   }
 }
 
-.explorer__fieldSelectorField {
-  @include euiBottomShadowSmall;
-
-  background-color: $euiColorEmptyShade;
-  border: $euiBorderThin;
-  margin-top: $euiSizeS;
+.shard__fieldSelectorField {
+  &:hover,
+  &:focus-within,
+  &[class*='-isActive'] {
+    .dscSidebarItem__action {
+      opacity: 1;
+    }
+  }
 
   & > .osdFieldButton__button {
     padding: 0;
@@ -109,4 +111,12 @@
     box-shadow: none;
     margin-right: 8px;
   }
+}
+
+#vis__mainContent .explorer__fieldSelectorField {
+  @include euiBottomShadowSmall;
+
+  background-color: $euiColorEmptyShade;
+  border: $euiBorderThin;
+  margin-top: $euiSizeS;
 }

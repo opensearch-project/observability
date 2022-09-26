@@ -151,7 +151,7 @@ export const Field = (props: IFieldProps) => {
       button={
         <FieldButton
           size="m"
-          className="dscSidebarItem explorer__fieldSelectorField"
+          className="shard__fieldSelectorField explorer__fieldSelectorField"
           isActive={isFieldDetailsOpen}
           dataTestSubj={`field-${field.name}-showDetails`}
           fieldIcon={<FieldIcon type={isEqual(field.type, 'timestamp') ? 'date' : field.type} />}

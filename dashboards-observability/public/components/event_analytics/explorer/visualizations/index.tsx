@@ -20,7 +20,7 @@ import {
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
-import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
+import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_configurations_panel';
 import { TabContext } from '../../hooks';
 import { PPL_STATS_REGEX, VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';

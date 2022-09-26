@@ -37,23 +37,9 @@
   background-color: lightOrDarkTheme(tint($euiColorPrimary, 90%), $euiColorLightShade);
 }
 
-.explorerFieldSelector {
-  padding: 0;
-}
-
 .dscFieldChooser__toggle {
   color: $euiColorMediumShade;
   margin-left: $euiSizeS !important;
-}
-
-.dscSidebarItem {
-  &:hover,
-  &:focus-within,
-  &[class*='-isActive'] {
-    .dscSidebarItem__action {
-      opacity: 1;
-    }
-  }
 }
 
 /**
@@ -111,34 +97,40 @@
   vertical-align: middle;
 }
 
-.explorer__insights {
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 50% 50%;
-  height: 100%;
-  .explorerFieldSelector, .explorer__vizDataConfig {
-    padding: $euiSizeS;
+.explorerFieldSelector {
+  padding: $euiSizeS;
+}
 
-    &__fieldGroups {
-      @include euiYScrollWithShadows;
-
-      overflow-y: auto;
-      margin-right: -$euiSizeS;
-      padding-right: $euiSizeS;
-      margin-top: $euiSizeS;
-    }
-
-    &__fieldGroup {
-      margin-top: $euiSizeS;
-
-      &:first-child {
-        margin-top: 0;
+#vis__mainContent {
+  .explorer__insights {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100%;
+    .explorerFieldSelector, .explorer__vizDataConfig {
+      padding: $euiSizeS;
+  
+      &__fieldGroups {
+        @include euiYScrollWithShadows;
+  
+        overflow-y: auto;
+        margin-right: -$euiSizeS;
+        padding-right: $euiSizeS;
+        margin-top: $euiSizeS;
+      }
+  
+      &__fieldGroup {
+        margin-top: $euiSizeS;
+  
+        &:first-child {
+          margin-top: 0;
+        }
       }
     }
-  }
-  .explorerFieldSelector {
-    .sidebar-list {
-      height: 100%;
+    .explorerFieldSelector {
+      .sidebar-list {
+        height: 100%;
+      }
     }
   }
 }
