@@ -27,7 +27,7 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
   }, [visualizations]);
 
   return (
-    <div className="ws__visCanvas">
+    <div className="explorerViz__commonPanel ws__visCanvas">
       <EuiPanel 
         className="ws__visCanvasControl"
         paddingSize="s"
@@ -57,43 +57,5 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
         {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
       </EuiPanel>
     </div>
-    // <EuiFlexGroup
-    //   className="ws__visCanvas"
-    //   direction="column"
-    //   // justifyContent="spaceBetween"
-    //   gutterSize="none"
-    //   responsive={false}
-    // >
-    //   <EuiFlexItem
-    //     className={`ws__visCanvasControl ${uiSettingsService.get('theme:darkMode') ? 'ws__header-dark' : 'ws__header-light'}`}
-    //   >
-    //     <EuiPanel paddingSize="s">
-    //       <EuiSwitch
-    //         className="ws__visCanvasControl--switch"
-    //         label="Table view"
-    //         type="button"
-    //         disabled={isEmpty(visualizations?.data?.rawVizData)}
-    //         checked={isTableViewOn}
-    //         onChange={() => {
-    //           setIsTableViewOn((staleState) => !staleState);
-    //         }}
-    //         aria-describedby="table view switcher"
-    //         data-test-subj="workspace__dataTableViewSwitch"
-    //         compressed
-    //       />
-    //     </EuiPanel>
-    //   </EuiFlexItem>
-    //   <EuiSpacer size="s" />
-    //   <EuiFlexItem className="configPane__visCanvasFlexitem" grow={false}>
-    //     <EuiPanel
-    //       paddingSize="s"
-    //       className={
-    //         uiSettingsService.get('theme:darkMode') ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'
-    //       }
-    //     >
-    //       {isTableViewOn ? <DataTable visualizations={visualizations} /> : VisualizationPanel}
-    //     </EuiPanel>
-    //   </EuiFlexItem>
-    // </EuiFlexGroup>
   );
 }

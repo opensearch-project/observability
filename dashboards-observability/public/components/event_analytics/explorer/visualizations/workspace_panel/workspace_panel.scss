@@ -8,13 +8,8 @@
 }
 
 .ws__visCanvas {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-area: workspace;
   grid-gap: 12px;
   padding: 12px;
-  background-color: #FFF;
-  height: 100%;
   .ws__visCanvasControl {
     height: 40px;
     width: 140px;

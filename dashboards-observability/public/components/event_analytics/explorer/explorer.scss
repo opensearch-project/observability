@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#opensearch-dashboards-body {
+  overflow-y: hidden;
+}
+
 .liveStream {
   margin : 8px;
   height: 40px;

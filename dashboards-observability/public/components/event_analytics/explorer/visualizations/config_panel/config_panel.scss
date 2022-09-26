@@ -142,6 +142,11 @@ $vis-editor-sidebar-min-width: 350px;
 
   .cp__rightHeader {
     border-bottom: 1px solid #D3DAE6;
+    .euiBadge {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+    }
   }
 
   .cp__rightSettings {
@@ -149,5 +154,9 @@ $vis-editor-sidebar-min-width: 350px;
     overflow-y: auto;
     overflow-x: hidden;
   }
+}
+
+#vis__mainContent .vis__leftPanel {
+  overflow-y: unset; // unset default setting
 }
 
