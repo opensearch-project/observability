@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { visChartTypes } from './shared';
+import { VIS_CHART_TYPES } from './shared';
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
   'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
 export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
@@ -81,11 +81,11 @@ export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h 
 export const ADD_BUTTON_TEXT = '+ Add color theme';
 
 export const VIZ_CONTAIN_XY_AXIS = [
-  visChartTypes.Bar,
-  visChartTypes.Histogram,
-  visChartTypes.Line,
-  visChartTypes.Pie,
-  visChartTypes.Scatter,
+  VIS_CHART_TYPES.Bar,
+  VIS_CHART_TYPES.Histogram,
+  VIS_CHART_TYPES.Line,
+  VIS_CHART_TYPES.Pie,
+  VIS_CHART_TYPES.Scatter,
 ];
 
 // default ppl aggregation method options
@@ -120,7 +120,16 @@ export const AGGREGATION_OPTIONS = [
 ];
 
 // numeric fields type for metrics
-export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte', 'integer'];
+export const numericalTypes = [
+  'float',
+  'double',
+  'bigint',
+  'long',
+  'octet',
+  'short',
+  'byte',
+  'integer',
+];
 // Data table constants
 export const GRID_HEADER_COLUMN_MAX_WIDTH = '150px';
 export const GRID_PAGE_RANGE_DISPLAY = 5;
@@ -136,19 +145,33 @@ export const HEADER_HEIGHT = 35;
 
 // gauge chart default parameters
 export interface DefaultGaugeChartParametersProps {
-  GaugeTitleSize: number,
-  DisplayDefaultGauges: number,
-  OrientationDefault: string,
-  TickLength: number, 
-  LegendPlacement: string,
-  ThresholdsMaxLimit: number
-};
+  GaugeTitleSize: number;
+  DisplayDefaultGauges: number;
+  OrientationDefault: string;
+  TickLength: number;
+  LegendPlacement: string;
+  ThresholdsMaxLimit: number;
+}
 
-export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
+export const DEFAULT_GAUGE_CHART_PARAMETERS: DefaultGaugeChartParametersProps = {
   GaugeTitleSize: 14,
   DisplayDefaultGauges: 1,
   OrientationDefault: 'h',
   TickLength: 5,
   LegendPlacement: 'center',
-  ThresholdsMaxLimit: 1
+  ThresholdsMaxLimit: 1,
+};
+
+// pie chart default parameters
+export const PLOTLY_PIE_COLUMN_NUMBER = 2;
+export const PIE_XAXIS_GAP = 0.2;
+export const PIE_YAXIS_GAP = 0.1;
+export interface DefaultPieChartParameterProps {
+  DefaultMode: string;
 }
+
+export const DEFAULT_PIE_CHART_PARAMETERS: DefaultPieChartParameterProps = {
+  DefaultMode: 'pie',
+};
+export const GROUPBY = 'dimensions';
+export const AGGREGATIONS = 'series';

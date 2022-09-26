@@ -25,11 +25,7 @@ import { getDefaultSpec } from '../visualization_specs/default_spec';
 import { TabContext } from '../../../hooks';
 import { DefaultEditorControls } from './config_panel_footer';
 import { getVisType } from '../../../../visualizations/charts/vis_types';
-import {
-  ENABLED_VIS_TYPES,
-  ValueOptionsAxes,
-  visChartTypes,
-} from '../../../../../../common/constants/shared';
+import { ENABLED_VIS_TYPES, VIS_CHART_TYPES } from '../../../../../../common/constants/shared';
 import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
 
 const CONFIG_LAYOUT_TEMPLATE = `
@@ -108,7 +104,7 @@ export const ConfigPanel = ({
   // To check, If user empty any of the value options
   const isValidValueOptionConfigSelected = useMemo(() => {
     const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { TreeMap, Gauge, HeatMap } = visChartTypes;
+    const { TreeMap, Gauge, HeatMap } = VIS_CHART_TYPES;
     const isValidValueOptionsXYAxes =
       VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
       valueOptions?.xaxis?.length !== 0 &&
@@ -229,7 +225,7 @@ export const ConfigPanel = ({
   const memorizedVisualizationTypes = useMemo(
     () =>
       ENABLED_VIS_TYPES.map((vs: string) =>
-        vs === visChartTypes.Line || vs === visChartTypes.Scatter
+        vs === VIS_CHART_TYPES.Line || vs === VIS_CHART_TYPES.Scatter
           ? getVisType(vs, { type: vs })
           : getVisType(vs)
       ),

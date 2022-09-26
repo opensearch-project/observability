@@ -7,7 +7,7 @@ import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
-import { visChartTypes } from '../../../../../../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 
 export const ConfigLineChartStyles = ({
   visualizations,
@@ -54,7 +54,7 @@ export const ConfigLineChartStyles = ({
             (schema: IConfigPanelOptionSection) => schema.mapTo !== 'interpolation'
           );
       }
-    } else if (visualizations?.vis?.name === visChartTypes.Scatter) {
+    } else if (visualizations?.vis?.name === VIS_CHART_TYPES.Scatter) {
       return schemas.filter((schema: IConfigPanelOptionSection) =>
         ['style', 'pointSize'].includes(schema.mapTo)
       );

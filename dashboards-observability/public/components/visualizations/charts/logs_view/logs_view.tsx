@@ -2,8 +2,8 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-import { IExplorerFields } from '../../../../../common/types/explorer';
 import React from 'react';
+import { IExplorerFields } from '../../../../../common/types/explorer';
 import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import { DataGrid } from '../../../../components/event_analytics/explorer/events_views/data_grid';
 import './logs_view.scss';

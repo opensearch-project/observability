@@ -20,12 +20,20 @@ import {
   selectVisualizationConfig,
 } from '../../../../../redux/slices/viualization_config_slice';
 import { ConfigTreemapParentFields } from './config_treemap_parents';
-import { numericalTypes, RAW_QUERY } from '../../../../../../../../common/constants/explorer';
+import {
+  AGGREGATIONS,
+  GROUPBY,
+  NUMERICAL_TYPES,
+} from '../../../../../../../../common/constants/explorer';
 import { TabContext } from '../../../../../hooks';
 import { QueryManager } from '../../../../../../../../common/query_manager';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
 
-export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID }: any) => {
+export const TreemapConfigPanelItem = ({
+  fieldOptionList,
+  visualizations,
+  qm,
+}: DataConfigPanelProps) => {
   const dispatch = useDispatch();
   const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<
     any
@@ -38,8 +46,8 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   const newEntry = { label: '', name: '' };
 
   const [configList, setConfigList] = useState({
-    dimensions: [{ childField: { ...newEntry }, parentFields: [] }],
-    metrics: [{ valueField: { ...newEntry } }],
+    [GROUPBY]: [{ childField: { ...newEntry }, parentFields: [] }],
+    [AGGREGATIONS]: [{ valueField: { ...newEntry } }],
   });
 
   useEffect(() => {
@@ -51,7 +59,7 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
   }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (configName: string, fieldName: string, value: string | any[]) => {
-    let list = { ...configList };
+    const list = { ...configList };
     let listItem = { ...list[configName][0] };
 
     const newField = {
@@ -67,42 +75,25 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
     setConfigList(newList);
   };
 
-  const updateChart = (updatedConfigList = configList) => {
-    const qm = new QueryManager();
-    const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-    const newQuery = qm
-      .queryBuilder()
-      .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
-
-    batch(async () => {
-      await handleQueryChange(newQuery);
-      await dispatch(
-        changeQuery({
-          tabId,
-          query: {
-            ...data.query,
-            [RAW_QUERY]: newQuery,
+  const updateChart = () => {
+    dispatch(
+      changeVisualizationConfig({
+        tabId,
+        vizId: curVisId,
+        data: {
+          ...userConfigs,
+          dataConfig: {
+            ...userConfigs.dataConfig,
+            [GROUPBY]: configList[GROUPBY],
+            [AGGREGATIONS]: configList[AGGREGATIONS],
           },
-        })
-      );
-      await fetchData();
-      await dispatch(
-        changeVizConfig({
-          tabId,
-          vizId: visualizations.vis.name,
-          data: {
-            dataConfig: {
-              metrics: updatedConfigList.metrics,
-              dimensions: updatedConfigList.dimensions,
-            },
-          },
-        })
-      );
-    });
+        },
+      })
+    );
   };
 
   const getOptionsAvailable = (sectionName: string) => {
-    const { dimensions, metrics } = configList;
+    const { dimensions, series } = configList;
     let selectedFields = {};
     let allSelectedFields = [];
 
@@ -111,9 +102,9 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
         const [dimElements] = dimensions;
         const { childField, parentFields } = dimElements;
         allSelectedFields = [childField, ...parentFields];
-      } else if (key === 'metrics') {
-        const [metricsElement] = metrics;
-        allSelectedFields = [metricsElement.valueField];
+      } else if (key === AGGREGATIONS) {
+        const [seriesElement] = series;
+        allSelectedFields = [seriesElement.valueField];
       }
       const allValidSelectedFields = allSelectedFields.filter((item) => item?.label);
       allValidSelectedFields.length > 0 &&
@@ -121,8 +112,8 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
     }
 
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
-    return sectionName === 'metrics'
-      ? unselectedFields.filter((field) => numericalTypes.includes(field.type))
+    return sectionName === AGGREGATIONS
+      ? unselectedFields.filter((field) => NUMERICAL_TYPES.includes(field.type))
       : unselectedFields;
   };
 
@@ -140,7 +131,7 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
           <EuiFormRow label="Child Field">
             <EuiComboBox
               placeholder="Select a field"
-              options={getOptionsAvailable('dimensions')}
+              options={getOptionsAvailable(GROUPBY)}
               selectedOptions={
                 configList.dimensions[0].childField?.label !== ''
                   ? [{ label: configList.dimensions[0].childField?.label }]
@@ -148,19 +139,19 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
               }
               singleSelection={{ asPlainText: true }}
               onChange={(val) =>
-                updateList('dimensions', 'childField', val.length > 0 ? val[0].label : '')
+                updateList(GROUPBY, 'childField', val.length > 0 ? val[0].label : '')
               }
             />
           </EuiFormRow>
 
           <EuiSpacer size="s" />
           <ConfigTreemapParentFields
-            dropdownList={getOptionsAvailable('dimensions').map((opt) => ({
+            dropdownList={getOptionsAvailable(GROUPBY).map((opt) => ({
               label: opt.label,
               name: opt.label,
             }))}
             selectedAxis={configList.dimensions[0]?.parentFields}
-            onSelectChange={(val) => updateList('dimensions', 'parentFields', val)}
+            onSelectChange={(val) => updateList(GROUPBY, 'parentFields', val)}
           />
           <EuiSpacer size="s" />
         </EuiPanel>
@@ -173,15 +164,15 @@ export const TreemapConfigPanelItem = ({ fieldOptionList, visualizations, tabID 
           <EuiFormRow label="Value Field">
             <EuiComboBox
               placeholder="Select a field"
-              options={getOptionsAvailable('metrics')}
+              options={getOptionsAvailable(AGGREGATIONS)}
               selectedOptions={
-                configList.metrics[0].valueField?.label !== ''
-                  ? [{ label: configList.metrics[0].valueField?.label }]
+                configList[AGGREGATIONS][0].valueField?.label !== ''
+                  ? [{ label: configList[AGGREGATIONS][0].valueField?.label }]
                   : []
               }
               singleSelection={{ asPlainText: true }}
               onChange={(val) =>
-                updateList('metrics', 'valueField', val.length > 0 ? val[0].label : '')
+                updateList(AGGREGATIONS, 'valueField', val.length > 0 ? val[0].label : '')
               }
             />
           </EuiFormRow>

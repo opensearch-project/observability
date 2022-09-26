@@ -51,12 +51,15 @@ import {
   TAB_CHART_ID,
   DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
+  GROUPBY,
+  AGGREGATIONS,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
   PPL_NEWLINE_REGEX,
   LIVE_OPTIONS,
   LIVE_END_TIME,
+  VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
@@ -78,7 +81,7 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
-import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
+import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -107,6 +110,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
+  qm,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -143,7 +147,9 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<Boolean>(false);
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
+    false
+  );
 
   const queryRef = useRef();
   const appBasedRef = useRef('');
@@ -745,8 +751,8 @@ export const Explorer = ({
     }
   };
 
-  const changeIsValidConfigOptionState = (isValidConfig: Boolean) =>
-  setIsValidDataConfigOptionSelected(isValidConfig);
+  const changeIsValidConfigOptionState = (isValidConfig: boolean) =>
+    setIsValidDataConfigOptionSelected(isValidConfig);
 
   const getExplorerVis = () => {
     return (
@@ -763,6 +769,7 @@ export const Explorer = ({
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
         changeIsValidConfigOptionState={changeIsValidConfigOptionState}
+        qm={qm}
       />
     );
   };
@@ -823,16 +830,93 @@ export const Explorer = ({
     );
   };
 
+  const getSpanValue = (groupByToken: GroupByChunk) => {
+    const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+      (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+    )?.text;
+    return groupByToken?.span !== null
+      ? {
+          time_field: [
+            {
+              name: groupByToken?.span.span_expression.field,
+              type: 'timestamp',
+              label: groupByToken?.span.span_expression.field,
+            },
+          ],
+          unit: [
+            {
+              text: timeUnitValue,
+              value: groupByToken?.span.span_expression.time_unit,
+              label: timeUnitValue,
+            },
+          ],
+          interval: groupByToken?.span.span_expression.literal_value,
+        }
+      : undefined;
+  };
+
+  const getUpdatedDataConfig = (statsToken: statsChunk) => {
+    const groupByToken = statsToken.groupby;
+    const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+    const span = getSpanValue(groupByToken);
+    switch (curVisId) {
+      case VIS_CHART_TYPES.TreeMap:
+        return {
+          [GROUPBY]: [
+            {
+              childField: {
+                ...(groupByToken?.group_fields
+                  ? {
+                      label: groupByToken?.group_fields[0].name ?? '',
+                      name: groupByToken?.group_fields[0].name ?? '',
+                    }
+                  : { label: '', name: '' }),
+              },
+              parentFields: [],
+            },
+          ],
+          [AGGREGATIONS]: [
+            {
+              valueField: {
+                ...(seriesToken
+                  ? {
+                      label: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                      name: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                    }
+                  : { label: '', name: '' }),
+              },
+            },
+          ],
+        };
+      case VIS_CHART_TYPES.Histogram:
+        return {
+          [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
+          [AGGREGATIONS]: [],
+        };
+      default:
+        return {
+          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+            label: agg.function?.value_expression,
+            name: agg.function?.value_expression,
+            aggregation: agg.function?.name,
+          })),
+          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+            label: agg.name ?? '',
+            name: agg.name ?? '',
+          })),
+          span,
+        };
+    }
+  };
+
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
-
       // clear previous selected timestamp when index pattern changes
       if (
         !isEmpty(tempQuery) &&
         !isEmpty(query[RAW_QUERY]) &&
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
-
         await updateCurrentTimeStamp('');
       }
       if (availability !== true) {
@@ -842,30 +926,14 @@ export const Explorer = ({
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
-        const qm = new QueryManager();
-        const statsTokens = 
-          qm
-            .queryParser()
-            .parse(tempQuery)
-            .getStats();
-            
+        const statsTokens = qm.queryParser().parse(tempQuery).getStats();
+
+        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
         await dispatch(
           changeVizConfig({
             tabId,
             vizId: curVisId,
-            data: {
-              dataConfig: {
-                metrics: statsTokens.aggregations.map((agg) => ({
-                  label: agg.function?.value_expression,
-                  name: agg.function?.value_expression,
-                  aggregation: agg.function?.name,
-                })),
-                dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-                  label: agg.name ?? '',
-                  name: agg.name ?? '',
-                })),
-              },
-            },
+            data: { ...updatedDataConfig },
           })
         );
       }
@@ -1190,7 +1258,7 @@ export const Explorer = ({
         explorerFields,
         explorerData,
         http,
-        query
+        query,
       }}
     >
       <div className="dscAppContainer">

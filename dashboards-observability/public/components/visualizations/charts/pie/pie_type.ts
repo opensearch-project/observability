@@ -6,7 +6,6 @@
 import { Pie } from './pie';
 import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_configs';
 import { LensIconChartPie } from '../../assets/chart_pie';
-import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import {
@@ -14,12 +13,18 @@ import {
   ConfigChartOptions,
   ConfigLegend,
   InputFieldItem,
+  ButtonGroupItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
+import { DEFAULT_PALETTE, PIE_PALETTES } from '../../../../../common/constants/colors';
+import { PLOTLY_COLOR, DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { DEFAULT_PIE_CHART_PARAMETERS } from '../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+
+const { ShowLegend, LegendPosition } = DEFAULT_CHART_STYLES;
+const { DefaultMode } = DEFAULT_PIE_CHART_PARAMETERS;
 
 export const createPieTypeDefinition = (params: any) => ({
   name: 'pie',
@@ -29,13 +34,11 @@ export const createPieTypeDefinition = (params: any) => ({
   fulllabel: 'Pie',
   icontype: 'visPie',
   category: VIS_CATEGORY.BASICS,
-  showlegend: true,
-  legendposition: 'v',
-  selection: {
-    dataLoss: 'nothing',
-  },
+  showlegend: ShowLegend,
+  legendposition: LegendPosition,
   categoryaxis: 'xaxis',
   seriesaxis: 'yaxis',
+  mode: DefaultMode,
   icon: LensIconChartPie,
   editorconfig: {
     panelTabs: [
@@ -57,10 +60,10 @@ export const createPieTypeDefinition = (params: any) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Show', id: 'show' },
+                    { name: 'Show', id: ShowLegend },
                     { name: 'Hidden', id: 'hidden' },
                   ],
-                  defaultSelections: [{ name: 'Show', id: 'show' }],
+                  defaultSelections: [{ name: 'Show', id: ShowLegend }],
                 },
               },
               {
@@ -69,10 +72,10 @@ export const createPieTypeDefinition = (params: any) => ({
                 component: null,
                 props: {
                   options: [
-                    { name: 'Right', id: 'v' },
+                    { name: 'Right', id: LegendPosition },
                     { name: 'Bottom', id: 'h' },
                   ],
-                  defaultSelections: [{ name: 'Right', id: 'v' }],
+                  defaultSelections: [{ name: 'Right', id: LegendPosition }],
                 },
               },
               {
@@ -101,15 +104,16 @@ export const createPieTypeDefinition = (params: any) => ({
               {
                 name: 'Mode',
                 isSingleSelection: true,
-                component: null,
+                component: ButtonGroupItem,
+                eleType: 'buttons',
                 mapTo: 'mode',
                 props: {
-                  dropdownList: [
-                    { name: 'Pie', modeId: 'pie' },
-                    { name: 'Donut', modeId: 'donut' },
+                  options: [
+                    { name: 'Pie', id: DefaultMode },
+                    { name: 'Donut', id: 'donut' },
                   ],
+                  defaultSelections: [{ name: 'Pie', id: DefaultMode }],
                 },
-                defaultState: [{ name: 'Pie', modeId: 'pie', label: 'Pie' }],
               },
               {
                 name: 'Label size',
@@ -142,20 +146,18 @@ export const createPieTypeDefinition = (params: any) => ({
   visconfig: {
     layout: {
       ...sharedConfigs.layout,
-      ...{
-        colorway: PLOTLY_COLOR,
-        plot_bgcolor: 'rgba(0, 0, 0, 0)',
-        paper_bgcolor: 'rgba(0, 0, 0, 0)',
-        xaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        yaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
+      colorway: PLOTLY_COLOR,
+      plot_bgcolor: 'rgba(0, 0, 0, 0)',
+      paper_bgcolor: 'rgba(0, 0, 0, 0)',
+      xaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
+      },
+      yaxis: {
+        fixedrange: true,
+        showgrid: false,
+        visible: true,
       },
     },
     config: {
