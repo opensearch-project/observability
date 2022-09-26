@@ -18,7 +18,7 @@ export const Observability = (
   dslService: any,
   savedObjects: any,
   timestampUtils: any,
-  qm: QueryManager
+  queryManager: QueryManager
 ) => {
   ReactDOM.render(
     <App
@@ -28,7 +28,7 @@ export const Observability = (
       dslService={dslService}
       savedObjects={savedObjects}
       timestampUtils={timestampUtils}
-      qm={qm}
+      queryManager={queryManager}
     />,
     AppMountParametersProp.element
   );

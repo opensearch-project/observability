@@ -7,7 +7,7 @@ import './workspace_panel.scss';
 
 import React, { useState, useMemo } from 'react';
 import { isEmpty } from 'lodash';
-import { EuiPanel, EuiFlexGroup, EuiFlexItem, EuiSwitch, EuiSpacer } from '@elastic/eui';
+import { EuiPanel, EuiSwitch } from '@elastic/eui';
 import { Visualization } from '../../../../visualizations/visualization';
 import { DataTable } from '../../../../visualizations/charts/data_table/data_table';
 import { uiSettingsService } from '../../../../../../common/utils';
@@ -28,12 +28,7 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
 
   return (
     <div className="explorerViz__commonPanel ws__visCanvas">
-      <EuiPanel 
-        className="ws__visCanvasControl"
-        paddingSize="s"
-        color="plain"
-        hasBorder={false}
-      >
+      <EuiPanel className="ws__visCanvasControl" paddingSize="s" color="plain" hasBorder={false}>
         <EuiSwitch
           className="ws__visCanvasControl--switch"
           label="Table view"

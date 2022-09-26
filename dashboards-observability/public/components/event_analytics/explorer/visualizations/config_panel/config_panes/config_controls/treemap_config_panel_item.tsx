@@ -13,26 +13,19 @@ import {
   EuiFormRow,
   EuiPanel,
 } from '@elastic/eui';
-import { useDispatch, batch } from 'react-redux';
-import { changeQuery } from '../../../../../redux/slices/query_slice';
-import {
-  change as changeVizConfig,
-  selectVisualizationConfig,
-} from '../../../../../redux/slices/viualization_config_slice';
+import { useDispatch } from 'react-redux';
 import { ConfigTreemapParentFields } from './config_treemap_parents';
 import {
   AGGREGATIONS,
   GROUPBY,
   NUMERICAL_TYPES,
 } from '../../../../../../../../common/constants/explorer';
+import { DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
-import { QueryManager } from '../../../../../../../../common/query_manager';
-import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
 
 export const TreemapConfigPanelItem = ({
   fieldOptionList,
   visualizations,
-  qm,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
   const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<

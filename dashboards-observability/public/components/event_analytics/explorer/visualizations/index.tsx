@@ -7,8 +7,8 @@ import './app.scss';
 
 import { isEmpty } from 'lodash';
 
-import React, { useContext } from 'react';
-import { EuiPanel, EuiResizableContainer, EuiSpacer } from '@elastic/eui';
+import React from 'react';
+import { EuiResizableContainer } from '@elastic/eui';
 import { QueryManager } from 'common/query_manager';
 import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
 import {
@@ -21,7 +21,6 @@ import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
 import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_configurations_panel';
-import { TabContext } from '../../hooks';
 import { PPL_STATS_REGEX, VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 import { LogsViewConfigPanelItem } from './config_panel/config_panes/config_controls/logs_view_config_panel_item';
@@ -39,7 +38,7 @@ interface IExplorerVisualizationsProps {
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
   changeIsValidConfigOptionState: (isValidConfigOptionSelected: boolean) => void;
-  qm: QueryManager;
+  queryManager: QueryManager;
 }
 
 export const ExplorerVisualizations = ({
@@ -55,11 +54,9 @@ export const ExplorerVisualizations = ({
   handleOverrideTimestamp,
   callback,
   changeIsValidConfigOptionState,
-  qm,
+  queryManager,
 }: IExplorerVisualizationsProps) => {
-  const { tabId } = useContext<any>(TabContext);
-  const { data, vis } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { vis } = visualizations;
   const fieldOptionList = explorerFields.availableFields.map((field) => ({
     ...field,
     label: field.name,
@@ -72,7 +69,6 @@ export const ExplorerVisualizations = ({
           <TreemapConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
-            qm={qm}
           />
         );
       case VIS_CHART_TYPES.LogsView:
@@ -87,7 +83,7 @@ export const ExplorerVisualizations = ({
           <DataConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
-            qm={qm}
+            queryManager={queryManager}
           />
         );
     }

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './data_configurations_panel.scss'
+import './data_configurations_panel.scss';
 
 import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { some } from 'lodash';
@@ -28,7 +28,6 @@ import {
   AGGREGATIONS,
   AGGREGATION_OPTIONS,
   GROUPBY,
-  NUMERICAL_TYPES,
   RAW_QUERY,
   TIME_INTERVAL_OPTIONS,
 } from '../../../../../../../../common/constants/explorer';
@@ -53,18 +52,10 @@ const initialSeriesEntry = {
 export const DataConfigPanelItem = ({
   fieldOptionList,
   visualizations,
-  qm,
+  queryManager,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const {
-    tabId,
-    handleQuerySearch,
-    handleQueryChange,
-    setTempQuery,
-    fetchData,
-    changeVisualizationConfig,
-    curVisId,
-  } = useContext<any>(TabContext);
+  const { tabId, handleQueryChange, fetchData, curVisId } = useContext<any>(TabContext);
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
@@ -85,8 +76,7 @@ export const DataConfigPanelItem = ({
       });
     } else {
       // default
-      const qm = new QueryManager();
-      const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
+      const statsTokens = queryManager.queryParser().parse(data.query.rawQuery).getStats();
       if (!statsTokens) {
         setConfigList({
           metrics: [],
@@ -187,8 +177,8 @@ export const DataConfigPanelItem = ({
         })
       );
     } else {
-      const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-      const newQuery = qm
+      const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
+      const newQuery = queryManager!
         .queryBuilder()
         .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 
