@@ -17,8 +17,8 @@ import {
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import {
-  DefaultChartStyles,
-  visChartTypes,
+  DEFAULT_CHART_STYLES,
+  VIS_CHART_TYPES,
   PLOTLY_COLOR,
 } from '../../../../../common/constants/shared';
 import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
@@ -36,14 +36,14 @@ const {
   LegendPosition,
   ShowLegend,
   LabelAngle,
-} = DefaultChartStyles;
+} = DEFAULT_CHART_STYLES;
 
 export const createLineTypeDefinition = (params: any = {}) => ({
   name: params.type,
   type: params.type,
   id: params.type,
-  label: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
-  fulllabel: params.type === visChartTypes.Line ? 'Time series' : 'Scatter',
+  label: params.type === VIS_CHART_TYPES.Line ? 'Time series' : 'Scatter',
+  fulllabel: params.type === VIS_CHART_TYPES.Line ? 'Time series' : 'Scatter',
   icontype: 'visLine',
   category: VIS_CATEGORY.BASICS,
   selection: {
@@ -125,7 +125,7 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                     { name: 'Lines + Markers', id: 'lines+markers' },
                   ],
                   defaultSelections: [
-                    params.type === visChartTypes.Line
+                    params.type === VIS_CHART_TYPES.Line
                       ? { name: 'Lines', id: DefaultModeLine }
                       : { name: 'Marker', id: DefaultModeScatter },
                   ],

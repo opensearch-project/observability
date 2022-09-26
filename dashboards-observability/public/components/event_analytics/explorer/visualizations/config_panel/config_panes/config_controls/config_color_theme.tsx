@@ -18,7 +18,7 @@ import {
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 import { ADD_BUTTON_TEXT } from '../../../../../../../../common/constants/explorer';
-import { visChartTypes } from '../../../../../../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 
 export const ConfigColorTheme = ({
   visualizations,
@@ -40,7 +40,7 @@ export const ConfigColorTheme = ({
 
   const options = (dataConfig?.valueOptions?.metrics && dataConfig.valueOptions.metrics.length !== 0
     ? dataConfig.valueOptions.metrics
-    : vis.name === visChartTypes.Histogram
+    : vis.name === VIS_CHART_TYPES.Histogram
     ? defaultAxes.yaxis ?? []
     : fields
   ).map((item) => ({

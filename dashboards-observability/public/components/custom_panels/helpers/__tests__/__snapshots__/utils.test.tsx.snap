@@ -1420,7 +1420,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           }
         }
       >
-        <EmptyPlaceholder>
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
+        >
           <EuiText
             className="lnsChart__empty"
             color="subdued"
@@ -1448,17 +1450,18 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
+                        type="visBarVerticalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -3992,7 +3995,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           }
         }
       >
-        <EmptyPlaceholder>
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
+        >
           <EuiText
             className="lnsChart__empty"
             color="subdued"
@@ -4020,17 +4025,18 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
+                        type="visBarVerticalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -4745,7 +4751,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           }
         }
       >
-        <EmptyPlaceholder>
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
+        >
           <EuiText
             className="lnsChart__empty"
             color="subdued"
@@ -4773,17 +4781,18 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
+                        type="visBarVerticalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
                         >
                           <svg
                             aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"

@@ -13,12 +13,12 @@ import {
   SliderConfig,
   ConfigColorTheme,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { LineWidth, FillOpacity, ShowLegend, LegendPosition } = DefaultChartStyles;
+const { LineWidth, FillOpacity, ShowLegend, LegendPosition } = DEFAULT_CHART_STYLES;
 
 export const createHistogramVisDefinition = (params = {}) => ({
   name: 'histogram',

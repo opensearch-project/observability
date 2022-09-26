@@ -53,7 +53,7 @@ export interface ExpressionChunk {
   value: string | number;
 }
 
-export interface DataConfigMetric {
+export interface DataConfigSeries {
   alias: string;
   label: string;
   name: string;
@@ -61,7 +61,7 @@ export interface DataConfigMetric {
 }
 
 export interface AggregationConfigurations {
-  metrics: Array<DataConfigMetric>;
+  series: Array<DataConfigSeries>;
   dimensions: Array<GroupField>;
   span: SpanChunk;
 }
