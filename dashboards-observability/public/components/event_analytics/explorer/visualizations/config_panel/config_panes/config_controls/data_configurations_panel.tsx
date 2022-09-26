@@ -519,10 +519,16 @@ export const DataConfigPanelItem = ({
             <h3>Date Histogram</h3>
           </EuiTitle>
           {DateHistogram}
-          {/* <EuiTitle size="xxs">
-            <h3>Breakdowns</h3>
-          </EuiTitle>
-          {Breakdowns} */}
+          <EuiSpacer size="s" />
+          {(visualizations.vis.name === visChartTypes.Bar ||
+            visualizations.vis.name === visChartTypes.HorizontalBar) && (
+            <>
+              <EuiTitle size="xxs">
+                <h3>Breakdowns</h3>
+              </EuiTitle>
+              {Breakdowns}
+            </>
+          )}
         </>
       ) : (
         <>
