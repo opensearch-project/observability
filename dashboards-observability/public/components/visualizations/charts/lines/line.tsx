@@ -48,6 +48,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
   const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS] : [];
+  const dimensions = dataConfig[GROUPBY] ? dataConfig[GROUPBY] : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
@@ -83,27 +84,23 @@ export const Line = ({ visualizations, layout, config }: any) => {
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
-  let xaxis;
+
+  let xaxis: ConfigListEntry[] = [];
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-    xaxis = dataConfig[GROUPBY] ? [timestampField, ...dataConfig[GROUPBY]] : [timestampField, []];
+    xaxis = [timestampField, ...dimensions];
   } else {
-    xaxis = dataConfig[GROUPBY];
+    xaxis = dimensions;
   }
 
-  if (isEmpty(xaxis) || xaxis.length > 1 || isEmpty(yaxis))
+  if (isEmpty(queriedVizData) || isEmpty(xaxis) || xaxis.length > 1 || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visMetaData?.icontype} />;
-
-  let valueSeries: ConfigListEntry[];
-  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [...yaxis];
-  }
 
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
     const isBarMode = mode === 'bar';
-    let calculatedLineValues = valueSeries.map((field: any, index: number) => {
+    let calculatedLineValues = yaxis.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field, index);
       const fillColor = hexToRgb(selectedColor, fillOpacity);
       const barMarker = {
@@ -229,7 +226,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       calculatedLineValues = [...calculatedLineValues, thresholdTraces];
     }
     return [mergedLayout, calculatedLineValues];
-  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
+  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode]);
 
   const mergedConfigs = useMemo(
     () => ({
