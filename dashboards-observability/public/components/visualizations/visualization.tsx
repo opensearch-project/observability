@@ -7,7 +7,7 @@ import React from 'react';
 import { isArray } from 'lodash';
 import { VisualizationChart } from './visualization_chart';
 import { EmptyPlaceholder } from '../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { visChartTypes } from '../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../common/constants/shared';
 
 interface IVisualizationProps {}
 
@@ -24,7 +24,7 @@ export const Visualization = ({ visualizations }: IVisualizationProps) => {
 
   return (
     <>
-      {vis?.type === visChartTypes.LogsView || (isVizDataValid && isVizFieldValid) ? (
+      {vis?.type === VIS_CHART_TYPES.LogsView || (isVizDataValid && isVizFieldValid) ? (
         <VisualizationChart visualizations={visualizations} />
       ) : (
         <EmptyPlaceholder icon={visualizations?.vis?.icontype} />

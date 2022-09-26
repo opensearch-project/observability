@@ -16,6 +16,8 @@ import {
   FINAL_QUERY,
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
+  GROUPBY,
+  AGGREGATIONS,
 } from '../constants/explorer';
 import {
   CoreStart,
@@ -294,8 +296,8 @@ export interface DimensionSpan {
 }
 
 export interface ConfigList {
-  dimensions?: ConfigListEntry[] | HistogramConfigList[];
-  metrics?: ConfigListEntry[];
+  [GROUPBY]?: ConfigListEntry[] | HistogramConfigList[];
+  [AGGREGATIONS]?: ConfigListEntry[];
   breakdowns?: ConfigListEntry[] | HistogramConfigList[];
   span?: DimensionSpan;
 }

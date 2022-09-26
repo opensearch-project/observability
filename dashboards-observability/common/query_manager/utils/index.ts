@@ -10,7 +10,7 @@ export const composeAggregations = (
   staleStats: PreviouslyParsedStaleStats
 ) => {
   return {
-    aggregations: aggConfig.metrics.map((metric) => ({
+    aggregations: aggConfig.series.map((metric) => ({
       function_alias: metric.alias,
       function: {
         name: metric.aggregation,
