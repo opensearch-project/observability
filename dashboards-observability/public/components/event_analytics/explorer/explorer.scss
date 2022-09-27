@@ -3,15 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- .liveStream {
-    margin : 8px;
-    height: 40px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    display: flex;
-    flex-grow: 1;
-    vertical-align: baseline;
-  }
+#opensearch-dashboards-body {
+  overflow-y: hidden;
+}
 
+.liveStream {
+  margin : 8px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+  flex-grow: 1;
+  vertical-align: baseline;
+}
+
+.mainContentTabs .euiResizableContainer {
+  height: calc(100vh - 298px);
+}
   

@@ -110,7 +110,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
-  qm,
+  queryManager,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -497,6 +497,7 @@ export const Explorer = ({
     handleQuerySearch(availability);
   };
 
+
   /**
    * Toggle fields between selected and unselected sets
    * @param field field to be toggled
@@ -585,7 +586,7 @@ export const Explorer = ({
             data-test-subj="eventExplorer__sidebar"
           >
             {!isSidebarClosed && (
-              <div className="dscFieldChooser">
+              <div className="explorerFieldSelector">
                 <Sidebar
                   query={query}
                   explorerFields={explorerFields}
@@ -768,7 +769,7 @@ export const Explorer = ({
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
         changeIsValidConfigOptionState={changeIsValidConfigOptionState}
-        qm={qm}
+        queryManager={queryManager}
       />
     );
   };
@@ -925,8 +926,7 @@ export const Explorer = ({
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
-        const qm = new QueryManager();
-        const statsTokens = qm.queryParser().parse(tempQuery).getStats();
+        const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
 
         const updatedDataConfig = getUpdatedDataConfig(statsTokens);
         await dispatch(
