@@ -18,7 +18,7 @@ import {
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-import { DefaultStatsParameters } from '../../../../../common/constants/explorer';
+import { DEFAULT_STATS_CHART_PARAMETERS } from '../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -30,7 +30,7 @@ const {
   DefaultTitleSize,
   DefaultValueSize,
   BaseThreshold,
-} = DefaultStatsParameters;
+} = DEFAULT_STATS_CHART_PARAMETERS;
 
 export const createStatsTypeDefinition = (params: any = {}) => ({
   name: 'stats',

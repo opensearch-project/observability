@@ -200,7 +200,7 @@ export const STATS_ANNOTATION = {
   showarrow: false,
 };
 
-export interface DefaultStatsParametersProps {
+export interface DefaultStatsChartParametersProps {
   DefaultTextMode: string;
   DefaultOrientation: string;
   DefaultTitleSize: number;
@@ -211,7 +211,7 @@ export interface DefaultStatsParametersProps {
   BaseThreshold: ThresholdUnitType;
 }
 
-export const DefaultStatsParameters: DefaultStatsParametersProps = {
+export const DEFAULT_STATS_CHART_PARAMETERS: DefaultStatsChartParametersProps = {
   DefaultTextMode: 'auto',
   DefaultOrientation: 'auto',
   DefaultTitleSize: 30,
