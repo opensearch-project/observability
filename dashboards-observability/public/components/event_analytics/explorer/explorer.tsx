@@ -897,6 +897,34 @@ export const Explorer = ({
           [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
           [AGGREGATIONS]: [],
         };
+      case VIS_CHART_TYPES.LogsView: {
+        const dimensions = [
+          ...statsToken.aggregations
+            .map((agg) => ({
+              label: `${agg.function.name}(${agg.function.value_expression})` ?? '',
+              name: `${agg.function.name}(${agg.function.value_expression})` ?? '',
+            }))
+            .concat(
+              groupByToken.group_fields?.map((agg) => ({
+                label: agg.name ?? '',
+                name: agg.name ?? '',
+              }))
+            ),
+        ];
+        if (span !== undefined) {
+          const { time_field, interval, unit } = span;
+          const timespanField = `span(${time_field[0].name},${interval}${unit[0].value})`;
+          dimensions.push({
+            label: timespanField,
+            name: timespanField,
+          });
+        }
+        return {
+          [AGGREGATIONS]: [],
+          [GROUPBY]: dimensions,
+        };
+      }
+
       default:
         return {
           [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({

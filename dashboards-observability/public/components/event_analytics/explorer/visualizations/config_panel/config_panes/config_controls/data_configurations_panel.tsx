@@ -210,6 +210,10 @@ export const DataConfigPanelItem = ({
               },
             },
           })
+        );
+      });
+    }
+  };
 
   const isPositionButtonVisible = (sectionName: string) =>
     sectionName === AGGREGATIONS &&
