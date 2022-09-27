@@ -7,10 +7,8 @@ import './sidebar.scss';
 
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { EuiTitle, EuiSpacer, EuiButtonIcon, EuiFieldSearch, EuiAccordion } from '@elastic/eui';
-import { i18n } from '@osd/i18n';
-import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
-import { cssNumber } from 'jquery';
+import { EuiTitle, EuiSpacer, EuiFieldSearch, EuiAccordion } from '@elastic/eui';
+import { I18nProvider } from '@osd/i18n/react';
 import { Field } from './field';
 import { IExplorerFields, IField } from '../../../../../common/types/explorer';
 

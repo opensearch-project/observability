@@ -284,38 +284,6 @@ export const ConfigPanel = ({
           onTabClick={onTabClick}
         />
       </div>
-      {/* <EuiFlexGroup
-        className="ws__configPanel--right-container"
-        direction="column"
-        justifyContent="spaceBetween"
-        gutterSize="none"
-        responsive={false}
-      >
-        <EuiFlexItem data-test-subj="configPane__vizTypeSelector">
-          <EuiComboBox
-            aria-label="config chart selector"
-            placeholder="Select a chart"
-            options={vizTypeList}
-            selectedOptions={[getSelectedVisDById(curVisId)]}
-            singleSelection
-            onChange={(visType) => {
-              setCurVisId(visType[0].id);
-            }}
-            fullWidth
-            renderOption={vizSelectableItemRenderer}
-            isClearable={false}
-          />
-        </EuiFlexItem>
-        <EuiSpacer size="s" />
-        <EuiFlexItem className="ws__configPanel--right-options">
-          <EuiTabbedContent
-            className="vis-config-tabs"
-            tabs={tabs}
-            selectedTab={tabs.find((tab) => tab.id === currTabId) || tabs[0]}
-            onTabClick={onTabClick}
-          />
-        </EuiFlexItem>
-      </EuiFlexGroup> */}
     </div>
   );
 };
