@@ -28,8 +28,8 @@ import {
   STATS_ANNOTATION,
   STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
   STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
-  STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE,
-  STATS_METRIC_UNIT_SUBSTRING_LENGTH,
+  STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE,
+  STATS_SERIES_UNIT_SUBSTRING_LENGTH,
   GROUPBY,
   AGGREGATIONS,
 } from '../../../../../common/constants/explorer';
@@ -128,9 +128,9 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       ? DefaultTextMode
       : selectedTextMode;
   const precisionValue = chartStyles.precisionValue || visMetaData.precisionvalue;
-  const metricUnits =
-    chartStyles.metricUnits?.substring(0, STATS_METRIC_UNIT_SUBSTRING_LENGTH) || '';
-  const metricUnitsSize = valueSize - valueSize * STATS_REDUCE_METRIC_UNIT_SIZE_PERCENTAGE;
+  const seriesUnits =
+    chartStyles.seriesUnits?.substring(0, STATS_SERIES_UNIT_SUBSTRING_LENGTH) || '';
+  const seriesUnitsSize = valueSize - valueSize * STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
 
   // margin from left of grid cell for label/value
@@ -150,12 +150,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   const createValueText = (value: string | number) =>
     `<b>${value}${
-      metricUnits ? `<span style="font-size: ${metricUnitsSize}px"}> ${metricUnits}</span>` : ''
+      seriesUnits ? `<span style="font-size: ${seriesUnitsSize}px"}> ${seriesUnits}</span>` : ''
     }</b>`;
 
   const calculateTextCooridinate = (seriesCount: number, index: number) => {
     // calculating center of each subplot based on orienation vertical(single column) or horizontal(single row)
-    // splitting whole plot area with metric length and find center of each individual subplot w.r.t index of metric
+    // splitting whole plot area with series length and find center of each individual subplot w.r.t index of series
     if (seriesCount === 1) {
       return 0.5;
     } else if (index === 0) {
@@ -282,15 +282,15 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ];
   };
 
-  // extend y axis range to increase height of subplot w.r.t metric data
-  const extendYaxisRange = (metricLabel: string) => {
-    const sortedData = queriedVizData[metricLabel]
+  // extend y axis range to increase height of subplot w.r.t series data
+  const extendYaxisRange = (seriesLabel: string) => {
+    const sortedData = queriedVizData[seriesLabel]
       .slice()
       .sort((curr: number, next: number) => next - curr);
     return isNaN(sortedData[0]) ? 100 : sortedData[0] + sortedData[0] / 2;
   };
 
-  const getMetricValue = (label: string) =>
+  const getSeriesValue = (label: string) =>
     typeof queriedVizData[label][queriedVizData[label].length - 1] === 'number'
       ? getRoundOf(
           queriedVizData[label][queriedVizData[label].length - 1],
@@ -299,16 +299,16 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       : 0;
 
   const generateLineTraces = () => {
-    return series.map((metric: ConfigListEntry, metricIndex: number) => {
-      const metricLabel = getPropName(metric);
-      const isLabelExisted = queriedVizData[metricLabel] ? true : false;
+    return series.map((seriesItem: ConfigListEntry, seriesIndex: number) => {
+      const seriesLabel = getPropName(seriesItem);
+      const isLabelExisted = queriedVizData[seriesLabel] ? true : false;
       const annotationOption = {
-        label: metricLabel,
-        value: isLabelExisted ? getMetricValue(metricLabel) : 0,
-        index: metricIndex,
+        label: seriesLabel,
+        value: isLabelExisted ? getSeriesValue(seriesLabel) : 0,
+        index: seriesIndex,
         valueColor: '',
       };
-      const layoutAxisIndex = metricIndex > 0 ? metricIndex + 1 : '';
+      const layoutAxisIndex = seriesIndex > 0 ? seriesIndex + 1 : '';
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
@@ -320,21 +320,21 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           visible: false,
           showgrid: false,
           anchor: `y${layoutAxisIndex}`,
-          layoutFor: metricLabel,
+          layoutFor: seriesLabel,
         },
         [`yaxis${layoutAxisIndex}`]: {
           visible: false,
           showgrid: false,
           anchor: `x${layoutAxisIndex}`,
-          range: isLabelExisted ? [0, extendYaxisRange(metricLabel)] : [0, 100],
-          layoutFor: metricLabel,
+          range: isLabelExisted ? [0, extendYaxisRange(seriesLabel)] : [0, 100],
+          layoutFor: seriesLabel,
         },
       };
 
       return {
         x: xaxesData,
-        y: queriedVizData[metricLabel],
-        seriesValue: isLabelExisted ? getMetricValue(metricLabel) : 0,
+        y: queriedVizData[seriesLabel],
+        seriesValue: isLabelExisted ? getSeriesValue(seriesLabel) : 0,
         fill: 'tozeroy',
         mode: 'lines',
         type: 'scatter',
@@ -342,10 +342,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         line: {
           color: '',
         },
-        name: metricLabel,
-        ...(metricIndex > 0 && {
-          xaxis: `x${metricIndex + 1}`,
-          yaxis: `y${metricIndex + 1}`,
+        name: seriesLabel,
+        ...(seriesIndex > 0 && {
+          xaxis: `x${seriesIndex + 1}`,
+          yaxis: `y${seriesIndex + 1}`,
         }),
         hoverinfo: getTooltipHoverInfo({
           tooltipMode: tooltipOptions.tooltipMode,
@@ -398,11 +398,11 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           annotationIndex < autoChartLayout.annotations.length;
           annotationIndex++
         ) {
-          const isMetricValueText = autoChartLayout.annotations[annotationIndex].type === 'value';
+          const isSeriesValueText = autoChartLayout.annotations[annotationIndex].type === 'value';
           const seriesValue = Number(autoChartLayout.annotations[annotationIndex].seriesValue);
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
             if (
-              isMetricValueText &&
+              isSeriesValueText &&
               seriesValue >= Number(thresholdRanges[threshIndex][0]) &&
               seriesValue <= Number(thresholdRanges[threshIndex][1])
             ) {
@@ -423,7 +423,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     titleSize,
     valueSize,
     textMode,
-    metricUnits,
+    seriesUnits,
     queriedVizData,
     precisionValue,
   ]);
