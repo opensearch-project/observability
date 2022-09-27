@@ -12,6 +12,7 @@ import {
   EuiPanel,
   EuiSpacer,
   EuiTitle,
+  htmlIdGenerator,
 } from '@elastic/eui';
 import { uniqueId } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
@@ -143,7 +144,7 @@ export const TreemapConfigPanelItem = ({
           closeMenu={() => isHandlePanelClickBack(selectedAxis)}
         />
         <EuiComboBox
-          id={uniqueId('axis-select-')}
+          id={htmlIdGenerator('axis-select-')}
           placeholder="Select a field"
           options={options}
           selectedOptions={selectedAxis[index].label !== '' ? [selectedAxis[index]] : []}

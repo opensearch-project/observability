@@ -195,7 +195,7 @@ const getUserConfigs = (
                 childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
                 parentFields:
                   userSelectedConfigs?.dataConfig !== undefined &&
-                  userSelectedConfigs?.dataConfig[GROUPBY].length > 0
+                  userSelectedConfigs?.dataConfig[GROUPBY]?.length > 0
                     ? [...userSelectedConfigs?.dataConfig[GROUPBY][0][PARENTFIELDS]]
                     : [],
               },
