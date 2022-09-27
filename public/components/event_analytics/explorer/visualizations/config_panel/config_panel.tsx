@@ -260,50 +260,30 @@ export const ConfigPanel = ({
   }, [memorizedVisualizationTypes]);
 
   return (
-    <>
-      <EuiFlexGroup
-        className="visEditorSidebar"
-        direction="column"
-        justifyContent="spaceBetween"
-        gutterSize="none"
-        responsive={false}
-      >
-        <EuiFlexItem data-test-subj="configPane__vizTypeSelector">
-          <EuiSpacer size="s" />
-          <EuiComboBox
-            aria-label="config chart selector"
-            placeholder="Select a chart"
-            options={vizTypeList}
-            selectedOptions={[getSelectedVisDById(curVisId)]}
-            singleSelection
-            onChange={(visType) => {
-              setCurVisId(visType[0].id);
-            }}
-            fullWidth
-            renderOption={vizSelectableItemRenderer}
-            isClearable={false}
-          />
-          <EuiSpacer size="xs" />
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiPanel paddingSize="s" className="configPane_options">
-            <EuiTabbedContent
-              className="vis-config-tabs"
-              tabs={tabs}
-              selectedTab={tabs.find((tab) => tab.id === currTabId) || tabs[0]}
-              onTabClick={onTabClick}
-            />
-          </EuiPanel>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <DefaultEditorControls
-            isDirty={true}
-            isInvalid={false}
-            onConfigUpdate={handleConfigUpdate}
-            onConfigDiscard={handleDiscardConfig}
-          />
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </>
+    <div className="cp__rightContainer">
+      <div className="cp__rightHeader">
+        <EuiComboBox
+          aria-label="config chart selector"
+          placeholder="Select a chart"
+          options={vizTypeList}
+          selectedOptions={[getSelectedVisDById(curVisId)]}
+          singleSelection
+          onChange={(visType) => {
+            setCurVisId(visType[0].id);
+          }}
+          fullWidth
+          renderOption={vizSelectableItemRenderer}
+          isClearable={false}
+        />
+      </div>
+      <div className="cp__rightSettings">
+        <EuiTabbedContent
+          className="vis-config-tabs"
+          tabs={tabs}
+          selectedTab={tabs.find((tab) => tab.id === currTabId) || tabs[0]}
+          onTabClick={onTabClick}
+        />
+      </div>
+    </div>
   );
 };

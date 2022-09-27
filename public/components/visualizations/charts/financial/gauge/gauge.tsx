@@ -47,6 +47,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   const series = dataConfig[AGGREGATIONS]
     ? dataConfig[AGGREGATIONS].filter((item) => item.name !== '')
     : [];
+  const metrics = dataConfig?.metrics ? dataConfig.metrics.filter((item) => item.name !== '') : [];
   const dimensionsLength = dimensions.length;
   const seriesLength = series.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
