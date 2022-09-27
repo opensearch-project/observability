@@ -13,7 +13,12 @@ import {
   ConfigListEntry,
   IVisualizationContainerProps,
 } from '../../../../../common/types/explorer';
-import { hexToRgb, getRoundOf, getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import {
+  hexToRgb,
+  getRoundOf,
+  getTooltipHoverInfo,
+  getPropName,
+} from '../../../event_analytics/utils/utils';
 import { uiSettingsService } from '../../../../../common/utils';
 import {
   STATS_GRID_SPACE_BETWEEN_X_AXIS,
@@ -295,9 +300,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   const generateLineTraces = () => {
     return series.map((metric: ConfigListEntry, metricIndex: number) => {
-      const metricLabel = `${
-        metric.alias ? metric.alias : `${metric.aggregation}(${metric.name})`
-      }`;
+      const metricLabel = getPropName(metric);
       const isLabelExisted = queriedVizData[metricLabel] ? true : false;
       const annotationOption = {
         label: metricLabel,

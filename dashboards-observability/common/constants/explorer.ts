@@ -239,3 +239,5 @@ export enum ConfigChartOptionsEnum {
   switchButton = 'switchButton',
   buttons = 'buttons',
 }
+
+export const CUSTOM_LABEL = 'customLabel';

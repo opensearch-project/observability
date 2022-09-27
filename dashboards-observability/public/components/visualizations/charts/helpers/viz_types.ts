@@ -17,6 +17,7 @@ import {
   AGGREGATIONS,
   GROUPBY,
   TIME_INTERVAL_OPTIONS,
+  CUSTOM_LABEL,
 } from '../../../../../common/constants/explorer';
 interface IVizContainerProps {
   vizId: string;
@@ -38,7 +39,7 @@ const initialDimensionEntry = {
 };
 
 const initialSeriesEntry = {
-  alias: '',
+  [CUSTOM_LABEL]: '',
   label: '',
   name: '',
   aggregation: 'count',
@@ -62,7 +63,7 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
       : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
   };
 
-  const mapYaxis = (): { [key: string]: string }[] =>
+  const mapYaxis = (): Array<{ [key: string]: string }> =>
     visName === VIS_CHART_TYPES.Line
       ? vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
       : take(
@@ -134,7 +135,7 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       tempUserConfigs = {
         ...tempUserConfigs,
         [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
-          alias: agg.alias,
+          [CUSTOM_LABEL]: agg[CUSTOM_LABEL],
           label: agg.function?.value_expression,
           name: agg.function?.value_expression,
           aggregation: agg.function?.name,
