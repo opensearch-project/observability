@@ -965,7 +965,7 @@ export const Explorer = ({
           changeVizConfig({
             tabId,
             vizId: curVisId,
-            data: { ...updatedDataConfig },
+            data: { dataConfig: { ...updatedDataConfig } },
           })
         );
       }

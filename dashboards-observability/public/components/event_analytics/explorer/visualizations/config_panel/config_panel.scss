@@ -4,7 +4,7 @@
  */
 
 .lnsConfigPanel__addLayerBtn {
-  color: transparentize($euiColorMediumShade, .3);
+  color: transparentize($euiColorMediumShade, 0.3);
   // Remove EuiButton's default shadow to make button more subtle
   // sass-lint:disable-block no-important
   box-shadow: none !important;
@@ -177,7 +177,15 @@ $vis-editor-sidebar-min-width: 350px;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.panel_section{
-  border-bottom: 1px solid #D3DAE6;
+
+.panel_section {
+  border-bottom: 1px solid #d3dae6;
 }
 
+.panel_title {
+  display: block;
+}
+
+.panel_title:first-letter {
+  text-transform: uppercase;
+}

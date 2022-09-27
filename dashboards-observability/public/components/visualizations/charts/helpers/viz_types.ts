@@ -16,6 +16,7 @@ import { QueryManager } from '../../../../../common/query_manager';
 import {
   AGGREGATIONS,
   GROUPBY,
+  PARENTFIELDS,
   TIME_INTERVAL_OPTIONS,
   CUSTOM_LABEL,
 } from '../../../../../common/constants/explorer';
@@ -140,8 +141,8 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
     } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
       tempUserConfigs = {
         ...tempUserConfigs,
-        [GROUPBY]: [initialDimensionEntry, initialDimensionEntry],
-        [AGGREGATIONS]: [initialSeriesEntry],
+        [GROUPBY]: [],
+        [AGGREGATIONS]: [],
       };
     } else {
       tempUserConfigs = {
@@ -175,10 +176,12 @@ const getUserConfigs = (
       case VIS_CHART_TYPES.HeatMap:
         configOfUser = {
           ...userSelectedConfigs,
-          dataConfig: {
-            ...userSelectedConfigs?.dataConfig,
-            ...defaultUserConfigs(query, visName),
-          },
+          dataConfig:
+            userSelectedConfigs?.dataConfig === undefined
+              ? { ...defaultUserConfigs(query, visName) }
+              : {
+                  ...userSelectedConfigs?.dataConfig,
+                },
         };
         break;
       case VIS_CHART_TYPES.TreeMap:
@@ -189,7 +192,11 @@ const getUserConfigs = (
             [GROUPBY]: [
               {
                 childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
-                parentFields: [],
+                parentFields:
+                  userSelectedConfigs?.dataConfig !== undefined &&
+                  userSelectedConfigs?.dataConfig[GROUPBY].length > 0
+                    ? [...userSelectedConfigs?.dataConfig[GROUPBY][0][PARENTFIELDS]]
+                    : [],
               },
             ],
             [AGGREGATIONS]: [

@@ -26,7 +26,7 @@ export const DataConfigItemClickPanel = ({ title, isSecondary, closeMenu }: Titl
       <EuiFlexGroup gutterSize="s" alignItems="center">
         {icon && <EuiFlexItem grow={false}>{icon}</EuiFlexItem>}
         <EuiFlexItem>
-          <EuiTitle size="xxs">
+          <EuiTitle size="xxs" className="panel_title">
             <h2>{title}</h2>
           </EuiTitle>
         </EuiFlexItem>
