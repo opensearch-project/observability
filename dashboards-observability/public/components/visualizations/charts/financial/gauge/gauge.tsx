@@ -72,7 +72,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
         calculatedGaugeData = series.map((seriesItem: any) => {
           return {
             field_name: seriesItem.name,
-            value: queriedVizData[seriesItem.name][0],
+            value: queriedVizData[seriesItem.name] ? queriedVizData[seriesItem.name][0] : '',
           };
         });
       }

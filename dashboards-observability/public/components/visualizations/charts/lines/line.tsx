@@ -46,7 +46,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS].filter((item) => item.label) : [];
+  const yaxis = dataConfig[AGGREGATIONS]
+    ? dataConfig[AGGREGATIONS].filter((item) => item.label)
+    : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
@@ -86,13 +88,12 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-    xaxis = [timestampField, ...dataConfig[GROUPBY]];
+    xaxis = dataConfig[GROUPBY] ? [timestampField, ...dataConfig[GROUPBY]] : [timestampField, []];
   } else {
     xaxis = dataConfig[GROUPBY];
   }
 
-  if (isEmpty(xaxis) || isEmpty(yaxis))
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (isEmpty(xaxis) || isEmpty(yaxis)) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -206,7 +207,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
       const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
         return list.map((thr: ThresholdUnitType) => {
           thresholdTraces.x.push(
-            queriedVizData[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
+            queriedVizData[
+              !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name
+            ][0]
           );
           thresholdTraces.y.push(thr.value * (1 + 0.06));
           thresholdTraces.text.push(thr.name);

@@ -107,7 +107,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * prepare data for visualization, map x-xais to y-xais
    */
   const chartAxis = useMemo(() => {
-    return Array.isArray(queriedVizData[`${yaxes[0].aggregation}(${yaxes[0].name})`])
+    return yaxes[0] && Array.isArray(queriedVizData[`${yaxes[0].aggregation}(${yaxes[0].name})`])
       ? queriedVizData[`${yaxes[0].aggregation}(${yaxes[0].name})`].map((_, idx) => {
           // let combineXaxis = '';
           const xaxisName = xaxes.map((xaxis) => {
