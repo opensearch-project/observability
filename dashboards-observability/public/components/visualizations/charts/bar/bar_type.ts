@@ -8,7 +8,6 @@ import { getPlotlySharedConfigs, getPlotlyCategory } from '../shared/shared_conf
 import { LensIconChartBar } from '../../assets/chart_bar';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
-import { ConfigValueOptions } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ButtonGroupItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
 import { ConfigBarChartStyles } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_bar_chart_styles';
@@ -17,45 +16,53 @@ import {
   ConfigLegend,
   InputFieldItem,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
-
+import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { ConfigColorTheme } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_color_theme';
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-const { LegendPosition, ShowLegend } = DefaultChartStyles;
+const { LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
 export const createBarTypeDefinition = (params: any) => ({
   name: 'bar',
   type: 'bar',
   id: 'bar',
-  label: 'Bar',
-  fullLabel: 'Bar',
-  iconType: 'visBarVerticalStacked',
+  label: 'Vertical bar',
+  fulllabel: 'Vertical bar',
+  icontype: 'visBarVerticalStacked',
   selection: {
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
   icon: LensIconChartBar,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   orientation: 'v',
   mode: 'group',
-  labelAngle: 0,
-  lineWidth: 1,
+  labelangle: 0,
+  linewidth: 1,
   fillOpacity: 80,
-  groupWidth: 0.7,
-  barWidth: 0.97,
-  showLegend: ShowLegend,
-  legendPosition: LegendPosition,
+  groupwidth: 0.7,
+  barwidth: 0.97,
+  showlegend: ShowLegend,
+  legendposition: LegendPosition,
   component: Bar,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Dimension', id: 'x' },
+              { name: 'Metrics', id: 'y' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'legend',
             name: 'Legend',
@@ -63,7 +70,7 @@ export const createBarTypeDefinition = (params: any) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Legend',
+                name: 'Show legend',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -121,7 +128,7 @@ export const createBarTypeDefinition = (params: any) => ({
                 },
               },
               {
-                name: 'Label Size',
+                name: 'Label size',
                 component: InputFieldItem,
                 mapTo: 'labelSize',
                 eleType: 'input',
@@ -178,7 +185,7 @@ export const createBarTypeDefinition = (params: any) => ({
                 eleType: 'slider',
               },
               {
-                name: 'Fill Opacity',
+                name: 'Fill opacity',
                 component: SliderConfig,
                 mapTo: 'fillOpacity',
                 defaultState: 80,
@@ -191,7 +198,7 @@ export const createBarTypeDefinition = (params: any) => ({
           },
           {
             id: 'color-theme',
-            name: 'Color Theme',
+            name: 'Color theme',
             editor: ConfigColorTheme,
             mapTo: 'colorTheme',
             schemas: [],
@@ -213,7 +220,7 @@ export const createBarTypeDefinition = (params: any) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

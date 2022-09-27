@@ -25,7 +25,7 @@ import { getDefaultSpec } from '../visualization_specs/default_spec';
 import { TabContext } from '../../../hooks';
 import { DefaultEditorControls } from './config_panel_footer';
 import { getVisType } from '../../../../visualizations/charts/vis_types';
-import { ENABLED_VIS_TYPES, ValueOptionsAxes, visChartTypes } from '../../../../../../common/constants/shared';
+import { ENABLED_VIS_TYPES, VIS_CHART_TYPES } from '../../../../../../common/constants/shared';
 import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
 
 const CONFIG_LAYOUT_TEMPLATE = `
@@ -61,28 +61,18 @@ interface PanelTabType {
   content?: any;
 }
 
-export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsValidConfigOptionState  }: any) => {
+export const ConfigPanel = ({
+  visualizations,
+  setCurVisId,
+  callback,
+  changeIsValidConfigOptionState,
+}: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
   const { data, vis } = visualizations;
   const { userConfigs } = data;
 
-  const getDefaultAxisSelected = () => {
-    let chartBasedAxes: ValueOptionsAxes = {};
-    const [valueField] = data.defaultAxes?.yaxis ?? [];
-    if (curVisId === visChartTypes.TreeMap) {
-      chartBasedAxes["childField"] = data.defaultAxes.xaxis ?? [];
-      chartBasedAxes["valueField"] = valueField && [valueField];
-    } else if(curVisId === visChartTypes.HeatMap){
-      chartBasedAxes["zaxis"] = valueField && [valueField];
-    } else {
-      chartBasedAxes = { ...data.defaultAxes };
-    }
-    return {
-      valueOptions: { ...(chartBasedAxes && chartBasedAxes) }
-    }
-  }
   const [vizConfigs, setVizConfigs] = useState({
     dataConfig: {},
     layoutConfig: userConfigs?.layoutConfig
@@ -94,7 +84,6 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
   useEffect(() => {
     setVizConfigs({
       ...userConfigs,
-      dataConfig: { ...(userConfigs?.dataConfig ? userConfigs.dataConfig : getDefaultAxisSelected()) },
       layoutConfig: userConfigs?.layoutConfig
         ? hjson.stringify({ ...userConfigs.layoutConfig }, HJSON_STRINGIFY_OPTIONS)
         : getDefaultSpec(),
@@ -112,49 +101,62 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
     []
   );
 
-   // To check, If user empty any of the value options
-   const isValidValueOptionConfigSelected = useMemo(() => {
+  // To check, If user empty any of the value options
+  const isValidValueOptionConfigSelected = useMemo(() => {
     const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { TreeMap, Gauge, HeatMap } = visChartTypes;
-    const isValidValueOptionsXYAxes = VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
-      valueOptions?.xaxis?.length !== 0 && valueOptions?.yaxis?.length !== 0;
+    const { TreeMap, Gauge, HeatMap } = VIS_CHART_TYPES;
+    const isValidValueOptionsXYAxes =
+      VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
+      valueOptions?.xaxis?.length !== 0 &&
+      valueOptions?.yaxis?.length !== 0;
 
     const isValid_valueOptions: { [key: string]: boolean } = {
-      tree_map: curVisId === TreeMap && valueOptions?.childField?.length !== 0 &&
+      tree_map:
+        curVisId === TreeMap &&
+        valueOptions?.childField?.length !== 0 &&
         valueOptions?.valueField?.length !== 0,
       gauge: true,
-      heatmap: Boolean(curVisId === HeatMap && valueOptions?.zaxis && valueOptions.zaxis?.length !== 0),
+      heatmap: Boolean(
+        curVisId === HeatMap && valueOptions?.metrics && valueOptions.metrics?.length !== 0
+      ),
       bar: isValidValueOptionsXYAxes,
       line: isValidValueOptionsXYAxes,
       histogram: isValidValueOptionsXYAxes,
-      pie: isValidValueOptionsXYAxes
-    }
+      pie: isValidValueOptionsXYAxes,
+      scatter: isValidValueOptionsXYAxes,
+      logs_view: true,
+    };
     return isValid_valueOptions[curVisId];
   }, [vizConfigs.dataConfig]);
 
-  useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [isValidValueOptionConfigSelected]);
+  useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [
+    isValidValueOptionConfigSelected,
+  ]);
 
-  const handleConfigUpdate = useCallback((updatedConfigs) => {
-    try {
-      if (!isValidValueOptionConfigSelected) {
-        setToast(`Invalid value options configuration selected.`, 'danger');
-      }
-      dispatch(
-        changeVisualizationConfig({
-          tabId,
-          vizId: curVisId,
-          data: {
-            ...{
-              ...updatedConfigs,
-              layoutConfig: hjson.parse(updatedConfigs.layoutConfig),
+  const handleConfigUpdate = useCallback(
+    (updatedConfigs) => {
+      try {
+        if (!isValidValueOptionConfigSelected) {
+          setToast(`Invalid value options configuration selected.`, 'danger');
+        }
+        dispatch(
+          changeVisualizationConfig({
+            tabId,
+            vizId: curVisId,
+            data: {
+              ...{
+                ...updatedConfigs,
+                layoutConfig: hjson.parse(updatedConfigs.layoutConfig),
+              },
             },
-          },
-        })
-      );
-    } catch (e: any) {
-      setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
-    }
-  }, [tabId, changeVisualizationConfig, dispatch, setToast, curVisId]);
+          })
+        );
+      } catch (e: any) {
+        setToast(`Invalid visualization configurations. error: ${e.message}`, 'danger');
+      }
+    },
+    [tabId, changeVisualizationConfig, dispatch, setToast, curVisId]
+  );
 
   const handleConfigChange = (configSchema: string) => {
     return (configChanges: any) => {
@@ -192,7 +194,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
   }, [visualizations, vizConfigs, setToast, curVisId]);
 
   const tabs: EuiTabbedContentTab[] = useMemo(() => {
-    return vis.editorConfig.panelTabs.map((tab: PanelTabType) => {
+    return vis.editorconfig.panelTabs.map((tab: PanelTabType) => {
       const Editor = tab.editor;
       return {
         id: tab.id,
@@ -200,7 +202,7 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
         content: <Editor {...params[tab.mapTo]} tabProps={{ ...tab }} />,
       };
     });
-  }, [vis.editorConfig.panelTabs, params]);
+  }, [vis.editorconfig.panelTabs, params]);
 
   const [currTabId, setCurrTabId] = useState(tabs[0].id);
 
@@ -220,21 +222,22 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
     );
   };
 
-  const memorizedVisualizationTypes = useMemo(() => {
-    return ENABLED_VIS_TYPES.map((vs: string) => {
-      const visDefinition = getVisType(vs);
-      return {
-        ...visDefinition,
-      };
-    });
-  }, []);
+  const memorizedVisualizationTypes = useMemo(
+    () =>
+      ENABLED_VIS_TYPES.map((vs: string) =>
+        vs === VIS_CHART_TYPES.Line || vs === VIS_CHART_TYPES.Scatter
+          ? getVisType(vs, { type: vs })
+          : getVisType(vs)
+      ),
+    []
+  );
 
   const vizSelectableItemRenderer = (option: EuiComboBoxOptionOption<any>) => {
-    const { iconType = 'empty', label = '' } = option;
+    const { icontype = 'empty', label = '' } = option;
 
     return (
       <div className="configPanel__vizSelector-item">
-        <EuiIcon className="lnsChartSwitch__chartIcon" type={iconType} size="m" />
+        <EuiIcon className="lnsChartSwitch__chartIcon" type={icontype} size="m" />
         &nbsp;&nbsp;
         <span>{label}</span>
       </div>
@@ -243,9 +246,11 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
 
   const getSelectedVisDById = useCallback(
     (visId) => {
-      return find(memorizedVisualizationTypes, (v) => {
+      const selectedOption = find(memorizedVisualizationTypes, (v) => {
         return v.id === visId;
       });
+      selectedOption['iconType'] = selectedOption.icontype;
+      return selectedOption;
     },
     [memorizedVisualizationTypes]
   );
@@ -255,50 +260,30 @@ export const ConfigPanel = ({ visualizations, setCurVisId, callback, changeIsVal
   }, [memorizedVisualizationTypes]);
 
   return (
-    <>
-      <EuiFlexGroup
-        className="visEditorSidebar"
-        direction="column"
-        justifyContent="spaceBetween"
-        gutterSize="none"
-        responsive={false}
-      >
-        <EuiFlexItem data-test-subj="configPane__vizTypeSelector">
-          <EuiSpacer size="s" />
-          <EuiComboBox
-            aria-label="config chart selector"
-            placeholder="Select a chart"
-            options={vizTypeList}
-            selectedOptions={[getSelectedVisDById(curVisId)]}
-            singleSelection
-            onChange={(visType) => {
-              setCurVisId(visType[0].id);
-            }}
-            fullWidth
-            renderOption={vizSelectableItemRenderer}
-            isClearable={false}
-          />
-          <EuiSpacer size="xs" />
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiPanel paddingSize="s" className="configPane_options">
-            <EuiTabbedContent
-              className="vis-config-tabs"
-              tabs={tabs}
-              selectedTab={tabs.find((tab) => tab.id === currTabId) || tabs[0]}
-              onTabClick={onTabClick}
-            />
-          </EuiPanel>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          <DefaultEditorControls
-            isDirty={true}
-            isInvalid={false}
-            onConfigUpdate={handleConfigUpdate}
-            onConfigDiscard={handleDiscardConfig}
-          />
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </>
+    <div className="cp__rightContainer">
+      <div className="cp__rightHeader">
+        <EuiComboBox
+          aria-label="config chart selector"
+          placeholder="Select a chart"
+          options={vizTypeList}
+          selectedOptions={[getSelectedVisDById(curVisId)]}
+          singleSelection
+          onChange={(visType) => {
+            setCurVisId(visType[0].id);
+          }}
+          fullWidth
+          renderOption={vizSelectableItemRenderer}
+          isClearable={false}
+        />
+      </div>
+      <div className="cp__rightSettings">
+        <EuiTabbedContent
+          className="vis-config-tabs"
+          tabs={tabs}
+          selectedTab={tabs.find((tab) => tab.id === currTabId) || tabs[0]}
+          onTabClick={onTabClick}
+        />
+      </div>
+    </div>
   );
 };

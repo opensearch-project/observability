@@ -2,8 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { IField } from '../../common/types/explorer';
 import CSS from 'csstype';
 
 // Client route
@@ -72,8 +70,7 @@ export const pageStyles: CSS.Properties = {
   maxWidth: '1130px',
 };
 
-
-export enum visChartTypes {
+export enum VIS_CHART_TYPES {
   Bar = 'bar',
   HorizontalBar = 'horizontal_bar',
   Line = 'line',
@@ -82,87 +79,92 @@ export enum visChartTypes {
   Text = 'text',
   Gauge = 'gauge',
   Histogram = 'histogram',
-  TreeMap = 'tree_map'
-}
-
-export interface ValueOptionsAxes {
-  xaxis ?: IField[];
-  yaxis ?: IField[];
-  zaxis ?: IField[];
-  childField?: IField[];
-  valueField?: IField[];
-  series?: IField[];
-  value?: IField[];
+  TreeMap = 'tree_map',
+  Scatter = 'scatter',
+  LogsView = 'logs_view',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
 
-export const ENABLED_VIS_TYPES = [visChartTypes.Bar, visChartTypes.HorizontalBar, visChartTypes.Line, visChartTypes.Pie, visChartTypes.HeatMap, visChartTypes.Text, visChartTypes.TreeMap, visChartTypes.Gauge, visChartTypes.Histogram];
+export const ENABLED_VIS_TYPES = [
+  VIS_CHART_TYPES.Bar,
+  VIS_CHART_TYPES.HorizontalBar,
+  VIS_CHART_TYPES.Line,
+  VIS_CHART_TYPES.Pie,
+  VIS_CHART_TYPES.HeatMap,
+  VIS_CHART_TYPES.Text,
+  VIS_CHART_TYPES.TreeMap,
+  VIS_CHART_TYPES.Gauge,
+  VIS_CHART_TYPES.Histogram,
+  VIS_CHART_TYPES.Scatter,
+  VIS_CHART_TYPES.LogsView,
+];
 
 //Live tail constants
 export const LIVE_OPTIONS = [
   {
-    label:'5s',
+    label: '5s',
     startTime: 'now-5s',
     delayTime: 5000,
   },
   {
-    label:'10s',
+    label: '10s',
     startTime: 'now-10s',
     delayTime: 10000,
   },
   {
-    label:'30s',
+    label: '30s',
     startTime: 'now-30s',
     delayTime: 30000,
   },
   {
-    label:'1m',
+    label: '1m',
     startTime: 'now-1m',
     delayTime: 60000,
   },
   {
-    label:'5m',
+    label: '5m',
     startTime: 'now-5m',
     delayTime: 60000 * 5,
   },
   {
-    label:'15m',
+    label: '15m',
     startTime: 'now-15m',
     delayTime: 60000 * 15,
   },
   {
-    label:'30m',
+    label: '30m',
     startTime: 'now-30m',
     delayTime: 60000 * 30,
   },
   {
-    label:'1h',
+    label: '1h',
     startTime: 'now-1h',
     delayTime: 60000 * 60,
   },
   {
-    label:'2h',
+    label: '2h',
     startTime: 'now-2h',
     delayTime: 60000 * 120,
   },
 ];
 
-export const LIVE_END_TIME ='now';
+export const LIVE_END_TIME = 'now';
 export interface DefaultChartStylesProps {
-  DefaultMode: string,
-  Interpolation: string,
-  LineWidth: number,
-  FillOpacity: number,
-  MarkerSize: number,
-  ShowLegend: string,
-  LegendPosition: string,
-  LabelAngle: number,
-  DefaultSortSectors: string,
-};
+  DefaultModeLine: string;
+  Interpolation: string;
+  LineWidth: number;
+  FillOpacity: number;
+  MarkerSize: number;
+  ShowLegend: string;
+  LegendPosition: string;
+  LabelAngle: number;
+  DefaultSortSectors: string;
+  DefaultModeScatter: string;
+}
 
-export const DefaultChartStyles: DefaultChartStylesProps = {
-  DefaultMode: 'lines',
+export const DEFAULT_CHART_STYLES: DefaultChartStylesProps = {
+  DefaultModeLine: 'lines',
   Interpolation: 'spline',
   LineWidth: 2,
   FillOpacity: 40,
@@ -171,7 +173,7 @@ export const DefaultChartStyles: DefaultChartStylesProps = {
   LegendPosition: 'v',
   LabelAngle: 0,
   DefaultSortSectors: 'largest_to_smallest',
-}
+  DefaultModeScatter: 'markers',
+};
 
-export const FILLOPACITY_DIV_FACTOR = 200; 
-
+export const FILLOPACITY_DIV_FACTOR = 200;

@@ -21,7 +21,7 @@ exports[`Field component Renders a sidebar field 1`] = `
     anchorPosition="rightUp"
     button={
       <FieldButton
-        className="dscSidebarItem"
+        className="shard__fieldSelectorField explorer__fieldSelectorField"
         dataTestSubj="field-agent-showDetails"
         fieldAction={
           <React.Fragment>
@@ -67,7 +67,7 @@ exports[`Field component Renders a sidebar field 1`] = `
         }
         isActive={false}
         onClick={[Function]}
-        size="s"
+        size="m"
       />
     }
     closePopover={[Function]}
@@ -85,7 +85,7 @@ exports[`Field component Renders a sidebar field 1`] = `
         className="euiPopover__anchor"
       >
         <FieldButton
-          className="dscSidebarItem"
+          className="shard__fieldSelectorField explorer__fieldSelectorField"
           dataTestSubj="field-agent-showDetails"
           fieldAction={
             <React.Fragment>
@@ -131,10 +131,10 @@ exports[`Field component Renders a sidebar field 1`] = `
           }
           isActive={false}
           onClick={[Function]}
-          size="s"
+          size="m"
         >
           <div
-            className="osdFieldButton osdFieldButton--small dscSidebarItem"
+            className="osdFieldButton shard__fieldSelectorField explorer__fieldSelectorField"
           >
             <button
               className="osd-resetFocusState osdFieldButton__button"
@@ -151,23 +151,23 @@ exports[`Field component Renders a sidebar field 1`] = `
                     aria-label="string"
                     className="osdFieldIcon"
                     iconType="tokenString"
-                    size="s"
+                    size="l"
                     title="string"
                   >
                     <span
-                      className="euiToken euiToken--euiColorVis1 euiToken--square euiToken--light euiToken--small osdFieldIcon"
+                      className="euiToken euiToken--euiColorVis1 euiToken--square euiToken--light euiToken--large osdFieldIcon"
                       style={Object {}}
                     >
                       <EuiIcon
                         aria-label="string"
-                        size="m"
+                        size="l"
                         title="string"
                         type="tokenString"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
                           aria-label="string"
-                          className="euiIcon euiIcon--medium euiIcon-isLoading"
+                          className="euiIcon euiIcon--large euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
@@ -176,7 +176,7 @@ exports[`Field component Renders a sidebar field 1`] = `
                           <svg
                             aria-hidden={true}
                             aria-label="string"
-                            className="euiIcon euiIcon--medium euiIcon-isLoading"
+                            className="euiIcon euiIcon--large euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"

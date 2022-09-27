@@ -5,7 +5,7 @@
 
 import { History } from 'history';
 import Plotly from 'plotly.js-dist';
-import { EuiBreadcrumb } from '@elastic/eui';
+import { QueryManager } from 'common/query_manager';
 import {
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -16,13 +16,21 @@ import {
   FINAL_QUERY,
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
+  GROUPBY,
+  AGGREGATIONS,
 } from '../constants/explorer';
-import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import {
+  CoreStart,
+  CoreSetup,
+  HttpSetup,
+  HttpStart,
+  NotificationsStart,
+} from '../../../../src/core/public';
 import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
 import DSLService from '../../public/services/requests/dsl';
-
+import { SavedObjectsStart } from '../../../../src/core/public/saved_objects';
 export interface IQueryTab {
   id: string;
   name: React.ReactNode | string;
@@ -33,6 +41,13 @@ export interface IField {
   name: string;
   type: string;
   label?: string;
+}
+
+export interface ExplorerFields {
+  availableFields: IField[];
+  queriedFields: IField[];
+  selectedFields: IField[];
+  unselectedFields: IField[];
 }
 
 export interface ITabQueryResults {
@@ -84,8 +99,7 @@ export interface ILogExplorerProps {
   ) => void;
   savedObjectId: string;
   getExistingEmptyTab: (params: EmptyTabParams) => string;
-  parentBreadcrumbs: EuiBreadcrumb[];
-  chrome: CoreStart['chrome'];
+  queryManager: QueryManager;
 }
 
 export interface IExplorerProps {
@@ -116,6 +130,7 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
+  queryManager: QueryManager;
 }
 
 export interface SavedQuery {
@@ -154,6 +169,31 @@ export interface SavedVizRes {
   tenant: string;
 }
 
+export interface ExplorerDataType {
+  jsonData: object[];
+  jsonDataAll: object[];
+}
+
+export interface Query {
+  finalQuery: string;
+  index: string;
+  isLoaded: boolean;
+  objectType: string;
+  rawQuery: string;
+  savedObjectId: string;
+  selectedDateRange: string[];
+  selectedTimestamp: string;
+  tabCreatedType: string;
+}
+
+export interface ExplorerData {
+  explorerData?: ExplorerDataType;
+  explorerFields?: IExplorerFields;
+  query?: Query;
+  http?: HttpSetup;
+  pplService?: PPLService;
+}
+
 export interface IVisualizationContainerPropsData {
   appData?: { fromApp: boolean };
   rawVizData?: any;
@@ -164,6 +204,7 @@ export interface IVisualizationContainerPropsData {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: ExplorerData;
 }
 
 export interface IVisualizationContainerPropsVis {
@@ -193,7 +234,7 @@ export interface IConfigPanelOptionSection {
   mapTo: string;
   props?: any;
   isSingleSelection?: boolean;
-  defaultState?: number;
+  defaultState?: boolean | string;
   eleType?: string;
 }
 
@@ -202,13 +243,13 @@ export interface IVisualizationTypeDefination {
   type: string;
   id: string;
   label: string;
-  fullLabel: string;
+  fulllabel: string;
   category: string;
   icon: React.ReactNode;
-  editorConfig: {
+  editorconfig: {
     panelTabs: IConfigPanelTab;
   };
-  visConfig: {
+  visconfig: {
     layout: Partial<Plotly.Layout>;
     config: Partial<Plotly.Config>;
   };
@@ -242,12 +283,48 @@ export interface ConfigListEntry {
   side: string;
   type: string;
 }
+
 export interface HistogramConfigList {
   bucketSize: string;
   bucketOffset: string;
 }
 
+export interface DimensionSpan {
+  time_field: IField;
+  interval: number;
+  unit: string;
+}
+
 export interface ConfigList {
-  dimensions?: ConfigListEntry[] | HistogramConfigList[];
-  metrics?: ConfigListEntry[];
+  [GROUPBY]?: ConfigListEntry[] | HistogramConfigList[];
+  [AGGREGATIONS]?: ConfigListEntry[];
+  breakdowns?: ConfigListEntry[] | HistogramConfigList[];
+  span?: DimensionSpan;
+}
+
+export interface Breadcrumbs {
+  text: string;
+  href: string;
+}
+
+export interface EventAnalyticsProps {
+  chrome: CoreSetup;
+  parentBreadcrumbs: Breadcrumbs[];
+  pplService: any;
+  dslService: any;
+  savedObjects: SavedObjectsStart;
+  timestampUtils: TimestampUtils;
+  http: HttpStart;
+  notifications: NotificationsStart;
+  queryManager: QueryManager;
+}
+
+export interface DataConfigPanelProps {
+  fieldOptionList: IField[];
+  visualizations: IVisualizationContainerProps;
+  queryManager?: QueryManager;
+}
+export interface GetTooltipHoverInfoType {
+  tooltipMode: string;
+  tooltipText: string;
 }

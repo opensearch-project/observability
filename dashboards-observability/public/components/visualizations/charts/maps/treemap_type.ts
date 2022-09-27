@@ -16,12 +16,13 @@ import {
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { DEFAULT_PALETTE, COLOR_PALETTES } from '../../../../../common/constants/colors';
 import { ButtonGroupItem } from '../../../../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_button_group';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-const { SortSectors } = DefaultChartStyles;
+const { SortSectors } = DEFAULT_CHART_STYLES;
 
 export interface BarTypeParams {}
 
@@ -29,26 +30,34 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
   name: 'tree_map',
   type: 'tree_map',
   id: 'tree_map',
-  label: 'Tree Map',
-  fullLabel: 'Tree Map',
+  label: 'Tree map',
+  fulllabel: 'Tree map',
   selection: {
     dataLoss: 'nothing',
   },
   category: VIS_CATEGORY.BASICS,
-  iconType: 'heatmap',
+  icontype: 'heatmap',
   icon: LensIconChartBar,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
   orientation: 'v',
   component: TreeMap,
-  editorConfig: {
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
+          fetchConfigObject('Tooltip', {
+            options: [
+              { name: 'All', id: 'all' },
+              { name: 'Label', id: 'label' },
+              { name: 'Value', id: 'value' },
+            ],
+            defaultSelections: [{ name: 'All', id: 'all' }],
+          }),
           {
             id: 'legend',
             name: 'Legend',
@@ -56,7 +65,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
             mapTo: 'legend',
             schemas: [
               {
-                name: 'Show Colorscale',
+                name: 'Show colorscale',
                 mapTo: 'showLegend',
                 component: null,
                 props: {
@@ -76,7 +85,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
             mapTo: 'treemapOptions',
             schemas: [
               {
-                name: 'Tiling Algorithm',
+                name: 'Tiling algorithm',
                 isSingleSelection: true,
                 component: null,
                 mapTo: 'tilingAlgorithm',
@@ -110,12 +119,12 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
           },
           {
             id: 'chart_styles',
-            name: 'Chart Styles',
+            name: 'Chart styles',
             editor: ConfigChartOptions,
             mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Color Theme',
+                name: 'Color theme',
                 isSingleSelection: true,
                 component: ColorPalettePicker,
                 mapTo: 'colorTheme',
@@ -136,7 +145,7 @@ export const createTreeMapDefinition = (params: BarTypeParams = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

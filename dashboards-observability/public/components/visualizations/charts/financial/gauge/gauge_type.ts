@@ -15,30 +15,30 @@ import {
   ConfigChartOptions,
   ButtonGroupItem,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DefaultGaugeChartParameters } from '../../../../../../common/constants/explorer';
+import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
-const { ThresholdsMaxLimit } = DefaultGaugeChartParameters;
+const { ThresholdsMaxLimit } = DEFAULT_GAUGE_CHART_PARAMETERS;
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
   name: 'Gauge',
   type: 'indicator',
   id: 'gauge',
   label: 'Gauge',
-  fullLabel: 'Gauge',
-  iconType: 'visGauge',
+  fulllabel: 'Gauge',
+  icontype: 'visGauge',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  valueSeries: 'yaxis',
-  editorConfig: {
+  valueseries: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
@@ -63,7 +63,7 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                name: 'Legend Placement',
+                name: 'Legend placement',
                 component: ButtonGroupItem,
                 mapTo: 'legendPlacement',
                 eleType: 'buttons',
@@ -77,15 +77,15 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
                 },
               },
               {
-                title: 'Title Size',
-                name: 'Title Size',
+                title: 'Title size',
+                name: 'Title size',
                 component: InputFieldItem,
                 mapTo: 'titleSize',
                 eleType: 'input',
               },
               {
-                title: 'Value Size',
-                name: 'Value Size',
+                title: 'Value size',
+                name: 'Value size',
                 component: InputFieldItem,
                 mapTo: 'valueSize',
                 eleType: 'input',
@@ -130,7 +130,7 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

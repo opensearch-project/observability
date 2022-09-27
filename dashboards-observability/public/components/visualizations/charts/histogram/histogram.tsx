@@ -3,24 +3,35 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { take, isEmpty, last } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import {
-  DefaultChartStyles,
+  DEFAULT_CHART_STYLES,
   PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
+  VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
-  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DefaultChartStyles;
+  const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
   const {
-    data = {},
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations?.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
+  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
   const lastIndex = fields.length - 1;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend =
@@ -28,16 +39,22 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
   const legendPosition = dataConfig?.legend?.position || LegendPosition;
   const fillOpacity =
     (dataConfig?.chartStyles?.fillOpacity || FillOpacity) / FILLOPACITY_DIV_FACTOR;
-
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
   const valueSeries = defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
 
   const xbins: any = {};
-  if (visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketSize) {
-    xbins.size = visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketSize;
+  if (dataConfig[GROUPBY] && dataConfig[GROUPBY][0].bucketSize) {
+    xbins.size = dataConfig[GROUPBY][0].bucketSize;
   }
-  if (visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketOffset) {
-    xbins.start =
-      visualizations.data?.rawVizData?.histogram?.dataConfig?.dimensions[0].bucketOffset;
+  if (dataConfig[GROUPBY] && dataConfig[GROUPBY][0].bucketOffset) {
+    xbins.start = dataConfig[GROUPBY][0].bucketOffset;
   }
 
   const selectedColorTheme = (field: any, index: number, opacity?: number) => {
@@ -50,21 +67,24 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
   };
 
-  const hisValues = valueSeries.map((field: any, index: number) => {
-    return {
-      x: data[field.name],
-      type: 'histogram',
-      name: field.name,
-      marker: {
-        color: selectedColorTheme(field, index, fillOpacity),
-        line: {
-          color: selectedColorTheme(field, index),
-          width: lineWidth,
+  const hisValues = useMemo(
+    () =>
+      valueSeries.map((field: any, index: number) => ({
+        x: queriedVizData[field.name],
+        type: VIS_CHART_TYPES.Histogram,
+        name: field.name,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
+        marker: {
+          color: selectedColorTheme(field, index, fillOpacity),
+          line: {
+            color: selectedColorTheme(field, index),
+            width: lineWidth,
+          },
         },
-      },
-      xbins: !isEmpty(xbins) ? xbins : undefined,
-    };
-  });
+        xbins: !isEmpty(xbins) ? xbins : undefined,
+      })),
+    [valueSeries, queriedVizData, fillOpacity, lineWidth, xbins, selectedColorTheme]
+  );
 
   const mergedLayout = {
     ...layout,
@@ -78,10 +98,13 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     showlegend: showLegend,
   };
 
-  const mergedConfigs = {
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  };
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={hisValues} layout={mergedLayout} config={mergedConfigs} />;
 };

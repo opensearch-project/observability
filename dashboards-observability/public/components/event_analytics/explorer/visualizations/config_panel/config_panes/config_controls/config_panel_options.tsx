@@ -5,8 +5,8 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { EuiFieldText, EuiForm, EuiFormRow, EuiTextArea, EuiAccordion } from '@elastic/eui';
-import { visChartTypes } from '../../../../../../../../common/constants/shared';
-import { DefaultGaugeChartParameters } from '../../../../../../../../common/constants/explorer';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
+import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../../../common/constants/explorer';
 import { ConfigPanelOptionGauge } from './config_panel_option_gauge';
 
 const helpText = 'Name your visualization.';
@@ -24,9 +24,9 @@ export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizStat
     setPanelOptionsValues({
       title: vizState?.title || '',
       description: vizState?.description || '',
-      ...(visualizations?.vis?.name?.toLowerCase() === visChartTypes.Gauge && {
+      ...(visualizations?.vis?.name?.toLowerCase() === VIS_CHART_TYPES.Gauge && {
         numberOfGauges:
-          vizState?.numberOfGauges || DefaultGaugeChartParameters.DisplayDefaultGauges,
+          vizState?.numberOfGauges || DEFAULT_GAUGE_CHART_PARAMETERS.DisplayDefaultGauges,
       }),
     });
   }, [name, vizState?.title, vizState?.description, vizState?.numberOfGauges]);
@@ -62,7 +62,7 @@ export const ConfigPanelOptions = ({ visualizations, handleConfigChange, vizStat
             onBlur={() => handleConfigChange(panelOptionsValues)}
           />
         </EuiFormRow>
-        {visualizations?.vis?.name?.toLowerCase() === visChartTypes.Gauge && (
+        {visualizations?.vis?.name?.toLowerCase() === VIS_CHART_TYPES.Gauge && (
           <ConfigPanelOptionGauge
             onChange={handleTextChange}
             handleConfigChange={handleConfigChange}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer, EuiForm } from '@elastic/eui';
 import { PanelItem } from './config_panel_item';
 import { SPECTRUM, OPACITY } from '../../../../../../../../common/constants/colors';
@@ -15,7 +15,7 @@ export const ConfigChartOptions = ({
   handleConfigChange,
 }: any) => {
   const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
+  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
 
   const handleConfigurationChange = useCallback(
@@ -76,8 +76,8 @@ export const ConfigChartOptions = ({
             selectedColor: vizState[schema.mapTo] || schema?.defaultState,
             colorPalettes: schema.options || [],
             numberOfParents:
-              (tree_map?.dataConfig?.dimensions !== undefined &&
-                tree_map?.dataConfig.dimensions[0].parentFields.length) | 0,
+              (dataConfig?.valueOptions?.dimensions !== undefined &&
+                dataConfig.valueOptions.dimensions[0].parentFields.length) | 0,
             onSelectChange: handleConfigurationChange(schema.mapTo),
           };
         } else if (schema.eleType === 'input') {
@@ -126,13 +126,14 @@ export const ConfigChartOptions = ({
             selectedAxis: vizState[schema.mapTo] || schema.defaultState,
           };
         }
+
         return (
-          <>
+          <Fragment key={`viz-series-${index}`}>
             <EuiForm component="form">
-              <DimensionComponent key={`viz-series-${index}`} {...params} />
+              <DimensionComponent  {...params} />
               <EuiSpacer size="s" />
             </EuiForm>
-          </>
+          </Fragment>
         );
       })
     );
@@ -142,7 +143,7 @@ export const ConfigChartOptions = ({
     <EuiAccordion
       initialIsOpen
       id="configPanel__chartStyles"
-      buttonContent="Chart Styles"
+      buttonContent="Chart styles"
       paddingSize="s"
     >
       {dimensions}

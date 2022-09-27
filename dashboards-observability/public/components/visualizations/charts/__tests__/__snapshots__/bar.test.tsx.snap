@@ -199,21 +199,99 @@ exports[`Bar component Renders bar component 1`] = `
             "status": 200,
           },
         },
-        "userConfigs": Object {},
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "valueOptions": Object {
+              "dimensions": Array [
+                Object {
+                  "label": "tags",
+                  "name": "tags",
+                  "type": "text",
+                },
+              ],
+              "metrics": Array [
+                Object {
+                  "label": "count()",
+                  "name": "count()",
+                  "side": "left",
+                  "type": "integer",
+                },
+              ],
+            },
+          },
+        },
       },
       "vis": Object {
-        "barWidth": 0.97,
+        "barwidth": 0.97,
         "category": "Visualizations",
-        "categoryAxis": "xaxis",
+        "categoryaxis": "xaxis",
         "component": [Function],
-        "editorConfig": Object {
+        "editorconfig": Object {
           "panelTabs": Array [
             Object {
               "editor": [Function],
               "id": "data-panel",
               "mapTo": "dataConfig",
-              "name": "Data",
+              "name": "Style",
               "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Metrics",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
                 Object {
                   "editor": [Function],
                   "id": "legend",
@@ -223,7 +301,7 @@ exports[`Bar component Renders bar component 1`] = `
                     Object {
                       "component": null,
                       "mapTo": "showLegend",
-                      "name": "Show Legend",
+                      "name": "Show legend",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
@@ -326,7 +404,7 @@ exports[`Bar component Renders bar component 1`] = `
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "labelSize",
-                      "name": "Label Size",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
@@ -399,7 +477,7 @@ exports[`Bar component Renders bar component 1`] = `
                       "defaultState": 80,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
-                      "name": "Fill Opacity",
+                      "name": "Fill opacity",
                       "props": Object {
                         "max": 100,
                       },
@@ -410,7 +488,7 @@ exports[`Bar component Renders bar component 1`] = `
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
-                  "name": "Color Theme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
@@ -431,25 +509,25 @@ exports[`Bar component Renders bar component 1`] = `
           ],
         },
         "fillOpacity": 80,
-        "fullLabel": "Bar",
-        "groupWidth": 0.7,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
         "icon": [Function],
-        "iconType": "visBarVerticalStacked",
+        "icontype": "visBarVerticalStacked",
         "id": "bar",
-        "label": "Bar",
-        "labelAngle": 0,
-        "legendPosition": "v",
-        "lineWidth": 1,
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 1,
         "mode": "group",
         "name": "bar",
         "orientation": "v",
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "seriesAxis": "yaxis",
-        "showLegend": "show",
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
         "type": "bar",
-        "visConfig": Object {
+        "visconfig": Object {
           "config": Object {
             "displaylogo": false,
             "responsive": true,
