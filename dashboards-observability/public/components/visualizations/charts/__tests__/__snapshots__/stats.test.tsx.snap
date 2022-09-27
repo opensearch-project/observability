@@ -285,7 +285,7 @@ exports[`Stats component Renders stats component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },
@@ -357,19 +357,19 @@ exports[`Stats component Renders stats component 1`] = `
                     Object {
                       "component": [Function],
                       "eleType": "textInput",
-                      "mapTo": "metricUnits",
-                      "name": "Metric units",
-                      "title": "Metrics units",
+                      "mapTo": "seriesUnits",
+                      "name": "Series units",
+                      "title": "Series units",
                     },
                     Object {
                       "component": [Function],
                       "eleType": "input",
                       "mapTo": "precisionValue",
-                      "name": "Metrics precision",
+                      "name": "Series precision",
                       "props": Object {
                         "minLimit": 0,
                       },
-                      "title": "Metrics precision",
+                      "title": "Series precision",
                     },
                     Object {
                       "component": [Function],
@@ -460,9 +460,6 @@ exports[`Stats component Renders stats component 1`] = `
         "name": "stats",
         "orientation": "auto",
         "precisionvalue": 1,
-        "selection": Object {
-          "dataLoss": "nothing",
-        },
         "seriesaxis": "yaxis",
         "textmode": "auto",
         "titlesize": 30,
