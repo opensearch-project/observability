@@ -6,7 +6,11 @@ import React from 'react';
 import { EuiButtonIcon, EuiPanel, EuiSpacer, EuiText, EuiTitle } from '@elastic/eui';
 import { ConfigListEntry } from '../../../../../../../../common/types/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
-import { AGGREGATIONS, GROUPBY } from '../../../../../../../../common/constants/explorer';
+import {
+  AGGREGATIONS,
+  CUSTOM_LABEL,
+  GROUPBY,
+} from '../../../../../../../../common/constants/explorer';
 
 export const DataConfigPanelFields = ({
   list,
@@ -41,7 +45,7 @@ export const DataConfigPanelFields = ({
                 onClick={() => handleServiceEdit(false, index, sectionName)}
               >
                 <a role="button" tabIndex={0}>
-                  {obj?.alias ||
+                  {obj[CUSTOM_LABEL] ||
                     `${sectionName === AGGREGATIONS ? obj.aggregation : ''} ${obj.label}`}
                 </a>
               </EuiText>

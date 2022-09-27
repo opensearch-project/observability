@@ -2,7 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 import { AggregationConfigurations, PreviouslyParsedStaleStats } from '../ast/types';
 import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 

@@ -2,7 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { CUSTOM_LABEL } from '../../../../common/constants/explorer';
 import { PPLNode } from '../node';
 import { CUSTOM_LABEL } from '../../../../common/constants/explorer';
 export class AggregateTerm extends PPLNode {

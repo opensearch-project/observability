@@ -3,17 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
-import { uniq, has, isEmpty, indexOf } from 'lodash';
-import Plotly from 'plotly.js-dist';
 import { colorPalette } from '@elastic/eui';
-import { Plt } from '../../plotly/plot';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { has, isEmpty, uniq } from 'lodash';
+import Plotly from 'plotly.js-dist';
 import {
   HEATMAP_PALETTE_COLOR,
-  SINGLE_COLOR_PALETTE,
-  OPACITY,
   HEATMAP_SINGLE_COLOR,
+  OPACITY,
+  SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
 import {
   hexToRgb,

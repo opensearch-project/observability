@@ -18,6 +18,7 @@ import {
   SELECTED_DATE_RANGE,
   GROUPBY,
   AGGREGATIONS,
+  CUSTOM_LABEL,
 } from '../constants/explorer';
 import {
   CoreStart,
@@ -278,7 +279,7 @@ export interface LiveTailProps {
 export interface ConfigListEntry {
   label: string;
   aggregation: string;
-  alias: string;
+  [CUSTOM_LABEL]: string;
   name: string;
   side: string;
   type: string;

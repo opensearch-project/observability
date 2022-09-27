@@ -15,6 +15,7 @@ import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { QueryManager } from '../../../../../common/query_manager';
 import {
   AGGREGATIONS,
+  CUSTOM_LABEL,
   GROUPBY,
   PARENTFIELDS,
   TIME_INTERVAL_OPTIONS,
