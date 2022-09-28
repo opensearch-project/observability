@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import './data_configurations_panel.scss';
+
 import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { some } from 'lodash';
 import {
@@ -51,18 +53,10 @@ const initialSeriesEntry = {
 export const DataConfigPanelItem = ({
   fieldOptionList,
   visualizations,
-  qm,
+  queryManager,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const {
-    tabId,
-    handleQuerySearch,
-    handleQueryChange,
-    setTempQuery,
-    fetchData,
-    changeVisualizationConfig,
-    curVisId,
-  } = useContext<any>(TabContext);
+  const { tabId, handleQueryChange, fetchData, curVisId } = useContext<any>(TabContext);
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
@@ -76,6 +70,43 @@ export const DataConfigPanelItem = ({
       setConfigList({
         ...userConfigs.dataConfig,
       });
+    } else if (some(SPECIAL_RENDERING_VIZS, (visType) => visType === visualizations.vis.name)) {
+      // any vis that doesn't conform normal metrics/dimensions data confiurations
+      setConfigList({
+        ...DEFAULT_DATA_CONFIGS[visualizations.vis.name],
+      });
+    } else {
+      // default
+      const statsTokens = queryManager.queryParser().parse(data.query.rawQuery).getStats();
+      if (!statsTokens) {
+        setConfigList({
+          metrics: [],
+          dimensions: [],
+        });
+      } else {
+        const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
+        setConfigList({
+          metrics: statsTokens.aggregations.map((agg) => ({
+            alias: agg.alias,
+            label: agg.function?.value_expression,
+            name: agg.function?.value_expression,
+            aggregation: agg.function?.name,
+          })),
+          dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
+            label: agg.name ?? '',
+            name: agg.name ?? '',
+          })),
+          span: {
+            time_field: statsTokens.groupby?.span?.span_expression?.field
+              ? [getStandardedOuiField(fieldInfo, 'timestamp')]
+              : [],
+            interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
+            unit: statsTokens.groupby?.span?.span_expression?.time_unit
+              ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
+              : [],
+          },
+        });
+      }
     }
   }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
@@ -147,8 +178,8 @@ export const DataConfigPanelItem = ({
         })
       );
     } else {
-      const statsTokens = qm.queryParser().parse(data.query.rawQuery).getStats();
-      const newQuery = qm
+      const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
+      const newQuery = queryManager!
         .queryBuilder()
         .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 
@@ -475,7 +506,7 @@ export const DataConfigPanelItem = ({
   return (
     <>
       <EuiTitle size="xxs">
-        <h3>Data Configurations</h3>
+        <h3>Configuration</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
       {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (

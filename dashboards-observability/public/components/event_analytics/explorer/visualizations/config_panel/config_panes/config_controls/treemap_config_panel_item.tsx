@@ -20,15 +20,17 @@ import {
   GROUPBY,
   NUMERICAL_TYPES,
 } from '../../../../../../../../common/constants/explorer';
+import { DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 
 export const TreemapConfigPanelItem = ({
   fieldOptionList,
   visualizations,
-  qm,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const { tabId, curVisId, changeVisualizationConfig } = useContext<any>(TabContext);
+  const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<
+    any
+  >(TabContext);
 
   const { data } = visualizations;
   const { userConfigs } = data;
@@ -175,7 +177,7 @@ export const TreemapConfigPanelItem = ({
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
-          onClick={updateChart}
+          onClick={() => updateChart()}
           size="s"
         >
           Update chart

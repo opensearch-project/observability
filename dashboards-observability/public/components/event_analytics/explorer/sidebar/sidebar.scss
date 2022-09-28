@@ -37,23 +37,9 @@
   background-color: lightOrDarkTheme(tint($euiColorPrimary, 90%), $euiColorLightShade);
 }
 
-.dscFieldChooser {
-  padding-left: $euiSize;
-}
-
 .dscFieldChooser__toggle {
   color: $euiColorMediumShade;
   margin-left: $euiSizeS !important;
-}
-
-.dscSidebarItem {
-  &:hover,
-  &:focus-within,
-  &[class*='-isActive'] {
-    .dscSidebarItem__action {
-      opacity: 1;
-    }
-  }
 }
 
 /**
@@ -109,4 +95,42 @@
 
 .override_timestamp_loading {
   vertical-align: middle;
+}
+
+.explorerFieldSelector {
+  padding: $euiSizeS;
+}
+
+#vis__mainContent {
+  .explorer__insights {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100%;
+    .explorerFieldSelector, .explorer__vizDataConfig {
+      padding: $euiSizeS;
+  
+      &__fieldGroups {
+        @include euiYScrollWithShadows;
+  
+        overflow-y: auto;
+        margin-right: -$euiSizeS;
+        padding-right: $euiSizeS;
+        margin-top: $euiSizeS;
+      }
+  
+      &__fieldGroup {
+        margin-top: $euiSizeS;
+  
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+    .explorerFieldSelector {
+      .sidebar-list {
+        height: 100%;
+      }
+    }
+  }
 }

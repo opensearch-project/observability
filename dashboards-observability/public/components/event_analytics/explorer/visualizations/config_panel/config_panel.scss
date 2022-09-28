@@ -132,12 +132,36 @@ $vis-editor-sidebar-min-width: 350px;
   height: 250px !important;
 }
 
-.configPane_options {
-  height: 1198px;
-  overflow: auto;
+.cp__rightContainer {
+  display: grid;
+  
+  .cp__rightHeader, .cp__rightSettings {
+    padding: 8px;
+    background-color: #FFF;
+  }
+
+  .cp__rightHeader {
+    border-bottom: 1px solid #D3DAE6;
+    .euiBadge {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+    }
+  }
+
+  .cp__rightSettings {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 .info-icon {
   margin-left: 7px;
   margin-top: 5px;
 }
+
+#vis__mainContent .vis__leftPanel {
+  overflow-y: unset; // unset default setting
+}
+

@@ -25,7 +25,7 @@ interface ObservabilityAppDeps {
   dslService: any;
   savedObjects: any;
   timestampUtils: any;
-  qm: QueryManager;
+  queryManager: QueryManager;
 }
 
 // for cypress to test redux store
@@ -40,7 +40,7 @@ export const App = ({
   dslService,
   savedObjects,
   timestampUtils,
-  qm,
+  queryManager,
 }: ObservabilityAppDeps) => {
   const { chrome, http, notifications } = CoreStartProp;
   const parentBreadcrumb = {
@@ -133,7 +133,7 @@ export const App = ({
                       timestampUtils={timestampUtils}
                       http={http}
                       notifications={notifications}
-                      qm={qm}
+                      queryManager={queryManager}
                       {...props}
                     />
                   );
