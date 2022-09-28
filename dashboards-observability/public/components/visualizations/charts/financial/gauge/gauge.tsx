@@ -29,9 +29,6 @@ const {
 export const Gauge = ({ visualizations, layout, config }: any) => {
   const {
     data: {
-      defaultAxes,
-      indexFields,
-      query,
       rawVizData: {
         data: queriedVizData,
         metadata: { fields },

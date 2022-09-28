@@ -5,7 +5,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { EuiFormRow, EuiFieldNumber } from '@elastic/eui';
-import { DEFAULT_GAUGE_CHART_PARAMETERS, GROUPBY } from '../../../../../../../../common/constants/explorer';
+import { find } from 'lodash';
+import {
+  DEFAULT_GAUGE_CHART_PARAMETERS,
+  GROUPBY,
+} from '../../../../../../../../common/constants/explorer';
+import { IVisualizationContainerProps } from '../../../../../../../../common/types/explorer';
 
 const helpText = `Limit number of gauges.`;
 
@@ -15,14 +20,26 @@ export const ConfigPanelOptionGauge = ({
   panelOptionsValues,
   handleConfigChange,
 }: any) => {
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
-  const dimensions = dataConfig?.dimensions
-    ? dataConfig.dimensions.filter((i) => i.name !== '')
-    : [];
+  const {
+    data: {
+      rawVizData: {
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+  }: IVisualizationContainerProps = visualizations;
 
+  const { dataConfig = {} } = userConfigs;
+  let dimensions = dataConfig[GROUPBY] ?? [];
   const [numberOfGauges, setNumberOfGauges] = useState<number>(
     DEFAULT_GAUGE_CHART_PARAMETERS.DisplayDefaultGauges
   );
+
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
+
+  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+    dimensions = [timestampField, ...dimensions];
+  }
 
   useEffect(() => {
     if (!vizState) {
@@ -42,7 +59,7 @@ export const ConfigPanelOptionGauge = ({
         onBlur={() => {
           const newPanelOptions = {
             ...panelOptionsValues,
-            numberOfGauges: numberOfGauges,
+            numberOfGauges,
           };
           handleConfigChange(newPanelOptions);
         }}
