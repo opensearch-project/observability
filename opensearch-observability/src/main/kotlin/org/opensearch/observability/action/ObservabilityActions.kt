@@ -9,6 +9,7 @@ import org.opensearch.OpenSearchStatusException
 import org.opensearch.commons.authuser.User
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.index.ObservabilityIndex
+import org.opensearch.observability.model.ObservabilityObjectActionType
 import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.model.ObservabilityObjectSearchResult
 import org.opensearch.observability.security.UserAccessManager
@@ -30,6 +31,12 @@ internal object ObservabilityActions {
     fun create(request: CreateObservabilityObjectRequest, user: User?): CreateObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-create")
         UserAccessManager.validateUser(user)
+        if (!UserAccessManager.doesUserHasAccessToCreate(user)) {
+            throw OpenSearchStatusException(
+                "Permission denied for ObservabilityObject creation",
+                RestStatus.FORBIDDEN
+            )
+        }
         val currentTime = Instant.now()
         val objectDoc = ObservabilityObjectDoc(
             "ignore",
@@ -63,7 +70,7 @@ internal object ObservabilityActions {
                 RestStatus.NOT_FOUND
             )
         val currentDoc = observabilityObject.observabilityObjectDoc
-        if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access)) {
+        if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access, ObservabilityObjectActionType.UPDATE)) {
             throw OpenSearchStatusException(
                 "Permission denied for ObservabilityObject ${request.objectId}",
                 RestStatus.FORBIDDEN
@@ -117,7 +124,7 @@ internal object ObservabilityActions {
                 throw OpenSearchStatusException("ObservabilityObject $objectId not found", RestStatus.NOT_FOUND)
             }
         val currentDoc = observabilityObjectDocInfo.observabilityObjectDoc
-        if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access)) {
+        if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access, ObservabilityObjectActionType.READ)) {
             throw OpenSearchStatusException("Permission denied for ObservabilityObject $objectId", RestStatus.FORBIDDEN)
         }
         val docInfo = ObservabilityObjectDoc(
@@ -154,7 +161,7 @@ internal object ObservabilityActions {
         }
         objectDocs.forEach {
             val currentDoc = it.observabilityObjectDoc
-            if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access)) {
+            if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access, ObservabilityObjectActionType.READ)) {
                 throw OpenSearchStatusException(
                     "Permission denied for ObservabilityObject ${it.id}",
                     RestStatus.FORBIDDEN
@@ -229,7 +236,7 @@ internal object ObservabilityActions {
             }
 
         val currentDoc = observabilityObjectDocInfo.observabilityObjectDoc
-        if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access)) {
+        if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access, ObservabilityObjectActionType.DELETE)) {
             throw OpenSearchStatusException(
                 "Permission denied for ObservabilityObject $objectId",
                 RestStatus.FORBIDDEN
@@ -264,7 +271,7 @@ internal object ObservabilityActions {
         }
         configDocs.forEach {
             val currentDoc = it.observabilityObjectDoc
-            if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access)) {
+            if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access, ObservabilityObjectActionType.DELETE)) {
                 throw OpenSearchStatusException(
                     "Permission denied for ObservabilityObject ${it.id}",
                     RestStatus.FORBIDDEN

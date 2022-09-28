@@ -7,6 +7,7 @@ package org.opensearch.observability.security
 
 import org.opensearch.OpenSearchStatusException
 import org.opensearch.commons.authuser.User
+import org.opensearch.observability.model.ObservabilityObjectActionType
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.settings.PluginSettings.FilterBy
 import org.opensearch.rest.RestStatus
@@ -15,6 +16,7 @@ import java.util.stream.Collectors
 /**
  * Class for checking/filtering user access.
  */
+@Suppress("TooManyFunctions")
 internal object UserAccessManager {
     private const val USER_TAG = "User:"
     private const val ROLE_TAG = "Role:"
@@ -23,6 +25,9 @@ internal object UserAccessManager {
     private const val OPENSEARCH_DASHBOARDS_SERVER_USER = "opensearchdashboardsserver" // TODO: Change it to background user when created.
     private const val PRIVATE_TENANT = "__user__"
     const val DEFAULT_TENANT = ""
+    private const val WRITE_ACCESS = "WRITE"
+    private const val NO_ACCESS = "NONE"
+    private const val DEFAULT_TENANT_ACCESS = NO_ACCESS
 
     /**
      * Validate User if eligible to do operation
@@ -72,17 +77,6 @@ internal object UserAccessManager {
                         RestStatus.FORBIDDEN
                     )
                 }
-            }
-        }
-    }
-
-    /**
-     * validate if user has access to polling actions
-     */
-    fun validatePollingUser(user: User?) {
-        if (user != null) { // Check only if security is enabled
-            if (user.name != OPENSEARCH_DASHBOARDS_SERVER_USER) {
-                throw OpenSearchStatusException("Permission denied", RestStatus.FORBIDDEN)
             }
         }
     }
@@ -140,7 +134,7 @@ internal object UserAccessManager {
     /**
      * validate if user has access based on given access list
      */
-    fun doesUserHasAccess(user: User?, tenant: String, access: List<String>): Boolean {
+    fun doesUserHasAccess(user: User?, tenant: String, access: List<String>, actionType: ObservabilityObjectActionType): Boolean {
         if (user == null) { // Security is disabled
             return true
         }
@@ -150,6 +144,16 @@ internal object UserAccessManager {
         if (canAdminViewAllItems(user)) {
             return true
         }
+        if ((actionType == ObservabilityObjectActionType.UPDATE || actionType == ObservabilityObjectActionType.DELETE) &&
+            getUserTenantAccess(user) != WRITE_ACCESS
+        ) {
+            return false
+        }
+
+        if ((actionType == ObservabilityObjectActionType.READ) && getUserTenantAccess(user) == NO_ACCESS) {
+            return false
+        }
+
         return when (PluginSettings.filterBy) {
             FilterBy.NoFilter -> true
             FilterBy.User -> access.contains("$USER_TAG${user.name}")
@@ -159,6 +163,22 @@ internal object UserAccessManager {
                 .anyMatch { it in access }
             FilterBy.BackendRoles -> user.backendRoles.map { "$BACKEND_ROLE_TAG$it" }.any { it in access }
         }
+    }
+
+    /**
+     * validate if user has access to create
+     */
+    fun doesUserHasAccessToCreate(user: User?): Boolean {
+        if (user == null) { // Security is disabled
+            return true
+        }
+        if (canAdminViewAllItems(user)) {
+            return true
+        }
+        if (getUserTenantAccess(user) != WRITE_ACCESS) {
+            return false
+        }
+        return true
     }
 
     /**
@@ -181,5 +201,12 @@ internal object UserAccessManager {
 
     private fun isUserPrivateTenant(user: User?): Boolean {
         return getUserTenant(user) == PRIVATE_TENANT
+    }
+
+    private fun getUserTenantAccess(user: User?): String {
+        return when (val requestedTenantAccess = user?.requestedTenantAccess) {
+            null -> DEFAULT_TENANT_ACCESS
+            else -> requestedTenantAccess
+        }
     }
 }
