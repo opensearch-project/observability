@@ -240,7 +240,6 @@ export function PatternsTab(props: PatternsTabProps) {
   };
 
   const onRename = (newName: string) => {
-    console.log(newName);
     closeEditFlyout();
   };
 
