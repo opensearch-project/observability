@@ -15,7 +15,11 @@ import {
   OPACITY,
   HEATMAP_SINGLE_COLOR,
 } from '../../../../../common/constants/colors';
-import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
+import {
+  hexToRgb,
+  lightenColor,
+  getPropName,
+} from '../../../../components/event_analytics/utils/utils';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
@@ -47,7 +51,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(zMetrics) ||
     isEmpty(queriedVizData[xaxisField.label]) ||
     isEmpty(queriedVizData[yaxisField.label]) ||
-    isEmpty(queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`]) ||
+    isEmpty(queriedVizData[getPropName(zMetrics)]) ||
     dataConfig[GROUPBY].length > 2 ||
     dataConfig[AGGREGATIONS].length > 1
   )
@@ -91,7 +95,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     // maps bukcets to metrics
     for (let i = 0; i < queriedVizData[xaxisField.label].length; i++) {
       buckets[`${queriedVizData[xaxisField.label][i]},${queriedVizData[yaxisField.label][i]}`] =
-        queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`][i];
+        queriedVizData[getPropName(zMetrics)][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis

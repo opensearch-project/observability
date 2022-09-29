@@ -166,7 +166,7 @@ export const COLOR_PALETTES = [
     type: 'gradient',
   },
 ];
-export const HEX_CONTRAST_COLOR = 0xFFFFFF;
+export const HEX_CONTRAST_COLOR = 0xffffff;
 export const PIE_PALETTES = [
   {
     value: DEFAULT_PALETTE,
@@ -177,10 +177,12 @@ export const PIE_PALETTES = [
     value: SINGLE_COLOR_PALETTE,
     title: 'Single Color',
     type: 'text',
-  }
+  },
 ];
 
 export const HEATMAP_PALETTE_COLOR = { name: REDS_PALETTE.label, color: REDS_PALETTE.label };
 export const HEATMAP_SINGLE_COLOR = { name: 'singleColor', color: '#000000' };
 export const OPACITY = 'opacity';
 export const SPECTRUM = 'spectrum';
+export const COLOR_BLACK = 'rgb(0,0,0)';
+export const COLOR_WHITE = 'rgb(255,255,255)';

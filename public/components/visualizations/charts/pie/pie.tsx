@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import { isEmpty, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import { getTooltipHoverInfo, getPropName } from '../../../event_analytics/utils/utils';
 import {
   ConfigListEntry,
   IVisualizationContainerProps,
@@ -87,7 +87,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const pies = useMemo(
     () =>
       series.map((field: any, index: number) => {
-        const fieldName = field.alias ? field.alias : `${field.aggregation}(${field.name})`;
+        const fieldName = getPropName(field);
         const marker =
           colorTheme.name !== DEFAULT_PALETTE
             ? {

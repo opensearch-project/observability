@@ -6,6 +6,7 @@
 import { LONG_CHART_COLOR } from '../common/constants/shared';
 import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
 import { createGaugeTypeDefinition } from '../public/components/visualizations/charts/financial/gauge/gauge_type';
+import { createStatsTypeDefinition } from '../public/components/visualizations/charts/stats/stats_type';
 import {
   SELECTED_FIELDS,
   AVAILABLE_FIELDS as AVAILABLE_FIELDS_NAME,
@@ -551,4 +552,9 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
 export const GAUGE_TEST_VISUALIZATIONS_DATA = {
   ...TEST_VISUALIZATIONS_DATA,
   vis: createGaugeTypeDefinition(),
+};
+
+export const STATS_TEST_VISUALIZATIONS_DATA = {
+  ...TEST_VISUALIZATIONS_DATA,
+  vis: createStatsTypeDefinition({}),
 };

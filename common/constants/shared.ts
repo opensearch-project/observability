@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import CSS from 'csstype';
+import { IField } from '../../common/types/explorer';
 
 // Client route
 export const PPL_BASE = '/api/ppl';
@@ -82,6 +83,7 @@ export enum VIS_CHART_TYPES {
   TreeMap = 'tree_map',
   Scatter = 'scatter',
   LogsView = 'logs_view',
+  Stats = 'stats',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
@@ -98,9 +100,10 @@ export const ENABLED_VIS_TYPES = [
   VIS_CHART_TYPES.Histogram,
   VIS_CHART_TYPES.Scatter,
   VIS_CHART_TYPES.LogsView,
+  VIS_CHART_TYPES.Stats,
 ];
 
-//Live tail constants
+// Live tail constants
 export const LIVE_OPTIONS = [
   {
     label: '5s',
