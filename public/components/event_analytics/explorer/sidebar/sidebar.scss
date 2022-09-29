@@ -109,6 +109,7 @@
     height: 100%;
     .explorerFieldSelector, .explorer__vizDataConfig {
       padding: $euiSizeS;
+      overflow: auto;
   
       &__fieldGroups {
         @include euiYScrollWithShadows;
@@ -128,6 +129,7 @@
       }
     }
     .explorerFieldSelector {
+      @include euiYScrollWithShadows;
       .sidebar-list {
         height: 100%;
       }
