@@ -8,9 +8,9 @@ import { PPLNode } from '../node';
 export class Span extends PPLNode {
   constructor(
     name: string,
-    children: Array<PPLNode>,
+    children: PPLNode[],
     private spanExpression: PPLNode,
-    private alias: string
+    private customLabel: string
   ) {
     super(name, children);
   }
@@ -18,11 +18,11 @@ export class Span extends PPLNode {
   getTokens() {
     return {
       span_expression: this.spanExpression.getTokens(),
-      alias: this.alias,
+      customLabel: this.customLabel,
     };
   }
 
   toString(): string {
-    return `${this.spanExpression.toString()}${this.alias ? ` as ${this.alias}` : ''}`;
+    return `${this.spanExpression.toString()}${this.customLabel ? ` as ${this.customLabel}` : ''}`;
   }
 }

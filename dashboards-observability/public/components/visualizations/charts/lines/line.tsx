@@ -14,7 +14,7 @@ import {
   PLOTLY_COLOR,
   VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
-import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { hexToRgb, getPropName } from '../../../../components/event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
@@ -145,9 +145,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
       return {
         x: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
-        y: queriedVizData[`${field.aggregation}(${field.name})`],
+        y: queriedVizData[getPropName(field)],
         type: isBarMode ? 'bar' : 'scatter',
-        name: field.label,
+        name: getPropName(field),
         mode,
         ...(!['bar', 'markers'].includes(mode) && fillProperty),
         line: {
