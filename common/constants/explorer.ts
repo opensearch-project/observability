@@ -120,7 +120,7 @@ export const AGGREGATION_OPTIONS = [
 ];
 
 // numeric fields type for metrics
-export const numericalTypes = [
+export const NUMERICAL_TYPES = [
   'float',
   'double',
   'bigint',
