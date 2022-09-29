@@ -26,6 +26,7 @@ import org.opensearch.client.Response
 import org.opensearch.client.ResponseException
 import org.opensearch.client.RestClient
 import org.opensearch.client.RestClientBuilder
+import org.opensearch.common.io.PathUtils
 import org.opensearch.common.settings.Settings
 import org.opensearch.common.unit.TimeValue
 import org.opensearch.common.util.concurrent.ThreadContext
@@ -263,7 +264,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
                     false
                 )
                 proxy.getExecutionData(false)?.let {
-                    val path = Paths.get("$jacocoBuildPath/integTest.exec")
+                    val path = PathUtils.get("$jacocoBuildPath/integTest.exec")
                     Files.write(path, it)
                 }
             }
