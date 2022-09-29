@@ -4,49 +4,64 @@
  */
 
 import React, { useMemo } from 'react';
-import { take, isEmpty, last } from 'lodash';
+import { take, isEmpty, last, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import {
-  DefaultChartStyles,
+  DEFAULT_CHART_STYLES,
   FILLOPACITY_DIV_FACTOR,
   PLOTLY_COLOR,
+  VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
-    DefaultMode,
+    DefaultModeLine,
     Interpolation,
     LineWidth,
     FillOpacity,
     MarkerSize,
     LegendPosition,
     ShowLegend,
+    DefaultModeScatter,
     LabelAngle,
-  } = DefaultChartStyles;
+  } = DEFAULT_CHART_STYLES;
   const {
-    data = {},
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations.data;
-  const {
-    dataConfig = {},
-    layoutConfig = {},
-    availabilityConfig = {},
-  } = visualizations?.data?.userConfigs;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
+  const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const dataConfigTab =
-    visualizations.data?.rawVizData?.line?.dataConfig &&
-    visualizations.data.rawVizData.line.dataConfig;
-  const xaxis = dataConfigTab?.dimensions ? dataConfigTab?.dimensions.filter((item) => item.label) : [];
-  const yaxis = dataConfigTab?.metrics ? dataConfigTab?.metrics.filter((item) => item.label) : [];
+  const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS].filter((item) => item.label) : [];
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   const lastIndex = fields.length - 1;
 
-  const mode = dataConfig?.chartStyles?.style || DefaultMode;
+  const visType: string = visMetaData?.name;
+  const mode =
+    dataConfig?.chartStyles?.style ||
+    (visType === VIS_CHART_TYPES.Line ? DefaultModeLine : DefaultModeScatter);
   const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend = !(
@@ -67,16 +82,25 @@ export const Line = ({ visualizations, layout, config }: any) => {
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
         ?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
+  let xaxis;
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
+
+  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+    xaxis = [timestampField, ...dataConfig[GROUPBY]];
+  } else {
+    xaxis = dataConfig[GROUPBY];
+  }
 
   if (isEmpty(xaxis) || isEmpty(yaxis))
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
-    valueSeries = (defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1))
-      .map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
+    valueSeries = (
+      defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1)
+    ).map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
   }
 
   const isDimensionTimestamp = isEmpty(xaxis)
@@ -113,14 +137,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
               size: labelSize,
             }),
           },
-          overlaying: 'y',
+          ...(index > 0 && { overlaying: 'y' }),
           side: field.side,
         },
       };
 
       return {
-        x: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
-        y: data[field.label],
+        x: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
+        y: queriedVizData[`${field.aggregation}(${field.name})`],
         type: isBarMode ? 'bar' : 'scatter',
         name: field.label,
         mode,
@@ -130,6 +154,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           width: lineWidth,
           color: selectedColor,
         },
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
           size: markerSize,
           ...(isBarMode && barMarker),
@@ -138,7 +163,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
     });
 
-    let layoutForBarMode = {
+    const layoutForBarMode = {
       barmode: 'group',
     };
     const mergedLayout = {
@@ -181,15 +206,15 @@ export const Line = ({ visualizations, layout, config }: any) => {
       const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
         return list.map((thr: ThresholdUnitType) => {
           thresholdTraces.x.push(
-            data[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
+            queriedVizData[!isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name][0]
           );
           thresholdTraces.y.push(thr.value * (1 + 0.06));
           thresholdTraces.text.push(thr.name);
           return {
             type: 'line',
-            x0: data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+            x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
             y0: thr.value,
-            x1: last(data[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+            x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
             y1: thr.value,
             name: thr.name || '',
             opacity: 0.7,
@@ -209,16 +234,19 @@ export const Line = ({ visualizations, layout, config }: any) => {
       calculatedLineValues = [...calculatedLineValues, thresholdTraces];
     }
     return [mergedLayout, calculatedLineValues];
-  }, [data, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
+  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
 
-  const mergedConfigs = {
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  };
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return isDimensionTimestamp ? (
     <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />
   ) : (
-    <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
+    <EmptyPlaceholder icon={visMetaData?.icontype} />
   );
 };

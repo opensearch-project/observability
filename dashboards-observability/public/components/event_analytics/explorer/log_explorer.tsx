@@ -49,6 +49,7 @@ export const LogExplorer = ({
   history,
   notifications,
   http,
+  queryManager,
 }: ILogExplorerProps) => {
   const dispatch = useDispatch();
   const tabIds = useSelector(selectQueryTabs).queryTabIds.filter(
@@ -184,6 +185,7 @@ export const LogExplorer = ({
             curSelectedTabId={curSelectedTabIdRef}
             http={http}
             searchBarConfigs={searchBarConfigs}
+            queryManager={queryManager}
           />
         </>
       ),

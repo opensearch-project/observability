@@ -16,38 +16,55 @@ import {
   HEATMAP_SINGLE_COLOR,
 } from '../../../../../common/constants/colors';
 import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
-import { NUMERICAL_FIELDS } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
-    data,
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const yaxis = defaultAxes.yaxis ?? [];
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
+  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+  if (fields.length < 3) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
-  const xaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[0];
-  const yaxisField = visualizations.data?.rawVizData?.heatmap?.dataConfig?.dimensions[1];
-  const zMetrics = visualizations.data?.rawVizData?.heatmap?.dataConfig?.metrics[0];
+  const xaxisField = dataConfig[GROUPBY][0];
+  const yaxisField = dataConfig[GROUPBY][1];
+  const zMetrics = dataConfig[AGGREGATIONS][0];
 
   if (
     isEmpty(xaxisField) ||
     isEmpty(yaxisField) ||
     isEmpty(zMetrics) ||
-    isEmpty(data[xaxisField.label]) ||
-    isEmpty(data[yaxisField.label]) ||
-    isEmpty(data[zMetrics.label]) ||
-    indexOf(NUMERICAL_FIELDS, zMetrics.type) < 0
+    isEmpty(queriedVizData[xaxisField.label]) ||
+    isEmpty(queriedVizData[yaxisField.label]) ||
+    isEmpty(queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`]) ||
+    dataConfig[GROUPBY].length > 2 ||
+    dataConfig[AGGREGATIONS].length > 1
   )
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
-  const uniqueYaxis = uniq(data[yaxisField.label]);
-  const uniqueXaxis = uniq(data[xaxisField.label]);
+  const uniqueYaxis = uniq(queriedVizData[yaxisField.label]);
+  const uniqueXaxis = uniq(queriedVizData[xaxisField.label]);
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig.tooltipOptions.tooltipText
+      : 'all';
 
   const colorField = dataConfig?.chartStyles
     ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === OPACITY
@@ -72,9 +89,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     const buckets = {};
 
     // maps bukcets to metrics
-    for (let i = 0; i < data[xaxisField.label].length; i++) {
-      buckets[`${data[xaxisField.label][i]},${data[yaxisField.label][i]}`] =
-        data[zMetrics.label][i];
+    for (let i = 0; i < queriedVizData[xaxisField.label].length; i++) {
+      buckets[`${queriedVizData[xaxisField.label][i]},${queriedVizData[yaxisField.label][i]}`] =
+        queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis
@@ -97,7 +114,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
     return heapMapZaxis;
   }, [
-    data,
+    queriedVizData,
     uniqueYaxis,
     uniqueXaxis,
     uniqueYaxisLength,
@@ -112,6 +129,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       z: calculatedHeapMapZaxis,
       x: uniqueXaxis,
       y: uniqueYaxis,
+      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
       colorscale: colorField.name === SINGLE_COLOR_PALETTE ? traceColor : colorField.name,
       type: 'heatmap',
       showscale: showColorscale === 'show',
@@ -124,10 +142,13 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
   };
 
-  const mergedConfigs = {
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  };
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={heapMapData} layout={mergedLayout} config={mergedConfigs} />;
 };

@@ -3,125 +3,162 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { take, isEmpty } from 'lodash';
+import React, { useMemo } from 'react';
+import { isEmpty, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import {
+  ConfigListEntry,
+  IVisualizationContainerProps,
+} from '../../../../../common/types/explorer';
+import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
+import {
+  PLOTLY_PIE_COLUMN_NUMBER,
+  PIE_YAXIS_GAP,
+  PIE_XAXIS_GAP,
+  AGGREGATIONS,
+  GROUPBY,
+} from '../../../../../common/constants/explorer';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
-  const { vis } = visualizations;
   const {
-    data,
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { defaultAxes } = visualizations.data;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
-  const xaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions 
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.dimensions.filter((item)  => item.label)
-    : [];
-  const yaxis = visualizations.data?.rawVizData?.pie?.dataConfig?.metrics
-    ? visualizations.data?.rawVizData?.pie?.dataConfig?.metrics.filter((item)  => item.label)
-    : [];
-  const type = dataConfig?.chartStyles?.mode ? dataConfig?.chartStyles?.mode[0]?.modeId : 'pie';
-  const lastIndex = fields.length - 1;
-  const colorTheme = dataConfig?.chartStyles?.colorTheme
-    ? dataConfig?.chartStyles?.colorTheme
-    : { name: DEFAULT_PALETTE };
-  const showLegend = dataConfig?.legend?.showLegend === 'hidden' ? false : vis.showLegend;
-  const legendPosition = dataConfig?.legend?.position || vis.legendPosition;
-  const legendSize = dataConfig?.legend?.size || vis.legendSize;
-  const labelSize = dataConfig?.chartStyles?.labelSize || vis.labelSize;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
 
-  if (isEmpty(xaxis) || isEmpty(yaxis))
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+  const {
+    dataConfig: {
+      chartStyles = {},
+      span = {},
+      legend = {},
+      panelOptions = {},
+      tooltipOptions = {},
+      [GROUPBY]: dimensions = [],
+      [AGGREGATIONS]: series = [],
+    },
+    layoutConfig = {},
+  } = visualizations?.data?.userConfigs;
+  const type = chartStyles.mode || visMetaData.mode;
+  const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
+  const showLegend = legend.showLegend === 'hidden' ? false : visMetaData.showlegend;
+  const legendSize = legend.size || visMetaData.legendSize;
+  const labelSize = chartStyles.labelSize || visMetaData.labelSize;
+  const title = panelOptions.title || layoutConfig.layout?.title || '';
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
 
-  let valueSeries;
-  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [...yaxis];
+  /**
+   * determine x axis
+   */
+  let xaxes: ConfigListEntry[] = [];
+  if (span && span.time_field && timestampField) {
+    xaxes = [timestampField, ...dimensions];
   } else {
-    valueSeries = defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1);
+    xaxes = dimensions;
+  }
+
+  if (isEmpty(xaxes) || isEmpty(series)) {
+    return <EmptyPlaceholder icon={visMetaData.icontype} />;
   }
 
   const invertHex = (hex: string) =>
     (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
 
-  const createLegendLabels = (dimLabels: string[], xaxisLables:string[] ) => {
-    return dimLabels.map((label:string, index:number) => {
-      return [xaxisLables[index], label].join(',');
-    });
-  };
-  
-  const labelsOfXAxis = () => {
-    let legendLabels = [];
-    if (xaxis.length > 0) {
-      let dimLabelsArray = data[xaxis[0].label];
-      for (let i = 0; i < xaxis.length - 1; i++) {
-        dimLabelsArray = createLegendLabels(dimLabelsArray, data[xaxis[i + 1].label]);
-      }
-      legendLabels = dimLabelsArray;
-    } else {
-      legendLabels = data[fields[lastIndex].name];
+  const labelsOfXAxis = xaxes.reduce((prev, cur) => {
+    if (queriedVizData[cur.name]) {
+      if (prev.length === 0) return queriedVizData[cur.name].flat();
+      return prev.map(
+        (item: string | number, index: number) => `${item}, ${queriedVizData[cur.name][index]}`
+      );
     }
-    return legendLabels;
-  };
+  }, []);
 
-  const pies = valueSeries.map((field: any, index) => {
-    const marker =
-      colorTheme.name !== DEFAULT_PALETTE
-        ? {
-            marker: {
-              colors: [...Array(data[field.name].length).fill(colorTheme.childColor)],
-              line: {
-                color: invertHex(colorTheme),
-                width: 1,
-              },
-            },
-          }
-        : undefined;
+  const hexColor = invertHex(colorTheme);
+
+  const pies = useMemo(
+    () =>
+      series.map((field: any, index: number) => {
+        const fieldName = field.alias ? field.alias : `${field.aggregation}(${field.name})`;
+        const marker =
+          colorTheme.name !== DEFAULT_PALETTE
+            ? {
+                marker: {
+                  colors: [...Array(queriedVizData[fieldName].length).fill(colorTheme.childColor)],
+                  line: {
+                    color: hexColor,
+                    width: 1,
+                  },
+                },
+              }
+            : undefined;
+        return {
+          labels: labelsOfXAxis,
+          values: queriedVizData[fieldName],
+          type: 'pie',
+          name: fieldName,
+          hole: type === 'pie' ? 0 : 0.5,
+          text: fieldName,
+          textinfo: 'percent',
+          hoverinfo: getTooltipHoverInfo({
+            tooltipMode: tooltipOptions.tooltipMode,
+            tooltipText: tooltipOptions.tooltipText,
+          }),
+          automargin: true,
+          textposition: 'outside',
+          title: { text: fieldName },
+          domain: {
+            row: Math.floor(index / PLOTLY_PIE_COLUMN_NUMBER),
+            column: index % PLOTLY_PIE_COLUMN_NUMBER,
+          },
+          ...marker,
+          outsidetextfont: {
+            size: labelSize,
+          },
+        };
+      }),
+    [series, queriedVizData, labelSize, labelsOfXAxis, colorTheme]
+  );
+
+  const mergedLayout = useMemo(() => {
+    const isAtleastOneFullRow = Math.floor(series.length / PLOTLY_PIE_COLUMN_NUMBER) > 0;
     return {
-      labels: labelsOfXAxis(),
-      values: data[field.label],
-      type: 'pie',
-      name: field.name,
-      hole: type === 'pie' ? 0 : 0.5,
-      text: field.name,
-      textinfo: 'percent',
-      automargin: true,
-      textposition: 'outside',
-      domain: {
-        row: Math.floor(index / 3),
-        column: index % 3,
+      grid: {
+        xgap: PIE_XAXIS_GAP,
+        ygap: PIE_YAXIS_GAP,
+        rows: Math.floor(series.length / PLOTLY_PIE_COLUMN_NUMBER) + 1,
+        columns: isAtleastOneFullRow ? PLOTLY_PIE_COLUMN_NUMBER : series.length,
+        pattern: 'independent',
       },
-      ...marker,
-      outsidetextfont: {
-        size: labelSize,
+      ...layout,
+      ...(layoutConfig.layout && layoutConfig.layout),
+      title,
+      legend: {
+        ...layout.legend,
+        orientation: legend.position || visMetaData.legendposition,
+        ...(legendSize && {
+          font: { size: legendSize },
+        }),
       },
+      showlegend: showLegend,
     };
-  });
+  }, [series, layoutConfig.layout, title, layout.legend]);
 
-  const isAtleastOneFullRow = Math.floor(valueSeries.length / 3) > 0;
-
-  const mergedLayout = {
-    grid: {
-      rows: Math.floor(valueSeries.length / 3) + 1,
-      columns: isAtleastOneFullRow ? 3 : valueSeries.length,
-    },
-    ...layout,
-    ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    legend: {
-      ...layout.legend,
-      orientation: legendPosition,
-      font: { size: legendSize },
-    },
-    showlegend: showLegend,
-  };
-
-  const mergedConfigs = {
-    ...config,
-    ...(layoutConfig.config && layoutConfig.config),
-  };
+  const mergedConfigs = useMemo(
+    () => ({
+      ...config,
+      ...(layoutConfig.config && layoutConfig.config),
+    }),
+    [config, layoutConfig.config]
+  );
 
   return <Plt data={pies} layout={mergedLayout} config={mergedConfigs} />;
 };

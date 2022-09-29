@@ -51,12 +51,15 @@ import {
   TAB_CHART_ID,
   DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
+  GROUPBY,
+  AGGREGATIONS,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
   PPL_NEWLINE_REGEX,
   LIVE_OPTIONS,
   LIVE_END_TIME,
+  VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
 import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
@@ -66,6 +69,7 @@ import { selectFields, updateFields, sortFields } from '../redux/slices/field_sl
 import { updateTabName } from '../redux/slices/query_tab_slice';
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
@@ -77,6 +81,7 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -105,6 +110,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
+  queryManager,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -141,7 +147,9 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<Boolean>(false);
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
+    false
+  );
 
   const queryRef = useRef();
   const appBasedRef = useRef('');
@@ -354,8 +362,21 @@ export const Explorer = ({
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
+      const cusVisIds = userVizConfigs ? Object.keys(userVizConfigs) : [];
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
+      for (const visId of cusVisIds) {
+        dispatch(
+          changeVisualizationConfig({
+            tabId,
+            vizId: visId,
+            data: {
+              ...userVizConfigs[visId],
+              dataConfig: {},
+            },
+          })
+        );
+      }
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -476,6 +497,7 @@ export const Explorer = ({
     handleQuerySearch(availability);
   };
 
+
   /**
    * Toggle fields between selected and unselected sets
    * @param field field to be toggled
@@ -564,7 +586,7 @@ export const Explorer = ({
             data-test-subj="eventExplorer__sidebar"
           >
             {!isSidebarClosed && (
-              <div className="dscFieldChooser">
+              <div className="explorerFieldSelector">
                 <Sidebar
                   query={query}
                   explorerFields={explorerFields}
@@ -718,6 +740,7 @@ export const Explorer = ({
       indexFields: explorerFields,
       userConfigs: userVizConfigs[curVisId] || {},
       appData: { fromApp: appLogEvents },
+      explorer: { explorerData, explorerFields, query, http, pplService },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -728,8 +751,8 @@ export const Explorer = ({
     }
   };
 
-  const changeIsValidConfigOptionState = (isValidConfig: Boolean) =>
-  setIsValidDataConfigOptionSelected(isValidConfig);
+  const changeIsValidConfigOptionState = (isValidConfig: boolean) =>
+    setIsValidDataConfigOptionSelected(isValidConfig);
 
   const getExplorerVis = () => {
     return (
@@ -746,6 +769,7 @@ export const Explorer = ({
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
         changeIsValidConfigOptionState={changeIsValidConfigOptionState}
+        queryManager={queryManager}
       />
     );
   };
@@ -806,6 +830,85 @@ export const Explorer = ({
     );
   };
 
+  const getSpanValue = (groupByToken: GroupByChunk) => {
+    const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+      (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+    )?.text;
+    return groupByToken?.span !== null
+      ? {
+          time_field: [
+            {
+              name: groupByToken?.span.span_expression.field,
+              type: 'timestamp',
+              label: groupByToken?.span.span_expression.field,
+            },
+          ],
+          unit: [
+            {
+              text: timeUnitValue,
+              value: groupByToken?.span.span_expression.time_unit,
+              label: timeUnitValue,
+            },
+          ],
+          interval: groupByToken?.span.span_expression.literal_value,
+        }
+      : undefined;
+  };
+
+  const getUpdatedDataConfig = (statsToken: statsChunk) => {
+    const groupByToken = statsToken.groupby;
+    const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+    const span = getSpanValue(groupByToken);
+    switch (curVisId) {
+      case VIS_CHART_TYPES.TreeMap:
+        return {
+          [GROUPBY]: [
+            {
+              childField: {
+                ...(groupByToken?.group_fields
+                  ? {
+                      label: groupByToken?.group_fields[0].name ?? '',
+                      name: groupByToken?.group_fields[0].name ?? '',
+                    }
+                  : { label: '', name: '' }),
+              },
+              parentFields: [],
+            },
+          ],
+          [AGGREGATIONS]: [
+            {
+              valueField: {
+                ...(seriesToken
+                  ? {
+                      label: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                      name: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                    }
+                  : { label: '', name: '' }),
+              },
+            },
+          ],
+        };
+      case VIS_CHART_TYPES.Histogram:
+        return {
+          [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
+          [AGGREGATIONS]: [],
+        };
+      default:
+        return {
+          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+            label: agg.function?.value_expression,
+            name: agg.function?.value_expression,
+            aggregation: agg.function?.name,
+          })),
+          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+            label: agg.name ?? '',
+            name: agg.name ?? '',
+          })),
+          span,
+        };
+    }
+  };
+
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
       // clear previous selected timestamp when index pattern changes
@@ -819,14 +922,26 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      fetchData();
+      await fetchData();
+
+      if (selectedContentTabId === TAB_CHART_ID) {
+        // parse stats section on every search
+        const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
+
+        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: curVisId,
+            data: { ...updatedDataConfig },
+          })
+        );
+      }
     },
-    [tempQuery, query[RAW_QUERY]]
+    [tempQuery, query, selectedContentTabId]
   );
 
-  const handleQueryChange = async (newQuery: string) => {
-    setTempQuery(newQuery);
-  };
+  const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
@@ -1136,6 +1251,14 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        handleQuerySearch,
+        handleQueryChange,
+        setTempQuery,
+        fetchData,
+        explorerFields,
+        explorerData,
+        http,
+        query,
       }}
     >
       <div className="dscAppContainer">
@@ -1171,6 +1294,7 @@ export const Explorer = ({
           stopLive={stopLive}
           setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
           liveTailName={liveTailNameRef.current}
+          searchError={explorerVisualizations}
         />
         <EuiTabbedContent
           className="mainContentTabs"

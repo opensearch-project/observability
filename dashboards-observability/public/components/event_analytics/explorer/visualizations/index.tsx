@@ -5,32 +5,40 @@
 
 import './app.scss';
 
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
-import React, { useContext } from 'react';
-import { EuiPanel, EuiResizableContainer, EuiSpacer } from '@elastic/eui';
-import { SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
-import { IField, IQuery, IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import React from 'react';
+import { EuiResizableContainer } from '@elastic/eui';
+import { QueryManager } from 'common/query_manager';
+import { RAW_QUERY, SELECTED_TIMESTAMP } from '../../../../../common/constants/explorer';
+import {
+  IField,
+  IQuery,
+  IVisualizationContainerProps,
+  ExplorerFields,
+} from '../../../../../common/types/explorer';
 import { WorkspacePanel } from './workspace_panel';
 import { ConfigPanel } from './config_panel';
 import { Sidebar } from '../sidebar';
-import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_config_panel_item';
-import { TabContext } from '../../hooks';
-import { visChartTypes } from '../../../../../common/constants/shared';
+import { DataConfigPanelItem } from './config_panel/config_panes/config_controls/data_configurations_panel';
+import { PPL_STATS_REGEX, VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
+import { LogsViewConfigPanelItem } from './config_panel/config_panes/config_controls/logs_view_config_panel_item';
+
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
   setCurVisId: (visId: string) => void;
   explorerVis: any;
-  explorerFields: IField[];
+  explorerFields: ExplorerFields;
   explorerData: any;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
   visualizations: IVisualizationContainerProps;
   handleOverrideTimestamp: (field: IField) => void;
   callback?: any;
-  changeIsValidConfigOptionState: (isValidConfigOptionSelected: Boolean) => void;
+  changeIsValidConfigOptionState: (isValidConfigOptionSelected: boolean) => void;
+  queryManager: QueryManager;
 }
 
 export const ExplorerVisualizations = ({
@@ -46,95 +54,108 @@ export const ExplorerVisualizations = ({
   handleOverrideTimestamp,
   callback,
   changeIsValidConfigOptionState,
+  queryManager,
 }: IExplorerVisualizationsProps) => {
-  const { tabId } = useContext<any>(TabContext);
-  const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { vis } = visualizations;
+  const fieldOptionList = explorerFields.availableFields.map((field) => ({
+    ...field,
+    label: field.name,
+  }));
 
-  const fieldOptionList = fields.map((field) => {
-    return { ...field, label: field.name };
-  });
+  const renderDataConfigContainer = () => {
+    switch (curVisId) {
+      case VIS_CHART_TYPES.TreeMap:
+        return (
+          <TreemapConfigPanelItem
+            fieldOptionList={fieldOptionList}
+            visualizations={visualizations}
+          />
+        );
+      case VIS_CHART_TYPES.LogsView:
+        return (
+          <LogsViewConfigPanelItem
+            fieldOptionList={fieldOptionList}
+            visualizations={visualizations}
+          />
+        );
+      default:
+        return (
+          <DataConfigPanelItem
+            fieldOptionList={fieldOptionList}
+            visualizations={visualizations}
+            queryManager={queryManager}
+          />
+        );
+    }
+  };
 
   return (
-    <EuiResizableContainer>
-      {(EuiResizablePanel, EuiResizableButton) => (
-        <>
-          <EuiResizablePanel
-            initialSize={17}
-            minSize="300"
-            mode={['collapsible', { position: 'top' }]}
-          >
-            <div className="dscFieldChooser">
-              <Sidebar
-                query={query}
-                explorerFields={explorerFields}
-                explorerData={explorerData}
-                selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
-                handleOverrideTimestamp={handleOverrideTimestamp}
-                handleAddField={(field: IField) => handleAddField(field)}
-                handleRemoveField={(field: IField) => handleRemoveField(field)}
-                isFieldToggleButtonDisabled={true}
+    <div id="vis__mainContent">
+      <EuiResizableContainer>
+        {(EuiResizablePanel, EuiResizableButton) => (
+          <>
+            <EuiResizablePanel
+              initialSize={20}
+              minSize="17%"
+              mode={['collapsible', { position: 'top' }]}
+              paddingSize="none"
+              className="vis__leftPanel"
+            >
+              <div className="explorer__insights">
+                <div className="explorerFieldSelector">
+                  <Sidebar
+                    query={query}
+                    explorerFields={explorerFields}
+                    explorerData={explorerData}
+                    selectedTimestamp={visualizations?.data?.query[SELECTED_TIMESTAMP] || ''}
+                    handleOverrideTimestamp={handleOverrideTimestamp}
+                    handleAddField={(field: IField) => handleAddField(field)}
+                    handleRemoveField={(field: IField) => handleRemoveField(field)}
+                    isFieldToggleButtonDisabled={
+                      vis.name === VIS_CHART_TYPES.LogsView
+                        ? isEmpty(explorerData.jsonData) ||
+                          !isEmpty(query[RAW_QUERY].match(PPL_STATS_REGEX))
+                        : true
+                    }
+                  />
+                </div>
+                <div className="explorer__vizDataConfig">{renderDataConfigContainer()}</div>
+              </div>
+            </EuiResizablePanel>
+            <EuiResizableButton />
+            <EuiResizablePanel
+              className="ws__central--canvas"
+              initialSize={60}
+              minSize="55%"
+              mode="main"
+              paddingSize="none"
+            >
+              <WorkspacePanel
+                curVisId={curVisId}
+                setCurVisId={setCurVisId}
+                visualizations={visualizations}
               />
-            </div>
-          </EuiResizablePanel>
-          <EuiResizableButton />
-          <EuiResizablePanel
-            mode={[
-              'collapsible',
-              {
-                'data-test-subj': 'panel-1-toggle',
-                className: 'panel-toggle',
-                position: 'top',
-              },
-            ]}
-            className="containerPanel"
-            initialSize={14}
-            minSize="300"
-          >
-            <EuiSpacer size="s" />
-            <EuiPanel paddingSize="s" className="dataConfigContainer">
-              {curVisId === visChartTypes.TreeMap ? (
-                <TreemapConfigPanelItem
-                  fieldOptionList={fieldOptionList}
-                  visualizations={visualizations}
-                  tabID={tabId}
-                />
-              ) : (
-                <DataConfigPanelItem
-                  fieldOptionList={fieldOptionList}
-                  visualizations={visualizations}
-                  tabID={tabId}
-                />
-              )}
-            </EuiPanel>
-          </EuiResizablePanel>
-
-          <EuiResizableButton />
-          <EuiResizablePanel className="containerPanel" initialSize={65} minSize="30%" mode="main">
-            <WorkspacePanel
-              curVisId={curVisId}
-              setCurVisId={setCurVisId}
-              visualizations={visualizations}
-            />
-          </EuiResizablePanel>
-          <EuiResizableButton />
-          <EuiResizablePanel
-            className="containerPanel"
-            initialSize={20}
-            minSize="200px"
-            mode={['collapsible', { position: 'top' }]}
-          >
-            <ConfigPanel
-              vizVectors={explorerVis}
-              visualizations={visualizations}
-              curVisId={curVisId}
-              setCurVisId={setCurVisId}
-              callback={callback}
-              changeIsValidConfigOptionState={changeIsValidConfigOptionState}
-            />
-          </EuiResizablePanel>
-        </>
-      )}
-    </EuiResizableContainer>
+            </EuiResizablePanel>
+            <EuiResizableButton />
+            <EuiResizablePanel
+              className="ws__configPanel--right"
+              initialSize={20}
+              minSize="15%"
+              mode={['collapsible', { position: 'top' }]}
+              paddingSize="none"
+            >
+              <ConfigPanel
+                vizVectors={explorerVis}
+                visualizations={visualizations}
+                curVisId={curVisId}
+                setCurVisId={setCurVisId}
+                callback={callback}
+                changeIsValidConfigOptionState={changeIsValidConfigOptionState}
+              />
+            </EuiResizablePanel>
+          </>
+        )}
+      </EuiResizableContainer>
+    </div>
   );
 };

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EuiFieldNumber, EuiTitle, EuiSpacer, htmlIdGenerator } from '@elastic/eui';
 
 interface InputFieldProps {
@@ -19,6 +19,13 @@ export const InputFieldItem: React.FC<InputFieldProps> = ({
 }) => {
   const [fieldValue, setFieldValue] = useState<number | string>(numValue);
 
+  useEffect(() => {
+    setFieldValue('');
+    if (numValue !== undefined || numValue !== '') {
+      setFieldValue(numValue);
+    }
+  }, [numValue]);
+
   return (
     <>
       <EuiTitle size="xxs">
@@ -30,6 +37,7 @@ export const InputFieldItem: React.FC<InputFieldProps> = ({
         fullWidth
         placeholder="auto"
         value={fieldValue}
+        min={1}
         onChange={(e) => setFieldValue(e.target.value)}
         onBlur={() => handleInputChange(fieldValue)}
         data-test-subj="valueFieldNumber"

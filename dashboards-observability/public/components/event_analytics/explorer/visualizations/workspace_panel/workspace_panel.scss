@@ -3,7 +3,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 .ws__header-dark {
   background-color: transparent;
+}
+
+.ws__visCanvas {
+  grid-gap: 12px;
+  padding: 12px;
+  .ws__visCanvasControl {
+    height: 40px;
+    width: 140px;
+    .ws__visCanvasFlexitem {
+      display: block;
+    }
+  }
+}
+
+#vis__mainContent .ws__central--canvas {
+  background-color: #FFF;
+  border-right: 1px solid #D3DAE6;
 }

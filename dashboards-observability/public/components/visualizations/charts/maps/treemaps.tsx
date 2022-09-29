@@ -14,45 +14,60 @@ import {
   MULTI_COLOR_PALETTE,
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
-import { DefaultChartStyles } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { GROUPBY, AGGREGATIONS } from '../../../../../common/constants/explorer';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
-  const { DefaultSortSectors } = DefaultChartStyles;
-
+  const { DefaultSortSectors } = DEFAULT_CHART_STYLES;
   const {
-    data,
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
-  const { dataConfig = {}, layoutConfig = {} } = visualizations?.data?.userConfigs;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
+  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
   const childField =
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions &&
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].childField
-      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].childField
+    dataConfig[GROUPBY] && dataConfig[GROUPBY][0].childField
+      ? dataConfig[GROUPBY][0].childField
       : fields[fields.length - 1];
 
   const parentFields =
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions &&
-    visualizations.data?.rawVizData?.tree_map?.dataConfig.dimensions[0].parentFields
-      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.dimensions[0].parentFields
+    dataConfig[GROUPBY] && dataConfig[GROUPBY][0].parentFields
+      ? dataConfig[GROUPBY][0].parentFields
       : [];
+  const tooltipMode =
+    dataConfig?.tooltipOptions?.tooltipMode !== undefined
+      ? dataConfig.tooltipOptions.tooltipMode
+      : 'show';
+  const tooltipText =
+    dataConfig?.tooltipOptions?.tooltipText !== undefined
+      ? dataConfig?.tooltipOptions?.tooltipText
+      : 'all';
 
   const valueField =
-    visualizations.data?.rawVizData?.tree_map?.dataConfig?.metrics &&
-    visualizations.data?.rawVizData?.tree_map?.dataConfig.metrics[0].valueField
-      ? visualizations.data?.rawVizData?.tree_map?.dataConfig?.metrics[0].valueField
+    dataConfig[AGGREGATIONS] && dataConfig[AGGREGATIONS][0].valueField
+      ? dataConfig[AGGREGATIONS][0].valueField
       : fields[0];
 
   const colorField =
-    dataConfig?.chartStyles && dataConfig?.chartStyles.colorTheme
-      ? dataConfig?.chartStyles.colorTheme
+    dataConfig?.chartStyles && dataConfig.chartStyles.colorTheme
+      ? dataConfig.chartStyles.colorTheme
       : { name: DEFAULT_PALETTE };
 
   const tilingAlgorithm =
     dataConfig?.treemapOptions &&
-    dataConfig?.treemapOptions.tilingAlgorithm &&
-    !isEmpty(dataConfig?.treemapOptions.tilingAlgorithm)
-      ? dataConfig?.treemapOptions.tilingAlgorithm[0]
+    dataConfig.treemapOptions.tilingAlgorithm &&
+    !isEmpty(dataConfig.treemapOptions.tilingAlgorithm)
+      ? dataConfig.treemapOptions.tilingAlgorithm[0]
       : 'squarify';
 
   const sortSectorsField = dataConfig?.treemapOptions?.sort_sectors || DefaultSortSectors;
@@ -60,15 +75,16 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
 
   const areParentFieldsInvalid =
     new Set([...parentFields.map((field) => field.name)]).size !== parentFields.length ||
-    parentFields.some((field) => isEmpty(data[field.name]) || isEqual(childField.name, field.name));
+    parentFields.some(
+      (field) => isEmpty(queriedVizData[field.name]) || isEqual(childField.name, field.name)
+    );
 
   if (
-    isEmpty(data[childField.name]) ||
-    isEmpty(data[valueField.name]) ||
-    indexOf(NUMERICAL_FIELDS, valueField.type) < 0 ||
+    isEmpty(queriedVizData[childField.name]) ||
+    isEmpty(queriedVizData[valueField.name]) ||
     areParentFieldsInvalid
   )
-    return <EmptyPlaceholder icon={visualizations?.vis?.iconType} />;
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
     let labelsArray: string[] = [],
@@ -77,11 +93,13 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       colorsArray: string[] = [];
 
     if (parentFields.length === 0) {
-      labelsArray = [...data[childField.name]];
+      labelsArray = [...queriedVizData[childField.name]];
       parentsArray = [...Array(labelsArray.length).fill('')];
-      valuesArray = [...data[valueField.name]];
+      valuesArray = [...queriedVizData[valueField.name]];
       if (colorField.name === MULTI_COLOR_PALETTE) {
-        colorsArray = [...Array(data[childField.name].length).fill(colorField.childColor)];
+        colorsArray = [
+          ...Array(queriedVizData[childField.name].length).fill(colorField.childColor),
+        ];
       }
     } else {
       let currentLevel = parentFields.length - 1;
@@ -90,7 +108,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         .slice(0)
         .reverse()
         .map((field, i) => {
-          const uniqueParents = uniq(data[field.name]) as string[];
+          const uniqueParents = uniq(queriedVizData[field.name]) as string[];
           labelsArray = [...labelsArray, ...uniqueParents];
           if (i === 0) {
             parentsArray = [...Array(uniqueParents.length).fill('')];
@@ -105,9 +123,11 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
                 : [];
           } else {
             const currentParentIndices = uniqueParents.map((parent) =>
-              data[field.name].findIndex((index) => index === parent)
+              queriedVizData[field.name].findIndex((index) => index === parent)
             );
-            const lastParents = currentParentIndices.map((index) => data[lastParentField.name][index]);
+            const lastParents = currentParentIndices.map(
+              (index) => queriedVizData[lastParentField.name][index]
+            );
             parentsArray = [...parentsArray, ...lastParents];
             valuesArray = [...valuesArray, ...Array(lastParents.length).fill(0)];
             colorsArray =
@@ -124,12 +144,15 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
           lastParentField = field;
         });
 
-      labelsArray = [...labelsArray, ...data[childField.name]];
-      valuesArray = [...valuesArray, ...data[valueField.name]];
-      parentsArray = [...parentsArray, ...data[lastParentField.name]];
+      labelsArray = [...labelsArray, ...queriedVizData[childField.name]];
+      valuesArray = [...valuesArray, ...queriedVizData[valueField.name]];
+      parentsArray = [...parentsArray, ...queriedVizData[lastParentField.name]];
       colorsArray =
         colorField.name === MULTI_COLOR_PALETTE
-          ? [...colorsArray, ...Array(data[childField.name].length).fill(colorField.childColor)]
+          ? [
+              ...colorsArray,
+              ...Array(queriedVizData[childField.name].length).fill(colorField.childColor),
+            ]
           : [];
     }
 
@@ -165,6 +188,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         labels: labelsArray,
         parents: parentsArray,
         values: valuesArray,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         textinfo: 'label+value+percent parent+percent entry',
         tiling: {
           packing: tilingAlgorithm.value,
@@ -176,7 +200,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
 
     return [mapData, mapLayout];
   }, [
-    data,
+    queriedVizData,
     childField,
     valueField,
     parentFields,

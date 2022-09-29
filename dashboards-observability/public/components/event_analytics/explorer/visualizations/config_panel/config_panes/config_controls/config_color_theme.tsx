@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -18,17 +18,19 @@ import {
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 import { ADD_BUTTON_TEXT } from '../../../../../../../../common/constants/explorer';
-import { NUMERICAL_FIELDS } from '../../../../../../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 
 export const ConfigColorTheme = ({
   visualizations,
   schemas,
   vizState = [],
   handleConfigChange,
-  sectionName = 'Color Theme',
+  sectionName = 'Color theme',
 }: any) => {
-  const { data } = visualizations;
+  const { data, vis } = visualizations;
+  const { defaultAxes = {} } = data;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
+  const { dataConfig = {} } = data?.userConfigs;
   const addButtonText = ADD_BUTTON_TEXT;
   const getColorThemeRow = () => ({
     ctid: htmlIdGenerator('ct')(),
@@ -36,12 +38,15 @@ export const ConfigColorTheme = ({
     color: '#FC0505',
   });
 
-  const options = fields
-    .filter((item) => NUMERICAL_FIELDS.includes(item.type))
-    .map((item) => ({
-      ...item,
-      label: item.name,
-    }));
+  const options = (dataConfig?.valueOptions?.metrics && dataConfig.valueOptions.metrics.length !== 0
+    ? dataConfig.valueOptions.metrics
+    : vis.name === VIS_CHART_TYPES.Histogram
+    ? defaultAxes.yaxis ?? []
+    : fields
+  ).map((item) => ({
+    ...item,
+    label: item.name,
+  }));
   const getUpdatedOptions = () =>
     options.filter((option) => !vizState.some((vizOpt) => option.name === vizOpt?.name?.name));
 
@@ -83,7 +88,7 @@ export const ConfigColorTheme = ({
       {!isEmpty(vizState) &&
         vizState.map((ct) => {
           return (
-            <>
+            <Fragment key={ct.ctid}>
               <EuiFormRow fullWidth label="">
                 <EuiFlexGroup alignItems="center" gutterSize="xs">
                   <EuiFlexItem grow={3}>
@@ -115,7 +120,7 @@ export const ConfigColorTheme = ({
                   </EuiFlexItem>
                 </EuiFlexGroup>
               </EuiFormRow>
-            </>
+            </Fragment>
           );
         })}
     </EuiAccordion>
