@@ -106,7 +106,7 @@ export const TreemapConfigPanelItem = ({
 
     const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
     return sectionName === AGGREGATIONS
-      ? unselectedFields.filter((field) => NUMERICAL_TYPES.includes(field.type))
+      ? unselectedFields.filter((field) => NUMERICAL_TYPES?.includes(field.type))
       : unselectedFields;
   };
 
