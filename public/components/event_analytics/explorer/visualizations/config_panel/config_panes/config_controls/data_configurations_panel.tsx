@@ -20,6 +20,7 @@ import {
   EuiText,
   EuiFieldNumber,
   htmlIdGenerator,
+  EuiToolTip,
 } from '@elastic/eui';
 import { useDispatch, batch } from 'react-redux';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
@@ -249,11 +250,18 @@ export const DataConfigPanelItem = ({
                         labelAppend={
                           visualizations.vis.name !== VIS_CHART_TYPES.HeatMap && (
                             <EuiText size="xs">
-                              <EuiIcon
-                                type="cross"
-                                color="danger"
-                                onClick={() => handleServiceRemove(index, sectionName)}
-                              />
+                              <EuiToolTip
+                                position="bottom"
+                                content="At least one metric is required to render a chart"
+                                delay="regular"
+                                anchorClassName="eui-textTruncate"
+                              >
+                                <EuiIcon
+                                  type="cross"
+                                  color="danger"
+                                  onClick={() => handleServiceRemove(index, sectionName)}
+                                />
+                              </EuiToolTip>
                             </EuiText>
                           )
                         }
@@ -503,9 +511,19 @@ export const DataConfigPanelItem = ({
       <EuiSpacer size="s" />
       {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
         <>
-          <EuiTitle size="xxs">
-            <h3>Series</h3>
-          </EuiTitle>
+          <div style={{ display: 'flex' }}>
+            <EuiTitle size="xxs">
+              <h3>Series</h3>
+            </EuiTitle>
+            <EuiToolTip
+              position="right"
+              content="At least one metric is required to render a chart"
+              delay="regular"
+              anchorClassName="eui-textTruncate"
+            >
+              <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />
+            </EuiToolTip>
+          </div>
           <EuiSpacer size="s" />
           {getCommonUI(configList[AGGREGATIONS], AGGREGATIONS)}
           <EuiSpacer size="m" />

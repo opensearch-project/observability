@@ -156,6 +156,11 @@ $vis-editor-sidebar-min-width: 350px;
   }
 }
 
+.info-icon {
+  margin-left: 7px;
+  margin-top: 5px;
+}
+
 #vis__mainContent .vis__leftPanel {
   overflow-y: unset; // unset default setting
 }
