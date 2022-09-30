@@ -3601,6 +3601,133 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
               },
             },
+            Object {
+              "category": "Visualizations",
+              "columnalignment": "leftAligned",
+              "columnwidth": 150,
+              "colunmfilter": false,
+              "component": [Function],
+              "editorconfig": Object {
+                "panelTabs": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "data-panel",
+                    "mapTo": "dataConfig",
+                    "name": "Data",
+                    "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "chart-styles",
+                        "mapTo": "chartStyles",
+                        "name": "Chart styles",
+                        "schemas": Array [
+                          Object {
+                            "component": [Function],
+                            "currentValue": true,
+                            "eleType": "switchButton",
+                            "mapTo": "showTableHeader",
+                            "name": "Show table header",
+                            "title": "Show table header",
+                          },
+                          Object {
+                            "component": [Function],
+                            "currentValue": true,
+                            "eleType": "switchButton",
+                            "mapTo": "enablePagination",
+                            "name": "Enable pagination",
+                            "title": "Enable pagination",
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "columnAlignment",
+                            "name": "Column alignment",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "leftAligned",
+                                  "name": "Left",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "leftAligned",
+                                  "name": "Left",
+                                },
+                                Object {
+                                  "id": "rightAligned",
+                                  "name": "Right",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "currentValue": 150,
+                            "eleType": "input",
+                            "mapTo": "columnWidth",
+                            "name": "Column Width",
+                            "title": "Column Width",
+                          },
+                          Object {
+                            "component": [Function],
+                            "currentValue": false,
+                            "eleType": "switchButton",
+                            "mapTo": "colunmFilter",
+                            "name": "Column filter",
+                            "title": "Column filter",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  Object {
+                    "content": Array [],
+                    "editor": [Function],
+                    "id": "style-panel",
+                    "mapTo": "layoutConfig",
+                    "name": "Layout",
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
+                ],
+              },
+              "enablepagination": true,
+              "fulllabel": "Table View",
+              "icon": [Function],
+              "icontype": "visTable",
+              "id": "data_table",
+              "label": "Table View",
+              "name": "data_table",
+              "showtableheader": true,
+              "type": "data_table",
+              "visconfig": Object {
+                "config": Object {
+                  "displaylogo": false,
+                  "responsive": true,
+                },
+                "isUniColor": false,
+                "layout": Object {
+                  "height": 1180,
+                  "legend": Object {
+                    "orientation": "v",
+                    "traceorder": "normal",
+                  },
+                  "margin": Object {
+                    "b": 30,
+                    "l": 60,
+                    "pad": 0,
+                    "r": 30,
+                    "t": 50,
+                  },
+                  "showlegend": true,
+                },
+              },
+            },
           ]
         }
         placeholder="Select a chart"
