@@ -28,7 +28,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.12.0"
-        classpath "org.jacoco:org.jacoco.agent:0.8.5"
+        classpath "org.jacoco:org.jacoco.agent:0.8.7"
     }
 }
 
@@ -117,6 +117,7 @@ allprojects {
     plugins.withId('java') {
         sourceCompatibility = targetCompatibility = "1.8"
     }
+    jacoco.toolVersion = "0.8.7"
 }
 
 dependencies {
