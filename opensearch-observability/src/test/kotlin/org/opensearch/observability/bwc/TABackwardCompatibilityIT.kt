@@ -13,8 +13,6 @@ import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.observability.constructNotebookRequest
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
-import java.util.List
-import java.util.Map
 
 class TABackwardCompatibilityIT : PluginRestTestCase() {
 
@@ -61,14 +59,14 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
     }
 
     @Throws(Exception::class)
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("UNCHECKED_CAST")
     fun `test backwards compatibility`() {
         val uri = getUri()
         val responseMap = getAsMap(uri)["nodes"] as Map<String, Map<String, Any>>
-        for (response in responseMap.values()) {
+        for (response in responseMap.values) {
             val plugins = response["plugins"] as List<Map<String, Any>>
             val pluginNames = plugins.map { plugin -> plugin["name"] }.toSet()
-            return when (CLUSTER_TYPE) {
+            when (CLUSTER_TYPE) {
                 ClusterType.OLD -> {
                     assertTrue(pluginNames.contains("opensearch-notebooks"))
                     createNotebook()
