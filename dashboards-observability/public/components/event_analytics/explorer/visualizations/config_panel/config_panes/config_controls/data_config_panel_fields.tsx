@@ -2,7 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { EuiButtonIcon, EuiPanel, EuiSpacer, EuiText, EuiTitle } from '@elastic/eui';
 import { ConfigListEntry } from '../../../../../../../../common/types/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
@@ -37,8 +37,8 @@ export const DataConfigPanelFields = ({
       <EuiSpacer size="s" />
       {list !== undefined &&
         list.map((obj: ConfigListEntry, index: number) => (
-          <>
-            <EuiPanel key={index} paddingSize="s" className="panelItem_button">
+          <Fragment key={index}>
+            <EuiPanel paddingSize="s" className="panelItem_button">
               <EuiText
                 size="s"
                 className="field_text"
@@ -58,7 +58,7 @@ export const DataConfigPanelFields = ({
               />
             </EuiPanel>
             <EuiSpacer size="s" />
-          </>
+          </Fragment>
         ))}
       {!isHeatMapAddButton(sectionName) && (
         <EuiPanel className="panelItem_button" grow>

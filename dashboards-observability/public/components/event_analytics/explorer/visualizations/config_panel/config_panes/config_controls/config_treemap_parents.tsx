@@ -5,7 +5,7 @@
 
 import { EuiButtonIcon, EuiPanel, EuiSpacer, EuiText } from '@elastic/eui';
 import { isEmpty } from 'lodash';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { ParentUnitType } from '../../../../../../../../common/types/explorer';
 
 export const ConfigTreemapParentFields = ({
@@ -42,9 +42,9 @@ export const ConfigTreemapParentFields = ({
       {!isEmpty(selectedAxis) &&
         selectedAxis.map((obj: ParentUnitType, index: number) => {
           return (
-            <>
+            <Fragment key={index}>
               <EuiSpacer size="s" />
-              <EuiPanel key={index} paddingSize="s" className="panelItem_button">
+              <EuiPanel paddingSize="s" className="panelItem_button">
                 <EuiText size="s" className="field_text" onClick={() => handleEditParent(index)}>
                   <a role="button" tabIndex={0}>
                     {obj.label !== '' ? obj.label : `Parent ${index + 1}`}
@@ -58,7 +58,7 @@ export const ConfigTreemapParentFields = ({
                   onClick={() => handleParentDelete(index)}
                 />
               </EuiPanel>
-            </>
+            </Fragment>
           );
         })}
       <EuiSpacer size="s" />

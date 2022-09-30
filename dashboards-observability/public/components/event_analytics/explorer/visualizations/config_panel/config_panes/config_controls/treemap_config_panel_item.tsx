@@ -25,7 +25,6 @@ import {
   PARENTFIELDS,
   VALUEFIELD,
 } from '../../../../../../../../common/constants/explorer';
-import { DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 import { ConfigTreemapParentFields } from './config_treemap_parents';
 import { DataConfigItemClickPanel } from './data_config_item_click_panel';
@@ -148,7 +147,7 @@ export const TreemapConfigPanelItem = ({
           placeholder="Select a field"
           options={options}
           selectedOptions={selectedAxis[index].label !== '' ? [selectedAxis[index]] : []}
-          isClearable={true}
+          isClearable
           singleSelection={{ asPlainText: true }}
           onChange={handleParentChange}
           aria-label="Parent field"

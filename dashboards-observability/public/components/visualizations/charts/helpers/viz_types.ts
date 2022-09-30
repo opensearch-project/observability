@@ -19,7 +19,6 @@ import {
   GROUPBY,
   PARENTFIELDS,
   TIME_INTERVAL_OPTIONS,
-  CUSTOM_LABEL,
 } from '../../../../../common/constants/explorer';
 interface IVizContainerProps {
   vizId: string;
@@ -195,8 +194,8 @@ const getUserConfigs = (
                 childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
                 parentFields:
                   userSelectedConfigs?.dataConfig !== undefined &&
-                  userSelectedConfigs?.dataConfig[GROUPBY]?.length > 0
-                    ? [...userSelectedConfigs?.dataConfig[GROUPBY][0][PARENTFIELDS]]
+                  userSelectedConfigs.dataConfig[GROUPBY]?.length > 0
+                    ? [...userSelectedConfigs.dataConfig[GROUPBY][0][PARENTFIELDS]]
                     : [],
               },
             ],

@@ -29,7 +29,6 @@ import {
   RAW_QUERY,
   TIMESTAMP,
   TIME_INTERVAL_OPTIONS,
-  CUSTOM_LABEL,
 } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
@@ -278,7 +277,7 @@ export const DataConfigPanelItem = ({
     const isDimensions = name === GROUPBY;
     return (
       <>
-        <div key={index} className="services">
+        <div className="services">
           <div className="first-division">
             <DataConfigItemClickPanel
               isSecondary
