@@ -84,6 +84,7 @@ export enum VIS_CHART_TYPES {
   Scatter = 'scatter',
   LogsView = 'logs_view',
   Stats = 'stats',
+  TableView = 'data_table',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
@@ -101,6 +102,7 @@ export const ENABLED_VIS_TYPES = [
   VIS_CHART_TYPES.Scatter,
   VIS_CHART_TYPES.LogsView,
   VIS_CHART_TYPES.Stats,
+  VIS_CHART_TYPES.TableView,
 ];
 
 // Live tail constants
