@@ -13,8 +13,6 @@ import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.observability.constructNotebookRequest
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
-// import kotlin.Collections.List
-// import kotlin.Collections.Map
 
 class TABackwardCompatibilityIT : PluginRestTestCase() {
 
