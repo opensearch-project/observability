@@ -898,19 +898,20 @@ export const Explorer = ({
           [AGGREGATIONS]: [],
         };
       case VIS_CHART_TYPES.LogsView: {
-        const dimensions = [
-          ...statsToken.aggregations
-            .map((agg) => ({
-              label: `${agg.function.name}(${agg.function.value_expression})` ?? '',
-              name: `${agg.function.name}(${agg.function.value_expression})` ?? '',
+        const dimensions = statsToken.aggregations
+          .map((agg) => {
+            const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
+            return {
+              label: logViewField,
+              name: logViewField,
+            };
+          })
+          .concat(
+            groupByToken.group_fields?.map((agg) => ({
+              label: agg.name ?? '',
+              name: agg.name ?? '',
             }))
-            .concat(
-              groupByToken.group_fields?.map((agg) => ({
-                label: agg.name ?? '',
-                name: agg.name ?? '',
-              }))
-            ),
-        ];
+          );
         if (span !== undefined) {
           const { time_field, interval, unit } = span;
           const timespanField = `span(${time_field[0].name},${interval}${unit[0].value})`;
