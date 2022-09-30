@@ -110,20 +110,32 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       },
     };
     if (visualizationName === VIS_CHART_TYPES.LogsView) {
-      tempUserConfigs = {
-        ...tempUserConfigs,
-        [AGGREGATIONS]: [],
-        [GROUPBY]: statsTokens.aggregations
-          .map((agg) => ({
+      const dimensions = statsTokens.aggregations
+        .map((agg) => {
+          const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
+          return {
+            label: logViewField,
+            name: logViewField,
+          };
+        })
+        .concat(
+          statsTokens.groupby.group_fields?.map((agg) => ({
             label: agg.name ?? '',
             name: agg.name ?? '',
           }))
-          .concat(
-            statsTokens.groupby?.group_fields?.map((agg) => ({
-              label: agg.name ?? '',
-              name: agg.name ?? '',
-            }))
-          ),
+        );
+      if (statsTokens.groupby.span !== null) {
+        const { field, literal_value, time_unit } = statsTokens.groupby.span.span_expression;
+        const timespanField = `span(${field},${literal_value}${time_unit})`;
+        dimensions.push({
+          label: timespanField,
+          name: timespanField,
+        });
+      }
+      tempUserConfigs = {
+        ...tempUserConfigs,
+        [AGGREGATIONS]: [],
+        [GROUPBY]: dimensions,
       };
     } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
       tempUserConfigs = {
