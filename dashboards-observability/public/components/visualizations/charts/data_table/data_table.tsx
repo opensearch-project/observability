@@ -10,10 +10,6 @@ import { EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
-
-// styles
-import './data_table.scss';
 
 // grid elements
 import { CustomOverlay, RowConfigType, GridHeader } from './data_table_header';
@@ -21,6 +17,11 @@ import { GridFooter } from './data_table_footer';
 
 // constants
 import { COLUMN_DEFAULT_MIN_WIDTH, HEADER_HEIGHT } from '../../../../../common/constants/explorer';
+import { IVisualizationContainerProps, IField } from '../../../../../common/types/explorer';
+import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+
+// styles
+import './data_table.scss';
 
 const doubleValueGetter = (params) => {
   return params.data[params.column.colId];
@@ -28,12 +29,21 @@ const doubleValueGetter = (params) => {
 
 export const DataTable = ({ visualizations, layout, config }: any) => {
   const {
-    data: vizData,
-    jsonData,
-    metadata: { fields = [] },
-  } = visualizations.data.rawVizData;
+    data: {
+      defaultAxes,
+      indexFields,
+      query,
+      rawVizData: {
+        data: queriedVizData,
+        jsonData,
+        metadata: { fields = [] },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
 
-  const { dataConfig = {} } = visualizations?.data?.userConfigs;
+  const { dataConfig = {} } = userConfigs;
   const enablePagination =
     typeof dataConfig?.chartStyles?.enablePagination !== 'undefined'
       ? dataConfig?.chartStyles?.enablePagination
@@ -65,24 +75,28 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   }, []);
 
   // rows and columns
-  const raw_data = [...jsonData];
+  const rawData = [...jsonData];
 
-  const columns = fields.map((field: any) => {
-    return {
-      lockVisible: true,
-      columnsMenuParams: {
-        suppressColumnFilter: true,
-        suppressColumnSelectAll: true,
-        suppressColumnExpandAll: true,
-      },
-      headerName: field.name,
-      field: field.name,
-      colId: field.name,
-      ...(field.type === 'double' && {
-        valueGetter: doubleValueGetter,
+  const columns = useMemo(
+    () =>
+      fields.map((field: IField) => {
+        return {
+          lockVisible: true,
+          columnsMenuParams: {
+            suppressColumnFilter: true,
+            suppressColumnSelectAll: true,
+            suppressColumnExpandAll: true,
+          },
+          headerName: field.name,
+          field: field.name,
+          colId: field.name,
+          ...(field.type === 'double' && {
+            valueGetter: doubleValueGetter,
+          }),
+        };
       }),
-    };
-  });
+    [fields]
+  );
 
   // ag-grid-react bindings
   const gridRef = useRef<any | undefined>();
@@ -97,7 +111,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   });
   // pagination
   const [activePage, setActivePage] = useState<number>(0);
-  const pageCount = Math.ceil(raw_data.length / pageSize);
+  const pageCount = Math.ceil(rawData.length / pageSize);
 
   const defaultColDef = useMemo(() => {
     return {
@@ -193,7 +207,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
       )}
       <AgGridReact
         ref={gridRef}
-        rowData={raw_data}
+        rowData={rawData}
         columnDefs={columns}
         defaultColDef={defaultColDef}
         domLayout={'autoHeight'}
@@ -222,7 +236,7 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
             <EuiFlexItem>
               <AgGridReact
                 ref={gridRefFullScreen}
-                rowData={raw_data}
+                rowData={rawData}
                 columnDefs={columns}
                 defaultColDef={defaultColDef}
                 domLayout="autoHeight"
