@@ -18,7 +18,6 @@ import {
   EuiSpacer,
   EuiTitle,
   htmlIdGenerator,
-  EuiToolTip,
 } from '@elastic/eui';
 import { batch, useDispatch } from 'react-redux';
 import {
@@ -35,6 +34,7 @@ import { composeAggregations } from '../../../../../../../../common/query_manage
 import {
   ConfigList,
   ConfigListEntry,
+  DataConfigPanelFieldProps,
   DataConfigPanelProps,
 } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
@@ -501,7 +501,7 @@ export const DataConfigPanelItem = ({
     );
   }, [availableFields, configList.span]);
 
-  const getRenderFieldsObj = (sectionName: string) => {
+  const getRenderFieldsObj = (sectionName: string): DataConfigPanelFieldProps => {
     return {
       list: configList[sectionName],
       sectionName,

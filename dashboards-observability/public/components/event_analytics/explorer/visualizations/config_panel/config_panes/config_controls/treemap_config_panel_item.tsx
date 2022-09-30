@@ -17,6 +17,7 @@ import {
 import { uniqueId } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
   CHILDFIELD,
   AGGREGATIONS,
@@ -32,15 +33,16 @@ import {
   DataConfigPanelProps,
   ParentUnitType,
 } from '../../../../../../../../common/types/explorer';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 
 export const TreemapConfigPanelItem = ({
   fieldOptionList,
   visualizations,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const { tabId, curVisId, changeVisualizationConfig, fetchData, handleQueryChange } = useContext<
-    any
-  >(TabContext);
+  const { tabId, curVisId, changeVisualizationConfig } = useContext<{
+    [key: string]: string | VIS_CHART_TYPES | ActionCreatorWithPayload<string, string>;
+  }>(TabContext);
 
   const { data } = visualizations;
   const { userConfigs } = data;
@@ -155,9 +157,12 @@ export const TreemapConfigPanelItem = ({
       </>
     );
   };
+
+  // Below function take input array for dimensions parent fields.
   const handleUpdateParentFields = (arr: ParentUnitType[]) =>
     updateList(GROUPBY, PARENTFIELDS, arr);
 
+  // Below function handle change for input parent fields.
   const handleParentChange = (values: Array<EuiComboBoxOptionOption<unknown>>) => {
     const selectedAxis = configList.dimensions[0]?.parentFields;
     const { index } = selectedParentItem;
@@ -215,10 +220,6 @@ export const TreemapConfigPanelItem = ({
             <h3>Parent Fields</h3>
           </EuiTitle>
           <ConfigTreemapParentFields
-            dropdownList={getOptionsAvailable(GROUPBY).map((opt) => ({
-              label: opt.label,
-              name: opt.label,
-            }))}
             selectedAxis={configList.dimensions[0]?.parentFields}
             handleUpdateParentFields={handleUpdateParentFields}
             setSelectedParentItem={setSelectedParentItem}

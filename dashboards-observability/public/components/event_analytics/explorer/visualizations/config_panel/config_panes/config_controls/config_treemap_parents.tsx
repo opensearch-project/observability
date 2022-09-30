@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiButtonIcon, EuiPanel, EuiSpacer, EuiText } from '@elastic/eui';
+import { EuiButtonIcon, EuiLink, EuiPanel, EuiSpacer, EuiText } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 import React, { Fragment } from 'react';
-import { ParentUnitType } from '../../../../../../../../common/types/explorer';
+import { ParentUnitType, TreemapParentsProps } from '../../../../../../../../common/types/explorer';
 
 export const ConfigTreemapParentFields = ({
   selectedAxis,
   setSelectedParentItem,
   handleUpdateParentFields,
-}: any) => {
+}: TreemapParentsProps) => {
   const addButtonText = 'Add Parent';
   const initialParentState = {
     name: '',
@@ -45,10 +45,10 @@ export const ConfigTreemapParentFields = ({
             <Fragment key={index}>
               <EuiSpacer size="s" />
               <EuiPanel paddingSize="s" className="panelItem_button">
-                <EuiText size="s" className="field_text" onClick={() => handleEditParent(index)}>
-                  <a role="button" tabIndex={0}>
+                <EuiText size="s" className="field_text">
+                  <EuiLink role="button" tabIndex={0} onClick={() => handleEditParent(index)}>
                     {obj.label !== '' ? obj.label : `Parent ${index + 1}`}
-                  </a>
+                  </EuiLink>
                 </EuiText>
                 <EuiButtonIcon
                   color="subdued"

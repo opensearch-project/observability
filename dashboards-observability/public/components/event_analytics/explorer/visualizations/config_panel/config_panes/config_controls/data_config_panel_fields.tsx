@@ -3,8 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import React, { Fragment } from 'react';
-import { EuiButtonIcon, EuiPanel, EuiSpacer, EuiText, EuiTitle } from '@elastic/eui';
-import { ConfigListEntry } from '../../../../../../../../common/types/explorer';
+import { EuiButtonIcon, EuiLink, EuiPanel, EuiSpacer, EuiText, EuiTitle } from '@elastic/eui';
+import { isArray } from 'lodash';
+import {
+  ConfigListEntry,
+  DataConfigPanelFieldProps,
+} from '../../../../../../../../common/types/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import {
   AGGREGATIONS,
@@ -20,13 +24,10 @@ export const DataConfigPanelFields = ({
   handleServiceAdd,
   handleServiceRemove,
   handleServiceEdit,
-}: any) => {
+}: DataConfigPanelFieldProps) => {
   const isHeatMapAddButton = (name: string) => {
-    if (visType === VIS_CHART_TYPES.HeatMap) {
-      if (name === AGGREGATIONS) return list?.length === 1;
-      return !(list?.length < 2);
-    }
-    return false;
+    if (!list || !isArray(list) || visType !== VIS_CHART_TYPES.HeatMap) return false;
+    return name === AGGREGATIONS ? list.length === 1 : !(list?.length < 2);
   };
 
   return (
@@ -36,18 +37,19 @@ export const DataConfigPanelFields = ({
       </EuiTitle>
       <EuiSpacer size="s" />
       {list !== undefined &&
+        isArray(list) &&
         list.map((obj: ConfigListEntry, index: number) => (
           <Fragment key={index}>
             <EuiPanel paddingSize="s" className="panelItem_button">
-              <EuiText
-                size="s"
-                className="field_text"
-                onClick={() => handleServiceEdit(false, index, sectionName)}
-              >
-                <a role="button" tabIndex={0}>
+              <EuiText size="s" className="field_text">
+                <EuiLink
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleServiceEdit(false, index, sectionName)}
+                >
                   {obj[CUSTOM_LABEL] ||
                     `${sectionName === AGGREGATIONS ? obj.aggregation : ''} ${obj.label}`}
-                </a>
+                </EuiLink>
               </EuiText>
               <EuiButtonIcon
                 color="subdued"

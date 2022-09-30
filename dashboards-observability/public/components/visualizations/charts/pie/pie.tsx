@@ -19,9 +19,7 @@ import {
   PIE_XAXIS_GAP,
   AGGREGATIONS,
   GROUPBY,
-  CUSTOM_LABEL,
 } from '../../../../../common/constants/explorer';
-import { getPropName } from '../../../event_analytics/utils/utils';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const {
