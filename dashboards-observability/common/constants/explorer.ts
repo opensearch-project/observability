@@ -157,8 +157,6 @@ export interface DefaultGaugeChartParametersProps {
   ThresholdsMaxLimit: number;
 }
 
-export const CUSTOM_LABEL = 'customLabel';
-
 export const DEFAULT_GAUGE_CHART_PARAMETERS: DefaultGaugeChartParametersProps = {
   GaugeTitleSize: 14,
   DisplayDefaultGauges: 1,
