@@ -4,7 +4,6 @@
  */
 import { CUSTOM_LABEL } from '../../../../common/constants/explorer';
 import { PPLNode } from '../node';
-import { CUSTOM_LABEL } from '../../../../common/constants/explorer';
 export class AggregateTerm extends PPLNode {
   constructor(
     name: string,

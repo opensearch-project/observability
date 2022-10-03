@@ -158,11 +158,17 @@ export const TreemapConfigPanelItem = ({
     );
   };
 
-  // Below function take input array for dimensions parent fields.
+  /**
+   * Update DataConfiguration of parent fields list.
+   * @param arr list to be updated
+   */
   const handleUpdateParentFields = (arr: ParentUnitType[]) =>
     updateList(GROUPBY, PARENTFIELDS, arr);
 
-  // Below function handle change for input parent fields.
+  /**
+   * function changes the value in parent input field.
+   * @param value updated value
+   */
   const handleParentChange = (values: Array<EuiComboBoxOptionOption<unknown>>) => {
     const selectedAxis = configList.dimensions[0]?.parentFields;
     const { index } = selectedParentItem;
@@ -174,12 +180,16 @@ export const TreemapConfigPanelItem = ({
     handleUpdateParentFields(val);
   };
 
-  const isHandlePanelClickBack = (selectedAxis: ParentUnitType[]) => {
+  /**
+   * Changes the array when back button in Data Config panel is clicked.
+   * @param parentArray updated array of parent fields.
+   */
+  const isHandlePanelClickBack = (parentArray: ParentUnitType[]) => {
     const { index } = selectedParentItem;
-    if (selectedAxis[index].name === '') {
+    if (parentArray[index].name === '') {
       const arr = [
-        ...selectedAxis.slice(0, index),
-        ...selectedAxis.slice(index + 1, selectedAxis.length),
+        ...parentArray.slice(0, index),
+        ...parentArray.slice(index + 1, parentArray.length),
       ];
       handleUpdateParentFields(arr);
     }

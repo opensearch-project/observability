@@ -42,6 +42,7 @@ import { changeQuery } from '../../../../../redux/slices/query_slice';
 import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
 import { DataConfigItemClickPanel } from '../config_controls/data_config_item_click_panel';
 import { DataConfigPanelFields } from '../config_controls/data_config_panel_fields';
+import { ButtonGroupItem } from './config_button_group';
 
 const initialDimensionEntry = {
   label: '',
@@ -61,9 +62,6 @@ export const DataConfigPanelItem = ({
   queryManager,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-<<<<<<< HEAD:dashboards-observability/public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/data_configurations_panel.tsx
-  const { tabId, handleQueryChange, fetchData, curVisId } = useContext<any>(TabContext);
-=======
   const {
     tabId,
     handleQuerySearch,
@@ -73,7 +71,6 @@ export const DataConfigPanelItem = ({
     changeVisualizationConfig,
     curVisId,
   } = useContext<any>(TabContext);
->>>>>>> 9211985 (Made code compatible with PR changes):dashboards-observability/public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/data_config_panel_item.tsx
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {

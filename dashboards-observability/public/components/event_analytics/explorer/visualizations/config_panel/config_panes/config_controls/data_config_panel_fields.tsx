@@ -27,7 +27,7 @@ export const DataConfigPanelFields = ({
 }: DataConfigPanelFieldProps) => {
   const isHeatMapAddButton = (name: string) => {
     if (!list || !isArray(list) || visType !== VIS_CHART_TYPES.HeatMap) return false;
-    return name === AGGREGATIONS ? list.length === 1 : !(list?.length < 2);
+    return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
   };
 
   return (
@@ -36,8 +36,7 @@ export const DataConfigPanelFields = ({
         <h3>{sectionName}</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
-      {list !== undefined &&
-        isArray(list) &&
+      {isArray(list) &&
         list.map((obj: ConfigListEntry, index: number) => (
           <Fragment key={index}>
             <EuiPanel paddingSize="s" className="panelItem_button">

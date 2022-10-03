@@ -4,7 +4,6 @@
  */
 import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 import { AggregationConfigurations, PreviouslyParsedStaleStats } from '../ast/types';
-import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 
 export const composeAggregations = (
   aggConfig: AggregationConfigurations,
