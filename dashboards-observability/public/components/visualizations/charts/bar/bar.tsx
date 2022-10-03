@@ -77,8 +77,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const legendSize = dataConfig?.legend?.legendSize;
   const getSelectedColorTheme = (field: any, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.label)
-        ?.color) ||
+      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   let bars;
@@ -131,14 +130,16 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }, [queriedVizData, xaxes, yaxes]);
 
   bars = yaxes?.map((yMetric, idx) => {
+    const selectedColor = getSelectedColorTheme(yMetric.name, idx);
+    const fillColor = hexToRgb(selectedColor, fillOpacity);
     return {
       y: isVertical ? queriedVizData[getPropName(yMetric)] : chartAxis,
       x: isVertical ? chartAxis : queriedVizData[getPropName(yMetric)],
       type: visMetaData.type,
       marker: {
-        color: getSelectedColorTheme(yMetric, idx),
+        color: fillColor,
         line: {
-          color: getSelectedColorTheme(yMetric, idx),
+          color: selectedColor,
           width: lineWidth,
         },
       },

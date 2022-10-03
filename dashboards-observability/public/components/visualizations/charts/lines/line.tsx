@@ -81,8 +81,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
   const getSelectedColorTheme = (field: any, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
-        ?.color) ||
+      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
   let xaxis;
   const timestampField = find(fields, (field) => field.type === 'timestamp');
@@ -112,7 +111,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const [calculatedLayout, lineValues] = useMemo(() => {
     const isBarMode = mode === 'bar';
     let calculatedLineValues = valueSeries.map((field: any, index: number) => {
-      const selectedColor = getSelectedColorTheme(field, index);
+      const selectedColor = getSelectedColorTheme(field.name, index);
       const fillColor = hexToRgb(selectedColor, fillOpacity);
       const barMarker = {
         color: fillColor,
@@ -144,7 +143,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
 
       return {
-        x: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name],
+        x: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name],
         y: queriedVizData[getPropName(field)],
         type: isBarMode ? 'bar' : 'scatter',
         name: getPropName(field),
@@ -208,16 +207,16 @@ export const Line = ({ visualizations, layout, config }: any) => {
         return list.map((thr: ThresholdUnitType) => {
           thresholdTraces.x.push(
             queriedVizData[
-              !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name
+              !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.name : fields[lastIndex].name
             ][0]
           );
           thresholdTraces.y.push(thr.value * (1 + 0.06));
           thresholdTraces.text.push(thr.name);
           return {
             type: 'line',
-            x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+            x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name][0],
             y0: thr.value,
-            x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+            x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name]),
             y1: thr.value,
             name: thr.name || '',
             opacity: 0.7,

@@ -17,7 +17,7 @@ import {
   EuiComboBox,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
-import { ADD_BUTTON_TEXT } from '../../../../../../../../common/constants/explorer';
+import { ADD_BUTTON_TEXT, AGGREGATIONS } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 
 export const ConfigColorTheme = ({
@@ -38,8 +38,8 @@ export const ConfigColorTheme = ({
     color: '#FC0505',
   });
 
-  const options = (dataConfig?.valueOptions?.metrics && dataConfig.valueOptions.metrics.length !== 0
-    ? dataConfig.valueOptions.metrics
+  const options = (dataConfig[AGGREGATIONS] && dataConfig[AGGREGATIONS].length !== 0
+    ? dataConfig[AGGREGATIONS]
     : vis.name === VIS_CHART_TYPES.Histogram
     ? defaultAxes.yaxis ?? []
     : fields

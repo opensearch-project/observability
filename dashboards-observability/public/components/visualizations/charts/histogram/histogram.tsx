@@ -57,12 +57,10 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     xbins.start = dataConfig[GROUPBY][0].bucketOffset;
   }
 
-  const selectedColorTheme = (field: any, index: number, opacity?: number) => {
+  const selectedColorTheme = (field: string, index: number, opacity?: number) => {
     let newColor;
     if (dataConfig?.colorTheme && dataConfig?.colorTheme.length !== 0) {
-      newColor = dataConfig.colorTheme.find(
-        (colorSelected) => colorSelected.name.name === field.name
-      );
+      newColor = dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field);
     }
     return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
   };
@@ -75,9 +73,9 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
         name: field.name,
         hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
-          color: selectedColorTheme(field, index, fillOpacity),
+          color: selectedColorTheme(field.name, index, fillOpacity),
           line: {
-            color: selectedColorTheme(field, index),
+            color: selectedColorTheme(field.name, index),
             width: lineWidth,
           },
         },
