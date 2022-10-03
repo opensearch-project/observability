@@ -44,6 +44,7 @@ const {
   DefaultTextMode,
   DefaultChartType,
   BaseThreshold,
+  DefaultTextColor,
 } = DEFAULT_STATS_CHART_PARAMETERS;
 
 interface CreateAnnotationType {
@@ -96,8 +97,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   if (
     isEmpty(queriedVizData) ||
     (chartType === DefaultChartType && xaxes.length === 0) ||
-    seriesLength === 0 ||
-    chartType !== DefaultChartType
+    seriesLength === 0
   )
     return <EmptyPlaceholder icon={visualizations?.vis?.icontype} />;
 
@@ -109,7 +109,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   );
 
   // style panel parameters
-  const titleSize =
+  let titleSize =
     chartStyles.titleSize ||
     visMetaData.titlesize -
       visMetaData.titlesize * seriesLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
@@ -123,7 +123,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       ? DefaultOrientation
       : 'h';
   const selectedTextMode = chartStyles.textMode || visMetaData.textmode;
-  const textMode =
+  let textMode =
     selectedTextMode === DefaultTextMode || selectedTextMode === 'values+names'
       ? DefaultTextMode
       : selectedTextMode;
@@ -132,6 +132,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     chartStyles.seriesUnits?.substring(0, STATS_SERIES_UNIT_SUBSTRING_LENGTH) || '';
   const seriesUnitsSize = valueSize - valueSize * STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
+  const textColor = chartStyles.textColor?.childColor || DefaultTextColor;
+
+  if (chartType === 'text' && chartStyles.textMode === undefined) {
+    textMode = 'names';
+    titleSize = visMetaData.titlesize;
+  }
 
   // margin from left of grid cell for label/value
   const ANNOTATION_MARGIN_LEFT = seriesLength > 1 ? 0.01 : 0;
@@ -355,65 +361,299 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     });
   };
 
+  const createAnnotationTextModeVertical = ({
+    label,
+    value,
+    index,
+    valueColor,
+  }: CreateAnnotationType) => {
+    return textMode === DefaultTextMode
+      ? [
+          {
+            ...STATS_ANNOTATION,
+            xanchor: 'left',
+            yanchor: seriesLength === 1 ? 'center' : 'bottom',
+            text: label,
+            font: {
+              size: titleSize,
+              color: textColor,
+              family: 'Roboto',
+            },
+            x:
+              seriesLength === 1
+                ? 0 + ANNOTATION_MARGIN_LEFT
+                : index / seriesLength + ANNOTATION_MARGIN_LEFT,
+            y: 0.5,
+            seriesValue: value,
+            type: 'name',
+          },
+          {
+            ...STATS_ANNOTATION,
+            xanchor: seriesLength === 1 ? 'right' : 'left',
+            yanchor: seriesLength === 1 ? 'center' : 'top',
+            text: createValueText(value),
+            font: {
+              size: valueSize,
+              color: textColor,
+              family: 'Roboto',
+            },
+            x:
+              seriesLength === 1
+                ? 1 - ANNOTATION_MARGIN_LEFT
+                : index / seriesLength + ANNOTATION_MARGIN_LEFT,
+            y: 0.5,
+            type: 'value',
+            seriesValue: value,
+          },
+        ]
+      : [
+          {
+            ...STATS_ANNOTATION,
+            x: calculateTextCooridinate(seriesLength, index),
+            xanchor: 'center',
+            y: 0.5,
+            yanchor: 'center',
+            text: textMode === 'values' ? createValueText(value) : label,
+            font: {
+              size: textMode === 'values' ? valueSize : titleSize,
+              color: textColor,
+              family: 'Roboto',
+            },
+            type: textMode === 'names' ? 'name' : 'value',
+            seriesValue: value,
+          },
+        ];
+  };
+
+  const createAnnotationTextModeHorizontal = ({
+    label,
+    value,
+    index,
+    valueColor,
+  }: CreateAnnotationType) => {
+    return textMode === DefaultTextMode
+      ? [
+          {
+            ...STATS_ANNOTATION,
+            xanchor: 'left',
+            yanchor: 'center',
+            text: label,
+            font: {
+              size: titleSize,
+              color: COLOR_WHITE,
+              family: 'Roboto',
+            },
+            x: 0 + ANNOTATION_MARGIN_LEFT,
+            y: calculateTextCooridinate(seriesLength, index),
+            seriesValue: value,
+            type: 'name',
+          },
+          {
+            ...STATS_ANNOTATION,
+            xanchor: 'right',
+            yanchor: 'center',
+            text: createValueText(value),
+            font: {
+              size: valueSize,
+              color: COLOR_WHITE,
+              family: 'Roboto',
+            },
+            x: 1 - ANNOTATION_MARGIN_LEFT,
+            y: calculateTextCooridinate(seriesLength, index),
+            type: 'value',
+            seriesValue: value,
+          },
+        ]
+      : [
+          {
+            ...STATS_ANNOTATION,
+            xanchor: 'center',
+            yanchor: 'center',
+            x: 0.5,
+            y: calculateTextCooridinate(seriesLength, index),
+            text: textMode === 'values' ? createValueText(value) : label,
+            font: {
+              size: textMode === 'values' ? valueSize : titleSize,
+              color: COLOR_WHITE,
+              family: 'Roboto',
+            },
+            type: textMode === 'names' ? 'name' : 'value',
+            seriesValue: value,
+          },
+        ];
+  };
+
+  const generateRectShapes = () => {
+    const shape = {
+      type: 'rect',
+      xsizemode: 'scaled',
+      layer: 'below',
+      yref: 'paper',
+      xref: 'paper',
+    };
+    const shapes: any = [];
+    series.forEach((seriesItem: ConfigListEntry, seriesIndex: number) => {
+      const seriesLabel = getPropName(seriesItem);
+      const isLabelExisted = queriedVizData[seriesLabel] ? true : false;
+      const seriesValue = isLabelExisted ? getSeriesValue(seriesLabel) : 0;
+      const annotation = {
+        label: seriesLabel,
+        value: seriesValue,
+        index: seriesIndex,
+        valueColor: '',
+      };
+      autoChartLayout = {
+        ...autoChartLayout,
+        annotations: autoChartLayout.annotations.concat(
+          orientation === DefaultOrientation || seriesLength === 1
+            ? createAnnotationTextModeVertical({
+                ...annotation,
+              })
+            : createAnnotationTextModeHorizontal({
+                ...annotation,
+              })
+        ),
+        [`yaxis${seriesIndex > 0 ? seriesIndex + 1 : ''}`]: {
+          visible: false,
+          showgrid: false,
+          anchor: `x${seriesIndex > 0 ? seriesIndex + 1 : ''}`,
+        },
+        [`xaxis${seriesIndex > 0 ? seriesIndex + 1 : ''}`]: {
+          visible: false,
+          showgrid: false,
+          anchor: `y${seriesIndex > 0 ? seriesIndex + 1 : ''}`,
+        },
+      };
+      const shapeColor = {
+        line: {
+          color: '',
+          width: 3,
+        },
+        fillcolor: '',
+      };
+      const nonSimilarAxis = orientation === DefaultOrientation ? 'x' : 'y';
+      const similarAxis = orientation === DefaultOrientation ? 'y' : 'x';
+      // for first metric
+      if (seriesIndex === 0) {
+        shapes.push({
+          ...shape,
+          ...shapeColor,
+          [`${nonSimilarAxis}0`]: 0,
+          [`${nonSimilarAxis}1`]: 1 / seriesLength,
+          [`${similarAxis}0`]: 0,
+          [`${similarAxis}1`]: 1,
+          seriesValue,
+        });
+      } else {
+        shapes.push({
+          ...shape,
+          ...shapeColor,
+          [`${nonSimilarAxis}0`]:
+            shapes[shapes.length - 1][`${nonSimilarAxis}1`] + STATS_GRID_SPACE_BETWEEN_X_AXIS,
+          [`${nonSimilarAxis}1`]:
+            shapes[shapes.length - 1][`${nonSimilarAxis}1`] + 1 / seriesLength,
+          [`${similarAxis}0`]: 0,
+          [`${similarAxis}1`]: 1,
+          seriesValue,
+        });
+      }
+    });
+    return shapes;
+  };
+
   const [statsData, statsLayout]: Plotly.Data[] = useMemo(() => {
     let calculatedStatsData: Plotly.Data[] = [];
-    calculatedStatsData = generateLineTraces();
-
-    if (sortedThresholds.length) {
-      const sortedStatsData = calculatedStatsData
+    let sortedStatsData: Plotly.Data[] = [];
+    let sortedShapesData = [];
+    if (chartType === DefaultChartType) {
+      calculatedStatsData = generateLineTraces();
+      sortedStatsData = calculatedStatsData
         .map((stat, statIndex) => ({ ...stat, oldIndex: statIndex }))
         .sort((statCurrent, statNext) => statCurrent.seriesValue - statNext.seriesValue);
+    } else {
+      const shapes = generateRectShapes();
+      autoChartLayout = {
+        ...autoChartLayout,
+        shapes,
+      };
+      sortedShapesData = shapes
+        .map((shape: object, shapeIndex: number) => ({ ...shape, oldIndex: shapeIndex }))
+        .sort((current: object, next: object) => current.seriesValue - next.seriesValue);
+    }
+
+    if (sortedThresholds.length) {
       // threshold ranges with min, max values
       let thresholdRanges: number[][] = [];
+      const maxValue =
+        chartType === DefaultChartType
+          ? sortedStatsData[sortedStatsData.length - 1].seriesValue
+          : sortedShapesData[sortedShapesData.length - 1].seriesValue;
       thresholdRanges = sortedThresholds.map((thresh, index) => [
         thresh.value,
-        index === sortedThresholds.length - 1
-          ? sortedStatsData[sortedStatsData.length - 1].seriesValue
-          : sortedThresholds[index + 1].value,
+        index === sortedThresholds.length - 1 ? maxValue : sortedThresholds[index + 1].value,
       ]);
 
-      if (thresholdRanges.length) {
-        // change color for line traces
-        for (let statIndex = 0; statIndex < sortedStatsData.length; statIndex++) {
-          for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
-            if (
-              Number(sortedStatsData[statIndex].seriesValue) >=
-                Number(thresholdRanges[threshIndex][0]) &&
-              Number(sortedStatsData[statIndex].seriesValue) <=
-                Number(thresholdRanges[threshIndex][1])
-            ) {
-              calculatedStatsData[sortedStatsData[statIndex].oldIndex].fillcolor = hexToRgb(
-                sortedThresholds[threshIndex].color,
-                DEFAULT_CHART_STYLES.FillOpacity / FILLOPACITY_DIV_FACTOR
-              );
-              calculatedStatsData[sortedStatsData[statIndex].oldIndex].line.color =
-                sortedThresholds[threshIndex].color;
+      if (chartType === DefaultChartType) {
+        if (thresholdRanges.length) {
+          // change color for line traces
+          for (let statIndex = 0; statIndex < sortedStatsData.length; statIndex++) {
+            for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
+              if (
+                Number(sortedStatsData[statIndex].seriesValue) >=
+                  Number(thresholdRanges[threshIndex][0]) &&
+                Number(sortedStatsData[statIndex].seriesValue) <=
+                  Number(thresholdRanges[threshIndex][1])
+              ) {
+                calculatedStatsData[sortedStatsData[statIndex].oldIndex].fillcolor = hexToRgb(
+                  sortedThresholds[threshIndex].color,
+                  DEFAULT_CHART_STYLES.FillOpacity / FILLOPACITY_DIV_FACTOR
+                );
+                calculatedStatsData[sortedStatsData[statIndex].oldIndex].line.color =
+                  sortedThresholds[threshIndex].color;
+              }
+            }
+          }
+
+          // change color of text annotations
+          for (
+            let annotationIndex = 0;
+            annotationIndex < autoChartLayout.annotations.length;
+            annotationIndex++
+          ) {
+            const isSeriesValueText = autoChartLayout.annotations[annotationIndex].type === 'value';
+            const seriesValue = Number(autoChartLayout.annotations[annotationIndex].seriesValue);
+            for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
+              if (
+                isSeriesValueText &&
+                seriesValue >= Number(thresholdRanges[threshIndex][0]) &&
+                seriesValue <= Number(thresholdRanges[threshIndex][1])
+              ) {
+                autoChartLayout.annotations[annotationIndex].font.color =
+                  sortedThresholds[threshIndex].color;
+              }
             }
           }
         }
-
-        // change color of text annotations
-        for (
-          let annotationIndex = 0;
-          annotationIndex < autoChartLayout.annotations.length;
-          annotationIndex++
-        ) {
-          const isSeriesValueText = autoChartLayout.annotations[annotationIndex].type === 'value';
-          const seriesValue = Number(autoChartLayout.annotations[annotationIndex].seriesValue);
+      } else {
+        // change color of shapes
+        for (let shapeIndex = 0; shapeIndex < sortedShapesData.length; shapeIndex++) {
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
             if (
-              isSeriesValueText &&
-              seriesValue >= Number(thresholdRanges[threshIndex][0]) &&
-              seriesValue <= Number(thresholdRanges[threshIndex][1])
+              Number(sortedShapesData[shapeIndex].seriesValue) >=
+                Number(thresholdRanges[threshIndex][0]) &&
+              Number(sortedShapesData[shapeIndex].seriesValue) <=
+                Number(thresholdRanges[threshIndex][1])
             ) {
-              autoChartLayout.annotations[annotationIndex].font.color =
+              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].fillcolor =
+                sortedThresholds[threshIndex].color;
+              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line.color =
                 sortedThresholds[threshIndex].color;
             }
           }
         }
       }
     }
-    return [calculatedStatsData, autoChartLayout];
+    return [chartType === DefaultChartType ? calculatedStatsData : [], autoChartLayout];
   }, [
     xaxes,
     series,
@@ -433,7 +673,12 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
       showlegend: false,
-      margin: STATS_AXIS_MARGIN,
+      margin:
+        chartType === DefaultChartType
+          ? STATS_AXIS_MARGIN
+          : panelOptions.title || layoutConfig.layout?.title
+          ? STATS_AXIS_MARGIN
+          : { ...STATS_AXIS_MARGIN, t: 0 },
       ...statsLayout,
       grid: {
         ...(orientation === DefaultOrientation
