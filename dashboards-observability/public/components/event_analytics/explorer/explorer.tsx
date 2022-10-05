@@ -58,6 +58,7 @@ import {
   DATE_PICKER_FORMAT,
   GROUPBY,
   AGGREGATIONS,
+  CUSTOM_LABEL,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -86,9 +87,14 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
-import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
 import { PatternsTable } from './log_patterns/patterns_table';
 import { selectPatterns } from '../redux/slices/patterns_slice';
+import {
+  statsChunk,
+  GroupByChunk,
+  StatsAggregationChunk,
+  GroupField,
+} from '../../../../common/query_manager/ast/types';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -164,7 +170,6 @@ export const Explorer = ({
   const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
     false
   );
-
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -325,7 +330,7 @@ export const Explorer = ({
     indexPattern: string
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
-  const fetchData = async (startingTime?: string, endingTime?: string) => {
+  const fetchData = async (isRefresh?: boolean, startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
@@ -384,10 +389,7 @@ export const Explorer = ({
           changeVisualizationConfig({
             tabId,
             vizId: visId,
-            data: {
-              ...userVizConfigs[visId],
-              dataConfig: {},
-            },
+            data: isRefresh ? { dataConfig: {} } : { ...userVizConfigs[visId] },
           })
         );
       }
@@ -920,16 +922,47 @@ export const Explorer = ({
           [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
           [AGGREGATIONS]: [],
         };
+      case VIS_CHART_TYPES.LogsView: {
+        const dimensions = statsToken.aggregations
+          .map((agg) => {
+            const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
+            return {
+              label: logViewField,
+              name: logViewField,
+            };
+          })
+          .concat(
+            groupByToken.group_fields?.map((agg) => ({
+              label: agg.name ?? '',
+              name: agg.name ?? '',
+            }))
+          );
+        if (span !== undefined) {
+          const { time_field, interval, unit } = span;
+          const timespanField = `span(${time_field[0].name},${interval}${unit[0].value})`;
+          dimensions.push({
+            label: timespanField,
+            name: timespanField,
+          });
+        }
+        return {
+          [AGGREGATIONS]: [],
+          [GROUPBY]: dimensions,
+        };
+      }
+
       default:
         return {
           [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
             label: agg.function?.value_expression,
             name: agg.function?.value_expression,
             aggregation: agg.function?.name,
+            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
           })),
           [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
             label: agg.name ?? '',
             name: agg.name ?? '',
+            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
           })),
           span,
         };
@@ -949,18 +982,17 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      await fetchData();
+      await fetchData(true);
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
         const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-
         const updatedDataConfig = getUpdatedDataConfig(statsTokens);
         await dispatch(
           changeVizConfig({
             tabId,
             vizId: curVisId,
-            data: { ...updatedDataConfig },
+            data: { dataConfig: { ...updatedDataConfig } },
           })
         );
       }
@@ -1263,7 +1295,7 @@ export const Explorer = ({
   const handleLiveTailSearch = useCallback(
     async (startingTime: string, endingTime: string) => {
       await updateQueryInStore(tempQuery);
-      fetchData(startingTime, endingTime);
+      fetchData(false, startingTime, endingTime);
     },
     [tempQuery]
   );

@@ -2,21 +2,24 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import React, { useMemo } from 'react';
-import { uniq, has, isEmpty, indexOf } from 'lodash';
-import Plotly from 'plotly.js-dist';
 import { colorPalette } from '@elastic/eui';
-import { Plt } from '../../plotly/plot';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { has, isEmpty, uniq } from 'lodash';
+import Plotly from 'plotly.js-dist';
 import {
   HEATMAP_PALETTE_COLOR,
-  SINGLE_COLOR_PALETTE,
-  OPACITY,
   HEATMAP_SINGLE_COLOR,
+  OPACITY,
+  SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
-import { hexToRgb, lightenColor } from '../../../../components/event_analytics/utils/utils';
+import {
+  hexToRgb,
+  lightenColor,
+  getPropName,
+} from '../../../../components/event_analytics/utils/utils';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { Plt } from '../../plotly/plot';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
@@ -47,7 +50,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(zMetrics) ||
     isEmpty(queriedVizData[xaxisField.label]) ||
     isEmpty(queriedVizData[yaxisField.label]) ||
-    isEmpty(queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`]) ||
+    isEmpty(queriedVizData[getPropName(zMetrics)]) ||
     dataConfig[GROUPBY].length > 2 ||
     dataConfig[AGGREGATIONS].length > 1
   )
@@ -91,7 +94,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     // maps bukcets to metrics
     for (let i = 0; i < queriedVizData[xaxisField.label].length; i++) {
       buckets[`${queriedVizData[xaxisField.label][i]},${queriedVizData[yaxisField.label][i]}`] =
-        queriedVizData[`${zMetrics.aggregation}(${zMetrics.name})`][i];
+        queriedVizData[getPropName(zMetrics)][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis

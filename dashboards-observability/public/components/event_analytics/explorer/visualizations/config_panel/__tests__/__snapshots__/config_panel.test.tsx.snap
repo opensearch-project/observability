@@ -3311,6 +3311,423 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
               },
             },
+            Object {
+              "category": "Visualizations",
+              "categoryaxis": "xaxis",
+              "charttype": "auto",
+              "component": [Function],
+              "editorconfig": Object {
+                "panelTabs": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "data-panel",
+                    "mapTo": "dataConfig",
+                    "name": "Style",
+                    "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Series",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_styles",
+                        "mapTo": "chartStyles",
+                        "name": "Chart styles",
+                        "schemas": Array [
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "chartType",
+                            "name": "Chart type",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "auto",
+                                  "name": "Auto",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "auto",
+                                  "name": "Auto",
+                                },
+                                Object {
+                                  "id": "horizontal",
+                                  "name": "Horizontal",
+                                },
+                                Object {
+                                  "id": "text",
+                                  "name": "Text mode",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "orientation",
+                            "name": "Orientation",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "auto",
+                                  "name": "Auto",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "auto",
+                                  "name": "Auto",
+                                },
+                                Object {
+                                  "id": "h",
+                                  "name": "Horizontal",
+                                },
+                                Object {
+                                  "id": "v",
+                                  "name": "Vertical",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "textInput",
+                            "mapTo": "seriesUnits",
+                            "name": "Series units",
+                            "title": "Series units",
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "precisionValue",
+                            "name": "Series precision",
+                            "props": Object {
+                              "minLimit": 0,
+                            },
+                            "title": "Series precision",
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "titleSize",
+                            "name": "Title size",
+                            "title": "Title size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "valueSize",
+                            "name": "Value size",
+                            "title": "Value size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "textMode",
+                            "name": "Text mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "auto",
+                                  "name": "Values + Names",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "auto",
+                                  "name": "Auto",
+                                },
+                                Object {
+                                  "id": "names",
+                                  "name": "Names",
+                                },
+                                Object {
+                                  "id": "values",
+                                  "name": "Values",
+                                },
+                                Object {
+                                  "id": "values+names",
+                                  "name": "Values + Names",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      Object {
+                        "defaultState": Array [
+                          Object {
+                            "color": "#3CA1C7",
+                            "isReadOnly": true,
+                            "name": "Base",
+                            "thid": "random_html_id",
+                            "value": 0,
+                          },
+                        ],
+                        "editor": [Function],
+                        "id": "thresholds",
+                        "mapTo": "thresholds",
+                        "name": "Thresholds",
+                        "schemas": Array [],
+                      },
+                    ],
+                  },
+                  Object {
+                    "content": Array [],
+                    "editor": [Function],
+                    "id": "style-panel",
+                    "mapTo": "layoutConfig",
+                    "name": "Layout",
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
+                ],
+              },
+              "fulllabel": "Stats",
+              "icon": [Function],
+              "icontype": "stats",
+              "id": "stats",
+              "label": "Stats",
+              "name": "stats",
+              "orientation": "auto",
+              "precisionvalue": 1,
+              "seriesaxis": "yaxis",
+              "textmode": "auto",
+              "titlesize": 30,
+              "type": "stats",
+              "valuesize": 80,
+              "visconfig": Object {
+                "config": Object {
+                  "displaylogo": false,
+                  "responsive": true,
+                },
+                "layout": Object {
+                  "colorway": Array [
+                    "#3CA1C7",
+                    "#8C55A3",
+                    "#DB748A",
+                    "#F2BE4B",
+                    "#68CCC2",
+                    "#2A7866",
+                    "#843769",
+                    "#374FB8",
+                    "#BD6F26",
+                    "#4C636F",
+                  ],
+                  "height": 1180,
+                  "legend": Object {
+                    "orientation": "v",
+                    "traceorder": "normal",
+                  },
+                  "margin": Object {
+                    "b": 30,
+                    "l": 60,
+                    "pad": 0,
+                    "r": 30,
+                    "t": 50,
+                  },
+                  "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                  "plot_bgcolor": "rgba(0, 0, 0, 0)",
+                  "showlegend": true,
+                  "xaxis": Object {
+                    "fixedrange": true,
+                    "showgrid": false,
+                    "visible": true,
+                  },
+                  "yaxis": Object {
+                    "fixedrange": true,
+                    "showgrid": false,
+                    "visible": true,
+                  },
+                },
+              },
+            },
+            Object {
+              "category": "Visualizations",
+              "columnalignment": "leftAligned",
+              "columnwidth": 150,
+              "colunmfilter": false,
+              "component": [Function],
+              "editorconfig": Object {
+                "panelTabs": Array [
+                  Object {
+                    "editor": [Function],
+                    "id": "data-panel",
+                    "mapTo": "dataConfig",
+                    "name": "Data",
+                    "sections": Array [
+                      Object {
+                        "editor": [Function],
+                        "id": "chart-styles",
+                        "mapTo": "chartStyles",
+                        "name": "Chart styles",
+                        "schemas": Array [
+                          Object {
+                            "component": [Function],
+                            "currentValue": true,
+                            "eleType": "switchButton",
+                            "mapTo": "showTableHeader",
+                            "name": "Show table header",
+                            "title": "Show table header",
+                          },
+                          Object {
+                            "component": [Function],
+                            "currentValue": true,
+                            "eleType": "switchButton",
+                            "mapTo": "enablePagination",
+                            "name": "Enable pagination",
+                            "title": "Enable pagination",
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "columnAlignment",
+                            "name": "Column alignment",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "leftAligned",
+                                  "name": "Left",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "leftAligned",
+                                  "name": "Left",
+                                },
+                                Object {
+                                  "id": "rightAligned",
+                                  "name": "Right",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "currentValue": 150,
+                            "eleType": "input",
+                            "mapTo": "columnWidth",
+                            "name": "Column Width",
+                            "title": "Column Width",
+                          },
+                          Object {
+                            "component": [Function],
+                            "currentValue": false,
+                            "eleType": "switchButton",
+                            "mapTo": "colunmFilter",
+                            "name": "Column filter",
+                            "title": "Column filter",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  Object {
+                    "content": Array [],
+                    "editor": [Function],
+                    "id": "style-panel",
+                    "mapTo": "layoutConfig",
+                    "name": "Layout",
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
+                ],
+              },
+              "enablepagination": true,
+              "fulllabel": "Table View",
+              "icon": [Function],
+              "icontype": "visTable",
+              "id": "data_table",
+              "label": "Table View",
+              "name": "data_table",
+              "showtableheader": true,
+              "type": "data_table",
+              "visconfig": Object {
+                "config": Object {
+                  "displaylogo": false,
+                  "responsive": true,
+                },
+                "isUniColor": false,
+                "layout": Object {
+                  "height": 1180,
+                  "legend": Object {
+                    "orientation": "v",
+                    "traceorder": "normal",
+                  },
+                  "margin": Object {
+                    "b": 30,
+                    "l": 60,
+                    "pad": 0,
+                    "r": 30,
+                    "t": 50,
+                  },
+                  "showlegend": true,
+                },
+              },
+            },
           ]
         }
         placeholder="Select a chart"
@@ -13436,7 +13853,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             data-test-subj="valueFieldNumber"
                                             fullWidth={true}
                                             id="random_html_id"
-                                            min={1}
                                             onBlur={[Function]}
                                             onChange={[Function]}
                                             placeholder="auto"
@@ -13459,7 +13875,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       className="euiFieldNumber euiFieldNumber--fullWidth"
                                                       data-test-subj="valueFieldNumber"
                                                       id="random_html_id"
-                                                      min={1}
                                                       onBlur={[Function]}
                                                       onChange={[Function]}
                                                       placeholder="auto"

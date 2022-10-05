@@ -42,6 +42,7 @@ export const LogsViewConfigPanelItem = ({
   const { tabId, curVisId, changeVisualizationConfig } = useContext<any>(TabContext);
   const explorerFields = useSelector(selectFields)[tabId];
   const { data } = visualizations;
+  const { availableFields, queriedFields, selectedFields } = data.explorer?.explorerFields;
   const { userConfigs } = data;
 
   const initialConfigEntry = {
@@ -64,7 +65,7 @@ export const LogsViewConfigPanelItem = ({
   }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   useEffect(() => {
-    if (fieldOptionList.length === 0) {
+    if (queriedFields.length === 0) {
       setConfigList({
         [AGGREGATIONS]: [],
         [GROUPBY]: visualizations?.data?.explorer?.explorerFields?.selectedFields.map((field) => ({
@@ -76,7 +77,7 @@ export const LogsViewConfigPanelItem = ({
   }, [visualizations.data.explorer.explorerFields]);
 
   const handleServiceRemove = (index: number, name: string) => {
-    if (fieldOptionList.length !== 0) {
+    if (queriedFields.length !== 0) {
       return;
     }
     const list = { ...configList };
@@ -141,7 +142,7 @@ export const LogsViewConfigPanelItem = ({
   };
 
   const getAvailableLogsViewOptions = () => {
-    if (fieldOptionList.length !== 0) {
+    if (queriedFields.length !== 0) {
       return [];
     }
     const dimensionNames = (configList[GROUPBY] as ConfigListEntry[]).map((field) => field.name);
@@ -188,7 +189,7 @@ export const LogsViewConfigPanelItem = ({
           singleSelection={{ asPlainText: true }}
           options={getAvailableLogsViewOptions()}
           selectedOptions={[{ label: field.label }]}
-          isDisabled={fieldOptionList.length !== 0}
+          isDisabled={queriedFields.length !== 0}
           onChange={(e) =>
             updateLogsViewConfig(e.length > 0 ? e[0].label : '', field as ConfigListEntry)
           }
@@ -206,7 +207,7 @@ export const LogsViewConfigPanelItem = ({
               iconType="plusInCircleFilled"
               color="primary"
               onClick={() => handleServiceAdd(GROUPBY)}
-              disabled={fieldOptionList.length !== 0}
+              disabled={queriedFields.length !== 0}
             >
               Add
             </EuiButton>
@@ -236,7 +237,7 @@ export const LogsViewConfigPanelItem = ({
           iconType="play"
           onClick={updateChart}
           size="s"
-          isDisabled={fieldOptionList.length !== 0}
+          isDisabled={queriedFields.length !== 0}
         >
           Update chart
         </EuiButton>

@@ -5,37 +5,44 @@
 
 import './data_configurations_panel.scss';
 
-import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { some } from 'lodash';
 import {
-  EuiTitle,
-  EuiComboBox,
-  EuiSpacer,
   EuiButton,
+  EuiComboBox,
+  EuiFieldNumber,
   EuiFieldText,
   EuiFlexItem,
   EuiFormRow,
-  EuiIcon,
   EuiPanel,
-  EuiText,
-  EuiFieldNumber,
+  EuiSpacer,
+  EuiTitle,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { useDispatch, batch } from 'react-redux';
-import { changeQuery } from '../../../../../redux/slices/query_slice';
-import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
+import { batch, useDispatch } from 'react-redux';
 import {
   AGGREGATIONS,
   AGGREGATION_OPTIONS,
+  CUSTOM_LABEL,
   GROUPBY,
   RAW_QUERY,
+  TIMESTAMP,
   TIME_INTERVAL_OPTIONS,
 } from '../../../../../../../../common/constants/explorer';
-import { ButtonGroupItem } from './config_button_group';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
-import { ConfigList, DataConfigPanelProps } from '../../../../../../../../common/types/explorer';
-import { TabContext } from '../../../../../hooks';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
+import {
+  ConfigList,
+  ConfigListEntry,
+  DataConfigPanelFieldProps,
+  DataConfigPanelProps,
+} from '../../../../../../../../common/types/explorer';
+import { TabContext } from '../../../../../hooks';
+import { changeQuery } from '../../../../../redux/slices/query_slice';
+import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
+import { DataConfigItemClickPanel } from '../config_controls/data_config_item_click_panel';
+import { DataConfigPanelFields } from '../config_controls/data_config_panel_fields';
+import { ButtonGroupItem } from './config_button_group';
 
 const initialDimensionEntry = {
   label: '',
@@ -43,7 +50,7 @@ const initialDimensionEntry = {
 };
 
 const initialSeriesEntry = {
-  alias: '',
+  [CUSTOM_LABEL]: '',
   label: '',
   name: '',
   aggregation: 'count',
@@ -62,6 +69,11 @@ export const DataConfigPanelItem = ({
     indexFields: { availableFields },
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
+  const [isAddConfigClicked, setIsAddConfigClicked] = useState<boolean>(false);
+  const [selectedConfigItem, setSelectedConfigItem] = useState<SelectedConfigItem>({
+    index: -1,
+    name: '',
+  });
   const { userConfigs } = data;
 
   useEffect(() => {
@@ -69,62 +81,25 @@ export const DataConfigPanelItem = ({
       setConfigList({
         ...userConfigs.dataConfig,
       });
-    } else if (some(SPECIAL_RENDERING_VIZS, (visType) => visType === visualizations.vis.name)) {
-      // any vis that doesn't conform normal metrics/dimensions data confiurations
-      setConfigList({
-        ...DEFAULT_DATA_CONFIGS[visualizations.vis.name],
-      });
-    } else {
-      // default
-      const statsTokens = queryManager.queryParser().parse(data.query.rawQuery).getStats();
-      if (!statsTokens) {
-        setConfigList({
-          metrics: [],
-          dimensions: [],
-        });
-      } else {
-        const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
-        setConfigList({
-          metrics: statsTokens.aggregations.map((agg) => ({
-            alias: agg.alias,
-            label: agg.function?.value_expression,
-            name: agg.function?.value_expression,
-            aggregation: agg.function?.name,
-          })),
-          dimensions: statsTokens.groupby?.group_fields?.map((agg) => ({
-            label: agg.name ?? '',
-            name: agg.name ?? '',
-          })),
-          span: {
-            time_field: statsTokens.groupby?.span?.span_expression?.field
-              ? [getStandardedOuiField(fieldInfo, 'timestamp')]
-              : [],
-            interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
-            unit: statsTokens.groupby?.span?.span_expression?.time_unit
-              ? [getStandardedOuiField(statsTokens.groupby?.span?.span_expression?.time_unit)]
-              : [],
-          },
-        });
-      }
     }
   }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
-  const updateList = (value: string, index: number, name: string, field: string) => {
-    const list = { ...configList };
-    let listItem = { ...list[name][index] };
+  const updateList = (value: string, field: string) => {
+    const { index, name } = selectedConfigItem;
+    let listItem = { ...configList[name][index] };
     listItem = {
       ...listItem,
-      [field === 'custom_label' ? 'alias' : field]: value,
+      [field]: field === 'custom_label' ? value.trim() : value,
     };
     if (field === 'label') {
       listItem.name = value;
     }
     const updatedList = {
-      ...list,
+      ...configList,
       [name]: [
-        ...list[name].slice(0, index),
+        ...configList[name].slice(0, index),
         listItem,
-        ...list[name].slice(index + 1, list[name].length),
+        ...configList[name].slice(index + 1, configList[name].length),
       ],
     };
     setConfigList(updatedList);
@@ -150,6 +125,7 @@ export const DataConfigPanelItem = ({
   };
 
   const handleServiceAdd = (name: string) => {
+    setIsAddConfigClicked(true);
     const list = {
       ...configList,
       [name]: [
@@ -157,10 +133,28 @@ export const DataConfigPanelItem = ({
         name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
       ],
     };
+    setSelectedConfigItem({ index: list[name].length - 1, name });
     setConfigList(list);
   };
 
-  const updateChart = (updatedConfigList: ConfigList = configList) => {
+  const handleServiceEdit = (isClose: boolean, arrIndex: number, sectionName: string) => {
+    if (isClose) {
+      const { index, name } = selectedConfigItem;
+      const selectedObj = configList[name][index];
+      if (
+        selectedObj.aggregation !== 'count' &&
+        (selectedObj.aggregation === '' || selectedObj.name === '')
+      ) {
+        const list = { ...configList };
+        list[name].splice(index, 1);
+        setConfigList(list);
+      }
+    }
+    setSelectedConfigItem({ index: arrIndex, name: sectionName });
+    setIsAddConfigClicked(!isClose);
+  };
+
+  const updateChart = (updatedConfigList = configList) => {
     if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
       dispatch(
         changeVizConfig({
@@ -170,8 +164,8 @@ export const DataConfigPanelItem = ({
             ...userConfigs,
             dataConfig: {
               ...userConfigs.dataConfig,
-              [GROUPBY]: configList[GROUPBY],
-              [AGGREGATIONS]: configList[AGGREGATIONS],
+              [GROUPBY]: updatedConfigList[GROUPBY],
+              [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
             },
           },
         })
@@ -193,7 +187,7 @@ export const DataConfigPanelItem = ({
             },
           })
         );
-        await fetchData();
+        await fetchData(false);
         await dispatch(
           changeVizConfig({
             tabId,
@@ -201,8 +195,8 @@ export const DataConfigPanelItem = ({
             data: {
               dataConfig: {
                 ...userConfigs.dataConfig,
-                [GROUPBY]: configList[GROUPBY],
-                [AGGREGATIONS]: configList[AGGREGATIONS],
+                [GROUPBY]: updatedConfigList[GROUPBY],
+                [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
                 breakdowns: updatedConfigList.breakdowns,
                 span: updatedConfigList.span,
               },
@@ -229,134 +223,98 @@ export const DataConfigPanelItem = ({
       : unselectedFields;
   };
 
-  const getCommonUI = (lists, sectionName: string) => {
+  const getCommonUI = (title: string) => {
+    const { index, name } = selectedConfigItem;
+    const selectedObj = configList[name][index];
+    const isDimensions = name === GROUPBY;
     return (
       <>
-        {Array.isArray(lists) &&
-          lists.map((singleField, index: number) => (
-            <>
-              <div key={index} className="services">
-                <div className="first-division">
-                  {sectionName === GROUPBY && visualizations.vis.name === VIS_CHART_TYPES.HeatMap && (
-                    <EuiTitle size="xxs">
-                      <h5>{index === 0 ? 'X-Axis' : 'Y-Axis'}</h5>
-                    </EuiTitle>
-                  )}
-                  <EuiPanel color="subdued" style={{ padding: '0px' }}>
-                    {sectionName === AGGREGATIONS && (
-                      <EuiFormRow
-                        label="Aggregation"
-                        labelAppend={
-                          visualizations.vis.name !== VIS_CHART_TYPES.HeatMap && (
-                            <EuiText size="xs">
-                              <EuiIcon
-                                type="cross"
-                                color="danger"
-                                onClick={() => handleServiceRemove(index, sectionName)}
-                              />
-                            </EuiText>
-                          )
-                        }
-                      >
-                        <EuiComboBox
-                          aria-label="Accessible screen reader label"
-                          placeholder="Select a aggregation"
-                          singleSelection={{ asPlainText: true }}
-                          options={AGGREGATION_OPTIONS}
-                          selectedOptions={
-                            singleField.aggregation ? [{ label: singleField.aggregation }] : []
-                          }
-                          onChange={(e) =>
-                            updateList(
-                              e.length > 0 ? e[0].label : '',
-                              index,
-                              sectionName,
-                              'aggregation'
-                            )
-                          }
-                        />
-                      </EuiFormRow>
-                    )}
-                    <EuiFormRow
-                      label="Field"
-                      labelAppend={
-                        visualizations.vis.name !== VIS_CHART_TYPES.HeatMap &&
-                        sectionName !== AGGREGATIONS && (
-                          <EuiText size="xs">
-                            <EuiIcon
-                              type="cross"
-                              color="danger"
-                              onClick={() => handleServiceRemove(index, sectionName)}
-                            />
-                          </EuiText>
-                        )
-                      }
-                    >
-                      <EuiComboBox
-                        aria-label="Accessible screen reader label"
-                        placeholder="Select a field"
-                        singleSelection={{ asPlainText: true }}
-                        options={getOptionsAvailable(sectionName)}
-                        selectedOptions={singleField.label ? [{ label: singleField.label }] : []}
-                        onChange={(e) =>
-                          updateList(e.length > 0 ? e[0].label : '', index, sectionName, 'label')
-                        }
-                      />
-                    </EuiFormRow>
-                    <EuiFormRow label="Custom label">
-                      <EuiFieldText
-                        placeholder="Custom label"
-                        value={singleField.custom_label}
-                        onChange={(e) =>
-                          updateList(e.target.value, index, sectionName, 'custom_label')
-                        }
-                        aria-label="Use aria labels when no actual label is in use"
-                      />
-                    </EuiFormRow>
-
-                    {isPositionButtonVisible(sectionName) && (
-                      <EuiFormRow label="Side">
-                        <ButtonGroupItem
-                          legend="Side"
-                          groupOptions={[
-                            { id: 'left', label: 'Left' },
-                            { id: 'right', label: 'Right' },
-                          ]}
-                          idSelected={singleField.side || 'right'}
-                          handleButtonChange={(id: string) =>
-                            updateList(id, index, sectionName, 'side')
-                          }
-                        />
-                      </EuiFormRow>
-                    )}
-                    <EuiSpacer size="s" />
-                  </EuiPanel>
-                </div>
-              </div>
-              <EuiSpacer size="s" />
-            </>
-          ))}
-        {visualizations.vis.name !== VIS_CHART_TYPES.HeatMap && (
-          <EuiFlexItem grow>
-            <EuiButton
-              fullWidth
-              size="s"
-              iconType="plusInCircleFilled"
-              color="primary"
-              onClick={() => handleServiceAdd(sectionName)}
-              disabled={
-                sectionName === 'dimensions' &&
-                (visualizations.vis.name === VIS_CHART_TYPES.Line ||
-                  visualizations.vis.name === VIS_CHART_TYPES.Scatter)
-              }
-            >
-              Add
-            </EuiButton>
-          </EuiFlexItem>
-        )}
+        <div className="services">
+          <div className="first-division">
+            <DataConfigItemClickPanel
+              isSecondary
+              title={title}
+              closeMenu={() => handleServiceEdit(true, -1, '')}
+            />
+            <EuiPanel color="subdued" style={{ padding: '0px' }}>
+              {/* Aggregation input for Series */}
+              {!isDimensions && (
+                <EuiFormRow label="Aggregation">
+                  <EuiComboBox
+                    aria-label="aggregation input"
+                    placeholder="Select a aggregation"
+                    singleSelection={{ asPlainText: true }}
+                    options={AGGREGATION_OPTIONS}
+                    selectedOptions={
+                      selectedObj.aggregation
+                        ? [
+                            {
+                              label: selectedObj.aggregation,
+                            },
+                          ]
+                        : []
+                    }
+                    onChange={(e) => updateList(e.length > 0 ? e[0].label : '', 'aggregation')}
+                  />
+                </EuiFormRow>
+              )}
+              {/* Show input fields for Series when aggregation is not empty  */}
+              {!isDimensions && selectedObj.aggregation !== '' && (
+                <>
+                  {getCommonDimensionsField(selectedObj, name)}
+                  <EuiFormRow label="Custom label">
+                    <EuiFieldText
+                      placeholder="Custom label"
+                      value={selectedObj[CUSTOM_LABEL]}
+                      onChange={(e) => updateList(e.target.value, CUSTOM_LABEL)}
+                      aria-label="input label"
+                    />
+                  </EuiFormRow>
+                </>
+              )}
+              {/* Show input fields for dimensions */}
+              {isDimensions && getCommonDimensionsField(selectedObj, name)}
+              {isPositionButtonVisible(name) && (
+                <EuiFormRow label="Side">
+                  <ButtonGroupItem
+                    legend="Side"
+                    groupOptions={[
+                      { id: 'left', label: 'Left' },
+                      { id: 'right', label: 'Right' },
+                    ]}
+                    idSelected={selectedObj.side || 'right'}
+                    handleButtonChange={(id: string) => updateList(id, 'side')}
+                  />
+                </EuiFormRow>
+              )}
+            </EuiPanel>
+            <EuiSpacer size="s" />
+          </div>
+        </div>
       </>
     );
   };
+
+  const getCommonDimensionsField = (selectedObj: ConfigListEntry, name: string) => (
+    <EuiFormRow label="Field">
+      <EuiComboBox
+        aria-label="input field"
+        placeholder="Select a field"
+        singleSelection={{ asPlainText: true }}
+        options={getOptionsAvailable(name)}
+        selectedOptions={
+          selectedObj.label
+            ? [
+                {
+                  label: selectedObj.label,
+                },
+              ]
+            : []
+        }
+        onChange={(e) => updateList(e.length > 0 ? e[0].label : '', 'label')}
+      />
+    </EuiFormRow>
+  );
 
   const getNumberField = (type: string) => (
     <>
@@ -369,7 +327,7 @@ export const DataConfigPanelItem = ({
             ? configList[GROUPBY][0][type]
             : ''
         }
-        onChange={(e) => updateHistogramConfig('dimensions', type, e.target.value)}
+        onChange={(e) => updateHistogramConfig(GROUPBY, type, e.target.value)}
         data-test-subj="valueFieldNumber"
       />
       <EuiSpacer size="s" />
@@ -383,7 +341,7 @@ export const DataConfigPanelItem = ({
     [configList[GROUPBY]]
   );
 
-  const Breakdowns = useMemo(() => {
+  const Breakdowns = () => {
     return (
       <>
         <div className="services">
@@ -411,7 +369,7 @@ export const DataConfigPanelItem = ({
         </div>
       </>
     );
-  }, [configList[GROUPBY], configList.breakdowns]);
+  };
 
   const DateHistogram = useMemo(() => {
     return (
@@ -421,11 +379,11 @@ export const DataConfigPanelItem = ({
             <EuiPanel color="subdued" style={{ padding: '0px' }}>
               <EuiFormRow label="Timestamp">
                 <EuiComboBox
-                  aria-label="Accessible screen reader label"
+                  aria-label="Timestamp field"
                   placeholder="Select fields"
                   singleSelection
                   options={availableFields
-                    .filter((idxField) => idxField.type === 'timestamp')
+                    .filter((idxField) => idxField.type === TIMESTAMP)
                     .map((field) => ({ ...field, label: field.name }))}
                   selectedOptions={
                     configList.span?.time_field ? [...configList.span?.time_field] : []
@@ -460,12 +418,12 @@ export const DataConfigPanelItem = ({
                       };
                     });
                   }}
-                  aria-label="Use aria labels when no actual label is in use"
+                  aria-label="interval field"
                 />
               </EuiFormRow>
               <EuiFormRow label="Unit">
                 <EuiComboBox
-                  aria-label="Accessible screen reader label"
+                  aria-label="date unit"
                   placeholder="Select fields"
                   singleSelection
                   options={TIME_INTERVAL_OPTIONS.map((option) => {
@@ -495,7 +453,20 @@ export const DataConfigPanelItem = ({
     );
   }, [availableFields, configList.span]);
 
-  return (
+  const getRenderFieldsObj = (sectionName: string): DataConfigPanelFieldProps => {
+    return {
+      list: configList[sectionName],
+      sectionName,
+      visType: visualizations.vis.name,
+      addButtonText: 'Click to add',
+      handleServiceAdd,
+      handleServiceRemove,
+      handleServiceEdit,
+    };
+  };
+  return isAddConfigClicked ? (
+    getCommonUI(selectedConfigItem.name)
+  ) : (
     <>
       <EuiTitle size="xxs">
         <h3>Configuration</h3>
@@ -503,26 +474,24 @@ export const DataConfigPanelItem = ({
       <EuiSpacer size="s" />
       {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
         <>
-          <EuiTitle size="xxs">
-            <h3>Series</h3>
-          </EuiTitle>
+          {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
           <EuiSpacer size="s" />
-          {getCommonUI(configList[AGGREGATIONS], AGGREGATIONS)}
-          <EuiSpacer size="m" />
-          <EuiTitle size="xxs">
-            <h3>Dimensions</h3>
-          </EuiTitle>
-          <EuiSpacer size="s" />
-          {getCommonUI(configList[GROUPBY], GROUPBY)}
+          {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
             <h3>Date Histogram</h3>
           </EuiTitle>
           {DateHistogram}
-          {/* <EuiTitle size="xxs">
-            <h3>Breakdowns</h3>
-          </EuiTitle>
-          {Breakdowns} */}
+          <EuiSpacer size="s" />
+          {(visualizations.vis.name === VIS_CHART_TYPES.Bar ||
+            visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar) && (
+            <>
+              <EuiTitle size="xxs">
+                <h3>Breakdowns</h3>
+              </EuiTitle>
+              {Breakdowns}
+            </>
+          )}
         </>
       ) : (
         <>

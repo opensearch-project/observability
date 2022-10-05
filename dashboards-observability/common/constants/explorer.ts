@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { htmlIdGenerator } from '@elastic/eui';
 import { VIS_CHART_TYPES } from './shared';
+import { ThresholdUnitType } from '../../public/components/event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+
 export const EVENT_ANALYTICS_DOCUMENTATION_URL =
   'https://opensearch.org/docs/latest/observability-plugin/event-analytics/';
 export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
@@ -82,6 +85,7 @@ export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h 
 export const PATTERNS_QUERY_EXTENSION =
   '| patterns message | stats count(), max(timestamp), min(timestamp) by patterns_field';
 export const ADD_BUTTON_TEXT = '+ Add color theme';
+export const NUMBER_INPUT_MIN_LIMIT = 1;
 
 export const VIZ_CONTAIN_XY_AXIS = [
   VIS_CHART_TYPES.Bar,
@@ -123,7 +127,7 @@ export const AGGREGATION_OPTIONS = [
 ];
 
 // numeric fields type for metrics
-export const numericalTypes = [
+export const NUMERICAL_TYPES = [
   'float',
   'double',
   'bigint',
@@ -178,3 +182,69 @@ export const DEFAULT_PIE_CHART_PARAMETERS: DefaultPieChartParameterProps = {
 };
 export const GROUPBY = 'dimensions';
 export const AGGREGATIONS = 'series';
+export const PARENTFIELDS = 'parentFields';
+export const VALUEFIELD = 'valueField';
+export const CHILDFIELD = 'childField';
+export const TIMESTAMP = 'timestamp';
+
+// stats constants
+export const STATS_GRID_SPACE_BETWEEN_X_AXIS = 0.01;
+export const STATS_GRID_SPACE_BETWEEN_Y_AXIS = 100;
+export const STATS_REDUCE_VALUE_SIZE_PERCENTAGE = 0.08;
+export const STATS_REDUCE_TITLE_SIZE_PERCENTAGE = 0.05;
+export const STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE = 0.2;
+export const STATS_SERIES_UNIT_SUBSTRING_LENGTH = 3;
+export const STATS_AXIS_MARGIN = {
+  l: 0,
+  r: 0,
+  b: 0,
+  t: 80,
+};
+
+export const STATS_ANNOTATION = {
+  xref: 'paper',
+  yref: 'paper',
+  showarrow: false,
+};
+
+export interface DefaultStatsChartParametersProps {
+  DefaultTextMode: string;
+  DefaultOrientation: string;
+  DefaultTitleSize: number;
+  DefaultChartType: string;
+  TextAlignment: string;
+  DefaultPrecision: number;
+  DefaultValueSize: number;
+  BaseThreshold: ThresholdUnitType;
+}
+
+export const DEFAULT_STATS_CHART_PARAMETERS: DefaultStatsChartParametersProps = {
+  DefaultTextMode: 'auto',
+  DefaultOrientation: 'auto',
+  DefaultTitleSize: 30,
+  DefaultValueSize: 80,
+  DefaultChartType: 'auto',
+  TextAlignment: 'auto',
+  DefaultPrecision: 1,
+  BaseThreshold: {
+    thid: htmlIdGenerator('thr')(),
+    name: 'Base',
+    color: '#3CA1C7',
+    value: 0,
+    isReadOnly: true,
+  },
+};
+
+export enum ConfigChartOptionsEnum {
+  palettePicker = 'palettePicker',
+  singleColorPicker = 'singleColorPicker',
+  colorpicker = 'colorpicker',
+  treemapColorPicker = 'treemapColorPicker',
+  input = 'input',
+  textInput = 'textInput',
+  slider = 'slider',
+  switchButton = 'switchButton',
+  buttons = 'buttons',
+}
+
+export const CUSTOM_LABEL = 'customLabel';
