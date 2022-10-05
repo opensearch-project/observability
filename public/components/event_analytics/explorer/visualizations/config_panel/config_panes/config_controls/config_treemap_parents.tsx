@@ -3,34 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { EuiButtonIcon, EuiLink, EuiPanel, EuiSpacer, EuiText } from '@elastic/eui';
+import { isEmpty } from 'lodash';
 import React, { Fragment } from 'react';
-import {
-  EuiButton,
-  EuiFormRow,
-  EuiSpacer,
-  EuiIcon,
-  EuiComboBox,
-  EuiComboBoxOptionOption,
-  EuiText,
-} from '@elastic/eui';
-import { isEmpty, uniqueId } from 'lodash';
+import { ParentUnitType, TreemapParentsProps } from '../../../../../../../../common/types/explorer';
 
-export interface ParentUnitType {
-  name: string;
-  label: string;
-  type: string;
-}
-
-export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelectChange }: any) => {
-  const addButtonText = '+ Add Parent';
-
-  const options = dropdownList.map((item) => {
-    return {
-      ...item,
-      label: item.name,
-    };
-  });
-
+export const ConfigTreemapParentFields = ({
+  selectedAxis,
+  setSelectedParentItem,
+  handleUpdateParentFields,
+}: TreemapParentsProps) => {
+  const addButtonText = 'Add Parent';
   const initialParentState = {
     name: '',
     label: '',
@@ -38,19 +21,17 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
   };
 
   const handleAddParent = () => {
-    onSelectChange([...selectedAxis, initialParentState]);
+    const arr = [...selectedAxis, initialParentState];
+    handleUpdateParentFields(arr);
+    setSelectedParentItem({ index: arr.length - 1, isClicked: true });
   };
 
-  const handleParentChange = (options: EuiComboBoxOptionOption<unknown>[], index: number) => {
-    onSelectChange([
-      ...selectedAxis.slice(0, index),
-      (options[0] as ParentUnitType) ?? initialParentState,
-      ...selectedAxis.slice(index + 1, selectedAxis.length),
-    ]);
+  const handleEditParent = (index: number) => {
+    setSelectedParentItem({ index, isClicked: true });
   };
 
   const handleParentDelete = (index: number) => {
-    onSelectChange([
+    handleUpdateParentFields([
       ...selectedAxis.slice(0, index),
       ...selectedAxis.slice(index + 1, selectedAxis.length),
     ]);
@@ -59,41 +40,38 @@ export const ConfigTreemapParentFields = ({ dropdownList, selectedAxis, onSelect
   return (
     <>
       {!isEmpty(selectedAxis) &&
-        selectedAxis.map((_, index: number) => {
+        selectedAxis.map((obj: ParentUnitType, index: number) => {
           return (
             <Fragment key={index}>
               <EuiSpacer size="s" />
-              <EuiFormRow
-                label={`Parent ${index + 1}`}
-                labelAppend={
-                  <EuiText size="xs">
-                    <EuiIcon
-                      type="cross"
-                      color="danger"
-                      onClick={() => handleParentDelete(index)}
-                    />
-                  </EuiText>
-                }
-              >
-                <EuiComboBox
-                  id={uniqueId('axis-select-')}
-                  placeholder="Select a field"
-                  options={options}
-                  selectedOptions={selectedAxis[index].label !== '' ? [selectedAxis[index]] : []}
-                  isClearable={true}
-                  singleSelection={{ asPlainText: true }}
-                  onChange={(options) => handleParentChange(options, index)}
-                  aria-label="Use aria labels when no actual label is in use"
+              <EuiPanel paddingSize="s" className="panelItem_button">
+                <EuiText size="s" className="field_text">
+                  <EuiLink role="button" tabIndex={0} onClick={() => handleEditParent(index)}>
+                    {obj.label !== '' ? obj.label : `Parent ${index + 1}`}
+                  </EuiLink>
+                </EuiText>
+                <EuiButtonIcon
+                  color="subdued"
+                  iconType="cross"
+                  aria-label="clear-field"
+                  iconSize="s"
+                  onClick={() => handleParentDelete(index)}
                 />
-              </EuiFormRow>
+              </EuiPanel>
             </Fragment>
           );
         })}
       <EuiSpacer size="s" />
-      <EuiSpacer size="s" />
-      <EuiButton data-test-subj="addParentButton" fullWidth size="s" onClick={handleAddParent}>
-        {addButtonText}
-      </EuiButton>
+      <EuiPanel className="panelItem_button" grow>
+        <EuiText size="s">{addButtonText}</EuiText>
+        <EuiButtonIcon
+          iconType="plusInCircle"
+          aria-label="clear-field"
+          iconSize="s"
+          color="primary"
+          onClick={handleAddParent}
+        />
+      </EuiPanel>
     </>
   );
 };

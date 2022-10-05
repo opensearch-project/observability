@@ -14,7 +14,7 @@ import {
   PLOTLY_COLOR,
   VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
-import { hexToRgb, getPropName } from '../../../../components/event_analytics/utils/utils';
+import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';

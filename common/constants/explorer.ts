@@ -179,6 +179,10 @@ export const DEFAULT_PIE_CHART_PARAMETERS: DefaultPieChartParameterProps = {
 };
 export const GROUPBY = 'dimensions';
 export const AGGREGATIONS = 'series';
+export const PARENTFIELDS = 'parentFields';
+export const VALUEFIELD = 'valueField';
+export const CHILDFIELD = 'childField';
+export const TIMESTAMP = 'timestamp';
 
 // stats constants
 export const STATS_GRID_SPACE_BETWEEN_X_AXIS = 0.01;

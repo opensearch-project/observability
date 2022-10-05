@@ -2,18 +2,15 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import React, { useMemo } from 'react';
-import { uniq, has, isEmpty, indexOf } from 'lodash';
-import Plotly from 'plotly.js-dist';
 import { colorPalette } from '@elastic/eui';
-import { Plt } from '../../plotly/plot';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { has, isEmpty, uniq } from 'lodash';
+import Plotly from 'plotly.js-dist';
 import {
   HEATMAP_PALETTE_COLOR,
-  SINGLE_COLOR_PALETTE,
-  OPACITY,
   HEATMAP_SINGLE_COLOR,
+  OPACITY,
+  SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
 import {
   hexToRgb,
@@ -21,6 +18,8 @@ import {
   getPropName,
 } from '../../../../components/event_analytics/utils/utils';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { Plt } from '../../plotly/plot';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {

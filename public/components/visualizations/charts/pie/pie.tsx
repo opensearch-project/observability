@@ -104,7 +104,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           labels: labelsOfXAxis,
           values: queriedVizData[fieldName],
           type: 'pie',
-          name: fieldName,
+          name: getPropName(field),
           hole: type === 'pie' ? 0 : 0.5,
           text: fieldName,
           textinfo: 'percent',
