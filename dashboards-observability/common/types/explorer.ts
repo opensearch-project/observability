@@ -6,6 +6,7 @@
 import { History } from 'history';
 import Plotly from 'plotly.js-dist';
 import { QueryManager } from 'common/query_manager';
+import { VIS_CHART_TYPES } from '../../common/constants/shared';
 import {
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -18,6 +19,7 @@ import {
   SELECTED_DATE_RANGE,
   GROUPBY,
   AGGREGATIONS,
+  CUSTOM_LABEL,
 } from '../constants/explorer';
 import {
   CoreStart,
@@ -278,7 +280,7 @@ export interface LiveTailProps {
 export interface ConfigListEntry {
   label: string;
   aggregation: string;
-  custom_label: string;
+  [CUSTOM_LABEL]: string;
   name: string;
   side: string;
   type: string;
@@ -328,4 +330,31 @@ export interface DataConfigPanelProps {
 export interface GetTooltipHoverInfoType {
   tooltipMode: string;
   tooltipText: string;
+}
+
+export interface SelectedConfigItem {
+  index: number;
+  name: string;
+}
+
+export interface ParentUnitType {
+  name: string;
+  label: string;
+  type: string;
+}
+
+export interface TreemapParentsProps {
+  selectedAxis: ParentUnitType[];
+  setSelectedParentItem: (item: { isClicked: boolean; index: number }) => void;
+  handleUpdateParentFields: (arr: ParentUnitType[]) => void;
+}
+
+export interface DataConfigPanelFieldProps {
+  list: ConfigListEntry[];
+  sectionName: string;
+  visType: VIS_CHART_TYPES;
+  addButtonText: string;
+  handleServiceAdd: (name: string) => void;
+  handleServiceRemove: (index: number, name: string) => void;
+  handleServiceEdit: (isClose: boolean, arrIndex: number, sectionName: string) => void;
 }

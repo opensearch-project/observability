@@ -26,6 +26,7 @@ import {
   SpanExpressionChunk,
 } from '../types';
 import { CUSTOM_LABEL } from '../../../../common/constants/explorer';
+
 export class StatsBuilder implements QueryBuilder<Aggregations> {
   constructor(private statsChunk: statsChunk) {}
 
