@@ -2,20 +2,23 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import { useState, useRef } from 'react';
 import { batch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { IField } from 'common/types/explorer';
+import { IField, PatternData } from 'common/types/explorer';
 import {
   FINAL_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
   QUERIED_FIELDS,
+  PATTERNS_QUERY_EXTENSION,
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../redux/slices/query_result_slice';
+import { setPatterns, reset as patternsReset } from '../redux/slices/patterns_slice';
 import { selectQueries } from '../redux/slices/query_slice';
 import { reset as visualizationReset } from '../redux/slices/visualization_slice';
 import { updateFields, sortFields, selectFields } from '../redux/slices/field_slice';
@@ -66,9 +69,9 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
   };
 
   const dispatchOnGettingHis = (res: any) => {
-    const selectedFields: Array<string> = fieldsRef.current![requestParams.tabId][
-      SELECTED_FIELDS
-    ].map((field: IField) => field.name);
+    const selectedFields: string[] = fieldsRef.current![requestParams.tabId][SELECTED_FIELDS].map(
+      (field: IField) => field.name
+    );
     setResponse(res);
     batch(() => {
       dispatch(
@@ -150,6 +153,24 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     });
   };
 
+  const dispatchOnPatterns = (res: { patternTableData: PatternData[] }) => {
+    batch(() => {
+      // dispatch(
+      //   patternsReset({
+      //     tabId: requestParams.tabId,
+      //   })
+      // );
+      dispatch(
+        setPatterns({
+          tabId: requestParams.tabId,
+          data: {
+            ...res,
+          },
+        })
+      );
+    });
+  };
+
   const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
@@ -191,6 +212,22 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     );
   };
 
+  const getPatterns = (query: string = '', errorHandler?: (error: any) => void) => {
+    const cur = queriesRef.current;
+    const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
+    const patternsQuery = searchQuery + PATTERNS_QUERY_EXTENSION;
+    fetchEvents(
+      { query: patternsQuery },
+      'jdbc',
+      (res: any) => {
+        if (!isEmpty(res.jsonData)) {
+          return dispatchOnPatterns({ patternTableData: res.jsonData });
+        }
+      },
+      errorHandler
+    );
+  };
+
   const getAvailableFields = (query: string) => {
     fetchEvents({ query }, 'jdbc', (res: any) => {
       batch(() => {
@@ -224,6 +261,7 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     isEventsLoading,
     getLiveTail,
     getEvents,
+    getPatterns,
     getAvailableFields,
     fetchEvents,
   };

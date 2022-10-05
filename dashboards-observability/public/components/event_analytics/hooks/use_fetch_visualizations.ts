@@ -18,6 +18,7 @@ import { render as renderExplorerVis } from '../redux/slices/visualization_slice
 import { updateFields, sortFields } from '../redux/slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
 import { fetchSuccess } from '../redux/slices/query_result_slice';
+import { setPatterns } from '../redux/slices/patterns_slice';
 
 interface IFetchVisualizationsParams {
   pplService: PPLService;
@@ -43,19 +44,22 @@ export const useFetchVisualizations = ({
     setIsVisLoading(true);
 
     await pplService
-      .fetch({
-        query,
-        format,
-      }, (error) => {
-        errorHandler(error);
-        setIsVisLoading(false);
-      })
+      .fetch(
+        {
+          query,
+          format,
+        },
+        (error) => {
+          errorHandler(error);
+          setIsVisLoading(false);
+        }
+      )
       .then((res: any) => {
         if (res && res.status === 200) {
           successHandler(res);
         }
         setIsVisLoading(false);
-      })
+      });
   };
 
   const getCountVisualizations = (interval: string) => {
@@ -73,6 +77,14 @@ export const useFetchVisualizations = ({
           renderCountDis({
             tabId: requestParams.tabId,
             data: res,
+          })
+        );
+        dispatch(
+          setPatterns({
+            tabId: requestParams.tabId,
+            data: {
+              total: res.data['count()'],
+            },
           })
         );
       },

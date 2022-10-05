@@ -20,12 +20,12 @@ import {
 } from '@elastic/eui';
 import moment from 'moment';
 import React, { useState } from 'react';
+import { PatternData } from 'common/types/explorer';
 import { FlyoutContainers } from '../../../../components/common/flyout_containers/flyout_containers';
 import { UI_DATE_FORMAT } from '../../../../../common/constants/shared';
-import { PatternType } from './patterns_tab';
 
 interface PatternDetailFlyoutProps {
-  pattern: PatternType;
+  pattern: PatternData;
   closeFlyout: () => void;
   renamePattern: (newName: string) => void;
   openEventFlyout: () => void;

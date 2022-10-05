@@ -328,3 +328,10 @@ export interface GetTooltipHoverInfoType {
   tooltipMode: string;
   tooltipText: string;
 }
+
+export interface PatternData {
+  'count()': number;
+  'max(timestamp)': string;
+  'min(timestamp)': string;
+  patterns_field: string;
+}

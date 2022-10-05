@@ -30,7 +30,12 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IField, IQueryTab, IDefaultTimestampState } from '../../../../common/types/explorer';
+import {
+  IField,
+  IQueryTab,
+  IDefaultTimestampState,
+  PatternData,
+} from '../../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -85,6 +90,8 @@ import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
 import { PatternsTab } from './log_patterns/patterns_tab';
 import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
+import { PatternsTable } from './log_patterns/patterns_table';
+import { selectPatterns } from '../redux/slices/patterns_slice';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -117,7 +124,13 @@ export const Explorer = ({
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
-  const { getLiveTail, getEvents, getAvailableFields, isEventsLoading } = useFetchEvents({
+  const {
+    getLiveTail,
+    getEvents,
+    getPatterns,
+    getAvailableFields,
+    isEventsLoading,
+  } = useFetchEvents({
     pplService,
     requestParams,
   });
@@ -132,6 +145,7 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
+  const patternsData = useSelector(selectPatterns)[tabId];
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -398,6 +412,14 @@ export const Explorer = ({
         });
       }
       getCountVisualizations(minInterval);
+
+      // to fetch patterns data on current query
+      getPatterns(undefined, (error) => {
+        const formattedError = formatError(error.name, error.message, error.body.message);
+        notifications.toasts.addError(formattedError, {
+          title: 'Error fetching patterns',
+        });
+      });
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -499,7 +521,6 @@ export const Explorer = ({
   const handleTimeRangePickerRefresh = (availability?: boolean) => {
     handleQuerySearch(availability);
   };
-
 
   /**
    * Toggle fields between selected and unselected sets
@@ -688,6 +709,11 @@ export const Explorer = ({
                           <EuiSpacer size="m" />
                         </>
                       )}
+                      <PatternsTable
+                        openPatternFlyout={(pattern: PatternData) => {}}
+                        tableData={patternsData.patternTableData || []}
+                        tabId={tabId}
+                      />
                       <DataGrid
                         http={http}
                         pplService={pplService}
@@ -777,8 +803,8 @@ export const Explorer = ({
     );
   };
 
-  const getPatterns = () => {
-    return <PatternsTab http={http} />;
+  const getPatternsContent = () => {
+    return <PatternsTab http={http} tabId={tabId} />;
   };
 
   const getMainContentTabs = () => {
@@ -796,7 +822,7 @@ export const Explorer = ({
       getMainContentTab({
         tabID: TAB_PATTERN_ID,
         tabTitle: TAB_PATTERN_TITLE,
-        getContent: () => getPatterns(),
+        getContent: () => getPatternsContent(),
       }),
     ];
   };
@@ -816,6 +842,7 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
+    patternsData,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);

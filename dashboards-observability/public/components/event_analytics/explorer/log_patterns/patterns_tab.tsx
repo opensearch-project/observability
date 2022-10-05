@@ -3,16 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  EuiPanel,
-  EuiTitle,
-  EuiSpacer,
-  EuiHorizontalRule,
-  EuiButton,
-  EuiFlexItem,
-  EuiFlexGroup,
-} from '@elastic/eui';
+import { EuiPanel, EuiTitle, EuiSpacer, EuiButton, EuiFlexItem, EuiFlexGroup } from '@elastic/eui';
 import React, { useState } from 'react';
+import { PatternData } from 'common/types/explorer';
 import { PatternDetailFlyout } from './pattern_detail_flyout';
 import { DocFlyout } from '../events_views/doc_flyout';
 import { HttpSetup } from '../../../../../../../src/core/public';
@@ -21,26 +14,18 @@ import { EditPatternFlyout } from './edit_pattern_flyout';
 
 interface PatternsTabProps {
   http: HttpSetup;
+  tabId: string;
 }
 
-export interface PatternType {
-  firstTimestamp: number;
-  lastTimestamp: number;
-  puncSignature: string;
-  patternName: string;
-  ratio: string;
-  count: string;
-}
-
-export function PatternsTab(props: PatternsTabProps) {
-  const { http } = props;
+export function PatternsTab(props: PatternsTabProps) {å
+  const { http, tabId } = props;
 
   // Uncomment below to enable EuiComboBox
   // const [selectedOptions, setSelected] = useState<OptionType[]>([]);
   // const [options, setOptions] = useState<OptionType[]>(
   //   dummyTableData.map((td) => {
   //     return {
-  //       label: td.puncSignature,
+  //       label: td.patterns_field,
   //     };
   //   })
   // );
@@ -78,42 +63,34 @@ export function PatternsTab(props: PatternsTabProps) {
   // Uncomment to enable Filters
   // const [filters, setFilters] = useState<FilterType[]>([]);
 
-  const emptyData = [] as PatternType[];
+  const emptyData = [] as PatternData[];
   const fullData = [
     {
-      firstTimestamp: Date.now(),
-      lastTimestamp: Date.now(),
-      puncSignature:
+      'min(timestamp)': Date.now() as string,
+      'max(timestamp)': Date.now() as string,
+      patterns_field:
         '///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=///*-=',
-      patternName: 'generated-signature-0001',
-      ratio: '45%',
-      count: '461',
+      'count()': 461,
     },
     {
-      firstTimestamp: Date.now(),
-      lastTimestamp: Date.now(),
-      puncSignature: '^/!//&^*-^=',
-      patternName: 'generated-signature-0002',
-      ratio: '25%',
-      count: '561',
+      'min(timestamp)': Date.now() as string,
+      'max(timestamp)': Date.now() as string,
+      patterns_field: '^/!//&^*-^=',
+      'count()': 561,
     },
     {
-      firstTimestamp: Date.now(),
-      lastTimestamp: Date.now(),
-      puncSignature: '^/""/&^*-^=',
-      patternName: 'generated-signature-0003',
-      ratio: '10%',
-      count: '661',
+      'min(timestamp)': Date.now() as string,
+      'max(timestamp)': Date.now() as string,
+      patterns_field: '^/""/&^*-^=',
+      'count()': 661,
     },
     {
-      firstTimestamp: Date.now(),
-      lastTimestamp: Date.now(),
-      puncSignature: '^#@//-()^=',
-      patternName: 'generated-signature-0004',
-      ratio: '20%',
-      count: '761',
+      'min(timestamp)': Date.now() as string,
+      'max(timestamp)': Date.now() as string,
+      patterns_field: '^#@//-()^=',
+      'count()': 761,
     },
-  ];
+  ] as PatternData[];
   const [dummyTableData, setDummyTableData] = useState(fullData);
 
   const dummyDoc = {
@@ -196,22 +173,20 @@ export function PatternsTab(props: PatternsTabProps) {
     "source = opensearch_dashboards_sample_data_logs | where match(request,'filebeat')";
 
   const emptyPattern = {
-    firstTimestamp: 0,
-    lastTimestamp: 0,
-    puncSignature: '',
-    patternName: '',
-    ratio: '',
-    count: '',
+    'max(timestamp)': '',
+    'min(timestamp)': '',
+    patterns_field: '',
+    'count()': 0,
   };
 
-  const [patternFlyoutOpen, setPatternFlyoutOpen] = useState<PatternType>(emptyPattern);
-  const [eventFlyoutOpen, setEventFlyoutOpen] = useState<PatternType>(emptyPattern);
+  const [patternFlyoutOpen, setPatternFlyoutOpen] = useState<PatternData>(emptyPattern);
+  const [eventFlyoutOpen, setEventFlyoutOpen] = useState<PatternData>(emptyPattern);
   const [editFlyoutOpen, setEditFlyoutOpen] = useState('');
   const [surroundingEventsOpen, setSurroundingEventsOpen] = useState<boolean>(false);
   const [openTraces, setOpenTraces] = useState<boolean>(false);
   const [flyoutToggleSize, setFlyoutToggleSize] = useState(false);
 
-  const openPatternFlyout = (pattern: PatternType) => {
+  const openPatternFlyout = (pattern: PatternData) => {
     setPatternFlyoutOpen(pattern);
   };
 
@@ -255,7 +230,7 @@ export function PatternsTab(props: PatternsTabProps) {
             <EuiTitle size="s">
               <h3>
                 Punctuation Signatures
-                <span className="panel-header-count"> ({dummyTableData.length})</span>
+                <span className="panel-header-'count()'"> ({dummyTableData.length})</span>
               </h3>
             </EuiTitle>
           </EuiFlexItem>
@@ -285,10 +260,10 @@ export function PatternsTab(props: PatternsTabProps) {
         <EuiSpacer size="m" />
         <PatternsTable
           tableData={dummyTableData}
-          renamePattern={renamePattern}
           openPatternFlyout={openPatternFlyout}
+          tabId={tabId}
         />
-        {patternFlyoutOpen.puncSignature !== '' && (
+        {patternFlyoutOpen.patterns_field !== '' && (
           <PatternDetailFlyout
             pattern={patternFlyoutOpen}
             closeFlyout={closePatternFlyout}
@@ -296,7 +271,7 @@ export function PatternsTab(props: PatternsTabProps) {
             openEventFlyout={openEventFlyout}
           />
         )}
-        {eventFlyoutOpen.puncSignature !== '' && (
+        {eventFlyoutOpen.patterns_field !== '' && (
           <DocFlyout
             http={http}
             detailsOpen={eventFlyoutOpen !== emptyPattern}

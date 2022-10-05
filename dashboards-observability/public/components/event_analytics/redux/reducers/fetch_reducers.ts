@@ -4,8 +4,8 @@
  */
 
 export const fetchSuccess = (state, { payload }) => {
-  state[payload.tabId] = { 
+  state[payload.tabId] = {
     ...state[payload.tabId],
-    ...payload.data 
+    ...payload.data,
   };
 };

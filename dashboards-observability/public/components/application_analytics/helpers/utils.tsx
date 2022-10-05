@@ -36,6 +36,10 @@ import {
   remove as removeQueryResult,
 } from '../../event_analytics/redux/slices/query_result_slice';
 import { addTab, removeTab } from '../../event_analytics/redux/slices/query_tab_slice';
+import {
+  init as initPatterns,
+  remove as removePatterns,
+} from '../../event_analytics/redux/slices/patterns_slice';
 
 // Name validation
 export const isNameValid = (name: string, existingNames: string[]) => {
@@ -153,6 +157,7 @@ export const removeTabData = (
         [NEW_SELECTED_QUERY_TAB]: newIdToFocus,
       })
     );
+    dispatch(removePatterns({ tabId: TabIdToBeClosed }));
   });
 };
 
@@ -172,6 +177,7 @@ export const initializeTabData = async (dispatch: Dispatch<any>, tabId: string, 
         },
       })
     );
+    dispatch(initPatterns({ tabId }));
   });
 };
 

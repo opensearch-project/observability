@@ -13,19 +13,23 @@ import {
   EuiIcon,
   EuiToolTip,
 } from '@elastic/eui';
+import { PatternData } from 'common/types/explorer';
+import { reduce, round } from 'lodash';
 import moment from 'moment';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { PPL_DOCUMENTATION_URL, UI_DATE_FORMAT } from '../../../../../common/constants/shared';
-import { PatternType } from './patterns_tab';
+import { selectPatterns } from '../../redux/slices/patterns_slice';
 
 interface PatternsTableProps {
-  tableData: PatternType[];
-  renamePattern: (newName: string) => void;
-  openPatternFlyout: (pattern: PatternType) => void;
+  tableData: PatternData[];
+  tabId: string;
+  openPatternFlyout: (pattern: PatternData) => void;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
-  const { tableData, renamePattern, openPatternFlyout } = props;
+  const { tableData, tabId, openPatternFlyout } = props;
+  const patternsData = useSelector(selectPatterns)[tabId];
 
   // Uncomment below to enable EuiComboBox
   // const selectedItems = tableData.filter(
@@ -50,17 +54,18 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'patternName',
       name: 'Pattern name',
-      width: '12%',
+      width: '22%',
       sortable: true,
-      render: (item: string, row: PatternType) => {
-        return <EuiLink onClick={() => openPatternFlyout(row)}>{item}&nbsp;</EuiLink>;
+      render: (item: string, row: PatternData) => {
+        return <EuiLink onClick={() => openPatternFlyout(row)}>{row.patterns_field}&nbsp;</EuiLink>;
       },
     },
     {
-      field: 'puncSignature',
+      field: 'patterns_field',
       name: 'Pattern',
+      width: '40%',
       sortable: true,
-      render: (item: string, row: PatternType) => {
+      render: (item: string, row: PatternData) => {
         return <EuiText>{item}</EuiText>;
       },
     },
@@ -68,58 +73,59 @@ export function PatternsTable(props: PatternsTableProps) {
       field: 'ratio',
       name: 'Ratio',
       width: '5%',
-      sortable: true,
+      sortable: (row: PatternData) => row['count()'],
+      render: (item: number, row: PatternData) => {
+        const ratio =
+          (row['count()'] /
+            reduce(
+              patternsData.total,
+              (sum, n) => {
+                return sum + n;
+              },
+              0
+            )) *
+          100;
+        return <EuiText>{`${round(ratio, 2)}%`}</EuiText>;
+      },
     },
     {
-      field: 'count',
+      field: 'count()',
       name: 'Count',
       width: '5%',
       sortable: true,
+      render: (item: string, row: PatternData) => {
+        return <EuiText>{item}</EuiText>;
+      },
     },
     {
       field: 'length',
       name: 'Pattern length',
       width: '6%',
-      sortable: (pattern: PatternType) => pattern.puncSignature.length,
-      render: (item: any, row: PatternType) => {
-        return row.puncSignature.length;
+      sortable: (pattern: PatternData) => pattern.patterns_field.length,
+      render: (item: any, row: PatternData) => {
+        return <EuiText>{row.patterns_field.length}</EuiText>;
       },
     },
     {
-      field: 'firstTimestamp',
+      field: 'min(timestamp)',
       name: 'Earliest time',
       width: '10%',
       sortable: true,
-      render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
+      render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
     {
-      field: 'lastTimestamp',
+      field: 'max(timestamp)',
       name: 'Recent time',
       width: '10%',
       sortable: true,
-      render: (item: any) => moment(new Date(item)).format(UI_DATE_FORMAT),
-    },
-    {
-      field: 'edit',
-      name: '',
-      width: '30px',
-      sortable: false,
-      render: (item: any, row: PatternType) => (
-        <EuiToolTip content={<EuiText>Edit name</EuiText>} position="top">
-          <EuiButtonIcon
-            iconType="pencil"
-            color="text"
-            onClick={() => renamePattern(row.patternName)}
-          />
-        </EuiToolTip>
-      ),
+      render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
   ];
 
   const sorting = {
     sort: {
-      field: 'patternName',
-      direction: 'asc' as Direction,
+      field: 'count()',
+      direction: 'desc' as Direction,
     },
     allowNeutralSort: true,
     enableAllColumns: true,
