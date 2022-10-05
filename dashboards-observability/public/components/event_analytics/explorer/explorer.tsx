@@ -39,7 +39,6 @@ import {
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
-  TAB_PATTERN_TITLE,
   RAW_QUERY,
   SELECTED_DATE_RANGE,
   SELECTED_FIELDS,
@@ -55,7 +54,6 @@ import {
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   TAB_EVENT_ID,
   TAB_CHART_ID,
-  TAB_PATTERN_ID,
   DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
   GROUPBY,
@@ -88,7 +86,6 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
-import { PatternsTab } from './log_patterns/patterns_tab';
 import { statsChunk, GroupByChunk } from '../../../../common/query_manager/ast/types';
 import { PatternsTable } from './log_patterns/patterns_table';
 import { selectPatterns } from '../redux/slices/patterns_slice';
@@ -803,10 +800,6 @@ export const Explorer = ({
     );
   };
 
-  const getPatternsContent = () => {
-    return <PatternsTab http={http} tabId={tabId} />;
-  };
-
   const getMainContentTabs = () => {
     return [
       getMainContentTab({
@@ -818,11 +811,6 @@ export const Explorer = ({
         tabID: TAB_CHART_ID,
         tabTitle: TAB_CHART_TITLE,
         getContent: () => getExplorerVis(),
-      }),
-      getMainContentTab({
-        tabID: TAB_PATTERN_ID,
-        tabTitle: TAB_PATTERN_TITLE,
-        getContent: () => getPatternsContent(),
       }),
     ];
   };
