@@ -939,23 +939,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "responsive": true,
           }
         }
-        layout={
-          Object {
-            "height": 1180,
-            "legend": Object {
-              "orientation": "v",
-              "traceorder": "normal",
-            },
-            "margin": Object {
-              "b": 30,
-              "l": 60,
-              "pad": 0,
-              "r": 30,
-              "t": 50,
-            },
-            "showlegend": true,
-          }
-        }
+        layout={[Function]}
         visualizations={
           Object {
             "data": Object {
@@ -1428,11 +1412,21 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             color="subdued"
             data-test-subj="vizWorkspace__noData"
             size="xs"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
             textAlign="center"
           >
             <div
               className="euiText euiText--extraSmall lnsChart__empty"
               data-test-subj="vizWorkspace__noData"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
             >
               <EuiTextAlign
                 textAlign="center"
@@ -2531,47 +2525,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             },
           }
         }
-        layout={
-          Object {
-            "colorway": Array [
-              "#3CA1C7",
-              "#8C55A3",
-              "#DB748A",
-              "#F2BE4B",
-              "#68CCC2",
-              "#2A7866",
-              "#843769",
-              "#374FB8",
-              "#BD6F26",
-              "#4C636F",
-            ],
-            "height": 1180,
-            "legend": Object {
-              "orientation": "v",
-              "traceorder": "normal",
-            },
-            "margin": Object {
-              "b": 30,
-              "l": 60,
-              "pad": 0,
-              "r": 30,
-              "t": 50,
-            },
-            "paper_bgcolor": "rgba(0, 0, 0, 0)",
-            "plot_bgcolor": "rgba(0, 0, 0, 0)",
-            "showlegend": true,
-            "xaxis": Object {
-              "fixedrange": true,
-              "showgrid": false,
-              "visible": true,
-            },
-            "yaxis": Object {
-              "fixedrange": true,
-              "showgrid": false,
-              "visible": true,
-            },
-          }
-        }
+        layout={[Function]}
         visualizations={
           Object {
             "data": Object {
@@ -3085,11 +3039,21 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             color="subdued"
             data-test-subj="vizWorkspace__noData"
             size="xs"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
             textAlign="center"
           >
             <div
               className="euiText euiText--extraSmall lnsChart__empty"
               data-test-subj="vizWorkspace__noData"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
             >
               <EuiTextAlign
                 textAlign="center"
@@ -3709,23 +3673,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "responsive": true,
           }
         }
-        layout={
-          Object {
-            "height": 1180,
-            "legend": Object {
-              "orientation": "v",
-              "traceorder": "normal",
-            },
-            "margin": Object {
-              "b": 30,
-              "l": 60,
-              "pad": 0,
-              "r": 30,
-              "t": 50,
-            },
-            "showlegend": true,
-          }
-        }
+        layout={[Function]}
         visualizations={
           Object {
             "data": Object {
@@ -4003,11 +3951,21 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             color="subdued"
             data-test-subj="vizWorkspace__noData"
             size="xs"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
             textAlign="center"
           >
             <div
               className="euiText euiText--extraSmall lnsChart__empty"
               data-test-subj="vizWorkspace__noData"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
             >
               <EuiTextAlign
                 textAlign="center"
@@ -4519,23 +4477,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "responsive": true,
           }
         }
-        layout={
-          Object {
-            "height": 1180,
-            "legend": Object {
-              "orientation": "v",
-              "traceorder": "normal",
-            },
-            "margin": Object {
-              "b": 30,
-              "l": 60,
-              "pad": 0,
-              "r": 30,
-              "t": 50,
-            },
-            "showlegend": true,
-          }
-        }
+        layout={[Function]}
         visualizations={
           Object {
             "data": Object {
@@ -4759,11 +4701,21 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             color="subdued"
             data-test-subj="vizWorkspace__noData"
             size="xs"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
             textAlign="center"
           >
             <div
               className="euiText euiText--extraSmall lnsChart__empty"
               data-test-subj="vizWorkspace__noData"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
             >
               <EuiTextAlign
                 textAlign="center"

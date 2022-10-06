@@ -392,11 +392,21 @@ exports[`Gauge component Renders gauge component 1`] = `
       color="subdued"
       data-test-subj="vizWorkspace__noData"
       size="xs"
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
       textAlign="center"
     >
       <div
         className="euiText euiText--extraSmall lnsChart__empty"
         data-test-subj="vizWorkspace__noData"
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
       >
         <EuiTextAlign
           textAlign="center"
