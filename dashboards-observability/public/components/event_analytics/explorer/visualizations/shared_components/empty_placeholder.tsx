@@ -16,7 +16,6 @@ export const EmptyPlaceholder = (props: { icon: string }) => (
       color="subdued"
       size="xs"
       data-test-subj="vizWorkspace__noData"
-      style={{ height: '100%' }}
     >
       <EuiIcon type={props.icon} color="subdued" size="xxl" />
       <EuiSpacer size="l" />
