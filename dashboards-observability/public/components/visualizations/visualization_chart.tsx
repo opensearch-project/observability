@@ -19,12 +19,12 @@ export const VisualizationChart = ({ visualizations }: IVisualizationChart) => {
     };
   }, [config, vis]);
 
-  const finalFigureLayout = useMemo(() => {
+  const finalFigureLayout = () => {
     return {
       ...vis.visconfig?.layout,
       ...layout,
     };
-  }, [layout, vis]);
+  };
 
   return (
     <Visualization
