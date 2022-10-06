@@ -20,6 +20,7 @@ import {
   GROUPBY,
   AGGREGATIONS,
   CUSTOM_LABEL,
+  BREAKDOWNS,
 } from '../constants/explorer';
 import {
   CoreStart,
@@ -301,7 +302,7 @@ export interface DimensionSpan {
 export interface ConfigList {
   [GROUPBY]?: ConfigListEntry[] | HistogramConfigList[];
   [AGGREGATIONS]?: ConfigListEntry[];
-  breakdowns?: ConfigListEntry[] | HistogramConfigList[];
+  [BREAKDOWNS]?: ConfigListEntry[] | HistogramConfigList[];
   span?: DimensionSpan;
 }
 
