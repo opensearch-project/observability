@@ -536,7 +536,9 @@ exports[`Bar component Renders bar component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder>
+  <EmptyPlaceholder
+    icon="visBarHorizontalStacked"
+  >
     <EuiText
       className="lnsChart__empty"
       color="subdued"
@@ -564,17 +566,18 @@ exports[`Bar component Renders bar component 1`] = `
                 <EuiIcon
                   color="subdued"
                   size="xxl"
+                  type="visBarHorizontalStacked"
                 >
                   <EuiIconEmpty
                     aria-hidden={true}
-                    className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                     focusable="false"
                     role="img"
                     style={null}
                   >
                     <svg
                       aria-hidden={true}
-                      className="euiIcon euiIcon--xxLarge euiIcon--subdued"
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
                       focusable="false"
                       height={16}
                       role="img"

@@ -257,7 +257,7 @@ export const getVizContainerProps = ({
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
   const getVisTypeData = () =>
-    vizId === VIS_CHART_TYPES.Line || vizId === VIS_CHART_TYPES.Scatter
+    SIMILAR_VIZ_TYPES.includes(vizId as VIS_CHART_TYPES)
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
 

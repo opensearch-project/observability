@@ -259,7 +259,7 @@ export const ConfigPanel = ({
         <EuiComboBox
           aria-label="config chart selector"
           placeholder="Select a chart"
-          options={vizTypeList}
+          options={memorizedVisualizationTypes}
           selectedOptions={[getSelectedVisDById(curVisId)]}
           singleSelection
           onChange={(visType) => {

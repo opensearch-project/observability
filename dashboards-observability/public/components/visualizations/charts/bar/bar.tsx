@@ -157,12 +157,23 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     ...(layoutConfig.layout && layoutConfig.layout),
     title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
     barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
-    font: {
-      size: labelSize,
-    },
     xaxis: {
-      tickangle: tickAngle,
+      ...(isVertical && { tickangle: tickAngle }),
       automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
+    },
+    yaxis: {
+      ...(!isVertical && { tickangle: tickAngle }),
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
     },
     bargap: groupWidth,
     bargroupgap: barWidth,

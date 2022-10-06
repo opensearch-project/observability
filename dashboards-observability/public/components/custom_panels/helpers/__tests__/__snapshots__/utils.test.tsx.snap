@@ -4407,7 +4407,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         }
       >
         <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+          icon="visBarHorizontalStacked"
         >
           <EuiText
             className="lnsChart__empty"
@@ -4436,7 +4436,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
-                        type="visBarVerticalStacked"
+                        type="visBarHorizontalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
@@ -5681,7 +5681,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         }
       >
         <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+          icon="visBarHorizontalStacked"
         >
           <EuiText
             className="lnsChart__empty"
@@ -5710,7 +5710,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
-                        type="visBarVerticalStacked"
+                        type="visBarHorizontalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LONG_CHART_COLOR, visChartTypes } from '../common/constants/shared';
+import { LONG_CHART_COLOR, VIS_CHART_TYPES } from '../common/constants/shared';
 import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
 import { createGaugeTypeDefinition } from '../public/components/visualizations/charts/financial/gauge/gauge_type';
 import { createStatsTypeDefinition } from '../public/components/visualizations/charts/stats/stats_type';
@@ -561,6 +561,6 @@ export const STATS_TEST_VISUALIZATIONS_DATA = {
 export const HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA = {
   ...TEST_VISUALIZATIONS_DATA,
   vis: createBarTypeDefinition({
-    type: visChartTypes.HorizontalBar,
+    type: VIS_CHART_TYPES.HorizontalBar,
   }),
 };
