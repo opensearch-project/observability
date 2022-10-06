@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { EuiFormRow, EuiFieldNumber } from '@elastic/eui';
-import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../../../common/constants/explorer';
+import { DEFAULT_GAUGE_CHART_PARAMETERS, GROUPBY } from '../../../../../../../../common/constants/explorer';
 
 const helpText = `Limit number of gauges.`;
 

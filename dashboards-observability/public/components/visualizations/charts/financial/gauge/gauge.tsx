@@ -16,6 +16,7 @@ import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../common/constan
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { IVisualizationContainerProps } from '../../../../../../common/types/explorer';
+import { getPropName } from '../../../../event_analytics/utils/utils';
 
 const {
   GaugeTitleSize,
@@ -42,8 +43,8 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   // data config parametrs
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
-  let xaxes = dataConfig[GROUPBY] ? dataConfig[GROUPBY] : [];
-  const series = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS] : [];
+  let xaxes = dataConfig[GROUPBY] ?? [];
+  const series = dataConfig[AGGREGATIONS] ?? [];
   const seriesLength = series.length;
   const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
 
@@ -66,10 +67,6 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const xaxesLength = xaxes.length;
 
-  const getAggValue = (metric: any) => {
-    return metric.alias ? metric.alias : metric.aggregation + '' + '(' + metric.name + ')';
-  };
-
   if (isEmptyPlot) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
@@ -78,14 +75,13 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     if (!xaxesLength && seriesLength >= 1) {
       calculatedGaugeData = series.map((seriesItem: any) => {
         return {
-          field_name: getAggValue(seriesItem),
-          value: queriedVizData[getAggValue(seriesItem)][0],
+          field_name: getPropName(seriesItem),
+          value: queriedVizData[getPropName(seriesItem)][0],
         };
       });
     }
 
     // case 3: multiple dimensions and multiple metrics
-
     if (xaxesLength && seriesLength) {
       const selectedDimensionsData = xaxes
         .map((dimension: any) => {
@@ -97,8 +93,10 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           return prev.map((i, j) => `${i}, ${cur[j]}`);
         });
       const selectedSeriesData = series.map((seriesItem: any) => {
-        const val = getAggValue(seriesItem);
-        return queriedVizData[`${val}`] ? queriedVizData[`${val}`].slice(0, numberOfGauges) : [];
+        const propValue = getPropName(seriesItem);
+        return queriedVizData[`${propValue}`]
+          ? queriedVizData[`${propValue}`].slice(0, numberOfGauges)
+          : [];
       });
 
       selectedSeriesData.map((seriesSlice: any, seriesSliceIndex: number) => {
@@ -106,7 +104,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           ...calculatedGaugeData,
           ...seriesSlice.map((seriesSliceData: any, seriesSliceDataIndex: number) => {
             return {
-              field_name: `${selectedDimensionsData[seriesSliceDataIndex]}, ${getAggValue(
+              field_name: `${selectedDimensionsData[seriesSliceDataIndex]}, ${getPropName(
                 series[seriesSliceIndex]
               )}`,
               value: seriesSliceData,
