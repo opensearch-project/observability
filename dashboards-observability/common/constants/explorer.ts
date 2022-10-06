@@ -245,3 +245,4 @@ export enum ConfigChartOptionsEnum {
 }
 
 export const CUSTOM_LABEL = 'customLabel';
+export const BREAKDOWNS = 'breakdowns';
