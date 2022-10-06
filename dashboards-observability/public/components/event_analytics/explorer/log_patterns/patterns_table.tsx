@@ -5,13 +5,11 @@
 
 import {
   EuiLink,
-  EuiButtonIcon,
   EuiText,
   EuiInMemoryTable,
   Direction,
   EuiEmptyPrompt,
   EuiIcon,
-  EuiToolTip,
 } from '@elastic/eui';
 import { PatternData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
@@ -24,11 +22,10 @@ import { selectPatterns } from '../../redux/slices/patterns_slice';
 interface PatternsTableProps {
   tableData: PatternData[];
   tabId: string;
-  openPatternFlyout: (pattern: PatternData) => void;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
-  const { tableData, tabId, openPatternFlyout } = props;
+  const { tableData, tabId } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
 
   // Uncomment below to enable EuiComboBox
@@ -44,20 +41,20 @@ export function PatternsTable(props: PatternsTableProps) {
   //     filters.length === 0 || filters.map((op) => op.value).includes(option.puncSignature)
   // );
 
-  const search = {
-    box: {
-      incremental: true,
-    },
-  };
+  // const search = {
+  //   box: {
+  //     incremental: true,
+  //   },
+  // };
 
   const tableColumns = [
     {
-      field: 'patternName',
-      name: 'Pattern name',
-      width: '22%',
+      field: 'serial',
+      name: 'Serial number',
+      width: '12%',
       sortable: true,
       render: (item: string, row: PatternData) => {
-        return <EuiLink onClick={() => openPatternFlyout(row)}>{row.patterns_field}&nbsp;</EuiLink>;
+        return <EuiText>0000001</EuiText>;
       },
     },
     {
@@ -72,7 +69,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'ratio',
       name: 'Ratio',
-      width: '5%',
+      width: '9%',
       sortable: (row: PatternData) => row['count()'],
       render: (item: number, row: PatternData) => {
         const ratio =
@@ -91,7 +88,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'count()',
       name: 'Count',
-      width: '5%',
+      width: '8%',
       sortable: true,
       render: (item: string, row: PatternData) => {
         return <EuiText>{item}</EuiText>;
@@ -100,7 +97,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'length',
       name: 'Pattern length',
-      width: '6%',
+      width: '8%',
       sortable: (pattern: PatternData) => pattern.patterns_field.length,
       render: (item: any, row: PatternData) => {
         return <EuiText>{row.patterns_field.length}</EuiText>;
@@ -109,14 +106,14 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'min(timestamp)',
       name: 'Earliest time',
-      width: '10%',
+      width: '11%',
       sortable: true,
       render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
     {
       field: 'max(timestamp)',
       name: 'Recent time',
-      width: '10%',
+      width: '11%',
       sortable: true,
       render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
@@ -153,12 +150,12 @@ export function PatternsTable(props: PatternsTableProps) {
     <EuiInMemoryTable
       // items={filteredItems}
       // items={selectedItems}
+      // search={search}
       items={tableData}
       columns={tableColumns}
       pagination={true}
       sorting={sorting}
       message={message}
-      search={search}
     />
   );
 }
