@@ -490,12 +490,18 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       layer: 'below',
       yref: 'paper',
       xref: 'paper',
+      line: {
+        color: '',
+        width: 3,
+      },
+      fillcolor: '',
     };
     const shapes: any = [];
     series.forEach((seriesItem: ConfigListEntry, seriesIndex: number) => {
       const seriesLabel = getPropName(seriesItem);
       const isLabelExisted = queriedVizData[seriesLabel] ? true : false;
       const seriesValue = isLabelExisted ? getSeriesValue(seriesLabel) : 0;
+      const axisIndex = seriesIndex > 0 ? seriesIndex + 1 : '';
       const annotation = {
         label: seriesLabel,
         value: seriesValue,
@@ -513,31 +519,24 @@ export const Stats = ({ visualizations, layout, config }: any) => {
                 ...annotation,
               })
         ),
-        [`yaxis${seriesIndex > 0 ? seriesIndex + 1 : ''}`]: {
+        [`yaxis${axisIndex}`]: {
           visible: false,
           showgrid: false,
-          anchor: `x${seriesIndex > 0 ? seriesIndex + 1 : ''}`,
+          anchor: `x${axisIndex}`,
         },
-        [`xaxis${seriesIndex > 0 ? seriesIndex + 1 : ''}`]: {
+        [`xaxis${axisIndex}`]: {
           visible: false,
           showgrid: false,
-          anchor: `y${seriesIndex > 0 ? seriesIndex + 1 : ''}`,
+          anchor: `y${axisIndex}`,
         },
       };
-      const shapeColor = {
-        line: {
-          color: '',
-          width: 3,
-        },
-        fillcolor: '',
-      };
+
       const nonSimilarAxis = orientation === DefaultOrientation ? 'x' : 'y';
       const similarAxis = orientation === DefaultOrientation ? 'y' : 'x';
       // for first metric
       if (seriesIndex === 0) {
         shapes.push({
           ...shape,
-          ...shapeColor,
           [`${nonSimilarAxis}0`]: 0,
           [`${nonSimilarAxis}1`]: 1 / seriesLength,
           [`${similarAxis}0`]: 0,
@@ -547,7 +546,6 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       } else {
         shapes.push({
           ...shape,
-          ...shapeColor,
           [`${nonSimilarAxis}0`]:
             shapes[shapes.length - 1][`${nonSimilarAxis}1`] + STATS_GRID_SPACE_BETWEEN_X_AXIS,
           [`${nonSimilarAxis}1`]:
