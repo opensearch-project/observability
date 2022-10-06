@@ -14,8 +14,8 @@ By default, tests use the same runtime as `JAVA_HOME`.
 
 ### Setup
 
-1. Download OpenSearch for the version that matches the [OpenSearch Dashboards version specified in opensearch_dashboards.json](./dashboards-observability/opensearch_dashboards.json#L3) from [opensearch.org](https://opensearch.org/downloads.html).
-1. Download the OpenSearch Dashboards source code for the [version specified in opensearch_dashboards.json](./dashboards-observability/opensearch_dashboards.json#L3) you want to set up.
+1. Download OpenSearch for the version that matches the [OpenSearch Dashboards version specified in opensearch_dashboards.json](./dashboards-observability/opensearch_dashboards.json#L4) from [opensearch.org](https://opensearch.org/downloads.html).
+1. Download the OpenSearch Dashboards source code for the [version specified in opensearch_dashboards.json](./dashboards-observability/opensearch_dashboards.json#L4) you want to set up.
 1. Change your node version to the version specified in `.node-version` inside the OpenSearch Dashboards root directory.
 1. cd into `OpenSearch-Dashboards` and remove the `plugins` directory.
 1. Check out this package from version control as the `plugins` directory.
