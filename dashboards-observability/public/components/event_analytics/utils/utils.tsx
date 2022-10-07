@@ -363,7 +363,8 @@ export const fetchConfigObject = (editor: string, propsOptions: any) => {
 export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHoverInfoType) => {
   if (tooltipMode === 'hidden') {
     return 'none';
-  } else if (tooltipText === undefined) {
+  }
+  if (tooltipText === undefined) {
     return 'all';
   }
   return tooltipText;
