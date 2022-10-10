@@ -23,6 +23,7 @@ import { batch, useDispatch } from 'react-redux';
 import {
   AGGREGATIONS,
   AGGREGATION_OPTIONS,
+  BREAKDOWNS,
   CUSTOM_LABEL,
   GROUPBY,
   RAW_QUERY,
@@ -36,6 +37,7 @@ import {
   ConfigListEntry,
   DataConfigPanelFieldProps,
   DataConfigPanelProps,
+  SelectedConfigItem,
 } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 import { changeQuery } from '../../../../../redux/slices/query_slice';
@@ -128,10 +130,15 @@ export const DataConfigPanelItem = ({
     setIsAddConfigClicked(true);
     const list = {
       ...configList,
-      [name]: [
-        ...configList[name],
-        name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
-      ],
+      [name]:
+        name !== `${BREAKDOWNS}`
+          ? [
+              ...configList[name],
+              name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
+            ]
+          : configList[name] !== undefined
+          ? [...configList[name], initialDimensionEntry]
+          : [initialDimensionEntry],
     };
     setSelectedConfigItem({ index: list[name].length - 1, name });
     setConfigList(list);
@@ -197,7 +204,7 @@ export const DataConfigPanelItem = ({
                 ...userConfigs.dataConfig,
                 [GROUPBY]: updatedConfigList[GROUPBY],
                 [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-                breakdowns: updatedConfigList.breakdowns,
+                [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
                 span: updatedConfigList.span,
               },
             },
@@ -220,13 +227,15 @@ export const DataConfigPanelItem = ({
       : visualizations.vis.name === VIS_CHART_TYPES.Line ||
         visualizations.vis.name === VIS_CHART_TYPES.Scatter
       ? unselectedFields.filter((i) => i.type === 'timestamp')
+      : sectionName === BREAKDOWNS
+      ? configList[GROUPBY]
       : unselectedFields;
   };
 
   const getCommonUI = (title: string) => {
     const { index, name } = selectedConfigItem;
     const selectedObj = configList[name][index];
-    const isDimensions = name === GROUPBY;
+    const isAggregations = name === AGGREGATIONS;
     return (
       <>
         <div className="services">
@@ -238,7 +247,7 @@ export const DataConfigPanelItem = ({
             />
             <EuiPanel color="subdued" style={{ padding: '0px' }}>
               {/* Aggregation input for Series */}
-              {!isDimensions && (
+              {isAggregations && (
                 <EuiFormRow label="Aggregation">
                   <EuiComboBox
                     aria-label="aggregation input"
@@ -259,7 +268,7 @@ export const DataConfigPanelItem = ({
                 </EuiFormRow>
               )}
               {/* Show input fields for Series when aggregation is not empty  */}
-              {!isDimensions && selectedObj.aggregation !== '' && (
+              {isAggregations && selectedObj.aggregation !== '' && (
                 <>
                   {getCommonDimensionsField(selectedObj, name)}
                   <EuiFormRow label="Custom label">
@@ -273,7 +282,7 @@ export const DataConfigPanelItem = ({
                 </>
               )}
               {/* Show input fields for dimensions */}
-              {isDimensions && getCommonDimensionsField(selectedObj, name)}
+              {!isAggregations && getCommonDimensionsField(selectedObj, name)}
               {isPositionButtonVisible(name) && (
                 <EuiFormRow label="Side">
                   <ButtonGroupItem
@@ -333,43 +342,6 @@ export const DataConfigPanelItem = ({
       <EuiSpacer size="s" />
     </>
   );
-
-  const getBreakDownFields = useCallback(
-    (configList: ConfigList) => {
-      return configList[GROUPBY];
-    },
-    [configList[GROUPBY]]
-  );
-
-  const Breakdowns = () => {
-    return (
-      <>
-        <div className="services">
-          <div className="first-division">
-            <EuiPanel color="subdued" style={{ padding: '0px' }}>
-              <EuiFormRow label="Fields">
-                <EuiComboBox
-                  aria-label="Accessible screen reader label"
-                  placeholder="Select fields"
-                  singleSelection={false}
-                  options={configList[GROUPBY]}
-                  selectedOptions={configList.breakdowns ?? []}
-                  onChange={(fields) => {
-                    setConfigList((staleState) => {
-                      return {
-                        ...staleState,
-                        breakdowns: fields,
-                      };
-                    });
-                  }}
-                />
-              </EuiFormRow>
-            </EuiPanel>
-          </div>
-        </div>
-      </>
-    );
-  };
 
   const DateHistogram = useMemo(() => {
     return (
@@ -455,7 +427,7 @@ export const DataConfigPanelItem = ({
 
   const getRenderFieldsObj = (sectionName: string): DataConfigPanelFieldProps => {
     return {
-      list: configList[sectionName],
+      list: configList[sectionName] ?? [],
       sectionName,
       visType: visualizations.vis.name,
       addButtonText: 'Click to add',
@@ -485,12 +457,7 @@ export const DataConfigPanelItem = ({
           <EuiSpacer size="s" />
           {(visualizations.vis.name === VIS_CHART_TYPES.Bar ||
             visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar) && (
-            <>
-              <EuiTitle size="xxs">
-                <h3>Breakdowns</h3>
-              </EuiTitle>
-              {Breakdowns}
-            </>
+            <>{DataConfigPanelFields(getRenderFieldsObj(BREAKDOWNS))}</>
           )}
         </>
       ) : (
