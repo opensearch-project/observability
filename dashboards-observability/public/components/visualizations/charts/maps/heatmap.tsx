@@ -34,11 +34,11 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+    vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
 
   const xaxisField = dataConfig[GROUPBY][0];
   const yaxisField = dataConfig[GROUPBY][1];
@@ -54,7 +54,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     dataConfig[GROUPBY].length > 2 ||
     dataConfig[AGGREGATIONS].length > 1
   )
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
 
   const uniqueYaxis = uniq(queriedVizData[yaxisField.label]);
   const uniqueXaxis = uniq(queriedVizData[xaxisField.label]);

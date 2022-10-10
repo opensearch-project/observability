@@ -3,23 +3,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { find, isEmpty } from 'lodash';
 import React, { useMemo } from 'react';
-import { isEmpty, find } from 'lodash';
-import { Plt } from '../../plotly/plot';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getTooltipHoverInfo, getPropName } from '../../../event_analytics/utils/utils';
+import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
+import {
+  AGGREGATIONS,
+  GROUPBY,
+  PIE_XAXIS_GAP,
+  PIE_YAXIS_GAP,
+  PLOTLY_PIE_COLUMN_NUMBER,
+} from '../../../../../common/constants/explorer';
 import {
   ConfigListEntry,
   IVisualizationContainerProps,
 } from '../../../../../common/types/explorer';
-import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
-import {
-  PLOTLY_PIE_COLUMN_NUMBER,
-  PIE_YAXIS_GAP,
-  PIE_XAXIS_GAP,
-  AGGREGATIONS,
-  GROUPBY,
-} from '../../../../../common/constants/explorer';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { getPropName, getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import { Plt } from '../../plotly/plot';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const {
@@ -33,10 +33,9 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+    vis: { mode, icontype, showlegend, legendSize, labelSize, legendposition },
   }: IVisualizationContainerProps = visualizations;
 
-  const { mode, icontype, showlegend, legendSize, labelSize, legendposition } = visMetaData;
   const {
     dataConfig: {
       chartStyles = {},

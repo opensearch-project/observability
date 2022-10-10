@@ -3,41 +3,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
+import { find, isEmpty, uniqBy } from 'lodash';
 import Plotly from 'plotly.js-dist';
-import { uniqBy, find, isEmpty } from 'lodash';
-import { Plt } from '../../plotly/plot';
-import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import React, { useMemo } from 'react';
+import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
 import {
-  ConfigListEntry,
-  IVisualizationContainerProps,
-} from '../../../../../common/types/explorer';
-import {
-  hexToRgb,
-  getRoundOf,
-  getTooltipHoverInfo,
-  getPropName,
-} from '../../../event_analytics/utils/utils';
-import { uiSettingsService } from '../../../../../common/utils';
-import {
+  AGGREGATIONS,
+  DEFAULT_STATS_CHART_PARAMETERS,
+  GROUPBY,
+  STATS_ANNOTATION,
+  STATS_AXIS_MARGIN,
   STATS_GRID_SPACE_BETWEEN_X_AXIS,
   STATS_GRID_SPACE_BETWEEN_Y_AXIS,
-  DEFAULT_STATS_CHART_PARAMETERS,
-  STATS_AXIS_MARGIN,
-  STATS_ANNOTATION,
-  STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
-  STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
   STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE,
+  STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
+  STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
   STATS_SERIES_UNIT_SUBSTRING_LENGTH,
-  GROUPBY,
-  AGGREGATIONS,
 } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
   FILLOPACITY_DIV_FACTOR,
 } from '../../../../../common/constants/shared';
-import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
+import {
+  ConfigListEntry,
+  IVisualizationContainerProps,
+} from '../../../../../common/types/explorer';
+import { uiSettingsService } from '../../../../../common/utils';
+import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import {
+  getPropName,
+  getRoundOf,
+  getTooltipHoverInfo,
+  hexToRgb,
+} from '../../../event_analytics/utils/utils';
+import { Plt } from '../../plotly/plot';
 
 const {
   DefaultOrientation,
@@ -63,10 +63,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+
+    vis: { charttype, titlesize, valuesize, textmode, orientation, precisionvalue },
   }: IVisualizationContainerProps = visualizations;
 
-  const { charttype, titlesize, valuesize, textmode, orientation, precisionvalue } = visMetaData;
   // data config parametrs
   const {
     dataConfig: {

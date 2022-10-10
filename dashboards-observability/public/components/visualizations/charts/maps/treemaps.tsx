@@ -3,20 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty, isEqual, uniq } from 'lodash';
 import React, { useMemo } from 'react';
-import { indexOf, isEmpty, isEqual, isNull, uniq } from 'lodash';
 
-import { Plt } from '../../plotly/plot';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { NUMERICAL_FIELDS } from '../../../../../common/constants/shared';
 import {
   DEFAULT_PALETTE,
   MULTI_COLOR_PALETTE,
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
-import { GROUPBY, AGGREGATIONS } from '../../../../../common/constants/explorer';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { Plt } from '../../plotly/plot';
 
 export const TreeMap = ({ visualizations, layout, config }: any) => {
   const { DefaultSortSectors } = DEFAULT_CHART_STYLES;
@@ -31,7 +30,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+    vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
@@ -84,7 +83,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     isEmpty(queriedVizData[valueField.name]) ||
     areParentFieldsInvalid
   )
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
     let labelsArray: string[] = [];

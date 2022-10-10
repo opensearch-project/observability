@@ -3,21 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { find, isEmpty, last, take } from 'lodash';
 import React, { useMemo } from 'react';
-import { take, isEmpty, last, find } from 'lodash';
-import { Plt } from '../../plotly/plot';
-import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
   FILLOPACITY_DIV_FACTOR,
   PLOTLY_COLOR,
   VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
-import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
-import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
+import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
+import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { Plt } from '../../plotly/plot';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
@@ -42,10 +42,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+    vis: { icontype, name },
   }: IVisualizationContainerProps = visualizations;
 
-  const { icontype, name } = visMetaData;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
   const yaxis = dataConfig[AGGREGATIONS]
