@@ -70,12 +70,12 @@ jobs:
         run: |
           cd opensearch-observability
           echo "Running backwards compatibility tests ..."
-          ./gradlew.bat build -x integTest -x jacocoTestReport bwcTestSuite -Dtests.security.manager=false
+          ./gradlew.bat bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
           cd opensearch-observability
-          ./gradlew build
+          ./gradlew.bat build
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
