@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
-import Plotly from 'plotly.js-dist';
 import { find, isEmpty } from 'lodash';
-import { Plt } from '../../../plotly/plot';
+import Plotly from 'plotly.js-dist';
+import React, { useMemo } from 'react';
 import {
   AGGREGATIONS,
+  DEFAULT_GAUGE_CHART_PARAMETERS,
   GROUPBY,
   PLOTLY_GAUGE_COLUMN_NUMBER,
 } from '../../../../../../common/constants/explorer';
-import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../common/constants/explorer';
+import { IVisualizationContainerProps } from '../../../../../../common/types/explorer';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { IVisualizationContainerProps } from '../../../../../../common/types/explorer';
 import { getPropName } from '../../../../event_analytics/utils/utils';
+import { Plt } from '../../../plotly/plot';
 
 const {
   GaugeTitleSize,
@@ -35,7 +35,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+    vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 
   // data config parametrs
@@ -64,7 +64,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
 
   const xaxesLength = xaxes.length;
 
-  if (isEmptyPlot) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (isEmptyPlot) return <EmptyPlaceholder icon={icontype} />;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];

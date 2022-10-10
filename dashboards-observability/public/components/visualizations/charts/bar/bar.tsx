@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { find, isEmpty, last, some } from 'lodash';
 import React, { useMemo } from 'react';
-import { isEmpty, last, some, find } from 'lodash';
-import { Plt } from '../../plotly/plot';
+import { AGGREGATIONS, BREAKDOWNS, GROUPBY } from '../../../../../common/constants/explorer';
 import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { getPropName } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { AGGREGATIONS, BREAKDOWNS, GROUPBY } from '../../../../../common/constants/explorer';
-import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { getPropName } from '../../../event_analytics/utils/utils';
+import { Plt } from '../../plotly/plot';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const DEFAULT_LABEL_SIZE = 10;
@@ -27,20 +27,19 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       },
       userConfigs,
     },
-    vis: visMetaData,
+    vis: {
+      type,
+      icontype,
+      orientation,
+      labelangle,
+      linewidth,
+      barwidth,
+      groupwidth,
+      showlegend,
+      legendposition,
+    },
   }: IVisualizationContainerProps = visualizations;
 
-  const {
-    type,
-    icontype,
-    orientation,
-    labelangle,
-    linewidth,
-    barwidth,
-    groupwidth,
-    showlegend,
-    legendposition,
-  } = visMetaData;
   const lastIndex = fields.length - 1;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
