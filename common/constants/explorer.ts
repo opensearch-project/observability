@@ -213,6 +213,7 @@ export interface DefaultStatsChartParametersProps {
   DefaultPrecision: number;
   DefaultValueSize: number;
   BaseThreshold: ThresholdUnitType;
+  DefaultTextColor: string;
 }
 
 export const DEFAULT_STATS_CHART_PARAMETERS: DefaultStatsChartParametersProps = {
@@ -230,6 +231,7 @@ export const DEFAULT_STATS_CHART_PARAMETERS: DefaultStatsChartParametersProps = 
     value: 0,
     isReadOnly: true,
   },
+  DefaultTextColor: '#FFFFFF',
 };
 
 export enum ConfigChartOptionsEnum {
