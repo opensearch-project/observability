@@ -3,7 +3,7 @@ name: Test and Build OpenSearch Observability Backend Plugin
 on: [pull_request, push]
 
 jobs:
-  build:
+  linux-build:
     strategy:
       matrix:
         java:
@@ -46,5 +46,52 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: opensearch-observability
+          name: opensearch-observability-ubuntu
           path: opensearch-observability-builds
+
+  windows-build:
+    strategy:
+      matrix:
+        java:
+          - 11
+          - 17
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+    
+      - name: Run Backwards Compatibility Tests
+        run: |
+          cd opensearch-observability
+          echo "Running backwards compatibility tests ..."
+          ./gradlew bwcTestSuite -Dtests.security.manager=false
+
+      - name: Build with Gradle
+        run: |
+          cd opensearch-observability
+          ./gradlew build
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          flags: opensearch-observability
+          directory: opensearch-observability/
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Create Artifact Path
+        run: |
+          mkdir -p opensearch-observability-builds
+          cp -r ./opensearch-observability/build/distributions/*.zip opensearch-observability-builds/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: opensearch-observability-windows
+          path: opensearch-observability-builds
+
