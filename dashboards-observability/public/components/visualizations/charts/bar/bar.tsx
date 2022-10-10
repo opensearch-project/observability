@@ -4,16 +4,12 @@
  */
 
 import React, { useMemo } from 'react';
-import { forEach, isEmpty, last, some, find } from 'lodash';
+import { isEmpty, last, some, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
-import {
-  LONG_CHART_COLOR,
-  PLOTLY_COLOR,
-  FILLOPACITY_DIV_FACTOR,
-} from '../../../../../common/constants/shared';
+import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { getPropName, hexToRgb } from '../../../event_analytics/utils/utils';
+import { getPropName } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { AGGREGATIONS, BREAKDOWNS, GROUPBY } from '../../../../../common/constants/explorer';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
@@ -33,6 +29,18 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     },
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
+
+  const {
+    type,
+    icontype,
+    orientation,
+    labelangle,
+    linewidth,
+    barwidth,
+    groupwidth,
+    showlegend,
+    legendposition,
+  } = visMetaData;
   const lastIndex = fields.length - 1;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
@@ -42,26 +50,26 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     !Array.isArray(dataConfig[AGGREGATIONS]) ||
     (dataConfig[BREAKDOWNS] && !Array.isArray(dataConfig[BREAKDOWNS]))
   )
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
 
   /**
    * determine stylings
    */
-  const barOrientation = dataConfig.chartStyles?.orientation || visMetaData.orientation;
-  const isVertical = barOrientation === visMetaData.orientation;
+  const barOrientation = dataConfig.chartStyles?.orientation || orientation;
+  const isVertical = barOrientation === orientation;
 
-  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visMetaData.labelangle;
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || visMetaData.linewidth;
-  const fillOpacity =
-    dataConfig?.chartStyles?.fillOpacity !== undefined
-      ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : visMetaData.fillOpacity / FILLOPACITY_DIV_FACTOR;
-  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || visMetaData.barwidth);
-  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || visMetaData.groupwidth);
+  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || labelangle;
+  const lineWidth = dataConfig?.chartStyles?.lineWidth || linewidth;
+  // const fillOpacity =
+  //   dataConfig?.chartStyles?.fillOpacity !== undefined
+  //     ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
+  //     : fillOpacity / FILLOPACITY_DIV_FACTOR;
+  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || barwidth);
+  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || groupwidth);
   const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== visMetaData.showlegend
+    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== showlegend
   );
-  const legendPosition = dataConfig?.legend?.position || visMetaData.legendposition;
+  const legendPosition = dataConfig?.legend?.position || legendposition;
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
 
   const getSelectedColorTheme = (field: any, index: number) =>
@@ -125,7 +133,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     return {
       y: isVertical ? queriedVizData[getPropName(yMetric)] : chartAxis,
       x: isVertical ? chartAxis : queriedVizData[getPropName(yMetric)],
-      type: visMetaData.type,
+      type: type,
       marker: {
         color: getSelectedColorTheme(yMetric, idx),
         line: {

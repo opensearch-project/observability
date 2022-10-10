@@ -66,6 +66,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
 
+  const { charttype, titlesize, valuesize, textmode, orientation, precisionvalue } = visMetaData;
   // data config parametrs
   const {
     dataConfig: {
@@ -92,7 +93,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   }
 
   const seriesLength = series.length;
-  const chartType = chartStyles.chartType || visMetaData.charttype;
+  const chartType = chartStyles.chartType || charttype;
 
   if (
     isEmpty(queriedVizData) ||
@@ -111,23 +112,21 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // style panel parameters
   let titleSize =
     chartStyles.titleSize ||
-    visMetaData.titlesize -
-      visMetaData.titlesize * seriesLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
+    titlesize - titlesize * seriesLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
     chartStyles.valueSize ||
-    visMetaData.valuesize -
-      visMetaData.valuesize * seriesLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
-  const selectedOrientation = chartStyles.orientation || visMetaData.orientation;
-  const orientation =
+    valuesize - valuesize * seriesLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
+  const selectedOrientation = chartStyles.orientation || orientation;
+  const chartOrientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
       ? DefaultOrientation
       : 'h';
-  const selectedTextMode = chartStyles.textMode || visMetaData.textmode;
+  const selectedTextMode = chartStyles.textMode || textmode;
   let textMode =
     selectedTextMode === DefaultTextMode || selectedTextMode === 'values+names'
       ? DefaultTextMode
       : selectedTextMode;
-  const precisionValue = chartStyles.precisionValue || visMetaData.precisionvalue;
+  const precisionValue = chartStyles.precisionValue || precisionvalue;
   const seriesUnits =
     chartStyles.seriesUnits?.substring(0, STATS_SERIES_UNIT_SUBSTRING_LENGTH) || '';
   const seriesUnitsSize = valueSize - valueSize * STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE;
@@ -136,7 +135,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   if (chartType === 'text' && chartStyles.textMode === undefined) {
     textMode = 'names';
-    titleSize = visMetaData.titlesize;
+    titleSize = titlesize;
   }
 
   // margin from left of grid cell for label/value
@@ -318,7 +317,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
-          orientation === DefaultOrientation || seriesLength === 1
+          chartOrientation === DefaultOrientation || seriesLength === 1
             ? createAnnotationAutoModeVertical(annotationOption)
             : createAnnotationsAutoModeHorizontal(annotationOption)
         ),
@@ -657,7 +656,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     series,
     fields,
     appliedThresholds,
-    orientation,
+    chartOrientation,
     titleSize,
     valueSize,
     textMode,
@@ -679,7 +678,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           : { ...STATS_AXIS_MARGIN, t: 0 },
       ...statsLayout,
       grid: {
-        ...(orientation === DefaultOrientation
+        ...(chartOrientation === DefaultOrientation
           ? {
               rows: 1,
               columns: seriesLength,
@@ -695,7 +694,14 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       },
       title: panelOptions?.title || layoutConfig.layout?.title || '',
     };
-  }, [layout, layoutConfig.layout, panelOptions?.title, orientation, seriesLength, statsLayout]);
+  }, [
+    layout,
+    layoutConfig.layout,
+    panelOptions?.title,
+    chartOrientation,
+    seriesLength,
+    statsLayout,
+  ]);
 
   const mergedConfigs = {
     ...config,
