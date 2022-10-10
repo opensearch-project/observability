@@ -44,6 +44,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
     },
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
+
+  const { icontype, name } = visMetaData;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
   const yaxis = dataConfig[AGGREGATIONS]
@@ -60,7 +62,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
   const lastIndex = fields.length - 1;
 
-  const visType: string = visMetaData?.name;
+  const visType: string = name;
   const mode =
     dataConfig?.chartStyles?.style ||
     (visType === VIS_CHART_TYPES.Line ? DefaultModeLine : DefaultModeScatter);
@@ -93,7 +95,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     xaxis = dataConfig[GROUPBY];
   }
 
-  if (isEmpty(xaxis) || isEmpty(yaxis)) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (isEmpty(xaxis) || isEmpty(yaxis)) return <EmptyPlaceholder icon={icontype} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
@@ -250,6 +252,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
   return isDimensionTimestamp ? (
     <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />
   ) : (
-    <EmptyPlaceholder icon={visMetaData?.icontype} />
+    <EmptyPlaceholder icon={icontype} />
   );
 };

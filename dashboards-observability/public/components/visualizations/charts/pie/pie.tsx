@@ -36,6 +36,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
 
+  const { mode, icontype, showlegend, legendSize, labelSize, legendposition } = visMetaData;
   const {
     dataConfig: {
       chartStyles = {},
@@ -48,11 +49,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     },
     layoutConfig = {},
   } = visualizations?.data?.userConfigs;
-  const type = chartStyles.mode || visMetaData.mode;
+  const type = chartStyles.mode || mode;
   const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
-  const showLegend = legend.showLegend === 'hidden' ? false : visMetaData.showlegend;
-  const legendSize = legend.size || visMetaData.legendSize;
-  const labelSize = chartStyles.labelSize || visMetaData.labelSize;
+  const showLegend = legend.showLegend === 'hidden' ? false : showlegend;
+  const chartLegendSize = legend.size || legendSize;
+  const chartLabelSize = chartStyles.labelSize || labelSize;
   const title = panelOptions.title || layoutConfig.layout?.title || '';
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
@@ -67,7 +68,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   }
 
   if (isEmpty(xaxes) || isEmpty(series)) {
-    return <EmptyPlaceholder icon={visMetaData.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
   }
 
   const invertHex = (hex: string) =>
@@ -121,11 +122,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           },
           ...marker,
           outsidetextfont: {
-            size: labelSize,
+            size: chartLabelSize,
           },
         };
       }),
-    [series, queriedVizData, labelSize, labelsOfXAxis, colorTheme]
+    [series, queriedVizData, chartLabelSize, labelsOfXAxis, colorTheme]
   );
 
   const mergedLayout = useMemo(() => {
@@ -143,9 +144,9 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       title,
       legend: {
         ...layout.legend,
-        orientation: legend.position || visMetaData.legendposition,
-        ...(legendSize && {
-          font: { size: legendSize },
+        orientation: legend.position || legendposition,
+        ...(chartLegendSize && {
+          font: { size: chartLegendSize },
         }),
       },
       showlegend: showLegend,
