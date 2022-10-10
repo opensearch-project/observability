@@ -70,7 +70,7 @@ jobs:
         run: |
           cd opensearch-observability
           echo "Running backwards compatibility tests ..."
-          ./gradlew bwcTestSuite -Dtests.security.manager=false
+          ./gradlew.bat build -x integTest -x jacocoTestReport bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
