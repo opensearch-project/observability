@@ -1,7 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Text component Renders text component 1`] = `
-<Text
+exports[`Horizontal bar component Renders horizontal bar component 1`] = `
+<Bar
+  config={true}
+  layout={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+    }
+  }
   visualizations={
     Object {
       "data": Object {
@@ -475,18 +492,18 @@ exports[`Text component Renders text component 1`] = `
           ],
         },
         "fillopacity": 40,
-        "fulllabel": "Vertical bar",
+        "fulllabel": "Horizontal bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
-        "id": "bar",
-        "label": "Vertical bar",
+        "icontype": "visBarHorizontalStacked",
+        "id": "horizontal_bar",
+        "label": "Horizontal bar",
         "labelangle": 0,
         "legendposition": "v",
         "linewidth": 1,
         "mode": "group",
-        "name": "bar",
-        "orientation": "v",
+        "name": "horizontal_bar",
+        "orientation": "h",
         "selection": Object {
           "dataLoss": "nothing",
         },
@@ -519,36 +536,82 @@ exports[`Text component Renders text component 1`] = `
     }
   }
 >
-  <div
-    data-test-subj="workspace__viz_markdown"
+  <EmptyPlaceholder
+    icon="visBarHorizontalStacked"
   >
-    <EuiMarkdownFormat>
+    <EuiText
+      className="lnsChart__empty"
+      color="subdued"
+      data-test-subj="vizWorkspace__noData"
+      size="xs"
+      textAlign="center"
+    >
       <div
-        className="euiMarkdownFormat"
+        className="euiText euiText--extraSmall lnsChart__empty"
+        data-test-subj="vizWorkspace__noData"
       >
-        <div>
-          <h2
-            key="h-2"
+        <EuiTextAlign
+          textAlign="center"
+        >
+          <div
+            className="euiTextAlign euiTextAlign--center"
           >
-            Text
-          </h2>
-          
-
-          <p
-            key="h-3"
-          >
-            Welcome to text editor!
-          </p>
-          
-
-          <p
-            key="h-4"
-          >
-            With text editor, you are able to add text description(s) to your dashboards.
-          </p>
-        </div>
+            <EuiTextColor
+              color="subdued"
+              component="div"
+            >
+              <div
+                className="euiTextColor euiTextColor--subdued"
+              >
+                <EuiIcon
+                  color="subdued"
+                  size="xxl"
+                  type="visBarHorizontalStacked"
+                >
+                  <EuiIconEmpty
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                    focusable="false"
+                    role="img"
+                    style={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+                <EuiSpacer
+                  size="l"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <p>
+                  <FormattedMessage
+                    defaultMessage="No results found"
+                    id="visualization_noData"
+                    values={Object {}}
+                  >
+                    <span>
+                      No results found
+                    </span>
+                  </FormattedMessage>
+                </p>
+              </div>
+            </EuiTextColor>
+          </div>
+        </EuiTextAlign>
       </div>
-    </EuiMarkdownFormat>
-  </div>
-</Text>
+    </EuiText>
+  </EmptyPlaceholder>
+</Bar>
 `;
