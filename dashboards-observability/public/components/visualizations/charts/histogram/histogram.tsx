@@ -3,19 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty, take } from 'lodash';
 import React, { useMemo } from 'react';
-import { take, isEmpty, last } from 'lodash';
-import { Plt } from '../../plotly/plot';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
-  PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
+  PLOTLY_COLOR,
   VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
-import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
-import { EmptyPlaceholder } from '../../../../components/event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { Plt } from '../../plotly/plot';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
   const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
