@@ -39,37 +39,42 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
 
   // data config parametrs
-  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
-  let xaxes = dataConfig[GROUPBY] ?? [];
-  const series = dataConfig[AGGREGATIONS] ?? [];
+  const {
+    dataConfig: {
+      span = {},
+      chartStyles = {},
+      panelOptions = {},
+      thresholds = [],
+      [GROUPBY]: dimensions = [],
+      [AGGREGATIONS]: series = [],
+    },
+    layoutConfig = {},
+  } = userConfigs;
+
   const seriesLength = series.length;
-  const numberOfGauges = dataConfig?.panelOptions?.numberOfGauges || DisplayDefaultGauges;
+  const numberOfGauges = panelOptions.numberOfGauges || DisplayDefaultGauges;
 
   // style parameters
-  const thresholds = dataConfig?.thresholds || [];
-  const titleSize = dataConfig?.chartStyles?.titleSize || GaugeTitleSize;
-  const valueSize = dataConfig?.chartStyles?.valueSize;
-  const showThresholdMarkers = dataConfig?.chartStyles?.showThresholdMarkers || false;
-  const showThresholdLabels = dataConfig?.chartStyles?.showThresholdLabels || false;
-  const orientation = dataConfig?.chartStyles?.orientation || OrientationDefault;
-  const legendPlacement = dataConfig?.chartStyles?.legendPlacement || LegendPlacement;
+  const titleSize = chartStyles.titleSize || GaugeTitleSize;
+  const valueSize = chartStyles.valueSize;
+  const showThresholdMarkers = chartStyles.showThresholdMarkers || false;
+  const showThresholdLabels = chartStyles.showThresholdLabels || false;
+  const orientation = chartStyles.orientation || OrientationDefault;
+  const legendPlacement = chartStyles.legendPlacement || LegendPlacement;
 
+  let xaxes = dimensions;
   const isEmptyPlot = !seriesLength || isEmpty(queriedVizData);
-
   const timestampField = find(fields, (field) => field.type === 'timestamp');
-
-  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
+  if (span && span.time_field && timestampField) {
     xaxes = [timestampField, ...xaxes];
   }
-
-  const xaxesLength = xaxes.length;
 
   if (isEmptyPlot) return <EmptyPlaceholder icon={icontype} />;
 
   const gaugeData: Plotly.Data[] = useMemo(() => {
     let calculatedGaugeData: Plotly.Data[] = [];
     // case 1,2: no dimension, single/multiple metrics
-    if (!xaxesLength && seriesLength >= 1) {
+    if (!xaxes.length && seriesLength >= 1) {
       calculatedGaugeData = series.map((seriesItem: any) => {
         return {
           field_name: getPropName(seriesItem),
@@ -79,7 +84,7 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
     }
 
     // case 3: multiple dimensions and multiple metrics
-    if (xaxesLength && seriesLength) {
+    if (xaxes.length && seriesLength) {
       const selectedDimensionsData = xaxes
         .map((dimension: any) => {
           return queriedVizData[dimension.name]
@@ -192,9 +197,9 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       },
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      title: panelOptions.title || layoutConfig.layout?.title || '',
     };
-  }, [layout, gaugeData.length, layoutConfig.layout, dataConfig?.panelOptions?.title, orientation]);
+  }, [layout, gaugeData.length, layoutConfig.layout, panelOptions.title, orientation]);
 
   const mergedConfigs = {
     ...config,
