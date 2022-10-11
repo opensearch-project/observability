@@ -74,6 +74,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const labelSize = dataConfig?.chartStyles?.labelSize;
   const legendSize = dataConfig?.legend?.legendSize;
 
+  console.log('labelSize===', labelSize);
+
   const getSelectedColorTheme = (field: any, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
@@ -90,20 +92,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
   if (!timestampField || xaxis.length !== 1 || isEmpty(yaxis))
     return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
-  let valueSeries;
-  if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
-    valueSeries = [...yaxis];
-  } else {
-    valueSeries = take(fields, lastIndex > 0 ? lastIndex : 1).map((item, i) => ({
-      ...item,
-      side: i === 0 ? 'left' : 'right',
-    }));
-  }
-
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
     const isBarMode = mode === 'bar';
-    let calculatedLineValues = valueSeries.map((field: any, index: number) => {
+    let calculatedLineValues = yaxis.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field.name, index);
       const fillColor = hexToRgb(selectedColor, fillOpacity);
       const barMarker = {
@@ -180,6 +172,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           },
         }),
       },
+      autosize: true,
       xaxis: {
         tickangle: tickAngle,
         ...axisLabelsStyle,
@@ -230,13 +223,16 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
 
       mergedLayout.shapes = [
-        ...mapToLine(thresholds, { dash: 'dashdot' }),
+        ...mapToLine(
+          thresholds.filter((i: ThresholdUnitType) => i.value !== ''),
+          { dash: 'dashdot' }
+        ),
         ...mapToLine(levels, {}),
       ];
       calculatedLineValues = [...calculatedLineValues, thresholdTraces];
     }
     return [mergedLayout, calculatedLineValues];
-  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, yaxis, mode, valueSeries]);
+  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, mode, yaxis, labelSize]);
 
   const mergedConfigs = useMemo(
     () => ({
