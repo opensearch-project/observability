@@ -1,16 +1,75 @@
+# name: Test and Build OpenSearch Observability Backend Plugin
+
+# on: [pull_request, push]
+
+# jobs:
+#   build:
+#     strategy:
+#       matrix:
+#         java:
+#           - 11
+#           - 17
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v1
+
+#       - name: Set up JDK ${{ matrix.java }}
+#         uses: actions/setup-java@v1
+#         with:
+#           java-version: ${{ matrix.java }}
+    
+#       - name: Run Backwards Compatibility Tests
+#         run: |
+#           cd opensearch-observability
+#           echo "Running backwards compatibility tests ..."
+#           ./gradlew bwcTestSuite -Dtests.security.manager=false
+#       - name: Build with Gradle
+#         run: |
+#           cd opensearch-observability
+#           ./gradlew build
+#       - name: Upload coverage
+#         uses: codecov/codecov-action@v1
+#         with:
+#           flags: opensearch-observability
+#           directory: opensearch-observability/
+#           token: ${{ secrets.CODECOV_TOKEN }}
+
+#       - name: Create Artifact Path
+#         run: |
+#           mkdir -p opensearch-observability-builds
+#           cp -r ./opensearch-observability/build/distributions/*.zip opensearch-observability-builds/
+#       - name: Upload Artifacts
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: opensearch-observability
+#           path: opensearch-observability-builds
+
+
 name: Test and Build OpenSearch Observability Backend Plugin
 
 on: [pull_request, push]
 
 jobs:
   build:
+    name: Build OpenSearchObservability Backend Plugin
+    env: 
+      BUILD_ARGS: ${{ matrix.os_build_args }}
+      WORKING_DIR: ${{ matrix.working_directory }}.
     strategy:
+      fail-fast: false
       matrix:
-        java:
-          - 11
-          - 17
-
-    runs-on: ubuntu-latest
+        java: [11, 17]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            os_build_args: -x integTest -x jacocoTestReport
+            working_directory: X:\
+            os_java_options: -Xmx4096M
+          - os: macos-latest
+            os_build_args: -x integTest -x jacocoTestReport
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v1
@@ -21,15 +80,20 @@ jobs:
           java-version: ${{ matrix.java }}
     
       - name: Run Backwards Compatibility Tests
+        working-directory: ${{ env.WORKING_DIR }}
         run: |
           cd opensearch-observability
           echo "Running backwards compatibility tests ..."
-          ./gradlew bwcTestSuite -Dtests.security.manager=false
+          ./gradlew bwcTestSuite -Dtests.security.manager=false ${{ env.BUILD_ARGS }}
+        env:
+          _JAVA_OPTIONS: ${{ matrix.os_java_options }}
       - name: Build with Gradle
+        working-directory: ${{ env.WORKING_DIR }}
         run: |
           cd opensearch-observability
-          ./gradlew build
+          ./gradlew build ${{ env.BUILD_ARGS }}
       - name: Upload coverage
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v1
         with:
           flags: opensearch-observability
@@ -43,5 +107,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: opensearch-observability
+          name: opensearch-observability-${{ matrix.os }}
           path: opensearch-observability-builds
