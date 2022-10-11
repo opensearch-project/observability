@@ -47,7 +47,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       [AGGREGATIONS]: series = [],
     },
     layoutConfig = {},
-  } = visualizations?.data?.userConfigs;
+  } = userConfigs;
   const type = chartStyles.mode || mode;
   const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
   const showLegend = legend.showLegend === 'hidden' ? false : showlegend;

@@ -31,6 +31,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     DefaultModeScatter,
     LabelAngle,
   } = DEFAULT_CHART_STYLES;
+
   const {
     data: {
       defaultAxes,
@@ -45,53 +46,55 @@ export const Line = ({ visualizations, layout, config }: any) => {
     vis: { icontype, name },
   }: IVisualizationContainerProps = visualizations;
 
-  const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
+  const {
+    dataConfig: {
+      chartStyles = {},
+      legend = {},
+      span = {},
+      colorTheme = [],
+      thresholds = [],
+      tooltipOptions = {},
+      panelOptions = {},
+      [GROUPBY]: dimensions = [],
+      [AGGREGATIONS]: series = [],
+    },
+    layoutConfig = {},
+    availabilityConfig = {},
+  } = userConfigs;
 
-  const yaxis = dataConfig[AGGREGATIONS]
-    ? dataConfig[AGGREGATIONS].filter((item) => item.label)
-    : [];
+  const yaxis = series ? series.filter((item) => item.label) : [];
   const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig.tooltipOptions.tooltipText
-      : 'all';
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
 
   const lastIndex = fields.length - 1;
-
   const visType: string = name;
   const mode =
-    dataConfig?.chartStyles?.style ||
-    (visType === VIS_CHART_TYPES.Line ? DefaultModeLine : DefaultModeScatter);
-  const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend
-  );
-  const legendPosition = dataConfig?.legend?.position || LegendPosition;
-  const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
+    chartStyles.style || (visType === VIS_CHART_TYPES.Line ? DefaultModeLine : DefaultModeScatter);
+  const lineShape = chartStyles.interpolation || Interpolation;
+  const lineWidth = chartStyles.lineWidth || LineWidth;
+  const showLegend = !(legend.showLegend && legend.showLegend !== ShowLegend);
+  const legendPosition = legend.position || LegendPosition;
+  const markerSize = chartStyles.pointSize || MarkerSize;
   const fillOpacity =
-    dataConfig?.chartStyles?.fillOpacity !== undefined
-      ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
+    chartStyles.fillOpacity !== undefined
+      ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
       : FillOpacity / FILLOPACITY_DIV_FACTOR;
-  const tickAngle = dataConfig?.chartStyles?.rotateLabels || LabelAngle;
-  const labelSize = dataConfig?.chartStyles?.labelSize;
-  const legendSize = dataConfig?.legend?.legendSize;
+  const tickAngle = chartStyles.rotateLabels || LabelAngle;
+  const labelSize = chartStyles.labelSize;
+  const legendSize = legend.legendSize;
 
   const getSelectedColorTheme = (field: any, index: number) =>
-    (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.name)
-        ?.color) ||
+    (colorTheme.length > 0 &&
+      colorTheme.find((colorSelected) => colorSelected.name.name === field.name)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
   let xaxis;
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
-  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-    xaxis = dataConfig[GROUPBY] ? [timestampField, ...dataConfig[GROUPBY]] : [timestampField, []];
+  if (span && span.time_field && timestampField) {
+    xaxis = dimensions ? [timestampField, ...dimensions] : [timestampField, []];
   } else {
-    xaxis = dataConfig[GROUPBY];
+    xaxis = dimensions;
   }
 
   if (isEmpty(xaxis) || isEmpty(yaxis)) return <EmptyPlaceholder icon={icontype} />;
@@ -171,7 +174,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
-      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      title: panelOptions.title || layoutConfig.layout?.title || '',
       legend: {
         ...layout.legend,
         orientation: legendPosition,
@@ -195,14 +198,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
       ...(multiMetrics && multiMetrics),
     };
 
-    if (dataConfig.thresholds || availabilityConfig.level) {
+    if (thresholds || availabilityConfig.level) {
       const thresholdTraces = {
         x: [],
         y: [],
         mode: 'text',
         text: [],
       };
-      const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
+      const threshold = thresholds ? thresholds : [];
       const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
       const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
@@ -232,7 +235,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       };
 
       mergedLayout.shapes = [
-        ...mapToLine(thresholds, { dash: 'dashdot' }),
+        ...mapToLine(threshold, { dash: 'dashdot' }),
         ...mapToLine(levels, {}),
       ];
       calculatedLineValues = [...calculatedLineValues, thresholdTraces];

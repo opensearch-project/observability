@@ -41,75 +41,78 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
 
   const lastIndex = fields.length - 1;
-  const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
+  const {
+    dataConfig: {
+      colorTheme = [],
+      chartStyles = {},
+      span = {},
+      legend = {},
+      panelOptions = {},
+      thresholds = [],
+      [GROUPBY]: dimensions = [],
+      [AGGREGATIONS]: series = [],
+      [BREAKDOWNS]: breakdowns = [],
+    },
+    layoutConfig = {},
+    availabilityConfig = {},
+  } = userConfigs;
 
   if (
     isEmpty(queriedVizData) ||
-    !Array.isArray(dataConfig[GROUPBY]) ||
-    !Array.isArray(dataConfig[AGGREGATIONS]) ||
-    (dataConfig[BREAKDOWNS] && !Array.isArray(dataConfig[BREAKDOWNS]))
+    !Array.isArray(dimensions) ||
+    !Array.isArray(series) ||
+    (breakdowns && !Array.isArray(breakdowns))
   )
     return <EmptyPlaceholder icon={icontype} />;
 
   /**
    * determine stylings
    */
-  const barOrientation = dataConfig.chartStyles?.orientation || orientation;
+  const barOrientation = chartStyles.orientation || orientation;
   const isVertical = barOrientation === orientation;
-
-  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || labelangle;
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || linewidth;
-  // const fillOpacity =
-  //   dataConfig?.chartStyles?.fillOpacity !== undefined
-  //     ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-  //     : fillOpacity / FILLOPACITY_DIV_FACTOR;
-  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || barwidth);
-  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || groupwidth);
-  const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== showlegend
-  );
-  const legendPosition = dataConfig?.legend?.position || legendposition;
-  const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_LABEL_SIZE;
+  const tickAngle = chartStyles.rotateBarLabels || labelangle;
+  const lineWidth = chartStyles.lineWidth || linewidth;
+  const barWidth = 1 - (chartStyles.barWidth || barwidth);
+  const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
+  const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
+  const legendPosition = legend.position || legendposition;
+  const labelSize = chartStyles.labelSize || DEFAULT_LABEL_SIZE;
 
   const getSelectedColorTheme = (field: any, index: number) =>
-    (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field.label)
-        ?.color) ||
+    (colorTheme.length > 0 &&
+      colorTheme.find((colorSelected) => colorSelected.name.name === field.label)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   let bars;
-  let valueSeries;
-  let valueForXSeries;
 
   /**
    * determine x axis
    */
   const xaxes = useMemo(() => {
     // breakdown selections
-    if (dataConfig[BREAKDOWNS]) {
+    if (breakdowns) {
       return [
-        ...dataConfig[GROUPBY].filter(
-          (dimension) =>
-            !some(dataConfig[BREAKDOWNS], (breakdown) => breakdown.label === dimension.label)
+        ...dimensions.filter(
+          (dimension) => !some(breakdowns, (breakdown) => breakdown.label === dimension.label)
         ),
       ];
     }
 
     // span selection
     const timestampField = find(fields, (field) => field.type === 'timestamp');
-    if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-      return [timestampField, ...dataConfig[GROUPBY]];
+    if (span && span.time_field && timestampField) {
+      return [timestampField, ...dimensions];
     }
 
-    return [...dataConfig[GROUPBY]];
-  }, [dataConfig[GROUPBY], dataConfig[BREAKDOWNS]]);
+    return [...dimensions];
+  }, [dimensions, breakdowns]);
 
   /**
    * determine y axis
    */
   const yaxes = useMemo(() => {
-    return Array.isArray(dataConfig[AGGREGATIONS]) ? [...dataConfig[AGGREGATIONS]] : [];
-  }, [dataConfig[AGGREGATIONS]]);
+    return Array.isArray(series) ? [...series] : [];
+  }, [series]);
 
   /**
    * prepare data for visualization, map x-xais to y-xais
@@ -154,8 +157,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     colorway: plotlyColorway,
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
+    title: panelOptions?.title || layoutConfig.layout?.title || '',
+    barmode: chartStyles.mode || visualizations.vis.mode,
     font: {
       size: labelSize,
     },
@@ -171,14 +174,14 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     },
     showlegend: showLegend,
   };
-  if (dataConfig.thresholds || availabilityConfig.level) {
+  if (thresholds || availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
       y: [],
       mode: 'text',
       text: [],
     };
-    const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
+    const threshold = thresholds ? thresholds : [];
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
@@ -207,7 +210,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       });
     };
 
-    mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
+    mergedLayout.shapes = [...mapToLine(threshold, { dash: 'dashdot' }), ...mapToLine(levels, {})];
     bars = [...bars, thresholdTraces];
   }
 

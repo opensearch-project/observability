@@ -32,45 +32,37 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     },
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
-  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
+
+  const {
+    dataConfig: {
+      chartStyles = {},
+      legend = {},
+      tooltipOptions = {},
+      panelOptions = {},
+      treemapOptions = {},
+      [GROUPBY]: dimensions = [],
+      [AGGREGATIONS]: series = [],
+    },
+    layoutConfig = {},
+  } = userConfigs;
 
   const childField =
-    dataConfig[GROUPBY] && dataConfig[GROUPBY][0].childField
-      ? dataConfig[GROUPBY][0].childField
-      : fields[fields.length - 1];
-
-  const parentFields =
-    dataConfig[GROUPBY] && dataConfig[GROUPBY][0].parentFields
-      ? dataConfig[GROUPBY][0].parentFields
-      : [];
+    dimensions && dimensions[0].childField ? dimensions[0].childField : fields[fields.length - 1];
+  const parentFields = dimensions && dimensions[0].parentFields ? dimensions[0].parentFields : [];
   const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig?.tooltipOptions?.tooltipText
-      : 'all';
-
-  const valueField =
-    dataConfig[AGGREGATIONS] && dataConfig[AGGREGATIONS][0].valueField
-      ? dataConfig[AGGREGATIONS][0].valueField
-      : fields[0];
-
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
+  const valueField = series && series[0].valueField ? series[0].valueField : fields[0];
   const colorField =
-    dataConfig?.chartStyles && dataConfig.chartStyles.colorTheme
-      ? dataConfig.chartStyles.colorTheme
-      : { name: DEFAULT_PALETTE };
+    chartStyles && chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
 
   const tilingAlgorithm =
-    dataConfig?.treemapOptions &&
-    dataConfig.treemapOptions.tilingAlgorithm &&
-    !isEmpty(dataConfig.treemapOptions.tilingAlgorithm)
-      ? dataConfig.treemapOptions.tilingAlgorithm[0]
+    treemapOptions && treemapOptions.tilingAlgorithm && !isEmpty(treemapOptions.tilingAlgorithm)
+      ? treemapOptions.tilingAlgorithm[0]
       : 'squarify';
 
-  const sortSectorsField = dataConfig?.treemapOptions?.sort_sectors || DefaultSortSectors;
-  const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
+  const sortSectorsField = treemapOptions.sort_sectors || DefaultSortSectors;
+  const showColorscale = legend.showLegend ?? 'show';
 
   const areParentFieldsInvalid =
     new Set([...parentFields.map((field) => field.name)]).size !== parentFields.length ||
@@ -177,7 +169,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     const mapLayout = {
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      title: panelOptions.title || layoutConfig.layout?.title || '',
       treemapcolorway: colorway,
     };
 
@@ -205,7 +197,6 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     parentFields,
     colorField,
     tilingAlgorithm,
-    dataConfig,
     layoutConfig,
   ]);
 
