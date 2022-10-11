@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bar component Renders bar component 1`] = `
+exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
 <Bar
   config={true}
   layout={

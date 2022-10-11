@@ -13,10 +13,10 @@ import {
   HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Bar component', () => {
+describe('Horizontal bar component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders bar component', async () => {
+  it('Renders horizontal bar component', async () => {
     const wrapper = mount(
       <Bar
         visualizations={HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA}

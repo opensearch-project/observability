@@ -242,9 +242,8 @@ const getUserConfigs = (
 export const getVisTypeData = (vizId: string) => {
   if (SIMILAR_VIZ_TYPES.includes(vizId)) {
     return getVisType(vizId, { type: vizId });
-  } else {
-    return getVisType(vizId);
   }
+  return getVisType(vizId);
 };
 
 export const getVizContainerProps = ({

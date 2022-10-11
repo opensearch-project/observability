@@ -7,6 +7,7 @@ import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
+import { BarOrientation } from '../../../../../../../../common/constants/shared';
 
 export const ConfigBarChartStyles = ({
   visualizations,
@@ -33,7 +34,7 @@ export const ConfigBarChartStyles = ({
 
   /* To update the schema options based on current style mode selection */
   const currentSchemas = useMemo(() => {
-    if (vizState?.orientation === 'h') {
+    if (vizState?.orientation === BarOrientation.horizontal) {
       return schemas.filter(
         (schema: IConfigPanelOptionSection) => schema.mapTo !== 'rotateBarLabels'
       );

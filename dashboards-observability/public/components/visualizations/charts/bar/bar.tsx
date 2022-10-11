@@ -12,6 +12,7 @@ import {
   GROUPBY,
 } from '../../../../../common/constants/explorer';
 import {
+  BarOrientation,
   FILLOPACITY_DIV_FACTOR,
   LONG_CHART_COLOR,
   PLOTLY_COLOR,
@@ -54,7 +55,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * determine stylings
    */
   const barOrientation = dataConfig.chartStyles?.orientation || visMetaData.orientation;
-  const isVertical = barOrientation === 'v';
+  const isVertical = barOrientation === BarOrientation.vertical;
 
   const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visMetaData.labelangle;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || visMetaData.linewidth;

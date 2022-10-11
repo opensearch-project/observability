@@ -188,3 +188,8 @@ export const SLIDER_STEP = 1;
 export const THRESHOLD_LINE_WIDTH = 3;
 export const THRESHOLD_LINE_OPACITY = 0.7;
 export const MAX_BUCKET_LENGTH = 16;
+
+export enum BarOrientation {
+  horizontal = 'h',
+  vertical = 'v',
+}

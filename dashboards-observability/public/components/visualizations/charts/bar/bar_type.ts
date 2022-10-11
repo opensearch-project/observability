@@ -17,7 +17,7 @@ import {
   ButtonGroupItem,
   ConfigAvailability,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
-import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { BarOrientation, DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
 import { fetchConfigObject } from '../../../../components/event_analytics/utils/utils';
 import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { DEFAULT_BAR_CHART_STYLES } from '../../../../../common/constants/explorer';
@@ -45,7 +45,7 @@ export const createBarTypeDefinition = (params: any) => ({
   icon: LensIconChartBar,
   categoryaxis: 'xaxis',
   seriesaxis: 'yaxis',
-  orientation: isHorizontalBar(params.type) ? 'h' : 'v',
+  orientation: isHorizontalBar(params.type) ? BarOrientation.horizontal : BarOrientation.vertical,
   mode: BarMode,
   labelangle: LabelAngle,
   linewidth: LineWidth,
