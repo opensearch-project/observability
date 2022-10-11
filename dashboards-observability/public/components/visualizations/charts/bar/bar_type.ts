@@ -25,9 +25,8 @@ import { DEFAULT_BAR_CHART_STYLES } from '../../../../../common/constants/explor
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
 
-// const { LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
-const { LegendPosition, ShowLegend, LabelAngle, FillOpacity } = DEFAULT_CHART_STYLES;
-const { BarMode, GroupWidth, BarWidth, LineWidth } = DEFAULT_BAR_CHART_STYLES;
+const { LegendPosition, ShowLegend, LabelAngle, FillOpacity, LineWidth } = DEFAULT_CHART_STYLES;
+const { BarMode, GroupWidth, BarWidth } = DEFAULT_BAR_CHART_STYLES;
 const isHorizontalBar = (paramstype: string) =>
   paramstype === VIS_CHART_TYPES.HorizontalBar ? true : false;
 
@@ -123,7 +122,7 @@ export const createBarTypeDefinition = (params: any) => ({
                 eleType: 'buttons',
                 props: {
                   options: [
-                    { name: 'Group', id: 'group' },
+                    { name: 'Group', id: BarMode },
                     { name: 'Stack', id: 'stack' },
                   ],
                   defaultSelections: [{ name: 'Group', id: BarMode }],
