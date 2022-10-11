@@ -33,9 +33,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
   } = DEFAULT_CHART_STYLES;
   const {
     data: {
-      defaultAxes,
-      indexFields,
-      query,
       rawVizData: {
         data: queriedVizData,
         metadata: { fields },
@@ -46,9 +43,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const yaxis = dataConfig[AGGREGATIONS]
-    ? dataConfig[AGGREGATIONS].filter((item) => item.label)
-    : [];
+  const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS] : [];
   const tooltipMode =
     dataConfig?.tooltipOptions?.tooltipMode !== undefined
       ? dataConfig.tooltipOptions.tooltipMode
@@ -92,20 +87,18 @@ export const Line = ({ visualizations, layout, config }: any) => {
     xaxis = dataConfig[GROUPBY];
   }
 
-  if (isEmpty(xaxis) || isEmpty(yaxis)) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (!timestampField || xaxis.length !== 1 || isEmpty(yaxis))
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   let valueSeries;
   if (!isEmpty(xaxis) && !isEmpty(yaxis)) {
     valueSeries = [...yaxis];
   } else {
-    valueSeries = (
-      defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1)
-    ).map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
+    valueSeries = take(fields, lastIndex > 0 ? lastIndex : 1).map((item, i) => ({
+      ...item,
+      side: i === 0 ? 'left' : 'right',
+    }));
   }
-
-  const isDimensionTimestamp = isEmpty(xaxis)
-    ? defaultAxes?.xaxis?.length && defaultAxes.xaxis[0].type === 'timestamp'
-    : xaxis.length === 1 && xaxis[0].type === 'timestamp';
 
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
@@ -166,6 +159,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
     const layoutForBarMode = {
       barmode: 'group',
     };
+    const axisLabelsStyle = {
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
+    };
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
@@ -181,12 +182,10 @@ export const Line = ({ visualizations, layout, config }: any) => {
       },
       xaxis: {
         tickangle: tickAngle,
-        automargin: true,
-        tickfont: {
-          ...(labelSize && {
-            size: labelSize,
-          }),
-        },
+        ...axisLabelsStyle,
+      },
+      yaxis: {
+        ...axisLabelsStyle,
       },
       showlegend: showLegend,
       ...(isBarMode && layoutForBarMode),
@@ -199,6 +198,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         y: [],
         mode: 'text',
         text: [],
+        showlegend: false,
       };
       const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
       const levels = availabilityConfig.level ? availabilityConfig.level : [];
@@ -246,9 +246,5 @@ export const Line = ({ visualizations, layout, config }: any) => {
     [config, layoutConfig.config]
   );
 
-  return isDimensionTimestamp ? (
-    <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />
-  ) : (
-    <EmptyPlaceholder icon={visMetaData?.icontype} />
-  );
+  return <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />;
 };

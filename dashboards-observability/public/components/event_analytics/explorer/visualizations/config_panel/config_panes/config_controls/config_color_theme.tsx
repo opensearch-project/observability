@@ -19,6 +19,7 @@ import {
 import { isEmpty } from 'lodash';
 import { ADD_BUTTON_TEXT, AGGREGATIONS } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
+import { getPropName } from '../../../../../../../components/event_analytics/utils/utils';
 
 export const ConfigColorTheme = ({
   visualizations,
@@ -45,7 +46,7 @@ export const ConfigColorTheme = ({
     : fields
   ).map((item) => ({
     ...item,
-    label: item.name,
+    label: getPropName(item),
   }));
   const getUpdatedOptions = () =>
     options.filter((option) => !vizState.some((vizOpt) => option.name === vizOpt?.name?.name));
