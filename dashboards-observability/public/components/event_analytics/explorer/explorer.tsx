@@ -375,7 +375,7 @@ export const Explorer = ({
           changeVisualizationConfig({
             tabId,
             vizId: visId,
-            data: isRefresh ? { dataConfig: {} } : { ...userVizConfigs[visId] },
+            data: { ...userVizConfigs[visId] },
           })
         );
       }
@@ -857,6 +857,14 @@ export const Explorer = ({
   };
 
   const getUpdatedDataConfig = (statsToken: statsChunk) => {
+    if (statsToken === null) {
+      return {
+        [GROUPBY]: [],
+        [AGGREGATIONS]: [],
+        span: undefined,
+      };
+    }
+
     const groupByToken = statsToken.groupby;
     const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
     const span = getSpanValue(groupByToken);
