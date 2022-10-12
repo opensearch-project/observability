@@ -4,7 +4,8 @@
  */
 
 import React, { ReactNode } from 'react';
-import { EuiTitle, EuiSpacer, EuiRange, htmlIdGenerator } from '@elastic/eui';
+import { EuiTitle, EuiSpacer, EuiRange, htmlIdGenerator, EuiToolTip, EuiIcon } from '@elastic/eui';
+const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
 
 export interface EuiRangeTick {
   value: number;
@@ -24,6 +25,12 @@ interface Props {
   ) => void;
 }
 
+const rangeToolTip = (message: string) => (
+  <EuiToolTip position="top" content={message} delay="regular" anchorClassName="eui-textTruncate">
+    {tooltipIcon}
+  </EuiToolTip>
+);
+
 export const SliderConfig: React.FC<Props> = ({
   title,
   currentRange,
@@ -35,9 +42,12 @@ export const SliderConfig: React.FC<Props> = ({
   step,
 }) => (
   <>
-    <EuiTitle size="xxs">
-      <h3>{title}</h3>
-    </EuiTitle>
+    <div style={{ display: 'flex' }}>
+      <EuiTitle size="xxs">
+        <h3>{title}</h3>
+      </EuiTitle>
+      {rangeToolTip(`Value must be in the range of ${minRange} to ${maxRange}`)}
+    </div>
     <EuiSpacer size="s" />
     <EuiRange
       aria-label="change lineWidth slider"
