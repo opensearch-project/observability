@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bar component Renders bar component 1`] = `
+exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
 <Bar
   config={true}
   layout={
@@ -344,6 +344,13 @@ exports[`Bar component Renders bar component 1`] = `
                         ],
                       },
                     },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
                   ],
                 },
                 Object {
@@ -352,30 +359,6 @@ exports[`Bar component Renders bar component 1`] = `
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
-                    Object {
-                      "component": [Function],
-                      "eleType": "buttons",
-                      "mapTo": "orientation",
-                      "name": "Orientation",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Horizontal",
-                          },
-                        ],
-                      },
-                    },
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
@@ -474,7 +457,7 @@ exports[`Bar component Renders bar component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 80,
+                      "defaultState": 40,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -508,7 +491,7 @@ exports[`Bar component Renders bar component 1`] = `
             },
           ],
         },
-        "fillOpacity": 80,
+        "fillopacity": 40,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
@@ -555,16 +538,7 @@ exports[`Bar component Renders bar component 1`] = `
 >
   <Plt
     config={Object {}}
-    data={
-      Array [
-        Object {
-          "mode": "text",
-          "text": Array [],
-          "x": Array [],
-          "y": Array [],
-        },
-      ]
-    }
+    data={Array []}
     layout={
       Object {
         "bargap": 0.30000000000000004,
@@ -573,10 +547,8 @@ exports[`Bar component Renders bar component 1`] = `
         "colorway": Array [
           "#8C55A3",
         ],
-        "font": Object {
-          "size": 10,
-        },
         "height": 220,
+        "hovermode": "closest",
         "legend": Object {
           "orientation": "v",
         },
@@ -587,12 +559,20 @@ exports[`Bar component Renders bar component 1`] = `
           "r": 10,
           "t": 30,
         },
-        "shapes": Array [],
         "showlegend": true,
         "title": "",
         "xaxis": Object {
           "automargin": true,
           "tickangle": 0,
+          "tickfont": Object {
+            "size": 12,
+          },
+        },
+        "yaxis": Object {
+          "automargin": true,
+          "tickfont": Object {
+            "size": 12,
+          },
         },
       }
     }
@@ -603,16 +583,7 @@ exports[`Bar component Renders bar component 1`] = `
           "displayModeBar": false,
         }
       }
-      data={
-        Array [
-          Object {
-            "mode": "text",
-            "text": Array [],
-            "x": Array [],
-            "y": Array [],
-          },
-        ]
-      }
+      data={Array []}
       debug={false}
       divId="explorerPlotComponent"
       layout={
@@ -624,9 +595,6 @@ exports[`Bar component Renders bar component 1`] = `
           "colorway": Array [
             "#8C55A3",
           ],
-          "font": Object {
-            "size": 10,
-          },
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
@@ -639,17 +607,20 @@ exports[`Bar component Renders bar component 1`] = `
             "r": 10,
             "t": 30,
           },
-          "shapes": Array [],
           "showlegend": true,
           "title": "",
           "xaxis": Object {
             "automargin": true,
             "tickangle": 0,
+            "tickfont": Object {
+              "size": 12,
+            },
           },
           "yaxis": Object {
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
+            "automargin": true,
+            "tickfont": Object {
+              "size": 12,
+            },
           },
         }
       }

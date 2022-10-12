@@ -5,8 +5,19 @@
 
 import { find, isEmpty, last, some } from 'lodash';
 import React, { useMemo } from 'react';
-import { AGGREGATIONS, BREAKDOWNS, GROUPBY } from '../../../../../common/constants/explorer';
-import { LONG_CHART_COLOR, PLOTLY_COLOR } from '../../../../../common/constants/shared';
+import {
+  AGGREGATIONS,
+  BREAKDOWNS,
+  DEFAULT_BAR_CHART_STYLES,
+  GROUPBY,
+} from '../../../../../common/constants/explorer';
+import {
+  BarOrientation,
+  LONG_CHART_COLOR,
+  PLOTLY_COLOR,
+  THRESHOLD_LINE_OPACITY,
+  THRESHOLD_LINE_WIDTH,
+} from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
@@ -15,7 +26,6 @@ import { getPropName } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
-  const DEFAULT_LABEL_SIZE = 10;
   const {
     data: {
       defaultAxes,
@@ -68,15 +78,19 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * determine stylings
    */
   const barOrientation = chartStyles.orientation || orientation;
-  const isVertical = barOrientation === orientation;
+  const isVertical = barOrientation === BarOrientation.vertical;
   const tickAngle = chartStyles.rotateBarLabels || labelangle;
   const lineWidth = chartStyles.lineWidth || linewidth;
   const barWidth = 1 - (chartStyles.barWidth || barwidth);
   const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
   const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
   const legendPosition = legend.position || legendposition;
-  const labelSize = chartStyles.labelSize || DEFAULT_LABEL_SIZE;
 
+  visualizations.data?.rawVizData?.dataConfig?.metrics
+    ? visualizations.data.rawVizData.dataConfig.metrics
+    : [];
+  const labelSize = chartStyles.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
+  const legendSize = legend.legendSize;
   const getSelectedColorTheme = (field: any, index: number) =>
     (colorTheme.length > 0 &&
       colorTheme.find((colorSelected) => colorSelected.name.name === field.label)?.color) ||
@@ -156,31 +170,47 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     colorway: plotlyColorway,
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: panelOptions?.title || layoutConfig.layout?.title || '',
+    title: panelOptions.title || layoutConfig.layout?.title || '',
     barmode: chartStyles.mode || visualizations.vis.mode,
-    font: {
-      size: labelSize,
-    },
     xaxis: {
-      tickangle: tickAngle,
+      ...(isVertical && { tickangle: tickAngle }),
       automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
+    },
+    yaxis: {
+      ...(!isVertical && { tickangle: tickAngle }),
+      automargin: true,
+      tickfont: {
+        ...(labelSize && {
+          size: labelSize,
+        }),
+      },
     },
     bargap: groupWidth,
     bargroupgap: barWidth,
     legend: {
       ...layout.legend,
       orientation: legendPosition,
+      ...(legendSize && {
+        font: {
+          size: legendSize,
+        },
+      }),
     },
     showlegend: showLegend,
+    hovermode: 'closest',
   };
-  if (thresholds || availabilityConfig.level) {
+  if (availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
       y: [],
       mode: 'text',
       text: [],
     };
-    const threshold = thresholds ? thresholds : [];
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
@@ -199,17 +229,17 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
           y1: thr.value,
           name: thr.name || '',
-          opacity: 0.7,
+          opacity: THRESHOLD_LINE_OPACITY,
           line: {
             color: thr.color,
-            width: 3,
+            width: THRESHOLD_LINE_WIDTH,
             ...lineStyle,
           },
         };
       });
     };
 
-    mergedLayout.shapes = [...mapToLine(threshold, { dash: 'dashdot' }), ...mapToLine(levels, {})];
+    mergedLayout.shapes = mapToLine(levels, {});
     bars = [...bars, thresholdTraces];
   }
 

@@ -4,22 +4,23 @@
  */
 
 import { isEmpty, take } from 'lodash';
-import { getVisType } from '../vis_types';
-import {
-  IVisualizationContainerProps,
-  IField,
-  IQuery,
-  ExplorerData,
-} from '../../../../../common/types/explorer';
-import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
-import { QueryManager } from '../../../../../common/query_manager';
 import {
   AGGREGATIONS,
   CUSTOM_LABEL,
   GROUPBY,
   PARENTFIELDS,
+  SIMILAR_VIZ_TYPES,
   TIME_INTERVAL_OPTIONS,
 } from '../../../../../common/constants/explorer';
+import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
+import { QueryManager } from '../../../../../common/query_manager';
+import {
+  ExplorerData,
+  IField,
+  IQuery,
+  IVisualizationContainerProps,
+} from '../../../../../common/types/explorer';
+import { getVisType } from '../vis_types';
 interface IVizContainerProps {
   vizId: string;
   appData?: { fromApp: boolean };
@@ -238,6 +239,13 @@ const getUserConfigs = (
   return isEmpty(configOfUser) ? userSelectedConfigs : configOfUser;
 };
 
+export const getVisTypeData = (vizId: string) => {
+  if (SIMILAR_VIZ_TYPES.includes(vizId)) {
+    return getVisType(vizId, { type: vizId });
+  }
+  return getVisType(vizId);
+};
+
 export const getVizContainerProps = ({
   vizId,
   rawVizData = {},
@@ -248,13 +256,13 @@ export const getVizContainerProps = ({
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
   const getVisTypeData = () =>
-    vizId === VIS_CHART_TYPES.Line || vizId === VIS_CHART_TYPES.Scatter
+    SIMILAR_VIZ_TYPES.includes(vizId as VIS_CHART_TYPES)
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
 
   const userSetConfigs = isEmpty(query)
     ? userConfigs
-    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData().name, query);
+    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData(vizId).name, query);
   return {
     data: {
       appData: { ...appData },
@@ -265,12 +273,12 @@ export const getVizContainerProps = ({
         ...userSetConfigs,
       },
       defaultAxes: {
-        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData().name),
+        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData(vizId).name),
       },
       explorer: { ...explorer },
     },
     vis: {
-      ...getVisTypeData(),
+      ...getVisTypeData(vizId),
     },
   };
 };

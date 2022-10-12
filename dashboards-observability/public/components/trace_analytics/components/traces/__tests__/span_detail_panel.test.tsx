@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import { configure, mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { SpanDetailPanel } from '../span_detail_panel';
+import { BarOrientation } from '../../../../../../common/constants/shared';
 
 describe('Service breakdown panel component', () => {
   configure({ adapter: new Adapter() });
@@ -21,7 +22,7 @@ describe('Service breakdown panel component', () => {
           marker: { color: 'rgba(0, 0, 0, 0)' },
           width: 0.4,
           type: 'bar',
-          orientation: 'h',
+          orientation: BarOrientation.horizontal,
           hoverinfo: 'none',
           showlegend: false,
         },
@@ -34,7 +35,7 @@ describe('Service breakdown panel component', () => {
           marker: { color: '#7492e7' },
           width: 0.4,
           type: 'bar',
-          orientation: 'h',
+          orientation: BarOrientation.horizontal,
           hovertemplate: '%{x}<extra></extra>',
         },
       ] as Plotly.Data[],
