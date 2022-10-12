@@ -307,16 +307,16 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String bwcVersion = "1.2.0-SNAPSHOT"
+String bwcVersion = "2.4.0-SNAPSHOT"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
-String remoteFileURL = "https://github.com/opensearch-project/observability/releases/download/1.2.0.0/opensearch-observability-1.2.0.0.zip"
+String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/2.4.0/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-observability-2.4.0.0.zip"
 
 2.times {i ->
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = ["1.2.0",opensearch_version]
+            versions = ["2.4.0",opensearch_version]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override
@@ -328,7 +328,7 @@ String remoteFileURL = "https://github.com/opensearch-project/observability/rele
                             if (!dir.exists()) {
                                 dir.mkdirs()
                             }
-                            File file = new File(dir, "opensearch-observability-1.2.0.0-SNAPSHOT.zip")
+                            File file = new File(dir, "opensearch-observability-2.4.0.0-SNAPSHOT.zip")
                             if (!file.exists()) {
                                 new URL(remoteFileURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
                             }
