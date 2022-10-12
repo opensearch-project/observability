@@ -84,6 +84,9 @@ jobs:
       - name: Checkout Plugin
         uses: actions/checkout@v1
 
+      - name: Line endings
+        run: git config --global core.autocrlf true
+
       - name: Checkout OpenSearch Dashboards
         uses: actions/checkout@v2
         with:
