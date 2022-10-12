@@ -8,7 +8,6 @@ import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 import { BarOrientation } from '../../../../../../../../common/constants/shared';
-import { schemaDetectors } from '@opensearch-project/oui/src/components/datagrid/data_grid_schema';
 
 export const ConfigBarChartStyles = ({
   visualizations,
