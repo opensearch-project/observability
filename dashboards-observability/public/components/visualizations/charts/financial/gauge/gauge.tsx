@@ -33,23 +33,20 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          span = {},
+          chartStyles = {},
+          panelOptions = {},
+          thresholds = [],
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        },
+        layoutConfig = {},
+      },
     },
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
-
-  // data config parametrs
-  const {
-    dataConfig: {
-      span = {},
-      chartStyles = {},
-      panelOptions = {},
-      thresholds = [],
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-    },
-    layoutConfig = {},
-  } = userConfigs;
 
   const seriesLength = series.length;
   const numberOfGauges = panelOptions.numberOfGauges || DisplayDefaultGauges;

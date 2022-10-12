@@ -41,26 +41,24 @@ export const Line = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          legend = {},
+          span = {},
+          colorTheme = [],
+          thresholds = [],
+          tooltipOptions = {},
+          panelOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        } = {},
+        layoutConfig = {},
+        availabilityConfig = {},
+      } = {},
     },
     vis: { icontype, name },
   }: IVisualizationContainerProps = visualizations;
-
-  const {
-    dataConfig: {
-      chartStyles = {},
-      legend = {},
-      span = {},
-      colorTheme = [],
-      thresholds = [],
-      tooltipOptions = {},
-      panelOptions = {},
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-    },
-    layoutConfig = {},
-    availabilityConfig = {},
-  } = userConfigs;
 
   const yaxis = series ? series.filter((item) => item.label) : [];
   const tooltipMode =
@@ -104,7 +102,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     valueSeries = [...yaxis];
   } else {
     valueSeries = (
-      defaultAxes.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1)
+      defaultAxes?.yaxis || take(fields, lastIndex > 0 ? lastIndex : 1)
     ).map((item, i) => ({ ...item, side: i === 0 ? 'left' : 'right' }));
   }
 

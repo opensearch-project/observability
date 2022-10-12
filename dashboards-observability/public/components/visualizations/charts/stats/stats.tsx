@@ -61,25 +61,24 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          span = {},
+          [GROUPBY]: xaxis = [],
+          [AGGREGATIONS]: series = [],
+          chartStyles = {},
+          panelOptions = {},
+          tooltipOptions = {},
+          thresholds = [],
+        },
+        layoutConfig = {},
+      },
     },
 
     vis: { charttype, titlesize, valuesize, textmode, orientation, precisionvalue },
   }: IVisualizationContainerProps = visualizations;
 
   // data config parametrs
-  const {
-    dataConfig: {
-      span = {},
-      [GROUPBY]: xaxis = [],
-      [AGGREGATIONS]: series = [],
-      chartStyles = {},
-      panelOptions = {},
-      tooltipOptions = {},
-      thresholds = [],
-    },
-    layoutConfig = {},
-  } = userConfigs;
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   /**

@@ -38,15 +38,13 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         jsonData,
         metadata: { fields = [] },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: { chartStyles = {} },
+      },
     },
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
 
-  const {
-    dataConfig: { chartStyles = {} },
-  } = userConfigs;
-  
   const enablePagination =
     typeof chartStyles.enablePagination !== 'undefined'
       ? chartStyles.enablePagination

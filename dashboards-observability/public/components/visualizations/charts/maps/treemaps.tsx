@@ -28,31 +28,29 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          legend = {},
+          tooltipOptions = {},
+          panelOptions = {},
+          treemapOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        },
+        layoutConfig = {},
+      },
     },
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 
-  const {
-    dataConfig: {
-      chartStyles = {},
-      legend = {},
-      tooltipOptions = {},
-      panelOptions = {},
-      treemapOptions = {},
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-    },
-    layoutConfig = {},
-  } = userConfigs;
-
   const childField =
-    dimensions && dimensions[0].childField ? dimensions[0].childField : fields[fields.length - 1];
-  const parentFields = dimensions && dimensions[0].parentFields ? dimensions[0].parentFields : [];
+    dimensions && dimensions[0]?.childField ? dimensions[0]?.childField : fields[fields.length - 1];
+  const parentFields = dimensions && dimensions[0]?.parentFields ? dimensions[0]?.parentFields : [];
   const tooltipMode =
     tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
   const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
-  const valueField = series && series[0].valueField ? series[0].valueField : fields[0];
+  const valueField = series && series[0]?.valueField ? series[0]?.valueField : fields[0];
   const colorField =
     chartStyles && chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
 

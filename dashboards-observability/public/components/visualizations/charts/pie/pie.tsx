@@ -31,23 +31,22 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          span = {},
+          legend = {},
+          panelOptions = {},
+          tooltipOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        },
+        layoutConfig = {},
+      },
     },
     vis: { mode, icontype, showlegend, legendSize, labelSize, legendposition },
   }: IVisualizationContainerProps = visualizations;
 
-  const {
-    dataConfig: {
-      chartStyles = {},
-      span = {},
-      legend = {},
-      panelOptions = {},
-      tooltipOptions = {},
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-    },
-    layoutConfig = {},
-  } = userConfigs;
   const type = chartStyles.mode || mode;
   const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
   const showLegend = legend.showLegend === 'hidden' ? false : showlegend;

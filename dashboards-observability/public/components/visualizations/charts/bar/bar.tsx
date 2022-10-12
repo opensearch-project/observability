@@ -25,7 +25,21 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          colorTheme = [],
+          chartStyles = {},
+          span = {},
+          legend = {},
+          panelOptions = {},
+          thresholds = [],
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+          [BREAKDOWNS]: breakdowns = [],
+        } = {},
+        layoutConfig = {},
+        availabilityConfig = {},
+      },
     },
     vis: {
       type,
@@ -41,21 +55,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }: IVisualizationContainerProps = visualizations;
 
   const lastIndex = fields.length - 1;
-  const {
-    dataConfig: {
-      colorTheme = [],
-      chartStyles = {},
-      span = {},
-      legend = {},
-      panelOptions = {},
-      thresholds = [],
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-      [BREAKDOWNS]: breakdowns = [],
-    },
-    layoutConfig = {},
-    availabilityConfig = {},
-  } = userConfigs;
 
   if (
     isEmpty(queriedVizData) ||

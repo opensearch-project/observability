@@ -32,21 +32,20 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          legend = {},
+          tooltipOptions = {},
+          panelOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        },
+        layoutConfig = {},
+      },
     },
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
-  const {
-    dataConfig: {
-      chartStyles = {},
-      legend = {},
-      tooltipOptions = {},
-      panelOptions = {},
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-    },
-    layoutConfig = {},
-  } = userConfigs;
 
   if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
 

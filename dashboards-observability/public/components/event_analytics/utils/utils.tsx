@@ -381,8 +381,12 @@ export const getPropName = (queriedVizObj: {
   name: string;
   label: string;
 }) => {
-  if (queriedVizObj[CUSTOM_LABEL] === '' || queriedVizObj[CUSTOM_LABEL] === undefined) {
-    return `${queriedVizObj.aggregation}(${queriedVizObj.name})`;
+  if (queriedVizObj) {
+    if (queriedVizObj[CUSTOM_LABEL] === '' || queriedVizObj[CUSTOM_LABEL] === undefined) {
+      return `${queriedVizObj.aggregation}(${queriedVizObj.name})`;
+    }
+    return queriedVizObj[CUSTOM_LABEL];
+  } else {
+    return '';
   }
-  return queriedVizObj[CUSTOM_LABEL];
 };
