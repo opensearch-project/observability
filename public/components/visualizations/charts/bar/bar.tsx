@@ -43,14 +43,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const lastIndex = fields.length - 1;
   const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  if (
-    isEmpty(queriedVizData) ||
-    !Array.isArray(dataConfig[GROUPBY]) ||
-    !Array.isArray(dataConfig[AGGREGATIONS]) ||
-    (dataConfig[BREAKDOWNS] && !Array.isArray(dataConfig[BREAKDOWNS]))
-  )
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
-
   /**
    * determine stylings
    */
@@ -103,7 +95,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       return [timestampField, ...dataConfig[GROUPBY]];
     }
 
-    return [...dataConfig[GROUPBY]];
+    return dataConfig[GROUPBY];
   }, [dataConfig[GROUPBY], dataConfig[BREAKDOWNS]]);
 
   /**
@@ -117,7 +109,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * prepare data for visualization, map x-xais to y-xais
    */
   const chartAxis = useMemo(() => {
-    return Array.isArray(queriedVizData[getPropName(yaxes[0])])
+    return yaxes.length > 0 && Array.isArray(queriedVizData[getPropName(yaxes[0])])
       ? queriedVizData[getPropName(yaxes[0])].map((_, idx) => {
           // let combineXaxis = '';
           const xaxisName = xaxes.map((xaxis) => {
@@ -146,6 +138,15 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       orientation: barOrientation,
     };
   });
+
+  if (
+    isEmpty(queriedVizData) ||
+    !Array.isArray(dataConfig[GROUPBY]) ||
+    !Array.isArray(dataConfig[AGGREGATIONS]) ||
+    (dataConfig[BREAKDOWNS] && !Array.isArray(dataConfig[BREAKDOWNS])) ||
+    yaxes.length === 0
+  )
+    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   // If chart has length of result buckets < 16
   // then use the LONG_CHART_COLOR for all the bars in the chart
