@@ -446,7 +446,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 1,
+                      "defaultState": 2,
                       "eleType": "slider",
                       "mapTo": "lineWidth",
                       "name": "Line width",
@@ -499,7 +499,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
         "label": "Vertical bar",
         "labelangle": 0,
         "legendposition": "v",
-        "linewidth": 1,
+        "linewidth": 2,
         "mode": "group",
         "name": "bar",
         "orientation": "v",
@@ -776,7 +776,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -830,7 +830,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               "label": "Vertical bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
@@ -1089,7 +1089,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -1142,7 +1142,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               "label": "Horizontal bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "horizontal_bar",
               "orientation": "h",
@@ -4238,7 +4238,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -4292,7 +4292,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               "label": "Vertical bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
@@ -4583,7 +4583,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "component": [Function],
-                                "defaultState": 1,
+                                "defaultState": 2,
                                 "eleType": "slider",
                                 "mapTo": "lineWidth",
                                 "name": "Line width",
@@ -4637,7 +4637,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   "label": "Vertical bar",
                   "labelangle": 0,
                   "legendposition": "v",
-                  "linewidth": 1,
+                  "linewidth": 2,
                   "mode": "group",
                   "name": "bar",
                   "orientation": "v",
@@ -4933,7 +4933,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                     Object {
                                       "component": [Function],
-                                      "defaultState": 1,
+                                      "defaultState": 2,
                                       "eleType": "slider",
                                       "mapTo": "lineWidth",
                                       "name": "Line width",
@@ -4988,7 +4988,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       key="vertical bar"
                       labelangle={0}
                       legendposition="v"
-                      linewidth={1}
+                      linewidth={2}
                       mode="group"
                       name="bar"
                       option={
@@ -5218,7 +5218,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "component": [Function],
-                                        "defaultState": 1,
+                                        "defaultState": 2,
                                         "eleType": "slider",
                                         "mapTo": "lineWidth",
                                         "name": "Line width",
@@ -5272,7 +5272,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           "label": "Vertical bar",
                           "labelangle": 0,
                           "legendposition": "v",
-                          "linewidth": 1,
+                          "linewidth": 2,
                           "mode": "group",
                           "name": "bar",
                           "orientation": "v",
@@ -5569,7 +5569,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "component": [Function],
-                                        "defaultState": 1,
+                                        "defaultState": 2,
                                         "eleType": "slider",
                                         "mapTo": "lineWidth",
                                         "name": "Line width",
@@ -5623,7 +5623,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         id="bar"
                         labelangle={0}
                         legendposition="v"
-                        linewidth={1}
+                        linewidth={2}
                         mode="group"
                         name="bar"
                         orientation="v"
@@ -5890,7 +5890,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           },
                                           Object {
                                             "component": [Function],
-                                            "defaultState": 1,
+                                            "defaultState": 2,
                                             "eleType": "slider",
                                             "mapTo": "lineWidth",
                                             "name": "Line width",
@@ -5943,7 +5943,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             id="bar"
                             labelangle={0}
                             legendposition="v"
-                            linewidth={1}
+                            linewidth={2}
                             mode="group"
                             name="bar"
                             orientation="v"
@@ -6379,7 +6379,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 1,
+                          "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
                           "name": "Line width",
@@ -6837,7 +6837,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "component": [Function],
-                                  "defaultState": 1,
+                                  "defaultState": 2,
                                   "eleType": "slider",
                                   "mapTo": "lineWidth",
                                   "name": "Line width",
@@ -6890,7 +6890,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "label": "Vertical bar",
                     "labelangle": 0,
                     "legendposition": "v",
-                    "linewidth": 1,
+                    "linewidth": 2,
                     "mode": "group",
                     "name": "bar",
                     "orientation": "v",
@@ -7177,7 +7177,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -7635,7 +7635,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                   Object {
                                     "component": [Function],
-                                    "defaultState": 1,
+                                    "defaultState": 2,
                                     "eleType": "slider",
                                     "mapTo": "lineWidth",
                                     "name": "Line width",
@@ -7688,7 +7688,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "label": "Vertical bar",
                       "labelangle": 0,
                       "legendposition": "v",
-                      "linewidth": 1,
+                      "linewidth": 2,
                       "mode": "group",
                       "name": "bar",
                       "orientation": "v",
@@ -8206,7 +8206,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                   Object {
                                     "component": [Function],
-                                    "defaultState": 1,
+                                    "defaultState": 2,
                                     "eleType": "slider",
                                     "mapTo": "lineWidth",
                                     "name": "Line width",
@@ -8259,7 +8259,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       "label": "Vertical bar",
                       "labelangle": 0,
                       "legendposition": "v",
-                      "linewidth": 1,
+                      "linewidth": 2,
                       "mode": "group",
                       "name": "bar",
                       "orientation": "v",
@@ -8614,7 +8614,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 1,
+                          "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
                           "name": "Line width",
@@ -9072,7 +9072,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "component": [Function],
-                                  "defaultState": 1,
+                                  "defaultState": 2,
                                   "eleType": "slider",
                                   "mapTo": "lineWidth",
                                   "name": "Line width",
@@ -9125,7 +9125,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     "label": "Vertical bar",
                     "labelangle": 0,
                     "legendposition": "v",
-                    "linewidth": 1,
+                    "linewidth": 2,
                     "mode": "group",
                     "name": "bar",
                     "orientation": "v",
@@ -9639,7 +9639,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 1,
+                                                "defaultState": 2,
                                                 "eleType": "slider",
                                                 "mapTo": "lineWidth",
                                                 "name": "Line width",
@@ -9692,7 +9692,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "label": "Vertical bar",
                                   "labelangle": 0,
                                   "legendposition": "v",
-                                  "linewidth": 1,
+                                  "linewidth": 2,
                                   "mode": "group",
                                   "name": "bar",
                                   "orientation": "v",
@@ -10473,7 +10473,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 1,
+                                                "defaultState": 2,
                                                 "eleType": "slider",
                                                 "mapTo": "lineWidth",
                                                 "name": "Line width",
@@ -10526,7 +10526,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "label": "Vertical bar",
                                   "labelangle": 0,
                                   "legendposition": "v",
-                                  "linewidth": 1,
+                                  "linewidth": 2,
                                   "mode": "group",
                                   "name": "bar",
                                   "orientation": "v",
@@ -11806,7 +11806,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 1,
+                                                "defaultState": 2,
                                                 "eleType": "slider",
                                                 "mapTo": "lineWidth",
                                                 "name": "Line width",
@@ -11859,7 +11859,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "label": "Vertical bar",
                                   "labelangle": 0,
                                   "legendposition": "v",
-                                  "linewidth": 1,
+                                  "linewidth": 2,
                                   "mode": "group",
                                   "name": "bar",
                                   "orientation": "v",
@@ -12710,7 +12710,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "component": [Function],
-                                  "defaultState": 1,
+                                  "defaultState": 2,
                                   "eleType": "slider",
                                   "mapTo": "lineWidth",
                                   "name": "Line width",
@@ -13160,7 +13160,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 1,
+                                                "defaultState": 2,
                                                 "eleType": "slider",
                                                 "mapTo": "lineWidth",
                                                 "name": "Line width",
@@ -13213,7 +13213,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "label": "Vertical bar",
                                   "labelangle": 0,
                                   "legendposition": "v",
-                                  "linewidth": 1,
+                                  "linewidth": 2,
                                   "mode": "group",
                                   "name": "bar",
                                   "orientation": "v",
@@ -14974,7 +14974,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           />
                                         </EuiSpacer>
                                         <SliderConfig
-                                          currentRange={1}
+                                          currentRange={2}
                                           handleSliderChange={[Function]}
                                           max={10}
                                           maxRange={10}
@@ -15017,7 +15017,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             showTicks={false}
                                             showValue={false}
                                             step={1}
-                                            value={1}
+                                            value={2}
                                           >
                                             <EuiRangeWrapper
                                               className="euiRange euiRange--hasInput"
@@ -15036,7 +15036,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   onChange={[Function]}
                                                   showTicks={false}
                                                   step={1}
-                                                  value={1}
+                                                  value={2}
                                                 >
                                                   <div
                                                     aria-hidden={true}
@@ -15054,7 +15054,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       showTicks={false}
                                                       step={1}
                                                       tabIndex={-1}
-                                                      value={1}
+                                                      value={2}
                                                     >
                                                       <input
                                                         aria-hidden={true}
@@ -15067,7 +15067,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         step={1}
                                                         tabIndex={-1}
                                                         type="range"
-                                                        value={1}
+                                                        value={2}
                                                       />
                                                     </EuiRangeSlider>
                                                   </div>
@@ -15088,7 +15088,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   name="Line width"
                                                   onChange={[Function]}
                                                   step={1}
-                                                  value={1}
+                                                  value={2}
                                                 >
                                                   <EuiFieldNumber
                                                     aria-label="change lineWidth slider"
@@ -15107,7 +15107,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "width": "3.6em",
                                                       }
                                                     }
-                                                    value={1}
+                                                    value={2}
                                                   >
                                                     <EuiFormControlLayout
                                                       compressed={true}
@@ -15137,7 +15137,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 }
                                                               }
                                                               type="number"
-                                                              value={1}
+                                                              value={2}
                                                             />
                                                           </EuiValidatableControl>
                                                           <EuiFormControlLayoutIcons
@@ -15809,7 +15809,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 1,
+                                                "defaultState": 2,
                                                 "eleType": "slider",
                                                 "mapTo": "lineWidth",
                                                 "name": "Line width",
@@ -15862,7 +15862,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   "label": "Vertical bar",
                                   "labelangle": 0,
                                   "legendposition": "v",
-                                  "linewidth": 1,
+                                  "linewidth": 2,
                                   "mode": "group",
                                   "name": "bar",
                                   "orientation": "v",
