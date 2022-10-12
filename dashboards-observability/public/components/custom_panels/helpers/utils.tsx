@@ -297,9 +297,9 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
       visualizations={getVizContainerProps({
         vizId: type,
         rawVizData: data,
-        query: {},
+        query: { rawQuery: metaData.query },
         indexFields: {},
-        userConfigs: metaData.user_configs,
+        userConfigs: data?.jsonData,
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
       })}
     />
