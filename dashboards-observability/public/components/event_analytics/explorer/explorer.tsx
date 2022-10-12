@@ -861,7 +861,6 @@ export const Explorer = ({
       return {
         [GROUPBY]: [],
         [AGGREGATIONS]: [],
-        span: undefined,
       };
     }
 
