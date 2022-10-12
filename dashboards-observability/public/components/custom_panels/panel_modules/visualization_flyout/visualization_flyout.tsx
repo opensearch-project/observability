@@ -239,6 +239,7 @@ export const VisaulizationFlyout = ({
               hasNoInitialSelection
               onChange={(e) => onChangeSelection(e)}
               options={visualizationOptions}
+              value={selectValue}
             />
           </EuiFormRow>
           <EuiSpacer size="l" />
