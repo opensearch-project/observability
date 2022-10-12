@@ -33,13 +33,6 @@ export function Plt(props: PltProps) {
 
   const finalLayout = {
     autosize: true,
-    margin: {
-      l: 30,
-      r: 5,
-      b: 30,
-      t: 100,
-      pad: 4,
-    },
     barmode: 'stack',
     legend: {
       orientation: 'h',

@@ -14,7 +14,7 @@ import {
   MULTI_COLOR_PALETTE,
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
-import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES, PLOT_MARGIN } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { GROUPBY, AGGREGATIONS } from '../../../../../common/constants/explorer';
 
@@ -180,6 +180,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ...(layoutConfig.layout && layoutConfig.layout),
       title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
       treemapcolorway: colorway,
+      margin: PLOT_MARGIN,
     };
 
     const mapData = [

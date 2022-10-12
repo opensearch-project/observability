@@ -20,6 +20,7 @@ import {
   AGGREGATIONS,
   GROUPBY,
 } from '../../../../../common/constants/explorer';
+import { PLOT_MARGIN } from '../../../../../common/constants/shared';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const {
@@ -149,6 +150,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         }),
       },
       showlegend: showLegend,
+      margin: PLOT_MARGIN,
     };
   }, [series, layoutConfig.layout, title, layout.legend]);
 

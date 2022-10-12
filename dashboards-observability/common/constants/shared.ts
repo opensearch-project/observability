@@ -193,3 +193,11 @@ export enum BarOrientation {
   horizontal = 'h',
   vertical = 'v',
 }
+
+export const PLOT_MARGIN = {
+  l: 30,
+  r: 5,
+  b: 30,
+  t: 50,
+  pad: 4,
+};
