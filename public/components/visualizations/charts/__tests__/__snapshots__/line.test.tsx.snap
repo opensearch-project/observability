@@ -447,7 +447,7 @@ exports[`Line component Renders line component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 1,
+                      "defaultState": 2,
                       "eleType": "slider",
                       "mapTo": "lineWidth",
                       "name": "Line width",
@@ -500,7 +500,7 @@ exports[`Line component Renders line component 1`] = `
         "label": "Vertical bar",
         "labelangle": 0,
         "legendposition": "v",
-        "linewidth": 1,
+        "linewidth": 2,
         "mode": "group",
         "name": "bar",
         "orientation": "v",
