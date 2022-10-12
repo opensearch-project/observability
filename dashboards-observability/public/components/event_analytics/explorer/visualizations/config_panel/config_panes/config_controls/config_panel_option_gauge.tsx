@@ -21,12 +21,7 @@ export const ConfigPanelOptionGauge = ({
   handleConfigChange,
 }: any) => {
   const {
-    data: {
-      rawVizData: {
-        metadata: { fields },
-      },
-      userConfigs,
-    },
+    data: { rawVizData: { metadata: { fields = [] } = {} } = {}, userConfigs },
   }: IVisualizationContainerProps = visualizations;
 
   const { dataConfig = {} } = userConfigs;

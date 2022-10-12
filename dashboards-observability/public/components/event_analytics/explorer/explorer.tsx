@@ -316,7 +316,7 @@ export const Explorer = ({
     indexPattern: string
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
-  const fetchData = async (isRefresh?: boolean, startingTime?: string, endingTime?: string) => {
+  const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
@@ -375,7 +375,7 @@ export const Explorer = ({
           changeVisualizationConfig({
             tabId,
             vizId: visId,
-            data: isRefresh ? { dataConfig: {} } : { ...userVizConfigs[visId] },
+            data: { ...userVizConfigs[visId] },
           })
         );
       }
@@ -857,6 +857,13 @@ export const Explorer = ({
   };
 
   const getUpdatedDataConfig = (statsToken: statsChunk) => {
+    if (statsToken === null) {
+      return {
+        [GROUPBY]: [],
+        [AGGREGATIONS]: [],
+      };
+    }
+
     const groupByToken = statsToken.groupby;
     const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
     const span = getSpanValue(groupByToken);
@@ -954,7 +961,7 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      await fetchData(true);
+      await fetchData();
 
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
@@ -1267,7 +1274,7 @@ export const Explorer = ({
   const handleLiveTailSearch = useCallback(
     async (startingTime: string, endingTime: string) => {
       await updateQueryInStore(tempQuery);
-      fetchData(false, startingTime, endingTime);
+      fetchData(startingTime, endingTime);
     },
     [tempQuery]
   );
