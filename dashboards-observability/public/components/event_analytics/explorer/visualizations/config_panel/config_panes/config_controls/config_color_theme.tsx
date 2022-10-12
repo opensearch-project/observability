@@ -46,8 +46,9 @@ export const ConfigColorTheme = ({
     : fields
   ).map((item) => ({
     ...item,
-    label: getPropName(item),
+    label: vis.name === VIS_CHART_TYPES.Histogram ? item.name : getPropName(item),
   }));
+
   const getUpdatedOptions = () =>
     options.filter((option) => !vizState.some((vizOpt) => option.name === vizOpt?.name?.name));
 
