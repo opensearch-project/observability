@@ -23,7 +23,7 @@ import { IVisualizationContainerProps } from '../../../../../common/types/explor
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getPropName } from '../../../event_analytics/utils/utils';
+import { getPropName, hexToRgb } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
@@ -62,17 +62,13 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const fillOpacity =
     dataConfig?.chartStyles?.fillOpacity !== undefined
       ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : visMetaData.fillOpacity / FILLOPACITY_DIV_FACTOR;
+      : visMetaData.fillopacity / FILLOPACITY_DIV_FACTOR;
   const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || visMetaData.barwidth);
   const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || visMetaData.groupwidth);
   const showLegend = !(
     dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== visMetaData.showlegend
   );
   const legendPosition = dataConfig?.legend?.position || visMetaData.legendposition;
-
-  visualizations.data?.rawVizData?.dataConfig?.metrics
-    ? visualizations.data.rawVizData.dataConfig.metrics
-    : [];
   const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
   const legendSize = dataConfig?.legend?.legendSize;
   const getSelectedColorTheme = (field: any, index: number) =>
