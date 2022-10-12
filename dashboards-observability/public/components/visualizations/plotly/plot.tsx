@@ -37,7 +37,7 @@ export function Plt(props: PltProps) {
       l: 30,
       r: 5,
       b: 30,
-      t: 5,
+      t: 100,
       pad: 4,
     },
     barmode: 'stack',
