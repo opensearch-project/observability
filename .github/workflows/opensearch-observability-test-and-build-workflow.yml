@@ -66,6 +66,12 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
 
+      - name: Run Backwards Compatibility Tests
+        run: |
+          cd opensearch-observability
+          echo "Running backwards compatibility tests ..."
+          ./gradlew.bat bwcTestSuite -Dtests.security.manager=false
+
       - name: Build with Gradle
         run: |
           cd opensearch-observability
@@ -98,6 +104,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
+
+      - name: Run Backwards Compatibility Tests
+        run: |
+          cd opensearch-observability
+          echo "Running backwards compatibility tests ..."
+          ./gradlew bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
