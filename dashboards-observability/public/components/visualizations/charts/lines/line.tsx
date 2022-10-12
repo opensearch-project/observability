@@ -74,8 +74,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const labelSize = dataConfig?.chartStyles?.labelSize;
   const legendSize = dataConfig?.legend?.legendSize;
 
-  console.log('labelSize===', labelSize);
-
   const getSelectedColorTheme = (field: any, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
