@@ -189,3 +189,7 @@ $vis-editor-sidebar-min-width: 350px;
 .panel_title:first-letter {
   text-transform: uppercase;
 }
+
+.color-theme-combo-box-option .euiFlexItem.euiFlexItem--flexGrowZero {
+  display: none;
+}
