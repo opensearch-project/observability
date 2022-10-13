@@ -21,9 +21,9 @@ export const ConfigBarChartStyles = ({
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const handleConfigurationChange = useCallback(
-    (stateFieldName, schema) => {
+    (stateFieldName, max) => {
       return (changes) => {
-        if (!schema?.props || changes <= schema?.props?.max) {
+        if (!max || changes <= max) {
           handleConfigChange({
             ...vizState,
             [stateFieldName]: changes,
@@ -74,7 +74,7 @@ export const ConfigBarChartStyles = ({
                 label: btn.name,
               })),
               idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-              handleButtonChange: handleConfigurationChange(schema.mapTo, schema),
+              handleButtonChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             return createDimensionComponent(params);
           }
@@ -82,7 +82,7 @@ export const ConfigBarChartStyles = ({
             params = {
               title: schema.name,
               numValue: vizState[schema.mapTo] || '',
-              handleInputChange: handleConfigurationChange(schema.mapTo, schema),
+              handleInputChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
               vizState,
               ...schema.props,
             };
@@ -97,7 +97,7 @@ export const ConfigBarChartStyles = ({
               currentRange: vizState[schema.mapTo] || schema?.defaultState,
               ticks: schema?.props?.ticks,
               showTicks: schema?.props?.showTicks || false,
-              handleSliderChange: handleConfigurationChange(schema.mapTo, schema),
+              handleSliderChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             return createDimensionComponent(params);
           }
