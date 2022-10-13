@@ -84,7 +84,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             ],
           },
           "indexFields": Object {},
-          "query": Object {},
+          "query": Object {
+            "rawQuery": Object {},
+          },
           "rawVizData": Object {
             "data": Object {
               "Carrier": Array [
@@ -133,7 +135,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [],
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -532,7 +539,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ],
             },
             "indexFields": Object {},
-            "query": Object {},
+            "query": Object {
+              "rawQuery": Object {},
+            },
             "rawVizData": Object {
               "data": Object {
                 "Carrier": Array [
@@ -581,7 +590,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [],
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -987,7 +1001,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 ],
               },
               "indexFields": Object {},
-              "query": Object {},
+              "query": Object {
+                "rawQuery": Object {},
+              },
               "rawVizData": Object {
                 "data": Object {
                   "Carrier": Array [
@@ -1036,7 +1052,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [],
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -1524,7 +1545,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             ],
           },
           "indexFields": Object {},
-          "query": Object {},
+          "query": Object {
+            "rawQuery": Object {},
+          },
           "rawVizData": Object {
             "data": Object {
               "Carrier": Array [
@@ -1573,7 +1596,12 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [],
+            },
+          },
         },
         "vis": Object {
           "category": "Visualizations",
@@ -2030,7 +2058,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               ],
             },
             "indexFields": Object {},
-            "query": Object {},
+            "query": Object {
+              "rawQuery": Object {},
+            },
             "rawVizData": Object {
               "data": Object {
                 "Carrier": Array [
@@ -2079,7 +2109,12 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [],
+              },
+            },
           },
           "vis": Object {
             "category": "Visualizations",
@@ -2550,7 +2585,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 ],
               },
               "indexFields": Object {},
-              "query": Object {},
+              "query": Object {
+                "rawQuery": Object {},
+              },
               "rawVizData": Object {
                 "data": Object {
                   "Carrier": Array [
@@ -2599,7 +2636,12 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [],
+                },
+              },
             },
             "vis": Object {
               "category": "Visualizations",
@@ -3137,7 +3179,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             ],
           },
           "indexFields": Object {},
-          "query": Object {},
+          "query": Object {
+            "rawQuery": Object {},
+          },
           "rawVizData": Object {
             "data": Object {
               "Carrier": Array [
@@ -3186,7 +3230,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [],
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -3585,7 +3634,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               ],
             },
             "indexFields": Object {},
-            "query": Object {},
+            "query": Object {
+              "rawQuery": Object {},
+            },
             "rawVizData": Object {
               "data": Object {
                 "Carrier": Array [
@@ -3634,7 +3685,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [],
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -4040,7 +4096,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 ],
               },
               "indexFields": Object {},
-              "query": Object {},
+              "query": Object {
+                "rawQuery": Object {},
+              },
               "rawVizData": Object {
                 "data": Object {
                   "Carrier": Array [
@@ -4089,7 +4147,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [],
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -4546,7 +4609,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             ],
           },
           "indexFields": Object {},
-          "query": Object {},
+          "query": Object {
+            "rawQuery": Object {},
+          },
           "rawVizData": Object {
             "data": Object {
               "count('ip')": Array [],
@@ -4568,7 +4633,12 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "size": 0,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [],
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -4940,7 +5010,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               ],
             },
             "indexFields": Object {},
-            "query": Object {},
+            "query": Object {
+              "rawQuery": Object {},
+            },
             "rawVizData": Object {
               "data": Object {
                 "count('ip')": Array [],
@@ -4962,7 +5034,12 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "size": 0,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [],
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -5341,7 +5418,9 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 ],
               },
               "indexFields": Object {},
-              "query": Object {},
+              "query": Object {
+                "rawQuery": Object {},
+              },
               "rawVizData": Object {
                 "data": Object {
                   "count('ip')": Array [],
@@ -5363,7 +5442,12 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "size": 0,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [],
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
