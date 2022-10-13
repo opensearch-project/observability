@@ -9,7 +9,7 @@ import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement 
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
-import { EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
+import { EuiHorizontalRule, EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
 import {
   EuiText,
   EuiButtonIcon,
@@ -167,6 +167,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
+  const [viewLogPatterns, setViewLogPatterns] = useState(false);
   const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
     false
   );
@@ -676,7 +677,20 @@ export const Explorer = ({
                       <CountDistribution countDistribution={countDistribution} />
                     </>
                   )}
-
+                  <EuiHorizontalRule margin="xs" />
+                  <EuiFlexGroup
+                    justifyContent="spaceBetween"
+                    style={{ margin: '8px' }}
+                    gutterSize="xs"
+                  >
+                    <EuiFlexItem grow={false} />
+                    <EuiFlexItem grow={false}>
+                      <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
+                        {`${viewLogPatterns ? 'Close' : 'View'} Patterns`}
+                      </EuiLink>
+                    </EuiFlexItem>
+                  </EuiFlexGroup>
+                  <EuiHorizontalRule margin="xs" />
                   <section
                     className="dscTable dscTableFixedScroll"
                     aria-labelledby="documentsAriaLabel"
@@ -708,11 +722,13 @@ export const Explorer = ({
                           <EuiSpacer size="m" />
                         </>
                       )}
-                      <PatternsTable
-                        openPatternFlyout={(pattern: PatternData) => {}}
-                        tableData={patternsData.patternTableData || []}
-                        tabId={tabId}
-                      />
+                      {viewLogPatterns && (
+                        <PatternsTable
+                          tableData={patternsData.patternTableData || []}
+                          tabId={tabId}
+                        />
+                      )}
+
                       <DataGrid
                         http={http}
                         pplService={pplService}
@@ -833,6 +849,7 @@ export const Explorer = ({
     query,
     isLiveTailOnRef.current,
     patternsData,
+    viewLogPatterns,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
