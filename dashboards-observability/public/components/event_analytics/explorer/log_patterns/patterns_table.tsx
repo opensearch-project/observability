@@ -11,7 +11,7 @@ import {
   EuiEmptyPrompt,
   EuiIcon,
 } from '@elastic/eui';
-import { PatternData } from 'common/types/explorer';
+import { PatternTableData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
 import moment from 'moment';
 import React from 'react';
@@ -20,7 +20,7 @@ import { PPL_DOCUMENTATION_URL, UI_DATE_FORMAT } from '../../../../../common/con
 import { selectPatterns } from '../../redux/slices/patterns_slice';
 
 interface PatternsTableProps {
-  tableData: PatternData[];
+  tableData: PatternTableData[];
   tabId: string;
 }
 
@@ -49,20 +49,20 @@ export function PatternsTable(props: PatternsTableProps) {
 
   const tableColumns = [
     {
-      field: 'count()',
+      field: 'count',
       name: 'Count',
       width: '8%',
       sortable: true,
-      render: (item: string, row: PatternData) => {
+      render: (item: string, row: PatternTableData) => {
         return <EuiText>{item}</EuiText>;
       },
     },
     {
-      field: 'patterns_field',
+      field: 'pattern',
       name: 'Pattern',
       width: '50%',
       sortable: true,
-      render: (item: string, row: PatternData) => {
+      render: (item: string, row: PatternTableData) => {
         return <EuiText>{item}</EuiText>;
       },
     },
@@ -70,10 +70,10 @@ export function PatternsTable(props: PatternsTableProps) {
       field: 'ratio',
       name: 'Ratio',
       width: '8%',
-      sortable: (row: PatternData) => row['count()'],
-      render: (item: number, row: PatternData) => {
+      sortable: (row: PatternTableData) => row.count,
+      render: (item: number, row: PatternTableData) => {
         const ratio =
-          (row['count()'] /
+          (row.count /
             reduce(
               patternsData.total,
               (sum, n) => {
@@ -86,14 +86,14 @@ export function PatternsTable(props: PatternsTableProps) {
       },
     },
     {
-      field: 'min(timestamp)',
+      field: 'earlyTimestamp',
       name: 'Earliest time',
       width: '12%',
       sortable: true,
       render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
     {
-      field: 'max(timestamp)',
+      field: 'recentTimestamp',
       name: 'Recent time',
       width: '12%',
       sortable: true,
@@ -103,7 +103,7 @@ export function PatternsTable(props: PatternsTableProps) {
 
   const sorting = {
     sort: {
-      field: 'count()',
+      field: 'count',
       direction: 'desc' as Direction,
     },
     allowNeutralSort: true,

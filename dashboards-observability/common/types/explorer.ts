@@ -333,11 +333,19 @@ export interface GetTooltipHoverInfoType {
   tooltipText: string;
 }
 
-export interface PatternData {
+export interface PatternJSONData {
   'count()': number;
   'max(timestamp)': string;
   'min(timestamp)': string;
   patterns_field: string;
+}
+
+export interface PatternTableData {
+  count: number;
+  recentTimestamp: string;
+  earlyTimestamp: string;
+  pattern: string;
+  sampleLog: string;
 }
 
 export interface SelectedConfigItem {

@@ -8,14 +8,16 @@ import { useState, useRef } from 'react';
 import { batch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { IField, PatternData } from 'common/types/explorer';
+import { IField, PatternJSONData, PatternTableData } from 'common/types/explorer';
 import {
   FINAL_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
   QUERIED_FIELDS,
-  PATTERNS_QUERY_EXTENSION,
+  PATTERN_STATS_QUERY,
+  PATTERN_SAMPLE_QUERY_PRE,
+  PATTERN_SAMPLE_QUERY_POST,
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../redux/slices/query_result_slice';
 import { setPatterns, reset as patternsReset } from '../redux/slices/patterns_slice';
@@ -153,7 +155,7 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     });
   };
 
-  const dispatchOnPatterns = (res: { patternTableData: PatternData[] }) => {
+  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[] }) => {
     batch(() => {
       // dispatch(
       //   patternsReset({
@@ -215,13 +217,37 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
   const getPatterns = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
-    const patternsQuery = searchQuery + PATTERNS_QUERY_EXTENSION;
+    const statsQuery = searchQuery + PATTERN_STATS_QUERY;
     fetchEvents(
-      { query: patternsQuery },
+      { query: statsQuery },
       'jdbc',
-      (res: any) => {
+      (res: { jsonData: PatternJSONData[] }) => {
         if (!isEmpty(res.jsonData)) {
-          return dispatchOnPatterns({ patternTableData: res.jsonData });
+          const formatToTableData = res.jsonData.map((json: PatternJSONData) => {
+            return {
+              count: json['count()'],
+              recentTimestamp: json['max(timestamp)'],
+              earlyTimestamp: json['min(timestamp)'],
+              pattern: json.patterns_field,
+              sampleLog: '',
+            } as PatternTableData;
+          });
+          dispatchOnPatterns({ patternTableData: formatToTableData });
+          formatToTableData.forEach((patternData, index) => {
+            const sampleLogQuery =
+              searchQuery +
+              PATTERN_SAMPLE_QUERY_PRE +
+              patternData.pattern +
+              PATTERN_SAMPLE_QUERY_POST;
+            fetchEvents({ query: sampleLogQuery }, 'jdbc', (resp: any) => {
+              if (!isEmpty(resp.jsonData)) {
+                const sampleLogAdded = formatToTableData.map((value, i) =>
+                  i === index ? { ...value, sampleLog: resp.jsonData[0].message } : value
+                );
+                return dispatchOnPatterns({ patternTableData: sampleLogAdded });
+              }
+            });
+          });
         }
       },
       errorHandler
