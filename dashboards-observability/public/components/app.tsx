@@ -17,6 +17,7 @@ import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
+import { Home as MetricsHome } from './metrics/index';
 
 interface ObservabilityAppDeps {
   CoreStartProp: CoreStart;
@@ -59,6 +60,23 @@ export const App = ({
         <I18nProvider>
           <>
             <Switch>
+              <Route
+                path="/metrics"
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    { text: 'Metrics', href: '#/metrics/' },
+                  ]);
+                  return (
+                    <MetricsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      renderProps={props}
+                    />
+                  );
+                }}
+              />
               <Route
                 path={'/application_analytics'}
                 render={(props) => {
