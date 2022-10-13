@@ -141,7 +141,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       },
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title,
       legend: {
         ...layout.legend,
         orientation: legend.position || visMetaData.legendposition,
@@ -150,7 +149,19 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         }),
       },
       showlegend: showLegend,
-      margin: PLOT_MARGIN,
+      margin: {
+        ...PLOT_MARGIN,
+        t: 100,
+      },
+      title: {
+        text: title,
+        xanchor: 'right',
+        yanchor: 'top',
+        x: 1,
+        y: 1,
+        xref: 'paper',
+        yref: 'container',
+      },
     };
   }, [series, layoutConfig.layout, title, layout.legend]);
 
