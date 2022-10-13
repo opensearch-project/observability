@@ -49,18 +49,18 @@ export function PatternsTable(props: PatternsTableProps) {
 
   const tableColumns = [
     {
-      field: 'serial',
-      name: 'Serial number',
-      width: '12%',
+      field: 'count()',
+      name: 'Count',
+      width: '8%',
       sortable: true,
       render: (item: string, row: PatternData) => {
-        return <EuiText>0000001</EuiText>;
+        return <EuiText>{item}</EuiText>;
       },
     },
     {
       field: 'patterns_field',
       name: 'Pattern',
-      width: '40%',
+      width: '50%',
       sortable: true,
       render: (item: string, row: PatternData) => {
         return <EuiText>{item}</EuiText>;
@@ -69,7 +69,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'ratio',
       name: 'Ratio',
-      width: '9%',
+      width: '8%',
       sortable: (row: PatternData) => row['count()'],
       render: (item: number, row: PatternData) => {
         const ratio =
@@ -86,34 +86,16 @@ export function PatternsTable(props: PatternsTableProps) {
       },
     },
     {
-      field: 'count()',
-      name: 'Count',
-      width: '8%',
-      sortable: true,
-      render: (item: string, row: PatternData) => {
-        return <EuiText>{item}</EuiText>;
-      },
-    },
-    {
-      field: 'length',
-      name: 'Pattern length',
-      width: '8%',
-      sortable: (pattern: PatternData) => pattern.patterns_field.length,
-      render: (item: any, row: PatternData) => {
-        return <EuiText>{row.patterns_field.length}</EuiText>;
-      },
-    },
-    {
       field: 'min(timestamp)',
       name: 'Earliest time',
-      width: '11%',
+      width: '12%',
       sortable: true,
       render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
     {
       field: 'max(timestamp)',
       name: 'Recent time',
-      width: '11%',
+      width: '12%',
       sortable: true,
       render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
     },
