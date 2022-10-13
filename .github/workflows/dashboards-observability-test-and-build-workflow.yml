@@ -63,7 +63,6 @@ jobs:
           directory: ./OpenSearch-Dashboards/plugins/dashboards-observability
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      # TODO remove hard coded version when observability is ready
       - name: Build Artifact
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
@@ -85,7 +84,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Line endings
-        run: git config --global core.autocrlf true
+        run: git config --global core.autocrlf false
 
       - name: Checkout OpenSearch Dashboards
         uses: actions/checkout@v2
@@ -124,7 +123,7 @@ jobs:
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
           yarn test
-      # TODO remove hard coded version when observability is ready
+
       - name: Build Artifact
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
@@ -183,7 +182,6 @@ jobs:
           cd OpenSearch-Dashboards/plugins/dashboards-observability
           yarn test
 
-      # TODO remove hard coded version when observability is ready
       - name: Build Artifact
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
