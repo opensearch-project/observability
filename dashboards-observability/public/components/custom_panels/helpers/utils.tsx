@@ -299,7 +299,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
         rawVizData: data,
         query: { rawQuery: metaData.query },
         indexFields: {},
-        userConfigs: data?.jsonData,
+        userConfigs: {},
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
       })}
     />
