@@ -13704,15 +13704,69 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           title="Rotate bar labels"
                                           vizState={Object {}}
                                         >
-                                          <EuiTitle
-                                            size="xxs"
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "flex",
+                                              }
+                                            }
                                           >
-                                            <h3
-                                              className="euiTitle euiTitle--xxsmall"
+                                            <EuiTitle
+                                              size="xxs"
                                             >
-                                              Rotate bar labels
-                                            </h3>
-                                          </EuiTitle>
+                                              <h3
+                                                className="euiTitle euiTitle--xxsmall"
+                                              >
+                                                Rotate bar labels
+                                              </h3>
+                                            </EuiTitle>
+                                            <EuiToolTip
+                                              anchorClassName="eui-textTruncate"
+                                              content="Value must be in the range of -90 to 90"
+                                              delay="regular"
+                                              position="top"
+                                            >
+                                              <span
+                                                className="euiToolTipAnchor eui-textTruncate"
+                                                onKeyUp={[Function]}
+                                                onMouseOut={[Function]}
+                                                onMouseOver={[Function]}
+                                              >
+                                                <EuiIcon
+                                                  className="info-icon"
+                                                  color="text"
+                                                  onBlur={[Function]}
+                                                  onFocus={[Function]}
+                                                  size="m"
+                                                  type="iInCircle"
+                                                >
+                                                  <EuiIconEmpty
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                    focusable="false"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                      focusable="false"
+                                                      height={16}
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                  </EuiIconEmpty>
+                                                </EuiIcon>
+                                              </span>
+                                            </EuiToolTip>
+                                          </div>
                                           <EuiSpacer
                                             size="s"
                                           >
@@ -14610,15 +14664,69 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           title="Group width"
                                           vizState={Object {}}
                                         >
-                                          <EuiTitle
-                                            size="xxs"
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "flex",
+                                              }
+                                            }
                                           >
-                                            <h3
-                                              className="euiTitle euiTitle--xxsmall"
+                                            <EuiTitle
+                                              size="xxs"
                                             >
-                                              Group width
-                                            </h3>
-                                          </EuiTitle>
+                                              <h3
+                                                className="euiTitle euiTitle--xxsmall"
+                                              >
+                                                Group width
+                                              </h3>
+                                            </EuiTitle>
+                                            <EuiToolTip
+                                              anchorClassName="eui-textTruncate"
+                                              content="Value must be in the range of 0 to 1"
+                                              delay="regular"
+                                              position="top"
+                                            >
+                                              <span
+                                                className="euiToolTipAnchor eui-textTruncate"
+                                                onKeyUp={[Function]}
+                                                onMouseOut={[Function]}
+                                                onMouseOver={[Function]}
+                                              >
+                                                <EuiIcon
+                                                  className="info-icon"
+                                                  color="text"
+                                                  onBlur={[Function]}
+                                                  onFocus={[Function]}
+                                                  size="m"
+                                                  type="iInCircle"
+                                                >
+                                                  <EuiIconEmpty
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                    focusable="false"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                      focusable="false"
+                                                      height={16}
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                  </EuiIconEmpty>
+                                                </EuiIcon>
+                                              </span>
+                                            </EuiToolTip>
+                                          </div>
                                           <EuiSpacer
                                             size="s"
                                           >
@@ -14797,15 +14905,69 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           title="Bar width"
                                           vizState={Object {}}
                                         >
-                                          <EuiTitle
-                                            size="xxs"
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "flex",
+                                              }
+                                            }
                                           >
-                                            <h3
-                                              className="euiTitle euiTitle--xxsmall"
+                                            <EuiTitle
+                                              size="xxs"
                                             >
-                                              Bar width
-                                            </h3>
-                                          </EuiTitle>
+                                              <h3
+                                                className="euiTitle euiTitle--xxsmall"
+                                              >
+                                                Bar width
+                                              </h3>
+                                            </EuiTitle>
+                                            <EuiToolTip
+                                              anchorClassName="eui-textTruncate"
+                                              content="Value must be in the range of 0 to 1"
+                                              delay="regular"
+                                              position="top"
+                                            >
+                                              <span
+                                                className="euiToolTipAnchor eui-textTruncate"
+                                                onKeyUp={[Function]}
+                                                onMouseOut={[Function]}
+                                                onMouseOver={[Function]}
+                                              >
+                                                <EuiIcon
+                                                  className="info-icon"
+                                                  color="text"
+                                                  onBlur={[Function]}
+                                                  onFocus={[Function]}
+                                                  size="m"
+                                                  type="iInCircle"
+                                                >
+                                                  <EuiIconEmpty
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                    focusable="false"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                      focusable="false"
+                                                      height={16}
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                  </EuiIconEmpty>
+                                                </EuiIcon>
+                                              </span>
+                                            </EuiToolTip>
+                                          </div>
                                           <EuiSpacer
                                             size="s"
                                           >
@@ -14984,15 +15146,69 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           title="Line width"
                                           vizState={Object {}}
                                         >
-                                          <EuiTitle
-                                            size="xxs"
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "flex",
+                                              }
+                                            }
                                           >
-                                            <h3
-                                              className="euiTitle euiTitle--xxsmall"
+                                            <EuiTitle
+                                              size="xxs"
                                             >
-                                              Line width
-                                            </h3>
-                                          </EuiTitle>
+                                              <h3
+                                                className="euiTitle euiTitle--xxsmall"
+                                              >
+                                                Line width
+                                              </h3>
+                                            </EuiTitle>
+                                            <EuiToolTip
+                                              anchorClassName="eui-textTruncate"
+                                              content="Value must be in the range of 0 to 10"
+                                              delay="regular"
+                                              position="top"
+                                            >
+                                              <span
+                                                className="euiToolTipAnchor eui-textTruncate"
+                                                onKeyUp={[Function]}
+                                                onMouseOut={[Function]}
+                                                onMouseOver={[Function]}
+                                              >
+                                                <EuiIcon
+                                                  className="info-icon"
+                                                  color="text"
+                                                  onBlur={[Function]}
+                                                  onFocus={[Function]}
+                                                  size="m"
+                                                  type="iInCircle"
+                                                >
+                                                  <EuiIconEmpty
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                    focusable="false"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                      focusable="false"
+                                                      height={16}
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                  </EuiIconEmpty>
+                                                </EuiIcon>
+                                              </span>
+                                            </EuiToolTip>
+                                          </div>
                                           <EuiSpacer
                                             size="s"
                                           >
@@ -15171,15 +15387,69 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           title="Fill opacity"
                                           vizState={Object {}}
                                         >
-                                          <EuiTitle
-                                            size="xxs"
+                                          <div
+                                            style={
+                                              Object {
+                                                "display": "flex",
+                                              }
+                                            }
                                           >
-                                            <h3
-                                              className="euiTitle euiTitle--xxsmall"
+                                            <EuiTitle
+                                              size="xxs"
                                             >
-                                              Fill opacity
-                                            </h3>
-                                          </EuiTitle>
+                                              <h3
+                                                className="euiTitle euiTitle--xxsmall"
+                                              >
+                                                Fill opacity
+                                              </h3>
+                                            </EuiTitle>
+                                            <EuiToolTip
+                                              anchorClassName="eui-textTruncate"
+                                              content="Value must be in the range of 0 to 100"
+                                              delay="regular"
+                                              position="top"
+                                            >
+                                              <span
+                                                className="euiToolTipAnchor eui-textTruncate"
+                                                onKeyUp={[Function]}
+                                                onMouseOut={[Function]}
+                                                onMouseOver={[Function]}
+                                              >
+                                                <EuiIcon
+                                                  className="info-icon"
+                                                  color="text"
+                                                  onBlur={[Function]}
+                                                  onFocus={[Function]}
+                                                  size="m"
+                                                  type="iInCircle"
+                                                >
+                                                  <EuiIconEmpty
+                                                    aria-hidden={true}
+                                                    className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                    focusable="false"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                    role="img"
+                                                    style={null}
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--text euiIcon-isLoading info-icon"
+                                                      focusable="false"
+                                                      height={16}
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                      role="img"
+                                                      style={null}
+                                                      viewBox="0 0 16 16"
+                                                      width={16}
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                  </EuiIconEmpty>
+                                                </EuiIcon>
+                                              </span>
+                                            </EuiToolTip>
+                                          </div>
                                           <EuiSpacer
                                             size="s"
                                           >
