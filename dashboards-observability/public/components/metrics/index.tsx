@@ -31,7 +31,7 @@ import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { onTimeChange } from './helpers/utils';
 
-export interface MetricsProps {
+interface MetricsProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   parentBreadcrumb: ChromeBreadcrumb;
