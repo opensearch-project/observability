@@ -18,6 +18,7 @@ import {
   PLOTLY_COLOR,
   THRESHOLD_LINE_OPACITY,
   THRESHOLD_LINE_WIDTH,
+  PLOT_MARGIN,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
@@ -187,6 +188,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     },
     showlegend: showLegend,
     hovermode: 'closest',
+    margin: PLOT_MARGIN,
   };
   if (availabilityConfig.level) {
     const thresholdTraces = {
