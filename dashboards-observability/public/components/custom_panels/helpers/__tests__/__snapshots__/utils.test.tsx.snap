@@ -361,7 +361,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       },
                       Object {
                         "component": [Function],
-                        "defaultState": 1,
+                        "defaultState": 2,
                         "eleType": "slider",
                         "mapTo": "lineWidth",
                         "name": "Line width",
@@ -414,7 +414,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "label": "Vertical bar",
           "labelangle": 0,
           "legendposition": "v",
-          "linewidth": 1,
+          "linewidth": 2,
           "mode": "group",
           "name": "bar",
           "orientation": "v",
@@ -809,7 +809,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 1,
+                          "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
                           "name": "Line width",
@@ -862,7 +862,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "label": "Vertical bar",
             "labelangle": 0,
             "legendposition": "v",
-            "linewidth": 1,
+            "linewidth": 2,
             "mode": "group",
             "name": "bar",
             "orientation": "v",
@@ -1264,7 +1264,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -1317,7 +1317,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "label": "Vertical bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
@@ -1353,129 +1353,83 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "displaylogo": false,
-              "responsive": true,
-            }
-          }
-          data={Array []}
-          layout={
-            Object {
-              "bargap": 0.30000000000000004,
-              "bargroupgap": 0.030000000000000027,
-              "barmode": "group",
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "hovermode": "closest",
-              "legend": Object {
-                "orientation": "v",
-              },
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "automargin": true,
-                "tickangle": 0,
-                "tickfont": Object {
-                  "size": 12,
-                },
-              },
-              "yaxis": Object {
-                "automargin": true,
-                "tickfont": Object {
-                  "size": 12,
-                },
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visBarVerticalStacked"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-              }
-            }
-            data={Array []}
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "bargap": 0.30000000000000004,
-                "bargroupgap": 0.030000000000000027,
-                "barmode": "group",
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": "v",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 30,
-                  "pad": 4,
-                  "r": 5,
-                  "t": 5,
-                },
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "automargin": true,
-                  "tickangle": 0,
-                  "tickfont": Object {
-                    "size": 12,
-                  },
-                },
-                "yaxis": Object {
-                  "automargin": true,
-                  "tickfont": Object {
-                    "size": 12,
-                  },
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="xxl"
+                        type="visBarVerticalStacked"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="l"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--l"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Bar>
     </VisualizationChart>
   </Visualization>
@@ -3460,7 +3414,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                       },
                       Object {
                         "component": [Function],
-                        "defaultState": 1,
+                        "defaultState": 2,
                         "eleType": "slider",
                         "mapTo": "lineWidth",
                         "name": "Line width",
@@ -3513,7 +3467,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "label": "Horizontal bar",
           "labelangle": 0,
           "legendposition": "v",
-          "linewidth": 1,
+          "linewidth": 2,
           "mode": "group",
           "name": "horizontal_bar",
           "orientation": "h",
@@ -3908,7 +3862,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 1,
+                          "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
                           "name": "Line width",
@@ -3961,7 +3915,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "label": "Horizontal bar",
             "labelangle": 0,
             "legendposition": "v",
-            "linewidth": 1,
+            "linewidth": 2,
             "mode": "group",
             "name": "horizontal_bar",
             "orientation": "h",
@@ -4363,7 +4317,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -4416,7 +4370,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "label": "Horizontal bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "horizontal_bar",
               "orientation": "h",
@@ -4452,129 +4406,83 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "displaylogo": false,
-              "responsive": true,
-            }
-          }
-          data={Array []}
-          layout={
-            Object {
-              "bargap": 0.30000000000000004,
-              "bargroupgap": 0.030000000000000027,
-              "barmode": "group",
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "hovermode": "closest",
-              "legend": Object {
-                "orientation": "v",
-              },
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "automargin": true,
-                "tickfont": Object {
-                  "size": 12,
-                },
-              },
-              "yaxis": Object {
-                "automargin": true,
-                "tickangle": 0,
-                "tickfont": Object {
-                  "size": 12,
-                },
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visBarHorizontalStacked"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-              }
-            }
-            data={Array []}
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "bargap": 0.30000000000000004,
-                "bargroupgap": 0.030000000000000027,
-                "barmode": "group",
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": "v",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 30,
-                  "pad": 4,
-                  "r": 5,
-                  "t": 5,
-                },
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "automargin": true,
-                  "tickfont": Object {
-                    "size": 12,
-                  },
-                },
-                "yaxis": Object {
-                  "automargin": true,
-                  "tickangle": 0,
-                  "tickfont": Object {
-                    "size": 12,
-                  },
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="xxl"
+                        type="visBarHorizontalStacked"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="l"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--l"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Bar>
     </VisualizationChart>
   </Visualization>
@@ -4888,7 +4796,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       },
                       Object {
                         "component": [Function],
-                        "defaultState": 1,
+                        "defaultState": 2,
                         "eleType": "slider",
                         "mapTo": "lineWidth",
                         "name": "Line width",
@@ -4941,7 +4849,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "label": "Horizontal bar",
           "labelangle": 0,
           "legendposition": "v",
-          "linewidth": 1,
+          "linewidth": 2,
           "mode": "group",
           "name": "horizontal_bar",
           "orientation": "h",
@@ -5282,7 +5190,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 1,
+                          "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
                           "name": "Line width",
@@ -5335,7 +5243,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "label": "Horizontal bar",
             "labelangle": 0,
             "legendposition": "v",
-            "linewidth": 1,
+            "linewidth": 2,
             "mode": "group",
             "name": "horizontal_bar",
             "orientation": "h",
@@ -5683,7 +5591,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -5736,7 +5644,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "label": "Horizontal bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "horizontal_bar",
               "orientation": "h",
@@ -5772,129 +5680,83 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           }
         }
       >
-        <Plt
-          config={
-            Object {
-              "displaylogo": false,
-              "responsive": true,
-            }
-          }
-          data={Array []}
-          layout={
-            Object {
-              "bargap": 0.30000000000000004,
-              "bargroupgap": 0.030000000000000027,
-              "barmode": "group",
-              "colorway": Array [
-                "#3CA1C7",
-                "#8C55A3",
-                "#DB748A",
-                "#F2BE4B",
-                "#68CCC2",
-                "#2A7866",
-                "#843769",
-                "#374FB8",
-                "#BD6F26",
-                "#4C636F",
-              ],
-              "hovermode": "closest",
-              "legend": Object {
-                "orientation": "v",
-              },
-              "showlegend": true,
-              "title": "",
-              "xaxis": Object {
-                "automargin": true,
-                "tickfont": Object {
-                  "size": 12,
-                },
-              },
-              "yaxis": Object {
-                "automargin": true,
-                "tickangle": 0,
-                "tickfont": Object {
-                  "size": 12,
-                },
-              },
-            }
-          }
+        <EmptyPlaceholder
+          icon="visBarHorizontalStacked"
         >
-          <PlotlyComponent
-            config={
-              Object {
-                "displayModeBar": false,
-                "displaylogo": false,
-                "responsive": true,
-              }
-            }
-            data={Array []}
-            debug={false}
-            divId="explorerPlotComponent"
-            layout={
-              Object {
-                "autosize": true,
-                "bargap": 0.30000000000000004,
-                "bargroupgap": 0.030000000000000027,
-                "barmode": "group",
-                "colorway": Array [
-                  "#3CA1C7",
-                  "#8C55A3",
-                  "#DB748A",
-                  "#F2BE4B",
-                  "#68CCC2",
-                  "#2A7866",
-                  "#843769",
-                  "#374FB8",
-                  "#BD6F26",
-                  "#4C636F",
-                ],
-                "hovermode": "closest",
-                "legend": Object {
-                  "orientation": "v",
-                },
-                "margin": Object {
-                  "b": 30,
-                  "l": 30,
-                  "pad": 4,
-                  "r": 5,
-                  "t": 5,
-                },
-                "showlegend": true,
-                "title": "",
-                "xaxis": Object {
-                  "automargin": true,
-                  "tickfont": Object {
-                    "size": 12,
-                  },
-                },
-                "yaxis": Object {
-                  "automargin": true,
-                  "tickangle": 0,
-                  "tickfont": Object {
-                    "size": 12,
-                  },
-                },
-              }
-            }
-            style={
-              Object {
-                "height": "100%",
-                "width": "100%",
-              }
-            }
-            useResizeHandler={true}
+          <EuiText
+            className="lnsChart__empty"
+            color="subdued"
+            data-test-subj="vizWorkspace__noData"
+            size="xs"
+            textAlign="center"
           >
             <div
-              id="explorerPlotComponent"
-              style={
-                Object {
-                  "height": "100%",
-                  "width": "100%",
-                }
-              }
-            />
-          </PlotlyComponent>
-        </Plt>
+              className="euiText euiText--extraSmall lnsChart__empty"
+              data-test-subj="vizWorkspace__noData"
+            >
+              <EuiTextAlign
+                textAlign="center"
+              >
+                <div
+                  className="euiTextAlign euiTextAlign--center"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      <EuiIcon
+                        color="subdued"
+                        size="xxl"
+                        type="visBarHorizontalStacked"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                      <EuiSpacer
+                        size="l"
+                      >
+                        <div
+                          className="euiSpacer euiSpacer--l"
+                        />
+                      </EuiSpacer>
+                      <p>
+                        <FormattedMessage
+                          defaultMessage="No results found"
+                          id="visualization_noData"
+                          values={Object {}}
+                        >
+                          <span>
+                            No results found
+                          </span>
+                        </FormattedMessage>
+                      </p>
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiTextAlign>
+            </div>
+          </EuiText>
+        </EmptyPlaceholder>
       </Bar>
     </VisualizationChart>
   </Visualization>

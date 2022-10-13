@@ -238,7 +238,6 @@ export interface DefaultBarChartStylesProps {
   BarMode: string;
   GroupWidth: number;
   BarWidth: number;
-  LineWidth: number;
   LabelSize: number;
 }
 
@@ -246,7 +245,6 @@ export const DEFAULT_BAR_CHART_STYLES: DefaultBarChartStylesProps = {
   BarMode: 'group',
   GroupWidth: 0.7,
   BarWidth: 0.97,
-  LineWidth: 1,
   LabelSize: 12,
 };
 

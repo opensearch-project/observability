@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty, take } from 'lodash';
 import React, { useMemo } from 'react';
-import { take, isEmpty, last } from 'lodash';
-import { Plt } from '../../plotly/plot';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
-  PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
+  PLOTLY_COLOR,
   VIS_CHART_TYPES,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
-import { GROUPBY } from '../../../../../common/constants/explorer';
+import { Plt } from '../../plotly/plot';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
   const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
@@ -41,6 +41,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     },
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
+
   const lastIndex = fields.length - 1;
   const lineWidth = chartStyles.lineWidth || LineWidth;
   const showLegend = legend.showLegend && legend.showLegend !== ShowLegend ? false : true;
@@ -59,10 +60,10 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     xbins.start = dimensions[0]?.bucketOffset;
   }
 
-  const selectedColorTheme = (field: any, index: number, opacity?: number) => {
+  const selectedColorTheme = (field: string, index: number, opacity?: number) => {
     let newColor;
     if (colorTheme && colorTheme.length !== 0) {
-      newColor = colorTheme.find((colorSelected) => colorSelected.name.name === field.name);
+      newColor = colorTheme.find((colorSelected) => colorSelected.name.name === field);
     }
     return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
   };
@@ -75,9 +76,9 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
         name: field.name,
         hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
-          color: selectedColorTheme(field, index, fillOpacity),
+          color: selectedColorTheme(field.name, index, fillOpacity),
           line: {
-            color: selectedColorTheme(field, index),
+            color: selectedColorTheme(field.name, index),
             width: lineWidth,
           },
         },

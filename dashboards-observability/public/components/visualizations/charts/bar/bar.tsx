@@ -13,6 +13,7 @@ import {
 } from '../../../../../common/constants/explorer';
 import {
   BarOrientation,
+  FILLOPACITY_DIV_FACTOR,
   LONG_CHART_COLOR,
   PLOTLY_COLOR,
   THRESHOLD_LINE_OPACITY,
@@ -22,7 +23,7 @@ import { IVisualizationContainerProps } from '../../../../../common/types/explor
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getPropName } from '../../../event_analytics/utils/utils';
+import { getPropName, hexToRgb } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
@@ -42,7 +43,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           span = {},
           legend = {},
           panelOptions = {},
-          thresholds = [],
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
           [BREAKDOWNS]: breakdowns = [],
@@ -54,6 +54,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     vis: {
       type,
       icontype,
+      fillopacity,
       orientation,
       labelangle,
       linewidth,
@@ -66,14 +67,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
 
   const lastIndex = fields.length - 1;
 
-  if (
-    isEmpty(queriedVizData) ||
-    !Array.isArray(dimensions) ||
-    !Array.isArray(series) ||
-    (breakdowns && !Array.isArray(breakdowns))
-  )
-    return <EmptyPlaceholder icon={icontype} />;
-
   /**
    * determine stylings
    */
@@ -81,6 +74,10 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const isVertical = barOrientation === BarOrientation.vertical;
   const tickAngle = chartStyles.rotateBarLabels || labelangle;
   const lineWidth = chartStyles.lineWidth || linewidth;
+  const fillOpacity =
+    chartStyles.fillOpacity !== undefined
+      ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
+      : fillopacity / FILLOPACITY_DIV_FACTOR;
   const barWidth = 1 - (chartStyles.barWidth || barwidth);
   const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
   const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
@@ -131,7 +128,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    * prepare data for visualization, map x-xais to y-xais
    */
   const chartAxis = useMemo(() => {
-    return Array.isArray(queriedVizData[getPropName(yaxes[0])])
+    return yaxes.length > 0 && Array.isArray(queriedVizData[getPropName(yaxes[0])])
       ? queriedVizData[getPropName(yaxes[0])].map((_, idx) => {
           // let combineXaxis = '';
           const xaxisName = xaxes.map((xaxis) => {
@@ -145,14 +142,16 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }, [queriedVizData, xaxes, yaxes]);
 
   bars = yaxes?.map((yMetric, idx) => {
+    const selectedColor = getSelectedColorTheme(yMetric.name, idx);
+    const fillColor = hexToRgb(selectedColor, fillOpacity);
     return {
       y: isVertical ? queriedVizData[getPropName(yMetric)] : chartAxis,
       x: isVertical ? chartAxis : queriedVizData[getPropName(yMetric)],
       type: type,
       marker: {
-        color: getSelectedColorTheme(yMetric, idx),
+        color: fillColor,
         line: {
-          color: getSelectedColorTheme(yMetric, idx),
+          color: selectedColor,
           width: lineWidth,
         },
       },
@@ -160,6 +159,15 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       orientation: barOrientation,
     };
   });
+
+  if (
+    isEmpty(queriedVizData) ||
+    !Array.isArray(dimensions) ||
+    !Array.isArray(series) ||
+    (breakdowns && !Array.isArray(breakdowns)) ||
+    yaxes.length === 0
+  )
+    return <EmptyPlaceholder icon={icontype} />;
 
   // If chart has length of result buckets < 16
   // then use the LONG_CHART_COLOR for all the bars in the chart
