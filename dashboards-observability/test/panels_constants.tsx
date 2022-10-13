@@ -12,10 +12,23 @@ export const sampleSavedVisualization = {
   visualization: {
     id: 'oiuccXwBYVazWqOO1e06',
     name: 'Flight Count by Origin',
-    query:
-      'source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier',
+    query: {
+      rawQuery:
+        'source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier',
+    },
+
     type: 'bar',
     timeField: 'timestamp',
+    selected_date_range: {
+      start: 'now/y',
+      end: 'now',
+      text: '',
+    },
+    selected_fields: {
+      text: '',
+      tokens: [],
+    },
+    user_configs: {},
   },
 };
 
