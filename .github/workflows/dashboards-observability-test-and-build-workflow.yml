@@ -82,6 +82,7 @@ jobs:
     steps:
       - name: Line endings
         run: git config --global core.autocrlf false
+        
       - name: Checkout Plugin
         uses: actions/checkout@v1
 
