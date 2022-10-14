@@ -22,12 +22,18 @@ export const ConfigChartOptions = ({
   const { data: vizData = {}, metadata: { fields = [] } = {}, tree_map } = data?.rawVizData;
 
   const handleConfigurationChange = useCallback(
-    (stateFiledName) => {
+    (stateFiledName, max) => {
       return (changes) => {
-        handleConfigChange({
-          ...vizState,
-          [stateFiledName]: changes,
-        });
+        if (!max || changes <= max) {
+          handleConfigChange({
+            ...vizState,
+            [stateFiledName]: changes,
+          });
+        } else {
+          handleConfigChange({
+            ...vizState,
+          });
+        }
       };
     },
     [handleConfigChange, vizState]
@@ -60,7 +66,7 @@ export const ConfigChartOptions = ({
               ...params,
               colorPalettes: schema.options || [],
               selectedColor: vizState[schema.mapTo] || schema.defaultState,
-              onSelectChange: handleConfigurationChange(schema.mapTo),
+              onSelectChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -68,7 +74,7 @@ export const ConfigChartOptions = ({
             params = {
               ...params,
               selectedColor: vizState[schema.mapTo] || schema.defaultState,
-              onSelectChange: handleConfigurationChange(schema.mapTo),
+              onSelectChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -77,7 +83,7 @@ export const ConfigChartOptions = ({
               ...params,
               selectedColor: vizState[schema.mapTo] || schema?.defaultState,
               colorPalettes: schema.options || [],
-              onSelectChange: handleConfigurationChange(schema.mapTo),
+              onSelectChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -89,7 +95,7 @@ export const ConfigChartOptions = ({
               numberOfParents:
                 (tree_map?.dataConfig?.dimensions !== undefined &&
                   tree_map?.dataConfig.dimensions[0].parentFields.length) | 0,
-              onSelectChange: handleConfigurationChange(schema.mapTo),
+              onSelectChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -98,7 +104,7 @@ export const ConfigChartOptions = ({
               ...params,
               currentValue: vizState[schema.mapTo] || '',
               numValue: vizState[schema.mapTo] || '',
-              handleInputChange: handleConfigurationChange(schema.mapTo),
+              handleInputChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
               minLimit: schema.props?.hasOwnProperty('minLimit')
                 ? schema.props.minLimit
                 : NUMBER_INPUT_MIN_LIMIT,
@@ -110,7 +116,7 @@ export const ConfigChartOptions = ({
               ...params,
               currentValue: vizState[schema.mapTo] || '',
               name: schema.mapTo,
-              handleInputChange: handleConfigurationChange(schema.mapTo),
+              handleInputChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -119,7 +125,7 @@ export const ConfigChartOptions = ({
               ...params,
               maxRange: schema.props.max,
               currentRange: vizState[schema.mapTo] || schema?.defaultState,
-              handleSliderChange: handleConfigurationChange(schema.mapTo),
+              handleSliderChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -128,7 +134,7 @@ export const ConfigChartOptions = ({
               ...params,
               title: schema.name,
               currentValue: vizState[schema.mapTo],
-              onToggle: handleConfigurationChange(schema.mapTo),
+              onToggle: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -142,7 +148,7 @@ export const ConfigChartOptions = ({
                 label: btn.name,
               })),
               idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-              handleButtonChange: handleConfigurationChange(schema.mapTo),
+              handleButtonChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             break;
 
@@ -152,7 +158,7 @@ export const ConfigChartOptions = ({
               paddingTitle: schema.name,
               advancedTitle: 'advancedTitle',
               dropdownList: schema?.options || fields,
-              onSelectChange: handleConfigurationChange(schema.mapTo),
+              onSelectChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
               isSingleSelection: schema.isSingleSelection,
               selectedAxis: vizState[schema.mapTo] || schema.defaultState,
             };

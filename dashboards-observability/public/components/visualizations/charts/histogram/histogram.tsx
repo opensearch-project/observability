@@ -11,6 +11,7 @@ import {
   FILLOPACITY_DIV_FACTOR,
   PLOTLY_COLOR,
   VIS_CHART_TYPES,
+  PLOT_MARGIN,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
@@ -97,6 +98,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
       orientation: legendPosition,
     },
     showlegend: showLegend,
+    margin: PLOT_MARGIN,
   };
 
   const mergedConfigs = useMemo(

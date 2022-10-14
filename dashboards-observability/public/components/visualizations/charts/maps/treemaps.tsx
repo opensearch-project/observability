@@ -12,7 +12,7 @@ import {
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
-import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES, PLOT_MARGIN } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { Plt } from '../../plotly/plot';
@@ -169,6 +169,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ...(layoutConfig.layout && layoutConfig.layout),
       title: panelOptions.title || layoutConfig.layout?.title || '',
       treemapcolorway: colorway,
+      margin: PLOT_MARGIN,
     };
 
     const mapData = [

@@ -21,6 +21,7 @@ import { IVisualizationContainerProps } from '../../../../../common/types/explor
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { Plt } from '../../plotly/plot';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
+import { PLOT_MARGIN } from '../../../../../common/constants/shared';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
@@ -147,6 +148,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
     title: panelOptions.title || layoutConfig.layout?.title || '',
+    margin: PLOT_MARGIN,
   };
 
   const mergedConfigs = useMemo(

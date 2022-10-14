@@ -11,6 +11,7 @@ import {
   FILLOPACITY_DIV_FACTOR,
   PLOTLY_COLOR,
   VIS_CHART_TYPES,
+  PLOT_MARGIN,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
@@ -185,6 +186,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       showlegend: showLegend,
       ...(isBarMode && layoutForBarMode),
       ...(multiMetrics && multiMetrics),
+      margin: PLOT_MARGIN,
     };
 
     if (thresholds || availabilityConfig.level) {

@@ -634,16 +634,17 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         // change color of shapes
         for (let shapeIndex = 0; shapeIndex < sortedShapesData.length; shapeIndex++) {
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
+            const seriesValue = Number(sortedShapesData[shapeIndex].seriesValue);
             if (
-              Number(sortedShapesData[shapeIndex].seriesValue) >=
-                Number(thresholdRanges[threshIndex][0]) &&
-              Number(sortedShapesData[shapeIndex].seriesValue) <=
-                Number(thresholdRanges[threshIndex][1])
+              seriesValue >= Number(thresholdRanges[threshIndex][0]) &&
+              seriesValue <= Number(thresholdRanges[threshIndex][1])
             ) {
-              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].fillcolor =
-                sortedThresholds[threshIndex].color;
-              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line.color =
-                sortedThresholds[threshIndex].color;
+              const color = sortedThresholds[threshIndex].color;
+              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].fillcolor = color;
+              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line = {
+                ...autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line,
+                color,
+              };
             }
           }
         }
@@ -694,10 +695,11 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       title: panelOptions?.title || layoutConfig.layout?.title || '',
     };
   }, [
+    chartType,
     layout,
     layoutConfig.layout,
     panelOptions?.title,
-    chartOrientation,
+    orientation,
     seriesLength,
     statsLayout,
   ]);

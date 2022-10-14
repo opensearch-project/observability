@@ -21,12 +21,18 @@ export const ConfigLineChartStyles = ({
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const handleConfigurationChange = useCallback(
-    (stateFiledName) => {
+    (stateFiledName, max) => {
       return (changes) => {
-        handleConfigChange({
-          ...vizState,
-          [stateFiledName]: changes,
-        });
+        if (!max || changes <= max) {
+          handleConfigChange({
+            ...vizState,
+            [stateFiledName]: changes,
+          });
+        } else {
+          handleConfigChange({
+            ...vizState,
+          });
+        }
       };
     },
     [handleConfigChange, vizState]
@@ -82,7 +88,7 @@ export const ConfigLineChartStyles = ({
               label: btn.name,
             })),
             idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-            handleButtonChange: handleConfigurationChange(schema.mapTo),
+            handleButtonChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
           };
         } else if (schema.eleType === 'slider') {
           params = {
@@ -93,18 +99,18 @@ export const ConfigLineChartStyles = ({
             currentRange: vizState[schema.mapTo] || schema?.defaultState,
             ticks: schema?.props?.ticks,
             showTicks: schema?.props?.showTicks || false,
-            handleSliderChange: handleConfigurationChange(schema.mapTo),
+            handleSliderChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
           };
         } else if (schema.eleType === 'input') {
           params = {
             ...params,
             numValue: vizState[schema.mapTo] || '',
-            handleInputChange: handleConfigurationChange(schema.mapTo),
+            handleInputChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
           };
         }
         return (
           <Fragment key={`viz-series-${index}`}>
-            <DimensionComponent  {...params} />
+            <DimensionComponent {...params} />
             <EuiSpacer size="s" />
           </Fragment>
         );

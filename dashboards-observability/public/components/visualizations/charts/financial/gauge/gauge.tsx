@@ -8,11 +8,12 @@ import Plotly from 'plotly.js-dist';
 import React, { useMemo } from 'react';
 import {
   AGGREGATIONS,
-  DEFAULT_GAUGE_CHART_PARAMETERS,
   GROUPBY,
   PLOTLY_GAUGE_COLUMN_NUMBER,
+  DEFAULT_GAUGE_CHART_PARAMETERS,
 } from '../../../../../../common/constants/explorer';
 import { IVisualizationContainerProps } from '../../../../../../common/types/explorer';
+import { PLOT_MARGIN } from '../../../../../../common/constants/shared';
 import { ThresholdUnitType } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { getPropName } from '../../../../event_analytics/utils/utils';
@@ -195,6 +196,10 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
       title: panelOptions.title || layoutConfig.layout?.title || '',
+      margin: {
+        ...PLOT_MARGIN,
+        t: 100,
+      },
     };
   }, [layout, gaugeData.length, layoutConfig.layout, panelOptions.title, orientation]);
 

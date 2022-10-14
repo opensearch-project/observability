@@ -13,6 +13,7 @@ import {
   PIE_YAXIS_GAP,
   PLOTLY_PIE_COLUMN_NUMBER,
 } from '../../../../../common/constants/explorer';
+import { PLOT_MARGIN } from '../../../../../common/constants/shared';
 import {
   ConfigListEntry,
   IVisualizationContainerProps,
@@ -139,7 +140,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       },
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title,
       legend: {
         ...layout.legend,
         orientation: legend.position || legendposition,
@@ -148,6 +148,19 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         }),
       },
       showlegend: showLegend,
+      margin: {
+        ...PLOT_MARGIN,
+        t: 100,
+      },
+      title: {
+        text: title,
+        xanchor: 'right',
+        yanchor: 'top',
+        x: 1,
+        y: 1,
+        xref: 'paper',
+        yref: 'container',
+      },
     };
   }, [series, layoutConfig.layout, title, layout.legend]);
 
