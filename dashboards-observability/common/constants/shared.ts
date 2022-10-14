@@ -83,7 +83,7 @@ export enum VIS_CHART_TYPES {
   TreeMap = 'tree_map',
   Scatter = 'scatter',
   LogsView = 'logs_view',
-  Stats = 'stats',
+  Metrics = 'metrics',
   TableView = 'data_table',
 }
 
@@ -101,7 +101,7 @@ export const ENABLED_VIS_TYPES = [
   VIS_CHART_TYPES.Histogram,
   VIS_CHART_TYPES.Scatter,
   VIS_CHART_TYPES.LogsView,
-  VIS_CHART_TYPES.Stats,
+  VIS_CHART_TYPES.Metrics,
   VIS_CHART_TYPES.TableView,
 ];
 

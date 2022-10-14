@@ -185,27 +185,27 @@ export const VALUEFIELD = 'valueField';
 export const CHILDFIELD = 'childField';
 export const TIMESTAMP = 'timestamp';
 
-// stats constants
-export const STATS_GRID_SPACE_BETWEEN_X_AXIS = 0.01;
-export const STATS_GRID_SPACE_BETWEEN_Y_AXIS = 100;
-export const STATS_REDUCE_VALUE_SIZE_PERCENTAGE = 0.08;
-export const STATS_REDUCE_TITLE_SIZE_PERCENTAGE = 0.05;
-export const STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE = 0.2;
-export const STATS_SERIES_UNIT_SUBSTRING_LENGTH = 3;
-export const STATS_AXIS_MARGIN = {
+// metrics constants
+export const METRICS_GRID_SPACE_BETWEEN_X_AXIS = 0.01;
+export const METRICS_GRID_SPACE_BETWEEN_Y_AXIS = 100;
+export const METRICS_REDUCE_VALUE_SIZE_PERCENTAGE = 0.08;
+export const METRICS_REDUCE_TITLE_SIZE_PERCENTAGE = 0.05;
+export const METRICS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE = 0.2;
+export const METRICS_SERIES_UNIT_SUBSTRING_LENGTH = 3;
+export const METRICS_AXIS_MARGIN = {
   l: 0,
   r: 0,
   b: 0,
   t: 80,
 };
 
-export const STATS_ANNOTATION = {
+export const METRICS_ANNOTATION = {
   xref: 'paper',
   yref: 'paper',
   showarrow: false,
 };
 
-export interface DefaultStatsChartParametersProps {
+export interface DefaultMetricsChartParametersProps {
   DefaultTextMode: string;
   DefaultOrientation: string;
   DefaultTitleSize: number;
@@ -217,7 +217,7 @@ export interface DefaultStatsChartParametersProps {
   DefaultTextColor: string;
 }
 
-export const DEFAULT_STATS_CHART_PARAMETERS: DefaultStatsChartParametersProps = {
+export const DEFAULT_METRICS_CHART_PARAMETERS: DefaultMetricsChartParametersProps = {
   DefaultTextMode: 'auto',
   DefaultOrientation: 'auto',
   DefaultTitleSize: 30,
