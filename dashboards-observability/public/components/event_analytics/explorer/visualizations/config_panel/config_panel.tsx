@@ -3,31 +3,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './config_panel.scss';
-
-import React, { useContext, useMemo, useState, useEffect, useCallback } from 'react';
-import { find } from 'lodash';
-import hjson from 'hjson';
-import Mustache from 'mustache';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
-  EuiTabbedContent,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer,
   EuiComboBox,
-  EuiPanel,
-  EuiIcon,
   EuiComboBoxOptionOption,
+  EuiIcon,
+  EuiTabbedContent,
   EuiTabbedContentTab,
 } from '@elastic/eui';
+import hjson from 'hjson';
+import { find } from 'lodash';
+import Mustache from 'mustache';
+import { ENABLED_VIS_TYPES } from '../../../../../../common/constants/shared';
+import { getVisTypeData } from '../../../../visualizations/charts/helpers/viz_types';
+import { TabContext } from '../../../hooks';
 import { reset as resetVisualizationConfig } from '../../../redux/slices/viualization_config_slice';
 import { getDefaultSpec } from '../visualization_specs/default_spec';
-import { TabContext } from '../../../hooks';
-import { DefaultEditorControls } from './config_panel_footer';
-import { getVisType } from '../../../../visualizations/charts/vis_types';
-import { ENABLED_VIS_TYPES, VIS_CHART_TYPES } from '../../../../../../common/constants/shared';
-import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
-import { getVisTypeData } from '../../../../visualizations/charts/helpers/viz_types';
+import './config_panel.scss';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -62,12 +54,7 @@ interface PanelTabType {
   content?: any;
 }
 
-export const ConfigPanel = ({
-  visualizations,
-  setCurVisId,
-  callback,
-  changeIsValidConfigOptionState,
-}: any) => {
+export const ConfigPanel = ({ visualizations, setCurVisId, callback }: any) => {
   const { tabId, curVisId, dispatch, changeVisualizationConfig, setToast } = useContext<any>(
     TabContext
   );
@@ -102,46 +89,9 @@ export const ConfigPanel = ({
     []
   );
 
-  // To check, If user empty any of the value options
-  const isValidValueOptionConfigSelected = useMemo(() => {
-    const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { TreeMap, Gauge, HeatMap, Metrics } = VIS_CHART_TYPES;
-    const isValidValueOptionsXYAxes =
-      VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
-      valueOptions?.xaxis?.length !== 0 &&
-      valueOptions?.yaxis?.length !== 0;
-
-    const isValid_valueOptions: { [key: string]: boolean } = {
-      tree_map:
-        curVisId === TreeMap &&
-        valueOptions?.childField?.length !== 0 &&
-        valueOptions?.valueField?.length !== 0,
-      gauge: curVisId === Gauge && valueOptions?.yaxis?.length !== 0,
-      heatmap: Boolean(
-        curVisId === HeatMap && valueOptions?.metrics && valueOptions.metrics?.length !== 0
-      ),
-      bar: isValidValueOptionsXYAxes,
-      line: isValidValueOptionsXYAxes,
-      histogram: isValidValueOptionsXYAxes,
-      pie: isValidValueOptionsXYAxes,
-      scatter: isValidValueOptionsXYAxes,
-      logs_view: true,
-      metrics: curVisId === Metrics && valueOptions?.yaxis?.length !== 0,
-      horizontal_bar: isValidValueOptionsXYAxes,
-    };
-    return isValid_valueOptions[curVisId];
-  }, [vizConfigs.dataConfig]);
-
-  useEffect(() => changeIsValidConfigOptionState(Boolean(isValidValueOptionConfigSelected)), [
-    isValidValueOptionConfigSelected,
-  ]);
-
   const handleConfigUpdate = useCallback(
     (updatedConfigs) => {
       try {
-        if (!isValidValueOptionConfigSelected) {
-          setToast(`Invalid value options configuration selected.`, 'danger');
-        }
         dispatch(
           changeVisualizationConfig({
             tabId,

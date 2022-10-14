@@ -54,6 +54,7 @@ import {
   GROUPBY,
   AGGREGATIONS,
   CUSTOM_LABEL,
+  VIZ_CONTAIN_XY_AXIS,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -153,9 +154,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
-    false
-  );
+
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -751,9 +750,34 @@ export const Explorer = ({
       setTriggerAvailability(false);
     }
   };
+  const isValidValueOptionConfigSelected = useMemo(() => {
+    const { series = [], dimensions = [], span = {} } = visualizations.data.userConfigs?.dataConfig;
+    const { TreeMap, Gauge, HeatMap, Stats } = VIS_CHART_TYPES;
+    const isValidValueOptionsXYAxes =
+      VIZ_CONTAIN_XY_AXIS.includes(curVisId as VIS_CHART_TYPES) &&
+      series.length !== 0 &&
+      ((dimensions && dimensions.length !== 0) || !isEmpty(span));
 
-  const changeIsValidConfigOptionState = (isValidConfig: boolean) =>
-    setIsValidDataConfigOptionSelected(isValidConfig);
+    const isValidValueOptions: { [key: string]: boolean } = {
+      tree_map:
+        curVisId === TreeMap &&
+        dimensions.length > 0 &&
+        dimensions.childField?.length !== 0 &&
+        dimensions.valueField?.length !== 0,
+      gauge: curVisId === Gauge && series.length !== 0,
+      heatmap: Boolean(curVisId === HeatMap && series?.length === 1 && dimensions?.length === 2),
+      bar: isValidValueOptionsXYAxes,
+      line: isValidValueOptionsXYAxes,
+      histogram: isValidValueOptionsXYAxes,
+      pie: isValidValueOptionsXYAxes,
+      scatter: isValidValueOptionsXYAxes,
+      logs_view: true,
+      stats: curVisId === Stats && series?.length !== 0,
+      horizontal_bar: isValidValueOptionsXYAxes,
+      data_table: true,
+    };
+    return isValidValueOptions[curVisId];
+  }, [curVisId, visualizations]);
 
   const getExplorerVis = () => {
     return (
@@ -769,7 +793,6 @@ export const Explorer = ({
         visualizations={visualizations}
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
-        changeIsValidConfigOptionState={changeIsValidConfigOptionState}
         queryManager={queryManager}
       />
     );
@@ -993,8 +1016,8 @@ export const Explorer = ({
       setToast('Name field cannot be empty.', 'danger');
       return;
     }
-    if (!isValidDataConfigOptionSelected) {
-      setToast('Invalid value options configuration selected.', 'danger');
+    if (!Boolean(isValidValueOptionConfigSelected)) {
+      setToast('Invalid data configurations selected.', 'danger');
       return;
     }
     setIsPanelTextFieldInvalid(false);
