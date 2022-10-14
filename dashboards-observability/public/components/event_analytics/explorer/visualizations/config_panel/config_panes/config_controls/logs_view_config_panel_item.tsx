@@ -170,6 +170,7 @@ export const LogsViewConfigPanelItem = ({
 
   const getLogsViewUI = () => {
     const list = configList[GROUPBY] ? configList[GROUPBY] : [];
+    const disabledColor = "#fafbfd";
     const listUI = list.map((field, index) => (
       <EuiFormRow
         label="Field"
@@ -177,7 +178,7 @@ export const LogsViewConfigPanelItem = ({
           <EuiText size="xs">
             <EuiIcon
               type="cross"
-              color="danger"
+              color={queriedFields.length === 0 ? "danger" : disabledColor}
               onClick={() => handleServiceRemove(index, GROUPBY)}
             />
           </EuiText>
