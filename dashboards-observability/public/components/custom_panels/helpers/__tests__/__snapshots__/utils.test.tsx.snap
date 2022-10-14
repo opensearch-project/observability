@@ -1471,6 +1471,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "legend": Object {
                 "orientation": "v",
               },
+              "margin": Object {
+                "b": 30,
+                "l": 30,
+                "pad": 4,
+                "r": 5,
+                "t": 50,
+              },
               "showlegend": true,
               "title": "",
               "xaxis": Object {
@@ -1544,7 +1551,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "l": 30,
                   "pad": 4,
                   "r": 5,
-                  "t": 5,
+                  "t": 50,
                 },
                 "showlegend": true,
                 "title": "",
@@ -4748,6 +4755,13 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "legend": Object {
                 "orientation": "v",
               },
+              "margin": Object {
+                "b": 30,
+                "l": 30,
+                "pad": 4,
+                "r": 5,
+                "t": 50,
+              },
               "showlegend": true,
               "title": "",
               "xaxis": Object {
@@ -4821,7 +4835,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "l": 30,
                   "pad": 4,
                   "r": 5,
-                  "t": 5,
+                  "t": 50,
                 },
                 "showlegend": true,
                 "title": "",
