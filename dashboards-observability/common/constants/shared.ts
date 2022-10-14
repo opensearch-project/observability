@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import CSS from 'csstype';
+import { IField } from '../../common/types/explorer';
 
 // Client route
 export const PPL_BASE = '/api/ppl';
@@ -82,6 +83,8 @@ export enum VIS_CHART_TYPES {
   TreeMap = 'tree_map',
   Scatter = 'scatter',
   LogsView = 'logs_view',
+  Stats = 'stats',
+  TableView = 'data_table',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
@@ -98,9 +101,11 @@ export const ENABLED_VIS_TYPES = [
   VIS_CHART_TYPES.Histogram,
   VIS_CHART_TYPES.Scatter,
   VIS_CHART_TYPES.LogsView,
+  VIS_CHART_TYPES.Stats,
+  VIS_CHART_TYPES.TableView,
 ];
 
-//Live tail constants
+// Live tail constants
 export const LIVE_OPTIONS = [
   {
     label: '5s',
@@ -177,3 +182,22 @@ export const DEFAULT_CHART_STYLES: DefaultChartStylesProps = {
 };
 
 export const FILLOPACITY_DIV_FACTOR = 200;
+export const SLIDER_MIN_VALUE = 0;
+export const SLIDER_MAX_VALUE = 100;
+export const SLIDER_STEP = 1;
+export const THRESHOLD_LINE_WIDTH = 3;
+export const THRESHOLD_LINE_OPACITY = 0.7;
+export const MAX_BUCKET_LENGTH = 16;
+
+export enum BarOrientation {
+  horizontal = 'h',
+  vertical = 'v',
+}
+
+export const PLOT_MARGIN = {
+  l: 30,
+  r: 5,
+  b: 30,
+  t: 50,
+  pad: 4,
+};

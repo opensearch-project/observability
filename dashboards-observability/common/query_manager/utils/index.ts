@@ -2,7 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 import { AggregationConfigurations, PreviouslyParsedStaleStats } from '../ast/types';
 
 export const composeAggregations = (
@@ -11,7 +11,7 @@ export const composeAggregations = (
 ) => {
   return {
     aggregations: aggConfig.series.map((metric) => ({
-      function_alias: metric.alias,
+      function_alias: metric[CUSTOM_LABEL],
       function: {
         name: metric.aggregation,
         value_expression: metric.name,
@@ -31,12 +31,12 @@ export const composeAggregations = (
 
 const composeSpan = (spanConfig) => {
   return {
-    alias: spanConfig.alias ?? '',
+    [CUSTOM_LABEL]: spanConfig[CUSTOM_LABEL] ?? '',
     span_expression: {
       type: spanConfig.time_field[0]?.type ?? 'timestamp',
       field: spanConfig.time_field[0]?.name ?? 'timestamp',
       time_unit: spanConfig.unit[0]?.value ?? 'd',
-      literal_value: spanConfig.interval ?? 1
-    }
+      literal_value: spanConfig.interval ?? 1,
+    },
   };
 };

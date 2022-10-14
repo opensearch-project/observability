@@ -3,18 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty, take } from 'lodash';
 import React, { useMemo } from 'react';
-import { take, isEmpty, last } from 'lodash';
-import { Plt } from '../../plotly/plot';
+import { GROUPBY } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
-  PLOTLY_COLOR,
   FILLOPACITY_DIV_FACTOR,
+  PLOTLY_COLOR,
   VIS_CHART_TYPES,
+  PLOT_MARGIN,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
-import { GROUPBY } from '../../../../../common/constants/explorer';
+import { Plt } from '../../plotly/plot';
 
 export const Histogram = ({ visualizations, layout, config }: any) => {
   const { LineWidth, FillOpacity, LegendPosition, ShowLegend } = DEFAULT_CHART_STYLES;
@@ -32,6 +33,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
   const { dataConfig = {}, layoutConfig = {} } = userConfigs;
+
   const lastIndex = fields.length - 1;
   const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
   const showLegend =
@@ -57,12 +59,10 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
     xbins.start = dataConfig[GROUPBY][0].bucketOffset;
   }
 
-  const selectedColorTheme = (field: any, index: number, opacity?: number) => {
+  const selectedColorTheme = (field: string, index: number, opacity?: number) => {
     let newColor;
     if (dataConfig?.colorTheme && dataConfig?.colorTheme.length !== 0) {
-      newColor = dataConfig.colorTheme.find(
-        (colorSelected) => colorSelected.name.name === field.name
-      );
+      newColor = dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field);
     }
     return hexToRgb(newColor ? newColor.color : PLOTLY_COLOR[index % PLOTLY_COLOR.length], opacity);
   };
@@ -75,9 +75,9 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
         name: field.name,
         hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
-          color: selectedColorTheme(field, index, fillOpacity),
+          color: selectedColorTheme(field.name, index, fillOpacity),
           line: {
-            color: selectedColorTheme(field, index),
+            color: selectedColorTheme(field.name, index),
             width: lineWidth,
           },
         },
@@ -96,6 +96,7 @@ export const Histogram = ({ visualizations, layout, config }: any) => {
       orientation: legendPosition,
     },
     showlegend: showLegend,
+    margin: PLOT_MARGIN,
   };
 
   const mergedConfigs = useMemo(

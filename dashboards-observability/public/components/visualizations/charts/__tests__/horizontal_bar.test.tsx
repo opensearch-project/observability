@@ -10,16 +10,16 @@ import { waitFor } from '@testing-library/react';
 import { Bar } from '../bar/bar';
 import {
   LAYOUT_CONFIG,
-  TEST_VISUALIZATIONS_DATA
+  HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Veritcal Bar component', () => {
+describe('Horizontal bar component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders veritcal bar component', async () => {
+  it('Renders horizontal bar component', async () => {
     const wrapper = mount(
       <Bar
-        visualizations={TEST_VISUALIZATIONS_DATA}
+        visualizations={HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA}
         layout={LAYOUT_CONFIG}
         config={true}
       />

@@ -10,17 +10,18 @@ interface InputFieldProps {
   title: string;
   numValue: number;
   handleInputChange: (value?: any) => void;
+  minLimit?: number;
 }
 
 export const InputFieldItem: React.FC<InputFieldProps> = ({
   title,
   numValue,
   handleInputChange,
+  minLimit,
 }) => {
-  const [fieldValue, setFieldValue] = useState<number | string>(numValue);
+  const [fieldValue, setFieldValue] = useState<number | string>('');
 
   useEffect(() => {
-    setFieldValue('');
     if (numValue !== undefined || numValue !== '') {
       setFieldValue(numValue);
     }
@@ -37,7 +38,7 @@ export const InputFieldItem: React.FC<InputFieldProps> = ({
         fullWidth
         placeholder="auto"
         value={fieldValue}
-        min={1}
+        min={minLimit}
         onChange={(e) => setFieldValue(e.target.value)}
         onBlur={() => handleInputChange(fieldValue)}
         data-test-subj="valueFieldNumber"

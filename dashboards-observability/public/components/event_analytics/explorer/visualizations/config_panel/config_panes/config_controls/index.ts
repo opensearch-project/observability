@@ -23,3 +23,6 @@ export { SliderConfig } from './config_style_slider';
 export { ConfigColorTheme } from './config_color_theme';
 export { SwitchButton } from './config_switch_button';
 export { ButtonGroupItem } from './config_button_group';
+export { TextInputFieldItem } from './config_text_input';
+export { ConfigBarChartStyles } from './config_bar_chart_styles';
+export { ConfigAvailability } from './config_availability';

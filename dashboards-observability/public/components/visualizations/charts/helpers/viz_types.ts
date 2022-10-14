@@ -4,20 +4,23 @@
  */
 
 import { isEmpty, take } from 'lodash';
-import { getVisType } from '../vis_types';
 import {
-  IVisualizationContainerProps,
-  IField,
-  IQuery,
-  ExplorerData,
-} from '../../../../../common/types/explorer';
+  AGGREGATIONS,
+  CUSTOM_LABEL,
+  GROUPBY,
+  PARENTFIELDS,
+  SIMILAR_VIZ_TYPES,
+  TIME_INTERVAL_OPTIONS,
+} from '../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { QueryManager } from '../../../../../common/query_manager';
 import {
-  AGGREGATIONS,
-  GROUPBY,
-  TIME_INTERVAL_OPTIONS,
-} from '../../../../../common/constants/explorer';
+  ExplorerData,
+  IField,
+  IQuery,
+  IVisualizationContainerProps,
+} from '../../../../../common/types/explorer';
+import { getVisType } from '../vis_types';
 interface IVizContainerProps {
   vizId: string;
   appData?: { fromApp: boolean };
@@ -38,7 +41,7 @@ const initialDimensionEntry = {
 };
 
 const initialSeriesEntry = {
-  alias: '',
+  [CUSTOM_LABEL]: '',
   label: '',
   name: '',
   aggregation: 'count',
@@ -62,7 +65,7 @@ const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
       : [vizFieldsWithLabel[vizFieldsWithLabel.length - 1]];
   };
 
-  const mapYaxis = (): { [key: string]: string }[] =>
+  const mapYaxis = (): Array<{ [key: string]: string }> =>
     visName === VIS_CHART_TYPES.Line
       ? vizFieldsWithLabel.filter((field) => field.type !== 'timestamp')
       : take(
@@ -109,32 +112,44 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       },
     };
     if (visualizationName === VIS_CHART_TYPES.LogsView) {
-      tempUserConfigs = {
-        ...tempUserConfigs,
-        [AGGREGATIONS]: [],
-        [GROUPBY]: statsTokens.aggregations
-          .map((agg) => ({
+      const dimensions = statsTokens.aggregations
+        .map((agg) => {
+          const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
+          return {
+            label: logViewField,
+            name: logViewField,
+          };
+        })
+        .concat(
+          statsTokens.groupby.group_fields?.map((agg) => ({
             label: agg.name ?? '',
             name: agg.name ?? '',
           }))
-          .concat(
-            statsTokens.groupby?.group_fields?.map((agg) => ({
-              label: agg.name ?? '',
-              name: agg.name ?? '',
-            }))
-          ),
+        );
+      if (statsTokens.groupby.span !== null) {
+        const { field, literal_value, time_unit } = statsTokens.groupby.span.span_expression;
+        const timespanField = `span(${field},${literal_value}${time_unit})`;
+        dimensions.push({
+          label: timespanField,
+          name: timespanField,
+        });
+      }
+      tempUserConfigs = {
+        ...tempUserConfigs,
+        [AGGREGATIONS]: [],
+        [GROUPBY]: dimensions,
       };
     } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
       tempUserConfigs = {
         ...tempUserConfigs,
-        [GROUPBY]: [initialDimensionEntry, initialDimensionEntry],
-        [AGGREGATIONS]: [initialSeriesEntry],
+        [GROUPBY]: [],
+        [AGGREGATIONS]: [],
       };
     } else {
       tempUserConfigs = {
         ...tempUserConfigs,
         [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
-          alias: agg.alias,
+          [CUSTOM_LABEL]: agg[CUSTOM_LABEL],
           label: agg.function?.value_expression,
           name: agg.function?.value_expression,
           aggregation: agg.function?.name,
@@ -162,10 +177,12 @@ const getUserConfigs = (
       case VIS_CHART_TYPES.HeatMap:
         configOfUser = {
           ...userSelectedConfigs,
-          dataConfig: {
-            ...userSelectedConfigs?.dataConfig,
-            ...defaultUserConfigs(query, visName),
-          },
+          dataConfig:
+            userSelectedConfigs?.dataConfig === undefined
+              ? { ...defaultUserConfigs(query, visName) }
+              : {
+                  ...userSelectedConfigs?.dataConfig,
+                },
         };
         break;
       case VIS_CHART_TYPES.TreeMap:
@@ -176,7 +193,11 @@ const getUserConfigs = (
             [GROUPBY]: [
               {
                 childField: { ...(axesData.xaxis ? axesData.xaxis[0] : initialEntryTreemap) },
-                parentFields: [],
+                parentFields:
+                  userSelectedConfigs?.dataConfig !== undefined &&
+                  userSelectedConfigs.dataConfig[GROUPBY]?.length > 0
+                    ? [...userSelectedConfigs.dataConfig[GROUPBY][0][PARENTFIELDS]]
+                    : [],
               },
             ],
             [AGGREGATIONS]: [
@@ -218,6 +239,13 @@ const getUserConfigs = (
   return isEmpty(configOfUser) ? userSelectedConfigs : configOfUser;
 };
 
+export const getVisTypeData = (vizId: string) => {
+  if (SIMILAR_VIZ_TYPES.includes(vizId)) {
+    return getVisType(vizId, { type: vizId });
+  }
+  return getVisType(vizId);
+};
+
 export const getVizContainerProps = ({
   vizId,
   rawVizData = {},
@@ -228,13 +256,13 @@ export const getVizContainerProps = ({
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
   const getVisTypeData = () =>
-    vizId === VIS_CHART_TYPES.Line || vizId === VIS_CHART_TYPES.Scatter
+    SIMILAR_VIZ_TYPES.includes(vizId as VIS_CHART_TYPES)
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
 
   const userSetConfigs = isEmpty(query)
     ? userConfigs
-    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData().name, query);
+    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData(vizId).name, query);
   return {
     data: {
       appData: { ...appData },
@@ -245,12 +273,12 @@ export const getVizContainerProps = ({
         ...userSetConfigs,
       },
       defaultAxes: {
-        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData().name),
+        ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData(vizId).name),
       },
       explorer: { ...explorer },
     },
     vis: {
-      ...getVisTypeData(),
+      ...getVisTypeData(vizId),
     },
   };
 };

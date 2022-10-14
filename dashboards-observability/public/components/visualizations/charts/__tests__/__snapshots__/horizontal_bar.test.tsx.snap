@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Line component Renders line component 1`] = `
-<Line
-  config={Object {}}
+exports[`Horizontal bar component Renders horizontal bar component 1`] = `
+<Bar
+  config={true}
   layout={
     Object {
       "colorway": Array [
@@ -492,18 +492,18 @@ exports[`Line component Renders line component 1`] = `
           ],
         },
         "fillopacity": 40,
-        "fulllabel": "Vertical bar",
+        "fulllabel": "Horizontal bar",
         "groupwidth": 0.7,
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
-        "id": "bar",
-        "label": "Vertical bar",
+        "icontype": "visBarHorizontalStacked",
+        "id": "horizontal_bar",
+        "label": "Horizontal bar",
         "labelangle": 0,
         "legendposition": "v",
         "linewidth": 2,
         "mode": "group",
-        "name": "bar",
-        "orientation": "v",
+        "name": "horizontal_bar",
+        "orientation": "h",
         "selection": Object {
           "dataLoss": "nothing",
         },
@@ -537,7 +537,7 @@ exports[`Line component Renders line component 1`] = `
   }
 >
   <EmptyPlaceholder
-    icon="visBarVerticalStacked"
+    icon="visBarHorizontalStacked"
   >
     <EuiText
       className="lnsChart__empty"
@@ -566,7 +566,7 @@ exports[`Line component Renders line component 1`] = `
                 <EuiIcon
                   color="subdued"
                   size="xxl"
-                  type="visBarVerticalStacked"
+                  type="visBarHorizontalStacked"
                 >
                   <EuiIconEmpty
                     aria-hidden={true}
@@ -613,5 +613,5 @@ exports[`Line component Renders line component 1`] = `
       </div>
     </EuiText>
   </EmptyPlaceholder>
-</Line>
+</Bar>
 `;

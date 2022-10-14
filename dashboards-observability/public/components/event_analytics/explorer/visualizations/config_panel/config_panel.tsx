@@ -27,6 +27,7 @@ import { DefaultEditorControls } from './config_panel_footer';
 import { getVisType } from '../../../../visualizations/charts/vis_types';
 import { ENABLED_VIS_TYPES, VIS_CHART_TYPES } from '../../../../../../common/constants/shared';
 import { VIZ_CONTAIN_XY_AXIS } from '../../../../../../common/constants/explorer';
+import { getVisTypeData } from '../../../../visualizations/charts/helpers/viz_types';
 
 const CONFIG_LAYOUT_TEMPLATE = `
 {
@@ -104,7 +105,7 @@ export const ConfigPanel = ({
   // To check, If user empty any of the value options
   const isValidValueOptionConfigSelected = useMemo(() => {
     const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { TreeMap, Gauge, HeatMap } = VIS_CHART_TYPES;
+    const { TreeMap, Gauge, HeatMap, Stats } = VIS_CHART_TYPES;
     const isValidValueOptionsXYAxes =
       VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
       valueOptions?.xaxis?.length !== 0 &&
@@ -115,7 +116,7 @@ export const ConfigPanel = ({
         curVisId === TreeMap &&
         valueOptions?.childField?.length !== 0 &&
         valueOptions?.valueField?.length !== 0,
-      gauge: true,
+      gauge: curVisId === Gauge && valueOptions?.yaxis?.length !== 0,
       heatmap: Boolean(
         curVisId === HeatMap && valueOptions?.metrics && valueOptions.metrics?.length !== 0
       ),
@@ -125,6 +126,8 @@ export const ConfigPanel = ({
       pie: isValidValueOptionsXYAxes,
       scatter: isValidValueOptionsXYAxes,
       logs_view: true,
+      stats: curVisId === Stats && valueOptions?.yaxis?.length !== 0,
+      horizontal_bar: isValidValueOptionsXYAxes,
     };
     return isValid_valueOptions[curVisId];
   }, [vizConfigs.dataConfig]);
@@ -223,12 +226,7 @@ export const ConfigPanel = ({
   };
 
   const memorizedVisualizationTypes = useMemo(
-    () =>
-      ENABLED_VIS_TYPES.map((vs: string) =>
-        vs === VIS_CHART_TYPES.Line || vs === VIS_CHART_TYPES.Scatter
-          ? getVisType(vs, { type: vs })
-          : getVisType(vs)
-      ),
+    () => ENABLED_VIS_TYPES.map((vs: string) => getVisTypeData(vs)),
     []
   );
 
@@ -249,15 +247,11 @@ export const ConfigPanel = ({
       const selectedOption = find(memorizedVisualizationTypes, (v) => {
         return v.id === visId;
       });
-      selectedOption['iconType'] = selectedOption.icontype;
+      selectedOption.iconType = selectedOption.icontype;
       return selectedOption;
     },
     [memorizedVisualizationTypes]
   );
-
-  const vizTypeList = useMemo(() => {
-    return memorizedVisualizationTypes.filter((type) => type.id !== 'horizontal_bar');
-  }, [memorizedVisualizationTypes]);
 
   return (
     <div className="cp__rightContainer">
@@ -265,7 +259,7 @@ export const ConfigPanel = ({
         <EuiComboBox
           aria-label="config chart selector"
           placeholder="Select a chart"
-          options={vizTypeList}
+          options={memorizedVisualizationTypes}
           selectedOptions={[getSelectedVisDById(curVisId)]}
           singleSelection
           onChange={(visType) => {

@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import { isEmpty, find } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import { getTooltipHoverInfo, getPropName } from '../../../event_analytics/utils/utils';
 import {
   ConfigListEntry,
   IVisualizationContainerProps,
@@ -20,6 +20,7 @@ import {
   AGGREGATIONS,
   GROUPBY,
 } from '../../../../../common/constants/explorer';
+import { PLOT_MARGIN } from '../../../../../common/constants/shared';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const {
@@ -87,7 +88,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const pies = useMemo(
     () =>
       series.map((field: any, index: number) => {
-        const fieldName = field.alias ? field.alias : `${field.aggregation}(${field.name})`;
+        const fieldName = getPropName(field);
         const marker =
           colorTheme.name !== DEFAULT_PALETTE
             ? {
@@ -104,7 +105,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           labels: labelsOfXAxis,
           values: queriedVizData[fieldName],
           type: 'pie',
-          name: fieldName,
+          name: getPropName(field),
           hole: type === 'pie' ? 0 : 0.5,
           text: fieldName,
           textinfo: 'percent',
@@ -140,7 +141,6 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       },
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title,
       legend: {
         ...layout.legend,
         orientation: legend.position || visMetaData.legendposition,
@@ -149,6 +149,19 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         }),
       },
       showlegend: showLegend,
+      margin: {
+        ...PLOT_MARGIN,
+        t: 100,
+      },
+      title: {
+        text: title,
+        xanchor: 'right',
+        yanchor: 'top',
+        x: 1,
+        y: 1,
+        xref: 'paper',
+        yref: 'container',
+      },
     };
   }, [series, layoutConfig.layout, title, layout.legend]);
 

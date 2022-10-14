@@ -14,7 +14,7 @@ import {
   MULTI_COLOR_PALETTE,
   SINGLE_COLOR_PALETTE,
 } from '../../../../../common/constants/colors';
-import { DEFAULT_CHART_STYLES } from '../../../../../common/constants/shared';
+import { DEFAULT_CHART_STYLES, PLOT_MARGIN } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { GROUPBY, AGGREGATIONS } from '../../../../../common/constants/explorer';
 
@@ -87,10 +87,10 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
     return <EmptyPlaceholder icon={visMetaData?.icontype} />;
 
   const [treemapData, mergedLayout] = useMemo(() => {
-    let labelsArray: string[] = [],
-      parentsArray: string[] = [],
-      valuesArray: number[] = [],
-      colorsArray: string[] = [];
+    let labelsArray: string[] = [];
+    let parentsArray: string[] = [];
+    let valuesArray: number[] = [];
+    let colorsArray: string[] = [];
 
     if (parentFields.length === 0) {
       labelsArray = [...queriedVizData[childField.name]];
@@ -180,6 +180,7 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
       ...(layoutConfig.layout && layoutConfig.layout),
       title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
       treemapcolorway: colorway,
+      margin: PLOT_MARGIN,
     };
 
     const mapData = [

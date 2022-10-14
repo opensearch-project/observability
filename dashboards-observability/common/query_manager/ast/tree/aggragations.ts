@@ -41,7 +41,7 @@ export class Aggregations extends PPLNode {
       all_num: this.allNum,
       delim: this.delim,
       aggregations: this.aggExprList.map((aggTerm) => aggTerm.getTokens()),
-      groupby: this.groupExprList.getTokens(),
+      groupby: !isEmpty(this.groupExprList) ? this.groupExprList.getTokens() : '',
       dedup_split_value: this.dedupSplitValue,
     };
   }
