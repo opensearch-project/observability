@@ -24,6 +24,7 @@ import {
   samplePPLEmptyResponse,
   samplePPLResponse,
   sampleSavedVisualization,
+  sampleSavedVisualizationMetaData,
 } from '../../../../../test/panels_constants';
 import { PPL_DATE_FORMAT } from '../../../../../common/constants/shared';
 import React from 'react';
@@ -98,26 +99,28 @@ describe('Utils helper functions', () => {
 
   it('validates isPPLFilterValid function', () => {
     const setToast = jest.fn();
-    expect(isPPLFilterValid(sampleSavedVisualization.visualization.query.rawQuery, setToast)).toBe(
-      false
-    );
+    expect(isPPLFilterValid(sampleSavedVisualizationMetaData.query, setToast)).toBe(false);
     expect(isPPLFilterValid("where Carrier = 'OpenSearch-Air'", setToast)).toBe(true);
   });
 
   it('renders displayVisualization function', () => {
     const wrapper1 = mount(
-      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'bar')}</div>
+      <div>{displayVisualization(sampleSavedVisualizationMetaData, samplePPLResponse, 'bar')}</div>
     );
     expect(wrapper1).toMatchSnapshot();
 
     const wrapper2 = mount(
-      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'line')}</div>
+      <div>{displayVisualization(sampleSavedVisualizationMetaData, samplePPLResponse, 'line')}</div>
     );
     expect(wrapper2).toMatchSnapshot();
 
     const wrapper3 = mount(
       <div>
-        {displayVisualization(sampleSavedVisualization, samplePPLResponse, 'horizontal_bar')}
+        {displayVisualization(
+          sampleSavedVisualizationMetaData,
+          samplePPLResponse,
+          'horizontal_bar'
+        )}
       </div>
     );
     expect(wrapper3).toMatchSnapshot();
