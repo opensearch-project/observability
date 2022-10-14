@@ -13,20 +13,25 @@ import {
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
-import { isArray } from 'lodash';
+import { isArray, isEmpty } from 'lodash';
+import {
+  AGGREGATIONS,
+  AGGREGATION_INFO,
+  BREAKDOWNS,
+  CUSTOM_LABEL,
+  DIMENSION_INFO,
+  GROUPBY,
+  SPAN,
+} from '../../../../../../../../common/constants/explorer';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import {
   ConfigListEntry,
   DataConfigPanelFieldProps,
 } from '../../../../../../../../common/types/explorer';
-import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
-import {
-  AGGREGATIONS,
-  CUSTOM_LABEL,
-  GROUPBY,
-} from '../../../../../../../../common/constants/explorer';
 
 export const DataConfigPanelFields = ({
   list,
+  dimensionSpan,
   sectionName,
   visType,
   addButtonText,
@@ -39,22 +44,23 @@ export const DataConfigPanelFields = ({
     if (!list || !isArray(list) || visType !== VIS_CHART_TYPES.HeatMap) return false;
     return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
   };
+  const { time_field, unit, interval } = dimensionSpan;
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
-  const crossIcon = (index: number) => (
+  const crossIcon = (index: number, configName: string) => (
     <EuiButtonIcon
       color="subdued"
       iconType="cross"
       aria-label="clear-field"
       iconSize="s"
-      onClick={() => handleServiceRemove(index, sectionName)}
+      onClick={() => handleServiceRemove(index, configName)}
     />
   );
 
-  const aggregationToolTip = (iconToDisplay: JSX.Element) => (
+  const infoToolTip = (iconToDisplay: JSX.Element, content: string) => (
     <EuiToolTip
       position="right"
-      content="At least one metric is required to render a chart"
+      content={content}
       delay="regular"
       anchorClassName="eui-textTruncate"
     >
@@ -68,8 +74,25 @@ export const DataConfigPanelFields = ({
         <EuiTitle size="xxs" className="panel_title">
           <h3>{sectionName}</h3>
         </EuiTitle>
-        {isAggregation && aggregationToolTip(tooltipIcon)}
+
+        {sectionName !== BREAKDOWNS &&
+          infoToolTip(tooltipIcon, isAggregation ? AGGREGATION_INFO : DIMENSION_INFO)}
       </div>
+      <EuiSpacer size="s" />
+      {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
+        <EuiPanel paddingSize="s" className="panelItem_button">
+          <EuiText size="s" className="field_text">
+            <EuiLink
+              role="button"
+              tabIndex={0}
+              onClick={() => handleServiceEdit(list.length, GROUPBY, true)}
+            >
+              {`${SPAN}(${time_field[0]?.name}, ${interval} ${unit[0]?.value})`}
+            </EuiLink>
+          </EuiText>
+          {crossIcon(-1, SPAN)}
+        </EuiPanel>
+      )}
       <EuiSpacer size="s" />
       {isArray(list) &&
         list.map((obj: ConfigListEntry, index: number) => (
@@ -79,12 +102,14 @@ export const DataConfigPanelFields = ({
                 <EuiLink
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleServiceEdit(false, index, sectionName)}
+                  onClick={() => handleServiceEdit(index, sectionName, false)}
                 >
                   {obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`}
                 </EuiLink>
               </EuiText>
-              {isAggregation ? aggregationToolTip(crossIcon(index)) : crossIcon(index)}
+              {isAggregation
+                ? infoToolTip(crossIcon(index, sectionName), AGGREGATION_INFO)
+                : crossIcon(index, sectionName)}
             </EuiPanel>
             <EuiSpacer size="s" />
           </Fragment>

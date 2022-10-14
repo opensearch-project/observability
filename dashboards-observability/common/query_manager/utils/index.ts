@@ -20,7 +20,8 @@ export const composeAggregations = (
     })),
     groupby: {
       group_fields: aggConfig.dimensions.map((dimension) => ({ name: dimension.name })),
-      span: aggConfig.span ? composeSpan(aggConfig.span) : null,
+      ...(aggConfig.span &&
+        JSON.stringify(aggConfig.span) !== '{}' && { span: composeSpan(aggConfig.span) }),
     },
     partitions: staleStats?.partitions ?? {},
     all_num: staleStats?.all_num ?? {},
