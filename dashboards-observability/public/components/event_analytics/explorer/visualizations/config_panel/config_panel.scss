@@ -32,7 +32,10 @@ $vis-editor-sidebar-min-width: 350px;
 }
 
 .visEditorSidebar__config {
+  @include euiYScrollWithShadows;
   padding: $euiSizeS;
+  overflow-y: auto;
+  height: calc(52vh);
 }
 
 .visEditorSidebar__config-isHidden {
