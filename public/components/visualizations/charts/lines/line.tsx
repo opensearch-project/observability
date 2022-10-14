@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { find, isEmpty, last, take } from 'lodash';
 import React, { useMemo } from 'react';
-import { take, isEmpty, last, find } from 'lodash';
-import { Plt } from '../../plotly/plot';
-import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
-import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
   FILLOPACITY_DIV_FACTOR,
@@ -15,10 +13,12 @@ import {
   VIS_CHART_TYPES,
   PLOT_MARGIN,
 } from '../../../../../common/constants/shared';
-import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
-import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
+import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
+import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { Plt } from '../../plotly/plot';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
@@ -32,69 +32,73 @@ export const Line = ({ visualizations, layout, config }: any) => {
     DefaultModeScatter,
     LabelAngle,
   } = DEFAULT_CHART_STYLES;
+
   const {
     data: {
       rawVizData: {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          legend = {},
+          span = {},
+          colorTheme = [],
+          thresholds = [],
+          tooltipOptions = {},
+          panelOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        } = {},
+        layoutConfig = {},
+        availabilityConfig = {},
+      } = {},
     },
-    vis: visMetaData,
+    vis: { icontype, name },
   }: IVisualizationContainerProps = visualizations;
-  const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
-  const yaxis = dataConfig[AGGREGATIONS] ? dataConfig[AGGREGATIONS] : [];
   const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig.tooltipOptions.tooltipText
-      : 'all';
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
 
   const lastIndex = fields.length - 1;
-
-  const visType: string = visMetaData?.name;
+  const visType: string = name;
   const mode =
-    dataConfig?.chartStyles?.style ||
-    (visType === VIS_CHART_TYPES.Line ? DefaultModeLine : DefaultModeScatter);
-  const lineShape = dataConfig?.chartStyles?.interpolation || Interpolation;
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || LineWidth;
-  const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== ShowLegend
-  );
-  const legendPosition = dataConfig?.legend?.position || LegendPosition;
-  const markerSize = dataConfig?.chartStyles?.pointSize || MarkerSize;
+    chartStyles.style || (visType === VIS_CHART_TYPES.Line ? DefaultModeLine : DefaultModeScatter);
+  const lineShape = chartStyles.interpolation || Interpolation;
+  const lineWidth = chartStyles.lineWidth || LineWidth;
+  const showLegend = !(legend.showLegend && legend.showLegend !== ShowLegend);
+  const legendPosition = legend.position || LegendPosition;
+  const markerSize = chartStyles.pointSize || MarkerSize;
   const fillOpacity =
-    dataConfig?.chartStyles?.fillOpacity !== undefined
-      ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
+    chartStyles.fillOpacity !== undefined
+      ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
       : FillOpacity / FILLOPACITY_DIV_FACTOR;
-  const tickAngle = dataConfig?.chartStyles?.rotateLabels || LabelAngle;
-  const labelSize = dataConfig?.chartStyles?.labelSize;
-  const legendSize = dataConfig?.legend?.legendSize;
+  const tickAngle = chartStyles.rotateLabels || LabelAngle;
+  const labelSize = chartStyles.labelSize;
+  const legendSize = legend.legendSize;
 
   const getSelectedColorTheme = (field: any, index: number) =>
-    (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
+    (colorTheme.length > 0 &&
+      colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
-  let xaxis;
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
-  if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-    xaxis = dataConfig[GROUPBY] ? [timestampField, ...dataConfig[GROUPBY]] : [timestampField, []];
+  let xaxis;
+  if (span && span.time_field && timestampField) {
+    xaxis = dimensions ? [timestampField, ...dimensions] : [timestampField, []];
   } else {
-    xaxis = dataConfig[GROUPBY];
+    xaxis = dimensions;
   }
 
-  if (!timestampField || xaxis.length !== 1 || isEmpty(yaxis))
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (!timestampField || xaxis.length !== 1 || isEmpty(series))
+    return <EmptyPlaceholder icon={icontype} />;
 
   let multiMetrics = {};
   const [calculatedLayout, lineValues] = useMemo(() => {
     const isBarMode = mode === 'bar';
-    let calculatedLineValues = yaxis.map((field: any, index: number) => {
+    let calculatedLineValues = series.map((field: any, index: number) => {
       const selectedColor = getSelectedColorTheme(field.name, index);
       const fillColor = hexToRgb(selectedColor, fillOpacity);
       const barMarker = {
@@ -161,7 +165,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     const mergedLayout = {
       ...layout,
       ...layoutConfig.layout,
-      title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+      title: panelOptions.title || layoutConfig.layout?.title || '',
       legend: {
         ...layout.legend,
         orientation: legendPosition,
@@ -185,7 +189,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       margin: PLOT_MARGIN,
     };
 
-    if (dataConfig.thresholds || availabilityConfig.level) {
+    if (thresholds || availabilityConfig.level) {
       const thresholdTraces = {
         x: [],
         y: [],
@@ -193,7 +197,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         text: [],
         showlegend: false,
       };
-      const thresholds = dataConfig.thresholds ? dataConfig.thresholds : [];
+      const threshold = thresholds ? thresholds : [];
       const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
       const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
@@ -232,7 +236,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       calculatedLineValues = [...calculatedLineValues, thresholdTraces];
     }
     return [mergedLayout, calculatedLineValues];
-  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, mode, yaxis, labelSize]);
+  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, mode, series, labelSize]);
 
   const mergedConfigs = useMemo(
     () => ({

@@ -7,8 +7,8 @@ import { find, isEmpty, last, some } from 'lodash';
 import React, { useMemo } from 'react';
 import {
   AGGREGATIONS,
-  DEFAULT_BAR_CHART_STYLES,
   BREAKDOWNS,
+  DEFAULT_BAR_CHART_STYLES,
   GROUPBY,
 } from '../../../../../common/constants/explorer';
 import {
@@ -37,36 +37,61 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          colorTheme = [],
+          chartStyles = {},
+          span = {},
+          legend = {},
+          panelOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+          [BREAKDOWNS]: breakdowns = [],
+        } = {},
+        layoutConfig = {},
+        availabilityConfig = {},
+      },
     },
-    vis: visMetaData,
+    vis: {
+      type,
+      icontype,
+      fillopacity,
+      orientation,
+      labelangle,
+      linewidth,
+      barwidth,
+      groupwidth,
+      showlegend,
+      legendposition,
+    },
   }: IVisualizationContainerProps = visualizations;
+
   const lastIndex = fields.length - 1;
-  const { dataConfig = {}, layoutConfig = {}, availabilityConfig = {} } = userConfigs;
 
   /**
    * determine stylings
    */
-  const barOrientation = dataConfig.chartStyles?.orientation || visMetaData.orientation;
+  const barOrientation = chartStyles.orientation || orientation;
   const isVertical = barOrientation === BarOrientation.vertical;
-
-  const tickAngle = dataConfig?.chartStyles?.rotateBarLabels || visMetaData.labelangle;
-  const lineWidth = dataConfig?.chartStyles?.lineWidth || visMetaData.linewidth;
+  const tickAngle = chartStyles.rotateBarLabels || labelangle;
+  const lineWidth = chartStyles.lineWidth || linewidth;
   const fillOpacity =
-    dataConfig?.chartStyles?.fillOpacity !== undefined
-      ? dataConfig?.chartStyles?.fillOpacity / FILLOPACITY_DIV_FACTOR
-      : visMetaData.fillopacity / FILLOPACITY_DIV_FACTOR;
-  const barWidth = 1 - (dataConfig?.chartStyles?.barWidth || visMetaData.barwidth);
-  const groupWidth = 1 - (dataConfig?.chartStyles?.groupWidth || visMetaData.groupwidth);
-  const showLegend = !(
-    dataConfig?.legend?.showLegend && dataConfig.legend.showLegend !== visMetaData.showlegend
-  );
-  const legendPosition = dataConfig?.legend?.position || visMetaData.legendposition;
-  const labelSize = dataConfig?.chartStyles?.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
-  const legendSize = dataConfig?.legend?.legendSize;
+    chartStyles.fillOpacity !== undefined
+      ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
+      : fillopacity / FILLOPACITY_DIV_FACTOR;
+  const barWidth = 1 - (chartStyles.barWidth || barwidth);
+  const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
+  const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
+  const legendPosition = legend.position || legendposition;
+
+  visualizations.data?.rawVizData?.dataConfig?.metrics
+    ? visualizations.data.rawVizData.dataConfig.metrics
+    : [];
+  const labelSize = chartStyles.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
+  const legendSize = legend.legendSize;
   const getSelectedColorTheme = (field: any, index: number) =>
-    (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
+    (colorTheme.length > 0 &&
+      colorTheme.find((colorSelected) => colorSelected.name.name === field.label)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   let bars;
@@ -76,30 +101,29 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    */
   const xaxes = useMemo(() => {
     // breakdown selections
-    if (dataConfig[BREAKDOWNS]) {
+    if (breakdowns) {
       return [
-        ...dataConfig[GROUPBY].filter(
-          (dimension) =>
-            !some(dataConfig[BREAKDOWNS], (breakdown) => breakdown.label === dimension.label)
+        ...dimensions.filter(
+          (dimension) => !some(breakdowns, (breakdown) => breakdown.label === dimension.label)
         ),
       ];
     }
 
     // span selection
     const timestampField = find(fields, (field) => field.type === 'timestamp');
-    if (dataConfig.span && dataConfig.span.time_field && timestampField) {
-      return [timestampField, ...dataConfig[GROUPBY]];
+    if (span && span.time_field && timestampField) {
+      return [timestampField, ...dimensions];
     }
 
-    return dataConfig[GROUPBY];
-  }, [dataConfig[GROUPBY], dataConfig[BREAKDOWNS]]);
+    return [...dimensions];
+  }, [dimensions, breakdowns]);
 
   /**
    * determine y axis
    */
   const yaxes = useMemo(() => {
-    return Array.isArray(dataConfig[AGGREGATIONS]) ? [...dataConfig[AGGREGATIONS]] : [];
-  }, [dataConfig[AGGREGATIONS]]);
+    return Array.isArray(series) ? [...series] : [];
+  }, [series]);
 
   /**
    * prepare data for visualization, map x-xais to y-xais
@@ -124,7 +148,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     return {
       y: isVertical ? queriedVizData[getPropName(yMetric)] : chartAxis,
       x: isVertical ? chartAxis : queriedVizData[getPropName(yMetric)],
-      type: visMetaData.type,
+      type: type,
       marker: {
         color: fillColor,
         line: {
@@ -139,12 +163,12 @@ export const Bar = ({ visualizations, layout, config }: any) => {
 
   if (
     isEmpty(queriedVizData) ||
-    !Array.isArray(dataConfig[GROUPBY]) ||
-    !Array.isArray(dataConfig[AGGREGATIONS]) ||
-    (dataConfig[BREAKDOWNS] && !Array.isArray(dataConfig[BREAKDOWNS])) ||
+    !Array.isArray(dimensions) ||
+    !Array.isArray(series) ||
+    (breakdowns && !Array.isArray(breakdowns)) ||
     yaxes.length === 0
   )
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
 
   // If chart has length of result buckets < 16
   // then use the LONG_CHART_COLOR for all the bars in the chart
@@ -155,8 +179,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     colorway: plotlyColorway,
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
-    barmode: dataConfig?.chartStyles?.mode || visualizations.vis.mode,
+    title: panelOptions.title || layoutConfig.layout?.title || '',
+    barmode: chartStyles.mode || visualizations.vis.mode,
     xaxis: {
       ...(isVertical && { tickangle: tickAngle }),
       automargin: true,
