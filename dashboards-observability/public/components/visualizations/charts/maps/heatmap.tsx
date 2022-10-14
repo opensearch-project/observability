@@ -33,17 +33,26 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          legend = {},
+          tooltipOptions = {},
+          panelOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        },
+        layoutConfig = {},
+      },
     },
-    vis: visMetaData,
+    vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
-  const { dataConfig = {}, layoutConfig = {} } = userConfigs;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+  if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
 
-  const xaxisField = dataConfig[GROUPBY][0];
-  const yaxisField = dataConfig[GROUPBY][1];
-  const zMetrics = dataConfig[AGGREGATIONS][0];
+  const xaxisField = dimensions[0];
+  const yaxisField = dimensions[1];
+  const zMetrics = series[0];
 
   if (
     isEmpty(xaxisField) ||
@@ -52,30 +61,25 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(queriedVizData[xaxisField.label]) ||
     isEmpty(queriedVizData[yaxisField.label]) ||
     isEmpty(queriedVizData[getPropName(zMetrics)]) ||
-    dataConfig[GROUPBY].length > 2 ||
-    dataConfig[AGGREGATIONS].length > 1
+    dimensions.length > 2 ||
+    series.length > 1
   )
-    return <EmptyPlaceholder icon={visMetaData?.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
 
   const uniqueYaxis = uniq(queriedVizData[yaxisField.label]);
   const uniqueXaxis = uniq(queriedVizData[xaxisField.label]);
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
   const tooltipMode =
-    dataConfig?.tooltipOptions?.tooltipMode !== undefined
-      ? dataConfig.tooltipOptions.tooltipMode
-      : 'show';
-  const tooltipText =
-    dataConfig?.tooltipOptions?.tooltipText !== undefined
-      ? dataConfig.tooltipOptions.tooltipText
-      : 'all';
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
 
-  const colorField = dataConfig?.chartStyles
-    ? dataConfig?.chartStyles.colorMode && dataConfig?.chartStyles.colorMode[0].name === OPACITY
-      ? dataConfig?.chartStyles.color ?? HEATMAP_SINGLE_COLOR
-      : dataConfig?.chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
+  const colorField = chartStyles
+    ? chartStyles.colorMode && chartStyles.colorMode[0].name === OPACITY
+      ? chartStyles.color ?? HEATMAP_SINGLE_COLOR
+      : chartStyles.scheme ?? HEATMAP_PALETTE_COLOR
     : HEATMAP_PALETTE_COLOR;
-  const showColorscale = dataConfig?.legend?.showLegend ?? 'show';
+  const showColorscale = legend.showLegend ?? 'show';
 
   const traceColor: any = [];
   if (colorField.name === SINGLE_COLOR_PALETTE) {
@@ -143,7 +147,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
   const mergedLayout = {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
-    title: dataConfig?.panelOptions?.title || layoutConfig.layout?.title || '',
+    title: panelOptions.title || layoutConfig.layout?.title || '',
     margin: PLOT_MARGIN,
   };
 
