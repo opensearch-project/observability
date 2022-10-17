@@ -110,6 +110,11 @@ export function PatternsTable(props: PatternsTableProps) {
     enableAllColumns: true,
   };
 
+  const pagination = {
+    pageSizeOptions: [5, 10, 15, 20],
+    initialPageSize: 5,
+  };
+
   const message = (
     <EuiEmptyPrompt
       title={<h3>No patterns found.</h3>}
@@ -135,7 +140,7 @@ export function PatternsTable(props: PatternsTableProps) {
       // search={search}
       items={tableData}
       columns={tableColumns}
-      pagination={true}
+      pagination={pagination}
       sorting={sorting}
       message={message}
     />
