@@ -1077,9 +1077,9 @@ export const Explorer = ({
             }
           });
       }
-      // to-dos - update selected custom panel
+      // to-dos - update selected dashboards
       if (!isEmpty(selectedCustomPanelOptions)) {
-        // update custom panel - query
+        // update dashboards - query
       }
     } else if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
       if (
@@ -1177,7 +1177,7 @@ export const Explorer = ({
           });
       }
       if (!has(savingVisRes, 'objectId')) return;
-      // update custom panel - visualization
+      // update dashboards - visualization
       if (!isEmpty(selectedCustomPanelOptions)) {
         savedObjects
           .bulkUpdateCustomPanel({

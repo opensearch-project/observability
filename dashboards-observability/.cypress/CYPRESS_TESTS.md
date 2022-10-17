@@ -53,36 +53,36 @@ The observability plugin currently has 4 modules in it. Each of the modules have
 
 ### Home Table
 
-* Check panel name validity
-* Create and open a new panel
-* Duplicate and rename a panel
-* Search an existing panel
+* Check dashboards name validity
+* Create and open a new dashboards
+* Duplicate and rename a dashboards
+* Search an existing dashboards
 * Delete panels
 
 ### Create Visualization
 
 * Create two visualizations in events explorer
 
-### Panel View
+### Dashboards View
 
-* Move to test panel
-* Duplicate using panel action
-* Rename using panel action
+* Move to test dashboards
+* Duplicate using dashboards action
+* Rename using dashboards action
 * Change date filter 
 * Add existing visualizations
-* Add ppl filter to the panel
+* Add ppl filter to the dashboards
 * Drag and Drop Visualization in edit mode 
 * Resize a Visualization in edit mode 
 * Delete a Visualization in edit mode 
 * Duplicate a Visualization
 * Replace a Visualization
-* Create a new Visualization and directly add to an existing panel
+* Create a new Visualization and directly add to an existing dashboards
 * Edit a Visualization and check the change in panels
 
 ### Clean Up
 
 * Add Samples 
-* Verify sample visualization names in sample panel
+* Verify sample visualization names in sample dashboards
 * Delete All Visualization from event analytics
 * Delete all Panels 
 

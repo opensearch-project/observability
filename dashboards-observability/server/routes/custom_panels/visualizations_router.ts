@@ -11,7 +11,7 @@ import {
   ResponseError,
   ILegacyScopedClusterClient,
 } from '../../../../../src/core/server';
-import { CUSTOM_PANELS_API_PREFIX as API_PREFIX } from '../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX as API_PREFIX } from '../../../common/constants/dashboards';
 
 export function VisualizationsRouter(router: IRouter) {
   // Fetch all the savedVisualzations

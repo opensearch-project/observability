@@ -56,7 +56,7 @@ import { init as initQueryResult, selectQueryResult } from '../redux/slices/quer
 import { SavedQueryTable } from './saved_objects_table';
 import { selectQueries } from '../redux/slices/query_slice';
 import { setSelectedQueryTab } from '../redux/slices/query_tab_slice';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/dashboards';
 import { getSampleDataModal } from '../../common/helpers/add_sample_modal';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 

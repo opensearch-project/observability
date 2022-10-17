@@ -4,7 +4,7 @@
  */
 
 export const panelBreadCrumbs = [
-  { text: 'Operational panels', href: '#/operational_panels/' },
+  { text: 'Dashboards', href: '#/dashboards/' },
   { text: 'Observability', href: 'observability#/' },
 ];
 
@@ -104,25 +104,25 @@ export const sampleMergedVisualizations = [
 export const panelsData = {
   panels: [
     {
-      name: 'Test Panel 1',
+      name: 'Test Dashboards 1',
       id: 'L8Sx53wBDp0rvEg3yoLb',
       dateCreated: 1635974761179,
       dateModified: 1635974771296,
     },
     {
-      name: 'Test Panel 2',
+      name: 'Test Dashboards 2',
       id: 'lsQfznwBDp0rvEg3W2wH',
       dateCreated: 1635545733895,
       dateModified: 1635979024055,
     },
     {
-      name: 'Test Panel 3',
+      name: 'Test Dashboards 3',
       id: 'b8Sc4nwBDp0rvEg3F3Fk',
       dateCreated: 1635889452900,
       dateModified: 1635979888682,
     },
     {
-      name: 'Test Panel 4',
+      name: 'Test Dashboards 4',
       id: 'P8Qd4nwBDp0rvEg39HG_',
       dateCreated: 1635881186494,
       dateModified: 1636049456718,
@@ -136,7 +136,7 @@ export const samplePanel = {
   createdTimeMs: 1635545733895,
   tenant: '',
   operationalPanel: {
-    name: 'Test Panel 1',
+    name: 'Test Dashboards 1',
     visualizations: [
       {
         id: 'panel_viz_bae51802-b647-4c16-ac04-9cfa87aa0002',
@@ -166,7 +166,7 @@ export const sampleEmptyPanel = {
   createdTimeMs: 1635545733895,
   tenant: '',
   operationalPanel: {
-    name: 'Test Panel 1',
+    name: 'Test Dashboards 1',
     visualizations: [],
     timeRange: { to: 'now/y', from: 'now/y' },
     queryFilter: { query: "where host = 'www.opensearch.org'", language: 'ppl' },

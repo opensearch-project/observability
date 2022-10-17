@@ -5,8 +5,8 @@
 
 export const delay = 100;
 
-export const TEST_PANEL = 'Test Panel';
-export const SAMPLE_PANEL = '[Logs] Web traffic Panel';
+export const TEST_PANEL = 'Test Dashboards';
+export const SAMPLE_PANEL = '[Logs] Web traffic Dashboards';
 
 export const SAMPLE_VISUALIZATIONS_NAMES = [
   '[Logs] Average ram usage by operating systems',

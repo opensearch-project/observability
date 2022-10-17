@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const createDemoPanel = (savedVisualizationIds: string[]) => {
   return {
-    name: '[Logs] Web traffic Panel',
+    name: '[Logs] Web traffic Dashoboards',
     visualizations: [
       {
         id: 'panel_viz_' + uuidv4(),

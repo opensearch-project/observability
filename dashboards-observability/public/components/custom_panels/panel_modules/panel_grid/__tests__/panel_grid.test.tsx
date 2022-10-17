@@ -13,10 +13,10 @@ import { VisualizationType } from '../../../../../../common/types/custom_panels'
 import { coreStartMock } from '../../../../../../test/__mocks__/coreMocks';
 import { waitFor } from '@testing-library/react';
 
-describe('Panel Grid Component', () => {
+describe('Dashboards Grid Component', () => {
   configure({ adapter: new Adapter() });
 
-  it('renders panel grid component with empty visualizations', async () => {
+  it('renders dashboards grid component with empty visualizations', async () => {
     const http = httpClientMock;
     const core = coreStartMock;
     const panelId = '';

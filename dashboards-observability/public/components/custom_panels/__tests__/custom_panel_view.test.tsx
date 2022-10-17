@@ -21,10 +21,10 @@ import DSLService from '../../../../public/services/requests/dsl';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import { HttpResponse } from '../../../../../../src/core/public';
 
-describe('Panels View Component', () => {
+describe('Dashboards View Component', () => {
   configure({ adapter: new Adapter() });
 
-  it('renders panel view container without visualizations', async () => {
+  it('renders dashboards view container without visualizations', async () => {
     httpClientMock.get = jest.fn(() =>
       Promise.resolve((sampleEmptyPanel as unknown) as HttpResponse)
     );
@@ -73,10 +73,10 @@ describe('Panels View Component', () => {
     });
   });
 
-  it('renders panel view container with visualizations', async () => {
+  it('renders dashboards view container with visualizations', async () => {
     let counter = 0;
-    // Mocks two http get requests first for fetch panel
-    // Others for fetching visualizations in panel
+    // Mocks two http get requests first for fetch dashboards
+    // Others for fetching visualizations in dashboards
     httpClientMock.get = jest.fn(() => {
       if (counter === 0) {
         counter += 1;

@@ -279,7 +279,7 @@ export const SAVED_HISTORIES = [
     objectId: 'Kocoln0BYMuJGDsOwDma',
     savedVisualization: {
       description: '',
-      name: 'Mock Flight count by destination save to panel',
+      name: 'Mock Flight count by destination save to Dashboards',
       query:
         'source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier',
       type: 'bar',

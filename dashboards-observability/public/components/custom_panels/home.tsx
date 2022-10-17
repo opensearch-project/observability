@@ -17,7 +17,8 @@ import { CoreStart } from '../../../../../src/core/public';
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../../common/constants/custom_panels';
+  DASHBOARD_TITLE,
+} from '../../../common/constants/dashboards';
 import {
   EVENT_ANALYTICS,
   OBSERVABILITY_BASE,
@@ -30,7 +31,7 @@ import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
 
 /*
- * "Home" module is initial page for Operantional Panels
+ * "Home" module is initial page for Operantional Dashboards
  *
  * Props taken in as params are:
  * http: http core service;
@@ -83,7 +84,7 @@ export const Home = ({
         setcustomPanelData(res.panels);
       })
       .catch((err) => {
-        console.error('Issue in fetching the operational panels', err.body.message);
+        console.error(`Issue in fetching the ${DASHBOARD_TITLE}`, err.body.message);
       });
     setLoading(false);
   };
@@ -91,7 +92,7 @@ export const Home = ({
   // Creates a new CustomPanel
   const createCustomPanel = (newCustomPanelName: string) => {
     if (!isNameValid(newCustomPanelName)) {
-      setToast('Invalid Operational Panel name', 'danger');
+      setToast(`Invalid ${DASHBOARD_TITLE} name`, 'danger');
       return;
     }
 
@@ -102,12 +103,12 @@ export const Home = ({
         }),
       })
       .then(async (res) => {
-        setToast(`Operational Panel "${newCustomPanelName}" successfully created!`);
+        setToast(`${DASHBOARD_TITLE} "${newCustomPanelName}" successfully created!`);
         window.location.assign(`${_.last(parentBreadcrumbs)!.href}${res.newPanelId}`);
       })
       .catch((err) => {
         setToast(
-          'Please ask your administrator to enable Operational Panels for you.',
+          `Please ask your administrator to enable ${DASHBOARD_TITLE} for you.`,
           'danger',
           <EuiLink href={CUSTOM_PANELS_DOCUMENTATION_URL} target="_blank">
             Documentation
@@ -120,7 +121,7 @@ export const Home = ({
   // Renames an existing CustomPanel
   const renameCustomPanel = (editedCustomPanelName: string, editedCustomPanelId: string) => {
     if (!isNameValid(editedCustomPanelName)) {
-      setToast('Invalid Custom Panel name', 'danger');
+      setToast(`Invalid ${DASHBOARD_TITLE} name`, 'danger');
       return Promise.reject();
     }
     const renamePanelObject = {
@@ -141,24 +142,24 @@ export const Home = ({
           if (renamedCustomPanel) renamedCustomPanel.name = editedCustomPanelName;
           return newCustomPanelData;
         });
-        setToast(`Operational Panel successfully renamed into "${editedCustomPanelName}"`);
+        setToast(`${DASHBOARD_TITLE} successfully renamed into "${editedCustomPanelName}"`);
       })
       .catch((err) => {
         setToast(
-          'Error renaming Operational Panel, please make sure you have the correct permission.',
+          `Error renaming ${DASHBOARD_TITLE}, please make sure you have the correct permission.`,
           'danger'
         );
         console.error(err.body.message);
       });
   };
 
-  // Clones an existing Custom Panel, return new Custom Panel id
+  // Clones an existing Dashboards, return new Custom Dashoboards id
   const cloneCustomPanel = (
     clonedCustomPanelName: string,
     clonedCustomPanelId: string
   ): Promise<string> => {
     if (!isNameValid(clonedCustomPanelName)) {
-      setToast('Invalid Operational Panel name', 'danger');
+      setToast(`Invalid ${DASHBOARD_TITLE} name`, 'danger');
       return Promise.reject();
     }
     const clonePanelObject = {
@@ -182,19 +183,19 @@ export const Home = ({
             },
           ];
         });
-        setToast(`Operational Panel "${clonedCustomPanelName}" successfully created!`);
+        setToast(`${DASHBOARD_TITLE} "${clonedCustomPanelName}" successfully created!`);
         return res.clonePanelId;
       })
       .catch((err) => {
         setToast(
-          'Error cloning Operational Panel, please make sure you have the correct permission.',
+          `Error cloning ${DASHBOARD_TITLE}, please make sure you have the correct permission.`,
           'danger'
         );
         console.error(err.body.message);
       });
   };
 
-  // Deletes multiple existing Operational Panels
+  // Deletes multiple existing dashboards
   const deleteCustomPanelList = (customPanelIdList: string[], toastMessage: string) => {
     const concatList = customPanelIdList.toString();
     return http
@@ -210,14 +211,14 @@ export const Home = ({
       })
       .catch((err) => {
         setToast(
-          'Error deleting Operational Panels, please make sure you have the correct permission.',
+          `Error deleting ${DASHBOARD_TITLE}, please make sure you have the correct permission.`,
           'danger'
         );
         console.error(err.body.message);
       });
   };
 
-  // Deletes an existing Operational Panel
+  // Deletes an existing Dashboards
   const deleteCustomPanel = (customPanelId: string, customPanelName: string) => {
     return http
       .delete(`${CUSTOM_PANELS_API_PREFIX}/panels/` + customPanelId)
@@ -225,12 +226,12 @@ export const Home = ({
         setcustomPanelData((prevCustomPanelData) => {
           return prevCustomPanelData.filter((customPanel) => customPanel.id !== customPanelId);
         });
-        setToast(`Operational Panel "${customPanelName}" successfully deleted!`);
+        setToast(`${DASHBOARD_TITLE} "${customPanelName}" successfully deleted!`);
         return res;
       })
       .catch((err) => {
         setToast(
-          'Error deleting Operational Panel, please make sure you have the correct permission.',
+          `Error deleting ${DASHBOARD_TITLE}, please make sure you have the correct permission.`,
           'danger'
         );
         console.error(err.body.message);

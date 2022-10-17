@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { AddVisualizationPopover } from '../helpers/add_visualization_popover';
 
 /*
- * EmptyPanelView - This Sub-component is shown to the user when a operational panel is empty
+ * EmptyPanelView - This Sub-component is shown to the user when a Dashboards is empty
  *
  * Props taken in as params are:
  * addVizDisabled -> Boolean to enable/disable the add visualization button

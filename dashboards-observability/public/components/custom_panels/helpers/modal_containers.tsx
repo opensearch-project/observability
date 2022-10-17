@@ -3,24 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import {
-  EuiOverlayMask,
-  EuiConfirmModal,
-  EuiButton,
-  EuiButtonEmpty,
-  EuiFieldText,
-  EuiForm,
-  EuiFormRow,
-  EuiModal,
-  EuiModalBody,
-  EuiModalFooter,
-  EuiModalHeader,
-  EuiModalHeaderTitle,
-  EuiText,
-  EuiSpacer,
-} from '@elastic/eui';
+import React from 'react';
+import { EuiOverlayMask, EuiConfirmModal } from '@elastic/eui';
 import { CustomInputModal } from './custom_input_modal';
+import { DASHBOARD_TITLE } from '../../../../common/constants/dashboards';
 
 /* The file contains helper functions for modal layouts
  * getCustomModal - returns modal with input field
@@ -67,14 +53,14 @@ export const getCloneModal = (
   return (
     <EuiOverlayMask>
       <EuiConfirmModal
-        title="Clone operational panel"
+        title={`Clone ${DASHBOARD_TITLE}`}
         onCancel={onCancel}
         onConfirm={onConfirm}
         cancelButtonText="Cancel"
         confirmButtonText="Yes"
         defaultFocusedButton="confirm"
       >
-        <p>Do you want to clone this operational panel?</p>
+        <p>Do you want to clone this ${DASHBOARD_TITLE}?</p>
       </EuiConfirmModal>
     </EuiOverlayMask>
   );

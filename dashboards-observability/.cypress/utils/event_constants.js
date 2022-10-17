@@ -53,10 +53,10 @@ export const TEST_QUERIES = [
   },
 ];
 
-export const TESTING_PANEL = 'Mock Testing Panels';
+export const TESTING_PANEL = 'Mock Testing dashboards';
 export const SAVE_QUERY1 = 'Mock Flight Events Overview';
 export const SAVE_QUERY2 = 'Mock Flight count by destination';
-export const SAVE_QUERY3 = 'Mock Flight count by destination save to panel';
+export const SAVE_QUERY3 = 'Mock Flight count by destination save to dashboards';
 export const SAVE_QUERY4 = 'Mock Flight peek';
 
 export const aggregationValues = [

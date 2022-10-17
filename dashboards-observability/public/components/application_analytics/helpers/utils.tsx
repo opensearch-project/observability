@@ -13,7 +13,7 @@ import PPLService from 'public/services/requests/ppl';
 import { preprocessQuery } from '../../../../common/utils/query_utils';
 import { SPAN_REGEX } from '../../../../common/constants/shared';
 import { fetchVisualizationById } from '../../../components/custom_panels/helpers/utils';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX, DASHBOARD_TITLE } from '../../../../common/constants/dashboards';
 import { VisualizationType } from '../../../../common/types/custom_panels';
 import { NEW_SELECTED_QUERY_TAB, TAB_CREATED_TYPE } from '../../../../common/constants/explorer';
 import { APP_ANALYTICS_API_PREFIX } from '../../../../common/constants/application_analytics';
@@ -185,7 +185,7 @@ export const fetchPanelsVizIdList = async (http: HttpSetup, appPanelId: string) 
       return visIds;
     })
     .catch((err) => {
-      console.error('Error occurred while fetching visualizations for panel', err);
+      console.error(`Error occurred while fetching visualizations for ${DASHBOARD_TITLE}`, err);
       return [];
     });
 };
@@ -200,7 +200,7 @@ export const calculateAvailability = async (
   let availability = { name: '', color: '', availabilityVisId: '' };
   const panelId = application.panelId;
   if (!panelId) return availability;
-  // Fetches saved visualizations associated to application's panel
+  // Fetches saved visualizations associated to application's dashboards
   // Order visualizations by most recently created
   const savedVisualizationsIds = (await fetchPanelsVizIdList(http, panelId)).reverse();
   if (!savedVisualizationsIds) return availability;

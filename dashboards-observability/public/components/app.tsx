@@ -10,6 +10,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { QueryManager } from 'common/query_manager';
 import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
+import { DASHBOARD_TITLE } from '../../common/constants/dashboards';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
@@ -49,8 +50,8 @@ export const App = ({
   };
 
   const customPanelBreadcrumb = {
-    text: 'Operational panels',
-    href: '#/operational_panels/',
+    text: DASHBOARD_TITLE,
+    href: '#/dashboards/',
   };
 
   return (
@@ -94,7 +95,7 @@ export const App = ({
                 )}
               />
               <Route
-                path="/operational_panels"
+                path="/dashboards"
                 render={(props) => {
                   chrome.setBreadcrumbs([parentBreadcrumb, customPanelBreadcrumb]);
                   return (

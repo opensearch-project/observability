@@ -97,13 +97,13 @@ describe('Creating visualizations', () => {
   });
 });
 
-describe('Testing panels table', () => {
+describe('Testing dashboards table', () => {
   beforeEach(() => {
     moveToPanelHome();
   });
 
-  it('Displays error toast for invalid panel name', () => {
-    cy.get('.euiButton__text').contains('Create panel').trigger('mouseover').click();
+  it('Displays error toast for invalid dashboards name', () => {
+    cy.get('.euiButton__text').contains('Create dashboards').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiButton__text')
       .contains(/^Create$/)
@@ -111,11 +111,11 @@ describe('Testing panels table', () => {
       .click();
     cy.wait(delay);
 
-    cy.get('.euiToastHeader__title').contains('Invalid Operational Panel name').should('exist');
+    cy.get('.euiToastHeader__title').contains('Invalid Dashboards name').should('exist');
   });
 
-  it('Creates a panel and redirects to the panel', () => {
-    cy.get('.euiButton__text').contains('Create panel').trigger('mouseover').click();
+  it('Creates a dashboards and redirects to the dashboards', () => {
+    cy.get('.euiButton__text').contains('Create dashboards').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('input.euiFieldText').focus().type(TEST_PANEL, {
       delay: 50,
@@ -129,7 +129,7 @@ describe('Testing panels table', () => {
     cy.contains(TEST_PANEL).should('exist');
   });
 
-  it('Duplicates and renames a panel', () => {
+  it('Duplicates and renames a dashboards', () => {
     cy.get('.euiCheckbox__input[title="Select this row"]').eq(0).trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
@@ -176,7 +176,7 @@ describe('Testing panels table', () => {
       .should('exist');
   });
 
-  it('Deletes panels', () => {
+  it('Deletes dashboards', () => {
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiButton__text').contains('Actions').trigger('mouseover').click();
@@ -192,7 +192,7 @@ describe('Testing panels table', () => {
     cy.get('button.euiButton--danger').should('not.be.disabled');
     cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
 
-    cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
+    cy.get('.euiTextAlign').contains('No Dashboards').should('exist');
 
     // keep a panel for testing
     cy.get('.euiButton__text').contains('Create panel').trigger('mouseover').click();
@@ -245,9 +245,9 @@ describe('Testing a panel', () => {
     cy.get('.euiBreadcrumb').contains(TEST_PANEL).trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains(TEST_PANEL).should('exist');
-    cy.get('.euiBreadcrumb').contains('Operational panels').trigger('mouseover').click();
+    cy.get('.euiBreadcrumb').contains('Dashboards').trigger('mouseover').click();
     cy.wait(delay);
-    cy.get('.euiTitle').contains('Operational panels').should('exist');
+    cy.get('.euiTitle').contains('Dashboards').should('exist');
     cy.get('.euiBreadcrumb').contains('Observability').trigger('mouseover').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
@@ -539,7 +539,7 @@ describe('Clean up all test data', () => {
     cy.get('button.euiButton--danger').should('not.be.disabled');
     cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
 
-    cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
+    cy.get('.euiTextAlign').contains('No Dashboards').should('exist');
   });
 });
 

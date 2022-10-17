@@ -24,6 +24,7 @@ import { handleIndicesExistRequest } from '../trace_analytics/requests/request_h
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
+import { DASHBOARD_TITLE } from '../../../common/constants/dashboards';
 import {
   ApplicationRequestType,
   ApplicationType,
@@ -37,7 +38,7 @@ import {
 import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../../common/constants/custom_panels';
+} from '../../../common/constants/dashboards';
 
 export type AppAnalyticsCoreDeps = TraceAnalyticsCoreDeps;
 
@@ -160,7 +161,7 @@ export const Home = (props: HomeProps) => {
     return http
       .post(`${CUSTOM_PANELS_API_PREFIX}/panels`, {
         body: JSON.stringify({
-          panelName: `${appName}'s Panel`,
+          panelName: `${appName}'s Dashboards`,
           applicationId,
         }),
       })
@@ -169,7 +170,7 @@ export const Home = (props: HomeProps) => {
       })
       .catch((err) => {
         setToast(
-          'Please ask your administrator to enable Operational Panels for you.',
+          `Please ask your administrator to enable ${DASHBOARD_TITLE} for you.`,
           'danger',
           <EuiLink href={CUSTOM_PANELS_DOCUMENTATION_URL} target="_blank">
             Documentation
@@ -183,7 +184,7 @@ export const Home = (props: HomeProps) => {
     const concatList = [appPanelId].toString();
     return http.delete(`${CUSTOM_PANELS_API_PREFIX}/panelList/` + concatList).catch((err) => {
       setToast(
-        'Error occurred while deleting Operational Panels, please make sure you have the correct permission.',
+        `Error occurred while deleting ${DASHBOARD_TITLE}, please make sure you have the correct permission.`,
         'danger'
       );
       console.error(err.body.message);

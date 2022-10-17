@@ -536,7 +536,7 @@ describe('clean up all test data', () => {
     cy.get('.euiTextAlign').contains('No Queries or Visualizations').should('exist');
   });
 
-  it('Deletes test panel', () => {
+  it('Deletes test dashboards', () => {
     moveToPanelHome();
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').trigger('mouseover').click();
     cy.wait(delay);
@@ -551,6 +551,6 @@ describe('clean up all test data', () => {
     cy.get('button.euiButton--danger').should('not.be.disabled');
     cy.get('.euiButton__text').contains('Delete').trigger('mouseover').click();
 
-    cy.get('.euiTextAlign').contains('No Operational Panels').should('exist');
+    cy.get('.euiTextAlign').contains('No Dashboards').should('exist');
   });
 });

@@ -36,7 +36,8 @@ import { ChromeBreadcrumb } from '../../../../../src/core/public';
 import {
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_DOCUMENTATION_URL,
-} from '../../../common/constants/custom_panels';
+  DASHBOARD_TITLE,
+} from '../../../common/constants/dashboards';
 import { UI_DATE_FORMAT } from '../../../common/constants/shared';
 import { getCustomModal } from './helpers/modal_containers';
 import { CustomPanelListType } from '../../../common/types/custom_panels';
@@ -45,18 +46,18 @@ import { pageStyles } from '../../../common/constants/shared';
 import { DeleteModal } from '../common/helpers/delete_modal';
 
 /*
- * "CustomPanelTable" module, used to view all the saved panels
+ * "CustomPanelTable" module, used to view all the saved dashboards
  *
  * Props taken in as params are:
  * loading: loader bool for the table
- * fetchCustomPanels: fetch panels function
- * customPanels: List of panels available
- * createCustomPanel: create panel function
- * setBreadcrumbs: setter for breadcrumbs on top panel
+ * fetchCustomPanels: fetch dashboards function
+ * customPanels: List of dashboards available
+ * createCustomPanel: create dashboards function
+ * setBreadcrumbs: setter for breadcrumbs on top dashboards
  * parentBreadcrumb: parent breadcrumb
- * renameCustomPanel: rename function for the panel
- * cloneCustomPanel: clone function for the panel
- * deleteCustomPanelList: delete function for the panels
+ * renameCustomPanel: rename function for the dashboards
+ * cloneCustomPanel: clone function for the dashboards
+ * deleteCustomPanelList: delete function for the dashboards
  */
 
 interface Props {
@@ -119,7 +120,7 @@ export const CustomPanelTable = ({
   };
 
   const onDelete = async () => {
-    const toastMessage = `Custom Panels ${
+    const toastMessage = `Dashboards ${
       selectedCustomPanels.length > 1 ? 's' : ' ' + selectedCustomPanels[0].name
     } successfully deleted!`;
     const PanelList = selectedCustomPanels.map((panel) => panel.id);
@@ -133,7 +134,7 @@ export const CustomPanelTable = ({
         onCreate,
         closeModal,
         'Name',
-        'Create operational panel',
+        `Create ${DASHBOARD_TITLE}`,
         'Cancel',
         'Create',
         undefined,
@@ -149,7 +150,7 @@ export const CustomPanelTable = ({
         onRename,
         closeModal,
         'Name',
-        'Rename Panel',
+        `Rename ${DASHBOARD_TITLE}`,
         'Cancel',
         'Rename',
         selectedCustomPanels[0].name,
@@ -165,7 +166,7 @@ export const CustomPanelTable = ({
         onClone,
         closeModal,
         'Name',
-        'Duplicate Panel',
+        `Duplicate ${DASHBOARD_TITLE}`,
         'Cancel',
         'Duplicate',
         selectedCustomPanels[0].name + ' (copy)',
@@ -176,7 +177,7 @@ export const CustomPanelTable = ({
   };
 
   const deletePanel = () => {
-    const customPanelString = `operational panel${selectedCustomPanels.length > 1 ? 's' : ''}`;
+    const customPanelString = `${DASHBOARD_TITLE} ${selectedCustomPanels.length > 1 ? 's' : ''}`;
     setModalLayout(
       <DeleteModal
         onConfirm={onDelete}
@@ -286,7 +287,7 @@ export const CustomPanelTable = ({
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>Operational panels</h1>
+                <h1>{DASHBOARD_TITLE}</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
           </EuiPageHeader>
@@ -295,13 +296,13 @@ export const CustomPanelTable = ({
               <EuiPageContentHeaderSection>
                 <EuiTitle size="s">
                   <h3>
-                    Panels
+                    {DASHBOARD_TITLE}
                     <span className="panel-header-count"> ({customPanels.length})</span>
                   </h3>
                 </EuiTitle>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
-                  Use Operational panels to create and view different visualizations on ingested
+                  Use {DASHBOARD_TITLE} to create and view different visualizations on ingested
                   observability data, using PPL (Piped Processing Language) queries.{' '}
                   <EuiLink external={true} href={CUSTOM_PANELS_DOCUMENTATION_URL} target="blank">
                     Learn more
@@ -326,7 +327,7 @@ export const CustomPanelTable = ({
                       onClick={() => createPanel()}
                       data-test-subj="customPanels__createNewPanels"
                     >
-                      Create panel
+                      Create {DASHBOARD_TITLE}
                     </EuiButton>
                   </EuiFlexItem>
                 </EuiFlexGroup>
@@ -338,7 +339,7 @@ export const CustomPanelTable = ({
                 <EuiFieldSearch
                   fullWidth
                   data-test-subj="operationalPanelSearchBar"
-                  placeholder="Search operational panel name"
+                  placeholder={`Search ${DASHBOARD_TITLE} name`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -376,10 +377,10 @@ export const CustomPanelTable = ({
               <>
                 <EuiSpacer size="xxl" />
                 <EuiText textAlign="center">
-                  <h2>No Operational Panels</h2>
+                  <h2>No {DASHBOARD_TITLE}</h2>
                   <EuiSpacer size="m" />
                   <EuiText color="subdued">
-                    Use operational panels to dive deeper into observability
+                    Use {DASHBOARD_TITLE} to dive deeper into observability
                     <br />
                     using PPL queries and insightful visualizations
                   </EuiText>
@@ -392,7 +393,7 @@ export const CustomPanelTable = ({
                       fullWidth={false}
                       onClick={() => createPanel()}
                     >
-                      Create panel
+                      Create {DASHBOARD_TITLE}
                     </EuiButton>
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>

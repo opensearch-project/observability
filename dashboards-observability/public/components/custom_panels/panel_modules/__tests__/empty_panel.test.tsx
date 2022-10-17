@@ -9,10 +9,10 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { EmptyPanelView } from '../empty_panel';
 
-describe('Empty panel view component', () => {
+describe('Empty dashboards view component', () => {
   configure({ adapter: new Adapter() });
 
-  it('renders empty panel view with disabled popover', () => {
+  it('renders empty dashboards view with disabled popover', () => {
     const addVizDisabled = true;
     const showFlyout = jest.fn();
     const wrapper = mount(
@@ -23,7 +23,7 @@ describe('Empty panel view component', () => {
     expect(wrapper.find('EuiButton').prop('disabled')).toBe(true);
   });
 
-  it('renders empty panel view with enabled popover', () => {
+  it('renders empty dashboards view with enabled popover', () => {
     const addVizDisabled = false;
     const showFlyout = jest.fn();
     const wrapper = mount(

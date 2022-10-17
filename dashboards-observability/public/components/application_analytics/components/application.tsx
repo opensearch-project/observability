@@ -61,7 +61,7 @@ import {
   ApplicationRequestType,
   ApplicationType,
 } from '../../../../common/types/application_analytics';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX, DASHBOARD_TITLE } from '../../../../common/constants/dashboards';
 import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
@@ -169,7 +169,7 @@ export function Application(props: AppDetailProps) {
     setFilters(newFilters);
   };
 
-  // Add visualization to application's panel
+  // Add visualization to application's dashboards
   const addVisualizationToPanel = async (visualizationId: string, visualizationName: string) => {
     return http
       .post(`${CUSTOM_PANELS_API_PREFIX}/visualizations`, {
@@ -190,7 +190,10 @@ export function Application(props: AppDetailProps) {
         );
       })
       .catch((err) => {
-        setToasts(`Error in adding ${visualizationName} visualization to the panel`, 'danger');
+        setToasts(
+          `Error in adding ${visualizationName} visualization to the ${DASHBOARD_TITLE}`,
+          'danger'
+        );
         console.error(err);
       });
   };
@@ -406,7 +409,7 @@ export function Application(props: AppDetailProps) {
         chrome={chrome}
         parentBreadcrumbs={parentBreadcrumbs}
         childBreadcrumbs={childBreadcrumbs}
-        // App analytics will not be renaming/cloning/deleting panels
+        // App analytics will not be renaming/cloning/deleting dashboards
         renameCustomPanel={async () => undefined}
         cloneCustomPanel={async () => Promise.reject()}
         deleteCustomPanel={async () => Promise.reject()}

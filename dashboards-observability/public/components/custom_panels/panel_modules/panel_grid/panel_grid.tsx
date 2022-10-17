@@ -13,7 +13,7 @@ import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
 import { VisualizationContainer } from '../visualization_container';
 import { VisualizationType } from '../../../../../common/types/custom_panels';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/dashboards';
 import './panel_grid.scss';
 import { mergeLayoutAndVisualizations } from '../../helpers/utils';
 
@@ -27,16 +27,16 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
  * http: http core service;
  * chrome: chrome core service;
  * panelId: OpenPanel Id
- * updateAvailabilityVizId: function to update application if availabilityViz is removed from panel
- * panelVisualizations: list of panel visualizations
- * setPanelVisualizations: function to set panel visualizations
- * editMode: boolean to check if the panel is in edit mode
+ * updateAvailabilityVizId: function to update application if availabilityViz is removed from dashboards
+ * panelVisualizations: list of dashboards visualizations
+ * setPanelVisualizations: function to set dashboards visualizations
+ * editMode: boolean to check if the dashboards is in edit mode
  * pplService: ppl requestor service
  * startTime: start time in date filter
  * endTime: end time in date filter
  * onRefresh: boolean value to trigger refresh of visualizations
- * cloneVisualization: function to clone a visualization in panel
- * pplFilterValue: string with panel PPL filter value
+ * cloneVisualization: function to clone a visualization in dashboards
+ * pplFilterValue: string with dashboards PPL filter value
  * showFlyout: function to show the flyout
  * editActionType: Type of action done while clicking the edit button
  */
@@ -130,7 +130,7 @@ export const PanelGrid = (props: PanelGridProps) => {
     setCurrentLayout(tempLayout);
   };
 
-  // remove visualization from panel in edit mode
+  // remove visualization from dashboards in edit mode
   const removeVisualization = (visualizationId: string) => {
     const newVisualizationList = _.reject(panelVisualizations, {
       id: visualizationId,
@@ -138,7 +138,7 @@ export const PanelGrid = (props: PanelGridProps) => {
     mergeLayoutAndVisualizations(postEditLayout, newVisualizationList, setPanelVisualizations);
   };
 
-  // Save Visualization Layouts when not in edit mode anymore (after users saves the panel)
+  // Save Visualization Layouts when not in edit mode anymore (after users saves the dashboards)
   const saveVisualizationLayouts = async (panelID: string, visualizationParams: any) => {
     return http
       .put(`${CUSTOM_PANELS_API_PREFIX}/visualizations/edit`, {
@@ -181,7 +181,7 @@ export const PanelGrid = (props: PanelGridProps) => {
     loadVizComponents();
   }, [panelVisualizations]);
 
-  // Reset Size of Panel Grid when Nav Dock is Locked
+  // Reset Size of dashboards Grid when Nav Dock is Locked
   useEffect(() => {
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));

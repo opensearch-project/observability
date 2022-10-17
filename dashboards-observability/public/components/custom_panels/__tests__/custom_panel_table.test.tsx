@@ -14,7 +14,7 @@ import { CustomPanelListType } from '../../../../common/types/custom_panels';
 describe('Panels Table Component', () => {
   configure({ adapter: new Adapter() });
 
-  it('renders empty panel table container', async () => {
+  it('renders empty dashboards table container', async () => {
     const loading = false;
     const fetchCustomPanels = jest.fn();
     const customPanelData: CustomPanelListType[] = [];
@@ -47,7 +47,7 @@ describe('Panels Table Component', () => {
     });
   });
 
-  it('renders panel table container', async () => {
+  it('renders dashboards table container', async () => {
     const loading = false;
     const fetchCustomPanels = jest.fn();
     const customPanelData: CustomPanelListType[] = panelsData.panels;

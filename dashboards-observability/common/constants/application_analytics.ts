@@ -13,7 +13,7 @@ export const TAB_OVERVIEW_TITLE = 'Overview';
 export const TAB_SERVICE_TITLE = 'Services';
 export const TAB_TRACE_TITLE = 'Traces & Spans';
 export const TAB_LOG_TITLE = 'Log Events';
-export const TAB_PANEL_TITLE = 'Panel';
+export const TAB_PANEL_TITLE = 'Dashboards';
 export const TAB_CONFIG_TITLE = 'Configuration';
 
 export const APP_ANALYTICS_API_PREFIX = '/api/observability/application';

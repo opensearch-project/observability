@@ -337,7 +337,7 @@ describe('Saves a query on explorer page', () => {
     cy.get('[data-test-subj="eventHome__savedQueryTableName"]').first().contains(SAVE_QUERY2);
   });
 
-  it('Saves a visualization to an existing panel', () => {
+  it('Saves a visualization to an existing Dashboards', () => {
     landOnPanels();
 
     cy.get('[data-test-subj="customPanels__createNewPanels"]').click();
@@ -871,7 +871,7 @@ describe('Render Table View', () => {
 });
 
 describe('Render Time series chart/Line chart and verify Data configurations UI ', () => {
-  it('Render line chart and verify Data Configuration Panel', () => {
+  it('Render line chart and verify Data Configuration panel', () => {
     renderLineChartForDataConfig();
     DataConfigLineChart();
   });

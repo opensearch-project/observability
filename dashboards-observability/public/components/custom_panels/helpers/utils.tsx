@@ -14,22 +14,22 @@ import { Layout } from 'react-grid-layout';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../src/core/public';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/dashboards';
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
 
 /*
- * "Utils" This file contains different reused functions in operational panels
+ * "Utils" This file contains different reused functions in dashboards
  *
  * isNameValid - Validates string to length > 0 and < 50
  * convertDateTime - Converts input datetime string to required format
- * mergeLayoutAndVisualizations - Function to merge current panel layout into the visualizations list
+ * mergeLayoutAndVisualizations - Function to merge current dashboards layout into the visualizations list
  * getQueryResponse - Get response of PPL query to load visualizations
  * renderSavedVisualization - Fetches savedVisualization by Id and runs getQueryResponse
  * onTimeChange - Function to store recently used time filters and set start and end time.
  * isDateValid - Function to check date validity
- * isPPLFilterValid - Validate if the panel PPL query doesn't contain any Index/Time/Field filters
+ * isPPLFilterValid - Validate if the dashboards PPL query doesn't contain any Index/Time/Field filters
  * displayVisualization - Function to render the visualzation based of its type
  */
 
@@ -75,7 +75,7 @@ export const mergeLayoutAndVisualizations = (
   setPanelVisualizations(newPanelVisualizations);
 };
 
-/* Builds Final Query by adding time and query filters(From panel UI) to the original visualization query
+/* Builds Final Query by adding time and query filters(From dashboards UI) to the original visualization query
  * -> Final Query is as follows:
  * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
  * -> finalQuery = source=opensearch_dashboards_sample_data_flights
@@ -269,7 +269,7 @@ const checkIndexExists = (query: string) => {
   return PPL_INDEX_REGEX.test(query);
 };
 
-// Check PPL Query in Panel UI
+// Check PPL Query in dashboards UI
 // Validate if the query doesn't contain any Index
 export const isPPLFilterValid = (
   query: string,

@@ -39,7 +39,7 @@ import { ParaType } from '../../../../../common/types/notebooks';
 import { uiSettingsService } from '../../../../../common/utils';
 import { ParaInput } from './para_input';
 import { ParaOutput } from './para_output';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/dashboards';
 import PPLService from '../../../../services/requests/ppl';
 import _ from 'lodash';
 

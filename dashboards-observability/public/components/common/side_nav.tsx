@@ -18,6 +18,7 @@ import React from 'react';
 import { useState } from 'react';
 import { toMountPoint } from '../../../../../src/plugins/opensearch_dashboards_react/public';
 import { uiSettingsService } from '../../../common/utils';
+import { DASHBOARD_TITLE } from '../../../common/constants/dashboards';
 
 export function ObservabilitySideBar(props: { children: React.ReactNode }) {
   // set items.isSelected based on location.hash passed in
@@ -79,9 +80,9 @@ export function ObservabilitySideBar(props: { children: React.ReactNode }) {
           href: '#/event_analytics',
         },
         {
-          name: 'Operational panels',
+          name: DASHBOARD_TITLE,
           id: 4,
-          href: '#/operational_panels/',
+          href: '#/dashboards/',
         },
         {
           name: 'Notebooks',

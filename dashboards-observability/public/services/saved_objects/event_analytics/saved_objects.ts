@@ -12,7 +12,7 @@ import {
   SAVED_QUERY,
   SAVED_VISUALIZATION,
 } from '../../../../common/constants/shared';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/dashboards';
 
 const CONCAT_FIELDS = ['objectIdList', 'objectType'];
 

@@ -27,7 +27,7 @@ import './visualization_container.scss';
  * Visualization container - This module is a placeholder to add visualizations in react-grid-layout
  *
  * Props taken in as params are:
- * editMode: boolean to check if the panel is in edit mode
+ * editMode: boolean to check if the dashboards is in edit mode
  * visualizationId: unique visualization id
  * visualizationTitle: visualization name
  * query: ppl query to load the visualization
@@ -36,8 +36,8 @@ import './visualization_container.scss';
  * fromTime: start time in date filter
  * toTime: end time in date filter
  * onRefresh: boolean value to trigger refresh of visualizations
- * cloneVisualization: function to clone a visualization in panel
- * pplFilterValue: string with panel PPL filter value
+ * cloneVisualization: function to clone a visualization in dashboards
+ * pplFilterValue: string with dashboards PPL filter value
  * showFlyout: function to show the flyout
  * removeVisualization: function to remove all the visualizations
  */

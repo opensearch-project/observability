@@ -33,7 +33,10 @@ import { displayVisualization, getQueryResponse, isDateValid } from '../../helpe
 import { convertDateTime } from '../../helpers/utils';
 import PPLService from '../../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../../src/core/public';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../../common/constants/custom_panels';
+import {
+  CUSTOM_PANELS_API_PREFIX,
+  DASHBOARD_TITLE,
+} from '../../../../../common/constants/dashboards';
 import {
   pplResponse,
   SavedVisualizationType,
@@ -46,14 +49,14 @@ import { uiSettingsService } from '../../../../../common/utils';
  * VisaulizationFlyout - This module create a flyout to add visualization
  *
  * Props taken in as params are:
- * panelId: panel Id of current operational panel
+ * panelId: dashboards Id of current Dashboards
  * closeFlyout: function to close the flyout
  * start: start time in date filter
  * end: end time in date filter
- * setToast: function to set toast in the panel
+ * setToast: function to set toast in the dashboards
  * http: http core service
  * pplService: ppl requestor service
- * setPanelVisualizations: function set the visualization list in panel
+ * setPanelVisualizations: function set the visualization list in dashboards
  * isFlyoutReplacement: boolean to see if the flyout is trigger for add or replace visualization
  * replaceVisualizationId: string id of the visualization to be replaced
  */
@@ -139,7 +142,10 @@ export const VisaulizationFlyout = ({
           setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
         })
         .catch((err) => {
-          setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
+          setToast(
+            `Error in adding ${newVisualizationTitle} visualization to the ${DASHBOARD_TITLE}`,
+            'danger'
+          );
           console.error(err);
         });
     } else {
@@ -155,7 +161,10 @@ export const VisaulizationFlyout = ({
           setToast(`Visualization ${newVisualizationTitle} successfully added!`, 'success');
         })
         .catch((err) => {
-          setToast(`Error in adding ${newVisualizationTitle} visualization to the panel`, 'danger');
+          setToast(
+            `Error in adding ${newVisualizationTitle} visualization to the ${DASHBOARD_TITLE}`,
+            'danger'
+          );
           console.error(err);
         });
     }
@@ -180,7 +189,7 @@ export const VisaulizationFlyout = ({
   };
 
   const timeRange = (
-    <EuiFormRow label="Panel Time Range" fullWidth>
+    <EuiFormRow label={`${DASHBOARD_TITLE} Time Range`} fullWidth>
       <EuiDatePickerRange
         className="date-picker-preview"
         fullWidth
@@ -306,7 +315,7 @@ export const VisaulizationFlyout = ({
         }
       })
       .catch((err) => {
-        console.error('Issue in fetching the operational panels', err);
+        console.error(`Issue in fetching the ${DASHBOARD_TITLE}`, err);
       });
   };
 

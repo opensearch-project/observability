@@ -26,7 +26,7 @@ import {
   OnTimeChangeProps,
   ShortDate,
 } from '@elastic/eui';
-import { last } from 'lodash';
+import { last, lowerCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import moment from 'moment';
@@ -36,7 +36,8 @@ import { EmptyPanelView } from './panel_modules/empty_panel';
 import {
   CREATE_PANEL_MESSAGE,
   CUSTOM_PANELS_API_PREFIX,
-} from '../../../common/constants/custom_panels';
+  DASHBOARD_TITLE,
+} from '../../../common/constants/dashboards';
 import { SavedVisualizationType, VisualizationType } from '../../../common/types/custom_panels';
 import { PanelGrid } from './panel_modules/panel_grid';
 import { getCustomModal } from './helpers/modal_containers';
@@ -62,19 +63,19 @@ import { AddVisualizationPopover } from './helpers/add_visualization_popover';
 import { DeleteModal } from '../common/helpers/delete_modal';
 
 /*
- * "CustomPanelsView" module used to render an Operational Panel
+ * "CustomPanelsView" module used to render an Dashboards
  *
  * Props taken in as params are:
- * panelId: Name of the panel opened
+ * panelId: Name of the dashboards opened
  * page: Page where component is called
  * http: http core service
  * pplService: ppl requestor service
  * dslService: dsl requestor service
  * chrome: chrome core service
  * parentBreadcrumb: parent breadcrumb
- * renameCustomPanel: Rename function for the panel
- * deleteCustomPanel: Delete function for the panel
- * cloneCustomPanel: Clone function for the panel
+ * renameCustomPanel: Rename function for the dashboards
+ * deleteCustomPanel: Delete function for the dashboards
+ * cloneCustomPanel: Clone function for the dashboards
  * setToast: create Toast function
  * onEditClick: Edit function for visualization
  * startTime: Starting time
@@ -82,7 +83,7 @@ import { DeleteModal } from '../common/helpers/delete_modal';
  * setStartTime: Function to change start time
  * setEndTime: Function to change end time
  * childBreadcrumbs: Breadcrumbs to extend
- * appId: id of application that panel belongs to
+ * appId: id of application that dashboards belongs to
  * onAddClick: Function for add button instead of add visualization popover
  */
 
@@ -173,7 +174,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
   // DateTimePicker States
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
 
-  // Fetch Panel by id
+  // Fetch dashboards by id
   const fetchCustomPanel = async () => {
     return http
       .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${panelId}`)
@@ -186,7 +187,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         setPanelVisualizations(res.operationalPanel.visualizations);
       })
       .catch((err) => {
-        console.error('Issue in fetching the operational panels', err);
+        console.error(`Issue in fetching the ${DASHBOARD_TITLE}`, err);
       });
   };
 
@@ -229,7 +230,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         onConfirm={onDelete}
         onCancel={closeModal}
         title={`Delete ${openPanelName}`}
-        message={`Are you sure you want to delete this Operational Panel?`}
+        message={`Are you sure you want to delete this ${DASHBOARD_TITLE}?`}
       />
     );
     showModal();
@@ -248,7 +249,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         onRename,
         closeModal,
         'Name',
-        'Rename Panel',
+        `Rename ${DASHBOARD_TITLE}`,
         'Cancel',
         'Rename',
         openPanelName,
@@ -271,7 +272,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         onClone,
         closeModal,
         'Name',
-        'Duplicate Panel',
+        `Duplicate ${DASHBOARD_TITLE}`,
         'Cancel',
         'Duplicate',
         openPanelName + ' (copy)',
@@ -281,7 +282,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     showModal();
   };
 
-  // toggle between panel edit mode
+  // toggle between dashboards edit mode
   const editPanel = (editType: string) => {
     setEditMode(!editMode);
     if (editType === 'cancel') fetchCustomPanel();
@@ -303,7 +304,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
   };
 
   const checkDisabledInputs = () => {
-    // When not in edit mode and panel has no visualizations
+    // When not in edit mode and dashboards has no visualizations
     if (panelVisualizations.length === 0 && !editMode) {
       setEditDisabled(true);
       setInputDisabled(true);
@@ -311,7 +312,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
       setDateDisabled(false);
     }
 
-    // When panel has visualizations
+    // When dashboards has visualizations
     if (panelVisualizations.length > 0) {
       setEditDisabled(false);
       setInputDisabled(false);
@@ -374,7 +375,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         setOnRefresh(!onRefresh);
       })
       .catch((err) => {
-        setToast('Error is adding filters to the operational panel', 'danger');
+        setToast(`Error is adding filters to the ${DASHBOARD_TITLE}`, 'danger');
         console.error(err.body.message);
       });
   };
@@ -392,7 +393,10 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
         setToast(`Visualization ${visualzationTitle} successfully added!`, 'success');
       })
       .catch((err) => {
-        setToast(`Error in adding ${visualzationTitle} visualization to the panel`, 'danger');
+        setToast(
+          `Error in adding ${visualzationTitle} visualization to the ${DASHBOARD_TITLE}`,
+          'danger'
+        );
         console.error(err);
       });
   };
@@ -426,7 +430,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     </EuiButton>
   );
 
-  // Panel Actions Button
+  // dashboards Actions Button
   const panelActionsButton = (
     <EuiButton
       iconType="arrowDown"
@@ -434,7 +438,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
       onClick={() => setPanelsMenuPopover(true)}
       disabled={addVizDisabled}
     >
-      Panel actions
+      {DASHBOARD_TITLE} actions
     </EuiButton>
   );
 
@@ -466,31 +470,31 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
   const panelActionsMenu: EuiContextMenuPanelDescriptor[] = [
     {
       id: 0,
-      title: 'Panel actions',
+      title: 'Dashboards actions',
       items: [
         {
-          name: 'Reload panel',
+          name: `Reload ${lowerCase(DASHBOARD_TITLE)}`,
           onClick: () => {
             setPanelsMenuPopover(false);
             fetchCustomPanel();
           },
         },
         {
-          name: 'Rename panel',
+          name: `Rename ${lowerCase(DASHBOARD_TITLE)}`,
           onClick: () => {
             setPanelsMenuPopover(false);
             renamePanel();
           },
         },
         {
-          name: 'Duplicate panel',
+          name: `Duplicate ${lowerCase(DASHBOARD_TITLE)}`,
           onClick: () => {
             setPanelsMenuPopover(false);
             clonePanel();
           },
         },
         {
-          name: 'Delete panel',
+          name: `Delete ${lowerCase(DASHBOARD_TITLE)}`,
           onClick: () => {
             setPanelsMenuPopover(false);
             deletePanel();
@@ -500,13 +504,13 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     },
   ];
 
-  // Fetch the custom panel on Initial Mount
+  // Fetch the custom dashboards on Initial Mount
   useEffect(() => {
     fetchCustomPanel();
   }, [panelId]);
 
   // Toggle input type (disabled or not disabled)
-  // Disabled when there no visualizations in panels or when the panel is in edit mode
+  // Disabled when there no visualizations in dashboards or when the dashboards is in edit mode
   useEffect(() => {
     checkDisabledInputs();
   }, [editMode]);
@@ -517,7 +521,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     buildBaseQuery();
   }, [panelVisualizations]);
 
-  // Edit the breadcrumb when panel name changes
+  // Edit the breadcrumb when dashboards name changes
   useEffect(() => {
     let newBreadcrumb;
     if (childBreadcrumbs) {
