@@ -58,15 +58,6 @@ export function PatternsTable(props: PatternsTableProps) {
       },
     },
     {
-      field: 'pattern',
-      name: 'Pattern',
-      width: '50%',
-      sortable: true,
-      render: (item: string, row: PatternTableData) => {
-        return <EuiText>{item}</EuiText>;
-      },
-    },
-    {
       field: 'ratio',
       name: 'Ratio',
       width: '8%',
@@ -83,6 +74,15 @@ export function PatternsTable(props: PatternsTableProps) {
             )) *
           100;
         return <EuiText>{`${round(ratio, 2)}%`}</EuiText>;
+      },
+    },
+    {
+      field: 'pattern',
+      name: 'Pattern',
+      width: '50%',
+      sortable: true,
+      render: (item: string, row: PatternTableData) => {
+        return <EuiText>{item}</EuiText>;
       },
     },
     {
