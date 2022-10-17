@@ -150,16 +150,16 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
           tabId: requestParams.tabId,
         })
       );
+      dispatch(
+        patternsReset({
+          tabId: requestParams.tabId,
+        })
+      );
     });
   };
 
   const dispatchOnPatterns = (res: { patternTableData: PatternTableData[] }) => {
     batch(() => {
-      // dispatch(
-      //   patternsReset({
-      //     tabId: requestParams.tabId,
-      //   })
-      // );
       dispatch(
         setPatterns({
           tabId: requestParams.tabId,

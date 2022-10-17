@@ -30,12 +30,7 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import {
-  IField,
-  IQueryTab,
-  IDefaultTimestampState,
-  PatternData,
-} from '../../../../common/types/explorer';
+import { IField, IQueryTab, IDefaultTimestampState } from '../../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,

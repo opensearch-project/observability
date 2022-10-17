@@ -18,7 +18,7 @@ import { render as renderExplorerVis } from '../redux/slices/visualization_slice
 import { updateFields, sortFields } from '../redux/slices/field_slice';
 import PPLService from '../../../services/requests/ppl';
 import { fetchSuccess } from '../redux/slices/query_result_slice';
-import { setPatterns } from '../redux/slices/patterns_slice';
+import { setPatterns, reset as patternsReset } from '../redux/slices/patterns_slice';
 
 interface IFetchVisualizationsParams {
   pplService: PPLService;
@@ -129,6 +129,11 @@ export const useFetchVisualizations = ({
             sortFields({
               tabId: requestParams.tabId,
               data: [QUERIED_FIELDS],
+            })
+          );
+          dispatch(
+            patternsReset({
+              tabId: requestParams.tabId,
             })
           );
         });
