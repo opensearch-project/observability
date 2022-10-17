@@ -696,10 +696,13 @@ export const Explorer = ({
                       </EuiFlexGroup>
                       <EuiHorizontalRule margin="xs" />
                       {viewLogPatterns && (
-                        <PatternsTable
-                          tableData={patternsData.patternTableData || []}
-                          tabId={tabId}
-                        />
+                        <>
+                          <PatternsTable
+                            tableData={patternsData.patternTableData || []}
+                            tabId={tabId}
+                          />
+                          <EuiHorizontalRule margin="xs" />
+                        </>
                       )}
                     </>
                   )}
@@ -734,7 +737,24 @@ export const Explorer = ({
                           <EuiSpacer size="m" />
                         </>
                       )}
-
+                      <EuiTitle size="s">
+                        <h3 style={{ margin: '0px', textAlign: 'left', marginLeft: '10px' }}>
+                          Events
+                          <span className="event-header-count">
+                            {' '}
+                            (
+                            {reduce(
+                              countDistribution.data['count()'],
+                              (sum, n) => {
+                                return sum + n;
+                              },
+                              0
+                            )}
+                            )
+                          </span>
+                        </h3>
+                      </EuiTitle>
+                      <EuiHorizontalRule margin="xs" />
                       <DataGrid
                         http={http}
                         pplService={pplService}
