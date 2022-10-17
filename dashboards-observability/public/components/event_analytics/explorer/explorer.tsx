@@ -675,7 +675,19 @@ export const Explorer = ({
                         style={{ margin: '8px' }}
                         gutterSize="xs"
                       >
-                        <EuiFlexItem grow={false} />
+                        <EuiFlexItem grow={false}>
+                          {viewLogPatterns && (
+                            <EuiTitle size="s">
+                              <h3 style={{ margin: '0px' }}>
+                                Patterns
+                                <span className="pattern-header-count">
+                                  {' '}
+                                  ({patternsData.patternTableData.length})
+                                </span>
+                              </h3>
+                            </EuiTitle>
+                          )}
+                        </EuiFlexItem>
                         <EuiFlexItem grow={false}>
                           <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
                             {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}

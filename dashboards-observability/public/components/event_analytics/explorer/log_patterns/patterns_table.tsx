@@ -51,7 +51,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'count',
       name: 'Count',
-      width: '8%',
+      width: '4%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
         return <EuiText>{item}</EuiText>;
@@ -60,7 +60,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'ratio',
       name: 'Ratio',
-      width: '8%',
+      width: '4%',
       sortable: (row: PatternTableData) => row.count,
       render: (item: number, row: PatternTableData) => {
         const ratio =
@@ -79,7 +79,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'pattern',
       name: 'Pattern',
-      width: '50%',
+      width: '92%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
         return <EuiText>{item}</EuiText>;
