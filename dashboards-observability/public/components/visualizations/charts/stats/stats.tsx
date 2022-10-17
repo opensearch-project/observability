@@ -3,41 +3,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo } from 'react';
+import { find, isEmpty, uniqBy } from 'lodash';
 import Plotly from 'plotly.js-dist';
-import { uniqBy, find, isEmpty } from 'lodash';
-import { Plt } from '../../plotly/plot';
-import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import React, { useMemo } from 'react';
+import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
 import {
-  ConfigListEntry,
-  IVisualizationContainerProps,
-} from '../../../../../common/types/explorer';
-import {
-  hexToRgb,
-  getRoundOf,
-  getTooltipHoverInfo,
-  getPropName,
-} from '../../../event_analytics/utils/utils';
-import { uiSettingsService } from '../../../../../common/utils';
-import {
+  AGGREGATIONS,
+  DEFAULT_STATS_CHART_PARAMETERS,
+  GROUPBY,
+  STATS_ANNOTATION,
+  STATS_AXIS_MARGIN,
   STATS_GRID_SPACE_BETWEEN_X_AXIS,
   STATS_GRID_SPACE_BETWEEN_Y_AXIS,
-  DEFAULT_STATS_CHART_PARAMETERS,
-  STATS_AXIS_MARGIN,
-  STATS_ANNOTATION,
-  STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
-  STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
   STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE,
+  STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
+  STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
   STATS_SERIES_UNIT_SUBSTRING_LENGTH,
-  GROUPBY,
-  AGGREGATIONS,
 } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
   FILLOPACITY_DIV_FACTOR,
 } from '../../../../../common/constants/shared';
-import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
+import {
+  ConfigListEntry,
+  IVisualizationContainerProps,
+} from '../../../../../common/types/explorer';
+import { uiSettingsService } from '../../../../../common/utils';
+import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import {
+  getPropName,
+  getRoundOf,
+  getTooltipHoverInfo,
+  hexToRgb,
+} from '../../../event_analytics/utils/utils';
+import { Plt } from '../../plotly/plot';
 
 const {
   DefaultOrientation,
@@ -61,24 +61,24 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          span = {},
+          [GROUPBY]: xaxis = [],
+          [AGGREGATIONS]: series = [],
+          chartStyles = {},
+          panelOptions = {},
+          tooltipOptions = {},
+          thresholds = [],
+        },
+        layoutConfig = {},
+      },
     },
-    vis: visMetaData,
+
+    vis: { charttype, titlesize, valuesize, textmode, orientation, precisionvalue },
   }: IVisualizationContainerProps = visualizations;
 
   // data config parametrs
-  const {
-    dataConfig: {
-      span = {},
-      [GROUPBY]: xaxis = [],
-      [AGGREGATIONS]: series = [],
-      chartStyles = {},
-      panelOptions = {},
-      tooltipOptions = {},
-      thresholds = [],
-    },
-    layoutConfig = {},
-  } = userConfigs;
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
   /**
@@ -92,7 +92,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   }
 
   const seriesLength = series.length;
-  const chartType = chartStyles.chartType || visMetaData.charttype;
+  const chartType = chartStyles.chartType || charttype;
 
   if (
     isEmpty(queriedVizData) ||
@@ -111,23 +111,21 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // style panel parameters
   let titleSize =
     chartStyles.titleSize ||
-    visMetaData.titlesize -
-      visMetaData.titlesize * seriesLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
+    titlesize - titlesize * seriesLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
     chartStyles.valueSize ||
-    visMetaData.valuesize -
-      visMetaData.valuesize * seriesLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
-  const selectedOrientation = chartStyles.orientation || visMetaData.orientation;
-  const orientation =
+    valuesize - valuesize * seriesLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
+  const selectedOrientation = chartStyles.orientation || orientation;
+  const chartOrientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
       ? DefaultOrientation
       : 'h';
-  const selectedTextMode = chartStyles.textMode || visMetaData.textmode;
+  const selectedTextMode = chartStyles.textMode || textmode;
   let textMode =
     selectedTextMode === DefaultTextMode || selectedTextMode === 'values+names'
       ? DefaultTextMode
       : selectedTextMode;
-  const precisionValue = chartStyles.precisionValue || visMetaData.precisionvalue;
+  const precisionValue = chartStyles.precisionValue || precisionvalue;
   const seriesUnits =
     chartStyles.seriesUnits?.substring(0, STATS_SERIES_UNIT_SUBSTRING_LENGTH) || '';
   const seriesUnitsSize = valueSize - valueSize * STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE;
@@ -136,7 +134,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
 
   if (chartType === 'text' && chartStyles.textMode === undefined) {
     textMode = 'names';
-    titleSize = visMetaData.titlesize;
+    titleSize = titlesize;
   }
 
   // margin from left of grid cell for label/value
@@ -318,7 +316,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       autoChartLayout = {
         ...autoChartLayout,
         annotations: autoChartLayout.annotations.concat(
-          orientation === DefaultOrientation || seriesLength === 1
+          chartOrientation === DefaultOrientation || seriesLength === 1
             ? createAnnotationAutoModeVertical(annotationOption)
             : createAnnotationsAutoModeHorizontal(annotationOption)
         ),
@@ -636,16 +634,17 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         // change color of shapes
         for (let shapeIndex = 0; shapeIndex < sortedShapesData.length; shapeIndex++) {
           for (let threshIndex = 0; threshIndex < thresholdRanges.length; threshIndex++) {
+            const seriesValue = Number(sortedShapesData[shapeIndex].seriesValue);
             if (
-              Number(sortedShapesData[shapeIndex].seriesValue) >=
-                Number(thresholdRanges[threshIndex][0]) &&
-              Number(sortedShapesData[shapeIndex].seriesValue) <=
-                Number(thresholdRanges[threshIndex][1])
+              seriesValue >= Number(thresholdRanges[threshIndex][0]) &&
+              seriesValue <= Number(thresholdRanges[threshIndex][1])
             ) {
-              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].fillcolor =
-                sortedThresholds[threshIndex].color;
-              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line.color =
-                sortedThresholds[threshIndex].color;
+              const color = sortedThresholds[threshIndex].color;
+              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].fillcolor = color;
+              autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line = {
+                ...autoChartLayout.shapes[sortedShapesData[shapeIndex].oldIndex].line,
+                color,
+              };
             }
           }
         }
@@ -657,7 +656,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     series,
     fields,
     appliedThresholds,
-    orientation,
+    chartOrientation,
     titleSize,
     valueSize,
     textMode,
@@ -679,7 +678,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
           : { ...STATS_AXIS_MARGIN, t: 0 },
       ...statsLayout,
       grid: {
-        ...(orientation === DefaultOrientation
+        ...(chartOrientation === DefaultOrientation
           ? {
               rows: 1,
               columns: seriesLength,
@@ -695,7 +694,15 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       },
       title: panelOptions?.title || layoutConfig.layout?.title || '',
     };
-  }, [layout, layoutConfig.layout, panelOptions?.title, orientation, seriesLength, statsLayout]);
+  }, [
+    chartType,
+    layout,
+    layoutConfig.layout,
+    panelOptions?.title,
+    orientation,
+    seriesLength,
+    statsLayout,
+  ]);
 
   const mergedConfigs = {
     ...config,

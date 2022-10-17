@@ -7,6 +7,7 @@ import React, { useMemo, useCallback, Fragment } from 'react';
 import { EuiAccordion, EuiSpacer } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
+import { BarOrientation } from '../../../../../../../../common/constants/shared';
 
 export const ConfigBarChartStyles = ({
   visualizations,
@@ -20,12 +21,18 @@ export const ConfigBarChartStyles = ({
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const handleConfigurationChange = useCallback(
-    (stateFieldName) => {
+    (stateFieldName, max) => {
       return (changes) => {
-        handleConfigChange({
-          ...vizState,
-          [stateFieldName]: changes,
-        });
+        if (!max || changes <= max) {
+          handleConfigChange({
+            ...vizState,
+            [stateFieldName]: changes,
+          });
+        } else {
+          handleConfigChange({
+            ...vizState,
+          });
+        }
       };
     },
     [handleConfigChange, vizState]
@@ -33,7 +40,7 @@ export const ConfigBarChartStyles = ({
 
   /* To update the schema options based on current style mode selection */
   const currentSchemas = useMemo(() => {
-    if (vizState?.orientation === 'h') {
+    if (vizState?.orientation === BarOrientation.horizontal) {
       return schemas.filter(
         (schema: IConfigPanelOptionSection) => schema.mapTo !== 'rotateBarLabels'
       );
@@ -67,7 +74,7 @@ export const ConfigBarChartStyles = ({
                 label: btn.name,
               })),
               idSelected: vizState[schema.mapTo] || schema?.props?.defaultSelections[0]?.id,
-              handleButtonChange: handleConfigurationChange(schema.mapTo),
+              handleButtonChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             return createDimensionComponent(params);
           }
@@ -75,7 +82,7 @@ export const ConfigBarChartStyles = ({
             params = {
               title: schema.name,
               numValue: vizState[schema.mapTo] || '',
-              handleInputChange: handleConfigurationChange(schema.mapTo),
+              handleInputChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
               vizState,
               ...schema.props,
             };
@@ -90,7 +97,7 @@ export const ConfigBarChartStyles = ({
               currentRange: vizState[schema.mapTo] || schema?.defaultState,
               ticks: schema?.props?.ticks,
               showTicks: schema?.props?.showTicks || false,
-              handleSliderChange: handleConfigurationChange(schema.mapTo),
+              handleSliderChange: handleConfigurationChange(schema.mapTo, schema?.props?.max),
             };
             return createDimensionComponent(params);
           }

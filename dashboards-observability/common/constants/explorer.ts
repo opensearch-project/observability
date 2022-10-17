@@ -95,6 +95,7 @@ export const VIZ_CONTAIN_XY_AXIS = [
   VIS_CHART_TYPES.Line,
   VIS_CHART_TYPES.Pie,
   VIS_CHART_TYPES.Scatter,
+  VIS_CHART_TYPES.HorizontalBar,
 ];
 
 // default ppl aggregation method options
@@ -238,6 +239,26 @@ export const DEFAULT_STATS_CHART_PARAMETERS: DefaultStatsChartParametersProps = 
   },
   DefaultTextColor: '#FFFFFF',
 };
+export interface DefaultBarChartStylesProps {
+  BarMode: string;
+  GroupWidth: number;
+  BarWidth: number;
+  LabelSize: number;
+}
+
+export const DEFAULT_BAR_CHART_STYLES: DefaultBarChartStylesProps = {
+  BarMode: 'group',
+  GroupWidth: 0.7,
+  BarWidth: 0.97,
+  LabelSize: 12,
+};
+
+export const SIMILAR_VIZ_TYPES = [
+  VIS_CHART_TYPES.Line,
+  VIS_CHART_TYPES.Scatter,
+  VIS_CHART_TYPES.HorizontalBar,
+  VIS_CHART_TYPES.Bar,
+];
 
 export enum ConfigChartOptionsEnum {
   palettePicker = 'palettePicker',

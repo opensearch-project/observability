@@ -3,23 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { find, isEmpty } from 'lodash';
 import React, { useMemo } from 'react';
-import { isEmpty, find } from 'lodash';
-import { Plt } from '../../plotly/plot';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getTooltipHoverInfo, getPropName } from '../../../event_analytics/utils/utils';
+import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
+import {
+  AGGREGATIONS,
+  GROUPBY,
+  PIE_XAXIS_GAP,
+  PIE_YAXIS_GAP,
+  PLOTLY_PIE_COLUMN_NUMBER,
+} from '../../../../../common/constants/explorer';
+import { PLOT_MARGIN } from '../../../../../common/constants/shared';
 import {
   ConfigListEntry,
   IVisualizationContainerProps,
 } from '../../../../../common/types/explorer';
-import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
-import {
-  PLOTLY_PIE_COLUMN_NUMBER,
-  PIE_YAXIS_GAP,
-  PIE_XAXIS_GAP,
-  AGGREGATIONS,
-  GROUPBY,
-} from '../../../../../common/constants/explorer';
+import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { getPropName, getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
+import { Plt } from '../../plotly/plot';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const {
@@ -31,28 +32,27 @@ export const Pie = ({ visualizations, layout, config }: any) => {
         data: queriedVizData,
         metadata: { fields },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: {
+          chartStyles = {},
+          span = {},
+          legend = {},
+          panelOptions = {},
+          tooltipOptions = {},
+          [GROUPBY]: dimensions = [],
+          [AGGREGATIONS]: series = [],
+        },
+        layoutConfig = {},
+      },
     },
-    vis: visMetaData,
+    vis: { mode, icontype, showlegend, legendSize, labelSize, legendposition },
   }: IVisualizationContainerProps = visualizations;
 
-  const {
-    dataConfig: {
-      chartStyles = {},
-      span = {},
-      legend = {},
-      panelOptions = {},
-      tooltipOptions = {},
-      [GROUPBY]: dimensions = [],
-      [AGGREGATIONS]: series = [],
-    },
-    layoutConfig = {},
-  } = visualizations?.data?.userConfigs;
-  const type = chartStyles.mode || visMetaData.mode;
+  const type = chartStyles.mode || mode;
   const colorTheme = chartStyles.colorTheme ? chartStyles.colorTheme : { name: DEFAULT_PALETTE };
-  const showLegend = legend.showLegend === 'hidden' ? false : visMetaData.showlegend;
-  const legendSize = legend.size || visMetaData.legendSize;
-  const labelSize = chartStyles.labelSize || visMetaData.labelSize;
+  const showLegend = legend.showLegend === 'hidden' ? false : showlegend;
+  const chartLegendSize = legend.size || legendSize;
+  const chartLabelSize = chartStyles.labelSize || labelSize;
   const title = panelOptions.title || layoutConfig.layout?.title || '';
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
@@ -67,7 +67,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   }
 
   if (isEmpty(xaxes) || isEmpty(series)) {
-    return <EmptyPlaceholder icon={visMetaData.icontype} />;
+    return <EmptyPlaceholder icon={icontype} />;
   }
 
   const invertHex = (hex: string) =>
@@ -121,11 +121,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           },
           ...marker,
           outsidetextfont: {
-            size: labelSize,
+            size: chartLabelSize,
           },
         };
       }),
-    [series, queriedVizData, labelSize, labelsOfXAxis, colorTheme]
+    [series, queriedVizData, chartLabelSize, labelsOfXAxis, colorTheme]
   );
 
   const mergedLayout = useMemo(() => {
@@ -140,15 +140,27 @@ export const Pie = ({ visualizations, layout, config }: any) => {
       },
       ...layout,
       ...(layoutConfig.layout && layoutConfig.layout),
-      title,
       legend: {
         ...layout.legend,
-        orientation: legend.position || visMetaData.legendposition,
-        ...(legendSize && {
-          font: { size: legendSize },
+        orientation: legend.position || legendposition,
+        ...(chartLegendSize && {
+          font: { size: chartLegendSize },
         }),
       },
       showlegend: showLegend,
+      margin: {
+        ...PLOT_MARGIN,
+        t: 100,
+      },
+      title: {
+        text: title,
+        xanchor: 'right',
+        yanchor: 'top',
+        x: 1,
+        y: 1,
+        xref: 'paper',
+        yref: 'container',
+      },
     };
   }, [series, layoutConfig.layout, title, layout.legend]);
 

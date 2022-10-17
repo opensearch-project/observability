@@ -344,6 +344,13 @@ exports[`Treemap component Renders treemap component 1`] = `
                         ],
                       },
                     },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
                   ],
                 },
                 Object {
@@ -352,30 +359,6 @@ exports[`Treemap component Renders treemap component 1`] = `
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
-                    Object {
-                      "component": [Function],
-                      "eleType": "buttons",
-                      "mapTo": "orientation",
-                      "name": "Orientation",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Horizontal",
-                          },
-                        ],
-                      },
-                    },
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
@@ -464,7 +447,7 @@ exports[`Treemap component Renders treemap component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 1,
+                      "defaultState": 2,
                       "eleType": "slider",
                       "mapTo": "lineWidth",
                       "name": "Line width",
@@ -474,7 +457,7 @@ exports[`Treemap component Renders treemap component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 80,
+                      "defaultState": 40,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -508,7 +491,7 @@ exports[`Treemap component Renders treemap component 1`] = `
             },
           ],
         },
-        "fillOpacity": 80,
+        "fillopacity": 40,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
@@ -517,7 +500,7 @@ exports[`Treemap component Renders treemap component 1`] = `
         "label": "Vertical bar",
         "labelangle": 0,
         "legendposition": "v",
-        "linewidth": 1,
+        "linewidth": 2,
         "mode": "group",
         "name": "bar",
         "orientation": "v",
@@ -600,11 +583,11 @@ exports[`Treemap component Renders treemap component 1`] = `
         ],
         "height": 220,
         "margin": Object {
-          "b": 15,
-          "l": 60,
-          "pad": 0,
-          "r": 10,
-          "t": 30,
+          "b": 30,
+          "l": 30,
+          "pad": 4,
+          "r": 5,
+          "t": 50,
         },
         "showlegend": true,
         "title": "",
@@ -672,11 +655,11 @@ exports[`Treemap component Renders treemap component 1`] = `
             "traceorder": "normal",
           },
           "margin": Object {
-            "b": 15,
-            "l": 60,
-            "pad": 0,
-            "r": 10,
-            "t": 30,
+            "b": 30,
+            "l": 30,
+            "pad": 4,
+            "r": 5,
+            "t": 50,
           },
           "showlegend": true,
           "title": "",

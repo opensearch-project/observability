@@ -38,33 +38,33 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         jsonData,
         metadata: { fields = [] },
       },
-      userConfigs,
+      userConfigs: {
+        dataConfig: { chartStyles = {} },
+      },
     },
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
 
-  const { dataConfig = {} } = userConfigs;
   const enablePagination =
-    typeof dataConfig?.chartStyles?.enablePagination !== 'undefined'
-      ? dataConfig?.chartStyles?.enablePagination
+    typeof chartStyles.enablePagination !== 'undefined'
+      ? chartStyles.enablePagination
       : visualizations.vis.enablepagination;
 
   const showTableHeader =
-    typeof dataConfig?.chartStyles?.showTableHeader !== 'undefined'
-      ? dataConfig?.chartStyles?.showTableHeader
+    typeof chartStyles.showTableHeader !== 'undefined'
+      ? chartStyles.showTableHeader
       : visualizations.vis.showtableheader;
 
   const colunmFilter =
-    typeof dataConfig?.chartStyles?.colunmFilter !== 'undefined'
-      ? dataConfig?.chartStyles?.colunmFilter
+    typeof chartStyles.colunmFilter !== 'undefined'
+      ? chartStyles.colunmFilter
       : visualizations.vis.colunmfilter;
 
-  const columnAlignment =
-    dataConfig?.chartStyles?.columnAlignment || visualizations.vis.columnalignment;
+  const columnAlignment = chartStyles.columnAlignment || visualizations.vis.columnalignment;
 
   const columnWidth =
-    typeof dataConfig?.chartStyles?.columnWidth !== 'undefined'
-      ? dataConfig?.chartStyles?.columnWidth
+    typeof chartStyles.columnWidth !== 'undefined'
+      ? chartStyles.columnWidth
       : visualizations.vis.columnwidth;
 
   useEffect(() => {
@@ -127,14 +127,14 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
   }, [colunmFilter, columnAlignment]);
 
   useEffect(() => {
-    if (!dataConfig?.chartStyles?.columnWidth) {
+    if (!chartStyles.columnWidth) {
       gridRef?.current?.api?.sizeColumnsToFit();
     } else {
       columns.forEach((col: any) =>
         gridRef?.current?.columnApi?.setColumnWidth(col.field, Number(columnWidth))
       );
     }
-  }, [columnWidth, columns, dataConfig]);
+  }, [columnWidth, columns]);
 
   const onPageSizeChanged = useCallback(
     (val: number) => {

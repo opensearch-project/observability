@@ -182,3 +182,22 @@ export const DEFAULT_CHART_STYLES: DefaultChartStylesProps = {
 };
 
 export const FILLOPACITY_DIV_FACTOR = 200;
+export const SLIDER_MIN_VALUE = 0;
+export const SLIDER_MAX_VALUE = 100;
+export const SLIDER_STEP = 1;
+export const THRESHOLD_LINE_WIDTH = 3;
+export const THRESHOLD_LINE_OPACITY = 0.7;
+export const MAX_BUCKET_LENGTH = 16;
+
+export enum BarOrientation {
+  horizontal = 'h',
+  vertical = 'v',
+}
+
+export const PLOT_MARGIN = {
+  l: 30,
+  r: 5,
+  b: 30,
+  t: 50,
+  pad: 4,
+};
