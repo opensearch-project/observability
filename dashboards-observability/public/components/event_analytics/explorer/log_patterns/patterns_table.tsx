@@ -85,20 +85,6 @@ export function PatternsTable(props: PatternsTableProps) {
         return <EuiText>{item}</EuiText>;
       },
     },
-    {
-      field: 'earlyTimestamp',
-      name: 'Earliest time',
-      width: '12%',
-      sortable: true,
-      render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
-    },
-    {
-      field: 'recentTimestamp',
-      name: 'Recent time',
-      width: '12%',
-      sortable: true,
-      render: (item: string) => <EuiText>{moment(new Date(item)).format(UI_DATE_FORMAT)}</EuiText>,
-    },
   ];
 
   const sorting = {

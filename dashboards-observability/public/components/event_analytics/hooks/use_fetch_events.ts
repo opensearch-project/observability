@@ -226,8 +226,6 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
           const formatToTableData = res.jsonData.map((json: PatternJSONData) => {
             return {
               count: json['count()'],
-              recentTimestamp: json['max(timestamp)'],
-              earlyTimestamp: json['min(timestamp)'],
               pattern: json.patterns_field,
               sampleLog: '',
             } as PatternTableData;
