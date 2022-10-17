@@ -269,3 +269,7 @@ export enum ConfigChartOptionsEnum {
 
 export const CUSTOM_LABEL = 'customLabel';
 export const BREAKDOWNS = 'breakdowns';
+export const SPAN = 'span';
+export const AGGREGATION_INFO = 'At least one metric is required to render a chart';
+export const DIMENSION_INFO = 'The timestamp type field can be selected as a first dimension only';
+export const TIME_FIELD = 'time_field';
