@@ -8,17 +8,16 @@ import { useState, useRef } from 'react';
 import { batch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { IField, PatternJSONData, PatternTableData } from 'common/types/explorer';
+import { IField } from 'common/types/explorer';
 import {
   FINAL_QUERY,
   SELECTED_FIELDS,
   UNSELECTED_FIELDS,
   AVAILABLE_FIELDS,
   QUERIED_FIELDS,
-  PATTERN_STATS_QUERY,
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../redux/slices/query_result_slice';
-import { setPatterns, reset as patternsReset } from '../redux/slices/patterns_slice';
+import { reset as patternsReset } from '../redux/slices/patterns_slice';
 import { selectQueries } from '../redux/slices/query_slice';
 import { reset as visualizationReset } from '../redux/slices/visualization_slice';
 import { updateFields, sortFields, selectFields } from '../redux/slices/field_slice';
@@ -158,19 +157,6 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     });
   };
 
-  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[] }) => {
-    batch(() => {
-      dispatch(
-        setPatterns({
-          tabId: requestParams.tabId,
-          data: {
-            ...res,
-          },
-        })
-      );
-    });
-  };
-
   const getLiveTail = (query: string = '', errorHandler?: (error: any) => void) => {
     const cur = queriesRef.current;
     const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
@@ -212,29 +198,6 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     );
   };
 
-  const getPatterns = (query: string = '', errorHandler?: (error: any) => void) => {
-    const cur = queriesRef.current;
-    const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
-    const statsQuery = searchQuery + PATTERN_STATS_QUERY;
-    fetchEvents(
-      { query: statsQuery },
-      'jdbc',
-      (res: { jsonData: PatternJSONData[] }) => {
-        if (!isEmpty(res.jsonData)) {
-          const formatToTableData = res.jsonData.map((json: PatternJSONData) => {
-            return {
-              count: json['count()'],
-              pattern: json.patterns_field,
-              sampleLog: '',
-            } as PatternTableData;
-          });
-          dispatchOnPatterns({ patternTableData: formatToTableData });
-        }
-      },
-      errorHandler
-    );
-  };
-
   const getAvailableFields = (query: string) => {
     fetchEvents({ query }, 'jdbc', (res: any) => {
       batch(() => {
@@ -268,7 +231,6 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
     isEventsLoading,
     getLiveTail,
     getEvents,
-    getPatterns,
     getAvailableFields,
     fetchEvents,
   };

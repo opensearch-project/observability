@@ -90,6 +90,7 @@ import {
   StatsAggregationChunk,
   GroupField,
 } from '../../../../common/query_manager/ast/types';
+import { useFetchPatterns } from '../hooks/use_fetch_pattens';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -122,17 +123,15 @@ export const Explorer = ({
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
-  const {
-    getLiveTail,
-    getEvents,
-    getPatterns,
-    getAvailableFields,
-    isEventsLoading,
-  } = useFetchEvents({
+  const { getLiveTail, getEvents, getAvailableFields, isEventsLoading } = useFetchEvents({
     pplService,
     requestParams,
   });
   const { getVisualizations, getCountVisualizations, isVisLoading } = useFetchVisualizations({
+    pplService,
+    requestParams,
+  });
+  const { getPatterns } = useFetchPatterns({
     pplService,
     requestParams,
   });
