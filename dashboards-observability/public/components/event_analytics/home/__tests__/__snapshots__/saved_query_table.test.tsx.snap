@@ -13,7 +13,7 @@ exports[`Saved query table component Renders saved query table 1`] = `
         "objectId": "Kocoln0BYMuJGDsOwDma",
         "savedVisualization": Object {
           "description": "",
-          "name": "Mock Flight count by destination save to panel",
+          "name": "Mock Flight count by destination save to Dashboards",
           "query": "source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier",
           "selected_date_range": Object {
             "end": "now",
@@ -93,14 +93,14 @@ exports[`Saved query table component Renders saved query table 1`] = `
             "date_end": "now",
             "date_start": "now-15m",
             "fields": Array [],
-            "name": "Mock Flight count by destination save to panel",
+            "name": "Mock Flight count by destination save to Dashboards",
             "objectId": "Kocoln0BYMuJGDsOwDma",
             "objectType": "savedVisualization",
             "query": "source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier",
             "timestamp": "timestamp",
           },
           "id": "Kocoln0BYMuJGDsOwDma",
-          "name": "Mock Flight count by destination save to panel",
+          "name": "Mock Flight count by destination save to Dashboards",
           "type": "Visualization",
         },
         Object {
@@ -573,14 +573,14 @@ exports[`Saved query table component Renders saved query table 1`] = `
                 "date_end": "now",
                 "date_start": "now-15m",
                 "fields": Array [],
-                "name": "Mock Flight count by destination save to panel",
+                "name": "Mock Flight count by destination save to Dashboards",
                 "objectId": "Kocoln0BYMuJGDsOwDma",
                 "objectType": "savedVisualization",
                 "query": "source = opensearch_dashboards_sample_data_flights | stats avg(FlightDelayMin) by Carrier",
                 "timestamp": "timestamp",
               },
               "id": "Kocoln0BYMuJGDsOwDma",
-              "name": "Mock Flight count by destination save to panel",
+              "name": "Mock Flight count by destination save to Dashboards",
               "type": "Visualization",
             },
             Object {
@@ -1071,7 +1071,7 @@ exports[`Saved query table component Renders saved query table 1`] = `
                                   onClick={[Function]}
                                   type="button"
                                 >
-                                  Mock Flight count by destination save to panel
+                                  Mock Flight count by destination save to Dashboards
                                 </button>
                               </EuiLink>
                             </div>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Panel Grid Component renders panel grid component with empty visualizations 1`] = `
+exports[`Dashboards Grid Component renders dashboards grid component with empty visualizations 1`] = `
 <PanelGrid
   chrome={
     Object {

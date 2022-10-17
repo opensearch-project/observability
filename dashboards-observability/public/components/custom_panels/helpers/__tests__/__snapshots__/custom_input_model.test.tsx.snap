@@ -27,7 +27,7 @@ exports[`Custom Input Model component renders custom input modal with multiple a
             data-test-subj="customModalFieldText"
             name="input"
             onChange={[Function]}
-            value="Test Panel"
+            value="Test Dashboards"
           />
         </EuiFormRow>
       </EuiForm>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Panels View Component renders panel view container with visualizations 1`] = `
+exports[`Dashboards View Component renders dashboards view container with visualizations 1`] = `
 <CustomPanelView
   chrome={
     Object {
@@ -47,8 +47,8 @@ exports[`Panels View Component renders panel view container with visualizations 
           Array [
             Array [
               Object {
-                "href": "#/operational_panels/",
-                "text": "Operational panels",
+                "href": "#/dashboards/",
+                "text": "Dashboards",
               },
               Object {
                 "href": "observability#/",
@@ -88,8 +88,8 @@ exports[`Panels View Component renders panel view container with visualizations 
   parentBreadcrumbs={
     Array [
       Object {
-        "href": "#/operational_panels/",
-        "text": "Operational panels",
+        "href": "#/dashboards/",
+        "text": "Dashboards",
       },
       Object {
         "href": "observability#/",
@@ -264,7 +264,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                                   iconType="arrowDown"
                                   onClick={[Function]}
                                 >
-                                  Panel actions
+                                  Dashboards
+                                   actions
                                 </EuiButton>
                               }
                               closePopover={[Function]}
@@ -356,7 +357,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Panel actions
+                                              Dashboards
+                                               actions
                                             </span>
                                           </span>
                                         </EuiButtonContent>
@@ -1475,8 +1477,8 @@ exports[`Panels View Component renders panel view container with visualizations 
                           Array [
                             Array [
                               Object {
-                                "href": "#/operational_panels/",
-                                "text": "Operational panels",
+                                "href": "#/dashboards/",
+                                "text": "Dashboards",
                               },
                               Object {
                                 "href": "observability#/",
@@ -1634,7 +1636,7 @@ exports[`Panels View Component renders panel view container with visualizations 
 </CustomPanelView>
 `;
 
-exports[`Panels View Component renders panel view container without visualizations 1`] = `
+exports[`Dashboards View Component renders dashboards view container without visualizations 1`] = `
 <CustomPanelView
   chrome={
     Object {
@@ -1681,8 +1683,8 @@ exports[`Panels View Component renders panel view container without visualizatio
           Array [
             Array [
               Object {
-                "href": "#/operational_panels/",
-                "text": "Operational panels",
+                "href": "#/dashboards/",
+                "text": "Dashboards",
               },
               Object {
                 "href": "observability#/",
@@ -1722,8 +1724,8 @@ exports[`Panels View Component renders panel view container without visualizatio
   parentBreadcrumbs={
     Array [
       Object {
-        "href": "#/operational_panels/",
-        "text": "Operational panels",
+        "href": "#/dashboards/",
+        "text": "Dashboards",
       },
       Object {
         "href": "observability#/",
@@ -1894,7 +1896,8 @@ exports[`Panels View Component renders panel view container without visualizatio
                                   iconType="arrowDown"
                                   onClick={[Function]}
                                 >
-                                  Panel actions
+                                  Dashboards
+                                   actions
                                 </EuiButton>
                               }
                               closePopover={[Function]}
@@ -1981,7 +1984,8 @@ exports[`Panels View Component renders panel view container without visualizatio
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Panel actions
+                                              Dashboards
+                                               actions
                                             </span>
                                           </span>
                                         </EuiButtonContent>
@@ -3076,8 +3080,8 @@ exports[`Panels View Component renders panel view container without visualizatio
                           Array [
                             Array [
                               Object {
-                                "href": "#/operational_panels/",
-                                "text": "Operational panels",
+                                "href": "#/dashboards/",
+                                "text": "Dashboards",
                               },
                               Object {
                                 "href": "observability#/",

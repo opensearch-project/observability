@@ -1,601 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Panels Table Component renders empty panel table container 1`] = `
-<CustomPanelTable
-  addSamplePanels={[MockFunction]}
-  cloneCustomPanel={[MockFunction]}
-  createCustomPanel={[MockFunction]}
-  customPanels={Array []}
-  deleteCustomPanelList={[MockFunction]}
-  fetchCustomPanels={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
-  loading={false}
-  parentBreadcrumbs={
-    Array [
-      Object {
-        "href": "#/operational_panels/",
-        "text": "Operational panels",
-      },
-      Object {
-        "href": "observability#/",
-        "text": "Observability",
-      },
-    ]
-  }
-  renameCustomPanel={[MockFunction]}
-  setBreadcrumbs={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          Array [
-            Object {
-              "href": "#/operational_panels/",
-              "text": "Operational panels",
-            },
-            Object {
-              "href": "observability#/",
-              "text": "Observability",
-            },
-          ],
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
->
-  <div
-    style={
-      Object {
-        "float": "left",
-        "maxWidth": "1130px",
-        "width": "100%",
-      }
-    }
-  >
-    <EuiPage>
-      <div
-        className="euiPage euiPage--paddingMedium euiPage--grow"
-      >
-        <EuiPageBody
-          component="div"
-        >
-          <div
-            className="euiPageBody euiPageBody--borderRadiusNone"
-          >
-            <EuiPageHeader>
-              <header
-                className="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
-              >
-                <EuiPageHeaderSection>
-                  <div
-                    className="euiPageHeaderSection"
-                  >
-                    <EuiTitle
-                      size="l"
-                    >
-                      <h1
-                        className="euiTitle euiTitle--large"
-                      >
-                        Operational panels
-                      </h1>
-                    </EuiTitle>
-                  </div>
-                </EuiPageHeaderSection>
-              </header>
-            </EuiPageHeader>
-            <EuiPageContent
-              id="customPanelArea"
-            >
-              <EuiPanel
-                className="euiPageContent"
-                id="customPanelArea"
-                paddingSize="l"
-                role="main"
-              >
-                <div
-                  className="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
-                  id="customPanelArea"
-                  role="main"
-                >
-                  <EuiPageContentHeader>
-                    <div
-                      className="euiPageContentHeader euiPageContentHeader--responsive"
-                    >
-                      <EuiPageContentHeaderSection>
-                        <div
-                          className="euiPageContentHeaderSection"
-                        >
-                          <EuiTitle
-                            size="s"
-                          >
-                            <h3
-                              className="euiTitle euiTitle--small"
-                            >
-                              Panels
-                              <span
-                                className="panel-header-count"
-                              >
-                                 (
-                                0
-                                )
-                              </span>
-                            </h3>
-                          </EuiTitle>
-                          <EuiSpacer
-                            size="s"
-                          >
-                            <div
-                              className="euiSpacer euiSpacer--s"
-                            />
-                          </EuiSpacer>
-                          <EuiText
-                            color="subdued"
-                            size="s"
-                          >
-                            <div
-                              className="euiText euiText--small"
-                            >
-                              <EuiTextColor
-                                color="subdued"
-                                component="div"
-                              >
-                                <div
-                                  className="euiTextColor euiTextColor--subdued"
-                                >
-                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
-                                   
-                                  <EuiLink
-                                    external={true}
-                                    href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
-                                    target="blank"
-                                  >
-                                    <a
-                                      className="euiLink euiLink--primary"
-                                      href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
-                                      rel="noreferrer"
-                                      target="blank"
-                                    >
-                                      Learn more
-                                      <EuiIcon
-                                        aria-label="External link"
-                                        className="euiLink__externalIcon"
-                                        size="s"
-                                        type="popout"
-                                      >
-                                        <EuiIconEmpty
-                                          aria-hidden={true}
-                                          aria-label="External link"
-                                          className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
-                                          focusable="false"
-                                          role="img"
-                                          style={null}
-                                        >
-                                          <svg
-                                            aria-hidden={true}
-                                            aria-label="External link"
-                                            className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
-                                            focusable="false"
-                                            height={16}
-                                            role="img"
-                                            style={null}
-                                            viewBox="0 0 16 16"
-                                            width={16}
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          />
-                                        </EuiIconEmpty>
-                                      </EuiIcon>
-                                    </a>
-                                  </EuiLink>
-                                </div>
-                              </EuiTextColor>
-                            </div>
-                          </EuiText>
-                        </div>
-                      </EuiPageContentHeaderSection>
-                      <EuiPageContentHeaderSection>
-                        <div
-                          className="euiPageContentHeaderSection"
-                        >
-                          <EuiFlexGroup
-                            gutterSize="s"
-                          >
-                            <div
-                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
-                            >
-                              <EuiFlexItem>
-                                <div
-                                  className="euiFlexItem"
-                                >
-                                  <EuiPopover
-                                    anchorPosition="downCenter"
-                                    button={
-                                      <EuiButton
-                                        data-test-subj="operationalPanelsActionsButton"
-                                        iconSide="right"
-                                        iconType="arrowDown"
-                                        onClick={[Function]}
-                                      >
-                                        Actions
-                                      </EuiButton>
-                                    }
-                                    closePopover={[Function]}
-                                    display="inlineBlock"
-                                    hasArrow={true}
-                                    isOpen={false}
-                                    ownFocus={true}
-                                    panelPaddingSize="none"
-                                  >
-                                    <div
-                                      className="euiPopover euiPopover--anchorDownCenter"
-                                    >
-                                      <div
-                                        className="euiPopover__anchor"
-                                      >
-                                        <EuiButton
-                                          data-test-subj="operationalPanelsActionsButton"
-                                          iconSide="right"
-                                          iconType="arrowDown"
-                                          onClick={[Function]}
-                                        >
-                                          <EuiButtonDisplay
-                                            baseClassName="euiButton"
-                                            data-test-subj="operationalPanelsActionsButton"
-                                            disabled={false}
-                                            element="button"
-                                            iconSide="right"
-                                            iconType="arrowDown"
-                                            isDisabled={false}
-                                            onClick={[Function]}
-                                            type="button"
-                                          >
-                                            <button
-                                              className="euiButton euiButton--primary"
-                                              data-test-subj="operationalPanelsActionsButton"
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              style={
-                                                Object {
-                                                  "minWidth": undefined,
-                                                }
-                                              }
-                                              type="button"
-                                            >
-                                              <EuiButtonContent
-                                                className="euiButton__content"
-                                                iconSide="right"
-                                                iconType="arrowDown"
-                                                textProps={
-                                                  Object {
-                                                    "className": "euiButton__text",
-                                                  }
-                                                }
-                                              >
-                                                <span
-                                                  className="euiButtonContent euiButtonContent--iconRight euiButton__content"
-                                                >
-                                                  <EuiIcon
-                                                    className="euiButtonContent__icon"
-                                                    color="inherit"
-                                                    size="m"
-                                                    type="arrowDown"
-                                                  >
-                                                    <EuiIconEmpty
-                                                      aria-hidden={true}
-                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                                      focusable="false"
-                                                      role="img"
-                                                      style={null}
-                                                    >
-                                                      <svg
-                                                        aria-hidden={true}
-                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                                        focusable="false"
-                                                        height={16}
-                                                        role="img"
-                                                        style={null}
-                                                        viewBox="0 0 16 16"
-                                                        width={16}
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                      />
-                                                    </EuiIconEmpty>
-                                                  </EuiIcon>
-                                                  <span
-                                                    className="euiButton__text"
-                                                  >
-                                                    Actions
-                                                  </span>
-                                                </span>
-                                              </EuiButtonContent>
-                                            </button>
-                                          </EuiButtonDisplay>
-                                        </EuiButton>
-                                      </div>
-                                    </div>
-                                  </EuiPopover>
-                                </div>
-                              </EuiFlexItem>
-                              <EuiFlexItem>
-                                <div
-                                  className="euiFlexItem"
-                                >
-                                  <EuiButton
-                                    data-test-subj="customPanels__createNewPanels"
-                                    fill={true}
-                                    onClick={[Function]}
-                                  >
-                                    <EuiButtonDisplay
-                                      baseClassName="euiButton"
-                                      data-test-subj="customPanels__createNewPanels"
-                                      disabled={false}
-                                      element="button"
-                                      fill={true}
-                                      isDisabled={false}
-                                      onClick={[Function]}
-                                      type="button"
-                                    >
-                                      <button
-                                        className="euiButton euiButton--primary euiButton--fill"
-                                        data-test-subj="customPanels__createNewPanels"
-                                        disabled={false}
-                                        onClick={[Function]}
-                                        style={
-                                          Object {
-                                            "minWidth": undefined,
-                                          }
-                                        }
-                                        type="button"
-                                      >
-                                        <EuiButtonContent
-                                          className="euiButton__content"
-                                          iconSide="left"
-                                          textProps={
-                                            Object {
-                                              "className": "euiButton__text",
-                                            }
-                                          }
-                                        >
-                                          <span
-                                            className="euiButtonContent euiButton__content"
-                                          >
-                                            <span
-                                              className="euiButton__text"
-                                            >
-                                              Create panel
-                                            </span>
-                                          </span>
-                                        </EuiButtonContent>
-                                      </button>
-                                    </EuiButtonDisplay>
-                                  </EuiButton>
-                                </div>
-                              </EuiFlexItem>
-                            </div>
-                          </EuiFlexGroup>
-                        </div>
-                      </EuiPageContentHeaderSection>
-                    </div>
-                  </EuiPageContentHeader>
-                  <EuiHorizontalRule
-                    margin="m"
-                  >
-                    <hr
-                      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
-                    />
-                  </EuiHorizontalRule>
-                  <EuiSpacer
-                    size="xxl"
-                  >
-                    <div
-                      className="euiSpacer euiSpacer--xxl"
-                    />
-                  </EuiSpacer>
-                  <EuiText
-                    textAlign="center"
-                  >
-                    <div
-                      className="euiText euiText--medium"
-                    >
-                      <EuiTextAlign
-                        textAlign="center"
-                      >
-                        <div
-                          className="euiTextAlign euiTextAlign--center"
-                        >
-                          <h2>
-                            No Operational Panels
-                          </h2>
-                          <EuiSpacer
-                            size="m"
-                          >
-                            <div
-                              className="euiSpacer euiSpacer--m"
-                            />
-                          </EuiSpacer>
-                          <EuiText
-                            color="subdued"
-                          >
-                            <div
-                              className="euiText euiText--medium"
-                            >
-                              <EuiTextColor
-                                color="subdued"
-                                component="div"
-                              >
-                                <div
-                                  className="euiTextColor euiTextColor--subdued"
-                                >
-                                  Use operational panels to dive deeper into observability
-                                  <br />
-                                  using PPL queries and insightful visualizations
-                                </div>
-                              </EuiTextColor>
-                            </div>
-                          </EuiText>
-                        </div>
-                      </EuiTextAlign>
-                    </div>
-                  </EuiText>
-                  <EuiSpacer
-                    size="m"
-                  >
-                    <div
-                      className="euiSpacer euiSpacer--m"
-                    />
-                  </EuiSpacer>
-                  <EuiFlexGroup
-                    justifyContent="center"
-                  >
-                    <div
-                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
-                    >
-                      <EuiFlexItem
-                        grow={false}
-                      >
-                        <div
-                          className="euiFlexItem euiFlexItem--flexGrowZero"
-                        >
-                          <EuiButton
-                            data-test-subj="customPanels__emptyCreateNewPanels"
-                            fullWidth={false}
-                            onClick={[Function]}
-                          >
-                            <EuiButtonDisplay
-                              baseClassName="euiButton"
-                              data-test-subj="customPanels__emptyCreateNewPanels"
-                              disabled={false}
-                              element="button"
-                              fullWidth={false}
-                              isDisabled={false}
-                              onClick={[Function]}
-                              type="button"
-                            >
-                              <button
-                                className="euiButton euiButton--primary"
-                                data-test-subj="customPanels__emptyCreateNewPanels"
-                                disabled={false}
-                                onClick={[Function]}
-                                style={
-                                  Object {
-                                    "minWidth": undefined,
-                                  }
-                                }
-                                type="button"
-                              >
-                                <EuiButtonContent
-                                  className="euiButton__content"
-                                  iconSide="left"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButton__content"
-                                  >
-                                    <span
-                                      className="euiButton__text"
-                                    >
-                                      Create panel
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </div>
-                      </EuiFlexItem>
-                      <EuiFlexItem
-                        grow={false}
-                      >
-                        <div
-                          className="euiFlexItem euiFlexItem--flexGrowZero"
-                        >
-                          <EuiButton
-                            fullWidth={false}
-                            onClick={[Function]}
-                          >
-                            <EuiButtonDisplay
-                              baseClassName="euiButton"
-                              disabled={false}
-                              element="button"
-                              fullWidth={false}
-                              isDisabled={false}
-                              onClick={[Function]}
-                              type="button"
-                            >
-                              <button
-                                className="euiButton euiButton--primary"
-                                disabled={false}
-                                onClick={[Function]}
-                                style={
-                                  Object {
-                                    "minWidth": undefined,
-                                  }
-                                }
-                                type="button"
-                              >
-                                <EuiButtonContent
-                                  className="euiButton__content"
-                                  iconSide="left"
-                                  textProps={
-                                    Object {
-                                      "className": "euiButton__text",
-                                    }
-                                  }
-                                >
-                                  <span
-                                    className="euiButtonContent euiButton__content"
-                                  >
-                                    <span
-                                      className="euiButton__text"
-                                    >
-                                      Add samples
-                                    </span>
-                                  </span>
-                                </EuiButtonContent>
-                              </button>
-                            </EuiButtonDisplay>
-                          </EuiButton>
-                        </div>
-                      </EuiFlexItem>
-                    </div>
-                  </EuiFlexGroup>
-                  <EuiSpacer
-                    size="xxl"
-                  >
-                    <div
-                      className="euiSpacer euiSpacer--xxl"
-                    />
-                  </EuiSpacer>
-                </div>
-              </EuiPanel>
-            </EuiPageContent>
-          </div>
-        </EuiPageBody>
-      </div>
-    </EuiPage>
-  </div>
-</CustomPanelTable>
-`;
-
-exports[`Panels Table Component renders panel table container 1`] = `
+exports[`Panels Table Component renders dashboards table container 1`] = `
 <CustomPanelTable
   addSamplePanels={[MockFunction]}
   cloneCustomPanel={[MockFunction]}
@@ -606,25 +11,25 @@ exports[`Panels Table Component renders panel table container 1`] = `
         "dateCreated": 1635974761179,
         "dateModified": 1635974771296,
         "id": "L8Sx53wBDp0rvEg3yoLb",
-        "name": "Test Panel 1",
+        "name": "Test Dashboards 1",
       },
       Object {
         "dateCreated": 1635545733895,
         "dateModified": 1635979024055,
         "id": "lsQfznwBDp0rvEg3W2wH",
-        "name": "Test Panel 2",
+        "name": "Test Dashboards 2",
       },
       Object {
         "dateCreated": 1635889452900,
         "dateModified": 1635979888682,
         "id": "b8Sc4nwBDp0rvEg3F3Fk",
-        "name": "Test Panel 3",
+        "name": "Test Dashboards 3",
       },
       Object {
         "dateCreated": 1635881186494,
         "dateModified": 1636049456718,
         "id": "P8Qd4nwBDp0rvEg39HG_",
-        "name": "Test Panel 4",
+        "name": "Test Dashboards 4",
       },
     ]
   }
@@ -646,8 +51,8 @@ exports[`Panels Table Component renders panel table container 1`] = `
   parentBreadcrumbs={
     Array [
       Object {
-        "href": "#/operational_panels/",
-        "text": "Operational panels",
+        "href": "#/dashboards/",
+        "text": "Dashboards",
       },
       Object {
         "href": "observability#/",
@@ -662,8 +67,8 @@ exports[`Panels Table Component renders panel table container 1`] = `
         Array [
           Array [
             Object {
-              "href": "#/operational_panels/",
-              "text": "Operational panels",
+              "href": "#/dashboards/",
+              "text": "Dashboards",
             },
             Object {
               "href": "observability#/",
@@ -714,7 +119,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                       <h1
                         className="euiTitle euiTitle--large"
                       >
-                        Operational panels
+                        Dashboards
                       </h1>
                     </EuiTitle>
                   </div>
@@ -749,7 +154,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                             <h3
                               className="euiTitle euiTitle--small"
                             >
-                              Panels
+                              Dashboards
                               <span
                                 className="panel-header-count"
                               >
@@ -780,7 +185,9 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                 <div
                                   className="euiTextColor euiTextColor--subdued"
                                 >
-                                  Use Operational panels to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
+                                  Use 
+                                  Dashboards
+                                   to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
                                    
                                   <EuiLink
                                     external={true}
@@ -1005,7 +412,8 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                             <span
                                               className="euiButton__text"
                                             >
-                                              Create panel
+                                              Create 
+                                              Dashboards
                                             </span>
                                           </span>
                                         </EuiButtonContent>
@@ -1035,7 +443,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                     isClearable={true}
                     isLoading={false}
                     onChange={[Function]}
-                    placeholder="Search operational panel name"
+                    placeholder="Search Dashboards name"
                     value=""
                   >
                     <EuiFormControlLayout
@@ -1056,7 +464,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                               data-test-subj="operationalPanelSearchBar"
                               onChange={[Function]}
                               onKeyUp={[Function]}
-                              placeholder="Search operational panel name"
+                              placeholder="Search Dashboards name"
                               type="search"
                               value=""
                             />
@@ -1150,25 +558,25 @@ exports[`Panels Table Component renders panel table container 1`] = `
                           "dateCreated": 1635974761179,
                           "dateModified": 1635974771296,
                           "id": "L8Sx53wBDp0rvEg3yoLb",
-                          "name": "Test Panel 1",
+                          "name": "Test Dashboards 1",
                         },
                         Object {
                           "dateCreated": 1635545733895,
                           "dateModified": 1635979024055,
                           "id": "lsQfznwBDp0rvEg3W2wH",
-                          "name": "Test Panel 2",
+                          "name": "Test Dashboards 2",
                         },
                         Object {
                           "dateCreated": 1635889452900,
                           "dateModified": 1635979888682,
                           "id": "b8Sc4nwBDp0rvEg3F3Fk",
-                          "name": "Test Panel 3",
+                          "name": "Test Dashboards 3",
                         },
                         Object {
                           "dateCreated": 1635881186494,
                           "dateModified": 1636049456718,
                           "id": "P8Qd4nwBDp0rvEg39HG_",
-                          "name": "Test Panel 4",
+                          "name": "Test Dashboards 4",
                         },
                       ]
                     }
@@ -1231,25 +639,25 @@ exports[`Panels Table Component renders panel table container 1`] = `
                             "dateCreated": 1635881186494,
                             "dateModified": 1636049456718,
                             "id": "P8Qd4nwBDp0rvEg39HG_",
-                            "name": "Test Panel 4",
+                            "name": "Test Dashboards 4",
                           },
                           Object {
                             "dateCreated": 1635889452900,
                             "dateModified": 1635979888682,
                             "id": "b8Sc4nwBDp0rvEg3F3Fk",
-                            "name": "Test Panel 3",
+                            "name": "Test Dashboards 3",
                           },
                           Object {
                             "dateCreated": 1635545733895,
                             "dateModified": 1635979024055,
                             "id": "lsQfznwBDp0rvEg3W2wH",
-                            "name": "Test Panel 2",
+                            "name": "Test Dashboards 2",
                           },
                           Object {
                             "dateCreated": 1635974761179,
                             "dateModified": 1635974771296,
                             "id": "L8Sx53wBDp0rvEg3yoLb",
-                            "name": "Test Panel 1",
+                            "name": "Test Dashboards 1",
                           },
                         ]
                       }
@@ -1873,7 +1281,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                 href="observability#/P8Qd4nwBDp0rvEg39HG_"
                                                 rel="noreferrer"
                                               >
-                                                Test Panel 4
+                                                Test Dashboards 4
                                               </a>
                                             </EuiLink>
                                           </div>
@@ -2039,7 +1447,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                 href="observability#/b8Sc4nwBDp0rvEg3F3Fk"
                                                 rel="noreferrer"
                                               >
-                                                Test Panel 3
+                                                Test Dashboards 3
                                               </a>
                                             </EuiLink>
                                           </div>
@@ -2205,7 +1613,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                 href="observability#/lsQfznwBDp0rvEg3W2wH"
                                                 rel="noreferrer"
                                               >
-                                                Test Panel 2
+                                                Test Dashboards 2
                                               </a>
                                             </EuiLink>
                                           </div>
@@ -2371,7 +1779,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                                 href="observability#/L8Sx53wBDp0rvEg3yoLb"
                                                 rel="noreferrer"
                                               >
-                                                Test Panel 1
+                                                Test Dashboards 1
                                               </a>
                                             </EuiLink>
                                           </div>
@@ -2850,6 +2258,608 @@ exports[`Panels Table Component renders panel table container 1`] = `
                       </div>
                     </EuiBasicTable>
                   </EuiInMemoryTable>
+                </div>
+              </EuiPanel>
+            </EuiPageContent>
+          </div>
+        </EuiPageBody>
+      </div>
+    </EuiPage>
+  </div>
+</CustomPanelTable>
+`;
+
+exports[`Panels Table Component renders empty dashboards table container 1`] = `
+<CustomPanelTable
+  addSamplePanels={[MockFunction]}
+  cloneCustomPanel={[MockFunction]}
+  createCustomPanel={[MockFunction]}
+  customPanels={Array []}
+  deleteCustomPanelList={[MockFunction]}
+  fetchCustomPanels={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  loading={false}
+  parentBreadcrumbs={
+    Array [
+      Object {
+        "href": "#/dashboards/",
+        "text": "Dashboards",
+      },
+      Object {
+        "href": "observability#/",
+        "text": "Observability",
+      },
+    ]
+  }
+  renameCustomPanel={[MockFunction]}
+  setBreadcrumbs={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "href": "#/dashboards/",
+              "text": "Dashboards",
+            },
+            Object {
+              "href": "observability#/",
+              "text": "Observability",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "float": "left",
+        "maxWidth": "1130px",
+        "width": "100%",
+      }
+    }
+  >
+    <EuiPage>
+      <div
+        className="euiPage euiPage--paddingMedium euiPage--grow"
+      >
+        <EuiPageBody
+          component="div"
+        >
+          <div
+            className="euiPageBody euiPageBody--borderRadiusNone"
+          >
+            <EuiPageHeader>
+              <header
+                className="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
+              >
+                <EuiPageHeaderSection>
+                  <div
+                    className="euiPageHeaderSection"
+                  >
+                    <EuiTitle
+                      size="l"
+                    >
+                      <h1
+                        className="euiTitle euiTitle--large"
+                      >
+                        Dashboards
+                      </h1>
+                    </EuiTitle>
+                  </div>
+                </EuiPageHeaderSection>
+              </header>
+            </EuiPageHeader>
+            <EuiPageContent
+              id="customPanelArea"
+            >
+              <EuiPanel
+                className="euiPageContent"
+                id="customPanelArea"
+                paddingSize="l"
+                role="main"
+              >
+                <div
+                  className="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
+                  id="customPanelArea"
+                  role="main"
+                >
+                  <EuiPageContentHeader>
+                    <div
+                      className="euiPageContentHeader euiPageContentHeader--responsive"
+                    >
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiTitle
+                            size="s"
+                          >
+                            <h3
+                              className="euiTitle euiTitle--small"
+                            >
+                              Dashboards
+                              <span
+                                className="panel-header-count"
+                              >
+                                 (
+                                0
+                                )
+                              </span>
+                            </h3>
+                          </EuiTitle>
+                          <EuiSpacer
+                            size="s"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--s"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                            size="s"
+                          >
+                            <div
+                              className="euiText euiText--small"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use 
+                                  Dashboards
+                                   to create and view different visualizations on ingested observability data, using PPL (Piped Processing Language) queries.
+                                   
+                                  <EuiLink
+                                    external={true}
+                                    href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
+                                    target="blank"
+                                  >
+                                    <a
+                                      className="euiLink euiLink--primary"
+                                      href="https://opensearch.org/docs/latest/observability-plugin/operational-panels/"
+                                      rel="noreferrer"
+                                      target="blank"
+                                    >
+                                      Learn more
+                                      <EuiIcon
+                                        aria-label="External link"
+                                        className="euiLink__externalIcon"
+                                        size="s"
+                                        type="popout"
+                                      >
+                                        <EuiIconEmpty
+                                          aria-hidden={true}
+                                          aria-label="External link"
+                                          className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                          focusable="false"
+                                          role="img"
+                                          style={null}
+                                        >
+                                          <svg
+                                            aria-hidden={true}
+                                            aria-label="External link"
+                                            className="euiIcon euiIcon--small euiIcon-isLoading euiLink__externalIcon"
+                                            focusable="false"
+                                            height={16}
+                                            role="img"
+                                            style={null}
+                                            viewBox="0 0 16 16"
+                                            width={16}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </EuiIconEmpty>
+                                      </EuiIcon>
+                                    </a>
+                                  </EuiLink>
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                      <EuiPageContentHeaderSection>
+                        <div
+                          className="euiPageContentHeaderSection"
+                        >
+                          <EuiFlexGroup
+                            gutterSize="s"
+                          >
+                            <div
+                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+                            >
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiPopover
+                                    anchorPosition="downCenter"
+                                    button={
+                                      <EuiButton
+                                        data-test-subj="operationalPanelsActionsButton"
+                                        iconSide="right"
+                                        iconType="arrowDown"
+                                        onClick={[Function]}
+                                      >
+                                        Actions
+                                      </EuiButton>
+                                    }
+                                    closePopover={[Function]}
+                                    display="inlineBlock"
+                                    hasArrow={true}
+                                    isOpen={false}
+                                    ownFocus={true}
+                                    panelPaddingSize="none"
+                                  >
+                                    <div
+                                      className="euiPopover euiPopover--anchorDownCenter"
+                                    >
+                                      <div
+                                        className="euiPopover__anchor"
+                                      >
+                                        <EuiButton
+                                          data-test-subj="operationalPanelsActionsButton"
+                                          iconSide="right"
+                                          iconType="arrowDown"
+                                          onClick={[Function]}
+                                        >
+                                          <EuiButtonDisplay
+                                            baseClassName="euiButton"
+                                            data-test-subj="operationalPanelsActionsButton"
+                                            disabled={false}
+                                            element="button"
+                                            iconSide="right"
+                                            iconType="arrowDown"
+                                            isDisabled={false}
+                                            onClick={[Function]}
+                                            type="button"
+                                          >
+                                            <button
+                                              className="euiButton euiButton--primary"
+                                              data-test-subj="operationalPanelsActionsButton"
+                                              disabled={false}
+                                              onClick={[Function]}
+                                              style={
+                                                Object {
+                                                  "minWidth": undefined,
+                                                }
+                                              }
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="right"
+                                                iconType="arrowDown"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                >
+                                                  <EuiIcon
+                                                    className="euiButtonContent__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="arrowDown"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    Actions
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
+                                      </div>
+                                    </div>
+                                  </EuiPopover>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFlexItem>
+                                <div
+                                  className="euiFlexItem"
+                                >
+                                  <EuiButton
+                                    data-test-subj="customPanels__createNewPanels"
+                                    fill={true}
+                                    onClick={[Function]}
+                                  >
+                                    <EuiButtonDisplay
+                                      baseClassName="euiButton"
+                                      data-test-subj="customPanels__createNewPanels"
+                                      disabled={false}
+                                      element="button"
+                                      fill={true}
+                                      isDisabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <button
+                                        className="euiButton euiButton--primary euiButton--fill"
+                                        data-test-subj="customPanels__createNewPanels"
+                                        disabled={false}
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "minWidth": undefined,
+                                          }
+                                        }
+                                        type="button"
+                                      >
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="left"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            className="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Create 
+                                              Dashboards
+                                            </span>
+                                          </span>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </div>
+                              </EuiFlexItem>
+                            </div>
+                          </EuiFlexGroup>
+                        </div>
+                      </EuiPageContentHeaderSection>
+                    </div>
+                  </EuiPageContentHeader>
+                  <EuiHorizontalRule
+                    margin="m"
+                  >
+                    <hr
+                      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+                    />
+                  </EuiHorizontalRule>
+                  <EuiSpacer
+                    size="xxl"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--xxl"
+                    />
+                  </EuiSpacer>
+                  <EuiText
+                    textAlign="center"
+                  >
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <EuiTextAlign
+                        textAlign="center"
+                      >
+                        <div
+                          className="euiTextAlign euiTextAlign--center"
+                        >
+                          <h2>
+                            No 
+                            Dashboards
+                          </h2>
+                          <EuiSpacer
+                            size="m"
+                          >
+                            <div
+                              className="euiSpacer euiSpacer--m"
+                            />
+                          </EuiSpacer>
+                          <EuiText
+                            color="subdued"
+                          >
+                            <div
+                              className="euiText euiText--medium"
+                            >
+                              <EuiTextColor
+                                color="subdued"
+                                component="div"
+                              >
+                                <div
+                                  className="euiTextColor euiTextColor--subdued"
+                                >
+                                  Use 
+                                  Dashboards
+                                   to dive deeper into observability
+                                  <br />
+                                  using PPL queries and insightful visualizations
+                                </div>
+                              </EuiTextColor>
+                            </div>
+                          </EuiText>
+                        </div>
+                      </EuiTextAlign>
+                    </div>
+                  </EuiText>
+                  <EuiSpacer
+                    size="m"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--m"
+                    />
+                  </EuiSpacer>
+                  <EuiFlexGroup
+                    justifyContent="center"
+                  >
+                    <div
+                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                    >
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiButton
+                            data-test-subj="customPanels__emptyCreateNewPanels"
+                            fullWidth={false}
+                            onClick={[Function]}
+                          >
+                            <EuiButtonDisplay
+                              baseClassName="euiButton"
+                              data-test-subj="customPanels__emptyCreateNewPanels"
+                              disabled={false}
+                              element="button"
+                              fullWidth={false}
+                              isDisabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <button
+                                className="euiButton euiButton--primary"
+                                data-test-subj="customPanels__emptyCreateNewPanels"
+                                disabled={false}
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "minWidth": undefined,
+                                  }
+                                }
+                                type="button"
+                              >
+                                <EuiButtonContent
+                                  className="euiButton__content"
+                                  iconSide="left"
+                                  textProps={
+                                    Object {
+                                      "className": "euiButton__text",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      className="euiButton__text"
+                                    >
+                                      Create 
+                                      Dashboards
+                                    </span>
+                                  </span>
+                                </EuiButtonContent>
+                              </button>
+                            </EuiButtonDisplay>
+                          </EuiButton>
+                        </div>
+                      </EuiFlexItem>
+                      <EuiFlexItem
+                        grow={false}
+                      >
+                        <div
+                          className="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <EuiButton
+                            fullWidth={false}
+                            onClick={[Function]}
+                          >
+                            <EuiButtonDisplay
+                              baseClassName="euiButton"
+                              disabled={false}
+                              element="button"
+                              fullWidth={false}
+                              isDisabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <button
+                                className="euiButton euiButton--primary"
+                                disabled={false}
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "minWidth": undefined,
+                                  }
+                                }
+                                type="button"
+                              >
+                                <EuiButtonContent
+                                  className="euiButton__content"
+                                  iconSide="left"
+                                  textProps={
+                                    Object {
+                                      "className": "euiButton__text",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      className="euiButton__text"
+                                    >
+                                      Add samples
+                                    </span>
+                                  </span>
+                                </EuiButtonContent>
+                              </button>
+                            </EuiButtonDisplay>
+                          </EuiButton>
+                        </div>
+                      </EuiFlexItem>
+                    </div>
+                  </EuiFlexGroup>
+                  <EuiSpacer
+                    size="xxl"
+                  >
+                    <div
+                      className="euiSpacer euiSpacer--xxl"
+                    />
+                  </EuiSpacer>
                 </div>
               </EuiPanel>
             </EuiPageContent>

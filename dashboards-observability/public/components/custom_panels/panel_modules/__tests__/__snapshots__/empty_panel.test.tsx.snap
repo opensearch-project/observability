@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Empty panel view component renders empty panel view with disabled popover 1`] = `
+exports[`Empty dashboards view component renders empty dashboards view with disabled popover 1`] = `
 <EmptyPanelView
   addVizDisabled={true}
   showFlyout={[MockFunction]}
@@ -209,7 +209,7 @@ exports[`Empty panel view component renders empty panel view with disabled popov
 </EmptyPanelView>
 `;
 
-exports[`Empty panel view component renders empty panel view with enabled popover 1`] = `
+exports[`Empty dashboards view component renders empty dashboards view with enabled popover 1`] = `
 <EmptyPanelView
   addVizDisabled={false}
   showFlyout={[MockFunction]}
