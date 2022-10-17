@@ -675,22 +675,28 @@ export const Explorer = ({
                         </EuiFlexItem>
                       </EuiFlexGroup>
                       <CountDistribution countDistribution={countDistribution} />
+                      <EuiHorizontalRule margin="xs" />
+                      <EuiFlexGroup
+                        justifyContent="spaceBetween"
+                        style={{ margin: '8px' }}
+                        gutterSize="xs"
+                      >
+                        <EuiFlexItem grow={false} />
+                        <EuiFlexItem grow={false}>
+                          <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
+                            {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
+                          </EuiLink>
+                        </EuiFlexItem>
+                      </EuiFlexGroup>
+                      <EuiHorizontalRule margin="xs" />
+                      {viewLogPatterns && (
+                        <PatternsTable
+                          tableData={patternsData.patternTableData || []}
+                          tabId={tabId}
+                        />
+                      )}
                     </>
                   )}
-                  <EuiHorizontalRule margin="xs" />
-                  <EuiFlexGroup
-                    justifyContent="spaceBetween"
-                    style={{ margin: '8px' }}
-                    gutterSize="xs"
-                  >
-                    <EuiFlexItem grow={false} />
-                    <EuiFlexItem grow={false}>
-                      <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
-                        {`${viewLogPatterns ? 'Close' : 'View'} Patterns`}
-                      </EuiLink>
-                    </EuiFlexItem>
-                  </EuiFlexGroup>
-                  <EuiHorizontalRule margin="xs" />
                   <section
                     className="dscTable dscTableFixedScroll"
                     aria-labelledby="documentsAriaLabel"
@@ -721,12 +727,6 @@ export const Explorer = ({
                           </EuiFlexGroup>
                           <EuiSpacer size="m" />
                         </>
-                      )}
-                      {viewLogPatterns && (
-                        <PatternsTable
-                          tableData={patternsData.patternTableData || []}
-                          tabId={tabId}
-                        />
                       )}
 
                       <DataGrid
