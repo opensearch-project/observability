@@ -10,6 +10,7 @@ import {
   GROUPBY,
   PARENTFIELDS,
   SIMILAR_VIZ_TYPES,
+  TIMESTAMP,
   TIME_INTERVAL_OPTIONS,
 } from '../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../common/constants/shared';
@@ -21,6 +22,7 @@ import {
   IVisualizationContainerProps,
 } from '../../../../../common/types/explorer';
 import { getVisType } from '../vis_types';
+import { statsChunk } from '../../../../../common/query_manager/ast/types/stats';
 interface IVizContainerProps {
   vizId: string;
   appData?: { fromApp: boolean };
@@ -82,6 +84,30 @@ const getStandardedOuiField = (name?: string, type?: string) => ({
   type,
 });
 
+const getStandardUnitField = (name?: string, value?: string) => ({
+  name,
+  label: name,
+  value,
+});
+
+const getSpanValue = (statsTokens: statsChunk) => {
+  const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
+  const timeUnit = TIME_INTERVAL_OPTIONS.find(
+    (time_unit) => time_unit.value === statsTokens.groupby?.span?.span_expression?.time_unit
+  );
+  return {
+    span: {
+      time_field: statsTokens.groupby?.span?.span_expression?.field
+        ? [getStandardedOuiField(fieldInfo, TIMESTAMP)]
+        : [],
+      interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
+      unit: statsTokens.groupby?.span?.span_expression?.time_unit
+        ? [getStandardUnitField(timeUnit?.text, timeUnit?.value)]
+        : [],
+    },
+  };
+};
+
 const defaultUserConfigs = (queryString, visualizationName: string) => {
   let tempUserConfigs = {};
   const qm = new QueryManager();
@@ -92,24 +118,10 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       [GROUPBY]: [],
     };
   } else {
-    const fieldInfo = statsTokens.groupby?.span?.span_expression?.field;
     tempUserConfigs = {
-      span: {
-        time_field: statsTokens.groupby?.span?.span_expression?.field
-          ? [getStandardedOuiField(fieldInfo, 'timestamp')]
-          : [],
-        interval: statsTokens.groupby?.span?.span_expression?.literal_value ?? '0',
-        unit: statsTokens.groupby?.span?.span_expression?.time_unit
-          ? [
-              getStandardedOuiField(
-                TIME_INTERVAL_OPTIONS.find(
-                  (time_unit) =>
-                    time_unit.value === statsTokens.groupby?.span.span_expression.time_unit
-                )?.text
-              ),
-            ]
-          : [],
-      },
+      ...(statsTokens.groupby !== '' &&
+        statsTokens.groupby?.span !== null &&
+        getSpanValue(statsTokens)),
     };
     if (visualizationName === VIS_CHART_TYPES.LogsView) {
       const dimensions = statsTokens.aggregations
