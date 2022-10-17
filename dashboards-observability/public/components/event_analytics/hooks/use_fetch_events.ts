@@ -16,8 +16,6 @@ import {
   AVAILABLE_FIELDS,
   QUERIED_FIELDS,
   PATTERN_STATS_QUERY,
-  PATTERN_SAMPLE_QUERY_PRE,
-  PATTERN_SAMPLE_QUERY_POST,
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../redux/slices/query_result_slice';
 import { setPatterns, reset as patternsReset } from '../redux/slices/patterns_slice';
@@ -231,21 +229,6 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
             } as PatternTableData;
           });
           dispatchOnPatterns({ patternTableData: formatToTableData });
-          formatToTableData.forEach((patternData, index) => {
-            const sampleLogQuery =
-              searchQuery +
-              PATTERN_SAMPLE_QUERY_PRE +
-              patternData.pattern +
-              PATTERN_SAMPLE_QUERY_POST;
-            fetchEvents({ query: sampleLogQuery }, 'jdbc', (resp: any) => {
-              if (!isEmpty(resp.jsonData)) {
-                const sampleLogAdded = formatToTableData.map((value, i) =>
-                  i === index ? { ...value, sampleLog: resp.jsonData[0].message } : value
-                );
-                return dispatchOnPatterns({ patternTableData: sampleLogAdded });
-              }
-            });
-          });
         }
       },
       errorHandler
