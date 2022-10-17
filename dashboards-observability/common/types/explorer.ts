@@ -292,6 +292,7 @@ export interface ConfigListEntry {
   side: string;
   type: string;
   alias?: string;
+  customExpression?: string;
 }
 
 export interface HistogramConfigList {

@@ -58,6 +58,7 @@ export interface DataConfigSeries {
   label: string;
   name: string;
   aggregation: string;
+  customExpression: string;
 }
 
 export interface AggregationConfigurations {

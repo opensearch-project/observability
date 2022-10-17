@@ -6,6 +6,7 @@
 import { isEmpty, take } from 'lodash';
 import {
   AGGREGATIONS,
+  CUSTOM_EXPRESSION,
   CUSTOM_LABEL,
   GROUPBY,
   PARENTFIELDS,
@@ -161,6 +162,7 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       tempUserConfigs = {
         ...tempUserConfigs,
         [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
+          [CUSTOM_EXPRESSION]: `${agg.function?.name}(${agg.function?.value_expression})`,
           [CUSTOM_LABEL]: agg[CUSTOM_LABEL],
           label: agg.function?.value_expression,
           name: agg.function?.value_expression,
@@ -241,8 +243,8 @@ const getUserConfigs = (
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
-            ...userSelectedConfigs?.dataConfig,
             ...defaultUserConfigs(query, visName),
+            ...userSelectedConfigs?.dataConfig,
           },
         };
         break;

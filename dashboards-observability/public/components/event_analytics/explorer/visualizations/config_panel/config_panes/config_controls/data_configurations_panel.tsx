@@ -32,6 +32,7 @@ import {
   TIMESTAMP,
   TIME_FIELD,
   TIME_INTERVAL_OPTIONS,
+  CUSTOM_EXPRESSION,
 } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
@@ -54,12 +55,13 @@ const initialDimensionEntry = {
   label: '',
   name: '',
 };
-
+const initialAgg = 'count';
 const initialSeriesEntry = {
+  [CUSTOM_EXPRESSION]: `${initialAgg}()`,
   [CUSTOM_LABEL]: '',
   label: '',
   name: '',
-  aggregation: 'count',
+  aggregation: initialAgg,
 };
 const initialSpanEntry = { time_field: [], interval: 0, unit: [] };
 
@@ -102,6 +104,10 @@ export const DataConfigPanelItem = ({
     };
     if (field === 'label') {
       listItem.name = value;
+      listItem.customExpression = `${listItem.aggregation}(${value})`;
+    }
+    if (field === 'aggregation') {
+      listItem.customExpression = `${value}(${listItem.label})`;
     }
     const updatedList = {
       ...configList,
@@ -332,6 +338,14 @@ export const DataConfigPanelItem = ({
                       placeholder="Custom label"
                       value={selectedObj[CUSTOM_LABEL]}
                       onChange={(e) => updateList(e.target.value, CUSTOM_LABEL)}
+                      aria-label="input label"
+                    />
+                  </EuiFormRow>
+                  <EuiFormRow label="Custom expression">
+                    <EuiFieldText
+                      placeholder="Custom expression"
+                      value={selectedObj[CUSTOM_EXPRESSION]}
+                      onChange={(e) => updateList(e.target.value, CUSTOM_EXPRESSION)}
                       aria-label="input label"
                     />
                   </EuiFormRow>
