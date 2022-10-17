@@ -85,7 +85,7 @@ export const DataConfigPanelFields = ({
             <EuiLink
               role="button"
               tabIndex={0}
-              onClick={() => handleServiceEdit(list.length, GROUPBY, true)}
+              onClick={() => handleServiceEdit(list.length - 1, GROUPBY, true)}
             >
               {`${SPAN}(${time_field[0]?.name}, ${interval} ${unit[0]?.value})`}
             </EuiLink>

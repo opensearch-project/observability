@@ -19,7 +19,7 @@ import {
   EuiTitle,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { filter } from 'lodash';
+import { filter, isEmpty } from 'lodash';
 import { batch, useDispatch } from 'react-redux';
 import {
   AGGREGATIONS,
@@ -154,7 +154,7 @@ export const DataConfigPanelItem = ({
       [name]:
         name !== `${BREAKDOWNS}`
           ? [
-              ...configList[name],
+              ...(configList[name] ?? []),
               name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
             ]
           : configList[name] !== undefined
@@ -179,25 +179,27 @@ export const DataConfigPanelItem = ({
 
   const handleClosePanel = () => {
     const { index, name } = selectedConfigItem;
-    const selectedObj = configList[name][index];
-    const list = { ...configList };
-    if (
-      selectedObj?.aggregation !== 'count' &&
-      (selectedObj?.aggregation === '' || selectedObj?.name === '')
-    ) {
-      list[name].splice(index, 1);
-    }
-    if (isTimeStampSelected) {
-      if (selectedObj?.name !== '') {
-        const updConfig = [...configList[name]];
-        updConfig.splice(index, 1);
-        list[GROUPBY] = [...updConfig];
+    if (index > -1) {
+      const selectedObj = configList[name][index] ?? [];
+      const list = { ...configList };
+      if (
+        selectedObj?.aggregation !== 'count' &&
+        (selectedObj?.aggregation === '' || selectedObj?.name === '')
+      ) {
+        list[name].splice(index, 1);
       }
-      if (configList.span?.interval === 0 || configList.span?.unit?.length === 0) {
-        delete list[SPAN];
+      if (isTimeStampSelected) {
+        if (selectedObj?.name !== '') {
+          const updConfig = [...configList[name]];
+          updConfig.splice(index, 1);
+          list[GROUPBY] = [...updConfig];
+        }
+        if (configList.span?.interval === 0 || configList.span?.unit?.length === 0) {
+          delete list[SPAN];
+        }
       }
+      setConfigList(list);
     }
-    setConfigList(list);
     setIsTimeStampSelected(false);
     setIsAddConfigClicked(false);
   };
@@ -246,7 +248,10 @@ export const DataConfigPanelItem = ({
                 [GROUPBY]: updatedConfigList[GROUPBY],
                 [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
                 [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
-                span: updatedConfigList?.span,
+                [SPAN]:
+                  !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
+                    ? updatedConfigList?.span
+                    : undefined,
               },
             },
           })
@@ -261,7 +266,7 @@ export const DataConfigPanelItem = ({
       visualizations.vis.name === VIS_CHART_TYPES.Scatter);
 
   const getTimeStampFilteredFields = (options: IField[]) =>
-    filter(options, (i) => i.type !== TIMESTAMP);
+    filter(options, (i: IField) => i.type !== TIMESTAMP);
 
   const getOptionsAvailable = (sectionName: string) => {
     const selectedFields = {};
@@ -273,7 +278,7 @@ export const DataConfigPanelItem = ({
       visualizations.vis.name === VIS_CHART_TYPES.Scatter
     )
       return filter(unselectedFields, (i) => i.type === TIMESTAMP);
-    if (!isTimeStampSelected && configList.span?.time_field.length > 0)
+    if (!isTimeStampSelected && !isEmpty(configList.span?.time_field))
       return getTimeStampFilteredFields(unselectedFields);
     if (
       (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
@@ -373,7 +378,7 @@ export const DataConfigPanelItem = ({
             }
           : { ...configList[SPAN], [field]: value },
     };
-    if (field === TIME_FIELD) {
+    if (field === TIME_FIELD && index > -1) {
       handleServiceRemove(index, name);
     }
     setIsTimeStampSelected(true);

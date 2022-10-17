@@ -118,7 +118,11 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       [GROUPBY]: [],
     };
   } else {
-    tempUserConfigs = { ...(statsTokens.groupby?.span !== null && getSpanValue(statsTokens)) };
+    tempUserConfigs = {
+      ...(statsTokens.groupby !== '' &&
+        statsTokens.groupby?.span !== null &&
+        getSpanValue(statsTokens)),
+    };
     if (visualizationName === VIS_CHART_TYPES.LogsView) {
       const dimensions = statsTokens.aggregations
         .map((agg) => {
