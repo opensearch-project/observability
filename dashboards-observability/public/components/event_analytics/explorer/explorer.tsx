@@ -1016,7 +1016,7 @@ export const Explorer = ({
       setToast('Name field cannot be empty.', 'danger');
       return;
     }
-    if (!Boolean(isValidValueOptionConfigSelected)) {
+    if (!isValidValueOptionConfigSelected) {
       setToast('Invalid data configurations selected.', 'danger');
       return;
     }
