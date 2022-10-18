@@ -258,6 +258,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           ],
                         },
                       },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "legendSize",
+                        "name": "Legend size",
+                        "title": "Legend size",
+                      },
                     ],
                   },
                   Object {
@@ -266,30 +273,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "mapTo": "chartStyles",
                     "name": "Chart styles",
                     "schemas": Array [
-                      Object {
-                        "component": [Function],
-                        "eleType": "buttons",
-                        "mapTo": "orientation",
-                        "name": "Orientation",
-                        "props": Object {
-                          "defaultSelections": Array [
-                            Object {
-                              "id": "v",
-                              "name": "Vertical",
-                            },
-                          ],
-                          "options": Array [
-                            Object {
-                              "id": "v",
-                              "name": "Vertical",
-                            },
-                            Object {
-                              "id": "h",
-                              "name": "Horizontal",
-                            },
-                          ],
-                        },
-                      },
                       Object {
                         "component": [Function],
                         "eleType": "buttons",
@@ -378,7 +361,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       },
                       Object {
                         "component": [Function],
-                        "defaultState": 1,
+                        "defaultState": 2,
                         "eleType": "slider",
                         "mapTo": "lineWidth",
                         "name": "Line width",
@@ -388,7 +371,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       },
                       Object {
                         "component": [Function],
-                        "defaultState": 80,
+                        "defaultState": 40,
                         "eleType": "slider",
                         "mapTo": "fillOpacity",
                         "name": "Fill opacity",
@@ -422,7 +405,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
             ],
           },
-          "fillOpacity": 80,
+          "fillopacity": 40,
           "fulllabel": "Vertical bar",
           "groupwidth": 0.7,
           "icon": [Function],
@@ -431,7 +414,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           "label": "Vertical bar",
           "labelangle": 0,
           "legendposition": "v",
-          "linewidth": 1,
+          "linewidth": 2,
           "mode": "group",
           "name": "bar",
           "orientation": "v",
@@ -723,6 +706,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             ],
                           },
                         },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "legendSize",
+                          "name": "Legend size",
+                          "title": "Legend size",
+                        },
                       ],
                     },
                     Object {
@@ -731,30 +721,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                       "mapTo": "chartStyles",
                       "name": "Chart styles",
                       "schemas": Array [
-                        Object {
-                          "component": [Function],
-                          "eleType": "buttons",
-                          "mapTo": "orientation",
-                          "name": "Orientation",
-                          "props": Object {
-                            "defaultSelections": Array [
-                              Object {
-                                "id": "v",
-                                "name": "Vertical",
-                              },
-                            ],
-                            "options": Array [
-                              Object {
-                                "id": "v",
-                                "name": "Vertical",
-                              },
-                              Object {
-                                "id": "h",
-                                "name": "Horizontal",
-                              },
-                            ],
-                          },
-                        },
                         Object {
                           "component": [Function],
                           "eleType": "buttons",
@@ -843,7 +809,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 1,
+                          "defaultState": 2,
                           "eleType": "slider",
                           "mapTo": "lineWidth",
                           "name": "Line width",
@@ -853,7 +819,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 80,
+                          "defaultState": 40,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
                           "name": "Fill opacity",
@@ -887,7 +853,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 },
               ],
             },
-            "fillOpacity": 80,
+            "fillopacity": 40,
             "fulllabel": "Vertical bar",
             "groupwidth": 0.7,
             "icon": [Function],
@@ -896,7 +862,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "label": "Vertical bar",
             "labelangle": 0,
             "legendposition": "v",
-            "linewidth": 1,
+            "linewidth": 2,
             "mode": "group",
             "name": "bar",
             "orientation": "v",
@@ -1195,6 +1161,13 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
                         ],
                       },
                       Object {
@@ -1203,30 +1176,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                         "mapTo": "chartStyles",
                         "name": "Chart styles",
                         "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "orientation",
-                            "name": "Orientation",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Vertical",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Vertical",
-                                },
-                                Object {
-                                  "id": "h",
-                                  "name": "Horizontal",
-                                },
-                              ],
-                            },
-                          },
                           Object {
                             "component": [Function],
                             "eleType": "buttons",
@@ -1315,7 +1264,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 1,
+                            "defaultState": 2,
                             "eleType": "slider",
                             "mapTo": "lineWidth",
                             "name": "Line width",
@@ -1325,7 +1274,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 80,
+                            "defaultState": 40,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
                             "name": "Fill opacity",
@@ -1359,7 +1308,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   },
                 ],
               },
-              "fillOpacity": 80,
+              "fillopacity": 40,
               "fulllabel": "Vertical bar",
               "groupwidth": 0.7,
               "icon": [Function],
@@ -1368,7 +1317,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "label": "Vertical bar",
               "labelangle": 0,
               "legendposition": "v",
-              "linewidth": 1,
+              "linewidth": 2,
               "mode": "group",
               "name": "bar",
               "orientation": "v",
@@ -3240,6 +3189,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           "userConfigs": Object {},
         },
         "vis": Object {
+          "barwidth": 0.97,
           "category": "Visualizations",
           "categoryaxis": "xaxis",
           "component": [Function],
@@ -3253,79 +3203,243 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "sections": Array [
                   Object {
                     "editor": [Function],
-                    "id": "value_options",
-                    "mapTo": "valueOptions",
-                    "name": "Value options",
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
                     "schemas": Array [
                       Object {
                         "component": null,
-                        "isSingleSelection": false,
-                        "mapTo": "xaxis",
-                        "name": "X-axis",
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
                       },
                       Object {
                         "component": null,
-                        "isSingleSelection": false,
-                        "mapTo": "yaxis",
-                        "name": "Y-axis",
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Metrics",
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
                   Object {
                     "editor": [Function],
-                    "id": "chart_options",
-                    "mapTo": "chartOptions",
-                    "name": "Chart options",
+                    "id": "legend",
+                    "mapTo": "legend",
+                    "name": "Legend",
                     "schemas": Array [
                       Object {
                         "component": null,
-                        "isSingleSelection": true,
-                        "mapTo": "orientation",
-                        "name": "Orientation",
+                        "mapTo": "showLegend",
+                        "name": "Show legend",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "name": "Horizontal",
-                              "orientationId": "h",
+                              "id": "show",
+                              "name": "Show",
                             },
                           ],
-                          "dropdownList": Array [
+                          "options": Array [
                             Object {
-                              "name": "Vertical",
-                              "orientationId": "v",
+                              "id": "show",
+                              "name": "Show",
                             },
                             Object {
-                              "name": "Horizontal",
-                              "orientationId": "h",
+                              "id": "hidden",
+                              "name": "Hidden",
                             },
                           ],
                         },
                       },
                       Object {
                         "component": null,
-                        "isSingleSelection": true,
+                        "mapTo": "position",
+                        "name": "Position",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "v",
+                              "name": "Right",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "v",
+                              "name": "Right",
+                            },
+                            Object {
+                              "id": "h",
+                              "name": "Bottom",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "legendSize",
+                        "name": "Legend size",
+                        "title": "Legend size",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "chart_styles",
+                    "mapTo": "chartStyles",
+                    "name": "Chart styles",
+                    "schemas": Array [
+                      Object {
+                        "component": [Function],
+                        "eleType": "buttons",
                         "mapTo": "mode",
                         "name": "Mode",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "modeId": "group",
+                              "id": "group",
                               "name": "Group",
                             },
                           ],
-                          "dropdownList": Array [
+                          "options": Array [
                             Object {
-                              "modeId": "group",
+                              "id": "group",
                               "name": "Group",
                             },
                             Object {
-                              "modeId": "stack",
+                              "id": "stack",
                               "name": "Stack",
                             },
                           ],
                         },
                       },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "labelSize",
+                        "name": "Label size",
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0,
+                        "eleType": "slider",
+                        "mapTo": "rotateBarLabels",
+                        "name": "Rotate bar labels",
+                        "props": Object {
+                          "max": 90,
+                          "min": -90,
+                          "showTicks": true,
+                          "ticks": Array [
+                            Object {
+                              "label": "-90°",
+                              "value": -90,
+                            },
+                            Object {
+                              "label": "-45°",
+                              "value": -45,
+                            },
+                            Object {
+                              "label": "0°",
+                              "value": 0,
+                            },
+                            Object {
+                              "label": "45°",
+                              "value": 45,
+                            },
+                            Object {
+                              "label": "90°",
+                              "value": 90,
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0.7,
+                        "eleType": "slider",
+                        "mapTo": "groupWidth",
+                        "name": "Group width",
+                        "props": Object {
+                          "max": 1,
+                          "step": 0.01,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0.97,
+                        "eleType": "slider",
+                        "mapTo": "barWidth",
+                        "name": "Bar width",
+                        "props": Object {
+                          "max": 1,
+                          "step": 0.01,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 2,
+                        "eleType": "slider",
+                        "mapTo": "lineWidth",
+                        "name": "Line width",
+                        "props": Object {
+                          "max": 10,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 40,
+                        "eleType": "slider",
+                        "mapTo": "fillOpacity",
+                        "name": "Fill opacity",
+                        "props": Object {
+                          "max": 100,
+                        },
+                      },
                     ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "color-theme",
+                    "mapTo": "colorTheme",
+                    "name": "Color theme",
+                    "schemas": Array [],
                   },
                 ],
               },
@@ -3336,19 +3450,32 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "mapTo": "layoutConfig",
                 "name": "Layout",
               },
+              Object {
+                "editor": [Function],
+                "id": "availability-panel",
+                "mapTo": "availabilityConfig",
+                "name": "Availability",
+              },
             ],
           },
-          "fulllabel": "Bar",
+          "fillopacity": 40,
+          "fulllabel": "Horizontal bar",
+          "groupwidth": 0.7,
           "icon": [Function],
-          "icontype": "visBarVerticalStacked",
+          "icontype": "visBarHorizontalStacked",
           "id": "horizontal_bar",
-          "label": "Bar",
+          "label": "Horizontal bar",
+          "labelangle": 0,
+          "legendposition": "v",
+          "linewidth": 2,
+          "mode": "group",
           "name": "horizontal_bar",
           "orientation": "h",
           "selection": Object {
             "dataLoss": "nothing",
           },
           "seriesaxis": "yaxis",
+          "showlegend": "show",
           "type": "bar",
           "visconfig": Object {
             "config": Object {
@@ -3510,6 +3637,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "userConfigs": Object {},
           },
           "vis": Object {
+            "barwidth": 0.97,
             "category": "Visualizations",
             "categoryaxis": "xaxis",
             "component": [Function],
@@ -3523,79 +3651,243 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "sections": Array [
                     Object {
                       "editor": [Function],
-                      "id": "value_options",
-                      "mapTo": "valueOptions",
-                      "name": "Value options",
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
                       "schemas": Array [
                         Object {
                           "component": null,
-                          "isSingleSelection": false,
-                          "mapTo": "xaxis",
-                          "name": "X-axis",
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
                         },
                         Object {
                           "component": null,
-                          "isSingleSelection": false,
-                          "mapTo": "yaxis",
-                          "name": "Y-axis",
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Metrics",
+                              },
+                            ],
+                          },
                         },
                       ],
                     },
                     Object {
                       "editor": [Function],
-                      "id": "chart_options",
-                      "mapTo": "chartOptions",
-                      "name": "Chart options",
+                      "id": "legend",
+                      "mapTo": "legend",
+                      "name": "Legend",
                       "schemas": Array [
                         Object {
                           "component": null,
-                          "isSingleSelection": true,
-                          "mapTo": "orientation",
-                          "name": "Orientation",
+                          "mapTo": "showLegend",
+                          "name": "Show legend",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "name": "Horizontal",
-                                "orientationId": "h",
+                                "id": "show",
+                                "name": "Show",
                               },
                             ],
-                            "dropdownList": Array [
+                            "options": Array [
                               Object {
-                                "name": "Vertical",
-                                "orientationId": "v",
+                                "id": "show",
+                                "name": "Show",
                               },
                               Object {
-                                "name": "Horizontal",
-                                "orientationId": "h",
+                                "id": "hidden",
+                                "name": "Hidden",
                               },
                             ],
                           },
                         },
                         Object {
                           "component": null,
-                          "isSingleSelection": true,
+                          "mapTo": "position",
+                          "name": "Position",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "v",
+                                "name": "Right",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "v",
+                                "name": "Right",
+                              },
+                              Object {
+                                "id": "h",
+                                "name": "Bottom",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "legendSize",
+                          "name": "Legend size",
+                          "title": "Legend size",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "chart_styles",
+                      "mapTo": "chartStyles",
+                      "name": "Chart styles",
+                      "schemas": Array [
+                        Object {
+                          "component": [Function],
+                          "eleType": "buttons",
                           "mapTo": "mode",
                           "name": "Mode",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "modeId": "group",
+                                "id": "group",
                                 "name": "Group",
                               },
                             ],
-                            "dropdownList": Array [
+                            "options": Array [
                               Object {
-                                "modeId": "group",
+                                "id": "group",
                                 "name": "Group",
                               },
                               Object {
-                                "modeId": "stack",
+                                "id": "stack",
                                 "name": "Stack",
                               },
                             ],
                           },
                         },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "labelSize",
+                          "name": "Label size",
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0,
+                          "eleType": "slider",
+                          "mapTo": "rotateBarLabels",
+                          "name": "Rotate bar labels",
+                          "props": Object {
+                            "max": 90,
+                            "min": -90,
+                            "showTicks": true,
+                            "ticks": Array [
+                              Object {
+                                "label": "-90°",
+                                "value": -90,
+                              },
+                              Object {
+                                "label": "-45°",
+                                "value": -45,
+                              },
+                              Object {
+                                "label": "0°",
+                                "value": 0,
+                              },
+                              Object {
+                                "label": "45°",
+                                "value": 45,
+                              },
+                              Object {
+                                "label": "90°",
+                                "value": 90,
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0.7,
+                          "eleType": "slider",
+                          "mapTo": "groupWidth",
+                          "name": "Group width",
+                          "props": Object {
+                            "max": 1,
+                            "step": 0.01,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0.97,
+                          "eleType": "slider",
+                          "mapTo": "barWidth",
+                          "name": "Bar width",
+                          "props": Object {
+                            "max": 1,
+                            "step": 0.01,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 2,
+                          "eleType": "slider",
+                          "mapTo": "lineWidth",
+                          "name": "Line width",
+                          "props": Object {
+                            "max": 10,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 40,
+                          "eleType": "slider",
+                          "mapTo": "fillOpacity",
+                          "name": "Fill opacity",
+                          "props": Object {
+                            "max": 100,
+                          },
+                        },
                       ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "color-theme",
+                      "mapTo": "colorTheme",
+                      "name": "Color theme",
+                      "schemas": Array [],
                     },
                   ],
                 },
@@ -3606,19 +3898,32 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "mapTo": "layoutConfig",
                   "name": "Layout",
                 },
+                Object {
+                  "editor": [Function],
+                  "id": "availability-panel",
+                  "mapTo": "availabilityConfig",
+                  "name": "Availability",
+                },
               ],
             },
-            "fulllabel": "Bar",
+            "fillopacity": 40,
+            "fulllabel": "Horizontal bar",
+            "groupwidth": 0.7,
             "icon": [Function],
-            "icontype": "visBarVerticalStacked",
+            "icontype": "visBarHorizontalStacked",
             "id": "horizontal_bar",
-            "label": "Bar",
+            "label": "Horizontal bar",
+            "labelangle": 0,
+            "legendposition": "v",
+            "linewidth": 2,
+            "mode": "group",
             "name": "horizontal_bar",
             "orientation": "h",
             "selection": Object {
               "dataLoss": "nothing",
             },
             "seriesaxis": "yaxis",
+            "showlegend": "show",
             "type": "bar",
             "visconfig": Object {
               "config": Object {
@@ -3787,6 +4092,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "userConfigs": Object {},
             },
             "vis": Object {
+              "barwidth": 0.97,
               "category": "Visualizations",
               "categoryaxis": "xaxis",
               "component": [Function],
@@ -3800,79 +4106,243 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "sections": Array [
                       Object {
                         "editor": [Function],
-                        "id": "value_options",
-                        "mapTo": "valueOptions",
-                        "name": "Value options",
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
                         "schemas": Array [
                           Object {
                             "component": null,
-                            "isSingleSelection": false,
-                            "mapTo": "xaxis",
-                            "name": "X-axis",
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
                           },
                           Object {
                             "component": null,
-                            "isSingleSelection": false,
-                            "mapTo": "yaxis",
-                            "name": "Y-axis",
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Metrics",
+                                },
+                              ],
+                            },
                           },
                         ],
                       },
                       Object {
                         "editor": [Function],
-                        "id": "chart_options",
-                        "mapTo": "chartOptions",
-                        "name": "Chart options",
+                        "id": "legend",
+                        "mapTo": "legend",
+                        "name": "Legend",
                         "schemas": Array [
                           Object {
                             "component": null,
-                            "isSingleSelection": true,
-                            "mapTo": "orientation",
-                            "name": "Orientation",
+                            "mapTo": "showLegend",
+                            "name": "Show legend",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "name": "Horizontal",
-                                  "orientationId": "h",
+                                  "id": "show",
+                                  "name": "Show",
                                 },
                               ],
-                              "dropdownList": Array [
+                              "options": Array [
                                 Object {
-                                  "name": "Vertical",
-                                  "orientationId": "v",
+                                  "id": "show",
+                                  "name": "Show",
                                 },
                                 Object {
-                                  "name": "Horizontal",
-                                  "orientationId": "h",
+                                  "id": "hidden",
+                                  "name": "Hidden",
                                 },
                               ],
                             },
                           },
                           Object {
                             "component": null,
-                            "isSingleSelection": true,
+                            "mapTo": "position",
+                            "name": "Position",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "v",
+                                  "name": "Right",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "v",
+                                  "name": "Right",
+                                },
+                                Object {
+                                  "id": "h",
+                                  "name": "Bottom",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_styles",
+                        "mapTo": "chartStyles",
+                        "name": "Chart styles",
+                        "schemas": Array [
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
                             "mapTo": "mode",
                             "name": "Mode",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "modeId": "group",
+                                  "id": "group",
                                   "name": "Group",
                                 },
                               ],
-                              "dropdownList": Array [
+                              "options": Array [
                                 Object {
-                                  "modeId": "group",
+                                  "id": "group",
                                   "name": "Group",
                                 },
                                 Object {
-                                  "modeId": "stack",
+                                  "id": "stack",
                                   "name": "Stack",
                                 },
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0,
+                            "eleType": "slider",
+                            "mapTo": "rotateBarLabels",
+                            "name": "Rotate bar labels",
+                            "props": Object {
+                              "max": 90,
+                              "min": -90,
+                              "showTicks": true,
+                              "ticks": Array [
+                                Object {
+                                  "label": "-90°",
+                                  "value": -90,
+                                },
+                                Object {
+                                  "label": "-45°",
+                                  "value": -45,
+                                },
+                                Object {
+                                  "label": "0°",
+                                  "value": 0,
+                                },
+                                Object {
+                                  "label": "45°",
+                                  "value": 45,
+                                },
+                                Object {
+                                  "label": "90°",
+                                  "value": 90,
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0.7,
+                            "eleType": "slider",
+                            "mapTo": "groupWidth",
+                            "name": "Group width",
+                            "props": Object {
+                              "max": 1,
+                              "step": 0.01,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0.97,
+                            "eleType": "slider",
+                            "mapTo": "barWidth",
+                            "name": "Bar width",
+                            "props": Object {
+                              "max": 1,
+                              "step": 0.01,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 2,
+                            "eleType": "slider",
+                            "mapTo": "lineWidth",
+                            "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 40,
+                            "eleType": "slider",
+                            "mapTo": "fillOpacity",
+                            "name": "Fill opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
+                          },
                         ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "color-theme",
+                        "mapTo": "colorTheme",
+                        "name": "Color theme",
+                        "schemas": Array [],
                       },
                     ],
                   },
@@ -3883,19 +4353,32 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "mapTo": "layoutConfig",
                     "name": "Layout",
                   },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
                 ],
               },
-              "fulllabel": "Bar",
+              "fillopacity": 40,
+              "fulllabel": "Horizontal bar",
+              "groupwidth": 0.7,
               "icon": [Function],
-              "icontype": "visBarVerticalStacked",
+              "icontype": "visBarHorizontalStacked",
               "id": "horizontal_bar",
-              "label": "Bar",
+              "label": "Horizontal bar",
+              "labelangle": 0,
+              "legendposition": "v",
+              "linewidth": 2,
+              "mode": "group",
               "name": "horizontal_bar",
               "orientation": "h",
               "selection": Object {
                 "dataLoss": "nothing",
               },
               "seriesaxis": "yaxis",
+              "showlegend": "show",
               "type": "bar",
               "visconfig": Object {
                 "config": Object {
@@ -3924,7 +4407,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
         }
       >
         <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+          icon="visBarHorizontalStacked"
         >
           <EuiText
             className="lnsChart__empty"
@@ -3953,7 +4436,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
-                        type="visBarVerticalStacked"
+                        type="visBarHorizontalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
@@ -4088,6 +4571,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "userConfigs": Object {},
         },
         "vis": Object {
+          "barwidth": 0.97,
           "category": "Visualizations",
           "categoryaxis": "xaxis",
           "component": [Function],
@@ -4101,79 +4585,243 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "sections": Array [
                   Object {
                     "editor": [Function],
-                    "id": "value_options",
-                    "mapTo": "valueOptions",
-                    "name": "Value options",
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
                     "schemas": Array [
                       Object {
                         "component": null,
-                        "isSingleSelection": false,
-                        "mapTo": "xaxis",
-                        "name": "X-axis",
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
                       },
                       Object {
                         "component": null,
-                        "isSingleSelection": false,
-                        "mapTo": "yaxis",
-                        "name": "Y-axis",
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Metrics",
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
                   Object {
                     "editor": [Function],
-                    "id": "chart_options",
-                    "mapTo": "chartOptions",
-                    "name": "Chart options",
+                    "id": "legend",
+                    "mapTo": "legend",
+                    "name": "Legend",
                     "schemas": Array [
                       Object {
                         "component": null,
-                        "isSingleSelection": true,
-                        "mapTo": "orientation",
-                        "name": "Orientation",
+                        "mapTo": "showLegend",
+                        "name": "Show legend",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "name": "Horizontal",
-                              "orientationId": "h",
+                              "id": "show",
+                              "name": "Show",
                             },
                           ],
-                          "dropdownList": Array [
+                          "options": Array [
                             Object {
-                              "name": "Vertical",
-                              "orientationId": "v",
+                              "id": "show",
+                              "name": "Show",
                             },
                             Object {
-                              "name": "Horizontal",
-                              "orientationId": "h",
+                              "id": "hidden",
+                              "name": "Hidden",
                             },
                           ],
                         },
                       },
                       Object {
                         "component": null,
-                        "isSingleSelection": true,
+                        "mapTo": "position",
+                        "name": "Position",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "v",
+                              "name": "Right",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "v",
+                              "name": "Right",
+                            },
+                            Object {
+                              "id": "h",
+                              "name": "Bottom",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "legendSize",
+                        "name": "Legend size",
+                        "title": "Legend size",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "chart_styles",
+                    "mapTo": "chartStyles",
+                    "name": "Chart styles",
+                    "schemas": Array [
+                      Object {
+                        "component": [Function],
+                        "eleType": "buttons",
                         "mapTo": "mode",
                         "name": "Mode",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "modeId": "group",
+                              "id": "group",
                               "name": "Group",
                             },
                           ],
-                          "dropdownList": Array [
+                          "options": Array [
                             Object {
-                              "modeId": "group",
+                              "id": "group",
                               "name": "Group",
                             },
                             Object {
-                              "modeId": "stack",
+                              "id": "stack",
                               "name": "Stack",
                             },
                           ],
                         },
                       },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "labelSize",
+                        "name": "Label size",
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0,
+                        "eleType": "slider",
+                        "mapTo": "rotateBarLabels",
+                        "name": "Rotate bar labels",
+                        "props": Object {
+                          "max": 90,
+                          "min": -90,
+                          "showTicks": true,
+                          "ticks": Array [
+                            Object {
+                              "label": "-90°",
+                              "value": -90,
+                            },
+                            Object {
+                              "label": "-45°",
+                              "value": -45,
+                            },
+                            Object {
+                              "label": "0°",
+                              "value": 0,
+                            },
+                            Object {
+                              "label": "45°",
+                              "value": 45,
+                            },
+                            Object {
+                              "label": "90°",
+                              "value": 90,
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0.7,
+                        "eleType": "slider",
+                        "mapTo": "groupWidth",
+                        "name": "Group width",
+                        "props": Object {
+                          "max": 1,
+                          "step": 0.01,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0.97,
+                        "eleType": "slider",
+                        "mapTo": "barWidth",
+                        "name": "Bar width",
+                        "props": Object {
+                          "max": 1,
+                          "step": 0.01,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 2,
+                        "eleType": "slider",
+                        "mapTo": "lineWidth",
+                        "name": "Line width",
+                        "props": Object {
+                          "max": 10,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 40,
+                        "eleType": "slider",
+                        "mapTo": "fillOpacity",
+                        "name": "Fill opacity",
+                        "props": Object {
+                          "max": 100,
+                        },
+                      },
                     ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "color-theme",
+                    "mapTo": "colorTheme",
+                    "name": "Color theme",
+                    "schemas": Array [],
                   },
                 ],
               },
@@ -4184,19 +4832,32 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "mapTo": "layoutConfig",
                 "name": "Layout",
               },
+              Object {
+                "editor": [Function],
+                "id": "availability-panel",
+                "mapTo": "availabilityConfig",
+                "name": "Availability",
+              },
             ],
           },
-          "fulllabel": "Bar",
+          "fillopacity": 40,
+          "fulllabel": "Horizontal bar",
+          "groupwidth": 0.7,
           "icon": [Function],
-          "icontype": "visBarVerticalStacked",
+          "icontype": "visBarHorizontalStacked",
           "id": "horizontal_bar",
-          "label": "Bar",
+          "label": "Horizontal bar",
+          "labelangle": 0,
+          "legendposition": "v",
+          "linewidth": 2,
+          "mode": "group",
           "name": "horizontal_bar",
           "orientation": "h",
           "selection": Object {
             "dataLoss": "nothing",
           },
           "seriesaxis": "yaxis",
+          "showlegend": "show",
           "type": "bar",
           "visconfig": Object {
             "config": Object {
@@ -4304,6 +4965,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "userConfigs": Object {},
           },
           "vis": Object {
+            "barwidth": 0.97,
             "category": "Visualizations",
             "categoryaxis": "xaxis",
             "component": [Function],
@@ -4317,79 +4979,243 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "sections": Array [
                     Object {
                       "editor": [Function],
-                      "id": "value_options",
-                      "mapTo": "valueOptions",
-                      "name": "Value options",
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
                       "schemas": Array [
                         Object {
                           "component": null,
-                          "isSingleSelection": false,
-                          "mapTo": "xaxis",
-                          "name": "X-axis",
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
                         },
                         Object {
                           "component": null,
-                          "isSingleSelection": false,
-                          "mapTo": "yaxis",
-                          "name": "Y-axis",
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Metrics",
+                              },
+                            ],
+                          },
                         },
                       ],
                     },
                     Object {
                       "editor": [Function],
-                      "id": "chart_options",
-                      "mapTo": "chartOptions",
-                      "name": "Chart options",
+                      "id": "legend",
+                      "mapTo": "legend",
+                      "name": "Legend",
                       "schemas": Array [
                         Object {
                           "component": null,
-                          "isSingleSelection": true,
-                          "mapTo": "orientation",
-                          "name": "Orientation",
+                          "mapTo": "showLegend",
+                          "name": "Show legend",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "name": "Horizontal",
-                                "orientationId": "h",
+                                "id": "show",
+                                "name": "Show",
                               },
                             ],
-                            "dropdownList": Array [
+                            "options": Array [
                               Object {
-                                "name": "Vertical",
-                                "orientationId": "v",
+                                "id": "show",
+                                "name": "Show",
                               },
                               Object {
-                                "name": "Horizontal",
-                                "orientationId": "h",
+                                "id": "hidden",
+                                "name": "Hidden",
                               },
                             ],
                           },
                         },
                         Object {
                           "component": null,
-                          "isSingleSelection": true,
+                          "mapTo": "position",
+                          "name": "Position",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "v",
+                                "name": "Right",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "v",
+                                "name": "Right",
+                              },
+                              Object {
+                                "id": "h",
+                                "name": "Bottom",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "legendSize",
+                          "name": "Legend size",
+                          "title": "Legend size",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "chart_styles",
+                      "mapTo": "chartStyles",
+                      "name": "Chart styles",
+                      "schemas": Array [
+                        Object {
+                          "component": [Function],
+                          "eleType": "buttons",
                           "mapTo": "mode",
                           "name": "Mode",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "modeId": "group",
+                                "id": "group",
                                 "name": "Group",
                               },
                             ],
-                            "dropdownList": Array [
+                            "options": Array [
                               Object {
-                                "modeId": "group",
+                                "id": "group",
                                 "name": "Group",
                               },
                               Object {
-                                "modeId": "stack",
+                                "id": "stack",
                                 "name": "Stack",
                               },
                             ],
                           },
                         },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "labelSize",
+                          "name": "Label size",
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0,
+                          "eleType": "slider",
+                          "mapTo": "rotateBarLabels",
+                          "name": "Rotate bar labels",
+                          "props": Object {
+                            "max": 90,
+                            "min": -90,
+                            "showTicks": true,
+                            "ticks": Array [
+                              Object {
+                                "label": "-90°",
+                                "value": -90,
+                              },
+                              Object {
+                                "label": "-45°",
+                                "value": -45,
+                              },
+                              Object {
+                                "label": "0°",
+                                "value": 0,
+                              },
+                              Object {
+                                "label": "45°",
+                                "value": 45,
+                              },
+                              Object {
+                                "label": "90°",
+                                "value": 90,
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0.7,
+                          "eleType": "slider",
+                          "mapTo": "groupWidth",
+                          "name": "Group width",
+                          "props": Object {
+                            "max": 1,
+                            "step": 0.01,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0.97,
+                          "eleType": "slider",
+                          "mapTo": "barWidth",
+                          "name": "Bar width",
+                          "props": Object {
+                            "max": 1,
+                            "step": 0.01,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 2,
+                          "eleType": "slider",
+                          "mapTo": "lineWidth",
+                          "name": "Line width",
+                          "props": Object {
+                            "max": 10,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 40,
+                          "eleType": "slider",
+                          "mapTo": "fillOpacity",
+                          "name": "Fill opacity",
+                          "props": Object {
+                            "max": 100,
+                          },
+                        },
                       ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "color-theme",
+                      "mapTo": "colorTheme",
+                      "name": "Color theme",
+                      "schemas": Array [],
                     },
                   ],
                 },
@@ -4400,19 +5226,32 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "mapTo": "layoutConfig",
                   "name": "Layout",
                 },
+                Object {
+                  "editor": [Function],
+                  "id": "availability-panel",
+                  "mapTo": "availabilityConfig",
+                  "name": "Availability",
+                },
               ],
             },
-            "fulllabel": "Bar",
+            "fillopacity": 40,
+            "fulllabel": "Horizontal bar",
+            "groupwidth": 0.7,
             "icon": [Function],
-            "icontype": "visBarVerticalStacked",
+            "icontype": "visBarHorizontalStacked",
             "id": "horizontal_bar",
-            "label": "Bar",
+            "label": "Horizontal bar",
+            "labelangle": 0,
+            "legendposition": "v",
+            "linewidth": 2,
+            "mode": "group",
             "name": "horizontal_bar",
             "orientation": "h",
             "selection": Object {
               "dataLoss": "nothing",
             },
             "seriesaxis": "yaxis",
+            "showlegend": "show",
             "type": "bar",
             "visconfig": Object {
               "config": Object {
@@ -4527,6 +5366,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "userConfigs": Object {},
             },
             "vis": Object {
+              "barwidth": 0.97,
               "category": "Visualizations",
               "categoryaxis": "xaxis",
               "component": [Function],
@@ -4540,79 +5380,243 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "sections": Array [
                       Object {
                         "editor": [Function],
-                        "id": "value_options",
-                        "mapTo": "valueOptions",
-                        "name": "Value options",
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
                         "schemas": Array [
                           Object {
                             "component": null,
-                            "isSingleSelection": false,
-                            "mapTo": "xaxis",
-                            "name": "X-axis",
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
                           },
                           Object {
                             "component": null,
-                            "isSingleSelection": false,
-                            "mapTo": "yaxis",
-                            "name": "Y-axis",
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Metrics",
+                                },
+                              ],
+                            },
                           },
                         ],
                       },
                       Object {
                         "editor": [Function],
-                        "id": "chart_options",
-                        "mapTo": "chartOptions",
-                        "name": "Chart options",
+                        "id": "legend",
+                        "mapTo": "legend",
+                        "name": "Legend",
                         "schemas": Array [
                           Object {
                             "component": null,
-                            "isSingleSelection": true,
-                            "mapTo": "orientation",
-                            "name": "Orientation",
+                            "mapTo": "showLegend",
+                            "name": "Show legend",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "name": "Horizontal",
-                                  "orientationId": "h",
+                                  "id": "show",
+                                  "name": "Show",
                                 },
                               ],
-                              "dropdownList": Array [
+                              "options": Array [
                                 Object {
-                                  "name": "Vertical",
-                                  "orientationId": "v",
+                                  "id": "show",
+                                  "name": "Show",
                                 },
                                 Object {
-                                  "name": "Horizontal",
-                                  "orientationId": "h",
+                                  "id": "hidden",
+                                  "name": "Hidden",
                                 },
                               ],
                             },
                           },
                           Object {
                             "component": null,
-                            "isSingleSelection": true,
+                            "mapTo": "position",
+                            "name": "Position",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "v",
+                                  "name": "Right",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "v",
+                                  "name": "Right",
+                                },
+                                Object {
+                                  "id": "h",
+                                  "name": "Bottom",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "legendSize",
+                            "name": "Legend size",
+                            "title": "Legend size",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_styles",
+                        "mapTo": "chartStyles",
+                        "name": "Chart styles",
+                        "schemas": Array [
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
                             "mapTo": "mode",
                             "name": "Mode",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "modeId": "group",
+                                  "id": "group",
                                   "name": "Group",
                                 },
                               ],
-                              "dropdownList": Array [
+                              "options": Array [
                                 Object {
-                                  "modeId": "group",
+                                  "id": "group",
                                   "name": "Group",
                                 },
                                 Object {
-                                  "modeId": "stack",
+                                  "id": "stack",
                                   "name": "Stack",
                                 },
                               ],
                             },
                           },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0,
+                            "eleType": "slider",
+                            "mapTo": "rotateBarLabels",
+                            "name": "Rotate bar labels",
+                            "props": Object {
+                              "max": 90,
+                              "min": -90,
+                              "showTicks": true,
+                              "ticks": Array [
+                                Object {
+                                  "label": "-90°",
+                                  "value": -90,
+                                },
+                                Object {
+                                  "label": "-45°",
+                                  "value": -45,
+                                },
+                                Object {
+                                  "label": "0°",
+                                  "value": 0,
+                                },
+                                Object {
+                                  "label": "45°",
+                                  "value": 45,
+                                },
+                                Object {
+                                  "label": "90°",
+                                  "value": 90,
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0.7,
+                            "eleType": "slider",
+                            "mapTo": "groupWidth",
+                            "name": "Group width",
+                            "props": Object {
+                              "max": 1,
+                              "step": 0.01,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0.97,
+                            "eleType": "slider",
+                            "mapTo": "barWidth",
+                            "name": "Bar width",
+                            "props": Object {
+                              "max": 1,
+                              "step": 0.01,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 2,
+                            "eleType": "slider",
+                            "mapTo": "lineWidth",
+                            "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 40,
+                            "eleType": "slider",
+                            "mapTo": "fillOpacity",
+                            "name": "Fill opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
+                          },
                         ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "color-theme",
+                        "mapTo": "colorTheme",
+                        "name": "Color theme",
+                        "schemas": Array [],
                       },
                     ],
                   },
@@ -4623,19 +5627,32 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "mapTo": "layoutConfig",
                     "name": "Layout",
                   },
+                  Object {
+                    "editor": [Function],
+                    "id": "availability-panel",
+                    "mapTo": "availabilityConfig",
+                    "name": "Availability",
+                  },
                 ],
               },
-              "fulllabel": "Bar",
+              "fillopacity": 40,
+              "fulllabel": "Horizontal bar",
+              "groupwidth": 0.7,
               "icon": [Function],
-              "icontype": "visBarVerticalStacked",
+              "icontype": "visBarHorizontalStacked",
               "id": "horizontal_bar",
-              "label": "Bar",
+              "label": "Horizontal bar",
+              "labelangle": 0,
+              "legendposition": "v",
+              "linewidth": 2,
+              "mode": "group",
               "name": "horizontal_bar",
               "orientation": "h",
               "selection": Object {
                 "dataLoss": "nothing",
               },
               "seriesaxis": "yaxis",
+              "showlegend": "show",
               "type": "bar",
               "visconfig": Object {
                 "config": Object {
@@ -4664,7 +5681,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         }
       >
         <EmptyPlaceholder
-          icon="visBarVerticalStacked"
+          icon="visBarHorizontalStacked"
         >
           <EuiText
             className="lnsChart__empty"
@@ -4693,7 +5710,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
-                        type="visBarVerticalStacked"
+                        type="visBarHorizontalStacked"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
