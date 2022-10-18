@@ -89,9 +89,15 @@ export const ExplorerVisualizations = ({
     }
   };
 
+  const syntheticResize = () => {
+    const event = window.document.createEvent('UIEvents');
+    event.initUIEvent('resize', true, false, window, 0);
+    window.dispatchEvent(event);
+  };
+
   return (
     <div id="vis__mainContent">
-      <EuiResizableContainer>
+      <EuiResizableContainer onPanelWidthChange={syntheticResize}>
         {(EuiResizablePanel, EuiResizableButton) => (
           <>
             <EuiResizablePanel
