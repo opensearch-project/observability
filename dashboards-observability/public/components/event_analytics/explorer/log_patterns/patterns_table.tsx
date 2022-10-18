@@ -13,19 +13,19 @@ import {
 } from '@elastic/eui';
 import { PatternTableData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
-import moment from 'moment';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { PPL_DOCUMENTATION_URL, UI_DATE_FORMAT } from '../../../../../common/constants/shared';
+import { PPL_DOCUMENTATION_URL } from '../../../../../common/constants/shared';
 import { selectPatterns } from '../../redux/slices/patterns_slice';
 
 interface PatternsTableProps {
   tableData: PatternTableData[];
+  onPatternSelection: any;
   tabId: string;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
-  const { tableData, tabId } = props;
+  const { tableData, tabId, onPatternSelection } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
 
   // Uncomment below to enable EuiComboBox
@@ -54,7 +54,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '4%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
-        return <EuiText>{item}</EuiText>;
+        return <EuiLink onClick={onPatternSelection}>{item}</EuiLink>;
       },
     },
     {

@@ -699,6 +699,7 @@ export const Explorer = ({
                         <>
                           <PatternsTable
                             tableData={patternsData.patternTableData || []}
+                            onPatternSelection={onPatternSelection}
                             tabId={tabId}
                           />
                           <EuiHorizontalRule margin="xs" />
