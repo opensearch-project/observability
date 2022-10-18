@@ -29,6 +29,12 @@ import {
   DataConfigPanelFieldProps,
 } from '../../../../../../../../common/types/explorer';
 
+const HIDE_ADD_BUTTON_VIZ_TYPES = [
+  VIS_CHART_TYPES.HeatMap,
+  VIS_CHART_TYPES.Line,
+  VIS_CHART_TYPES.Scatter,
+];
+
 export const DataConfigPanelFields = ({
   list,
   dimensionSpan,
@@ -40,10 +46,14 @@ export const DataConfigPanelFields = ({
   handleServiceEdit,
 }: DataConfigPanelFieldProps) => {
   const isAggregation = sectionName === AGGREGATIONS;
-  const isHeatMapAddButton = (name: string) => {
-    if (!list || !isArray(list) || visType !== VIS_CHART_TYPES.HeatMap) return false;
-    return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+  const hideAddButton = (name: string) => {
+    if (!isArray(list) || !HIDE_ADD_BUTTON_VIZ_TYPES.includes(visType)) return false;
+
+    if (visType === VIS_CHART_TYPES.HeatMap)
+      return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+    return name === GROUPBY && (list.length >= 1 || !isEmpty(time_field));
   };
+
   const { time_field, unit, interval } = dimensionSpan;
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
@@ -114,7 +124,7 @@ export const DataConfigPanelFields = ({
             <EuiSpacer size="s" />
           </Fragment>
         ))}
-      {!isHeatMapAddButton(sectionName) && (
+      {!hideAddButton(sectionName) && (
         <EuiPanel className="panelItem_button" grow>
           <EuiText size="s">{addButtonText}</EuiText>
           <EuiButtonIcon
@@ -122,10 +132,6 @@ export const DataConfigPanelFields = ({
             aria-label="add-field"
             iconSize="s"
             color="primary"
-            disabled={
-              (sectionName === GROUPBY && visType === VIS_CHART_TYPES.Line) ||
-              visType === VIS_CHART_TYPES.Scatter
-            }
             onClick={() => handleServiceAdd(sectionName)}
           />
         </EuiPanel>
