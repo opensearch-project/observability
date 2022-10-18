@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import './index.scss';
 import {
+  EuiButtonIcon,
   EuiPage,
   EuiPageBody,
   EuiPageHeader,
@@ -30,6 +32,9 @@ import { uiSettingsService } from '../../../common/utils';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { onTimeChange } from './helpers/utils';
+import { Sidebar } from './sidebar/sidebar';
+import { EuiAccordion } from '@opensearch-project/oui';
+import { EmptyMetricsView } from './view/empty_view';
 
 interface MetricsProps {
   http: CoreStart['http'];
@@ -44,10 +49,16 @@ export const Home = ({
   parentBreadcrumb,
   renderProps,
 }: MetricsProps) => {
+
+  // Date picker constants
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
   const [start, setStart] = useState<ShortDate>('now-30m');
   const [end, setEnd] = useState<ShortDate>('now');
   const [dateDisabled, setDateDisabled] = useState(false);
+
+  // Side bar constants
+  const [ isSidebarClosed, setIsSidebarClosed ] = useState(false);
+  const recentlyCreatedFields = ['1', '2', '3', '4']
 
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
     // if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
@@ -78,27 +89,46 @@ export const Home = ({
           <div>
             <EuiPage>
               <EuiPageBody component="div">
-                <EuiPageHeader>
+                {/* <EuiPageHeader>
                   <EuiPageHeaderSection>
                     <EuiTitle size="l">
                       <h1>Metrics</h1>
                     </EuiTitle>
                   </EuiPageHeaderSection>
-                </EuiPageHeader>
-                <EuiPageContentBody>
-                  <EuiFlexGroup gutterSize="s">
-                    <EuiFlexItem grow={false}>
-                      <EuiSuperDatePicker
-                        dateFormat={uiSettingsService.get('dateFormat')}
-                        start={start}
-                        end={end}
-                        onTimeChange={onDatePickerChange}
-                        recentlyUsedRanges={recentlyUsedRanges}
-                        isDisabled={dateDisabled}
-                      />
-                    </EuiFlexItem>
-                  </EuiFlexGroup>
-                </EuiPageContentBody>
+                </EuiPageHeader> */}
+                <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
+                  <EuiFlexItem grow={false}>
+                    <EuiSuperDatePicker
+                      dateFormat={uiSettingsService.get('dateFormat')}
+                      start={start}
+                      end={end}
+                      onTimeChange={onDatePickerChange}
+                      recentlyUsedRanges={recentlyUsedRanges}
+                      isDisabled={dateDisabled}
+                    />
+                  </EuiFlexItem>
+                {/* <EuiPageContentBody> */}
+                </EuiFlexGroup>
+                <div className="row">
+                  {!isSidebarClosed && <Sidebar recentlyCreatedFields={recentlyCreatedFields} />}
+                  <EuiButtonIcon
+                    iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
+                    iconSize="m"
+                    size="s"
+                    onClick={() => {
+                      setIsSidebarClosed((staleState) => {
+                        return !staleState;
+                      });
+                    }}
+                    data-test-subj="collapseSideBarButton"
+                    aria-controls="discover-sidebar"
+                    aria-expanded={isSidebarClosed ? 'false' : 'true'}
+                    aria-label="Toggle sidebar"
+                    className="dscCollapsibleSidebar__collapseButton"
+                  />
+                </div>
+                <EmptyMetricsView />
+                {/* </EuiPageContentBody> */}
               </EuiPageBody>
             </EuiPage>
           </div>
