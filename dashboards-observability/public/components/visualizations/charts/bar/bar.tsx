@@ -101,7 +101,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    */
   const xaxes = useMemo(() => {
     // breakdown selections
-    if (breakdowns) {
+    if (breakdowns.length > 0) {
       return [
         ...dimensions.filter(
           (dimension) => !some(breakdowns, (breakdown) => breakdown.label === dimension.label)

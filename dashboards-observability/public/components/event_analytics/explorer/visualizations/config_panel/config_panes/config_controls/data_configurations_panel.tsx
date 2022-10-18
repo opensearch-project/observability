@@ -194,7 +194,7 @@ export const DataConfigPanelItem = ({
             },
           })
         );
-        await fetchData(false);
+        await fetchData();
         await dispatch(
           changeVizConfig({
             tabId,
