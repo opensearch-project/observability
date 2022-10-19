@@ -605,8 +605,9 @@ export const Explorer = ({
       currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
     }
     const patternSelectQuery = currQuery.trim() + PATTERN_SELECT_QUERY + pattern + "'";
-    await setTempQuery(patternSelectQuery);
-    await updateQueryInStore(patternSelectQuery);
+    const newQuery = pattern ? patternSelectQuery : currQuery;
+    await setTempQuery(newQuery);
+    await updateQueryInStore(newQuery);
     await handleTimeRangePickerRefresh(true);
   };
 
@@ -688,6 +689,7 @@ export const Explorer = ({
                       <EuiHorizontalRule margin="xs" />
                       <EuiFlexGroup
                         justifyContent="spaceBetween"
+                        alignItems="center"
                         style={{ margin: '8px' }}
                         gutterSize="xs"
                       >
@@ -705,9 +707,20 @@ export const Explorer = ({
                           )}
                         </EuiFlexItem>
                         <EuiFlexItem grow={false}>
-                          <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
-                            {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
-                          </EuiLink>
+                          <EuiFlexGroup>
+                            <EuiFlexItem grow={false}>
+                              {viewLogPatterns && (
+                                <EuiLink onClick={() => onPatternSelection('')}>
+                                  Clear Selection
+                                </EuiLink>
+                              )}
+                            </EuiFlexItem>
+                            <EuiFlexItem grow={false}>
+                              <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
+                                {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
+                              </EuiLink>
+                            </EuiFlexItem>
+                          </EuiFlexGroup>
                         </EuiFlexItem>
                       </EuiFlexGroup>
                       <EuiHorizontalRule margin="xs" />
