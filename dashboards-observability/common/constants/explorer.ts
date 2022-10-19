@@ -273,3 +273,4 @@ export const SPAN = 'span';
 export const AGGREGATION_INFO = 'At least one metric is required to render a chart';
 export const DIMENSION_INFO = 'The timestamp type field can be selected as a first dimension only';
 export const TIME_FIELD = 'time_field';
+export const DISABLED_COLOUR = "#fafbfd";

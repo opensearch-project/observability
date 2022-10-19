@@ -21,6 +21,7 @@ import {
   AVAILABLE_FIELDS,
   GROUPBY,
   SELECTED_FIELDS,
+  DISABLED_COLOUR
 } from '../../../../../../../../common/constants/explorer';
 import {
   ConfigList,
@@ -170,7 +171,6 @@ export const LogsViewConfigPanelItem = ({
 
   const getLogsViewUI = () => {
     const list = configList[GROUPBY] ? configList[GROUPBY] : [];
-    const disabledColor = "#fafbfd";
     const listUI = list.map((field, index) => (
       <EuiFormRow
         label="Field"
@@ -178,7 +178,7 @@ export const LogsViewConfigPanelItem = ({
           <EuiText size="xs">
             <EuiIcon
               type="cross"
-              color={queriedFields.length === 0 ? "danger" : disabledColor}
+              color={queriedFields.length === 0 ? "danger" : DISABLED_COLOUR}
               onClick={() => handleServiceRemove(index, GROUPBY)}
             />
           </EuiText>
