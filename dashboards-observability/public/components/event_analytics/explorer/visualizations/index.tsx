@@ -142,14 +142,13 @@ export const ExplorerVisualizations = ({
                 visualizations={visualizations}
               />
             </EuiResizablePanel>
-            <EuiResizableButton  className='chart_style_resizable_btn'/>
+            <EuiResizableButton className="chart_style_resizable_btn" />
             <EuiResizablePanel
               className="ws__configPanel--right"
               initialSize={20}
               minSize="15%"
               mode={['collapsible', { position: 'top' }]}
               paddingSize="none"
-              
             >
               <ConfigPanel
                 vizVectors={explorerVis}
