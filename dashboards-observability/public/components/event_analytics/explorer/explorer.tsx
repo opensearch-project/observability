@@ -752,11 +752,11 @@ export const Explorer = ({
   };
   const isValidValueOptionConfigSelected = useMemo(() => {
     const { series = [], dimensions = [], span = {} } = visualizations.data.userConfigs?.dataConfig;
-    const { TreeMap, Gauge, HeatMap, Stats } = VIS_CHART_TYPES;
+    const { TreeMap, Gauge, HeatMap, Metrics } = VIS_CHART_TYPES;
     const isValidValueOptionsXYAxes =
       VIZ_CONTAIN_XY_AXIS.includes(curVisId as VIS_CHART_TYPES) &&
       series.length !== 0 &&
-      ((dimensions && dimensions.length !== 0) || !isEmpty(span));
+      (dimensions.length !== 0 || !isEmpty(span));
 
     const isValidValueOptions: { [key: string]: boolean } = {
       tree_map:
@@ -765,14 +765,14 @@ export const Explorer = ({
         dimensions.childField?.length !== 0 &&
         dimensions.valueField?.length !== 0,
       gauge: curVisId === Gauge && series.length !== 0,
-      heatmap: Boolean(curVisId === HeatMap && series?.length === 1 && dimensions?.length === 2),
+      heatmap: Boolean(curVisId === HeatMap && series.length === 1 && dimensions.length === 2),
       bar: isValidValueOptionsXYAxes,
       line: isValidValueOptionsXYAxes,
       histogram: isValidValueOptionsXYAxes,
       pie: isValidValueOptionsXYAxes,
       scatter: isValidValueOptionsXYAxes,
       logs_view: true,
-      stats: curVisId === Stats && series?.length !== 0,
+      metrics: curVisId === Metrics && series.length !== 0,
       horizontal_bar: isValidValueOptionsXYAxes,
       data_table: true,
     };
