@@ -284,7 +284,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },
@@ -614,7 +614,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -927,7 +927,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -1299,7 +1299,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -3040,7 +3040,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -3268,7 +3268,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -4076,7 +4076,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -4421,7 +4421,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                     Object {
                                       "id": "y",
-                                      "name": "Metrics",
+                                      "name": "Series",
                                     },
                                   ],
                                 },
@@ -4771,7 +4771,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           },
                                           Object {
                                             "id": "y",
-                                            "name": "Metrics",
+                                            "name": "Series",
                                           },
                                         ],
                                       },
@@ -5056,7 +5056,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             },
                                             Object {
                                               "id": "y",
-                                              "name": "Metrics",
+                                              "name": "Series",
                                             },
                                           ],
                                         },
@@ -5407,7 +5407,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             },
                                             Object {
                                               "id": "y",
-                                              "name": "Metrics",
+                                              "name": "Series",
                                             },
                                           ],
                                         },
@@ -5728,7 +5728,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                                 Object {
                                                   "id": "y",
-                                                  "name": "Metrics",
+                                                  "name": "Series",
                                                 },
                                               ],
                                             },
@@ -6217,7 +6217,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -6675,7 +6675,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "id": "y",
-                                        "name": "Metrics",
+                                        "name": "Series",
                                       },
                                     ],
                                   },
@@ -7015,7 +7015,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -7473,7 +7473,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                         Object {
                                           "id": "y",
-                                          "name": "Metrics",
+                                          "name": "Series",
                                         },
                                       ],
                                     },
@@ -8044,7 +8044,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                         Object {
                                           "id": "y",
-                                          "name": "Metrics",
+                                          "name": "Series",
                                         },
                                       ],
                                     },
@@ -8452,7 +8452,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -8910,7 +8910,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "id": "y",
-                                        "name": "Metrics",
+                                        "name": "Series",
                                       },
                                     ],
                                   },
@@ -9477,7 +9477,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -10036,7 +10036,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "id": "y",
-                                        "name": "Metrics",
+                                        "name": "Series",
                                       },
                                     ],
                                   },
@@ -10311,7 +10311,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -10941,8 +10941,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                                 Object {
                                                   "id": "y",
-                                                  "label": "Metrics",
-                                                  "name": "Metrics",
+                                                  "label": "Series",
+                                                  "name": "Series",
                                                 },
                                               ]
                                             }
@@ -10962,7 +10962,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                                 Object {
                                                   "id": "y",
-                                                  "name": "Metrics",
+                                                  "name": "Series",
                                                 },
                                               ]
                                             }
@@ -11014,8 +11014,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "label": "Metrics",
-                                                      "name": "Metrics",
+                                                      "label": "Series",
+                                                      "name": "Series",
                                                     },
                                                   ]
                                                 }
@@ -11203,8 +11203,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       isIconOnly={false}
                                                       isSelected={false}
                                                       key="2"
-                                                      label="Metrics"
-                                                      name="Metrics"
+                                                      label="Series"
+                                                      name="Series"
                                                       onChange={[Function]}
                                                       size="compressed"
                                                     >
@@ -11221,9 +11221,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         textProps={
                                                           Object {
                                                             "className": "euiButtonGroupButton__textShift",
-                                                            "data-text": "Metrics",
+                                                            "data-text": "Series",
                                                             "ref": [Function],
-                                                            "title": "Metrics",
+                                                            "title": "Series",
                                                           }
                                                         }
                                                       >
@@ -11244,9 +11244,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             textProps={
                                                               Object {
                                                                 "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                "data-text": "Metrics",
+                                                                "data-text": "Series",
                                                                 "ref": [Function],
-                                                                "title": "Metrics",
+                                                                "title": "Series",
                                                               }
                                                             }
                                                           >
@@ -11255,8 +11255,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             >
                                                               <span
                                                                 className="euiButton__text euiButtonGroupButton__textShift"
-                                                                data-text="Metrics"
-                                                                title="Metrics"
+                                                                data-text="Series"
+                                                                title="Series"
                                                               >
                                                                 <input
                                                                   checked={false}
@@ -11264,11 +11264,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                   data-test-subj="y"
                                                                   disabled={false}
                                                                   id="random_html_id"
-                                                                  name="Metrics"
+                                                                  name="Series"
                                                                   onChange={[Function]}
                                                                   type="radio"
                                                                 />
-                                                                Metrics
+                                                                Series
                                                               </span>
                                                             </span>
                                                           </EuiButtonContent>
@@ -11644,7 +11644,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -12998,7 +12998,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -15917,7 +15917,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },

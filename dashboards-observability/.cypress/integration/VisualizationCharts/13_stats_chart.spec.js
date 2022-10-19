@@ -122,7 +122,7 @@ describe('Render stats chart verfiy functionality for Tooltip text', () => {
     cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(2).should('have.text', 'All');
     cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(3).should('have.text', 'Dimension')
     .click();
-    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(4).should('have.text', 'Metrics')
+    cy.get('.euiButton__text.euiButtonGroupButton__textShift').eq(4).should('have.text', 'Series')
     .click();
   });
 });

@@ -268,7 +268,7 @@ exports[`Text component Renders text component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

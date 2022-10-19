@@ -285,7 +285,7 @@ exports[`Histogram component Renders histogram component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

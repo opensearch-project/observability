@@ -44,6 +44,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           span = {},
           legend = {},
           panelOptions = {},
+          tooltipOptions = {},
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
           [BREAKDOWNS]: breakdowns = [],
@@ -79,6 +80,9 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     chartStyles.fillOpacity !== undefined
       ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
       : fillopacity / FILLOPACITY_DIV_FACTOR;
+  const tooltipMode =
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
   const barWidth = 1 - (chartStyles.barWidth || barwidth);
   const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
   const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
@@ -158,6 +162,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       },
       name: getPropName(yMetric),
       orientation: barOrientation,
+      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
     };
   });
 
