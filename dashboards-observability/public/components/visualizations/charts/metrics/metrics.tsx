@@ -8,17 +8,17 @@ import Plotly from 'plotly.js-dist';
 import React, { useMemo } from 'react';
 import { COLOR_BLACK, COLOR_WHITE } from '../../../../../common/constants/colors';
 import {
-  AGGREGATIONS,
-  DEFAULT_STATS_CHART_PARAMETERS,
+  METRICS_GRID_SPACE_BETWEEN_X_AXIS,
+  METRICS_GRID_SPACE_BETWEEN_Y_AXIS,
+  DEFAULT_METRICS_CHART_PARAMETERS,
+  METRICS_AXIS_MARGIN,
+  METRICS_ANNOTATION,
+  METRICS_REDUCE_VALUE_SIZE_PERCENTAGE,
+  METRICS_REDUCE_TITLE_SIZE_PERCENTAGE,
+  METRICS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE,
+  METRICS_SERIES_UNIT_SUBSTRING_LENGTH,
   GROUPBY,
-  STATS_ANNOTATION,
-  STATS_AXIS_MARGIN,
-  STATS_GRID_SPACE_BETWEEN_X_AXIS,
-  STATS_GRID_SPACE_BETWEEN_Y_AXIS,
-  STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE,
-  STATS_REDUCE_TITLE_SIZE_PERCENTAGE,
-  STATS_REDUCE_VALUE_SIZE_PERCENTAGE,
-  STATS_SERIES_UNIT_SUBSTRING_LENGTH,
+  AGGREGATIONS,
 } from '../../../../../common/constants/explorer';
 import {
   DEFAULT_CHART_STYLES,
@@ -45,7 +45,7 @@ const {
   DefaultChartType,
   BaseThreshold,
   DefaultTextColor,
-} = DEFAULT_STATS_CHART_PARAMETERS;
+} = DEFAULT_METRICS_CHART_PARAMETERS;
 
 interface CreateAnnotationType {
   index: number;
@@ -54,7 +54,7 @@ interface CreateAnnotationType {
   valueColor: string;
 }
 
-export const Stats = ({ visualizations, layout, config }: any) => {
+export const Metrics = ({ visualizations, layout, config }: any) => {
   const {
     data: {
       rawVizData: {
@@ -111,10 +111,10 @@ export const Stats = ({ visualizations, layout, config }: any) => {
   // style panel parameters
   let titleSize =
     chartStyles.titleSize ||
-    titlesize - titlesize * seriesLength * STATS_REDUCE_TITLE_SIZE_PERCENTAGE;
+    titlesize - titlesize * seriesLength * METRICS_REDUCE_TITLE_SIZE_PERCENTAGE;
   const valueSize =
     chartStyles.valueSize ||
-    valuesize - valuesize * seriesLength * STATS_REDUCE_VALUE_SIZE_PERCENTAGE;
+    valuesize - valuesize * seriesLength * METRICS_REDUCE_VALUE_SIZE_PERCENTAGE;
   const selectedOrientation = chartStyles.orientation || orientation;
   const chartOrientation =
     selectedOrientation === DefaultOrientation || selectedOrientation === 'v'
@@ -127,8 +127,8 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       : selectedTextMode;
   const precisionValue = chartStyles.precisionValue || precisionvalue;
   const seriesUnits =
-    chartStyles.seriesUnits?.substring(0, STATS_SERIES_UNIT_SUBSTRING_LENGTH) || '';
-  const seriesUnitsSize = valueSize - valueSize * STATS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE;
+    chartStyles.seriesUnits?.substring(0, METRICS_SERIES_UNIT_SUBSTRING_LENGTH) || '';
+  const seriesUnitsSize = valueSize - valueSize * METRICS_REDUCE_SERIES_UNIT_SIZE_PERCENTAGE;
   const isDarkMode = uiSettingsService.get('theme:darkMode');
   const textColor = chartStyles.textColor?.childColor || DefaultTextColor;
 
@@ -178,7 +178,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     return textMode === DefaultTextMode
       ? [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             x: ANNOTATION_MARGIN_LEFT,
             y: yCordinate,
             xanchor: 'left',
@@ -193,7 +193,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             seriesValue: value,
           },
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             x: 1,
             y: yCordinate,
             xanchor: 'right',
@@ -210,7 +210,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ]
       : [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             x: 0.5,
             y: calculateTextCooridinate(seriesLength, index),
             xanchor: 'center',
@@ -237,7 +237,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     return textMode === DefaultTextMode
       ? [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: 'left',
             yanchor: 'bottom',
             text: label,
@@ -252,7 +252,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             type: 'name',
           },
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: 'left',
             yanchor: 'top',
             text: createValueText(value),
@@ -269,7 +269,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ]
       : [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             x: calculateTextCooridinate(seriesLength, index),
             xanchor: 'center',
             y: 0.95,
@@ -368,7 +368,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     return textMode === DefaultTextMode
       ? [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: 'left',
             yanchor: seriesLength === 1 ? 'center' : 'bottom',
             text: label,
@@ -386,7 +386,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             type: 'name',
           },
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: seriesLength === 1 ? 'right' : 'left',
             yanchor: seriesLength === 1 ? 'center' : 'top',
             text: createValueText(value),
@@ -406,7 +406,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ]
       : [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             x: calculateTextCooridinate(seriesLength, index),
             xanchor: 'center',
             y: 0.5,
@@ -432,7 +432,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
     return textMode === DefaultTextMode
       ? [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: 'left',
             yanchor: 'center',
             text: label,
@@ -447,7 +447,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
             type: 'name',
           },
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: 'right',
             yanchor: 'center',
             text: createValueText(value),
@@ -464,7 +464,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         ]
       : [
           {
-            ...STATS_ANNOTATION,
+            ...METRICS_ANNOTATION,
             xanchor: 'center',
             yanchor: 'center',
             x: 0.5,
@@ -545,7 +545,7 @@ export const Stats = ({ visualizations, layout, config }: any) => {
         shapes.push({
           ...shape,
           [`${nonSimilarAxis}0`]:
-            shapes[shapes.length - 1][`${nonSimilarAxis}1`] + STATS_GRID_SPACE_BETWEEN_X_AXIS,
+            shapes[shapes.length - 1][`${nonSimilarAxis}1`] + METRICS_GRID_SPACE_BETWEEN_X_AXIS,
           [`${nonSimilarAxis}1`]:
             shapes[shapes.length - 1][`${nonSimilarAxis}1`] + 1 / seriesLength,
           [`${similarAxis}0`]: 0,
@@ -672,22 +672,22 @@ export const Stats = ({ visualizations, layout, config }: any) => {
       showlegend: false,
       margin:
         chartType === DefaultChartType
-          ? STATS_AXIS_MARGIN
+          ? METRICS_AXIS_MARGIN
           : panelOptions.title || layoutConfig.layout?.title
-          ? STATS_AXIS_MARGIN
-          : { ...STATS_AXIS_MARGIN, t: 0 },
+          ? METRICS_AXIS_MARGIN
+          : { ...METRICS_AXIS_MARGIN, t: 0 },
       ...statsLayout,
       grid: {
         ...(chartOrientation === DefaultOrientation
           ? {
               rows: 1,
               columns: seriesLength,
-              xgap: STATS_GRID_SPACE_BETWEEN_X_AXIS,
+              xgap: METRICS_GRID_SPACE_BETWEEN_X_AXIS,
             }
           : {
               rows: seriesLength,
               columns: 1,
-              ygap: STATS_GRID_SPACE_BETWEEN_Y_AXIS,
+              ygap: METRICS_GRID_SPACE_BETWEEN_Y_AXIS,
             }),
         pattern: 'independent',
         roworder: 'bottom to top',

@@ -105,7 +105,7 @@ export const ConfigPanel = ({
   // To check, If user empty any of the value options
   const isValidValueOptionConfigSelected = useMemo(() => {
     const valueOptions = vizConfigs.dataConfig?.valueOptions;
-    const { TreeMap, Gauge, HeatMap, Stats } = VIS_CHART_TYPES;
+    const { TreeMap, Gauge, HeatMap, Metrics } = VIS_CHART_TYPES;
     const isValidValueOptionsXYAxes =
       VIZ_CONTAIN_XY_AXIS.includes(curVisId) &&
       valueOptions?.xaxis?.length !== 0 &&
@@ -126,7 +126,7 @@ export const ConfigPanel = ({
       pie: isValidValueOptionsXYAxes,
       scatter: isValidValueOptionsXYAxes,
       logs_view: true,
-      stats: curVisId === Stats && valueOptions?.yaxis?.length !== 0,
+      metrics: curVisId === Metrics && valueOptions?.yaxis?.length !== 0,
       horizontal_bar: isValidValueOptionsXYAxes,
     };
     return isValid_valueOptions[curVisId];

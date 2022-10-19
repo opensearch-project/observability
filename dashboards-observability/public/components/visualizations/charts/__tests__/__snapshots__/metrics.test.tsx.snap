@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Stats component Renders stats component 1`] = `
-<Stats
+exports[`Metrics component Renders Metrics component 1`] = `
+<Metrics
   config={true}
   layout={
     Object {
@@ -452,18 +452,18 @@ exports[`Stats component Renders stats component 1`] = `
             },
           ],
         },
-        "fulllabel": "Stats",
+        "fulllabel": "Metrics",
         "icon": [Function],
         "icontype": "stats",
-        "id": "stats",
-        "label": "Stats",
-        "name": "stats",
+        "id": "metrics",
+        "label": "Metrics",
+        "name": "metrics",
         "orientation": "auto",
         "precisionvalue": 1,
         "seriesaxis": "yaxis",
         "textmode": "auto",
         "titlesize": 30,
-        "type": "stats",
+        "type": "metrics",
         "valuesize": 80,
         "visconfig": Object {
           "config": Object {
@@ -591,5 +591,5 @@ exports[`Stats component Renders stats component 1`] = `
       </div>
     </EuiText>
   </EmptyPlaceholder>
-</Stats>
+</Metrics>
 `;
