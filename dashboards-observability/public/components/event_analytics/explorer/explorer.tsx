@@ -599,7 +599,11 @@ export const Explorer = ({
   }, [countDistribution?.data]);
 
   const onPatternSelection = async (pattern: string) => {
-    const currQuery = queryRef.current![RAW_QUERY] as string;
+    let currQuery = queryRef.current![RAW_QUERY] as string;
+    // Remove existing pattern selection if it exists
+    if (currQuery.match(PPL_PATTERNS_REGEX)) {
+      currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
+    }
     const patternSelectQuery = currQuery.trim() + PATTERN_SELECT_QUERY + pattern + "'";
     await setTempQuery(patternSelectQuery);
     await updateQueryInStore(patternSelectQuery);
