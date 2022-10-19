@@ -55,6 +55,7 @@ import {
   AGGREGATIONS,
   CUSTOM_LABEL,
   PATTERN_SELECT_QUERY,
+  PPL_PATTERNS_REGEX,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -409,12 +410,14 @@ export const Explorer = ({
       getCountVisualizations(minInterval);
 
       // to fetch patterns data on current query
-      getPatterns(undefined, (error) => {
-        const formattedError = formatError(error.name, error.message, error.body.message);
-        notifications.toasts.addError(formattedError, {
-          title: 'Error fetching patterns',
+      if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
+        getPatterns(undefined, (error) => {
+          const formattedError = formatError(error.name, error.message, error.body.message);
+          notifications.toasts.addError(formattedError, {
+            title: 'Error fetching patterns',
+          });
         });
-      });
+      }
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
