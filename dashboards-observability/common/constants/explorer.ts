@@ -83,6 +83,7 @@ export const PLOTLY_GAUGE_COLUMN_NUMBER = 4;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
 export const PATTERN_STATS_QUERY = '| patterns message | stats count() by patterns_field';
+export const PATTERN_SELECT_QUERY = " | patterns message | where patterns_field='";
 export const ADD_BUTTON_TEXT = '+ Add color theme';
 export const NUMBER_INPUT_MIN_LIMIT = 1;
 

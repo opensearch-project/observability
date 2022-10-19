@@ -54,7 +54,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '4%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
-        return <EuiLink onClick={onPatternSelection}>{item}</EuiLink>;
+        return <EuiLink onClick={() => onPatternSelection(row.pattern)}>{item}</EuiLink>;
       },
     },
     {

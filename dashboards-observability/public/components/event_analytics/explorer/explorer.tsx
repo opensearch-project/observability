@@ -54,6 +54,7 @@ import {
   GROUPBY,
   AGGREGATIONS,
   CUSTOM_LABEL,
+  PATTERN_SELECT_QUERY,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -593,6 +594,14 @@ export const Explorer = ({
     }
     return 0;
   }, [countDistribution?.data]);
+
+  const onPatternSelection = async (pattern: string) => {
+    const currQuery = queryRef.current![RAW_QUERY] as string;
+    const patternSelectQuery = currQuery.trim() + PATTERN_SELECT_QUERY + pattern + "'";
+    await setTempQuery(patternSelectQuery);
+    await updateQueryInStore(patternSelectQuery);
+    await handleTimeRangePickerRefresh(true);
+  };
 
   const getMainContent = () => {
     return (
