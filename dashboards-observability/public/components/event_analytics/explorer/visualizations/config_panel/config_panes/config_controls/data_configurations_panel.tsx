@@ -466,7 +466,8 @@ export const DataConfigPanelItem = ({
                 <EuiComboBox
                   aria-label="date unit"
                   placeholder="Select fields"
-                  singleSelection
+                  singleSelection={{asPlainText:true}}
+                  isClearable={false}
                   options={TIME_INTERVAL_OPTIONS.map((option) => {
                     return {
                       ...option,

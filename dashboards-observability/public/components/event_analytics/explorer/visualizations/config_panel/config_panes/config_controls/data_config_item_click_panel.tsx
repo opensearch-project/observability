@@ -19,7 +19,11 @@ export interface TitleProps {
 
 export const DataConfigItemClickPanel = ({ title, isSecondary, closeMenu }: TitleProps) => {
   const icon = isSecondary && (
-    <EuiIcon type="arrowLeft" onClick={closeMenu} data-test-subj="panelCloseBtn" />
+    <EuiIcon
+    style={{cursor:'pointer'}}
+     type="arrowLeft" 
+     onClick={closeMenu} 
+     data-test-subj="panelCloseBtn" />
   );
   return (
     <>
