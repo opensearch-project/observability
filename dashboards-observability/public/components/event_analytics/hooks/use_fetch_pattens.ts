@@ -9,7 +9,7 @@ import PPLService from 'public/services/requests/ppl';
 import { useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { FINAL_QUERY, PATTERN_STATS_QUERY } from '../../../../common/constants/explorer';
-import { setPatterns } from '../redux/slices/patterns_slice';
+import { setPatterns, reset as resetPatterns } from '../redux/slices/patterns_slice';
 import { selectQueries } from '../redux/slices/query_slice';
 import { useFetchEvents } from './use_fetch_events';
 
@@ -28,8 +28,13 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
   const queriesRef = useRef();
   queriesRef.current = queries;
 
-  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[] }) => {
+  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[]; total: number[] }) => {
     batch(() => {
+      dispatch(
+        resetPatterns({
+          tabId: requestParams.tabId,
+        })
+      );
       dispatch(
         setPatterns({
           tabId: requestParams.tabId,
@@ -41,10 +46,12 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     });
   };
 
-  const getPatterns = (query: string = '', errorHandler?: (error: any) => void) => {
+  const getPatterns = (query: string = '', errorHandler: (error: any) => void) => {
     const cur = queriesRef.current;
-    const searchQuery = isEmpty(query) ? cur![requestParams.tabId][FINAL_QUERY] : query;
+    const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
+    const searchQuery = isEmpty(query) ? rawQuery : query;
     const statsQuery = searchQuery + PATTERN_STATS_QUERY;
+    // Fetch patterns data for the current query results
     fetchEvents(
       { query: statsQuery },
       'jdbc',
@@ -57,7 +64,20 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
               sampleLog: '',
             } as PatternTableData;
           });
-          dispatchOnPatterns({ patternTableData: formatToTableData });
+          // Fetch total number of events to divide count by for ratio
+          fetchEvents(
+            {
+              query: `${rawQuery} | stats count()`,
+            },
+            'jdbc',
+            (countRes: any) => {
+              dispatchOnPatterns({
+                patternTableData: formatToTableData,
+                total: countRes.datarows[0],
+              });
+            },
+            errorHandler
+          );
         }
       },
       errorHandler

@@ -79,14 +79,6 @@ export const useFetchVisualizations = ({
             data: res,
           })
         );
-        dispatch(
-          setPatterns({
-            tabId: requestParams.tabId,
-            data: {
-              total: res.data['count()'],
-            },
-          })
-        );
       },
       (error: Error) => {}
     );
