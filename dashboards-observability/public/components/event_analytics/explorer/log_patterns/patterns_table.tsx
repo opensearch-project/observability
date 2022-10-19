@@ -28,25 +28,6 @@ export function PatternsTable(props: PatternsTableProps) {
   const { tableData, tabId, onPatternSelection } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
 
-  // Uncomment below to enable EuiComboBox
-  // const selectedItems = tableData.filter(
-  //   (pat: TableDataType) =>
-  //     selectedOptions.length === 0 ||
-  //     selectedOptions.map((op) => op.label).includes(pat.puncSignature)
-  // );
-
-  // Uncomment below to enable Filters
-  // const filteredItems = tableData.filter(
-  //   (option: TableDataType) =>
-  //     filters.length === 0 || filters.map((op) => op.value).includes(option.puncSignature)
-  // );
-
-  // const search = {
-  //   box: {
-  //     incremental: true,
-  //   },
-  // };
-
   const tableColumns = [
     {
       field: 'count',
@@ -54,7 +35,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '4%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
-        return <EuiLink onClick={() => onPatternSelection(row.pattern)}>{item}</EuiLink>;
+        return <EuiText>{item}</EuiText>;
       },
     },
     {
@@ -119,16 +100,23 @@ export function PatternsTable(props: PatternsTableProps) {
     />
   );
 
+  const getRowProps = (item: PatternTableData) => {
+    const { pattern } = item;
+    return {
+      'data-test-subj': `row-${pattern}`,
+      className: 'customRowClass',
+      onClick: () => onPatternSelection(pattern),
+    };
+  };
+
   return (
     <EuiInMemoryTable
-      // items={filteredItems}
-      // items={selectedItems}
-      // search={search}
       items={tableData}
       columns={tableColumns}
       pagination={pagination}
       sorting={sorting}
       message={message}
+      rowProps={getRowProps}
     />
   );
 }
