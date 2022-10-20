@@ -30,7 +30,13 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IField, IQueryTab, IDefaultTimestampState } from '../../../../common/types/explorer';
+import {
+  IField,
+  IQueryTab,
+  IDefaultTimestampState,
+  ConfigListEntry,
+  DimensionSpan,
+} from '../../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -750,13 +756,18 @@ export const Explorer = ({
       setTriggerAvailability(false);
     }
   };
+
+  const isSeriesNotEmpty = (seriesArray: ConfigListEntry[]) => seriesArray.length !== 0;
+  const isDimensionOrSpanPresent = (dimArray: ConfigListEntry[], spanExpression: DimensionSpan) =>
+    dimArray.length !== 0 || !isEmpty(spanExpression);
+
   const isValidValueOptionConfigSelected = useMemo(() => {
     const { series = [], dimensions = [], span = {} } = visualizations.data.userConfigs?.dataConfig;
     const { TreeMap, Gauge, HeatMap, Metrics } = VIS_CHART_TYPES;
     const isValidValueOptionsXYAxes =
       VIZ_CONTAIN_XY_AXIS.includes(curVisId as VIS_CHART_TYPES) &&
-      series.length !== 0 &&
-      (dimensions.length !== 0 || !isEmpty(span));
+      isSeriesNotEmpty(series) &&
+      isDimensionOrSpanPresent(dimensions, span);
 
     const isValidValueOptions: { [key: string]: boolean } = {
       tree_map:
@@ -764,7 +775,7 @@ export const Explorer = ({
         dimensions.length > 0 &&
         dimensions.childField?.length !== 0 &&
         dimensions.valueField?.length !== 0,
-      gauge: curVisId === Gauge && series.length !== 0,
+      gauge: curVisId === Gauge && isSeriesNotEmpty(series),
       heatmap: Boolean(curVisId === HeatMap && series.length === 1 && dimensions.length === 2),
       bar: isValidValueOptionsXYAxes,
       line: isValidValueOptionsXYAxes,
@@ -772,7 +783,7 @@ export const Explorer = ({
       pie: isValidValueOptionsXYAxes,
       scatter: isValidValueOptionsXYAxes,
       logs_view: true,
-      metrics: curVisId === Metrics && series.length !== 0,
+      metrics: curVisId === Metrics && isSeriesNotEmpty(series),
       horizontal_bar: isValidValueOptionsXYAxes,
       data_table: true,
     };

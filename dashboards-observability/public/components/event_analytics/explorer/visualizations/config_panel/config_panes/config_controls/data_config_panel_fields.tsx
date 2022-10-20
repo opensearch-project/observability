@@ -46,11 +46,15 @@ export const DataConfigPanelFields = ({
   handleServiceEdit,
 }: DataConfigPanelFieldProps) => {
   const isAggregation = sectionName === AGGREGATIONS;
-  const hideAddButton = (name: string) => {
-    if (!isArray(list) || !HIDE_ADD_BUTTON_VIZ_TYPES.includes(visType)) return false;
 
+  // The function hides the click to add button for visualizations included in the const HIDE_ADD_BUTTON_VIZ_TYPES
+  const hideClickToAddButton = (name: string) => {
+    // returns false when HIDE_ADD_BUTTON_VIZ_TYPES visualizations are not matching with visType.
+    if (!isArray(list) || !HIDE_ADD_BUTTON_VIZ_TYPES.includes(visType)) return false;
+    // condition for heatmap on the basis of section name
     if (visType === VIS_CHART_TYPES.HeatMap)
       return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+    // condition for line and scatter for dimensions section.
     return name === GROUPBY && (list.length >= 1 || !isEmpty(time_field));
   };
 
@@ -124,7 +128,7 @@ export const DataConfigPanelFields = ({
             <EuiSpacer size="s" />
           </Fragment>
         ))}
-      {!hideAddButton(sectionName) && (
+      {!hideClickToAddButton(sectionName) && (
         <EuiPanel className="panelItem_button" grow>
           <EuiText size="s">{addButtonText}</EuiText>
           <EuiButtonIcon
