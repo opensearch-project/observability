@@ -393,6 +393,7 @@ export const DataConfigPanelItem = ({
             aria-label="input field"
             placeholder="Select a field"
             singleSelection={{ asPlainText: true }}
+            isClearable={false}
             options={getOptionsAvailable(name)}
             selectedOptions={
               isTimeStampSelected
