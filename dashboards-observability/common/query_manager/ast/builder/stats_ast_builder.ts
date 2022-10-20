@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isFunction, isEqual } from 'lodash';
 import { AbstractParseTreeVisitor } from 'antlr4ts/tree/AbstractParseTreeVisitor';
 import {
   RootContext,
@@ -49,13 +50,16 @@ export class StatsAstBuilder
 
   visitRoot(ctx: RootContext) {
     if (!ctx.pplStatement()) return this.defaultResult();
-    return this.visitChildren(ctx.pplStatement()!);
+    return this.visitPplStatement(ctx.pplStatement()!);
   }
 
   visitPplStatement(ctx: PplStatementContext): PPLNode {
     let statsTree: VisitResult = this.defaultResult();
     ctx.commands().map((pplCommandContext) => {
-      if (this.visitChildren(pplCommandContext).getName() === 'stats_command')
+      if (
+        isFunction(this.visitChildren(pplCommandContext).getName) &&
+        isEqual(this.visitChildren(pplCommandContext).getName(), 'stats_command')
+      )
         statsTree = this.visitChildren(pplCommandContext);
     });
     return statsTree;

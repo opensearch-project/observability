@@ -10,7 +10,7 @@ export {
   StatsAggregationFunctionChunk,
   GroupByChunk,
   GroupField,
-  statsChunk,
+  StatsChunk,
   SpanExpressionChunk,
   AggregationConfigurations,
   PreviouslyParsedStaleStats
