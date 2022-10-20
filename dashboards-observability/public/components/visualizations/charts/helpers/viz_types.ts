@@ -222,9 +222,9 @@ const getUserConfigs = (
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
-            ...userSelectedConfigs?.dataConfig,
             [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
             [AGGREGATIONS]: [],
+            ...userSelectedConfigs?.dataConfig,
           },
         };
         break;

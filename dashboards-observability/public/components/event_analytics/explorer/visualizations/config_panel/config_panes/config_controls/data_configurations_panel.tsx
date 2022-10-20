@@ -430,6 +430,7 @@ export const DataConfigPanelItem = ({
         }
         onChange={(e) => updateHistogramConfig(GROUPBY, type, e.target.value)}
         data-test-subj="valueFieldNumber"
+        min={0}
       />
       <EuiSpacer size="s" />
     </>
