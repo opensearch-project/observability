@@ -154,12 +154,12 @@ export const DataConfigPanelItem = ({
       [name]:
         name !== `${BREAKDOWNS}`
           ? [
-              ...(configList[name] ?? []),
-              name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
-            ]
+            ...(configList[name] ?? []),
+            name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
+          ]
           : configList[name] !== undefined
-          ? [...configList[name], initialDimensionEntry]
-          : [initialDimensionEntry],
+            ? [...configList[name], initialDimensionEntry]
+            : [initialDimensionEntry],
     };
     setSelectedConfigItem({ index: list[name].length - 1, name });
     setConfigList(list);
@@ -313,10 +313,10 @@ export const DataConfigPanelItem = ({
                     selectedOptions={
                       selectedObj.aggregation
                         ? [
-                            {
-                              label: selectedObj.aggregation,
-                            },
-                          ]
+                          {
+                            label: selectedObj.aggregation,
+                          },
+                        ]
                         : []
                     }
                     onChange={(e) => updateList(e.length > 0 ? e[0].label : '', 'aggregation')}
@@ -373,9 +373,9 @@ export const DataConfigPanelItem = ({
       [SPAN]:
         configList[SPAN] === undefined
           ? {
-              ...initialSpanEntry,
-              [field]: value,
-            }
+            ...initialSpanEntry,
+            [field]: value,
+          }
           : { ...configList[SPAN], [field]: value },
     };
     if (field === TIME_FIELD && index > -1) {
@@ -398,12 +398,12 @@ export const DataConfigPanelItem = ({
               isTimeStampSelected
                 ? [...configList.span?.time_field]
                 : selectedObj?.label
-                ? [
+                  ? [
                     {
                       label: selectedObj?.label,
                     },
                   ]
-                : []
+                  : []
             }
             onChange={(e) =>
               isTimeStampFieldsSelected(e.length > 0 ? e[0].label : '')
@@ -499,37 +499,41 @@ export const DataConfigPanelItem = ({
   return isAddConfigClicked ? (
     getCommonUI(selectedConfigItem.name)
   ) : (
-    <>
-      <EuiTitle size="xxs">
-        <h3>Configuration</h3>
-      </EuiTitle>
-      <EuiSpacer size="s" />
-      {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
-        <>
-          {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
-          <EuiSpacer size="s" />
-          {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
-          <EuiSpacer size="s" />
-          {(visualizations.vis.name === VIS_CHART_TYPES.Bar ||
-            visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar) && (
-            <>{DataConfigPanelFields(getRenderFieldsObj(BREAKDOWNS))}</>
-          )}
-        </>
-      ) : (
-        <>
-          <EuiTitle size="xxs">
-            <h3>Bucket Size</h3>
-          </EuiTitle>
-          {getNumberField('bucketSize')}
+    <div className='euiConfigPanelBox'>
+      <>
+        <EuiTitle size="xxs">
+          <h3>Configuration</h3>
+        </EuiTitle>
+        <EuiSpacer size="s" />
+        <EuiFlexItem grow={false} className='euiScrollSection'>
+          {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
+            <>
+              {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
+              <EuiSpacer size="s" />
+              {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
+              <EuiSpacer size="s" />
+              {(visualizations.vis.name === VIS_CHART_TYPES.Bar ||
+                visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar) && (
+                  <>{DataConfigPanelFields(getRenderFieldsObj(BREAKDOWNS))}</>
+                )}
+            </>
+          ) : (
+            <>
+              <EuiTitle size="xxs">
+                <h3>Bucket Size</h3>
+              </EuiTitle>
+              {getNumberField('bucketSize')}
 
-          <EuiSpacer size="s" />
-          <EuiTitle size="xxs">
-            <h3>Bucket Offset</h3>
-          </EuiTitle>
-          {getNumberField('bucketOffset')}
-        </>
-      )}
-      <EuiSpacer size="m" />
+              <EuiSpacer size="s" />
+              <EuiTitle size="xxs">
+                <h3>Bucket Offset</h3>
+              </EuiTitle>
+              {getNumberField('bucketOffset')}
+            </>
+          )}
+        </EuiFlexItem>
+        <EuiSpacer size="m" />
+      </>
       <EuiFlexItem grow={false}>
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
@@ -540,6 +544,6 @@ export const DataConfigPanelItem = ({
           Update chart
         </EuiButton>
       </EuiFlexItem>
-    </>
+    </div>
   );
 };

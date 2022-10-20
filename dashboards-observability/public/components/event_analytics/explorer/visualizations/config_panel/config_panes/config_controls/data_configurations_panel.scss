@@ -3,43 +3,47 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-.explorer__vizDataConfig {
-  @include euiYScrollWithShadows;
+.euiConfigPanelBox {
+  display: flex;
+  flex-direction: column;
 
-  background: $euiColorLightestShade;
-  border-left: $euiBorderThin;
-  border-right: $euiBorderThin;
-  position: relative;
+  .euiScrollSection {
+    @include euiYScrollWithShadows;
 
-  &__section {
-    width: 100%;
-    transition: transform $euiAnimSpeedNormal 0s $euiAnimSlightResistance;
-  }
+    position: relative;
+    max-height: 300px;
+    overflow-y: auto;
 
-  &__title {
-    padding: $euiSizeS;
-    padding-bottom: 0;
-
-    &.showDivider {
-      border-bottom: 1px solid $euiColorLightShade;
+    &__section {
+      width: 100%;
+      transition: transform $euiAnimSpeedNormal 0s $euiAnimSlightResistance;
     }
-  }
 
-  &__content {
-    padding: $euiSizeS;
-  }
+    &__title {
+      padding: $euiSizeS;
+      padding-bottom: 0;
 
-  &__aggEditor {
-    padding: 0 $euiSizeM;
-  }
+      &.showDivider {
+        border-bottom: 1px solid $euiColorLightShade;
+      }
+    }
 
-  &--secondary {
-    position: absolute;
-    top: 0;
-    left: 100%;
-  }
+    &__content {
+      padding: $euiSizeS;
+    }
 
-  &.showSecondary > .wizConfig__section {
-    transform: translateX(-100%);
+    &__aggEditor {
+      padding: 0 $euiSizeM;
+    }
+
+    &--secondary {
+      position: absolute;
+      top: 0;
+      left: 100%;
+    }
+
+    &.showSecondary > .wizConfig__section {
+      transform: translateX(-100%);
+    }
   }
 }
