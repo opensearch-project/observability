@@ -104,18 +104,26 @@ describe('Utils helper functions', () => {
 
   it('renders displayVisualization function', () => {
     const wrapper1 = mount(
-      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'bar')}</div>
+      <div>
+        {displayVisualization(sampleSavedVisualization.visualization, samplePPLResponse, 'bar')}
+      </div>
     );
     expect(wrapper1).toMatchSnapshot();
 
     const wrapper2 = mount(
-      <div>{displayVisualization(sampleSavedVisualization, samplePPLResponse, 'line')}</div>
+      <div>
+        {displayVisualization(sampleSavedVisualization.visualization, samplePPLResponse, 'line')}
+      </div>
     );
     expect(wrapper2).toMatchSnapshot();
 
     const wrapper3 = mount(
       <div>
-        {displayVisualization(sampleSavedVisualization, samplePPLResponse, 'horizontal_bar')}
+        {displayVisualization(
+          sampleSavedVisualization.visualization,
+          samplePPLResponse,
+          'horizontal_bar'
+        )}
       </div>
     );
     expect(wrapper3).toMatchSnapshot();
