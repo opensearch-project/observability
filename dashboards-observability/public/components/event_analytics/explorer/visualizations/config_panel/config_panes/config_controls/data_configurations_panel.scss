@@ -3,13 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-.explorer__vizDataConfig {
+.euiConfigPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.euiScrollSection {
   @include euiYScrollWithShadows;
 
-  background: $euiColorLightestShade;
-  border-left: $euiBorderThin;
-  border-right: $euiBorderThin;
   position: relative;
+  max-height: 300px;
+  overflow-y: auto;
 
   &__section {
     width: 100%;
