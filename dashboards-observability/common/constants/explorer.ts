@@ -15,6 +15,7 @@ export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
 export const INDEX = 'index';
+export const SELECTED_PATTERN = 'selectedPattern';
 export const SELECTED_TIMESTAMP = 'selectedTimestamp';
 export const SELECTED_FIELDS = 'selectedFields';
 export const UNSELECTED_FIELDS = 'unselectedFields';

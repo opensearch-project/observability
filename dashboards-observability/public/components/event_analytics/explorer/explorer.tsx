@@ -56,6 +56,7 @@ import {
   CUSTOM_LABEL,
   PATTERN_SELECT_QUERY,
   PPL_PATTERNS_REGEX,
+  SELECTED_PATTERN,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -133,7 +134,7 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-  const { getPatterns } = useFetchPatterns({
+  const { getPatterns, getDefaultPatternsField } = useFetchPatterns({
     pplService,
     requestParams,
   });
@@ -349,6 +350,23 @@ export const Explorer = ({
       curTimestamp = defaultTimestamp.default_timestamp;
       if (defaultTimestamp.hasSchemaConflict) {
         setToast(defaultTimestamp.message, 'danger');
+      }
+    }
+
+    let curPattern: string = curQuery![SELECTED_PATTERN];
+
+    if (isEmpty(curPattern)) {
+      await getDefaultPatternsField(curIndex, (error) => {
+        const formattedError = formatError(error.name, error.message, error.body.message);
+        notifications.toasts.addError(formattedError, {
+          title: 'Error fetching default pattern field',
+        });
+      });
+      const newQuery = queryRef.current;
+      curPattern = newQuery![SELECTED_PATTERN];
+      if (isEmpty(curPattern)) {
+        setToast('Index does not contain a valid pattern field.', 'danger');
+        return;
       }
     }
 
@@ -605,6 +623,7 @@ export const Explorer = ({
       currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
     }
     const patternSelectQuery = currQuery.trim() + PATTERN_SELECT_QUERY + pattern + "'";
+    // Passing in empty string will remove pattern query
     const newQuery = pattern ? patternSelectQuery : currQuery;
     await setTempQuery(newQuery);
     await updateQueryInStore(newQuery);
@@ -627,6 +646,7 @@ export const Explorer = ({
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
+                  selectedPattern={query[SELECTED_PATTERN]}
                   handleOverrideTimestamp={handleOverrideTimestamp}
                   handleAddField={(field: IField) => handleAddField(field)}
                   handleRemoveField={(field: IField) => handleRemoveField(field)}

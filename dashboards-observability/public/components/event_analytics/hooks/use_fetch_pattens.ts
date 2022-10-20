@@ -8,9 +8,13 @@ import { isEmpty } from 'lodash';
 import PPLService from 'public/services/requests/ppl';
 import { useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { FINAL_QUERY, PATTERN_STATS_QUERY } from '../../../../common/constants/explorer';
+import {
+  FINAL_QUERY,
+  PATTERN_STATS_QUERY,
+  SELECTED_PATTERN,
+} from '../../../../common/constants/explorer';
 import { setPatterns, reset as resetPatterns } from '../redux/slices/patterns_slice';
-import { selectQueries } from '../redux/slices/query_slice';
+import { changeQuery, selectQueries } from '../redux/slices/query_slice';
 import { useFetchEvents } from './use_fetch_events';
 
 interface IFetchPatternsParams {
@@ -84,7 +88,42 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     );
   };
 
+  const getDefaultPatternsField = async (index: string, errorHandler: (error: any) => void) => {
+    const query = `source = ${index} | head 1`;
+    await fetchEvents(
+      { query },
+      'jdbc',
+      async (res: any) => {
+        // Create array of only string type fields
+        const textFields = res.schema.filter(
+          (field: { name: string; type: string }) => field.type === 'string'
+        );
+        // Loop through array and find field with longest value
+        let defaultPatternField = '';
+        let maxLength = 0;
+        textFields.forEach((field: { name: string; type: string }, i: number) => {
+          const curLength = res.jsonData[0][field.name].length;
+          if (curLength > maxLength) {
+            maxLength = curLength;
+            defaultPatternField = field.name;
+          }
+        });
+        // Set pattern to that field
+        await dispatch(
+          changeQuery({
+            tabId: requestParams.tabId,
+            query: {
+              [SELECTED_PATTERN]: defaultPatternField,
+            },
+          })
+        );
+      },
+      errorHandler
+    );
+  };
+
   return {
     getPatterns,
+    getDefaultPatternsField,
   };
 };

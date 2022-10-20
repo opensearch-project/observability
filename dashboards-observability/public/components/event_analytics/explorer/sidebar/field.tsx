@@ -22,7 +22,9 @@ import { IField } from '../../../../../common/types/explorer';
 import { FieldInsights } from './field_insights';
 
 interface IFieldProps {
+  query: string;
   field: IField;
+  selectedPattern: string;
   selectedTimestamp: string;
   isOverridingTimestamp: boolean;
   handleOverrideTimestamp: (timestamp: { name: string; type: string }) => void;
@@ -37,6 +39,7 @@ export const Field = (props: IFieldProps) => {
   const {
     query,
     field,
+    selectedPattern,
     selectedTimestamp,
     isOverridingTimestamp,
     handleOverrideTimestamp,
@@ -61,13 +64,36 @@ export const Field = (props: IFieldProps) => {
     setIsFieldDetailsOpen((staleState) => !staleState);
   };
 
-  const toggleField = (field: IField) => {
-    onToggleField(field);
+  const toggleField = (tField: IField) => {
+    onToggleField(tField);
   };
 
   const getFieldActionDOM = () => {
     return (
       <>
+        <EuiToolTip id="override-pattern" delay="long" content="Override default pattern">
+          <>
+            {isEqual(field.type, 'string') ? (
+              isEqual(selectedPattern, field.name) ? (
+                <EuiMark data-test-subj="eventFields__default-pattern-mark">
+                  Default Pattern
+                </EuiMark>
+              ) : (
+                <EuiButtonIcon
+                  aria-labelledby="override_pattern"
+                  className="dscSidebarItem__action"
+                  size="s"
+                  color="text"
+                  iconType="inputOutput"
+                  onClick={() => {}}
+                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                >
+                  Override
+                </EuiButtonIcon>
+              )
+            ) : null}
+          </>
+        </EuiToolTip>
         <EuiToolTip id="override-timestamp" delay="long" content="Override default timestamp">
           <>
             {showTimestampOverrideButton && isEqual(field.type, 'timestamp') ? (

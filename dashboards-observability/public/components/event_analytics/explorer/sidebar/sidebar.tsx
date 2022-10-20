@@ -16,6 +16,7 @@ interface ISidebarProps {
   query: string;
   explorerFields: IExplorerFields;
   explorerData: any;
+  selectedPattern: string;
   selectedTimestamp: string;
   isOverridingTimestamp: boolean;
   isFieldToggleButtonDisabled: boolean;
@@ -29,6 +30,7 @@ export const Sidebar = (props: ISidebarProps) => {
     query,
     explorerFields,
     explorerData,
+    selectedPattern,
     selectedTimestamp,
     isOverridingTimestamp,
     isFieldToggleButtonDisabled,
@@ -87,6 +89,7 @@ export const Sidebar = (props: ISidebarProps) => {
                             <Field
                               query={query}
                               field={field}
+                              selectedPattern={selectedPattern}
                               selectedTimestamp={selectedTimestamp}
                               handleOverrideTimestamp={handleOverrideTimestamp}
                               selected={true}
@@ -129,6 +132,7 @@ export const Sidebar = (props: ISidebarProps) => {
                           <Field
                             query={query}
                             field={field}
+                            selectedPattern={selectedPattern}
                             selectedTimestamp={selectedTimestamp}
                             isOverridingTimestamp={isOverridingTimestamp}
                             handleOverrideTimestamp={handleOverrideTimestamp}
