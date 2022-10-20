@@ -15,7 +15,6 @@ interface ISidebarProps {
 }
 
 export const Sidebar = (props: ISidebarProps) => {
-  // const { recentlyCreatedFields } = props;
   const [showFields, setShowFields] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
 

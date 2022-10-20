@@ -28,6 +28,12 @@ import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import React, { Fragment, useState } from 'react';
 import { StaticContext } from 'react-router-dom';
 import { Route, RouteComponentProps } from 'react-router-dom';
+import {
+  SELECTED_METRICS,
+  UNSELECTED_METRICS,
+  AVAILABLE_METRICS,
+  REDUX_SLICE_METRICS,
+} from 'common/constants/metrics';
 import { uiSettingsService } from '../../../common/utils';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
 import { ObservabilitySideBar } from '../common/side_nav';
@@ -35,6 +41,9 @@ import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
 import { EuiAccordion } from '@opensearch-project/oui';
 import { EmptyMetricsView } from './view/empty_view';
+import { createSlice } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMetrics, updateMetrics } from './redux/slices/metrics_slice';
 
 interface MetricsProps {
   http: CoreStart['http'];
@@ -50,6 +59,8 @@ export const Home = ({
   renderProps,
 }: MetricsProps) => {
 
+  const dispatch = useDispatch();
+
   // Date picker constants
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
   const [start, setStart] = useState<ShortDate>('now-30m');
@@ -58,14 +69,14 @@ export const Home = ({
 
   // Side bar constants
   const [ isSidebarClosed, setIsSidebarClosed ] = useState(false);
-  const recentlyCreatedFields = ['1', '2', '3', '4']
+  const recentlyCreatedFields = ['1', '2', '3', '4'];
+  const metricsList = useSelector(selectMetrics);
+  console.log(metricsList);
 
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
     // if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
     //   return;
     // }
-
-    console.log('refreshed date picker');
   };
 
   const onDatePickerChange = (props: OnTimeChangeProps) => {
@@ -89,13 +100,6 @@ export const Home = ({
           <div>
             <EuiPage>
               <EuiPageBody component="div">
-                {/* <EuiPageHeader>
-                  <EuiPageHeaderSection>
-                    <EuiTitle size="l">
-                      <h1>Metrics</h1>
-                    </EuiTitle>
-                  </EuiPageHeaderSection>
-                </EuiPageHeader> */}
                 <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
                   <EuiFlexItem grow={false}>
                     <EuiSuperDatePicker
@@ -107,7 +111,6 @@ export const Home = ({
                       isDisabled={dateDisabled}
                     />
                   </EuiFlexItem>
-                {/* <EuiPageContentBody> */}
                 </EuiFlexGroup>
                 <div className="row">
                   {!isSidebarClosed && <Sidebar recentlyCreatedFields={recentlyCreatedFields} />}
@@ -128,7 +131,6 @@ export const Home = ({
                   />
                 </div>
                 <EmptyMetricsView />
-                {/* </EuiPageContentBody> */}
               </EuiPageBody>
             </EuiPage>
           </div>
