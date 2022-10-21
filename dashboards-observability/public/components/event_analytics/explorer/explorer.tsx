@@ -415,20 +415,15 @@ export const Explorer = ({
     }
   };
 
+  // for testing purpose only: fix for multiple rerenders in case of update chart
   const fetchDataUpdateChart = async (
-    startingTime?: string,
-    endingTime?: string,
+    startingTime?: string | undefined,
+    endingTime?: string | undefined,
     updatedQuery?: any
   ) => {
-    console.log('IN FETCH DATA TEST@@@@ ===EXPLORER ======== updatedQuery', updatedQuery);
     const curQuery = updatedQuery.query;
-    console.log('curQuery====', curQuery, 'appBasedRef.current', appBasedRef.current);
-    // const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
-    // appBasedRef is empty in case of upadte chart/refresh query....have data in case of only app analytics app
-    const rawQueryStr = updatedQuery.query[RAW_QUERY];
-    console.log('rawQueryStr====', rawQueryStr);
+    const rawQueryStr = curQuery[RAW_QUERY];
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    console.log('curIndex===', curIndex);
     if (isEmpty(rawQueryStr)) return;
 
     if (isEmpty(curIndex)) {
@@ -437,9 +432,7 @@ export const Explorer = ({
     }
 
     let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
-    console.log('curTimestamp====', curTimestamp);
     if (isEmpty(curTimestamp)) {
-      console.log('EMPTY curTimestamp');
       const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
       if (isEmpty(defaultTimestamp.default_timestamp)) {
         setToast(defaultTimestamp.message, 'danger');
@@ -451,8 +444,6 @@ export const Explorer = ({
       }
     }
 
-    // startingTime, endingTime code update ==pending
-    // !!!!! we dont have time upadted in case of update chart click
     if (isEqual(typeof startingTime, 'undefined') && isEqual(typeof endingTime, 'undefined')) {
       startingTime = curQuery![SELECTED_DATE_RANGE][0];
       endingTime = curQuery![SELECTED_DATE_RANGE][1];
@@ -480,16 +471,10 @@ export const Explorer = ({
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
-      console.log('FETCHDATA ===CHECK 1111111');
       getVisualizations();
-      // commented as fields already fetched before update chart!!!!
-      // getAvailableFields(`search source=${curIndex}`);
     } else {
-      // block never runs in case of update chart!!!!
-      console.log('FETCHDATA ===CHECK 22222222');
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
-        console.log('FETCHDATA ===CHECK 33333');
         getLiveTail(undefined, (error) => {
           const formattedError = formatError(error.name, error.message, error.body.message);
           notifications.toasts.addError(formattedError, {
@@ -497,7 +482,6 @@ export const Explorer = ({
           });
         });
       } else {
-        console.log('FETCHDATA ===CHECK 444444444');
         getEvents(undefined, (error) => {
           const formattedError = formatError(error.name, error.message, error.body.message);
           notifications.toasts.addError(formattedError, {
@@ -507,20 +491,19 @@ export const Explorer = ({
       }
       getCountVisualizations(minInterval);
     }
-    // not sure about live tail in case of upadte chart!!!!!
-    console.log('isLiveTailOnRef=====', isLiveTailOnRef);
+
     // for comparing usage if for the same tab, user changed index from one to another
     if (!isLiveTailOnRef.current) {
       setPrevIndex(curTimestamp);
       if (!queryRef.current!.isLoaded) {
-        // dispatch(
-        //   changeQuery({
-        //     tabId,
-        //     query: {
-        //       isLoaded: true,
-        //     },
-        //   })
-        // );
+        dispatch(
+          changeQuery({
+            tabId,
+            query: {
+              isLoaded: true,
+            },
+          })
+        );
       }
     }
   };
@@ -967,7 +950,6 @@ export const Explorer = ({
   };
 
   const getUpdatedDataConfig = (statsToken: statsChunk) => {
-    console.log('getUpdatedDataConfig======= statsToken', statsToken);
     if (statsToken === null) {
       return {
         [GROUPBY]: [],
@@ -1090,10 +1072,7 @@ export const Explorer = ({
     [tempQuery, query, selectedContentTabId]
   );
 
-  const handleQueryChange = async (newQuery: string) => {
-    console.log('handleQueryChange === IN EXPLORER ===newQuery==', newQuery);
-    setTempQuery(newQuery);
-  };
+  const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;

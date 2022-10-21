@@ -206,6 +206,7 @@ export const DataConfigPanelItem = ({
     setIsAddConfigClicked(false);
   };
 
+  // updateChart is fixed for multiple rerenders and this is only for testing
   const updateChart = (updatedConfigList = configList) => {
     if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
       dispatch(
@@ -223,7 +224,6 @@ export const DataConfigPanelItem = ({
         })
       );
     } else {
-      console.log('data.query.rawQuery====', data.query.rawQuery);
       const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
       const newQuery = queryManager!
         .queryBuilder()
@@ -236,92 +236,7 @@ export const DataConfigPanelItem = ({
           [RAW_QUERY]: newQuery,
         },
       };
-      batch(async () => {
-        // await handleQueryChange(newQuery); @@worked fine without this one also
-        //  @@moving into/after fetch data
-        await dispatch(
-          changeQuery({
-            tabId,
-            query: {
-              ...data.query,
-              [RAW_QUERY]: newQuery,
-            },
-          })
-        );
-        await fetchData();
-        // await fetchData(undefined, undefined, updatedQuery);
-        // await dispatch(
-        //   changeVizConfig({
-        //     tabId,
-        //     vizId: visualizations.vis.name,
-        //     data: {
-        //       dataConfig: {
-        //         ...userConfigs.dataConfig,
-        //         [GROUPBY]: updatedConfigList[GROUPBY],
-        //         [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-        //         [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
-        //         [SPAN]:
-        //           !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
-        //             ? updatedConfigList?.span
-        //             : undefined,
-        //       },
-        //     },
-        //   })
-        // );
-      });
-    }
-  };
-
-  const updateChartTest = (updatedConfigList = configList) => {
-    if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
-      dispatch(
-        changeVizConfig({
-          tabId,
-          vizId: curVisId,
-          data: {
-            ...userConfigs,
-            dataConfig: {
-              ...userConfigs.dataConfig,
-              [GROUPBY]: updatedConfigList[GROUPBY],
-              [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-            },
-          },
-        })
-      );
-    } else {
-      console.log('data.query.rawQuery====', data.query.rawQuery);
-      const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
-      const newQuery = queryManager!
-        .queryBuilder()
-        .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
-
-      const updatedQuery = {
-        tabId,
-        query: {
-          ...data.query,
-          [RAW_QUERY]: newQuery,
-        },
-      };
-      console.log('BEFORE FETCHDATATEST##### updatedQuery', updatedQuery);
       fetchDataUpdateChart(undefined, undefined, updatedQuery);
-      // await dispatch(
-      //   changeVizConfig({
-      //     tabId,
-      //     vizId: visualizations.vis.name,
-      //     data: {
-      //       dataConfig: {
-      //         ...userConfigs.dataConfig,
-      //         [GROUPBY]: updatedConfigList[GROUPBY],
-      //         [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-      //         [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
-      //         [SPAN]:
-      //           !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
-      //             ? updatedConfigList?.span
-      //             : undefined,
-      //       },
-      //     },
-      //   })
-      // );
     }
   };
 
@@ -599,7 +514,7 @@ export const DataConfigPanelItem = ({
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
-          onClick={() => updateChartTest()}
+          onClick={() => updateChart()}
           size="s"
         >
           Update chart
