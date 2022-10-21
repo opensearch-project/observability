@@ -69,7 +69,9 @@ export const DataConfigPanelItem = ({
   queryManager,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const { tabId, handleQueryChange, fetchData, curVisId } = useContext<any>(TabContext);
+  const { tabId, handleQueryChange, fetchData, fetchDataUpdateChart, curVisId } = useContext<any>(
+    TabContext
+  );
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
@@ -221,13 +223,22 @@ export const DataConfigPanelItem = ({
         })
       );
     } else {
+      console.log('data.query.rawQuery====', data.query.rawQuery);
       const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
       const newQuery = queryManager!
         .queryBuilder()
         .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 
+      const updatedQuery = {
+        tabId,
+        query: {
+          ...data.query,
+          [RAW_QUERY]: newQuery,
+        },
+      };
       batch(async () => {
-        await handleQueryChange(newQuery);
+        // await handleQueryChange(newQuery); @@worked fine without this one also
+        //  @@moving into/after fetch data
         await dispatch(
           changeQuery({
             tabId,
@@ -238,25 +249,79 @@ export const DataConfigPanelItem = ({
           })
         );
         await fetchData();
-        await dispatch(
-          changeVizConfig({
-            tabId,
-            vizId: visualizations.vis.name,
-            data: {
-              dataConfig: {
-                ...userConfigs.dataConfig,
-                [GROUPBY]: updatedConfigList[GROUPBY],
-                [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-                [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
-                [SPAN]:
-                  !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
-                    ? updatedConfigList?.span
-                    : undefined,
-              },
-            },
-          })
-        );
+        // await fetchData(undefined, undefined, updatedQuery);
+        // await dispatch(
+        //   changeVizConfig({
+        //     tabId,
+        //     vizId: visualizations.vis.name,
+        //     data: {
+        //       dataConfig: {
+        //         ...userConfigs.dataConfig,
+        //         [GROUPBY]: updatedConfigList[GROUPBY],
+        //         [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
+        //         [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
+        //         [SPAN]:
+        //           !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
+        //             ? updatedConfigList?.span
+        //             : undefined,
+        //       },
+        //     },
+        //   })
+        // );
       });
+    }
+  };
+
+  const updateChartTest = (updatedConfigList = configList) => {
+    if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
+      dispatch(
+        changeVizConfig({
+          tabId,
+          vizId: curVisId,
+          data: {
+            ...userConfigs,
+            dataConfig: {
+              ...userConfigs.dataConfig,
+              [GROUPBY]: updatedConfigList[GROUPBY],
+              [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
+            },
+          },
+        })
+      );
+    } else {
+      console.log('data.query.rawQuery====', data.query.rawQuery);
+      const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
+      const newQuery = queryManager!
+        .queryBuilder()
+        .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
+
+      const updatedQuery = {
+        tabId,
+        query: {
+          ...data.query,
+          [RAW_QUERY]: newQuery,
+        },
+      };
+      console.log('BEFORE FETCHDATATEST##### updatedQuery', updatedQuery);
+      fetchDataUpdateChart(undefined, undefined, updatedQuery);
+      // await dispatch(
+      //   changeVizConfig({
+      //     tabId,
+      //     vizId: visualizations.vis.name,
+      //     data: {
+      //       dataConfig: {
+      //         ...userConfigs.dataConfig,
+      //         [GROUPBY]: updatedConfigList[GROUPBY],
+      //         [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
+      //         [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
+      //         [SPAN]:
+      //           !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
+      //             ? updatedConfigList?.span
+      //             : undefined,
+      //       },
+      //     },
+      //   })
+      // );
     }
   };
 
@@ -534,7 +599,7 @@ export const DataConfigPanelItem = ({
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
-          onClick={() => updateChart()}
+          onClick={() => updateChartTest()}
           size="s"
         >
           Update chart
