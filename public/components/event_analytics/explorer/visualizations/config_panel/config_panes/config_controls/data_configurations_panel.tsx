@@ -69,7 +69,9 @@ export const DataConfigPanelItem = ({
   queryManager,
 }: DataConfigPanelProps) => {
   const dispatch = useDispatch();
-  const { tabId, handleQueryChange, fetchData, curVisId } = useContext<any>(TabContext);
+  const { tabId, handleQueryChange, fetchData, fetchDataUpdateChart, curVisId } = useContext<any>(
+    TabContext
+  );
   const { data } = visualizations;
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
@@ -204,6 +206,7 @@ export const DataConfigPanelItem = ({
     setIsAddConfigClicked(false);
   };
 
+  // updateChart is fixed for multiple rerenders and this is only for testing
   const updateChart = (updatedConfigList = configList) => {
     if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
       dispatch(
@@ -226,37 +229,14 @@ export const DataConfigPanelItem = ({
         .queryBuilder()
         .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
 
-      batch(async () => {
-        await handleQueryChange(newQuery);
-        await dispatch(
-          changeQuery({
-            tabId,
-            query: {
-              ...data.query,
-              [RAW_QUERY]: newQuery,
-            },
-          })
-        );
-        await fetchData();
-        await dispatch(
-          changeVizConfig({
-            tabId,
-            vizId: visualizations.vis.name,
-            data: {
-              dataConfig: {
-                ...userConfigs.dataConfig,
-                [GROUPBY]: updatedConfigList[GROUPBY],
-                [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-                [BREAKDOWNS]: updatedConfigList[BREAKDOWNS],
-                [SPAN]:
-                  !isEmpty(updatedConfigList[GROUPBY]) && !isEmpty(updatedConfigList[AGGREGATIONS])
-                    ? updatedConfigList?.span
-                    : undefined,
-              },
-            },
-          })
-        );
-      });
+      const updatedQuery = {
+        tabId,
+        query: {
+          ...data.query,
+          [RAW_QUERY]: newQuery,
+        },
+      };
+      fetchDataUpdateChart(undefined, undefined, updatedQuery);
     }
   };
 
