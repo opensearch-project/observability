@@ -144,6 +144,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     },
   ];
 
+  layout.yaxis = { autosize: true, automargin: true };
   const mergedLayout = {
     ...layout,
     ...(layoutConfig.layout && layoutConfig.layout),
