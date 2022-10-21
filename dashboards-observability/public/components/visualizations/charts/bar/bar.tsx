@@ -83,10 +83,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
   const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
   const legendPosition = legend.position || legendposition;
-
-  visualizations.data?.rawVizData?.dataConfig?.metrics
-    ? visualizations.data.rawVizData.dataConfig.metrics
-    : [];
   const labelSize = chartStyles.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
   const legendSize = legend.legendSize;
   const getSelectedColorTheme = (field: any, index: number) =>
