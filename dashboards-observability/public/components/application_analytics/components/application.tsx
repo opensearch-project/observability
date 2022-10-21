@@ -377,7 +377,7 @@ export function Application(props: AppDetailProps) {
         endTime={appEndTime}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
-        appBaseQuery={application.baseQuery}
+        appBaseQuery={application.baseQuery.trim()}
         callback={callback}
         callbackInApp={callbackInApp}
         queryManager={queryManager}

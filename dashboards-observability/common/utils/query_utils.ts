@@ -59,7 +59,7 @@ export const buildQuery = (baseQuery: string, currQuery: string) => {
   if (baseQuery) {
     fullQuery = baseQuery;
     if (currQuery) {
-      fullQuery += currQuery.trim().charAt(0) !== '|' ? '| ' : '' + currQuery;
+      fullQuery += '| ' + currQuery;
     }
   } else {
     fullQuery = currQuery;

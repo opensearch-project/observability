@@ -59,6 +59,7 @@ import {
   AGGREGATIONS,
   CUSTOM_LABEL,
   VIZ_CONTAIN_XY_AXIS,
+  DEFAULT_AVAILABILITY_QUERY,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -224,9 +225,7 @@ export const Explorer = ({
         const isSavedQuery = has(savedData, SAVED_QUERY);
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
         const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
-        const currQuery = appLogEvents
-          ? objectData?.query.replace(appBaseQuery + '| ', '')
-          : objectData?.query || '';
+        const currQuery = objectData?.query || '';
 
         if (appLogEvents) {
           if (objectData?.selected_date_range?.start && objectData?.selected_date_range?.end) {
@@ -282,7 +281,7 @@ export const Explorer = ({
         setSelectedPanelName(objectData?.name || '');
         setCurVisId(objectData?.type || 'bar');
         setTempQuery((staleTempQuery: string) => {
-          return appLogEvents ? currQuery : objectData?.query || staleTempQuery;
+          return objectData?.query || staleTempQuery;
         });
         const tabToBeFocused = isSavedQuery
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
@@ -303,7 +302,9 @@ export const Explorer = ({
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
+    const rawQueryStr = (curQuery![RAW_QUERY] as string).includes(appBaseQuery)
+      ? curQuery![RAW_QUERY]
+      : buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
 
     if (isEmpty(rawQueryStr)) return;
@@ -346,6 +347,7 @@ export const Explorer = ({
         tabId,
         query: {
           finalQuery,
+          [RAW_QUERY]: rawQueryStr,
           [SELECTED_TIMESTAMP]: curTimestamp,
         },
       })
@@ -411,8 +413,8 @@ export const Explorer = ({
   const prepareAvailability = async () => {
     setSelectedContentTab(TAB_CHART_ID);
     setTriggerAvailability(true);
-    await setTempQuery('');
-    await updateQueryInStore('');
+    await setTempQuery(buildQuery(appBaseQuery, DEFAULT_AVAILABILITY_QUERY));
+    await updateQueryInStore(buildQuery(appBaseQuery, DEFAULT_AVAILABILITY_QUERY));
     await handleTimeRangePickerRefresh(true);
   };
 
@@ -964,6 +966,10 @@ export const Explorer = ({
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
+  useEffect(() => {
+    console.log(tempQuery);
+  }, [tempQuery]);
+
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
@@ -1258,6 +1264,17 @@ export const Explorer = ({
     [tempQuery]
   );
 
+  const generateViewQuery = (query: string) => {
+    if (query.includes(appBaseQuery)) {
+      if (query.includes('|')) {
+        // Some scenarios have ' | ' after base query and some have '| '
+        return query.replace(' | ', '| ').replace(appBaseQuery + '| ', '');
+      }
+      return '';
+    }
+    return query;
+  };
+
   return (
     <TabContext.Provider
       value={{
@@ -1281,7 +1298,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
+          query={appLogEvents ? generateViewQuery(tempQuery) : query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}
