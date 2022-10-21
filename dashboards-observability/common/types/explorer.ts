@@ -359,6 +359,7 @@ export interface TreemapParentsProps {
 export interface DataConfigPanelFieldProps {
   list: ConfigListEntry[];
   dimensionSpan: DimensionSpan;
+  isSpanError: boolean;
   sectionName: string;
   visType: VIS_CHART_TYPES;
   addButtonText: string;

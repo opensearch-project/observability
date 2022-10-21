@@ -8,6 +8,7 @@ import './data_configurations_panel.scss';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   EuiButton,
+  EuiCallOut,
   EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFieldNumber,
@@ -28,6 +29,7 @@ import {
   FINAL_QUERY,
   GROUPBY,
   RAW_QUERY,
+  REQUIRED_FIELDS,
   SPAN,
   TIMESTAMP,
   TIME_FIELD,
@@ -90,6 +92,9 @@ export const DataConfigPanelItem = ({
   });
   const [isTimeStampSelected, setIsTimeStampSelected] = useState<boolean>(false);
   const { userConfigs } = data;
+  const isSpanError =
+    !isEmpty(configList[SPAN]?.time_field) &&
+    (configList[SPAN]?.unit.length === 0 || Number(configList[SPAN]?.interval) === 0);
 
   useEffect(() => {
     if (userConfigs.dataConfig) {
@@ -186,27 +191,22 @@ export const DataConfigPanelItem = ({
 
   const handleClosePanel = () => {
     const { index, name } = selectedConfigItem;
-    if (index > -1) {
-      const selectedObj = configList[name][index] ?? [];
-      const list = { ...configList };
-      if (
-        selectedObj?.aggregation !== 'count' &&
-        (selectedObj?.aggregation === '' || selectedObj?.name === '')
-      ) {
-        list[name].splice(index, 1);
-      }
-      if (isTimeStampSelected) {
-        if (selectedObj?.name !== '') {
-          const updConfig = [...configList[name]];
-          updConfig.splice(index, 1);
-          list[GROUPBY] = [...updConfig];
-        }
-        if (configList.span?.interval === 0 || configList.span?.unit?.length === 0) {
-          delete list[SPAN];
-        }
-      }
-      setConfigList(list);
+    const selectedObj = configList[name][index] ?? [];
+    const list = { ...configList };
+    if (
+      selectedObj?.aggregation !== 'count' &&
+      (selectedObj?.aggregation === '' || selectedObj?.name === '')
+    ) {
+      list[name].splice(index, 1);
     }
+    if (isTimeStampSelected) {
+      if (selectedObj?.name !== '') {
+        const updConfig = [...configList[name]];
+        updConfig.splice(index, 1);
+        list[GROUPBY] = [...updConfig];
+      }
+    }
+    setConfigList(list);
     setIsTimeStampSelected(false);
     setIsAddConfigClicked(false);
   };
@@ -344,6 +344,7 @@ export const DataConfigPanelItem = ({
                 <EuiFormRow label="Aggregation">
                   <EuiComboBox
                     aria-label="aggregation input"
+                    isInvalid={selectedObj?.aggregation === ''}
                     placeholder="Select a aggregation"
                     singleSelection={{ asPlainText: true }}
                     options={AGGREGATION_OPTIONS}
@@ -410,17 +411,19 @@ export const DataConfigPanelItem = ({
   };
 
   const getCommonDimensionsField = (selectedObj: ConfigListEntry, name: string) => {
+    const isBreakdown = name === BREAKDOWNS;
     return (
       <>
         <EuiFormRow label="Field">
           <EuiComboBox
             aria-label="input field"
             placeholder="Select a field"
+            isInvalid={selectedObj?.label === ''}
             singleSelection={{ asPlainText: true }}
             isClearable={false}
             options={getOptionsAvailable(name)}
             selectedOptions={
-              isTimeStampSelected
+              isTimeStampSelected && !isBreakdown
                 ? [...configList.span?.time_field]
                 : selectedObj?.label
                 ? [
@@ -431,7 +434,7 @@ export const DataConfigPanelItem = ({
                 : []
             }
             onChange={(e) =>
-              isTimeStampFieldsSelected(e.length > 0 ? e[0].label : '')
+              isTimeStampFieldsSelected(e.length > 0 ? e[0].label : '') && !isBreakdown
                 ? handleTimeStampFieldsChange(e, TIME_FIELD)
                 : updateList(e.length > 0 ? e[0].label : '', 'label')
             }
@@ -489,6 +492,7 @@ export const DataConfigPanelItem = ({
               </EuiFormRow>
               <EuiFormRow label="Unit">
                 <EuiComboBox
+                  isInvalid={configList[SPAN]?.unit.length === 0}
                   aria-label="date unit"
                   placeholder="Select fields"
                   singleSelection={{ asPlainText: true }}
@@ -515,6 +519,7 @@ export const DataConfigPanelItem = ({
       list: configList[sectionName] ?? [],
       dimensionSpan: configList[SPAN] ?? initialSpanEntry,
       sectionName,
+      isSpanError,
       visType: visualizations.vis.name,
       addButtonText: 'Click to add',
       handleServiceAdd,
@@ -530,6 +535,12 @@ export const DataConfigPanelItem = ({
       <EuiTitle size="xxs">
         <h3>Configuration</h3>
       </EuiTitle>
+      <EuiSpacer size="s" />
+      {isSpanError && (
+        <EuiCallOut title="error" color="danger" iconType="alert">
+          {REQUIRED_FIELDS}
+        </EuiCallOut>
+      )}
       <EuiSpacer size="s" />
       {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
         <>

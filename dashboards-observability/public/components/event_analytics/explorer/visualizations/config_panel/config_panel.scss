@@ -188,6 +188,11 @@ $vis-editor-sidebar-min-width: 350px;
   align-items: center;
 }
 
+.error_panel{
+  @extend .panelItem_button ;
+  border-bottom: 2px solid #BD271E !important;
+}
+
 .field_text {
   text-overflow: ellipsis;
   overflow: hidden;

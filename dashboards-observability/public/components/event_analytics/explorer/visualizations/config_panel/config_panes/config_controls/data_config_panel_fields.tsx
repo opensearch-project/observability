@@ -18,6 +18,7 @@ import {
   AGGREGATIONS,
   CUSTOM_LABEL,
   GROUPBY,
+  REQUIRED_FIELDS,
   SPAN,
   DATA_CONFIG_HINTS_INFO
 } from '../../../../../../../../common/constants/explorer';
@@ -37,6 +38,7 @@ export const DataConfigPanelFields = ({
   list,
   dimensionSpan,
   sectionName,
+  isSpanError,
   visType,
   addButtonText,
   handleServiceAdd,
@@ -44,6 +46,7 @@ export const DataConfigPanelFields = ({
   handleServiceEdit,
 }: DataConfigPanelFieldProps) => {
   const isAggregation = sectionName === AGGREGATIONS;
+  const { time_field } = dimensionSpan;
 
   // The function hides the click to add button for visualizations included in the const HIDE_ADD_BUTTON_VIZ_TYPES
   const hideClickToAddButton = (name: string) => {
@@ -52,11 +55,7 @@ export const DataConfigPanelFields = ({
     // condition for heatmap on the basis of section name
     if (visType === VIS_CHART_TYPES.HeatMap)
       return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
-    // condition for line and scatter for dimensions section.
-    return name === GROUPBY && (list.length >= 1 || !isEmpty(time_field));
   };
-
-  const { time_field, unit, interval } = dimensionSpan;
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
   const crossIcon = (index: number, configName: string) => (
@@ -90,18 +89,25 @@ export const DataConfigPanelFields = ({
       </div>
       <EuiSpacer size="s" />
       {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
-        <EuiPanel paddingSize="s" className="panelItem_button">
-          <EuiText size="s" className="field_text">
-            <EuiLink
-              role="button"
-              tabIndex={0}
-              onClick={() => handleServiceEdit(list.length - 1, GROUPBY, true)}
-            >
-              {`${SPAN}(${time_field[0]?.name}, ${interval} ${unit[0]?.value})`}
-            </EuiLink>
-          </EuiText>
-          {crossIcon(-1, SPAN)}
-        </EuiPanel>
+        <>
+          <EuiPanel paddingSize="s" className={isSpanError ? 'error_panel' : 'panelItem_button'}>
+            <EuiText size="s" className="field_text">
+              <EuiLink
+                role="button"
+                tabIndex={0}
+                onClick={() => handleServiceEdit(list.length, GROUPBY, true)}
+              >
+                {`${time_field[0]?.name}`}
+              </EuiLink>
+            </EuiText>
+            {crossIcon(-1, SPAN)}
+          </EuiPanel>
+          {isSpanError && (
+            <EuiText size="xs" color="danger">
+              {REQUIRED_FIELDS}
+            </EuiText>
+          )}
+        </>
       )}
       <EuiSpacer size="s" />
       {isArray(list) &&

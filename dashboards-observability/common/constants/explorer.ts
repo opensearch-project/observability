@@ -285,3 +285,4 @@ export const SERIES_POSITION_OPTIONS = [
   { id: htmlIdGenerator('ct')(), label: 'Left', side: 'left' },
   { id: htmlIdGenerator('ct')(), label: 'Right', side: 'right' },
 ];
+export const REQUIRED_FIELDS = 'Please enter required fields.';
