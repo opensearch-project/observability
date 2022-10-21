@@ -6,7 +6,7 @@
 package org.opensearch.observability
 
 import com.google.gson.JsonObject
-import org.apache.http.HttpHost
+import org.apache.hc.core5.http.HttpHost
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -60,7 +60,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
     open fun wipeAllOpenSearchIndices() {
         if (preserveOpenSearchIndicesAfterTest()) return
         val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
-        val xContentType = XContentType.fromMediaType(response.entity.contentType.value)
+        val xContentType = XContentType.fromMediaType(response.entity.contentType)
         xContentType.xContent().createParser(
             NamedXContentRegistry.EMPTY, DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
             response.entity.content
