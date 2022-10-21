@@ -2,21 +2,7 @@
 
 exports[`Config panel component Renders config panel with visualization data 1`] = `
 <ConfigPanel
-  changeIsValidConfigOptionState={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          true,
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
+  changeIsValidConfigOptionState={[MockFunction]}
   setCurVisId={[MockFunction]}
   visualizations={
     Object {
