@@ -43,13 +43,7 @@ interface MetricsProps {
   renderProps: RouteComponentProps<any, StaticContext, any>;
 }
 
-export const Home = ({
-  http,
-  chrome,
-  parentBreadcrumb,
-  renderProps,
-}: MetricsProps) => {
-
+export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsProps) => {
   // Date picker constants
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
   const [start, setStart] = useState<ShortDate>('now-30m');
@@ -57,8 +51,8 @@ export const Home = ({
   const [dateDisabled, setDateDisabled] = useState(false);
 
   // Side bar constants
-  const [ isSidebarClosed, setIsSidebarClosed ] = useState(false);
-  const recentlyCreatedFields = ['1', '2', '3', '4']
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const recentlyCreatedFields = ['1', '2', '3', '4'];
 
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
     // if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
@@ -89,13 +83,13 @@ export const Home = ({
           <div>
             <EuiPage>
               <EuiPageBody component="div">
-                {/* <EuiPageHeader>
+                <EuiPageHeader>
                   <EuiPageHeaderSection>
                     <EuiTitle size="l">
                       <h1>Metrics</h1>
                     </EuiTitle>
                   </EuiPageHeaderSection>
-                </EuiPageHeader> */}
+                </EuiPageHeader>
                 <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
                   <EuiFlexItem grow={false}>
                     <EuiSuperDatePicker
@@ -107,27 +101,36 @@ export const Home = ({
                       isDisabled={dateDisabled}
                     />
                   </EuiFlexItem>
-                {/* <EuiPageContentBody> */}
+                  {/* <EuiPageContentBody> */}
                 </EuiFlexGroup>
-                <div className="row">
-                  {!isSidebarClosed && <Sidebar recentlyCreatedFields={recentlyCreatedFields} />}
-                  <EuiButtonIcon
-                    iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
-                    iconSize="m"
-                    size="s"
-                    onClick={() => {
-                      setIsSidebarClosed((staleState) => {
-                        return !staleState;
-                      });
-                    }}
-                    data-test-subj="collapseSideBarButton"
-                    aria-controls="discover-sidebar"
-                    aria-expanded={isSidebarClosed ? 'false' : 'true'}
-                    aria-label="Toggle sidebar"
-                    className="dscCollapsibleSidebar__collapseButton"
-                  />
-                </div>
-                <EmptyMetricsView />
+                <EuiSpacer size="l" />
+                <EuiFlexGroup>
+                  <EuiFlexItem grow={false}>
+                    <div className="row">
+                      {!isSidebarClosed && (
+                        <Sidebar recentlyCreatedFields={recentlyCreatedFields} />
+                      )}
+                      <EuiButtonIcon
+                        iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
+                        iconSize="m"
+                        size="s"
+                        onClick={() => {
+                          setIsSidebarClosed((staleState) => {
+                            return !staleState;
+                          });
+                        }}
+                        data-test-subj="collapseSideBarButton"
+                        aria-controls="discover-sidebar"
+                        aria-expanded={isSidebarClosed ? 'false' : 'true'}
+                        aria-label="Toggle sidebar"
+                        className="dscCollapsibleSidebar__collapseButton"
+                      />
+                    </div>
+                  </EuiFlexItem>
+                  <EuiFlexItem>
+                    <EmptyMetricsView />
+                  </EuiFlexItem>
+                </EuiFlexGroup>
                 {/* </EuiPageContentBody> */}
               </EuiPageBody>
             </EuiPage>
