@@ -325,6 +325,7 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+
     if (isEmpty(rawQueryStr)) return;
 
     if (isEmpty(curIndex)) {
@@ -333,7 +334,6 @@ export const Explorer = ({
     }
 
     let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
-
     if (isEmpty(curTimestamp)) {
       const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
       if (isEmpty(defaultTimestamp.default_timestamp)) {
@@ -384,6 +384,99 @@ export const Explorer = ({
           })
         );
       }
+    } else {
+      findAutoInterval(startTime, endTime);
+      if (isLiveTailOnRef.current) {
+        getLiveTail(undefined, (error) => {
+          const formattedError = formatError(error.name, error.message, error.body.message);
+          notifications.toasts.addError(formattedError, {
+            title: 'Error fetching events',
+          });
+        });
+      } else {
+        getEvents(undefined, (error) => {
+          const formattedError = formatError(error.name, error.message, error.body.message);
+          notifications.toasts.addError(formattedError, {
+            title: 'Error fetching events',
+          });
+        });
+      }
+      getCountVisualizations(minInterval);
+    }
+
+    // for comparing usage if for the same tab, user changed index from one to another
+    if (!isLiveTailOnRef.current) {
+      setPrevIndex(curTimestamp);
+      if (!queryRef.current!.isLoaded) {
+        dispatch(
+          changeQuery({
+            tabId,
+            query: {
+              isLoaded: true,
+            },
+          })
+        );
+      }
+    }
+  };
+
+  // for testing purpose only: fix for multiple rerenders in case of update chart
+  const fetchDataUpdateChart = async (
+    startingTime?: string | undefined,
+    endingTime?: string | undefined,
+    updatedQuery?: any
+  ) => {
+    const curQuery = updatedQuery.query;
+    const rawQueryStr = curQuery[RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    if (isEmpty(rawQueryStr)) return;
+
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include valid index.', 'danger');
+      return;
+    }
+
+    let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
+    if (isEmpty(curTimestamp)) {
+      const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
+      if (isEmpty(defaultTimestamp.default_timestamp)) {
+        setToast(defaultTimestamp.message, 'danger');
+        return;
+      }
+      curTimestamp = defaultTimestamp.default_timestamp;
+      if (defaultTimestamp.hasSchemaConflict) {
+        setToast(defaultTimestamp.message, 'danger');
+      }
+    }
+
+    if (isEqual(typeof startingTime, 'undefined') && isEqual(typeof endingTime, 'undefined')) {
+      startingTime = curQuery![SELECTED_DATE_RANGE][0];
+      endingTime = curQuery![SELECTED_DATE_RANGE][1];
+    }
+
+    // compose final query
+    const finalQuery = composeFinalQuery(
+      curQuery,
+      startingTime!,
+      endingTime!,
+      curTimestamp,
+      isLiveTailOnRef.current
+    );
+
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          finalQuery,
+          [SELECTED_TIMESTAMP]: curTimestamp,
+          [RAW_QUERY]: rawQueryStr,
+        },
+      })
+    );
+
+    // search
+    if (finalQuery.match(PPL_STATS_REGEX)) {
+      getVisualizations();
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -1327,6 +1420,7 @@ export const Explorer = ({
         handleQueryChange,
         setTempQuery,
         fetchData,
+        fetchDataUpdateChart,
         explorerFields,
         explorerData,
         http,
