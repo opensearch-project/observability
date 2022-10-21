@@ -119,6 +119,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           titlefont: {
             color: selectedColor,
           },
+          automargin: true,
           tickfont: {
             color: selectedColor,
             ...(labelSize && {
