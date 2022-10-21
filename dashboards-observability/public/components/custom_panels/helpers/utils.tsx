@@ -7,7 +7,7 @@
 import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
 import { Moment } from 'moment-timezone';
 import React from 'react';
 import { Layout } from 'react-grid-layout';
@@ -289,7 +289,7 @@ export const isPPLFilterValid = (
 
 // Renders visualization in the vizualization container component
 export const displayVisualization = (metaData: any, data: any, type: string) => {
-  if (metaData === undefined || Object.keys(metaData).length === 0) {
+  if (metaData === undefined || isEmpty(metaData)) {
     return <></>;
   }
   return (
