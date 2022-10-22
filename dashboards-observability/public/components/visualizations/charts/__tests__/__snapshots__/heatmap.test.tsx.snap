@@ -285,7 +285,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

@@ -79,7 +79,7 @@ export const createHistogramVisDefinition = (params = {}) => ({
             options: [
               { name: 'All', id: 'all' },
               { name: 'Dimension', id: 'x' },
-              { name: 'Metrics', id: 'y' },
+              { name: 'Series', id: 'y' },
             ],
             defaultSelections: [{ name: 'All', id: 'all' }],
           }),

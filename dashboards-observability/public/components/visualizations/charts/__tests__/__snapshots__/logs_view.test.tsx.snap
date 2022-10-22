@@ -285,7 +285,7 @@ exports[`Logs View component Renders logs view component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

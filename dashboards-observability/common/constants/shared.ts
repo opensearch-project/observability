@@ -78,13 +78,6 @@ export enum VIS_CHART_TYPES {
   Pie = 'pie',
   HeatMap = 'heatmap',
   Text = 'text',
-  Gauge = 'gauge',
-  Histogram = 'histogram',
-  TreeMap = 'tree_map',
-  Scatter = 'scatter',
-  LogsView = 'logs_view',
-  Metrics = 'metrics',
-  TableView = 'data_table',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];
@@ -96,13 +89,6 @@ export const ENABLED_VIS_TYPES = [
   VIS_CHART_TYPES.Pie,
   VIS_CHART_TYPES.HeatMap,
   VIS_CHART_TYPES.Text,
-  VIS_CHART_TYPES.TreeMap,
-  VIS_CHART_TYPES.Gauge,
-  VIS_CHART_TYPES.Histogram,
-  VIS_CHART_TYPES.Scatter,
-  VIS_CHART_TYPES.LogsView,
-  VIS_CHART_TYPES.Metrics,
-  VIS_CHART_TYPES.TableView,
 ];
 
 // Live tail constants

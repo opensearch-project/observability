@@ -285,7 +285,7 @@ exports[`Treemap component Renders treemap component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

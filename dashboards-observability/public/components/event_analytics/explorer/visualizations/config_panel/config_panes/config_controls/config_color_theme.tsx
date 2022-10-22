@@ -51,7 +51,7 @@ export const ConfigColorTheme = ({
   }));
 
   const getUpdatedOptions = () =>
-    options.filter((option) => !vizState.some((vizOpt) => option.name === vizOpt?.name?.name));
+    options.filter((option) => !vizState.some((vizOpt) => option.label === vizOpt?.name?.label));
 
   const handleAddColorTheme = useCallback(() => {
     const res = isEmpty(vizState) ? [] : vizState;

@@ -285,7 +285,7 @@ exports[`Pie component Renders pie component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },
