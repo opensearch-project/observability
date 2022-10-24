@@ -60,7 +60,6 @@ import {
   GROUPBY,
   AGGREGATIONS,
   CUSTOM_LABEL,
-  PATTERN_SELECT_QUERY,
   PPL_PATTERNS_REGEX,
   SELECTED_PATTERN,
   VIZ_CONTAIN_XY_AXIS,
@@ -141,7 +140,7 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-  const { getPatterns, getDefaultPatternsField } = useFetchPatterns({
+  const { getPatterns, setDefaultPatternsField } = useFetchPatterns({
     pplService,
     requestParams,
   });
@@ -226,6 +225,15 @@ export const Explorer = ({
       }
     });
   });
+
+  const getErrorHandler = (title: string) => {
+    return (error: any) => {
+      const formattedError = formatError(error.name, error.message, error.body.message);
+      notifications.toasts.addError(formattedError, {
+        title,
+      });
+    };
+  };
 
   const composeFinalQuery = (
     curQuery: any,
@@ -361,12 +369,8 @@ export const Explorer = ({
     let curPattern: string = curQuery![SELECTED_PATTERN];
 
     if (isEmpty(curPattern)) {
-      await getDefaultPatternsField(curIndex, (error) => {
-        const formattedError = formatError(error.name, error.message, error.body.message);
-        notifications.toasts.addError(formattedError, {
-          title: 'Error fetching default pattern field',
-        });
-      });
+      const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
+      await setDefaultPatternsField(curIndex, '', patternErrorHandler);
       const newQuery = queryRef.current;
       curPattern = newQuery![SELECTED_PATTERN];
       if (isEmpty(curPattern)) {
@@ -416,30 +420,16 @@ export const Explorer = ({
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
-        getLiveTail(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
+        getLiveTail(undefined, getErrorHandler('Error fetching events'));
       } else {
-        getEvents(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
+        getEvents(undefined, getErrorHandler('Error fetching events'));
       }
       getCountVisualizations(minInterval);
 
       // to fetch patterns data on current query
       if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
-        getPatterns(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching patterns',
-          });
-        });
+        const patternErrorHandler = getErrorHandler('Error fetching patterns');
+        getPatterns(patternErrorHandler);
       }
     }
 
@@ -519,19 +509,9 @@ export const Explorer = ({
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
-        getLiveTail(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
+        getLiveTail(undefined, getErrorHandler('Error fetching events'));
       } else {
-        getEvents(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
+        getEvents(undefined, getErrorHandler('Error fetching events'));
       }
       getCountVisualizations(minInterval);
     }
@@ -701,15 +681,13 @@ export const Explorer = ({
 
   const handleOverridePattern = async (pattern: IField) => {
     setIsOverridingPattern(true);
-    await dispatch(
-      changeQuery({
-        tabId: requestParams.tabId,
-        query: {
-          [SELECTED_PATTERN]: pattern.name,
-        },
-      })
+    await setDefaultPatternsField(
+      '',
+      pattern.name,
+      getErrorHandler('Error overriding default pattern')
     );
     setIsOverridingPattern(false);
+    await getPatterns(getErrorHandler('Error fetching patterns'));
   };
 
   const totalHits: number = useMemo(() => {
@@ -729,11 +707,12 @@ export const Explorer = ({
 
   const onPatternSelection = async (pattern: string) => {
     let currQuery = queryRef.current![RAW_QUERY] as string;
+    const currPattern = queryRef.current![SELECTED_PATTERN] as string;
     // Remove existing pattern selection if it exists
     if (currQuery.match(PPL_PATTERNS_REGEX)) {
       currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
     }
-    const patternSelectQuery = currQuery.trim() + PATTERN_SELECT_QUERY + pattern + "'";
+    const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern} | where patterns_field = '${pattern}'`;
     // Passing in empty string will remove pattern query
     const newQuery = pattern ? patternSelectQuery : currQuery;
     await setTempQuery(newQuery);
@@ -833,7 +812,11 @@ export const Explorer = ({
                                 Patterns
                                 <span className="pattern-header-count">
                                   {' '}
-                                  ({patternsData.patternTableData.length})
+                                  (
+                                  {patternsData.patternTableData
+                                    ? patternsData.patternTableData.length
+                                    : 0}
+                                  )
                                 </span>
                               </h3>
                             </EuiTitle>
