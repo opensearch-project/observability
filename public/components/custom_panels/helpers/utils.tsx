@@ -20,10 +20,14 @@ import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
 import { QueryManager } from '../../../../common/query_manager';
 import { getDefaultVisConfig } from '../../event_analytics/utils';
+import { from } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { HttpSetup } from '../../src/core/target/types/public';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
  *
+ * fetchPanelsList - Get list of Observability Panel from Custom Panels API
  * isNameValid - Validates string to length > 0 and < 50
  * convertDateTime - Converts input datetime string to required format
  * mergeLayoutAndVisualizations - Function to merge current panel layout into the visualizations list
@@ -34,6 +38,16 @@ import { getDefaultVisConfig } from '../../event_analytics/utils';
  * isPPLFilterValid - Validate if the panel PPL query doesn't contain any Index/Time/Field filters
  * displayVisualization - Function to render the visualzation based of its type
  */
+
+export const fetchPanelsList = (http: HttpSetup) => {
+  return from(http.get(`${CUSTOM_PANELS_API_PREFIX}/panels`)).pipe(
+    map((res) => res.panels),
+    catchError((err) => {
+      console.error('Issue in fetching the operational panels', err.body.message);
+      return from([]);
+    })
+  );
+};
 
 // Name validation 0>Name<=50
 export const isNameValid = (name: string) => {
