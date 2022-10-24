@@ -162,6 +162,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
+  const [isOverridingPattern, setIsOverridingPattern] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
@@ -698,6 +699,19 @@ export const Explorer = ({
     handleQuerySearch();
   };
 
+  const handleOverridePattern = async (pattern: IField) => {
+    setIsOverridingPattern(true);
+    await dispatch(
+      changeQuery({
+        tabId: requestParams.tabId,
+        query: {
+          [SELECTED_PATTERN]: pattern.name,
+        },
+      })
+    );
+    setIsOverridingPattern(false);
+  };
+
   const totalHits: number = useMemo(() => {
     if (isLiveTailOn && countDistribution?.data) {
       const hits = reduce(
@@ -745,9 +759,11 @@ export const Explorer = ({
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
                   selectedPattern={query[SELECTED_PATTERN]}
                   handleOverrideTimestamp={handleOverrideTimestamp}
+                  handleOverridePattern={handleOverridePattern}
                   handleAddField={(field: IField) => handleAddField(field)}
                   handleRemoveField={(field: IField) => handleRemoveField(field)}
                   isOverridingTimestamp={isOverridingTimestamp}
+                  isOverridingPattern={isOverridingPattern}
                   isFieldToggleButtonDisabled={
                     isEmpty(explorerData.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))

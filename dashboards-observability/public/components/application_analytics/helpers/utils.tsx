@@ -10,6 +10,7 @@ import { FilterType } from 'public/components/trace_analytics/components/common/
 import React, { Dispatch, ReactChild } from 'react';
 import { batch } from 'react-redux';
 import PPLService from 'public/services/requests/ppl';
+import { IField } from '../../../../common/types/explorer';
 import { preprocessQuery } from '../../../../common/utils/query_utils';
 import { SPAN_REGEX } from '../../../../common/constants/shared';
 import { fetchVisualizationById } from '../../../components/custom_panels/helpers/utils';
@@ -240,7 +241,7 @@ export const calculateAvailability = async (
         })
         .then((res) => {
           const stat = res.metadata.fields.filter(
-            (field: { name: string; type: string }) => !field.name.match(SPAN_REGEX)
+            (field: IField) => !field.name.match(SPAN_REGEX)
           )[0].name;
           const value = res.data[stat];
           currValue = value[value.length - 1];

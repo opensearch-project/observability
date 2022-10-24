@@ -25,11 +25,12 @@ interface IFieldProps {
   query: string;
   field: IField;
   selectedPattern: string;
+  isOverridingPattern: boolean;
+  handleOverridePattern: (pattern: IField) => void;
   selectedTimestamp: string;
   isOverridingTimestamp: boolean;
-  handleOverrideTimestamp: (timestamp: { name: string; type: string }) => void;
+  handleOverrideTimestamp: (timestamp: IField) => void;
   selected: boolean;
-  showToggleButton: boolean;
   showTimestampOverrideButton: boolean;
   isFieldToggleButtonDisabled: boolean;
   onToggleField: (field: IField) => void;
@@ -40,6 +41,8 @@ export const Field = (props: IFieldProps) => {
     query,
     field,
     selectedPattern,
+    isOverridingPattern,
+    handleOverridePattern,
     selectedTimestamp,
     isOverridingTimestamp,
     handleOverrideTimestamp,
@@ -78,6 +81,8 @@ export const Field = (props: IFieldProps) => {
                 <EuiMark data-test-subj="eventFields__default-pattern-mark">
                   Default Pattern
                 </EuiMark>
+              ) : isOverridingPattern ? (
+                <EuiLoadingSpinner className="override_pattern_loading" size="m" />
               ) : (
                 <EuiButtonIcon
                   aria-labelledby="override_pattern"
@@ -85,7 +90,7 @@ export const Field = (props: IFieldProps) => {
                   size="s"
                   color="text"
                   iconType="inputOutput"
-                  onClick={() => {}}
+                  onClick={() => handleOverridePattern(field)}
                   data-test-subj="eventExplorer__overrideDefaultPattern"
                 >
                   Override

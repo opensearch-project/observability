@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PatternJSONData, PatternTableData } from 'common/types/explorer';
+import { IField, PatternJSONData, PatternTableData } from 'common/types/explorer';
 import { isEmpty } from 'lodash';
 import PPLService from 'public/services/requests/ppl';
 import { useRef } from 'react';
@@ -95,13 +95,11 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
       'jdbc',
       async (res: any) => {
         // Create array of only string type fields
-        const textFields = res.schema.filter(
-          (field: { name: string; type: string }) => field.type === 'string'
-        );
+        const textFields = res.schema.filter((field: IField) => field.type === 'string');
         // Loop through array and find field with longest value
         let defaultPatternField = '';
         let maxLength = 0;
-        textFields.forEach((field: { name: string; type: string }, i: number) => {
+        textFields.forEach((field: IField, i: number) => {
           const curLength = res.jsonData[0][field.name].length;
           if (curLength > maxLength) {
             maxLength = curLength;
