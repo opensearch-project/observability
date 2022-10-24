@@ -1420,6 +1420,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           data={
             Array [
               Object {
+                "hoverinfo": "all",
                 "marker": Object {
                   "color": "rgba(60,161,199,0.2)",
                   "line": Object {
@@ -1492,6 +1493,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             data={
               Array [
                 Object {
+                  "hoverinfo": "all",
                   "marker": Object {
                     "color": "rgba(60,161,199,0.2)",
                     "line": Object {
@@ -3429,21 +3431,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "dataConfig": Object {
               "dimensions": Array [
                 Object {
-                  "childField": Object {
-                    "label": "Carrier",
-                    "name": "Carrier",
-                    "type": "keyword",
-                  },
-                  "parentFields": Array [],
+                  "label": "tags",
+                  "name": "tags",
                 },
               ],
               "series": Array [
                 Object {
-                  "valueField": Object {
-                    "label": "avg(FlightDelayMin)",
-                    "name": "avg(FlightDelayMin)",
-                    "type": "double",
-                  },
+                  "aggregation": "count",
+                  "customLabel": "",
+                  "label": "",
+                  "name": "",
                 },
               ],
             },
@@ -4061,21 +4058,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "dataConfig": Object {
                 "dimensions": Array [
                   Object {
-                    "childField": Object {
-                      "label": "Carrier",
-                      "name": "Carrier",
-                      "type": "keyword",
-                    },
-                    "parentFields": Array [],
+                    "label": "tags",
+                    "name": "tags",
                   },
                 ],
                 "series": Array [
                   Object {
-                    "valueField": Object {
-                      "label": "avg(FlightDelayMin)",
-                      "name": "avg(FlightDelayMin)",
-                      "type": "double",
-                    },
+                    "aggregation": "count",
+                    "customLabel": "",
+                    "label": "",
+                    "name": "",
                   },
                 ],
               },
@@ -4700,21 +4692,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "dataConfig": Object {
                   "dimensions": Array [
                     Object {
-                      "childField": Object {
-                        "label": "Carrier",
-                        "name": "Carrier",
-                        "type": "keyword",
-                      },
-                      "parentFields": Array [],
+                      "label": "tags",
+                      "name": "tags",
                     },
                   ],
                   "series": Array [
                     Object {
-                      "valueField": Object {
-                        "label": "avg(FlightDelayMin)",
-                        "name": "avg(FlightDelayMin)",
-                        "type": "double",
-                      },
+                      "aggregation": "count",
+                      "customLabel": "",
+                      "label": "",
+                      "name": "",
                     },
                   ],
                 },
@@ -6767,6 +6754,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           data={
             Array [
               Object {
+                "hoverinfo": "all",
                 "marker": Object {
                   "color": "rgba(60,161,199,0.2)",
                   "line": Object {
@@ -6839,6 +6827,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             data={
               Array [
                 Object {
+                  "hoverinfo": "all",
                   "marker": Object {
                     "color": "rgba(60,161,199,0.2)",
                     "line": Object {
@@ -6927,7 +6916,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
 </div>
 `;
 
-exports[`Utils helper functions renders displayVisualization function 4`] = `
+exports[`Utils helper functions renders displayVisualization function 5`] = `
 <div>
   <Visualization
     visualizations={
@@ -6937,79 +6926,163 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
           "defaultAxes": Object {
             "xaxis": Array [
               Object {
-                "label": "span(timestamp,1h)",
-                "name": "span(timestamp,1h)",
-                "type": "timestamp",
+                "label": "Carrier",
+                "name": "Carrier",
+                "type": "keyword",
               },
             ],
             "yaxis": Array [
               Object {
-                "label": "count('ip')",
-                "name": "count('ip')",
-                "type": "integer",
+                "label": "avg(FlightDelayMin)",
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
               },
             ],
           },
           "explorer": Object {
             "explorerData": Object {
               "data": Object {
-                "count('ip')": Array [],
-                "span(timestamp,1h)": Array [],
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
               },
-              "jsonData": Array [],
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
               "metadata": Object {
                 "fields": Array [
                   Object {
-                    "name": "count('ip')",
-                    "type": "integer",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
                   },
                   Object {
-                    "name": "span(timestamp,1h)",
-                    "type": "timestamp",
+                    "name": "Carrier",
+                    "type": "keyword",
                   },
                 ],
               },
-              "size": 0,
+              "size": 4,
               "status": 200,
             },
             "explorerFields": Array [
               Object {
-                "name": "count('ip')",
-                "type": "integer",
+                "name": "avg(FlightDelayMin)",
+                "type": "double",
               },
               Object {
-                "name": "span(timestamp,1h)",
-                "type": "timestamp",
+                "name": "Carrier",
+                "type": "keyword",
               },
             ],
           },
           "indexFields": Object {},
-          "query": Object {},
+          "query": Object {
+            "rawQuery": "source = opensearch_dashboards_sample_data_logs | where machine.os='osx' or  machine.os='ios' |  stats avg(machine.ram) by span(timestamp,1d)",
+          },
           "rawVizData": Object {
             "data": Object {
-              "count('ip')": Array [],
-              "span(timestamp,1h)": Array [],
+              "Carrier": Array [
+                "BeatsWest",
+                "Logstash Airways",
+                "OpenSearch Dashboards Airlines",
+                "OpenSearch-Air",
+              ],
+              "avg(FlightDelayMin)": Array [
+                53.65384615384615,
+                45.36144578313253,
+                63.1578947368421,
+                46.81318681318681,
+              ],
             },
-            "jsonData": Array [],
+            "jsonData": Array [
+              Object {
+                "Carrier": "BeatsWest",
+                "avg(FlightDelayMin)": 53.65384615384615,
+              },
+              Object {
+                "Carrier": "Logstash Airways",
+                "avg(FlightDelayMin)": 45.36144578313253,
+              },
+              Object {
+                "Carrier": "OpenSearch Dashboards Airlines",
+                "avg(FlightDelayMin)": 63.1578947368421,
+              },
+              Object {
+                "Carrier": "OpenSearch-Air",
+                "avg(FlightDelayMin)": 46.81318681318681,
+              },
+            ],
             "metadata": Object {
               "fields": Array [
                 Object {
-                  "name": "count('ip')",
-                  "type": "integer",
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
                 },
                 Object {
-                  "name": "span(timestamp,1h)",
-                  "type": "timestamp",
+                  "name": "Carrier",
+                  "type": "keyword",
                 },
               ],
             },
-            "size": 0,
+            "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": Object {
+                "interval": "1",
+                "time_field": Array [
+                  Object {
+                    "label": "timestamp",
+                    "name": "timestamp",
+                    "type": "timestamp",
+                  },
+                ],
+                "unit": Array [
+                  Object {
+                    "label": "Day",
+                    "name": "Day",
+                    "value": "d",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
-          "barwidth": 0.97,
           "category": "Visualizations",
           "categoryaxis": "xaxis",
           "component": [Function],
@@ -7021,64 +7094,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "mapTo": "dataConfig",
                 "name": "Style",
                 "sections": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "tooltip_options",
-                    "mapTo": "tooltipOptions",
-                    "name": "Tooltip options",
-                    "schemas": Array [
-                      Object {
-                        "component": null,
-                        "mapTo": "tooltipMode",
-                        "name": "Tooltip mode",
-                        "props": Object {
-                          "defaultSelections": Array [
-                            Object {
-                              "id": "show",
-                              "name": "Show",
-                            },
-                          ],
-                          "options": Array [
-                            Object {
-                              "id": "show",
-                              "name": "Show",
-                            },
-                            Object {
-                              "id": "hidden",
-                              "name": "Hidden",
-                            },
-                          ],
-                        },
-                      },
-                      Object {
-                        "component": null,
-                        "mapTo": "tooltipText",
-                        "name": "Tooltip text",
-                        "props": Object {
-                          "defaultSelections": Array [
-                            Object {
-                              "id": "all",
-                              "name": "All",
-                            },
-                          ],
-                          "options": Array [
-                            Object {
-                              "id": "all",
-                              "name": "All",
-                            },
-                            Object {
-                              "id": "x",
-                              "name": "Dimension",
-                            },
-                            Object {
-                              "id": "y",
-                              "name": "Series",
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
                   Object {
                     "editor": [Function],
                     "id": "legend",
@@ -7134,9 +7149,70 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       Object {
                         "component": [Function],
                         "eleType": "input",
-                        "mapTo": "legendSize",
+                        "mapTo": "size",
                         "name": "Legend size",
-                        "title": "Legend size",
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "tooltip_options",
+                    "mapTo": "tooltipOptions",
+                    "name": "Tooltip options",
+                    "schemas": Array [
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipMode",
+                        "name": "Tooltip mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "label",
+                              "name": "Label",
+                            },
+                            Object {
+                              "id": "value",
+                              "name": "Value",
+                            },
+                            Object {
+                              "id": "percent",
+                              "name": "Percent",
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -7149,23 +7225,24 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       Object {
                         "component": [Function],
                         "eleType": "buttons",
+                        "isSingleSelection": true,
                         "mapTo": "mode",
                         "name": "Mode",
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
-                              "id": "group",
-                              "name": "Group",
+                              "id": "pie",
+                              "name": "Pie",
                             },
                           ],
                           "options": Array [
                             Object {
-                              "id": "group",
-                              "name": "Group",
+                              "id": "pie",
+                              "name": "Pie",
                             },
                             Object {
-                              "id": "stack",
-                              "name": "Stack",
+                              "id": "donut",
+                              "name": "Donut",
                             },
                           ],
                         },
@@ -7178,88 +7255,27 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       },
                       Object {
                         "component": [Function],
-                        "defaultState": 0,
-                        "eleType": "slider",
-                        "mapTo": "rotateBarLabels",
-                        "name": "Rotate bar labels",
-                        "props": Object {
-                          "max": 90,
-                          "min": -90,
-                          "showTicks": true,
-                          "ticks": Array [
-                            Object {
-                              "label": "-90°",
-                              "value": -90,
-                            },
-                            Object {
-                              "label": "-45°",
-                              "value": -45,
-                            },
-                            Object {
-                              "label": "0°",
-                              "value": 0,
-                            },
-                            Object {
-                              "label": "45°",
-                              "value": 45,
-                            },
-                            Object {
-                              "label": "90°",
-                              "value": 90,
-                            },
-                          ],
+                        "defaultState": Object {
+                          "name": "default",
                         },
-                      },
-                      Object {
-                        "component": [Function],
-                        "defaultState": 0.7,
-                        "eleType": "slider",
-                        "mapTo": "groupWidth",
-                        "name": "Group width",
-                        "props": Object {
-                          "max": 1,
-                          "step": 0.01,
-                        },
-                      },
-                      Object {
-                        "component": [Function],
-                        "defaultState": 0.97,
-                        "eleType": "slider",
-                        "mapTo": "barWidth",
-                        "name": "Bar width",
-                        "props": Object {
-                          "max": 1,
-                          "step": 0.01,
-                        },
-                      },
-                      Object {
-                        "component": [Function],
-                        "defaultState": 2,
-                        "eleType": "slider",
-                        "mapTo": "lineWidth",
-                        "name": "Line width",
-                        "props": Object {
-                          "max": 10,
-                        },
-                      },
-                      Object {
-                        "component": [Function],
-                        "defaultState": 40,
-                        "eleType": "slider",
-                        "mapTo": "fillOpacity",
-                        "name": "Fill opacity",
-                        "props": Object {
-                          "max": 100,
-                        },
+                        "eleType": "colorpicker",
+                        "isSingleSelection": true,
+                        "mapTo": "colorTheme",
+                        "name": "Color theme",
+                        "options": Array [
+                          Object {
+                            "title": "Default",
+                            "type": "text",
+                            "value": "default",
+                          },
+                          Object {
+                            "title": "Single Color",
+                            "type": "text",
+                            "value": "singleColor",
+                          },
+                        ],
                       },
                     ],
-                  },
-                  Object {
-                    "editor": [Function],
-                    "id": "color-theme",
-                    "mapTo": "colorTheme",
-                    "name": "Color theme",
-                    "schemas": Array [],
                   },
                 ],
               },
@@ -7270,40 +7286,37 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "mapTo": "layoutConfig",
                 "name": "Layout",
               },
-              Object {
-                "editor": [Function],
-                "id": "availability-panel",
-                "mapTo": "availabilityConfig",
-                "name": "Availability",
-              },
             ],
           },
-          "fillopacity": 40,
-          "fulllabel": "Horizontal bar",
-          "groupwidth": 0.7,
+          "fulllabel": "Pie",
           "icon": [Function],
-          "icontype": "visBarHorizontalStacked",
-          "id": "horizontal_bar",
-          "label": "Horizontal bar",
-          "labelangle": 0,
+          "icontype": "visPie",
+          "id": "pie",
+          "label": "Pie",
           "legendposition": "v",
-          "linewidth": 2,
-          "mode": "group",
-          "name": "horizontal_bar",
-          "orientation": "h",
-          "selection": Object {
-            "dataLoss": "nothing",
-          },
+          "mode": "pie",
+          "name": "pie",
           "seriesaxis": "yaxis",
           "showlegend": "show",
-          "type": "bar",
+          "type": "pie",
           "visconfig": Object {
             "config": Object {
               "displaylogo": false,
               "responsive": true,
             },
-            "isUniColor": false,
             "layout": Object {
+              "colorway": Array [
+                "#3CA1C7",
+                "#8C55A3",
+                "#DB748A",
+                "#F2BE4B",
+                "#68CCC2",
+                "#2A7866",
+                "#843769",
+                "#374FB8",
+                "#BD6F26",
+                "#4C636F",
+              ],
               "height": 1180,
               "legend": Object {
                 "orientation": "v",
@@ -7316,7 +7329,19 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                 "r": 30,
                 "t": 50,
               },
+              "paper_bgcolor": "rgba(0, 0, 0, 0)",
+              "plot_bgcolor": "rgba(0, 0, 0, 0)",
               "showlegend": true,
+              "xaxis": Object {
+                "fixedrange": true,
+                "showgrid": false,
+                "visible": true,
+              },
+              "yaxis": Object {
+                "fixedrange": true,
+                "showgrid": false,
+                "visible": true,
+              },
             },
           },
         },
@@ -7331,79 +7356,163 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             "defaultAxes": Object {
               "xaxis": Array [
                 Object {
-                  "label": "span(timestamp,1h)",
-                  "name": "span(timestamp,1h)",
-                  "type": "timestamp",
+                  "label": "Carrier",
+                  "name": "Carrier",
+                  "type": "keyword",
                 },
               ],
               "yaxis": Array [
                 Object {
-                  "label": "count('ip')",
-                  "name": "count('ip')",
-                  "type": "integer",
+                  "label": "avg(FlightDelayMin)",
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
                 },
               ],
             },
             "explorer": Object {
               "explorerData": Object {
                 "data": Object {
-                  "count('ip')": Array [],
-                  "span(timestamp,1h)": Array [],
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
                 },
-                "jsonData": Array [],
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
                 "metadata": Object {
                   "fields": Array [
                     Object {
-                      "name": "count('ip')",
-                      "type": "integer",
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
                     },
                     Object {
-                      "name": "span(timestamp,1h)",
-                      "type": "timestamp",
+                      "name": "Carrier",
+                      "type": "keyword",
                     },
                   ],
                 },
-                "size": 0,
+                "size": 4,
                 "status": 200,
               },
               "explorerFields": Array [
                 Object {
-                  "name": "count('ip')",
-                  "type": "integer",
+                  "name": "avg(FlightDelayMin)",
+                  "type": "double",
                 },
                 Object {
-                  "name": "span(timestamp,1h)",
-                  "type": "timestamp",
+                  "name": "Carrier",
+                  "type": "keyword",
                 },
               ],
             },
             "indexFields": Object {},
-            "query": Object {},
+            "query": Object {
+              "rawQuery": "source = opensearch_dashboards_sample_data_logs | where machine.os='osx' or  machine.os='ios' |  stats avg(machine.ram) by span(timestamp,1d)",
+            },
             "rawVizData": Object {
               "data": Object {
-                "count('ip')": Array [],
-                "span(timestamp,1h)": Array [],
+                "Carrier": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "avg(FlightDelayMin)": Array [
+                  53.65384615384615,
+                  45.36144578313253,
+                  63.1578947368421,
+                  46.81318681318681,
+                ],
               },
-              "jsonData": Array [],
+              "jsonData": Array [
+                Object {
+                  "Carrier": "BeatsWest",
+                  "avg(FlightDelayMin)": 53.65384615384615,
+                },
+                Object {
+                  "Carrier": "Logstash Airways",
+                  "avg(FlightDelayMin)": 45.36144578313253,
+                },
+                Object {
+                  "Carrier": "OpenSearch Dashboards Airlines",
+                  "avg(FlightDelayMin)": 63.1578947368421,
+                },
+                Object {
+                  "Carrier": "OpenSearch-Air",
+                  "avg(FlightDelayMin)": 46.81318681318681,
+                },
+              ],
               "metadata": Object {
                 "fields": Array [
                   Object {
-                    "name": "count('ip')",
-                    "type": "integer",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
                   },
                   Object {
-                    "name": "span(timestamp,1h)",
-                    "type": "timestamp",
+                    "name": "Carrier",
+                    "type": "keyword",
                   },
                 ],
               },
-              "size": 0,
+              "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": Object {
+                  "interval": "1",
+                  "time_field": Array [
+                    Object {
+                      "label": "timestamp",
+                      "name": "timestamp",
+                      "type": "timestamp",
+                    },
+                  ],
+                  "unit": Array [
+                    Object {
+                      "label": "Day",
+                      "name": "Day",
+                      "value": "d",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
-            "barwidth": 0.97,
             "category": "Visualizations",
             "categoryaxis": "xaxis",
             "component": [Function],
@@ -7415,64 +7524,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "mapTo": "dataConfig",
                   "name": "Style",
                   "sections": Array [
-                    Object {
-                      "editor": [Function],
-                      "id": "tooltip_options",
-                      "mapTo": "tooltipOptions",
-                      "name": "Tooltip options",
-                      "schemas": Array [
-                        Object {
-                          "component": null,
-                          "mapTo": "tooltipMode",
-                          "name": "Tooltip mode",
-                          "props": Object {
-                            "defaultSelections": Array [
-                              Object {
-                                "id": "show",
-                                "name": "Show",
-                              },
-                            ],
-                            "options": Array [
-                              Object {
-                                "id": "show",
-                                "name": "Show",
-                              },
-                              Object {
-                                "id": "hidden",
-                                "name": "Hidden",
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "component": null,
-                          "mapTo": "tooltipText",
-                          "name": "Tooltip text",
-                          "props": Object {
-                            "defaultSelections": Array [
-                              Object {
-                                "id": "all",
-                                "name": "All",
-                              },
-                            ],
-                            "options": Array [
-                              Object {
-                                "id": "all",
-                                "name": "All",
-                              },
-                              Object {
-                                "id": "x",
-                                "name": "Dimension",
-                              },
-                              Object {
-                                "id": "y",
-                                "name": "Series",
-                              },
-                            ],
-                          },
-                        },
-                      ],
-                    },
                     Object {
                       "editor": [Function],
                       "id": "legend",
@@ -7528,9 +7579,70 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                         Object {
                           "component": [Function],
                           "eleType": "input",
-                          "mapTo": "legendSize",
+                          "mapTo": "size",
                           "name": "Legend size",
-                          "title": "Legend size",
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "tooltip_options",
+                      "mapTo": "tooltipOptions",
+                      "name": "Tooltip options",
+                      "schemas": Array [
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipMode",
+                          "name": "Tooltip mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "label",
+                                "name": "Label",
+                              },
+                              Object {
+                                "id": "value",
+                                "name": "Value",
+                              },
+                              Object {
+                                "id": "percent",
+                                "name": "Percent",
+                              },
+                            ],
+                          },
                         },
                       ],
                     },
@@ -7543,23 +7655,24 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                         Object {
                           "component": [Function],
                           "eleType": "buttons",
+                          "isSingleSelection": true,
                           "mapTo": "mode",
                           "name": "Mode",
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
-                                "id": "group",
-                                "name": "Group",
+                                "id": "pie",
+                                "name": "Pie",
                               },
                             ],
                             "options": Array [
                               Object {
-                                "id": "group",
-                                "name": "Group",
+                                "id": "pie",
+                                "name": "Pie",
                               },
                               Object {
-                                "id": "stack",
-                                "name": "Stack",
+                                "id": "donut",
+                                "name": "Donut",
                               },
                             ],
                           },
@@ -7572,88 +7685,27 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 0,
-                          "eleType": "slider",
-                          "mapTo": "rotateBarLabels",
-                          "name": "Rotate bar labels",
-                          "props": Object {
-                            "max": 90,
-                            "min": -90,
-                            "showTicks": true,
-                            "ticks": Array [
-                              Object {
-                                "label": "-90°",
-                                "value": -90,
-                              },
-                              Object {
-                                "label": "-45°",
-                                "value": -45,
-                              },
-                              Object {
-                                "label": "0°",
-                                "value": 0,
-                              },
-                              Object {
-                                "label": "45°",
-                                "value": 45,
-                              },
-                              Object {
-                                "label": "90°",
-                                "value": 90,
-                              },
-                            ],
+                          "defaultState": Object {
+                            "name": "default",
                           },
-                        },
-                        Object {
-                          "component": [Function],
-                          "defaultState": 0.7,
-                          "eleType": "slider",
-                          "mapTo": "groupWidth",
-                          "name": "Group width",
-                          "props": Object {
-                            "max": 1,
-                            "step": 0.01,
-                          },
-                        },
-                        Object {
-                          "component": [Function],
-                          "defaultState": 0.97,
-                          "eleType": "slider",
-                          "mapTo": "barWidth",
-                          "name": "Bar width",
-                          "props": Object {
-                            "max": 1,
-                            "step": 0.01,
-                          },
-                        },
-                        Object {
-                          "component": [Function],
-                          "defaultState": 2,
-                          "eleType": "slider",
-                          "mapTo": "lineWidth",
-                          "name": "Line width",
-                          "props": Object {
-                            "max": 10,
-                          },
-                        },
-                        Object {
-                          "component": [Function],
-                          "defaultState": 40,
-                          "eleType": "slider",
-                          "mapTo": "fillOpacity",
-                          "name": "Fill opacity",
-                          "props": Object {
-                            "max": 100,
-                          },
+                          "eleType": "colorpicker",
+                          "isSingleSelection": true,
+                          "mapTo": "colorTheme",
+                          "name": "Color theme",
+                          "options": Array [
+                            Object {
+                              "title": "Default",
+                              "type": "text",
+                              "value": "default",
+                            },
+                            Object {
+                              "title": "Single Color",
+                              "type": "text",
+                              "value": "singleColor",
+                            },
+                          ],
                         },
                       ],
-                    },
-                    Object {
-                      "editor": [Function],
-                      "id": "color-theme",
-                      "mapTo": "colorTheme",
-                      "name": "Color theme",
-                      "schemas": Array [],
                     },
                   ],
                 },
@@ -7664,40 +7716,37 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "mapTo": "layoutConfig",
                   "name": "Layout",
                 },
-                Object {
-                  "editor": [Function],
-                  "id": "availability-panel",
-                  "mapTo": "availabilityConfig",
-                  "name": "Availability",
-                },
               ],
             },
-            "fillopacity": 40,
-            "fulllabel": "Horizontal bar",
-            "groupwidth": 0.7,
+            "fulllabel": "Pie",
             "icon": [Function],
-            "icontype": "visBarHorizontalStacked",
-            "id": "horizontal_bar",
-            "label": "Horizontal bar",
-            "labelangle": 0,
+            "icontype": "visPie",
+            "id": "pie",
+            "label": "Pie",
             "legendposition": "v",
-            "linewidth": 2,
-            "mode": "group",
-            "name": "horizontal_bar",
-            "orientation": "h",
-            "selection": Object {
-              "dataLoss": "nothing",
-            },
+            "mode": "pie",
+            "name": "pie",
             "seriesaxis": "yaxis",
             "showlegend": "show",
-            "type": "bar",
+            "type": "pie",
             "visconfig": Object {
               "config": Object {
                 "displaylogo": false,
                 "responsive": true,
               },
-              "isUniColor": false,
               "layout": Object {
+                "colorway": Array [
+                  "#3CA1C7",
+                  "#8C55A3",
+                  "#DB748A",
+                  "#F2BE4B",
+                  "#68CCC2",
+                  "#2A7866",
+                  "#843769",
+                  "#374FB8",
+                  "#BD6F26",
+                  "#4C636F",
+                ],
                 "height": 1180,
                 "legend": Object {
                   "orientation": "v",
@@ -7710,14 +7759,26 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                   "r": 30,
                   "t": 50,
                 },
+                "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                "plot_bgcolor": "rgba(0, 0, 0, 0)",
                 "showlegend": true,
+                "xaxis": Object {
+                  "fixedrange": true,
+                  "showgrid": false,
+                  "visible": true,
+                },
+                "yaxis": Object {
+                  "fixedrange": true,
+                  "showgrid": false,
+                  "visible": true,
+                },
               },
             },
           },
         }
       }
     >
-      <Bar
+      <Pie
         config={
           Object {
             "displaylogo": false,
@@ -7732,79 +7793,163 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
               "defaultAxes": Object {
                 "xaxis": Array [
                   Object {
-                    "label": "span(timestamp,1h)",
-                    "name": "span(timestamp,1h)",
-                    "type": "timestamp",
+                    "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
                   },
                 ],
                 "yaxis": Array [
                   Object {
-                    "label": "count('ip')",
-                    "name": "count('ip')",
-                    "type": "integer",
+                    "label": "avg(FlightDelayMin)",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
                   },
                 ],
               },
               "explorer": Object {
                 "explorerData": Object {
                   "data": Object {
-                    "count('ip')": Array [],
-                    "span(timestamp,1h)": Array [],
+                    "Carrier": Array [
+                      "BeatsWest",
+                      "Logstash Airways",
+                      "OpenSearch Dashboards Airlines",
+                      "OpenSearch-Air",
+                    ],
+                    "avg(FlightDelayMin)": Array [
+                      53.65384615384615,
+                      45.36144578313253,
+                      63.1578947368421,
+                      46.81318681318681,
+                    ],
                   },
-                  "jsonData": Array [],
+                  "jsonData": Array [
+                    Object {
+                      "Carrier": "BeatsWest",
+                      "avg(FlightDelayMin)": 53.65384615384615,
+                    },
+                    Object {
+                      "Carrier": "Logstash Airways",
+                      "avg(FlightDelayMin)": 45.36144578313253,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch Dashboards Airlines",
+                      "avg(FlightDelayMin)": 63.1578947368421,
+                    },
+                    Object {
+                      "Carrier": "OpenSearch-Air",
+                      "avg(FlightDelayMin)": 46.81318681318681,
+                    },
+                  ],
                   "metadata": Object {
                     "fields": Array [
                       Object {
-                        "name": "count('ip')",
-                        "type": "integer",
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
                       },
                       Object {
-                        "name": "span(timestamp,1h)",
-                        "type": "timestamp",
+                        "name": "Carrier",
+                        "type": "keyword",
                       },
                     ],
                   },
-                  "size": 0,
+                  "size": 4,
                   "status": 200,
                 },
                 "explorerFields": Array [
                   Object {
-                    "name": "count('ip')",
-                    "type": "integer",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
                   },
                   Object {
-                    "name": "span(timestamp,1h)",
-                    "type": "timestamp",
+                    "name": "Carrier",
+                    "type": "keyword",
                   },
                 ],
               },
               "indexFields": Object {},
-              "query": Object {},
+              "query": Object {
+                "rawQuery": "source = opensearch_dashboards_sample_data_logs | where machine.os='osx' or  machine.os='ios' |  stats avg(machine.ram) by span(timestamp,1d)",
+              },
               "rawVizData": Object {
                 "data": Object {
-                  "count('ip')": Array [],
-                  "span(timestamp,1h)": Array [],
+                  "Carrier": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "avg(FlightDelayMin)": Array [
+                    53.65384615384615,
+                    45.36144578313253,
+                    63.1578947368421,
+                    46.81318681318681,
+                  ],
                 },
-                "jsonData": Array [],
+                "jsonData": Array [
+                  Object {
+                    "Carrier": "BeatsWest",
+                    "avg(FlightDelayMin)": 53.65384615384615,
+                  },
+                  Object {
+                    "Carrier": "Logstash Airways",
+                    "avg(FlightDelayMin)": 45.36144578313253,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch Dashboards Airlines",
+                    "avg(FlightDelayMin)": 63.1578947368421,
+                  },
+                  Object {
+                    "Carrier": "OpenSearch-Air",
+                    "avg(FlightDelayMin)": 46.81318681318681,
+                  },
+                ],
                 "metadata": Object {
                   "fields": Array [
                     Object {
-                      "name": "count('ip')",
-                      "type": "integer",
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
                     },
                     Object {
-                      "name": "span(timestamp,1h)",
-                      "type": "timestamp",
+                      "name": "Carrier",
+                      "type": "keyword",
                     },
                   ],
                 },
-                "size": 0,
+                "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": Object {
+                    "interval": "1",
+                    "time_field": Array [
+                      Object {
+                        "label": "timestamp",
+                        "name": "timestamp",
+                        "type": "timestamp",
+                      },
+                    ],
+                    "unit": Array [
+                      Object {
+                        "label": "Day",
+                        "name": "Day",
+                        "value": "d",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
-              "barwidth": 0.97,
               "category": "Visualizations",
               "categoryaxis": "xaxis",
               "component": [Function],
@@ -7816,64 +7961,6 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "mapTo": "dataConfig",
                     "name": "Style",
                     "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "tooltip_options",
-                        "mapTo": "tooltipOptions",
-                        "name": "Tooltip options",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipMode",
-                            "name": "Tooltip mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipText",
-                            "name": "Tooltip text",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                                Object {
-                                  "id": "x",
-                                  "name": "Dimension",
-                                },
-                                Object {
-                                  "id": "y",
-                                  "name": "Series",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
                       Object {
                         "editor": [Function],
                         "id": "legend",
@@ -7929,9 +8016,70 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                           Object {
                             "component": [Function],
                             "eleType": "input",
-                            "mapTo": "legendSize",
+                            "mapTo": "size",
                             "name": "Legend size",
-                            "title": "Legend size",
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "tooltip_options",
+                        "mapTo": "tooltipOptions",
+                        "name": "Tooltip options",
+                        "schemas": Array [
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipMode",
+                            "name": "Tooltip mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "label",
+                                  "name": "Label",
+                                },
+                                Object {
+                                  "id": "value",
+                                  "name": "Value",
+                                },
+                                Object {
+                                  "id": "percent",
+                                  "name": "Percent",
+                                },
+                              ],
+                            },
                           },
                         ],
                       },
@@ -7944,23 +8092,24 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                           Object {
                             "component": [Function],
                             "eleType": "buttons",
+                            "isSingleSelection": true,
                             "mapTo": "mode",
                             "name": "Mode",
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
-                                  "id": "group",
-                                  "name": "Group",
+                                  "id": "pie",
+                                  "name": "Pie",
                                 },
                               ],
                               "options": Array [
                                 Object {
-                                  "id": "group",
-                                  "name": "Group",
+                                  "id": "pie",
+                                  "name": "Pie",
                                 },
                                 Object {
-                                  "id": "stack",
-                                  "name": "Stack",
+                                  "id": "donut",
+                                  "name": "Donut",
                                 },
                               ],
                             },
@@ -7973,88 +8122,27 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 0,
-                            "eleType": "slider",
-                            "mapTo": "rotateBarLabels",
-                            "name": "Rotate bar labels",
-                            "props": Object {
-                              "max": 90,
-                              "min": -90,
-                              "showTicks": true,
-                              "ticks": Array [
-                                Object {
-                                  "label": "-90°",
-                                  "value": -90,
-                                },
-                                Object {
-                                  "label": "-45°",
-                                  "value": -45,
-                                },
-                                Object {
-                                  "label": "0°",
-                                  "value": 0,
-                                },
-                                Object {
-                                  "label": "45°",
-                                  "value": 45,
-                                },
-                                Object {
-                                  "label": "90°",
-                                  "value": 90,
-                                },
-                              ],
+                            "defaultState": Object {
+                              "name": "default",
                             },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 0.7,
-                            "eleType": "slider",
-                            "mapTo": "groupWidth",
-                            "name": "Group width",
-                            "props": Object {
-                              "max": 1,
-                              "step": 0.01,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 0.97,
-                            "eleType": "slider",
-                            "mapTo": "barWidth",
-                            "name": "Bar width",
-                            "props": Object {
-                              "max": 1,
-                              "step": 0.01,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 2,
-                            "eleType": "slider",
-                            "mapTo": "lineWidth",
-                            "name": "Line width",
-                            "props": Object {
-                              "max": 10,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 40,
-                            "eleType": "slider",
-                            "mapTo": "fillOpacity",
-                            "name": "Fill opacity",
-                            "props": Object {
-                              "max": 100,
-                            },
+                            "eleType": "colorpicker",
+                            "isSingleSelection": true,
+                            "mapTo": "colorTheme",
+                            "name": "Color theme",
+                            "options": Array [
+                              Object {
+                                "title": "Default",
+                                "type": "text",
+                                "value": "default",
+                              },
+                              Object {
+                                "title": "Single Color",
+                                "type": "text",
+                                "value": "singleColor",
+                              },
+                            ],
                           },
                         ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
                       },
                     ],
                   },
@@ -8065,40 +8153,37 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "mapTo": "layoutConfig",
                     "name": "Layout",
                   },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
                 ],
               },
-              "fillopacity": 40,
-              "fulllabel": "Horizontal bar",
-              "groupwidth": 0.7,
+              "fulllabel": "Pie",
               "icon": [Function],
-              "icontype": "visBarHorizontalStacked",
-              "id": "horizontal_bar",
-              "label": "Horizontal bar",
-              "labelangle": 0,
+              "icontype": "visPie",
+              "id": "pie",
+              "label": "Pie",
               "legendposition": "v",
-              "linewidth": 2,
-              "mode": "group",
-              "name": "horizontal_bar",
-              "orientation": "h",
-              "selection": Object {
-                "dataLoss": "nothing",
-              },
+              "mode": "pie",
+              "name": "pie",
               "seriesaxis": "yaxis",
               "showlegend": "show",
-              "type": "bar",
+              "type": "pie",
               "visconfig": Object {
                 "config": Object {
                   "displaylogo": false,
                   "responsive": true,
                 },
-                "isUniColor": false,
                 "layout": Object {
+                  "colorway": Array [
+                    "#3CA1C7",
+                    "#8C55A3",
+                    "#DB748A",
+                    "#F2BE4B",
+                    "#68CCC2",
+                    "#2A7866",
+                    "#843769",
+                    "#374FB8",
+                    "#BD6F26",
+                    "#4C636F",
+                  ],
                   "height": 1180,
                   "legend": Object {
                     "orientation": "v",
@@ -8111,7 +8196,19 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                     "r": 30,
                     "t": 50,
                   },
+                  "paper_bgcolor": "rgba(0, 0, 0, 0)",
+                  "plot_bgcolor": "rgba(0, 0, 0, 0)",
                   "showlegend": true,
+                  "xaxis": Object {
+                    "fixedrange": true,
+                    "showgrid": false,
+                    "visible": true,
+                  },
+                  "yaxis": Object {
+                    "fixedrange": true,
+                    "showgrid": false,
+                    "visible": true,
+                  },
                 },
               },
             },
@@ -8119,7 +8216,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
         }
       >
         <EmptyPlaceholder
-          icon="visBarHorizontalStacked"
+          icon="visPie"
         >
           <EuiText
             className="lnsChart__empty"
@@ -8148,7 +8245,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                       <EuiIcon
                         color="subdued"
                         size="xxl"
-                        type="visBarHorizontalStacked"
+                        type="visPie"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
@@ -8195,8 +8292,10 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
             </div>
           </EuiText>
         </EmptyPlaceholder>
-      </Bar>
+      </Pie>
     </VisualizationChart>
   </Visualization>
 </div>
 `;
+
+exports[`Utils helper functions renders displayVisualization function 6`] = `<div />`;
