@@ -7,18 +7,22 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
-import { Stats } from '../stats/stats';
+import { Metrics } from '../metrics/metrics';
 import {
   LAYOUT_CONFIG,
-  STATS_TEST_VISUALIZATIONS_DATA,
+  METRICS_TEST_VISUALIZATIONS_DATA,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Stats component', () => {
+describe('Metrics component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders stats component', async () => {
+  it('Renders Metrics component', async () => {
     const wrapper = mount(
-      <Stats visualizations={STATS_TEST_VISUALIZATIONS_DATA} layout={LAYOUT_CONFIG} config={true} />
+      <Metrics
+        visualizations={METRICS_TEST_VISUALIZATIONS_DATA}
+        layout={LAYOUT_CONFIG}
+        config={true}
+      />
     );
 
     wrapper.update();

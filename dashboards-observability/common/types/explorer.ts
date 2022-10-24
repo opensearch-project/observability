@@ -46,6 +46,12 @@ export interface IField {
   label?: string;
 }
 
+export interface TimeUnit {
+  name: string;
+  label: string;
+  value: string;
+}
+
 export interface ExplorerFields {
   availableFields: IField[];
   queriedFields: IField[];
@@ -294,9 +300,9 @@ export interface HistogramConfigList {
 }
 
 export interface DimensionSpan {
-  time_field: IField;
+  time_field: IField[];
   interval: number;
-  unit: string;
+  unit: TimeUnit[];
 }
 
 export interface ConfigList {
@@ -363,10 +369,11 @@ export interface TreemapParentsProps {
 
 export interface DataConfigPanelFieldProps {
   list: ConfigListEntry[];
+  dimensionSpan: DimensionSpan;
   sectionName: string;
   visType: VIS_CHART_TYPES;
   addButtonText: string;
   handleServiceAdd: (name: string) => void;
   handleServiceRemove: (index: number, name: string) => void;
-  handleServiceEdit: (isClose: boolean, arrIndex: number, sectionName: string) => void;
+  handleServiceEdit: (arrIndex: number, sectionName: string, isTimeStamp: boolean) => void;
 }

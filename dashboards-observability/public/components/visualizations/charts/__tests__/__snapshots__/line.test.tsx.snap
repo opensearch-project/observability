@@ -285,7 +285,7 @@ exports[`Line component Renders line component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

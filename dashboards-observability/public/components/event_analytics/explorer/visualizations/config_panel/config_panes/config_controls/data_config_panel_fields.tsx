@@ -13,20 +13,31 @@ import {
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
-import { isArray } from 'lodash';
+import { isArray, isEmpty } from 'lodash';
+import {
+  AGGREGATIONS,
+  AGGREGATION_INFO,
+  BREAKDOWNS,
+  CUSTOM_LABEL,
+  DIMENSION_INFO,
+  GROUPBY,
+  SPAN,
+} from '../../../../../../../../common/constants/explorer';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import {
   ConfigListEntry,
   DataConfigPanelFieldProps,
 } from '../../../../../../../../common/types/explorer';
-import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
-import {
-  AGGREGATIONS,
-  CUSTOM_LABEL,
-  GROUPBY,
-} from '../../../../../../../../common/constants/explorer';
+
+const HIDE_ADD_BUTTON_VIZ_TYPES = [
+  VIS_CHART_TYPES.HeatMap,
+  VIS_CHART_TYPES.Line,
+  VIS_CHART_TYPES.Scatter,
+];
 
 export const DataConfigPanelFields = ({
   list,
+  dimensionSpan,
   sectionName,
   visType,
   addButtonText,
@@ -35,26 +46,35 @@ export const DataConfigPanelFields = ({
   handleServiceEdit,
 }: DataConfigPanelFieldProps) => {
   const isAggregation = sectionName === AGGREGATIONS;
-  const isHeatMapAddButton = (name: string) => {
-    if (!list || !isArray(list) || visType !== VIS_CHART_TYPES.HeatMap) return false;
-    return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+
+  // The function hides the click to add button for visualizations included in the const HIDE_ADD_BUTTON_VIZ_TYPES
+  const hideClickToAddButton = (name: string) => {
+    // returns false when HIDE_ADD_BUTTON_VIZ_TYPES visualizations are not matching with visType.
+    if (!isArray(list) || !HIDE_ADD_BUTTON_VIZ_TYPES.includes(visType)) return false;
+    // condition for heatmap on the basis of section name
+    if (visType === VIS_CHART_TYPES.HeatMap)
+      return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+    // condition for line and scatter for dimensions section.
+    return name === GROUPBY && (list.length >= 1 || !isEmpty(time_field));
   };
 
+  const { time_field, unit, interval } = dimensionSpan;
+
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
-  const crossIcon = (index: number) => (
+  const crossIcon = (index: number, configName: string) => (
     <EuiButtonIcon
       color="subdued"
       iconType="cross"
       aria-label="clear-field"
       iconSize="s"
-      onClick={() => handleServiceRemove(index, sectionName)}
+      onClick={() => handleServiceRemove(index, configName)}
     />
   );
 
-  const aggregationToolTip = (iconToDisplay: JSX.Element) => (
+  const infoToolTip = (iconToDisplay: JSX.Element, content: string) => (
     <EuiToolTip
       position="right"
-      content="At least one metric is required to render a chart"
+      content={content}
       delay="regular"
       anchorClassName="eui-textTruncate"
     >
@@ -68,8 +88,25 @@ export const DataConfigPanelFields = ({
         <EuiTitle size="xxs" className="panel_title">
           <h3>{sectionName}</h3>
         </EuiTitle>
-        {isAggregation && aggregationToolTip(tooltipIcon)}
+
+        {sectionName !== BREAKDOWNS &&
+          infoToolTip(tooltipIcon, isAggregation ? AGGREGATION_INFO : DIMENSION_INFO)}
       </div>
+      <EuiSpacer size="s" />
+      {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
+        <EuiPanel paddingSize="s" className="panelItem_button">
+          <EuiText size="s" className="field_text">
+            <EuiLink
+              role="button"
+              tabIndex={0}
+              onClick={() => handleServiceEdit(list.length - 1, GROUPBY, true)}
+            >
+              {`${SPAN}(${time_field[0]?.name}, ${interval} ${unit[0]?.value})`}
+            </EuiLink>
+          </EuiText>
+          {crossIcon(-1, SPAN)}
+        </EuiPanel>
+      )}
       <EuiSpacer size="s" />
       {isArray(list) &&
         list.map((obj: ConfigListEntry, index: number) => (
@@ -79,17 +116,19 @@ export const DataConfigPanelFields = ({
                 <EuiLink
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleServiceEdit(false, index, sectionName)}
+                  onClick={() => handleServiceEdit(index, sectionName, false)}
                 >
                   {obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`}
                 </EuiLink>
               </EuiText>
-              {isAggregation ? aggregationToolTip(crossIcon(index)) : crossIcon(index)}
+              {isAggregation
+                ? infoToolTip(crossIcon(index, sectionName), AGGREGATION_INFO)
+                : crossIcon(index, sectionName)}
             </EuiPanel>
             <EuiSpacer size="s" />
           </Fragment>
         ))}
-      {!isHeatMapAddButton(sectionName) && (
+      {!hideClickToAddButton(sectionName) && (
         <EuiPanel className="panelItem_button" grow>
           <EuiText size="s">{addButtonText}</EuiText>
           <EuiButtonIcon
@@ -97,10 +136,6 @@ export const DataConfigPanelFields = ({
             aria-label="add-field"
             iconSize="s"
             color="primary"
-            disabled={
-              (sectionName === GROUPBY && visType === VIS_CHART_TYPES.Line) ||
-              visType === VIS_CHART_TYPES.Scatter
-            }
             onClick={() => handleServiceAdd(sectionName)}
           />
         </EuiPanel>

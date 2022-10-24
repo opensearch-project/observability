@@ -6,13 +6,15 @@ on: [pull_request, push]
 env:
   PLUGIN_NAME: dashboards-observability
   OPENSEARCH_VERSION: 'main'
-  OPENSEARCH_PLUGIN_VERSION: 2.2.0.0
+  OPENSEARCH_PLUGIN_VERSION: 3.0.0.0
 
 jobs:
 
   build:
-
-    runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout Plugin
@@ -57,13 +59,13 @@ jobs:
           yarn test --coverage
 
       - name: Upload coverage
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v1
         with:
           flags: dashboards-observability
           directory: ./OpenSearch-Dashboards/plugins/dashboards-observability
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      # TODO remove hard coded version when observability is ready
       - name: Build Artifact
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
@@ -73,6 +75,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: dashboards-observability
+          name: dashboards-observability-${{ matrix.os }}
           path: ./OpenSearch-Dashboards/plugins/dashboards-observability/build
-

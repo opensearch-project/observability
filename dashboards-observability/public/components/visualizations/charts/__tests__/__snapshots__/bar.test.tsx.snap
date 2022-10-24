@@ -285,7 +285,7 @@ exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

@@ -199,7 +199,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                             },
                             Object {
                               "id": "y",
-                              "name": "Metrics",
+                              "name": "Series",
                             },
                           ],
                         },
@@ -647,7 +647,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -1102,7 +1102,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -1699,7 +1699,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             },
                             Object {
                               "id": "y",
-                              "name": "Metrics",
+                              "name": "Series",
                             },
                           ],
                         },
@@ -2205,7 +2205,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -2725,7 +2725,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -3252,7 +3252,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                             },
                             Object {
                               "id": "y",
-                              "name": "Metrics",
+                              "name": "Series",
                             },
                           ],
                         },
@@ -3700,7 +3700,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -4155,7 +4155,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -4634,7 +4634,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                             },
                             Object {
                               "id": "y",
-                              "name": "Metrics",
+                              "name": "Series",
                             },
                           ],
                         },
@@ -5028,7 +5028,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -5429,7 +5429,7 @@ exports[`Utils helper functions renders displayVisualization function 4`] = `
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },

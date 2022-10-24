@@ -285,7 +285,7 @@ exports[`Horizontal bar component Renders horizontal bar component 1`] = `
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },

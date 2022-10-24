@@ -30,7 +30,13 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IField, IQueryTab, IDefaultTimestampState } from '../../../../common/types/explorer';
+import {
+  IField,
+  IQueryTab,
+  IDefaultTimestampState,
+  ConfigListEntry,
+  DimensionSpan,
+} from '../../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -57,6 +63,7 @@ import {
   PATTERN_SELECT_QUERY,
   PPL_PATTERNS_REGEX,
   SELECTED_PATTERN,
+  VIZ_CONTAIN_XY_AXIS,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -165,9 +172,6 @@ export const Explorer = ({
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [viewLogPatterns, setViewLogPatterns] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
-    false
-  );
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -332,6 +336,7 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+
     if (isEmpty(rawQueryStr)) return;
 
     if (isEmpty(curIndex)) {
@@ -340,7 +345,6 @@ export const Explorer = ({
     }
 
     let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
-
     if (isEmpty(curTimestamp)) {
       const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
       if (isEmpty(defaultTimestamp.default_timestamp)) {
@@ -436,6 +440,99 @@ export const Explorer = ({
           });
         });
       }
+    }
+
+    // for comparing usage if for the same tab, user changed index from one to another
+    if (!isLiveTailOnRef.current) {
+      setPrevIndex(curTimestamp);
+      if (!queryRef.current!.isLoaded) {
+        dispatch(
+          changeQuery({
+            tabId,
+            query: {
+              isLoaded: true,
+            },
+          })
+        );
+      }
+    }
+  };
+
+  // for testing purpose only: fix for multiple rerenders in case of update chart
+  const fetchDataUpdateChart = async (
+    startingTime?: string | undefined,
+    endingTime?: string | undefined,
+    updatedQuery?: any
+  ) => {
+    const curQuery = updatedQuery.query;
+    const rawQueryStr = curQuery[RAW_QUERY];
+    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+    if (isEmpty(rawQueryStr)) return;
+
+    if (isEmpty(curIndex)) {
+      setToast('Query does not include valid index.', 'danger');
+      return;
+    }
+
+    let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
+    if (isEmpty(curTimestamp)) {
+      const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
+      if (isEmpty(defaultTimestamp.default_timestamp)) {
+        setToast(defaultTimestamp.message, 'danger');
+        return;
+      }
+      curTimestamp = defaultTimestamp.default_timestamp;
+      if (defaultTimestamp.hasSchemaConflict) {
+        setToast(defaultTimestamp.message, 'danger');
+      }
+    }
+
+    if (isEqual(typeof startingTime, 'undefined') && isEqual(typeof endingTime, 'undefined')) {
+      startingTime = curQuery![SELECTED_DATE_RANGE][0];
+      endingTime = curQuery![SELECTED_DATE_RANGE][1];
+    }
+
+    // compose final query
+    const finalQuery = composeFinalQuery(
+      curQuery,
+      startingTime!,
+      endingTime!,
+      curTimestamp,
+      isLiveTailOnRef.current
+    );
+
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          finalQuery,
+          [SELECTED_TIMESTAMP]: curTimestamp,
+          [RAW_QUERY]: rawQueryStr,
+        },
+      })
+    );
+
+    // search
+    if (finalQuery.match(PPL_STATS_REGEX)) {
+      getVisualizations();
+    } else {
+      findAutoInterval(startTime, endTime);
+      if (isLiveTailOnRef.current) {
+        getLiveTail(undefined, (error) => {
+          const formattedError = formatError(error.name, error.message, error.body.message);
+          notifications.toasts.addError(formattedError, {
+            title: 'Error fetching events',
+          });
+        });
+      } else {
+        getEvents(undefined, (error) => {
+          const formattedError = formatError(error.name, error.message, error.body.message);
+          notifications.toasts.addError(formattedError, {
+            title: 'Error fetching events',
+          });
+        });
+      }
+      getCountVisualizations(minInterval);
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -871,8 +968,38 @@ export const Explorer = ({
     }
   };
 
-  const changeIsValidConfigOptionState = (isValidConfig: boolean) =>
-    setIsValidDataConfigOptionSelected(isValidConfig);
+  const isSeriesNotEmpty = (seriesArray: ConfigListEntry[]) => seriesArray.length !== 0;
+  const isDimensionOrSpanPresent = (dimArray: ConfigListEntry[], spanExpression: DimensionSpan) =>
+    dimArray.length !== 0 || !isEmpty(spanExpression);
+
+  const isValidValueOptionConfigSelected = useMemo(() => {
+    const { series = [], dimensions = [], span = {} } = visualizations.data.userConfigs?.dataConfig;
+    const { TreeMap, Gauge, HeatMap, Metrics } = VIS_CHART_TYPES;
+    const isValidValueOptionsXYAxes =
+      VIZ_CONTAIN_XY_AXIS.includes(curVisId as VIS_CHART_TYPES) &&
+      isSeriesNotEmpty(series) &&
+      isDimensionOrSpanPresent(dimensions, span);
+
+    const isValidValueOptions: { [key: string]: boolean } = {
+      tree_map:
+        curVisId === TreeMap &&
+        dimensions.length > 0 &&
+        dimensions.childField?.length !== 0 &&
+        dimensions.valueField?.length !== 0,
+      gauge: curVisId === Gauge && isSeriesNotEmpty(series),
+      heatmap: Boolean(curVisId === HeatMap && series.length === 1 && dimensions.length === 2),
+      bar: isValidValueOptionsXYAxes,
+      line: isValidValueOptionsXYAxes,
+      histogram: isValidValueOptionsXYAxes,
+      pie: isValidValueOptionsXYAxes,
+      scatter: isValidValueOptionsXYAxes,
+      logs_view: true,
+      metrics: curVisId === Metrics && isSeriesNotEmpty(series),
+      horizontal_bar: isValidValueOptionsXYAxes,
+      data_table: true,
+    };
+    return isValidValueOptions[curVisId];
+  }, [curVisId, visualizations]);
 
   const getExplorerVis = () => {
     return (
@@ -888,7 +1015,6 @@ export const Explorer = ({
         visualizations={visualizations}
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
-        changeIsValidConfigOptionState={changeIsValidConfigOptionState}
         queryManager={queryManager}
       />
     );
@@ -1114,8 +1240,8 @@ export const Explorer = ({
       setToast('Name field cannot be empty.', 'danger');
       return;
     }
-    if (!isValidDataConfigOptionSelected) {
-      setToast('Invalid value options configuration selected.', 'danger');
+    if (!isValidValueOptionConfigSelected) {
+      setToast('Invalid data configurations selected.', 'danger');
       return;
     }
     setIsPanelTextFieldInvalid(false);
@@ -1414,6 +1540,7 @@ export const Explorer = ({
         handleQueryChange,
         setTempQuery,
         fetchData,
+        fetchDataUpdateChart,
         explorerFields,
         explorerData,
         http,

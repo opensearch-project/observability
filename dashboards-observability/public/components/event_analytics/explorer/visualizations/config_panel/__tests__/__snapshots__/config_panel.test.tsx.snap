@@ -2,21 +2,7 @@
 
 exports[`Config panel component Renders config panel with visualization data 1`] = `
 <ConfigPanel
-  changeIsValidConfigOptionState={
-    [MockFunction] {
-      "calls": Array [
-        Array [
-          true,
-        ],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
+  changeIsValidConfigOptionState={[MockFunction]}
   setCurVisId={[MockFunction]}
   visualizations={
     Object {
@@ -284,7 +270,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "id": "y",
-                            "name": "Metrics",
+                            "name": "Series",
                           },
                         ],
                       },
@@ -614,7 +600,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -927,7 +913,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -1299,7 +1285,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -2311,1701 +2297,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                 },
               },
             },
-            Object {
-              "category": "Visualizations",
-              "categoryaxis": "xaxis",
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Style",
-                    "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "tooltip_options",
-                        "mapTo": "tooltipOptions",
-                        "name": "Tooltip options",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipMode",
-                            "name": "Tooltip mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipText",
-                            "name": "Tooltip text",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                                Object {
-                                  "id": "label",
-                                  "name": "Label",
-                                },
-                                Object {
-                                  "id": "value",
-                                  "name": "Value",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "legend",
-                        "mapTo": "legend",
-                        "name": "Legend",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "showLegend",
-                            "name": "Show colorscale",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "treemap_options",
-                        "mapTo": "treemapOptions",
-                        "name": "Treemap",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "defaultState": Array [
-                              Object {
-                                "label": "Squarify",
-                                "name": "Squarify",
-                                "value": "squarify",
-                              },
-                            ],
-                            "isSingleSelection": true,
-                            "mapTo": "tilingAlgorithm",
-                            "name": "Tiling algorithm",
-                            "options": Array [
-                              Object {
-                                "name": "Squarify",
-                                "value": "squarify",
-                              },
-                              Object {
-                                "name": "Binary",
-                                "value": "binary",
-                              },
-                              Object {
-                                "name": "Dice",
-                                "value": "dice",
-                              },
-                              Object {
-                                "name": "Slice",
-                                "value": "slice",
-                              },
-                              Object {
-                                "name": "Slice Dice",
-                                "value": "slice-dice",
-                              },
-                              Object {
-                                "name": "Dice Slice",
-                                "value": "dice-slice",
-                              },
-                            ],
-                            "props": Object {
-                              "isClearable": false,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "sort_sectors",
-                            "name": "Sort Sectors",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": undefined,
-                                  "name": "Largest to Smallest",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "largest_to_smallest",
-                                  "name": "Largest to Smallest",
-                                },
-                                Object {
-                                  "id": "random",
-                                  "name": "Random",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "chart_styles",
-                        "mapTo": "chartStyles",
-                        "name": "Chart styles",
-                        "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "defaultState": Object {
-                              "name": "default",
-                            },
-                            "eleType": "treemapColorPicker",
-                            "isSingleSelection": true,
-                            "mapTo": "colorTheme",
-                            "name": "Color theme",
-                            "options": Array [
-                              Object {
-                                "title": "Default",
-                                "type": "text",
-                                "value": "default",
-                              },
-                              Object {
-                                "title": "Single color",
-                                "type": "text",
-                                "value": "singleColor",
-                              },
-                              Object {
-                                "title": "Multicolored",
-                                "type": "text",
-                                "value": "multicolor",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#050aac",
-                                  "#161cb2",
-                                  "#2029ba",
-                                  "#2835c2",
-                                  "#303fca",
-                                  "#384ad3",
-                                  "#4054db",
-                                  "#495ee2",
-                                  "#5368e9",
-                                  "#5f72ed",
-                                  "#6b7df0",
-                                  "#7887f0",
-                                  "#8692f0",
-                                  "#939cee",
-                                  "#a0a6ec",
-                                  "#adb1ea",
-                                  "#b9bce7",
-                                  "#c5c6e3",
-                                  "#d1d1e0",
-                                  "#dcdcdc",
-                                ],
-                                "title": "Blues",
-                                "type": "gradient",
-                                "value": "Blues",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#dcdcdc",
-                                  "#e8d0c1",
-                                  "#edc6ad",
-                                  "#efbb9c",
-                                  "#efb18e",
-                                  "#eea782",
-                                  "#eb9e77",
-                                  "#e9946d",
-                                  "#e68b64",
-                                  "#e2815c",
-                                  "#de7854",
-                                  "#da6e4c",
-                                  "#d56545",
-                                  "#d15b3e",
-                                  "#cc5138",
-                                  "#c74632",
-                                  "#c23b2c",
-                                  "#bd2f26",
-                                  "#b72021",
-                                  "#b20a1c",
-                                ],
-                                "title": "Reds",
-                                "type": "gradient",
-                                "value": "Reds",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#00441b",
-                                  "#014e1f",
-                                  "#035825",
-                                  "#09622a",
-                                  "#116d31",
-                                  "#1b7738",
-                                  "#25823f",
-                                  "#308c48",
-                                  "#3c9650",
-                                  "#49a15a",
-                                  "#57ab64",
-                                  "#66b56f",
-                                  "#76bf7b",
-                                  "#86c888",
-                                  "#98d296",
-                                  "#aadba6",
-                                  "#bde4b8",
-                                  "#d0ecca",
-                                  "#e3f4df",
-                                  "#f7fcf5",
-                                ],
-                                "title": "Greens",
-                                "type": "gradient",
-                                "value": "Greens",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#000000",
-                                  "#121212",
-                                  "#1d1d1d",
-                                  "#272727",
-                                  "#333333",
-                                  "#3e3e3e",
-                                  "#4a4a4a",
-                                  "#575757",
-                                  "#636363",
-                                  "#707070",
-                                  "#7e7e7e",
-                                  "#8b8b8b",
-                                  "#999999",
-                                  "#a7a7a7",
-                                  "#b5b5b5",
-                                  "#c3c3c3",
-                                  "#d2d2d2",
-                                  "#e1e1e1",
-                                  "#f0f0f0",
-                                  "#ffffff",
-                                ],
-                                "title": "Greys",
-                                "type": "gradient",
-                                "value": "Greys",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#0000ff",
-                                  "#3e00f7",
-                                  "#5800ee",
-                                  "#6c00e4",
-                                  "#7c00db",
-                                  "#8a00d1",
-                                  "#9600c6",
-                                  "#a200bb",
-                                  "#ac00b0",
-                                  "#b600a4",
-                                  "#bf0098",
-                                  "#c8008b",
-                                  "#d0007e",
-                                  "#d80071",
-                                  "#df0062",
-                                  "#e60054",
-                                  "#ed0045",
-                                  "#f30034",
-                                  "#f90021",
-                                  "#ff0000",
-                                ],
-                                "title": "Blue-Red",
-                                "type": "gradient",
-                                "value": "Bluered",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#050aac",
-                                  "#2522b6",
-                                  "#3835c0",
-                                  "#4946c8",
-                                  "#5957cf",
-                                  "#6967d4",
-                                  "#7978d7",
-                                  "#8a89d7",
-                                  "#9a9bd4",
-                                  "#acaccd",
-                                  "#df9b70",
-                                  "#dd8e62",
-                                  "#da8056",
-                                  "#d6734c",
-                                  "#d16542",
-                                  "#cb583a",
-                                  "#c54931",
-                                  "#bf3a2a",
-                                  "#b92723",
-                                  "#b20a1c",
-                                ],
-                                "title": "Red-Blue",
-                                "type": "gradient",
-                                "value": "RdBu",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#800026",
-                                  "#910126",
-                                  "#a10526",
-                                  "#b10e26",
-                                  "#c01b26",
-                                  "#cd2926",
-                                  "#d83728",
-                                  "#e2472a",
-                                  "#ea572e",
-                                  "#f16732",
-                                  "#f67738",
-                                  "#fa8740",
-                                  "#fd9849",
-                                  "#ffa753",
-                                  "#ffb760",
-                                  "#ffc76f",
-                                  "#ffd681",
-                                  "#ffe496",
-                                  "#fff2af",
-                                  "#ffffcc",
-                                ],
-                                "title": "Yellow-Orange-Red",
-                                "type": "gradient",
-                                "value": "YlOrRd",
-                              },
-                              Object {
-                                "palette": Array [
-                                  "#081d58",
-                                  "#11256a",
-                                  "#182f79",
-                                  "#1e3b86",
-                                  "#234791",
-                                  "#28539a",
-                                  "#2e60a2",
-                                  "#346da9",
-                                  "#3b7aaf",
-                                  "#4488b4",
-                                  "#4f95b7",
-                                  "#5ba2ba",
-                                  "#6aafbc",
-                                  "#7bbcbe",
-                                  "#8dc8bf",
-                                  "#a2d4c1",
-                                  "#b7e0c4",
-                                  "#ceebc9",
-                                  "#e6f5d0",
-                                  "#ffffd9",
-                                ],
-                                "title": "Yellow-Green-Blue",
-                                "type": "gradient",
-                                "value": "YlGnBu",
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                ],
-              },
-              "fulllabel": "Tree map",
-              "icon": [Function],
-              "icontype": "heatmap",
-              "id": "tree_map",
-              "label": "Tree map",
-              "name": "tree_map",
-              "orientation": "v",
-              "selection": Object {
-                "dataLoss": "nothing",
-              },
-              "seriesaxis": "yaxis",
-              "type": "tree_map",
-              "visconfig": Object {
-                "config": Object {
-                  "displaylogo": false,
-                  "responsive": true,
-                },
-                "isUniColor": false,
-                "layout": Object {
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "showlegend": true,
-                },
-              },
-            },
-            Object {
-              "category": "Visualizations",
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Style",
-                    "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "chart-styles",
-                        "mapTo": "chartStyles",
-                        "name": "Chart styles",
-                        "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "orientation",
-                            "name": "Orientation",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                                Object {
-                                  "id": "v",
-                                  "name": "Vertical",
-                                },
-                                Object {
-                                  "id": "h",
-                                  "name": "Horizontal",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "legendPlacement",
-                            "name": "Legend placement",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "center",
-                                  "name": "Center",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "center",
-                                  "name": "Center",
-                                },
-                                Object {
-                                  "id": "right",
-                                  "name": "Right",
-                                },
-                                Object {
-                                  "id": "left",
-                                  "name": "Left",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "titleSize",
-                            "name": "Title size",
-                            "title": "Title size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "valueSize",
-                            "name": "Value size",
-                            "title": "Value size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "currentValue": false,
-                            "eleType": "switchButton",
-                            "mapTo": "showThresholdLabels",
-                            "name": "Show threshold labels",
-                            "title": "Show threshold labels",
-                          },
-                          Object {
-                            "component": [Function],
-                            "currentValue": true,
-                            "eleType": "switchButton",
-                            "mapTo": "showThresholdMarkers",
-                            "name": "Show threshold markers",
-                            "title": "Show threshold markers",
-                          },
-                        ],
-                      },
-                      Object {
-                        "defaultState": Array [],
-                        "editor": [Function],
-                        "id": "thresholds",
-                        "mapTo": "thresholds",
-                        "name": "Thresholds",
-                        "props": Object {
-                          "maxLimit": 1,
-                        },
-                        "schemas": Array [],
-                      },
-                    ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                ],
-              },
-              "fulllabel": "Gauge",
-              "icon": [Function],
-              "icontype": "visGauge",
-              "id": "gauge",
-              "label": "Gauge",
-              "name": "Gauge",
-              "selection": Object {
-                "dataLoss": "nothing",
-              },
-              "type": "indicator",
-              "valueseries": "yaxis",
-              "visconfig": Object {
-                "config": Object {
-                  "displaylogo": false,
-                  "responsive": true,
-                },
-                "layout": Object {
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "showlegend": true,
-                },
-              },
-            },
-            Object {
-              "category": "Visualizations",
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Style",
-                    "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "chart-styles",
-                        "mapTo": "chartStyles",
-                        "name": "Chart styles",
-                        "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "defaultState": 2,
-                            "eleType": "slider",
-                            "mapTo": "lineWidth",
-                            "name": "Line width",
-                            "props": Object {
-                              "max": 10,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 40,
-                            "eleType": "slider",
-                            "mapTo": "fillOpacity",
-                            "name": "Fill opacity",
-                            "props": Object {
-                              "max": 100,
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "tooltip_options",
-                        "mapTo": "tooltipOptions",
-                        "name": "Tooltip options",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipMode",
-                            "name": "Tooltip mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipText",
-                            "name": "Tooltip text",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                                Object {
-                                  "id": "x",
-                                  "name": "Dimension",
-                                },
-                                Object {
-                                  "id": "y",
-                                  "name": "Metrics",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "legend",
-                        "mapTo": "legend",
-                        "name": "Legend",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "showLegend",
-                            "name": "Show legend",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "position",
-                            "name": "Position",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Right",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Right",
-                                },
-                                Object {
-                                  "id": "h",
-                                  "name": "Bottom",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                ],
-              },
-              "fulllabel": "Histogram",
-              "icontype": "visArea",
-              "id": "histogram",
-              "label": "Histogram",
-              "name": "histogram",
-              "selection": Object {
-                "dataLoss": "nothing",
-              },
-              "type": "histogram",
-              "valueseries": "yaxis",
-              "visconfig": Object {
-                "config": Object {
-                  "displaylogo": false,
-                  "responsive": true,
-                },
-                "layout": Object {
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "showlegend": true,
-                },
-              },
-            },
-            Object {
-              "category": "Visualizations",
-              "categoryaxis": "xaxis",
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Style",
-                    "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "legend",
-                        "mapTo": "legend",
-                        "name": "Legend",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "showLegend",
-                            "name": "Show legend",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "position",
-                            "name": "Position",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Right",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "v",
-                                  "name": "Right",
-                                },
-                                Object {
-                                  "id": "h",
-                                  "name": "Bottom",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "legendSize",
-                            "name": "Legend size",
-                            "title": "Legend size",
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "tooltip_options",
-                        "mapTo": "tooltipOptions",
-                        "name": "Tooltip options",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipMode",
-                            "name": "Tooltip mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipText",
-                            "name": "Tooltip text",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                                Object {
-                                  "id": "x",
-                                  "name": "Dimension",
-                                },
-                                Object {
-                                  "id": "y",
-                                  "name": "Metrics",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "chart_styles",
-                        "mapTo": "chartStyles",
-                        "name": "Chart styles",
-                        "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "style",
-                            "name": "Mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "markers",
-                                  "name": "Marker",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "lines",
-                                  "name": "Lines",
-                                },
-                                Object {
-                                  "id": "markers",
-                                  "name": "Marker",
-                                },
-                                Object {
-                                  "id": "lines+markers",
-                                  "name": "Lines + Markers",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "interpolation",
-                            "name": "Interpolation",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "spline",
-                                  "name": "Smooth",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "linear",
-                                  "name": "Linear",
-                                },
-                                Object {
-                                  "id": "spline",
-                                  "name": "Smooth",
-                                },
-                                Object {
-                                  "id": "hv",
-                                  "name": "Step before",
-                                },
-                                Object {
-                                  "id": "vh",
-                                  "name": "Step after",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 2,
-                            "eleType": "slider",
-                            "mapTo": "lineWidth",
-                            "name": "Line width",
-                            "props": Object {
-                              "max": 10,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 40,
-                            "eleType": "slider",
-                            "mapTo": "fillOpacity",
-                            "name": "Fill opacity",
-                            "props": Object {
-                              "max": 100,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 5,
-                            "eleType": "slider",
-                            "mapTo": "pointSize",
-                            "name": "Point size",
-                            "props": Object {
-                              "max": 40,
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "labelSize",
-                            "name": "Label size",
-                            "title": "Label size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": 0,
-                            "eleType": "slider",
-                            "mapTo": "rotateLabels",
-                            "name": "Rotate labels",
-                            "props": Object {
-                              "max": 90,
-                              "min": -90,
-                              "showTicks": true,
-                              "ticks": Array [
-                                Object {
-                                  "label": "-90°",
-                                  "value": -90,
-                                },
-                                Object {
-                                  "label": "-45°",
-                                  "value": -45,
-                                },
-                                Object {
-                                  "label": "0°",
-                                  "value": 0,
-                                },
-                                Object {
-                                  "label": "45°",
-                                  "value": 45,
-                                },
-                                Object {
-                                  "label": "90°",
-                                  "value": 90,
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
-                      Object {
-                        "defaultState": Array [],
-                        "editor": [Function],
-                        "id": "thresholds",
-                        "mapTo": "thresholds",
-                        "name": "Thresholds",
-                        "schemas": Array [],
-                      },
-                    ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
-                ],
-              },
-              "fulllabel": "Scatter",
-              "icon": [Function],
-              "icontype": "visLine",
-              "id": "scatter",
-              "label": "Scatter",
-              "name": "scatter",
-              "selection": Object {
-                "dataLoss": "nothing",
-              },
-              "seriesaxis": "yaxis",
-              "type": "scatter",
-              "visconfig": Object {
-                "config": Object {
-                  "barmode": "scatter",
-                  "displaylogo": false,
-                  "responsive": true,
-                  "xaxis": Object {
-                    "automargin": true,
-                  },
-                  "yaxis": Object {
-                    "automargin": true,
-                  },
-                },
-                "layout": Object {
-                  "colorway": Array [
-                    "#3CA1C7",
-                    "#8C55A3",
-                    "#DB748A",
-                    "#F2BE4B",
-                    "#68CCC2",
-                    "#2A7866",
-                    "#843769",
-                    "#374FB8",
-                    "#BD6F26",
-                    "#4C636F",
-                  ],
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "paper_bgcolor": "rgba(0, 0, 0, 0)",
-                  "plot_bgcolor": "rgba(0, 0, 0, 0)",
-                  "showlegend": true,
-                  "xaxis": Object {
-                    "fixedrange": true,
-                    "showgrid": false,
-                    "visible": true,
-                  },
-                  "yaxis": Object {
-                    "fixedrange": true,
-                    "showgrid": false,
-                    "visible": true,
-                  },
-                },
-              },
-            },
-            Object {
-              "category": "Visualizations",
-              "categoryaxis": "xaxis",
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Style",
-                    "sections": Array [],
-                  },
-                ],
-              },
-              "fulllabel": "Logs view",
-              "icon": [Function],
-              "icontype": "visTable",
-              "id": "logs_view",
-              "label": "Logs view",
-              "name": "logs_view",
-              "selection": Object {
-                "dataLoss": "nothing",
-              },
-              "seriesaxis": "yaxis",
-              "type": "logs_view",
-              "visconfig": Object {
-                "config": Object {
-                  "barmode": "line",
-                  "displaylogo": false,
-                  "responsive": true,
-                  "xaxis": Object {
-                    "automargin": true,
-                  },
-                  "yaxis": Object {
-                    "automargin": true,
-                  },
-                },
-                "layout": Object {
-                  "colorway": Array [
-                    "#3CA1C7",
-                    "#8C55A3",
-                    "#DB748A",
-                    "#F2BE4B",
-                    "#68CCC2",
-                    "#2A7866",
-                    "#843769",
-                    "#374FB8",
-                    "#BD6F26",
-                    "#4C636F",
-                  ],
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "paper_bgcolor": "rgba(0, 0, 0, 0)",
-                  "plot_bgcolor": "rgba(0, 0, 0, 0)",
-                  "showlegend": true,
-                  "xaxis": Object {
-                    "fixedrange": true,
-                    "showgrid": false,
-                    "visible": true,
-                  },
-                  "yaxis": Object {
-                    "fixedrange": true,
-                    "showgrid": false,
-                    "visible": true,
-                  },
-                },
-              },
-            },
-            Object {
-              "category": "Visualizations",
-              "categoryaxis": "xaxis",
-              "charttype": "auto",
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Style",
-                    "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "tooltip_options",
-                        "mapTo": "tooltipOptions",
-                        "name": "Tooltip options",
-                        "schemas": Array [
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipMode",
-                            "name": "Tooltip mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "show",
-                                  "name": "Show",
-                                },
-                                Object {
-                                  "id": "hidden",
-                                  "name": "Hidden",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": null,
-                            "mapTo": "tooltipText",
-                            "name": "Tooltip text",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "all",
-                                  "name": "All",
-                                },
-                                Object {
-                                  "id": "x",
-                                  "name": "Dimension",
-                                },
-                                Object {
-                                  "id": "y",
-                                  "name": "Series",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "chart_styles",
-                        "mapTo": "chartStyles",
-                        "name": "Chart styles",
-                        "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "chartType",
-                            "name": "Chart type",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                                Object {
-                                  "id": "horizontal",
-                                  "name": "Horizontal",
-                                },
-                                Object {
-                                  "id": "text",
-                                  "name": "Text mode",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "orientation",
-                            "name": "Orientation",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                                Object {
-                                  "id": "h",
-                                  "name": "Horizontal",
-                                },
-                                Object {
-                                  "id": "v",
-                                  "name": "Vertical",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "textInput",
-                            "mapTo": "seriesUnits",
-                            "name": "Series units",
-                            "title": "Series units",
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "precisionValue",
-                            "name": "Series precision",
-                            "props": Object {
-                              "minLimit": 0,
-                            },
-                            "title": "Series precision",
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "titleSize",
-                            "name": "Title size",
-                            "title": "Title size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "input",
-                            "mapTo": "valueSize",
-                            "name": "Value size",
-                            "title": "Value size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "textMode",
-                            "name": "Text mode",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Values + Names",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "auto",
-                                  "name": "Auto",
-                                },
-                                Object {
-                                  "id": "names",
-                                  "name": "Names",
-                                },
-                                Object {
-                                  "id": "values",
-                                  "name": "Values",
-                                },
-                                Object {
-                                  "id": "values+names",
-                                  "name": "Values + Names",
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      Object {
-                        "defaultState": Array [
-                          Object {
-                            "color": "#3CA1C7",
-                            "isReadOnly": true,
-                            "name": "Base",
-                            "thid": "random_html_id",
-                            "value": 0,
-                          },
-                        ],
-                        "editor": [Function],
-                        "id": "thresholds",
-                        "mapTo": "thresholds",
-                        "name": "Thresholds",
-                        "schemas": Array [],
-                      },
-                    ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
-                ],
-              },
-              "fulllabel": "Stats",
-              "icon": [Function],
-              "icontype": "stats",
-              "id": "stats",
-              "label": "Stats",
-              "name": "stats",
-              "orientation": "auto",
-              "precisionvalue": 1,
-              "seriesaxis": "yaxis",
-              "textmode": "auto",
-              "titlesize": 30,
-              "type": "stats",
-              "valuesize": 80,
-              "visconfig": Object {
-                "config": Object {
-                  "displaylogo": false,
-                  "responsive": true,
-                },
-                "layout": Object {
-                  "colorway": Array [
-                    "#3CA1C7",
-                    "#8C55A3",
-                    "#DB748A",
-                    "#F2BE4B",
-                    "#68CCC2",
-                    "#2A7866",
-                    "#843769",
-                    "#374FB8",
-                    "#BD6F26",
-                    "#4C636F",
-                  ],
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "paper_bgcolor": "rgba(0, 0, 0, 0)",
-                  "plot_bgcolor": "rgba(0, 0, 0, 0)",
-                  "showlegend": true,
-                  "xaxis": Object {
-                    "fixedrange": true,
-                    "showgrid": false,
-                    "visible": true,
-                  },
-                  "yaxis": Object {
-                    "fixedrange": true,
-                    "showgrid": false,
-                    "visible": true,
-                  },
-                },
-              },
-            },
-            Object {
-              "category": "Visualizations",
-              "columnalignment": "leftAligned",
-              "columnwidth": 150,
-              "colunmfilter": false,
-              "component": [Function],
-              "editorconfig": Object {
-                "panelTabs": Array [
-                  Object {
-                    "editor": [Function],
-                    "id": "data-panel",
-                    "mapTo": "dataConfig",
-                    "name": "Data",
-                    "sections": Array [
-                      Object {
-                        "editor": [Function],
-                        "id": "chart-styles",
-                        "mapTo": "chartStyles",
-                        "name": "Chart styles",
-                        "schemas": Array [
-                          Object {
-                            "component": [Function],
-                            "currentValue": true,
-                            "eleType": "switchButton",
-                            "mapTo": "showTableHeader",
-                            "name": "Show table header",
-                            "title": "Show table header",
-                          },
-                          Object {
-                            "component": [Function],
-                            "currentValue": true,
-                            "eleType": "switchButton",
-                            "mapTo": "enablePagination",
-                            "name": "Enable pagination",
-                            "title": "Enable pagination",
-                          },
-                          Object {
-                            "component": [Function],
-                            "eleType": "buttons",
-                            "mapTo": "columnAlignment",
-                            "name": "Column alignment",
-                            "props": Object {
-                              "defaultSelections": Array [
-                                Object {
-                                  "id": "leftAligned",
-                                  "name": "Left",
-                                },
-                              ],
-                              "options": Array [
-                                Object {
-                                  "id": "leftAligned",
-                                  "name": "Left",
-                                },
-                                Object {
-                                  "id": "rightAligned",
-                                  "name": "Right",
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "component": [Function],
-                            "currentValue": 150,
-                            "eleType": "input",
-                            "mapTo": "columnWidth",
-                            "name": "Column Width",
-                            "title": "Column Width",
-                          },
-                          Object {
-                            "component": [Function],
-                            "currentValue": false,
-                            "eleType": "switchButton",
-                            "mapTo": "colunmFilter",
-                            "name": "Column filter",
-                            "title": "Column filter",
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
-                ],
-              },
-              "enablepagination": true,
-              "fulllabel": "Table View",
-              "icon": [Function],
-              "icontype": "visTable",
-              "id": "data_table",
-              "label": "Table View",
-              "name": "data_table",
-              "showtableheader": true,
-              "type": "data_table",
-              "visconfig": Object {
-                "config": Object {
-                  "displaylogo": false,
-                  "responsive": true,
-                },
-                "isUniColor": false,
-                "layout": Object {
-                  "height": 1180,
-                  "legend": Object {
-                    "orientation": "v",
-                    "traceorder": "normal",
-                  },
-                  "margin": Object {
-                    "b": 30,
-                    "l": 60,
-                    "pad": 0,
-                    "r": 30,
-                    "t": 50,
-                  },
-                  "showlegend": true,
-                },
-              },
-            },
           ]
         }
         placeholder="Select a chart"
@@ -4076,7 +2367,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -4421,7 +2712,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                     Object {
                                       "id": "y",
-                                      "name": "Metrics",
+                                      "name": "Series",
                                     },
                                   ],
                                 },
@@ -4771,7 +3062,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           },
                                           Object {
                                             "id": "y",
-                                            "name": "Metrics",
+                                            "name": "Series",
                                           },
                                         ],
                                       },
@@ -5056,7 +3347,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             },
                                             Object {
                                               "id": "y",
-                                              "name": "Metrics",
+                                              "name": "Series",
                                             },
                                           ],
                                         },
@@ -5407,7 +3698,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             },
                                             Object {
                                               "id": "y",
-                                              "name": "Metrics",
+                                              "name": "Series",
                                             },
                                           ],
                                         },
@@ -5728,7 +4019,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                                 Object {
                                                   "id": "y",
-                                                  "name": "Metrics",
+                                                  "name": "Series",
                                                 },
                                               ],
                                             },
@@ -6217,7 +4508,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -6675,7 +4966,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "id": "y",
-                                        "name": "Metrics",
+                                        "name": "Series",
                                       },
                                     ],
                                   },
@@ -7015,7 +5306,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "id": "y",
-                                  "name": "Metrics",
+                                  "name": "Series",
                                 },
                               ],
                             },
@@ -7473,7 +5764,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                         Object {
                                           "id": "y",
-                                          "name": "Metrics",
+                                          "name": "Series",
                                         },
                                       ],
                                     },
@@ -8044,7 +6335,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                         Object {
                                           "id": "y",
-                                          "name": "Metrics",
+                                          "name": "Series",
                                         },
                                       ],
                                     },
@@ -8452,7 +6743,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "id": "y",
-                                "name": "Metrics",
+                                "name": "Series",
                               },
                             ],
                           },
@@ -8910,7 +7201,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "id": "y",
-                                        "name": "Metrics",
+                                        "name": "Series",
                                       },
                                     ],
                                   },
@@ -9477,7 +7768,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -10036,7 +8327,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "id": "y",
-                                        "name": "Metrics",
+                                        "name": "Series",
                                       },
                                     ],
                                   },
@@ -10311,7 +8602,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -10941,8 +9232,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                                 Object {
                                                   "id": "y",
-                                                  "label": "Metrics",
-                                                  "name": "Metrics",
+                                                  "label": "Series",
+                                                  "name": "Series",
                                                 },
                                               ]
                                             }
@@ -10962,7 +9253,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                                 Object {
                                                   "id": "y",
-                                                  "name": "Metrics",
+                                                  "name": "Series",
                                                 },
                                               ]
                                             }
@@ -11014,8 +9305,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "label": "Metrics",
-                                                      "name": "Metrics",
+                                                      "label": "Series",
+                                                      "name": "Series",
                                                     },
                                                   ]
                                                 }
@@ -11203,8 +9494,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       isIconOnly={false}
                                                       isSelected={false}
                                                       key="2"
-                                                      label="Metrics"
-                                                      name="Metrics"
+                                                      label="Series"
+                                                      name="Series"
                                                       onChange={[Function]}
                                                       size="compressed"
                                                     >
@@ -11221,9 +9512,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         textProps={
                                                           Object {
                                                             "className": "euiButtonGroupButton__textShift",
-                                                            "data-text": "Metrics",
+                                                            "data-text": "Series",
                                                             "ref": [Function],
-                                                            "title": "Metrics",
+                                                            "title": "Series",
                                                           }
                                                         }
                                                       >
@@ -11244,9 +9535,9 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             textProps={
                                                               Object {
                                                                 "className": "euiButton__text euiButtonGroupButton__textShift",
-                                                                "data-text": "Metrics",
+                                                                "data-text": "Series",
                                                                 "ref": [Function],
-                                                                "title": "Metrics",
+                                                                "title": "Series",
                                                               }
                                                             }
                                                           >
@@ -11255,8 +9546,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                             >
                                                               <span
                                                                 className="euiButton__text euiButtonGroupButton__textShift"
-                                                                data-text="Metrics"
-                                                                title="Metrics"
+                                                                data-text="Series"
+                                                                title="Series"
                                                               >
                                                                 <input
                                                                   checked={false}
@@ -11264,11 +9555,11 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                   data-test-subj="y"
                                                                   disabled={false}
                                                                   id="random_html_id"
-                                                                  name="Metrics"
+                                                                  name="Series"
                                                                   onChange={[Function]}
                                                                   type="radio"
                                                                 />
-                                                                Metrics
+                                                                Series
                                                               </span>
                                                             </span>
                                                           </EuiButtonContent>
@@ -11644,7 +9935,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -12998,7 +11289,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },
@@ -15917,7 +14208,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     },
                                                     Object {
                                                       "id": "y",
-                                                      "name": "Metrics",
+                                                      "name": "Series",
                                                     },
                                                   ],
                                                 },

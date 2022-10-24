@@ -44,6 +44,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           span = {},
           legend = {},
           panelOptions = {},
+          tooltipOptions = {},
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
           [BREAKDOWNS]: breakdowns = [],
@@ -79,19 +80,18 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     chartStyles.fillOpacity !== undefined
       ? chartStyles.fillOpacity / FILLOPACITY_DIV_FACTOR
       : fillopacity / FILLOPACITY_DIV_FACTOR;
+  const tooltipMode =
+    tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
+  const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
   const barWidth = 1 - (chartStyles.barWidth || barwidth);
   const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
   const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
   const legendPosition = legend.position || legendposition;
-
-  visualizations.data?.rawVizData?.dataConfig?.metrics
-    ? visualizations.data.rawVizData.dataConfig.metrics
-    : [];
   const labelSize = chartStyles.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
   const legendSize = legend.legendSize;
   const getSelectedColorTheme = (field: any, index: number) =>
     (colorTheme.length > 0 &&
-      colorTheme.find((colorSelected) => colorSelected.name.name === field.label)?.color) ||
+      colorTheme.find((colorSelected) => colorSelected.name.label === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
 
   let bars;
@@ -101,7 +101,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
    */
   const xaxes = useMemo(() => {
     // breakdown selections
-    if (breakdowns) {
+    if (breakdowns.length > 0) {
       return [
         ...dimensions.filter(
           (dimension) => !some(breakdowns, (breakdown) => breakdown.label === dimension.label)
@@ -143,7 +143,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   }, [queriedVizData, xaxes, yaxes]);
 
   bars = yaxes?.map((yMetric, idx) => {
-    const selectedColor = getSelectedColorTheme(yMetric.name, idx);
+    const selectedColor = getSelectedColorTheme(getPropName(yMetric), idx);
     const fillColor = hexToRgb(selectedColor, fillOpacity);
     return {
       y: isVertical ? queriedVizData[getPropName(yMetric)] : chartAxis,
@@ -158,6 +158,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       },
       name: getPropName(yMetric),
       orientation: barOrientation,
+      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
     };
   });
 
