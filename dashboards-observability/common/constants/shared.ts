@@ -26,6 +26,14 @@ export const observabilityID = 'observability-dashboards';
 export const observabilityTitle = 'Observability';
 export const observabilityPluginOrder = 6000;
 
+export const observabilityApplicationsID = 'observability-applications';
+export const observabilityApplicationsTitle = 'Application Analytics';
+export const observabilityApplicationsPluginOrder = 5090;
+
+export const observabilityEventsID = 'observability-events';
+export const observabilityEventsTitle = 'Event Analytics';
+export const observabilityEventsPluginOrder = 5091;
+
 // Shared Constants
 export const SQL_DOCUMENTATION_URL = 'https://opensearch.org/docs/latest/search-plugins/sql/index/';
 export const PPL_DOCUMENTATION_URL =

@@ -18,17 +18,19 @@ export const Observability = (
   dslService: any,
   savedObjects: any,
   timestampUtils: any,
-  queryManager: QueryManager
+  queryManager: QueryManager,
+  startPage?: String
 ) => {
   ReactDOM.render(
     <App
-      CoreStartProp={CoreStartProp}
-      DepsStart={DepsStart}
+      coreStart={CoreStartProp}
+      depsStart={DepsStart}
       pplService={pplService}
       dslService={dslService}
       savedObjects={savedObjects}
       timestampUtils={timestampUtils}
       queryManager={queryManager}
+      startPage={startPage}
     />,
     AppMountParametersProp.element
   );

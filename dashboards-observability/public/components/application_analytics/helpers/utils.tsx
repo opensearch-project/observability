@@ -36,6 +36,8 @@ import {
   remove as removeQueryResult,
 } from '../../event_analytics/redux/slices/query_result_slice';
 import { addTab, removeTab } from '../../event_analytics/redux/slices/query_tab_slice';
+import { from } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 // Name validation
 export const isNameValid = (name: string, existingNames: string[]) => {
@@ -175,15 +177,16 @@ export const initializeTabData = async (dispatch: Dispatch<any>, tabId: string, 
   });
 };
 
+export const fetchAppsList = (http: HttpSetup) => {
+  return from(http.get(`${APP_ANALYTICS_API_PREFIX}/`)).pipe(mergeMap((res) => res.data));
+};
+
 export const fetchPanelsVizIdList = async (http: HttpSetup, appPanelId: string) => {
   return await http
     .get(`${CUSTOM_PANELS_API_PREFIX}/panels/${appPanelId}`)
-    .then((res) => {
-      const visIds = res.operationalPanel.visualizations.map(
-        (viz: VisualizationType) => viz.savedVisualizationId
-      );
-      return visIds;
-    })
+    .then((res) =>
+      res.operationalPanel.visualizations.map((viz: VisualizationType) => viz.savedVisualizationId)
+    )
     .catch((err) => {
       console.error('Error occurred while fetching visualizations for panel', err);
       return [];
