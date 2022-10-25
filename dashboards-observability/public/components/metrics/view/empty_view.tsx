@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiSpacer, EuiText, EuiIcon, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import { EuiSpacer, EuiText, EuiIcon, EuiFlexGroup, EuiFlexItem, EuiPanel } from '@elastic/eui';
 import React, { useState } from 'react';
+import './empty_view.scss';
 
 export const EmptyMetricsView = () => {
   return (
