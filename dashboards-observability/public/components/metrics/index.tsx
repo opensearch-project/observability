@@ -2,14 +2,13 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import './index.scss';
 import {
   EuiButtonIcon,
   EuiPage,
   EuiPageBody,
-  EuiPageHeader,
-  EuiPageHeaderSection,
   EuiSpacer,
   EuiSuperDatePicker,
   EuiSuperDatePickerProps,
@@ -25,25 +24,18 @@ import {
   EuiFlexItem,
 } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
-import React, { Fragment, useState } from 'react';
-import { StaticContext } from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
-import {
-  SELECTED_METRICS,
-  UNSELECTED_METRICS,
-  AVAILABLE_METRICS,
-  REDUX_SLICE_METRICS,
-} from 'common/constants/metrics';
+import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { StaticContext } from 'react-router-dom';
+import { CUSTOM_PANELS_API_PREFIX } from ' ../../../common/constants/custom_panels';
 import { uiSettingsService } from '../../../common/utils';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
-import { ObservabilitySideBar } from '../common/side_nav';
 import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
-import { EuiAccordion } from '@opensearch-project/oui';
 import { EmptyMetricsView } from './view/empty_view';
-import { createSlice } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectMetrics, updateMetrics } from './redux/slices/metrics_slice';
+import { selectMetrics } from './redux/slices/metrics_slice';
 
 interface MetricsProps {
   http: CoreStart['http'];
@@ -52,15 +44,7 @@ interface MetricsProps {
   renderProps: RouteComponentProps<any, StaticContext, any>;
 }
 
-export const Home = ({
-  http,
-  chrome,
-  parentBreadcrumb,
-  renderProps,
-}: MetricsProps) => {
-
-  const dispatch = useDispatch();
-
+export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsProps) => {
   // Date picker constants
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
   const [start, setStart] = useState<ShortDate>('now-30m');
@@ -68,17 +52,31 @@ export const Home = ({
   const [dateDisabled, setDateDisabled] = useState(false);
 
   // Side bar constants
-  const [ isSidebarClosed, setIsSidebarClosed ] = useState(false);
-  const recentlyCreatedFields = ['1', '2', '3', '4'];
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const metricsList = useSelector(selectMetrics);
-  console.log(metricsList);
 
-  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
-    // if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
-    //   return;
-    // }
+  // Using Visualizations for recently created custom metrics for now
+  const [visualizationsList, setVisualizationsList] = useState<any>([]);
+  // Fetch Saved Visualizations
+  const fetchVisualizations = async () => {
+    let savedVisualizations;
+    await http
+      .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`)
+      .then((res) => {
+        setVisualizationsList(res.visualizations);
+      })
+      .catch((err) => {
+        console.error('Issue in fetching all saved visualizations', err);
+      });
+    return savedVisualizations;
   };
+  useEffect(() => {
+    fetchVisualizations();
+  }, []);
 
+  // Date Picker functions
+  // Empty functions for now
+  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {};
   const onDatePickerChange = (props: OnTimeChangeProps) => {
     onTimeChange(
       props.start,
@@ -90,6 +88,11 @@ export const Home = ({
     );
     onRefreshFilters(props.start, props.end);
   };
+
+  const mainSectionClassName = classNames({
+    'col-md-9': !isSidebarClosed,
+    'col-md-12': isSidebarClosed,
+  });
 
   return (
     <>
@@ -112,25 +115,40 @@ export const Home = ({
                     />
                   </EuiFlexItem>
                 </EuiFlexGroup>
-                <div className="row">
-                  {!isSidebarClosed && <Sidebar recentlyCreatedFields={recentlyCreatedFields} />}
-                  <EuiButtonIcon
-                    iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
-                    iconSize="m"
-                    size="s"
-                    onClick={() => {
-                      setIsSidebarClosed((staleState) => {
-                        return !staleState;
-                      });
-                    }}
-                    data-test-subj="collapseSideBarButton"
-                    aria-controls="discover-sidebar"
-                    aria-expanded={isSidebarClosed ? 'false' : 'true'}
-                    aria-label="Toggle sidebar"
-                    className="dscCollapsibleSidebar__collapseButton"
-                  />
+                <div className="dscAppContainer">
+                  <div className="col-md-3 dscSidebar__container dscCollapsibleSidebar">
+                    <div className="">
+                      {!isSidebarClosed && (
+                        <Sidebar
+                          metricsList={metricsList}
+                          visualizationsList={visualizationsList}
+                        />
+                      )}
+                      <EuiButtonIcon
+                        iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
+                        iconSize="m"
+                        size="s"
+                        onClick={() => {
+                          setIsSidebarClosed((staleState) => {
+                            return !staleState;
+                          });
+                        }}
+                        data-test-subj="collapseSideBarButton"
+                        aria-controls="discover-sidebar"
+                        aria-expanded={isSidebarClosed ? 'false' : 'true'}
+                        aria-label="Toggle sidebar"
+                        className="dscCollapsibleSidebar__collapseButton"
+                      />
+                    </div>
+                  </div>
+                  <div className={`dscWrapper ${mainSectionClassName}`}>
+                    <div className="dscWrapper__content">
+                      <div className="dscResults">
+                        <EmptyMetricsView />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <EmptyMetricsView />
               </EuiPageBody>
             </EuiPage>
           </div>

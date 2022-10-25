@@ -2,15 +2,19 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
 import { Moment } from 'moment-timezone';
+import React from 'react';
+import { SavedVisualizationType } from 'common/types/custom_panels';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
-import React from 'react';
+import { CoreStart } from '../../../../../../src/core/public';
 
 export const convertDateTime = (datetime: string, isStart = true, formatted = true) => {
   let returnTime: undefined | Moment;
@@ -40,4 +44,18 @@ export const onTimeChange = (
   setStart(start);
   setEnd(end);
   setRecentlyUsedRanges(recentlyUsedRange.slice(0, 9));
+};
+
+// Fetch Saved Visualizations
+export const fetchVisualizations = async (http: CoreStart['http']) => {
+  let savedVisualizations;
+  await http
+    .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`)
+    .then((res) => {
+      savedVisualizations = res.visualizations;
+    })
+    .catch((err) => {
+      console.error('Issue in fetching all saved visualizations', err);
+    });
+  return savedVisualizations;
 };

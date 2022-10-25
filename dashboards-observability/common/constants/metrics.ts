@@ -4,7 +4,7 @@
  */
 
 export const SELECTED_METRICS = 'selectedMetrics';
-export const UNSELECTED_METRICS = 'unselectedMetrics';
+export const RECENTLY_CREATED_METRICS = 'unselectedMetrics';
 export const AVAILABLE_METRICS = 'availableMetrics';
 
 // redux

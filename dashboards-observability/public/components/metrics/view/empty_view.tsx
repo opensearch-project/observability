@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 export const EmptyMetricsView = () => {
   return (
-    <div>
+    <div className="dscNoResults">
       <EuiSpacer size="xxl" />
       <EuiText textAlign="center">
         <EuiIcon type="minusInCircle" size="xxl" />
