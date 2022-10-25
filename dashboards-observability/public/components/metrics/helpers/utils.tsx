@@ -45,17 +45,3 @@ export const onTimeChange = (
   setEnd(end);
   setRecentlyUsedRanges(recentlyUsedRange.slice(0, 9));
 };
-
-// Fetch Saved Visualizations
-export const fetchVisualizations = async (http: CoreStart['http']) => {
-  let savedVisualizations;
-  await http
-    .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`)
-    .then((res) => {
-      savedVisualizations = res.visualizations;
-    })
-    .catch((err) => {
-      console.error('Issue in fetching all saved visualizations', err);
-    });
-  return savedVisualizations;
-};
