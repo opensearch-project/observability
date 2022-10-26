@@ -99,7 +99,7 @@ import {
   StatsAggregationChunk,
   GroupField,
 } from '../../../../common/query_manager/ast/types';
-import { useFetchPatterns } from '../hooks/use_fetch_pattens';
+import { useFetchPatterns } from '../hooks/use_fetch_patterns';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
