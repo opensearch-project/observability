@@ -968,8 +968,6 @@ export const Explorer = ({
         // parse stats section on every search
         const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
         const updatedDataConfig = getUpdatedDataConfig(statsTokens);
-        // console.log("updatedDataConfig: ",updatedDataConfig);
-        // setSpanValue(updatedDataConfig);
         await dispatch(
           changeVizConfig({
             tabId,

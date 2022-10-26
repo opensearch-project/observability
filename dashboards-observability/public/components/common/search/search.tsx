@@ -129,8 +129,6 @@ export const Search = (props: any) => {
     />
   );
 
-  // console.log("span value: ", spanValue);
-
   return (
     <div className="globalQueryBar">
       <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
