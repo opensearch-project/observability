@@ -12,7 +12,6 @@ import {
   EuiFlexItem,
   EuiFlyoutBody,
   EuiFlyoutHeader,
-  EuiText,
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
@@ -38,8 +37,6 @@ interface Props {
   openTraces: boolean;
   rawQuery: string;
   toggleSize: boolean;
-  backButtonExists: boolean;
-  onBackButtonClick: () => any;
   setToggleSize: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenTraces: React.Dispatch<React.SetStateAction<boolean>>;
   setSurroundingEventsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -56,8 +53,6 @@ export const DocFlyout = ({
   openTraces,
   rawQuery,
   toggleSize,
-  backButtonExists,
-  onBackButtonClick,
   setToggleSize,
   setOpenTraces,
   setSurroundingEventsOpen,
@@ -74,15 +69,7 @@ export const DocFlyout = ({
 
   const flyoutHeader = (
     <EuiFlyoutHeader hasBorder>
-      <EuiFlexGroup alignItems="center" gutterSize="xs">
-        {backButtonExists && (
-          <EuiFlexItem grow={false}>
-            <EuiToolTip content={<EuiText>Back</EuiText>} position="top">
-              <EuiButtonIcon iconType="sortLeft" onClick={onBackButtonClick} />
-            </EuiToolTip>
-          </EuiFlexItem>
-        )}
-
+      <EuiFlexGroup>
         <EuiFlexItem>
           <EuiTitle size="s">
             <h2 id="eventsDocFyout" className="vertical-center">
@@ -94,30 +81,6 @@ export const DocFlyout = ({
             </h2>
           </EuiTitle>
         </EuiFlexItem>
-        {backButtonExists || (
-          <EuiFlexItem grow={false}>
-            <EuiToolTip
-              position="bottom"
-              content={
-                rawQuery.match(PPL_STATS_REGEX) ? (
-                  <p>Cannot view surrounding events with `stats` command in PPL query</p>
-                ) : !doc.hasOwnProperty(timeStampField) ? (
-                  <p>Cannot view surrounding events without time field in query response</p>
-                ) : (
-                  <p>View surrounding events based on timestamp</p>
-                )
-              }
-            >
-              <EuiButton
-                onClick={openSurroundingFlyout}
-                className="header-button"
-                isDisabled={rawQuery.match(PPL_STATS_REGEX) || !doc.hasOwnProperty(timeStampField)}
-              >
-                View surrounding events
-              </EuiButton>
-            </EuiToolTip>
-          </EuiFlexItem>
-        )}
         <EuiFlexItem grow={false}>
           <EuiButtonIcon
             className="events-flyout-resize"
@@ -131,6 +94,28 @@ export const DocFlyout = ({
               setToggleSize((isOn) => !isOn);
             }}
           />
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          <EuiToolTip
+            position="bottom"
+            content={
+              rawQuery.match(PPL_STATS_REGEX) ? (
+                <p>Cannot view surrounding events with `stats` command in PPL query</p>
+              ) : !doc.hasOwnProperty(timeStampField) ? (
+                <p>Cannot view surrounding events without time field in query response</p>
+              ) : (
+                <p>View surrounding events based on timestamp</p>
+              )
+            }
+          >
+            <EuiButton
+              onClick={openSurroundingFlyout}
+              className="header-button"
+              isDisabled={rawQuery.match(PPL_STATS_REGEX) || !doc.hasOwnProperty(timeStampField)}
+            >
+              View surrounding events
+            </EuiButton>
+          </EuiToolTip>
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiFlyoutHeader>
