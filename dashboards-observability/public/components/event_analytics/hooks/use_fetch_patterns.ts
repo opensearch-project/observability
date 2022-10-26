@@ -47,7 +47,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
   };
 
   const buildPatternDataQuery = (query: string, field: string) => {
-    return `${query.trim()} | patterns ${field} | stats count() by patterns_field`;
+    return `${query.trim()} | patterns ${field} | stats count(), take(${field}, 1) by patterns_field`;
   };
 
   const getPatterns = (errorHandler: (error: any) => void, query?: string) => {
@@ -66,7 +66,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
             return {
               count: json['count()'],
               pattern: json.patterns_field,
-              sampleLog: '',
+              sampleLog: json[`take(${patternField}, 1)`],
             } as PatternTableData;
           });
           // Fetch total number of events to divide count by for ratio

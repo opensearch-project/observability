@@ -58,8 +58,8 @@ export function PatternsTable(props: PatternsTableProps) {
       },
     },
     {
-      field: 'pattern',
-      name: 'Pattern',
+      field: 'sampleLog',
+      name: 'Sample Log',
       width: '92%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
