@@ -19,6 +19,40 @@ export const sampleSavedVisualization = {
   },
 };
 
+export const sampleSavedVisualizationForHorizontalBar = {
+  id: 'zgBSfYIBi5fNIzQywlQZ',
+  name: 'Horizontal',
+  query: 'source = opensearch_dashboards_sample_data_logs |  stats avg(machine.ram) by machine.os',
+  type: 'horizontal_bar',
+  timeField: 'timestamp',
+};
+
+export const sampleSavedVisualizationForLine = {
+  id: '4wANiYIBi5fNIzQySlRB',
+  name: '[Logs] Average ram usage per day by windows os ',
+  query:
+    "source = opensearch_dashboards_sample_data_logs | where match(machine.os,'win')  |  stats avg(machine.ram) by span(timestamp,1d)",
+  type: 'line',
+  timeField: 'timestamp',
+};
+
+export const sampleSavedVisualizationForTreeMap = {
+  id: '5QANiYIBi5fNIzQySlRL',
+  name: 'TreeMap1111',
+  query: 'source = opensearch_dashboards_sample_data_logs | stats count() by tags',
+  type: 'tree_map',
+  timeField: 'timestamp',
+};
+
+export const sampleSavedVisualizationForPie = {
+  id: '4gANiYIBi5fNIzQySlQ5',
+  name: 'PieChart',
+  query:
+    "source = opensearch_dashboards_sample_data_logs | where machine.os='osx' or  machine.os='ios' |  stats avg(machine.ram) by span(timestamp,1d)",
+  type: 'pie',
+  timeField: 'timestamp',
+};
+
 export const samplePPLResponse = {
   data: {
     'avg(FlightDelayMin)': [
