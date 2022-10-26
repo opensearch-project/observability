@@ -139,6 +139,11 @@ export const registerEventAnalyticsRouter = ({
             description: schema.string(),
             application_id: schema.maybe(schema.string()),
             user_configs: schema.string(),
+            sub_type: schema.string(),
+            unit_of_measure: schema.maybe(schema.string()),
+            selected_labels: schema.maybe(schema.object({
+              labels: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
+            })),
           }),
         }),
       },
@@ -226,6 +231,11 @@ export const registerEventAnalyticsRouter = ({
             description: schema.string(),
             application_id: schema.maybe(schema.string()),
             user_configs: schema.string(),
+            sub_type: schema.string(),
+            unit_of_measure: schema.maybe(schema.string()),
+            selected_labels: schema.maybe(schema.object({
+              labels: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
+            })),
           }),
         }),
       },
