@@ -272,7 +272,6 @@ export const BREAKDOWNS = 'breakdowns';
 
 // Metrics constants
 export const UNITS_OF_MEASURE = [
-  'milliseconds (ms)',
   'seconds (s)',
   'hours (h)',
   'celsius (C)',
