@@ -83,6 +83,8 @@ export const Search = (props: any) => {
     setIsLiveTailPopoverOpen,
     liveTailName,
     searchError = null,
+    curVisId,
+    spanValue,
   } = props;
   
   const appLogEvents = tabId.match(APP_ANALYTICS_TAB_ID_REGEX);
@@ -126,6 +128,8 @@ export const Search = (props: any) => {
       dataTestSubj="eventLiveTail"
     />
   );
+
+  // console.log("span value: ", spanValue);
 
   return (
     <div className="globalQueryBar">
@@ -215,6 +219,8 @@ export const Search = (props: any) => {
                     showSavePanelOptionsList &&
                     searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
                   }
+                  curVisId={curVisId}
+                  spanValue={spanValue}
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
