@@ -93,54 +93,57 @@ export const DataConfigPanelFields = ({
           infoToolTip(tooltipIcon, isAggregation ? AGGREGATION_INFO : DIMENSION_INFO)}
       </div>
       <EuiSpacer size="s" />
-      {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
-        <EuiPanel paddingSize="s" className="panelItem_button">
-          <EuiText size="s" className="field_text">
-            <EuiLink
-              role="button"
-              tabIndex={0}
-              onClick={() => handleServiceEdit(list.length - 1, GROUPBY, true)}
-            >
-              {`${SPAN}(${time_field[0]?.name}, ${interval} ${unit[0]?.value})`}
-            </EuiLink>
-          </EuiText>
-          {crossIcon(-1, SPAN)}
-        </EuiPanel>
-      )}
-      <EuiSpacer size="s" />
-      {isArray(list) &&
-        list.map((obj: ConfigListEntry, index: number) => (
-          <Fragment key={index}>
-            <EuiPanel paddingSize="s" className="panelItem_button">
-              <EuiText size="s" className="field_text">
-                <EuiLink
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => handleServiceEdit(index, sectionName, false)}
-                >
-                  {obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`}
-                </EuiLink>
-              </EuiText>
-              {isAggregation
-                ? infoToolTip(crossIcon(index, sectionName), AGGREGATION_INFO)
-                : crossIcon(index, sectionName)}
-            </EuiPanel>
-            <EuiSpacer size="s" />
-          </Fragment>
-        ))}
-      {!hideClickToAddButton(sectionName) && (
-        <EuiPanel className="panelItem_button" grow>
-          <EuiText size="s">{addButtonText}</EuiText>
-          <EuiButtonIcon
-            iconType="plusInCircle"
-            aria-label="add-field"
-            iconSize="s"
-            color="primary"
-            onClick={() => handleServiceAdd(sectionName)}
-          />
-        </EuiPanel>
-      )}
-      <EuiSpacer size="m" />
+      <div className="dropBox__container">
+        {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
+          <EuiPanel paddingSize="s" className="panelItem_button">
+            <EuiText size="s" className="field_text">
+              <EuiLink
+                role="button"
+                tabIndex={0}
+                onClick={() => handleServiceEdit(list.length - 1, GROUPBY, true)}
+              >
+                {`${SPAN}(${time_field[0]?.name}, ${interval} ${unit[0]?.value})`}
+              </EuiLink>
+            </EuiText>
+            {crossIcon(-1, SPAN)}
+          </EuiPanel>
+        )}
+        {isArray(list) &&
+          list.map((obj: ConfigListEntry, index: number) => (
+            <Fragment key={index}>
+              <EuiPanel paddingSize="s" className="panelItem_button">
+                <EuiText size="s" className="field_text">
+                  <EuiLink
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleServiceEdit(index, sectionName, false)}
+                  >
+                    {obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`}
+                  </EuiLink>
+                </EuiText>
+                {isAggregation
+                  ? infoToolTip(crossIcon(index, sectionName), AGGREGATION_INFO)
+                  : crossIcon(index, sectionName)}
+              </EuiPanel>
+            </Fragment>
+          ))}
+        {!isHeatMapAddButton(sectionName) && (
+          <EuiPanel className="panelItem_button" grow>
+            <EuiText size="s">{addButtonText}</EuiText>
+            <EuiButtonIcon
+              iconType="plusInCircle"
+              aria-label="add-field"
+              iconSize="s"
+              color="primary"
+              disabled={
+                (sectionName === GROUPBY && visType === VIS_CHART_TYPES.Line) ||
+                visType === VIS_CHART_TYPES.Scatter
+              }
+              onClick={() => handleServiceAdd(sectionName)}
+            />
+          </EuiPanel>
+        )}
+      </div>
     </div>
   );
 };

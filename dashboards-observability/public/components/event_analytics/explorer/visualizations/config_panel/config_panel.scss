@@ -196,3 +196,16 @@ $vis-editor-sidebar-min-width: 350px;
 .color-theme-combo-box-option .euiFlexItem.euiFlexItem--flexGrowZero {
   display: none;
 }
+
+.dropBox__container{
+  display: grid;
+  grid-gap: 4px;
+  padding: 6px 8px 8px 8px;
+  background-color: #D3DAE6;
+  border-radius: 4px;
+}
+
+.euiPanel.euiPanel--hasShadow{
+  box-shadow: 0 2px 2px -1px rgb(152 162 179 / 30%), 0 1px 5px -2px rgb(152 162 179 / 30%);
+  border: 2px solid #D3DAE6;
+}
