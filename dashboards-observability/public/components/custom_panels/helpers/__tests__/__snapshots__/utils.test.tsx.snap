@@ -3431,16 +3431,21 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "dataConfig": Object {
               "dimensions": Array [
                 Object {
-                  "label": "tags",
-                  "name": "tags",
+                  "childField": Object {
+                    "label": "Carrier",
+                    "name": "Carrier",
+                    "type": "keyword",
+                  },
+                  "parentFields": Array [],
                 },
               ],
               "series": Array [
                 Object {
-                  "aggregation": "count",
-                  "customLabel": "",
-                  "label": "",
-                  "name": "",
+                  "valueField": Object {
+                    "label": "avg(FlightDelayMin)",
+                    "name": "avg(FlightDelayMin)",
+                    "type": "double",
+                  },
                 },
               ],
             },
@@ -4058,16 +4063,21 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "dataConfig": Object {
                 "dimensions": Array [
                   Object {
-                    "label": "tags",
-                    "name": "tags",
+                    "childField": Object {
+                      "label": "Carrier",
+                      "name": "Carrier",
+                      "type": "keyword",
+                    },
+                    "parentFields": Array [],
                   },
                 ],
                 "series": Array [
                   Object {
-                    "aggregation": "count",
-                    "customLabel": "",
-                    "label": "",
-                    "name": "",
+                    "valueField": Object {
+                      "label": "avg(FlightDelayMin)",
+                      "name": "avg(FlightDelayMin)",
+                      "type": "double",
+                    },
                   },
                 ],
               },
@@ -4692,16 +4702,21 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "dataConfig": Object {
                   "dimensions": Array [
                     Object {
-                      "label": "tags",
-                      "name": "tags",
+                      "childField": Object {
+                        "label": "Carrier",
+                        "name": "Carrier",
+                        "type": "keyword",
+                      },
+                      "parentFields": Array [],
                     },
                   ],
                   "series": Array [
                     Object {
-                      "aggregation": "count",
-                      "customLabel": "",
-                      "label": "",
-                      "name": "",
+                      "valueField": Object {
+                        "label": "avg(FlightDelayMin)",
+                        "name": "avg(FlightDelayMin)",
+                        "type": "double",
+                      },
                     },
                   ],
                 },
