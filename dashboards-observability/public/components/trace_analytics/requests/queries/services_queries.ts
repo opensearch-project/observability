@@ -161,7 +161,7 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
     aggs: {
       service_name: {
         terms: {
-          field: 'process.serviceName',
+          field: 'serviceName',
           size: SERVICE_MAP_MAX_EDGES,
         },
         aggs: {
@@ -234,25 +234,25 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
                           },
                         },
                       },
-                      {
-                        terms: {
-                          name: targetResource,
-                        },
-                      },
+                      // {
+                      //   terms: {
+                      //     name: targetResource,
+                      //   },
+                      // },
                     ],
                   },
                 },
-                {
-                  bool: {
-                    must: {
-                      term: {
-                        parentSpanId: {
-                          value: '',
-                        },
-                      },
-                    },
-                  },
-                },
+                // {
+                //   bool: {
+                //     must: {
+                //       term: {
+                //         parentSpanId: {
+                //           value: '',
+                //         },
+                //       },
+                //     },
+                //   },
+                // },
               ],
               adjust_pure_negative: true,
               boost: 1,
@@ -290,7 +290,7 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
                 count: '_count',
                 latency: 'average_latency_nanos.value',
               },
-              script: 'Math.round(params.latency / 10000) / 100.0',
+              script: 'Math.round(params.latency / 10) / 100.0',
             },
           },
           error_count: {
