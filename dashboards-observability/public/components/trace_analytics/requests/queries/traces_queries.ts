@@ -177,7 +177,7 @@ export const getSpanDetailQuery = (traceID: string, size = 3000) => {
           },
           {
             exists: {
-              field: 'serviceName',
+              field: 'process.serviceName',
             },
           },
         ],

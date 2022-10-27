@@ -86,14 +86,14 @@ export function DashboardContent(props: DashboardProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', startTime, endTime, page, appConfigs);
+    const DSL = filtersToDsl(filters, query, 0, 166638045873223500, page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '', 0, 166638045873223500, page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
       filters,
       query,
-      latencyTrendStartTime,
-      endTime,
+      0,
+      166638045873223500,
       page,
       appConfigs
     );

@@ -121,7 +121,7 @@ export function ServiceView(props: ServiceViewProps) {
               <EuiFlexItem grow={false}>
                 <EuiText className="overview-title">Connected services</EuiText>
                 <EuiText size="s" className="overview-content">
-                  {fields.connected_services
+                  {fields.connected_services && fields.connected_services.length
                     ? fields.connected_services
                         .map((service: string) => (
                           <EuiLink href={`#/trace_analytics/services/${service}`} key={service}>
