@@ -66,7 +66,7 @@ internal data class SavedVisualization(
     val userConfigs: String? = null,
     val subType: String?,
     val unitsOfMeasure: String? = null,
-    val selectedLabels: SavedQuery.SelectedLabels? = null,
+    val selectedLabels: SelectedLabels? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -109,9 +109,9 @@ internal data class SavedVisualization(
             var selectedFields: SavedQuery.SelectedFields? = null
             var applicationId: String? = null
             var userConfigs: String? = null
-            var subType: String?
+            var subType: String? = null
             var unitsOfMeasure: String? = null
-            var selectedLabels: SavedQuery.SelectedLabels? = null
+            var selectedLabels: SelectedLabels? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -128,7 +128,7 @@ internal data class SavedVisualization(
                     USER_CONFIGS_TAG -> userConfigs = parser.text()
                     SUB_TYPE_TAG -> subType = parser.text()
                     UNITS_OF_MEASURE_TAG -> unitsOfMeasure = parser.text()
-                    SELECTED_LABELS_TAG -> selectedLabels = SavedQuery.SelectedFields.parse(parser)
+                    SELECTED_LABELS_TAG -> selectedLabels = SelectedLabels.parse(parser)
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -177,7 +177,7 @@ internal data class SavedVisualization(
         userConfigs = input.readOptionalString(),
         subType = input.readString(),
         unitsOfMeasure = input.readOptionalString(),
-        selectedLabels = input.readOptionalString(),
+        selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
     )
 
     /**
@@ -195,7 +195,7 @@ internal data class SavedVisualization(
         output.writeOptionalString(userConfigs)
         output.writeString(subType)
         output.writeOptionalString(unitsOfMeasure)
-        output.writeOptionalString(selectedLabels)
+        output.writeOptionalWriteable(selectedLabels)
     }
 
     /**
@@ -217,5 +217,73 @@ internal data class SavedVisualization(
             .fieldIfNotNull(UNITS_OF_MEASURE_TAG, unitsOfMeasure)
             .fieldIfNotNull(SELECTED_LABELS_TAG, selectedLabels)
         return builder.endObject()
+    }
+
+    internal data class SelectedLabels(
+        val label: String,
+    ) : BaseModel {
+        internal companion object {
+            private const val LABEL_TAG = "label"
+
+            /**
+             * reader to create instance of class from writable.
+             */
+            val reader = Writeable.Reader { SelectedLabels(it) }
+
+            /**
+             * Parser to parse xContent
+             */
+            val xParser = XParser { parse(it) }
+
+            /**
+             * Parse the data from parser and create Trigger object
+             * @param parser data referenced at parser
+             * @return created Trigger object
+             */
+            fun parse(parser: XContentParser): SelectedLabels {
+                var label: String? = null
+                XContentParserUtils.ensureExpectedToken(
+                    XContentParser.Token.START_OBJECT,
+                    parser.currentToken(),
+                    parser
+                )
+                while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
+                    val fieldName = parser.currentName()
+                    parser.nextToken()
+                    when (fieldName) {
+                        LABEL_TAG -> label = parser.text()
+                        else -> log.info("$LOG_PREFIX: Trigger Skipping Unknown field $fieldName")
+                    }
+                }
+                label ?: throw IllegalArgumentException("$LABEL_TAG field absent")
+                return SelectedLabels(label)
+            }
+        }
+
+        /**
+         * Constructor used in transport action communication.
+         * @param input StreamInput stream to deserialize data from.
+         */
+        constructor(input: StreamInput) : this(
+            label = input.readString(),
+        )
+
+        /**
+         * {@inheritDoc}
+         */
+        override fun writeTo(output: StreamOutput) {
+            output.writeString(label)
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+            builder!!
+            builder.startObject()
+                .field(LABEL_TAG, label)
+            builder.endObject()
+            return builder
+        }
     }
 }
