@@ -526,8 +526,8 @@ export const DataConfigPanelItem = ({
   return isAddConfigClicked ? (
     getCommonUI(selectedConfigItem.name)
   ) : (
-    <div className='euiConfigPanel'>
-      <div className='euiPanelFields'>
+    <div className='configPanel'>
+      <div className='configPanelFields'>
         <EuiTitle size="xxs">
           <h3>Configuration</h3>
         </EuiTitle>
@@ -561,8 +561,8 @@ export const DataConfigPanelItem = ({
         </EuiFlexItem>
         <EuiSpacer size="m" />
       </div>
-      <EuiFlexItem grow={false} className="euiFlexUpdateButton">
-        <EuiButton className='euiUpdateButton'
+      <EuiFlexItem grow={false} className="updateButtonContainer">
+        <EuiButton className='updateButton'
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
           onClick={() => updateChart()}
