@@ -30,7 +30,13 @@ internal class SavedVisualizationTests {
             listOf(SavedQuery.Token("utc_time", "timestamp"))
         ),
         "KE1Ie34BbsTr-CsB4G6Y",
-        "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}"
+        "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}",
+        "metric",
+        "hours (h)",
+        SavedQuery.SelectedLabels(
+            "| fields clientip, bytes, memory, host",
+            listOf(SavedQuery.Label("utc_time", "timestamp"))
+        )
     )
 
     @Test

@@ -142,7 +142,7 @@ export const registerEventAnalyticsRouter = ({
             sub_type: schema.string(),
             unit_of_measure: schema.maybe(schema.string()),
             selected_labels: schema.maybe(schema.object({
-              labels: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
+              label: schema.arrayOf(schema.object({}, { unknowns: 'allow' })),
             })),
           }),
         }),

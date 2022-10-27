@@ -43,7 +43,13 @@ import org.opensearch.observability.util.logger
  *   "name": "Logs between dates",
  *   "description": "some descriptions related to this query",
  *   "application_id": "KE1Ie34BbsTr-CsB4G6Y",
- *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}"
+ *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}",
+ *   "sub_type": "metric",
+ *   "units_of_measure: "hours (h)",
+ *   "selected_labels": [
+ *      {"label":"avg"},
+ *      {"label":"count"},
+ *   ]
  * }
  * }</pre>
  */
@@ -58,6 +64,9 @@ internal data class SavedVisualization(
     val selectedFields: SavedQuery.SelectedFields?,
     val applicationId: String? = null,
     val userConfigs: String? = null,
+    val subType: String?,
+    val unitsOfMeasure: String? = null,
+    val selectedLabels: SavedQuery.SelectedLabels? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -71,6 +80,9 @@ internal data class SavedVisualization(
         private const val SELECTED_FIELDS_TAG = "selected_fields"
         private const val APPLICATION_ID_TAG = "application_id"
         private const val USER_CONFIGS_TAG = "user_configs"
+        private const val SUB_TYPE_TAG = "sub_type"
+        private const val UNITS_OF_MEASURE_TAG = "units_of_measure"
+        private const val SELECTED_LABELS_TAG = "selected_labels"
 
         /**
          * reader to create instance of class from writable.
@@ -97,6 +109,9 @@ internal data class SavedVisualization(
             var selectedFields: SavedQuery.SelectedFields? = null
             var applicationId: String? = null
             var userConfigs: String? = null
+            var subType: String?
+            var unitsOfMeasure: String? = null
+            var selectedLabels: SavedQuery.SelectedLabels? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -111,6 +126,9 @@ internal data class SavedVisualization(
                     SELECTED_FIELDS_TAG -> selectedFields = SavedQuery.SelectedFields.parse(parser)
                     APPLICATION_ID_TAG -> applicationId = parser.text()
                     USER_CONFIGS_TAG -> userConfigs = parser.text()
+                    SUB_TYPE_TAG -> subType = parser.text()
+                    UNITS_OF_MEASURE_TAG -> unitsOfMeasure = parser.text()
+                    SELECTED_LABELS_TAG -> selectedLabels = SavedQuery.SelectedFields.parse(parser)
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -126,7 +144,10 @@ internal data class SavedVisualization(
                 selectedTimestamp,
                 selectedFields,
                 applicationId,
-                userConfigs
+                userConfigs,
+                subType,
+                unitsOfMeasure,
+                selectedLabels
             )
         }
     }
@@ -153,7 +174,10 @@ internal data class SavedVisualization(
         selectedTimestamp = input.readOptionalWriteable(SavedQuery.Token.reader),
         selectedFields = input.readOptionalWriteable(SavedQuery.SelectedFields.reader),
         applicationId = input.readOptionalString(),
-        userConfigs = input.readOptionalString()
+        userConfigs = input.readOptionalString(),
+        subType = input.readString(),
+        unitsOfMeasure = input.readOptionalString(),
+        selectedLabels = input.readOptionalString(),
     )
 
     /**
@@ -169,6 +193,9 @@ internal data class SavedVisualization(
         output.writeOptionalWriteable(selectedFields)
         output.writeOptionalString(applicationId)
         output.writeOptionalString(userConfigs)
+        output.writeString(subType)
+        output.writeOptionalString(unitsOfMeasure)
+        output.writeOptionalString(selectedLabels)
     }
 
     /**
@@ -186,6 +213,9 @@ internal data class SavedVisualization(
             .fieldIfNotNull(SELECTED_FIELDS_TAG, selectedFields)
             .fieldIfNotNull(APPLICATION_ID_TAG, applicationId)
             .fieldIfNotNull(USER_CONFIGS_TAG, userConfigs)
+            .fieldIfNotNull(SUB_TYPE_TAG, subType)
+            .fieldIfNotNull(UNITS_OF_MEASURE_TAG, unitsOfMeasure)
+            .fieldIfNotNull(SELECTED_LABELS_TAG, selectedLabels)
         return builder.endObject()
     }
 }
