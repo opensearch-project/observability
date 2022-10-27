@@ -527,12 +527,12 @@ export const DataConfigPanelItem = ({
     getCommonUI(selectedConfigItem.name)
   ) : (
     <div className='euiConfigPanel'>
-      <>
+      <div className='euiPanelFields'>
         <EuiTitle size="xxs">
           <h3>Configuration</h3>
         </EuiTitle>
         <EuiSpacer size="s" />
-        <EuiFlexItem grow={false} className="euiScrollSection">
+        <EuiFlexItem grow={false}>
           {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
             <>
               {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
@@ -560,9 +560,9 @@ export const DataConfigPanelItem = ({
           )}
         </EuiFlexItem>
         <EuiSpacer size="m" />
-      </>
-      <EuiFlexItem grow={false}>
-        <EuiButton
+      </div>
+      <EuiFlexItem grow={false} className="euiFlexUpdateButton">
+        <EuiButton className='euiUpdateButton'
           data-test-subj="visualizeEditorRenderButton"
           iconType="play"
           onClick={() => updateChart()}

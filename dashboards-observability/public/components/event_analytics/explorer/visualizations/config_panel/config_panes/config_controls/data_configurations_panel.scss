@@ -3,17 +3,40 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-.euiConfigPanel {
-  display: flex;
-  flex-direction: column;
-}
-
-.euiScrollSection {
+.explorer__vizDataConfig {
   @include euiYScrollWithShadows;
 
+  background: $euiColorLightestShade;
+  border-left: $euiBorderThin;
+  border-right: $euiBorderThin;
   position: relative;
-  max-height: 300px;
-  overflow-y: auto;
+
+  .euiConfigPanel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .euiPanelFields {
+      @include euiYScrollWithShadows;
+      height: 90%;
+      overflow-y: scroll;
+    }
+
+    .euiFlexUpdateButton {
+      position: absolute;
+      width: 80%;
+      bottom: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 0 0 5px 10%;
+
+      .euiUpdateButton {
+        width: 100%;
+      }
+    }
+
+  }
 
   &__section {
     width: 100%;
@@ -43,7 +66,7 @@
     left: 100%;
   }
 
-  &.showSecondary > .wizConfig__section {
+  &.showSecondary>.wizConfig__section {
     transform: translateX(-100%);
   }
 }
