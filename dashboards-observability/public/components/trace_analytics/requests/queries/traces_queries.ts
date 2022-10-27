@@ -98,7 +98,16 @@ export const getTracesQuery = (traceID: string = '', sort?: PropertySort) => {
           },
           last_updated: {
             max: {
-              field: 'traceGroupFields.endTime',
+              script: {
+                source: `
+                if (doc.containsKey('startTime') && !doc['startTime'].empty && doc.containsKey('duration') && !doc['duration'].empty) {
+                  return (Math.round(doc['duration'].value) + Math.round(doc['startTime'].value)) / 1000.0
+                }
+
+                return 0
+                `,
+                lang: 'painless',
+              },
             },
           },
         },

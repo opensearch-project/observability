@@ -123,7 +123,7 @@ export function ServicesTable(props: ServicesTableProps) {
                   onClick={() => {
                     setRedirect(true);
                     addFilter({
-                      field: 'serviceName',
+                      field: 'process.serviceName',
                       operator: 'is',
                       value: row.name,
                       inverted: false,

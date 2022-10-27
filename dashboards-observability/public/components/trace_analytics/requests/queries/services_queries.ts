@@ -82,7 +82,7 @@ export const getRelatedServicesQuery = (serviceName: string) => {
         aggs: {
           all_services: {
             terms: {
-              field: 'porcess.serviceName',
+              field: 'process.serviceName',
               size: 10000,
             },
           },
