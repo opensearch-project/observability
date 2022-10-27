@@ -127,7 +127,7 @@ export const DataConfigPanelFields = ({
               </EuiPanel>
             </Fragment>
           ))}
-        {!isHeatMapAddButton(sectionName) && (
+        {!hideClickToAddButton(sectionName) && (
           <EuiPanel className="panelItem_button" grow>
             <EuiText size="s">{addButtonText}</EuiText>
             <EuiButtonIcon
@@ -135,10 +135,6 @@ export const DataConfigPanelFields = ({
               aria-label="add-field"
               iconSize="s"
               color="primary"
-              disabled={
-                (sectionName === GROUPBY && visType === VIS_CHART_TYPES.Line) ||
-                visType === VIS_CHART_TYPES.Scatter
-              }
               onClick={() => handleServiceAdd(sectionName)}
             />
           </EuiPanel>
