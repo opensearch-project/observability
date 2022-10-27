@@ -296,8 +296,8 @@ export const getPercentileFilter = (
 export const filtersToDsl = (
   filters: FilterType[],
   query: string,
-  startTime: string,
-  endTime: string,
+  startTime: any,
+  endTime: any,
   page?: string,
   appConfigs: FilterType[] = []
 ) => {

@@ -54,8 +54,8 @@ export function TracesContent(props: TracesProps) {
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', startTime, endTime, page);
+    const DSL = filtersToDsl(filters, query, 0, 166638045873223500, page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '', 0, 166638045873223500, page);
     await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
     setLoading(false);
   };

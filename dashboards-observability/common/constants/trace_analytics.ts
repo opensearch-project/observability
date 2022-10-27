@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const DATA_PREPPER_INDEX_NAME = 'otel-v1-apm-span-*';
-export const DATA_PREPPER_SERVICE_INDEX_NAME = 'otel-v1-apm-service-map*';
+export const DATA_PREPPER_INDEX_NAME = '*jaeger-span-*';
+export const DATA_PREPPER_SERVICE_INDEX_NAME = '*jaeger-service*';
 export const TRACE_ANALYTICS_DATE_FORMAT = 'MM/DD/YYYY HH:mm:ss';
 export const TRACE_ANALYTICS_PLOTS_DATE_FORMAT = 'MMM D, YYYY HH:mm:ss';
 export const SERVICE_MAP_MAX_NODES = 500;

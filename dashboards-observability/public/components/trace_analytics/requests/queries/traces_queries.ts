@@ -15,8 +15,8 @@ export const getTraceGroupPercentilesQuery = () => {
         must: [
           {
             term: {
-              parentSpanId: {
-                value: '',
+              references: {
+                value: [],
               },
             },
           },
@@ -29,17 +29,17 @@ export const getTraceGroupPercentilesQuery = () => {
     aggs: {
       trace_group_name: {
         terms: {
-          field: 'name',
+          field: 'operationName',
           size: 10000,
         },
-        aggs: {
-          percentiles: {
-            percentiles: {
-              field: 'durationInNanos',
-              percents: Array.from({ length: 101 }, (v, i) => i),
-            },
-          },
-        },
+        // aggs: {
+        //   percentiles: {
+        //     percentiles: {
+        //       field: 'durationInNanos',
+        //       percents: Array.from({ length: 101 }, (v, i) => i),
+        //     },
+        //   },
+        // },
       },
     },
   };
@@ -62,7 +62,7 @@ export const getTracesQuery = (traceId: string = '', sort?: PropertySort) => {
     aggs: {
       traces: {
         terms: {
-          field: 'traceId',
+          field: 'traceID',
           size: TRACES_MAX_NUM,
           order: {
             [field]: direction,
@@ -266,6 +266,308 @@ export const getSpansQuery = (spanSearchParams: SpanSearchParams) => {
 };
 
 export const getValidTraceIdsQuery = (DSL) => {
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: 10000,
+        },
+      },
+    },
+  };
+  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
+  if (DSL.custom?.traceGroupFields.length > 0) {
+    query.query.bool.filter.push({
+      terms: {
+        traceGroup: DSL.custom.traceGroup,
+      },
+    });
+  }
+  if (DSL.custom?.percentiles?.query.bool.should.length > 0) {
+    query.query.bool.should.push(...DSL.custom.percentiles.query.bool.should);
+    query.query.bool.minimum_should_match = DSL.custom.percentiles.query.bool.minimum_should_match;
+  }
+  if (DSL.custom?.serviceNames.length > 0) {
+    query.query.bool.filter.push({
+      terms: {
+        serviceName: DSL.custom.serviceNames,
+      },
+    });
+  }
+  return query;
+};
+
+// JAEGER QUERIES
+
+export const getJaegerTraceGroupPercentilesQuery = () => {
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              parentSpanId: {
+                value: '',
+              },
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      trace_group_name: {
+        terms: {
+          field: 'name',
+          size: 10000,
+        },
+        aggs: {
+          percentiles: {
+            percentiles: {
+              field: 'durationInNanos',
+              percents: Array.from({ length: 101 }, (v, i) => i),
+            },
+          },
+        },
+      },
+    },
+  };
+  return query;
+};
+
+export const getJaegerTracesQuery = (traceId: string = '', sort?: PropertySort) => {
+  const field = sort?.field || '_key';
+  const direction = sort?.direction || 'asc';
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: TRACES_MAX_NUM,
+          order: {
+            [field]: direction,
+          },
+        },
+        aggs: {
+          latency: {
+            max: {
+              script: {
+                source: `
+                if (doc.containsKey('traceGroupFields.durationInNanos') && !doc['traceGroupFields.durationInNanos'].empty) {
+                  return Math.round(doc['traceGroupFields.durationInNanos'].value / 10000) / 100.0
+                }
+
+                return 0
+                `,
+                lang: 'painless',
+              },
+            },
+          },
+          trace_group: {
+            terms: {
+              field: 'traceGroup',
+              size: 1,
+            },
+          },
+          error_count: {
+            filter: {
+              term: {
+                'traceGroupFields.statusCode': '2',
+              },
+            },
+          },
+          last_updated: {
+            max: {
+              field: 'traceGroupFields.endTime',
+            },
+          },
+        },
+      },
+    },
+  };
+  if (traceId) {
+    query.query.bool.must.push({
+      term: {
+        traceId,
+      },
+    });
+  }
+  return query;
+};
+
+export const getJaegerServiceBreakdownQuery = (traceId: string) => {
+  const query = {
+    size: 0,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              traceId,
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      service_type: {
+        terms: {
+          field: 'serviceName',
+          order: [
+            {
+              total_latency_nanos: 'desc',
+            },
+          ],
+        },
+        aggs: {
+          total_latency_nanos: {
+            sum: {
+              field: 'durationInNanos',
+            },
+          },
+          total_latency: {
+            bucket_script: {
+              buckets_path: {
+                count: '_count',
+                latency: 'total_latency_nanos.value',
+              },
+              script: 'Math.round(params.latency / 10000) / 100.0',
+            },
+          },
+        },
+      },
+    },
+  };
+  return query;
+};
+
+export const getJaegerSpanDetailQuery = (traceId: string, size = 3000) => {
+  const query = {
+    size,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              traceId,
+            },
+          },
+          {
+            exists: {
+              field: 'serviceName',
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    sort: [
+      {
+        startTime: {
+          order: 'desc',
+        },
+      },
+    ],
+    _source: {
+      includes: [
+        'serviceName',
+        'name',
+        'startTime',
+        'endTime',
+        'spanId',
+        'status.code',
+        'durationInNanos',
+      ],
+    },
+  };
+  return query;
+};
+
+export const getJaegerPayloadQuery = (traceId: string, size = 1000) => {
+  return {
+    size,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              traceId,
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+  };
+};
+
+export const getJaegerSpanFlyoutQuery = (spanId?: string, size = 1000) => {
+  return {
+    size,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              spanId,
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+  };
+};
+
+export const getJaegerSpansQuery = (spanSearchParams: SpanSearchParams) => {
+  const query: any = {
+    size: spanSearchParams.size,
+    from: spanSearchParams.from,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    sort: spanSearchParams.sortingColumns,
+  };
+  return query;
+};
+
+export const getJaegerValidTraceIdsQuery = (DSL) => {
   const query: any = {
     size: 0,
     query: {
