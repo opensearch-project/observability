@@ -32,21 +32,21 @@ export const getTraceGroupPercentilesQuery = () => {
           field: 'operationName',
           size: 10000,
         },
-        // aggs: {
-        //   percentiles: {
-        //     percentiles: {
-        //       field: 'durationInNanos',
-        //       percents: Array.from({ length: 101 }, (v, i) => i),
-        //     },
-        //   },
-        // },
+        aggs: {
+          percentiles: {
+            percentiles: {
+              field: 'duration',
+              percents: Array.from({ length: 101 }, (v, i) => i),
+            },
+          },
+        },
       },
     },
   };
   return query;
 };
 
-export const getTracesQuery = (traceId: string = '', sort?: PropertySort) => {
+export const getTracesQuery = (traceID: string = '', sort?: PropertySort) => {
   const field = sort?.field || '_key';
   const direction = sort?.direction || 'asc';
   const query: any = {
@@ -73,8 +73,8 @@ export const getTracesQuery = (traceId: string = '', sort?: PropertySort) => {
             max: {
               script: {
                 source: `
-                if (doc.containsKey('traceGroupFields.durationInNanos') && !doc['traceGroupFields.durationInNanos'].empty) {
-                  return Math.round(doc['traceGroupFields.durationInNanos'].value / 10000) / 100.0
+                if (doc.containsKey('duration') && !doc['duration'].empty) {
+                  return Math.round(doc['duration'].value) / 1000.0
                 }
 
                 return 0
@@ -105,17 +105,17 @@ export const getTracesQuery = (traceId: string = '', sort?: PropertySort) => {
       },
     },
   };
-  if (traceId) {
+  if (traceID) {
     query.query.bool.must.push({
       term: {
-        traceId,
+        traceID,
       },
     });
   }
   return query;
 };
 
-export const getServiceBreakdownQuery = (traceId: string) => {
+export const getServiceBreakdownQuery = (traceID: string) => {
   const query = {
     size: 0,
     query: {
@@ -123,7 +123,7 @@ export const getServiceBreakdownQuery = (traceId: string) => {
         must: [
           {
             term: {
-              traceId,
+              traceID,
             },
           },
         ],
@@ -164,7 +164,7 @@ export const getServiceBreakdownQuery = (traceId: string) => {
   return query;
 };
 
-export const getSpanDetailQuery = (traceId: string, size = 3000) => {
+export const getSpanDetailQuery = (traceID: string, size = 3000) => {
   const query = {
     size,
     query: {
@@ -172,7 +172,7 @@ export const getSpanDetailQuery = (traceId: string, size = 3000) => {
         must: [
           {
             term: {
-              traceId,
+              traceID,
             },
           },
           {
@@ -208,7 +208,7 @@ export const getSpanDetailQuery = (traceId: string, size = 3000) => {
   return query;
 };
 
-export const getPayloadQuery = (traceId: string, size = 1000) => {
+export const getPayloadQuery = (traceID: string, size = 1000) => {
   return {
     size,
     query: {
@@ -216,7 +216,7 @@ export const getPayloadQuery = (traceId: string, size = 1000) => {
         must: [
           {
             term: {
-              traceId,
+              traceID,
             },
           },
         ],
@@ -279,7 +279,7 @@ export const getValidTraceIdsQuery = (DSL) => {
     aggs: {
       traces: {
         terms: {
-          field: 'traceId',
+          field: 'traceID',
           size: 10000,
         },
       },
