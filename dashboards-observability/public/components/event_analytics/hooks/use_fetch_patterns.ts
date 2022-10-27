@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { IField, PatternJSONData, PatternTableData } from 'common/types/explorer';
+import { IField, PatternTableData } from 'common/types/explorer';
 import { isEmpty, isUndefined } from 'lodash';
 import PPLService from 'public/services/requests/ppl';
 import { useRef } from 'react';
@@ -60,13 +60,13 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     fetchEvents(
       { query: statsQuery },
       'jdbc',
-      (res: { jsonData: PatternJSONData[] }) => {
-        if (!isEmpty(res.jsonData)) {
-          const formatToTableData = res.jsonData.map((json: PatternJSONData) => {
+      (res: { datarows: any[] }) => {
+        if (!isEmpty(res.datarows)) {
+          const formatToTableData = res.datarows.map((row: any) => {
             return {
-              count: json['count()'],
-              pattern: json.patterns_field,
-              sampleLog: json[`take(${patternField}, 1)`],
+              count: row[0],
+              pattern: row[2],
+              sampleLog: row[1][0],
             } as PatternTableData;
           });
           // Fetch total number of events to divide count by for ratio

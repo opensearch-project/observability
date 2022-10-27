@@ -339,11 +339,6 @@ export interface GetTooltipHoverInfoType {
   tooltipText: string;
 }
 
-export interface PatternJSONData {
-  'count()': number;
-  patterns_field: string;
-}
-
 export interface PatternTableData {
   count: number;
   pattern: string;
