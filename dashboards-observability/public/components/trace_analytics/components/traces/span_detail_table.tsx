@@ -118,7 +118,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
           return `${_.round(microToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
         case 'endTime':
-          return moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
+          return moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'status.code':
           return value === 2 ? (
             <EuiText color="danger" size="s">
