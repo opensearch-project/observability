@@ -228,6 +228,7 @@ export const DataConfigPanelItem = ({
       const newQuery = queryManager!
         .queryBuilder()
         .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
+      handleQueryChange(newQuery);
 
       const updatedQuery = {
         tabId,
@@ -291,10 +292,10 @@ export const DataConfigPanelItem = ({
                     singleSelection={{ asPlainText: true }}
                     options={AGGREGATION_OPTIONS}
                     selectedOptions={
-                      selectedObj.aggregation
+                      selectedObj?.aggregation
                         ? [
                             {
-                              label: selectedObj.aggregation,
+                              label: selectedObj?.aggregation,
                             },
                           ]
                         : []
@@ -304,13 +305,13 @@ export const DataConfigPanelItem = ({
                 </EuiFormRow>
               )}
               {/* Show input fields for Series when aggregation is not empty  */}
-              {isAggregations && selectedObj.aggregation !== '' && (
+              {isAggregations && selectedObj?.aggregation !== '' && (
                 <>
                   {getCommonDimensionsField(selectedObj, name)}
                   <EuiFormRow label="Custom label">
                     <EuiFieldText
                       placeholder="Custom label"
-                      value={selectedObj[CUSTOM_LABEL]}
+                      value={selectedObj && selectedObj[CUSTOM_LABEL]}
                       onChange={(e) => updateList(e.target.value, CUSTOM_LABEL)}
                       aria-label="input label"
                     />
@@ -327,7 +328,7 @@ export const DataConfigPanelItem = ({
                       { id: 'left', label: 'Left' },
                       { id: 'right', label: 'Right' },
                     ]}
-                    idSelected={selectedObj.side || 'right'}
+                    idSelected={selectedObj?.side || 'right'}
                     handleButtonChange={(id: string) => updateList(id, 'side')}
                   />
                 </EuiFormRow>

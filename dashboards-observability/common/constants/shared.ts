@@ -78,6 +78,13 @@ export enum VIS_CHART_TYPES {
   Pie = 'pie',
   HeatMap = 'heatmap',
   Text = 'text',
+  Gauge = 'gauge',
+  Histogram = 'histogram',
+  TreeMap = 'tree_map',
+  Scatter = 'scatter',
+  LogsView = 'logs_view',
+  Metrics = 'metrics',
+  TableView = 'data_table',
 }
 
 export const NUMERICAL_FIELDS = ['short', 'integer', 'long', 'float', 'double'];

@@ -241,8 +241,8 @@ const getUserConfigs = (
         configOfUser = {
           ...userSelectedConfigs,
           dataConfig: {
-            ...userSelectedConfigs?.dataConfig,
             ...defaultUserConfigs(query, visName),
+            ...userSelectedConfigs?.dataConfig,
           },
         };
         break;
