@@ -99,9 +99,11 @@
 
 .explorerFieldSelector {
   padding: $euiSizeS;
+  width: 230px;
 }
 
 #vis__mainContent {
+  display: flex;
   .explorer__insights {
     min-height: 0;
     display: grid;
@@ -110,6 +112,7 @@
     .explorerFieldSelector, .explorer__vizDataConfig {
       padding: $euiSizeS;
       overflow: auto;
+      width: 230px;
   
       &__fieldGroups {
         @include euiYScrollWithShadows;
@@ -139,4 +142,13 @@
 
 .ws__configPanel--right{
   overflow-y: unset;
+}
+
+.vis__leftPanel{
+  width: 460px;
+  height: calc(100vh - 298px);
+}
+
+.dscSidebarField__name{
+  text-transform: capitalize;
 }
