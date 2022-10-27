@@ -13,7 +13,7 @@ import {
 } from '@elastic/eui';
 import { PatternTableData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { PPL_DOCUMENTATION_URL } from '../../../../../common/constants/shared';
 import { selectPatterns } from '../../redux/slices/patterns_slice';
@@ -27,6 +27,7 @@ interface PatternsTableProps {
 export function PatternsTable(props: PatternsTableProps) {
   const { tableData, tabId, onPatternSelection } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
+  const [selectedPattern, setSelectedPattern] = useState<string>();
 
   const tableColumns = [
     {
@@ -105,7 +106,11 @@ export function PatternsTable(props: PatternsTableProps) {
     return {
       'data-test-subj': `row-${pattern}`,
       className: 'customRowClass',
-      onClick: () => onPatternSelection(pattern),
+      onClick: () => {
+        onPatternSelection(pattern);
+        setSelectedPattern(pattern);
+      },
+      isSelected: pattern === selectedPattern,
     };
   };
 
@@ -117,6 +122,7 @@ export function PatternsTable(props: PatternsTableProps) {
       sorting={sorting}
       message={message}
       rowProps={getRowProps}
+      isSelectable={true}
     />
   );
 }
