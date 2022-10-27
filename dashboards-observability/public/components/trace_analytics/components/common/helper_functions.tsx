@@ -89,6 +89,11 @@ export function nanoToMilliSec(nano: number) {
   return nano / 1000000;
 }
 
+export function microToMilliSec(nano: number) {
+  if (typeof nano !== 'number') return 0;
+  return nano / 1000;
+}
+
 export function milliToNanoSec(ms: number) {
   if (typeof ms !== 'number') return 0;
   return ms * 1000000;

@@ -11,7 +11,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
 import { handleSpansRequest } from '../../requests/traces_request_handler';
-import { nanoToMilliSec, NoMatchMessage } from '../common/helper_functions';
+import { microToMilliSec, nanoToMilliSec, NoMatchMessage } from '../common/helper_functions';
 
 interface SpanDetailTableProps {
   http: HttpSetup;
@@ -56,7 +56,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
 
   const columns: EuiDataGridColumn[] = [
     {
-      id: 'spanId',
+      id: 'spanID',
       display: 'Span ID',
     },
     {
@@ -64,7 +64,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       display: 'Parent span ID',
     },
     {
-      id: 'traceId',
+      id: 'traceID',
       display: 'Trace ID',
     },
     {
@@ -72,15 +72,15 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       display: 'Trace group',
     },
     {
-      id: 'serviceName',
+      id: 'process.serviceName',
       display: 'Service',
     },
     {
-      id: 'name',
+      id: 'operationName',
       display: 'Operation',
     },
     {
-      id: 'durationInNanos',
+      id: 'duration',
       display: 'Duration',
     },
     {
@@ -114,6 +114,8 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
           return <EuiLink onClick={() => props.openFlyout(value)}>{value}</EuiLink>;
         case 'durationInNanos':
           return `${_.round(nanoToMilliSec(Math.max(0, value)), 2)} ms`;
+        case 'duration':
+          return `${_.round(microToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
         case 'endTime':
           return moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);

@@ -170,7 +170,7 @@ export function ServiceView(props: ServiceViewProps) {
                       onClick={() => {
                         setRedirect(true);
                         props.addFilter({
-                          field: 'serviceName',
+                          field: 'process.serviceName',
                           operator: 'is',
                           value: props.serviceName,
                           inverted: false,

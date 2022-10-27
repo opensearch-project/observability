@@ -195,7 +195,7 @@ export const getSpanDetailQuery = (traceID: string, size = 3000) => {
     ],
     _source: {
       includes: [
-        'serviceName',
+        'process.serviceName',
         'name',
         'startTime',
         'endTime',
