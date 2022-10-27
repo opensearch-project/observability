@@ -72,7 +72,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       display: 'Trace group',
     },
     {
-      id: 'process.serviceName',
+      id: 'process',
       display: 'Service',
     },
     {
@@ -88,7 +88,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       display: 'Start time',
     },
     {
-      id: 'endTime',
+      id: 'startTime',
       display: 'End time',
     },
     {
@@ -110,15 +110,18 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       const value = items[adjustedRowIndex][columnId];
       if (value == null || value === '') return '-';
       switch (columnId) {
-        case 'spanId':
+        case 'process':
+          return value["serviceName"]
+        case 'spanID':
           return <EuiLink onClick={() => props.openFlyout(value)}>{value}</EuiLink>;
         case 'durationInNanos':
           return `${_.round(nanoToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'duration':
           return `${_.round(microToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
-        case 'endTime':
           return moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
+        case 'endTime':
+          return moment(_.round(microToMilliSec(Math.max(0, value + items[adjustedRowIndex["duration"]])), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'status.code':
           return value === 2 ? (
             <EuiText color="danger" size="s">
