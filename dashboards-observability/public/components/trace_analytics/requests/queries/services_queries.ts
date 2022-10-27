@@ -25,13 +25,13 @@ export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => 
     aggs: {
       service: {
         terms: {
-          field: 'serviceName',
+          field: 'process.serviceName',
           size: 10000,
         },
         aggs: {
           trace_count: {
             cardinality: {
-              field: 'traceId',
+              field: 'traceID',
             },
           },
         },
@@ -41,21 +41,21 @@ export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => 
   if (serviceName) {
     query.query.bool.must.push({
       term: {
-        serviceName,
+        "process.serviceName": serviceName,
       },
     });
   }
   DSL?.custom?.serviceNames?.map((service: string) => {
     query.query.bool.must.push({
       term: {
-        serviceName: service,
+        "process.serviceName": service,
       },
     });
   });
   DSL?.custom?.serviceNamesExclude?.map((service: string) => {
     query.query.bool.must_not.push({
       term: {
-        serviceName: service,
+        "process.serviceName": service,
       },
     });
   });
@@ -76,13 +76,13 @@ export const getRelatedServicesQuery = (serviceName: string) => {
     aggs: {
       traces: {
         terms: {
-          field: 'traceId',
+          field: 'traceID',
           size: 10000,
         },
         aggs: {
           all_services: {
             terms: {
-              field: 'serviceName',
+              field: 'porcess.serviceName',
               size: 10000,
             },
           },
@@ -92,7 +92,7 @@ export const getRelatedServicesQuery = (serviceName: string) => {
                 must: [
                   {
                     term: {
-                      serviceName,
+                      "process.serviceName": serviceName,
                     },
                   },
                 ],
@@ -161,7 +161,7 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
     aggs: {
       service_name: {
         terms: {
-          field: 'serviceName',
+          field: 'process.serviceName',
           size: SERVICE_MAP_MAX_EDGES,
         },
         aggs: {
@@ -214,7 +214,7 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
         filter: [
           {
             terms: {
-              serviceName: serviceNames,
+              "process.serviceName": serviceNames,
             },
           },
           {
@@ -227,8 +227,8 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
                         bool: {
                           must_not: {
                             term: {
-                              parentSpanId: {
-                                value: '',
+                              references: {
+                                value: [],
                               },
                             },
                           },
@@ -264,7 +264,7 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
     aggregations: {
       service_name: {
         terms: {
-          field: 'serviceName',
+          field: 'process.serviceName',
           size: SERVICE_MAP_MAX_NODES,
           min_doc_count: 1,
           shard_min_doc_count: 0,
@@ -281,7 +281,7 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
         aggregations: {
           average_latency_nanos: {
             avg: {
-              field: 'durationInNanos',
+              field: 'duration',
             },
           },
           average_latency: {

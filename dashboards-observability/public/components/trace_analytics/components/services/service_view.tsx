@@ -46,7 +46,7 @@ export function ServiceView(props: ServiceViewProps) {
   const [redirect, setRedirect] = useState(false);
 
   const refresh = () => {
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const DSL = filtersToDsl(props.filters, props.query, 0, 166638045873223500);
     handleServiceViewRequest(props.serviceName, props.http, DSL, setFields);
     handleServiceMapRequest(props.http, DSL, setServiceMap, props.serviceName);
   };

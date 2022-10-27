@@ -74,7 +74,7 @@ export function ServicesContent(props: ServicesProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
+    const DSL = filtersToDsl(filters, query, 0, 166638045873223500, page, appConfigs);
     // service map should not be filtered by service name
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
