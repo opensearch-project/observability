@@ -136,6 +136,7 @@ export const DataConfigPanelFields = ({
           </EuiPanel>
         )}
       </div>
+      <EuiSpacer size="m" />
     </div>
   );
 };
