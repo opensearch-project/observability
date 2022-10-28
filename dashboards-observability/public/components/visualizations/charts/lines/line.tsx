@@ -44,6 +44,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       userConfigs: {
         dataConfig: {
           chartStyles = {},
+          seriesPosition = [],
           legend = {},
           span = {},
           colorTheme = [],
@@ -85,7 +86,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
   const timestampField = find(fields, (field) => field.type === 'timestamp');
-  let xaxis = [timestampField];
+  const xaxis = [timestampField];
 
   if (!timestampField || isEmpty(series)) return <EmptyPlaceholder icon={icontype} />;
 
@@ -143,16 +144,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
       transformPreprocessedDataToTraces(preprocessJsonData(jsonData, visConfig), visConfig),
       traceStyles
     );
-  }, [
-    chartStyles,
-    jsonData,
-    dimensions,
-    series,
-    span,
-    breakdowns,
-    panelOptions,
-    tooltipOptions,
-  ]);
+  }, [chartStyles, jsonData, dimensions, series, span, breakdowns, panelOptions, tooltipOptions]);
 
   const mergedLayout = useMemo(() => {
     const axisLabelsStyle = {

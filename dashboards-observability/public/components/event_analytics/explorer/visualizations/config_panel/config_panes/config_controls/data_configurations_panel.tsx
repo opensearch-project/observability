@@ -306,10 +306,10 @@ export const DataConfigPanelItem = ({
     fillVisDataInStore({ visData: visData, query, visConfMetadata, visMeta });
   };
 
-  const isPositionButtonVisible = (sectionName: string) =>
-    sectionName === AGGREGATIONS &&
-    (visualizations.vis.name === VIS_CHART_TYPES.Line ||
-      visualizations.vis.name === VIS_CHART_TYPES.Scatter);
+  // const isPositionButtonVisible = (sectionName: string) =>
+  //   sectionName === AGGREGATIONS &&
+  //   (visualizations.vis.name === VIS_CHART_TYPES.Line ||
+  //     visualizations.vis.name === VIS_CHART_TYPES.Scatter);
 
   const getTimeStampFilteredFields = (options: IField[]) =>
     filter(options, (i: IField) => i.type !== TIMESTAMP);
@@ -381,19 +381,6 @@ export const DataConfigPanelItem = ({
               )}
               {/* Show input fields for dimensions */}
               {!isAggregations && getCommonDimensionsField(selectedObj, name)}
-              {isPositionButtonVisible(name) && (
-                <EuiFormRow label="Side">
-                  <ButtonGroupItem
-                    legend="Side"
-                    groupOptions={[
-                      { id: 'left', label: 'Left' },
-                      { id: 'right', label: 'Right' },
-                    ]}
-                    idSelected={selectedObj.side || 'right'}
-                    handleButtonChange={(id: string) => updateList(id, 'side')}
-                  />
-                </EuiFormRow>
-              )}
             </EuiPanel>
             <EuiSpacer size="s" />
           </div>
