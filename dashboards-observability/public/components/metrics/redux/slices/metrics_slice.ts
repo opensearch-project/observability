@@ -3,37 +3,62 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createSlice } from '@reduxjs/toolkit';
-import { forEach } from 'lodash';
 import {
-  SELECTED_METRICS,
-  RECENTLY_CREATED_METRICS,
-  AVAILABLE_METRICS,
+  createSlice,
+  createAsyncThunk,
+} from '@reduxjs/toolkit';
+import {
   REDUX_SLICE_METRICS,
 } from '../../../../../common/constants/metrics';
 
 const METRIC_NAMES_PPL = 'source = prometheus.information_schema.tables';
-import { metricNamesTablePPL } from './mockMetrics';
+import { customMetricsTablePPL, metricNamesTablePPL } from './mockMetrics';
 
-const initialMetrics = {
-  [SELECTED_METRICS]: [],
-  [RECENTLY_CREATED_METRICS]: [],
-  [AVAILABLE_METRICS]: metricNamesTablePPL.datarows,
-};
+const initialState = 
+{
+  metrics: [],
+  selected: []
+}
 
-const initialState = {
-  metrics: { ...initialMetrics },
-};
+
+export const loadMetrics = createAsyncThunk('metrics/loadData', async () => {
+  const customData = fetchCustomMetrics();
+  const remoteData = fetchRemoteMetrics();
+
+  return Promise.all([customData, remoteData]).then(datasets => datasets.flat())
+})
+
+const fetchCustomMetrics = async () => {
+  // normally a fetch() call or client with await
+
+  const dataSet = customMetricsTablePPL.jsonData;
+
+  const normalizedData = dataSet.map(obj => ({
+    id: obj.objectId,
+    name: obj.savedVisualization.name,
+    catalog: 'CUSTOM_METRICS',
+    type: obj.savedVisualization.type,
+  }))
+  return normalizedData;
+}
+
+const fetchRemoteMetrics = async () => {
+  const dataSet = metricNamesTablePPL.jsonData
+
+  const normalizedData = dataSet.map(obj => ({
+    id: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
+    name: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
+    catalog: 'PROMETHEUS',
+    type: obj.TABLE_TYPE
+  }))
+  return normalizedData;
+}
+
 
 export const metricSlice = createSlice({
   name: REDUX_SLICE_METRICS,
   initialState,
   reducers: {
-    init: (state) => {
-      state.metrics = {
-        ...initialMetrics,
-      };
-    },
     updateMetrics: (state, { payload }) => {
       state.metrics = {
         ...state.metrics,
@@ -42,31 +67,38 @@ export const metricSlice = createSlice({
       console.log('updated metrics');
       console.log(state);
     },
-    reset: (state) => {
-      state.metrics = {
-        ...initialMetrics,
-      };
+    selectMetric: (state, { payload }) => { 
+      console.log("selectMetric", {state, payload})
+      state.selected.push(payload.id) 
     },
-    remove: (state) => {
-      delete state.metrics;
-    },
-    sortMetrics: (state, { payload }) => {
-      forEach(payload.data, (toSort: string) => {
-        state.metrics[toSort].sort((prev: any, cur: any) => cur[2].localeCompare(prev[2]));
-      });
-    },
-    fetchMetrics: (state, { payload }) => {
-      state = {
-        ...state,
-        ...payload.data,
-      };
-    },
+    deSelectMetric: (state, { payload }) => {
+      state.selected = state.selected.filter(id => id != payload.id)
+    }
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadMetrics.fulfilled, (state, { payload }) => {
+        const theState = {...state}
+        console.log("loadMetrics.fulfilled", {metrics: theState.metrics, payload})
+        state.metrics = payload;
+        state.selected = [];
+      })
+  },
 });
 
-export const { init, reset, remove, updateMetrics, sortMetrics } = metricSlice.actions;
+export const { deSelectMetric, selectMetric } = metricSlice.actions;
 
-export const selectMetrics = (state) => state.metrics;
+export const metricsStateSelector = (state) => state.metrics;
+
+export const availableMetricsSelector = (state) => 
+  state.metrics.metrics.filter(
+    metric => !state.metrics.selected.includes(metric.id)
+  );
+
+export const selectedMetricsSelector = (state) =>
+  state.metrics.metrics.filter(
+    metric => state.metrics.selected.includes(metric.id)
+  );
+
 
 export default metricSlice.reducer;

@@ -35,7 +35,7 @@ import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
 import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
 import { EmptyMetricsView } from './view/empty_view';
-import { selectMetrics } from './redux/slices/metrics_slice';
+// import { metricsSelector } from './redux/slices/metrics_slice';
 
 interface MetricsProps {
   http: CoreStart['http'];
@@ -53,7 +53,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
 
   // Side bar constants
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
-  const metricsList = useSelector(selectMetrics);
+  // const metricsList = useSelector(metricsSelector);
 
   // Using Visualizations for recently created custom metrics for now
   const [visualizationsList, setVisualizationsList] = useState<any>([]);
@@ -118,12 +118,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
                 <div className="dscAppContainer">
                   <div className="col-md-3 dscSidebar__container dscCollapsibleSidebar">
                     <div className="">
-                      {!isSidebarClosed && (
-                        <Sidebar
-                          metricsList={metricsList}
-                          visualizationsList={visualizationsList}
-                        />
-                      )}
+                      {!isSidebarClosed && <Sidebar />}
                       <EuiButtonIcon
                         iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
                         iconSize="m"
