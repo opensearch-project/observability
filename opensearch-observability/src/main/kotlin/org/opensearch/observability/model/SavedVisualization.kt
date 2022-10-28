@@ -99,6 +99,7 @@ internal data class SavedVisualization(
          * @param parser data referenced at parser
          * @return created SavedVisualization object
          */
+        @Suppress("ComplexMethod")
         fun parse(parser: XContentParser): SavedVisualization {
             var name: String? = null
             var description: String? = null
@@ -219,7 +220,7 @@ internal data class SavedVisualization(
         return builder.endObject()
     }
 
-    internal data class SelectedLabels(
+    internal data class Token(
         val label: String,
     ) : BaseModel {
         internal companion object {
@@ -228,7 +229,7 @@ internal data class SavedVisualization(
             /**
              * reader to create instance of class from writable.
              */
-            val reader = Writeable.Reader { SelectedLabels(it) }
+            val reader = Writeable.Reader { Token(it) }
 
             /**
              * Parser to parse xContent
@@ -240,7 +241,7 @@ internal data class SavedVisualization(
              * @param parser data referenced at parser
              * @return created Trigger object
              */
-            fun parse(parser: XContentParser): SelectedLabels {
+            fun parse(parser: XContentParser): Token {
                 var label: String? = null
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
@@ -256,7 +257,7 @@ internal data class SavedVisualization(
                     }
                 }
                 label ?: throw IllegalArgumentException("$LABEL_TAG field absent")
-                return SelectedLabels(label)
+                return Token(label)
             }
         }
 
@@ -282,6 +283,91 @@ internal data class SavedVisualization(
             builder!!
             builder.startObject()
                 .field(LABEL_TAG, label)
+            builder.endObject()
+            return builder
+        }
+    }
+
+    internal data class SelectedLabels(
+        val labels:  List<Token>?,
+    ) : BaseModel {
+        internal companion object {
+            private const val LABELS_TAG = "labels"
+
+            /**
+             * reader to create instance of class from writable.
+             */
+            val reader = Writeable.Reader { SelectedLabels(it) }
+
+            /**
+             * Parser to parse xContent
+             */
+            val xParser = XParser { parse(it) }
+
+            /**
+             * Parse the item list from parser
+             * @param parser data referenced at parser
+             * @return created list of items
+             */
+            private fun parseItemList(parser: XContentParser): List<Token> {
+                val retList: MutableList<Token> = mutableListOf()
+                XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_ARRAY, parser.currentToken(), parser)
+                while (parser.nextToken() != XContentParser.Token.END_ARRAY) {
+                    retList.add(Token.parse(parser))
+                }
+                return retList
+            }
+
+            /**
+             * Parse the data from parser and create Trigger object
+             * @param parser data referenced at parser
+             * @return created Trigger object
+             */
+            fun parse(parser: XContentParser): SelectedLabels {
+                var labels: List<Token>? = null
+                XContentParserUtils.ensureExpectedToken(
+                    XContentParser.Token.START_OBJECT,
+                    parser.currentToken(),
+                    parser
+                )
+                while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
+                    val fieldName = parser.currentName()
+                    parser.nextToken()
+                    when (fieldName) {
+                        LABELS_TAG -> labels = parseItemList(parser)
+                        else -> log.info("$LOG_PREFIX: Trigger Skipping Unknown field $fieldName")
+                    }
+                }
+                labels ?: throw IllegalArgumentException("$LABELS_TAG field absent")
+                return SelectedLabels(labels)
+            }
+        }
+
+        /**
+         * Constructor used in transport action communication.
+         * @param input StreamInput stream to deserialize data from.
+         */
+        constructor(input: StreamInput) : this(
+            labels = input.readList(Token.reader)
+        )
+
+        /**
+         * {@inheritDoc}
+         */
+        override fun writeTo(output: StreamOutput) {
+            output.writeCollection(labels)
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+            builder!!
+            if (labels != null) {
+                builder.startArray(LABELS_TAG)
+                labels.forEach { it.toXContent(builder, params) }
+                builder.endArray()
+            }
             builder.endObject()
             return builder
         }

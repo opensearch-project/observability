@@ -33,10 +33,8 @@ internal class SavedVisualizationTests {
         "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}",
         "metric",
         "hours (h)",
-        SavedQuery.SelectedLabels(
-            "| fields clientip, bytes, memory, host",
-            listOf(SavedQuery.Label("utc_time", "timestamp"))
-        )
+        SavedVisualization.SelectedLabels(
+            listOf(SavedVisualization.Token("avg", "count")))
     )
 
     @Test
