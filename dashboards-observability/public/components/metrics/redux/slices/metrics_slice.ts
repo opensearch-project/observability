@@ -59,16 +59,7 @@ export const metricSlice = createSlice({
   name: REDUX_SLICE_METRICS,
   initialState,
   reducers: {
-    updateMetrics: (state, { payload }) => {
-      state.metrics = {
-        ...state.metrics,
-        ...payload.data,
-      };
-      console.log('updated metrics');
-      console.log(state);
-    },
     selectMetric: (state, { payload }) => { 
-      console.log("selectMetric", {state, payload})
       state.selected.push(payload.id) 
     },
     deSelectMetric: (state, { payload }) => {
@@ -78,10 +69,7 @@ export const metricSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadMetrics.fulfilled, (state, { payload }) => {
-        const theState = {...state}
-        console.log("loadMetrics.fulfilled", {metrics: theState.metrics, payload})
         state.metrics = payload;
-        state.selected = [];
       })
   },
 });

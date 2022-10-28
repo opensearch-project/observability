@@ -16,7 +16,6 @@ import {
   deSelectMetric,
   selectMetric,
   loadMetrics,
-  metricsStateSelector,
   selectedMetricsSelector,
 } from '../redux/slices/metrics_slice';
 import { fetchSurroundingData } from 'public/components/event_analytics/utils';
@@ -28,11 +27,8 @@ interface ISidebarProps {
 export const Sidebar = (props: ISidebarProps) => {
   const dispatch = useDispatch();
 
-  const metricsState = useSelector(metricsStateSelector)
-  useEffect(() => console.log("metricsState", {metricsState}), [metricsState])
-
   const availableMetrics = useSelector(availableMetricsSelector)
-const selectedMetrics = useSelector(selectedMetricsSelector)
+  const selectedMetrics = useSelector(selectedMetricsSelector)
 
   useEffect(() => {
     dispatch(loadMetrics())
@@ -75,23 +71,15 @@ const selectedMetrics = useSelector(selectedMetricsSelector)
           paddingSize="xs"
         >
           <ul>
-            {selectedMetrics.map((metric: any) => {
-              let name;
-              if (metric.name) {
-                name = metric.name;
-              } else {
-                name = metric[2];
-              }
-              return (
+            {selectedMetrics.map((metric: any) => 
                 <li>
                   <EuiLink
                     onClick={() => handleRemoveMetric(metric)}
                   >
-                    {name}
+                    {metric.name}
                   </EuiLink>
                 </li>
-              );
-            })}
+            )}
           </ul>
         </EuiAccordion>
         <EuiSpacer size="s" />
@@ -106,19 +94,6 @@ const selectedMetrics = useSelector(selectedMetricsSelector)
           paddingSize="xs"
         >
           <ul>
-            {[].map((visualization: any) => {
-              return (
-                <li>
-                  <EuiLink
-                    onClick={() => {
-                      handleAddMetric(visualization, true);
-                    }}
-                  >
-                    {visualization.name}
-                  </EuiLink>
-                </li>
-              );
-            })}
             {availableMetrics.map((metric: any) =>
               <li key={metric.id}>
                 <EuiLink
@@ -129,6 +104,7 @@ const selectedMetrics = useSelector(selectedMetricsSelector)
               </li>
             )}
           </ul>
+          <!-- SEAN - put a list-end here if availableMetrics is truncated by too-many-items -->
         </EuiAccordion>
       </section>
     </I18nProvider>
