@@ -168,6 +168,18 @@ $vis-editor-sidebar-min-width: 350px;
   overflow-y: unset; // unset default setting
 }
 
+#vis__mainContent .data_config_resizable_btn {
+  margin-left: 3px;
+}
+
+#vis__mainContent .chart_style_resizable_btn {
+  margin-right: 3px;
+}
+
+#vis__mainContent .ws__configPanel--right {
+  border-left: 1px solid #d3dae6;
+}
+
 .panelItem_button {
   display: grid;
   grid-template-columns: 1fr auto;
