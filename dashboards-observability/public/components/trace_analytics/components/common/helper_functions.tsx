@@ -73,6 +73,12 @@ export function MissingConfigurationMessage() {
   );
 }
 
+export function processTimeStamp(time: string) {
+  const timeMoment = dateMath.parse(time)!;
+  return timeMoment.unix() * 1000000;
+
+}
+
 export function renderBenchmark(value: number) {
   if (typeof value !== 'number') return null;
   const benchmarkColor = value === 0 ? '#9ea8a9' : value > 0 ? '#c23f25' : '#3f7e23';

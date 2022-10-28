@@ -13,7 +13,7 @@ import {
 } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
-import { filtersToDsl } from '../common/helper_functions';
+import { filtersToDsl, processTimeStamp } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { SearchBar } from '../common/search_bar';
 import { ServicesProps } from './services';
@@ -74,7 +74,7 @@ export function ServicesContent(props: ServicesProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, 0, 166638045873223500, page, appConfigs);
+    const DSL = filtersToDsl(filters, query,processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
     // service map should not be filtered by service name
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(

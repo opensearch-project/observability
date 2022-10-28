@@ -26,7 +26,7 @@ import {
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
-import { filtersToDsl, PanelTitle } from '../common/helper_functions';
+import { filtersToDsl, PanelTitle, processTimeStamp } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { renderDatePicker, SearchBarProps } from '../common/search_bar';
 import { SpanDetailFlyout } from '../traces/span_detail_flyout';
@@ -46,7 +46,7 @@ export function ServiceView(props: ServiceViewProps) {
   const [redirect, setRedirect] = useState(false);
 
   const refresh = () => {
-    const DSL = filtersToDsl(props.filters, props.query, 0, 166638045873223500);
+    const DSL = filtersToDsl(props.filters, props.query,processTimeStamp(props.startTime), processTimeStamp(props.endTime));
     handleServiceViewRequest(props.serviceName, props.http, DSL, setFields);
     handleServiceMapRequest(props.http, DSL, setServiceMap, props.serviceName);
   };

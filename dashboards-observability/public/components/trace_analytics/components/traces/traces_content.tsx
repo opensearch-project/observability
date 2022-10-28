@@ -8,7 +8,7 @@ import { EuiSpacer, PropertySort } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
-import { filtersToDsl } from '../common/helper_functions';
+import { filtersToDsl, processTimeStamp } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { TracesProps } from './traces';
 import { TracesTable } from './traces_table';
@@ -54,8 +54,8 @@ export function TracesContent(props: TracesProps) {
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, 0, 166638045873223500, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', 0, 166638045873223500, page);
+    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime), processTimeStamp(endTime), page);
     await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
     setLoading(false);
   };

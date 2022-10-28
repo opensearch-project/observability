@@ -22,6 +22,7 @@ import {
   milliToNanoSec,
   minFixedInterval,
   MissingConfigurationMessage,
+  processTimeStamp,
 } from '../common/helper_functions';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
@@ -86,8 +87,8 @@ export function DashboardContent(props: DashboardProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, 0, 166638045873223500, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', 0, 166638045873223500, page, appConfigs);
+    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
       filters,
