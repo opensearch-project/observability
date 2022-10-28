@@ -306,11 +306,6 @@ export const DataConfigPanelItem = ({
     fillVisDataInStore({ visData: visData, query, visConfMetadata, visMeta });
   };
 
-  // const isPositionButtonVisible = (sectionName: string) =>
-  //   sectionName === AGGREGATIONS &&
-  //   (visualizations.vis.name === VIS_CHART_TYPES.Line ||
-  //     visualizations.vis.name === VIS_CHART_TYPES.Scatter);
-
   const getTimeStampFilteredFields = (options: IField[]) =>
     filter(options, (i: IField) => i.type !== TIMESTAMP);
 
