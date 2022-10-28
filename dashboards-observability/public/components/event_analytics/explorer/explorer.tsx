@@ -966,10 +966,6 @@ export const Explorer = ({
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
-  useEffect(() => {
-    console.log(tempQuery);
-  }, [tempQuery]);
-
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
     const currFields = explorerFieldsRef.current;
