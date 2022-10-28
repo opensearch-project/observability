@@ -27,7 +27,7 @@ import {
   handleServicesPieChartRequest,
   handleTraceViewRequest,
 } from '../../requests/traces_request_handler';
-import { filtersToDsl, PanelTitle } from '../common/helper_functions';
+import { filtersToDsl, PanelTitle, processTimeStamp } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ServiceBreakdownPanel } from './service_breakdown_panel';
 import { SpanDetailPanel } from './span_detail_panel';
@@ -146,7 +146,7 @@ export function TraceView(props: TraceViewProps) {
   >('latency');
 
   const refresh = async () => {
-    const DSL = filtersToDsl([], '', 'now', 'now', page);
+    const DSL = filtersToDsl([], '', processTimeStamp('now'), processTimeStamp('now'), page);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
     handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);

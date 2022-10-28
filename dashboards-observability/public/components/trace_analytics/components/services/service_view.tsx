@@ -227,10 +227,10 @@ export function ServiceView(props: ServiceViewProps) {
   };
 
   useEffect(() => {
-    const spanDSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const spanDSL = filtersToDsl(props.filters, props.query, processTimeStamp(props.startTime), processTimeStamp(props.endTime));
     spanDSL.query.bool.must.push({
       term: {
-        serviceName: props.serviceName,
+        "process.serviceName": props.serviceName,
       },
     });
     spanFilters.map(({ field, value }) => {

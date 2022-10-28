@@ -31,6 +31,7 @@ export function SpanDetailPanel(props: {
   data?: { gantt: any[]; table: any[]; ganttMaxX: number };
   setData?: (data: { gantt: any[]; table: any[]; ganttMaxX: number }) => void;
 }) {
+  console.log(props.traceId);
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
   const fromApp = props.page === 'app';
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
@@ -81,6 +82,10 @@ export function SpanDetailPanel(props: {
     handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL);
   }, 150);
 
+  useEffect(() => {
+    console.log("dsl", JSON.stringify(DSL));
+  }, [DSL])
+
   const spanFiltersToDSL = () => {
     const spanDSL: any = {
       query: {
@@ -88,7 +93,7 @@ export function SpanDetailPanel(props: {
           must: [
             {
               term: {
-                traceId: props.traceId,
+                traceID: props.traceId,
               },
             },
           ],
