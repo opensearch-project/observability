@@ -41,10 +41,10 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           tooltipOptions = {},
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
-        },
+        } = {},
         layoutConfig = {},
-      },
-    },
+      } = {},
+    } = {},
     vis: { mode, icontype, showlegend, legendSize, labelSize, legendposition },
   }: IVisualizationContainerProps = visualizations;
 

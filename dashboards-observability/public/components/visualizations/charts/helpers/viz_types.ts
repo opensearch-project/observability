@@ -112,6 +112,7 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
   let tempUserConfigs = {};
   const qm = new QueryManager();
   const statsTokens = qm.queryParser().parse(queryString.rawQuery).getStats();
+  console.log()
   if (!statsTokens) {
     tempUserConfigs = {
       [AGGREGATIONS]: [],
@@ -158,6 +159,7 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
         [AGGREGATIONS]: [],
       };
     } else {
+      console.log('tempUserConfigs: ', tempUserConfigs);
       tempUserConfigs = {
         ...tempUserConfigs,
         [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
@@ -166,9 +168,9 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
           name: agg.function?.value_expression,
           aggregation: agg.function?.name,
         })),
-        [GROUPBY]: statsTokens.groupby?.group_fields?.map((agg) => ({
-          label: agg.name ?? '',
-          name: agg.name ?? '',
+        [GROUPBY]: statsTokens.groupby?.group_fields?.map((dimension) => ({
+          label: dimension.name ?? '',
+          name: dimension.name ?? '',
         })),
       };
     }
@@ -245,6 +247,7 @@ const getUserConfigs = (
             ...defaultUserConfigs(query, visName),
           },
         };
+        console.log('configOfUser: ', configOfUser);
         break;
     }
   }
@@ -271,10 +274,10 @@ export const getVizContainerProps = ({
     SIMILAR_VIZ_TYPES.includes(vizId as VIS_CHART_TYPES)
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
+    //   const userSetConfigs = isEmpty(query)
+    //   ? userConfigs
+    // : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData(vizId).name, query);
 
-  const userSetConfigs = isEmpty(query)
-    ? userConfigs
-    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData(vizId).name, query);
   return {
     data: {
       appData: { ...appData },
@@ -282,7 +285,7 @@ export const getVizContainerProps = ({
       query: { ...query },
       indexFields: { ...indexFields },
       userConfigs: {
-        ...userSetConfigs,
+        ...userConfigs,
       },
       defaultAxes: {
         ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData(vizId).name),

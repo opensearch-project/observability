@@ -207,13 +207,6 @@ export const createBarTypeDefinition = (params: any) => ({
         ],
       },
       {
-        id: 'style-panel',
-        name: 'Layout',
-        mapTo: 'layoutConfig',
-        editor: ConfigEditor,
-        content: [],
-      },
-      {
         id: 'availability-panel',
         name: 'Availability',
         mapTo: 'availabilityConfig',
