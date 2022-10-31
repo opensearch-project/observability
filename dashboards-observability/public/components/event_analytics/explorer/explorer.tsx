@@ -173,6 +173,10 @@ export const Explorer = ({
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [viewLogPatterns, setViewLogPatterns] = useState(false);
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
+    false
+  );
+  const [spanValue, setSpanValue] = useState(false);
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -1408,6 +1412,12 @@ export const Explorer = ({
     [tempQuery]
   );
 
+  useEffect(() => {
+    const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
+    const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+    setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
+  }, [tempQuery, query, selectedContentTabId]);
+  
   return (
     <TabContext.Provider
       value={{
@@ -1462,6 +1472,8 @@ export const Explorer = ({
           setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
           liveTailName={liveTailNameRef.current}
           searchError={explorerVisualizations}
+          curVisId={curVisId}
+          spanValue={spanValue}
         />
         <EuiTabbedContent
           className="mainContentTabs"

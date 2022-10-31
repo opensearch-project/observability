@@ -289,3 +289,13 @@ export const DATA_CONFIG_HINTS_INFO = {
   [BREAKDOWNS]:
     "Defines how each series is broken down. Breakdowns are 'by' clauses that subdivide the existing series.",
 };
+
+// Metrics constants
+export const UNITS_OF_MEASURE = [
+  'seconds (s)',
+  'hours (h)',
+  'celsius (C)',
+  'farenheit (F)',
+  'meters (m)',
+  'kilometers (k)',
+]
