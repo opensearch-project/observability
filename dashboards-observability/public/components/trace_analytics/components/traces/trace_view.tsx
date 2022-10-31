@@ -146,7 +146,7 @@ export function TraceView(props: TraceViewProps) {
   >('latency');
 
   const refresh = async () => {
-    const DSL = filtersToDsl([], '', processTimeStamp('now'), processTimeStamp('now'), page);
+    const DSL = filtersToDsl([], '', "now", "now", page);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
     handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);

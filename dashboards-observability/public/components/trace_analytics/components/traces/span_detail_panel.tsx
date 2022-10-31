@@ -31,7 +31,6 @@ export function SpanDetailPanel(props: {
   data?: { gantt: any[]; table: any[]; ganttMaxX: number };
   setData?: (data: { gantt: any[]; table: any[]; ganttMaxX: number }) => void;
 }) {
-  console.log(props.traceId);
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
   const fromApp = props.page === 'app';
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
@@ -209,7 +208,7 @@ export function SpanDetailPanel(props: {
     () => (
       <SpanDetailTable
         http={props.http}
-        hiddenColumns={['traceId', 'traceGroup']}
+        hiddenColumns={['traceID', 'traceGroup']}
         DSL={DSL}
         openFlyout={(spanId: string) => {
           if (fromApp) {
