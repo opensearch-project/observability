@@ -115,6 +115,11 @@ export const DataConfigPanelItem = ({
     if (field === 'label') {
       listItem.name = value;
     }
+    if (value === '' && isTimeStampSelected) {
+      delete configList[SPAN];
+    } else {
+      setIsTimeStampSelected(false);
+    }
     const updatedList = {
       ...configList,
       [name]: [
@@ -126,7 +131,6 @@ export const DataConfigPanelItem = ({
         [SPAN]: isTimeStampSelected ? initialSpanEntry : { ...configList[SPAN] },
       }),
     };
-    setIsTimeStampSelected(false);
     setConfigList(updatedList);
   };
 
@@ -423,7 +427,7 @@ export const DataConfigPanelItem = ({
             isClearable={false}
             options={getOptionsAvailable(name)}
             selectedOptions={
-              isTimeStampSelected && !isBreakdown
+              isTimeStampSelected && !isBreakdown && configList.span !== undefined
                 ? [...configList.span?.time_field]
                 : selectedObj?.label
                 ? [
@@ -440,7 +444,7 @@ export const DataConfigPanelItem = ({
             }
           />
         </EuiFormRow>
-        {isTimeStampSelected && DateHistogram}
+        {isTimeStampSelected && !isEmpty(configList.span?.time_field) && DateHistogram}
       </>
     );
   };
