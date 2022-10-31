@@ -5,10 +5,18 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EuiTitle, EuiComboBox, EuiFormRow, EuiSpacer, EuiFieldText } from '@elastic/eui';
+import {
+  EuiTitle,
+  EuiComboBox,
+  EuiFormRow,
+  EuiSpacer,
+  EuiFieldText,
+  EuiSwitch,
+} from '@elastic/eui';
 import { useEffect } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import SavedObjects from '../../../../services/saved_objects/event_analytics/saved_objects';
+import { UNITS_OF_MEASURE } from '../../../../../common/constants/explorer';
 
 interface ISavedPanelProps {
   selectedOptions: any;
@@ -17,6 +25,8 @@ interface ISavedPanelProps {
   savedObjects: SavedObjects;
   savePanelName: string;
   showOptionList: boolean;
+  curVisId: string;
+  spanValue: boolean;
 }
 
 interface CustomPanelOptions {
@@ -33,8 +43,13 @@ export const SavePanel = ({
   savedObjects,
   savePanelName,
   showOptionList,
+  curVisId,
+  spanValue,
 }: ISavedPanelProps) => {
   const [options, setOptions] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const [measure, setMeasure] = useState([]);
+  const [label, setLabel] = useState([]);
 
   const getCustomPabnelList = async (savedObjects: SavedObjects) => {
     const optionRes = await savedObjects
@@ -49,6 +64,18 @@ export const SavePanel = ({
   useEffect(() => {
     getCustomPabnelList(savedObjects);
   }, []);
+
+  const onToggleChange = (e: { target: { checked: React.SetStateAction<boolean> } }) => {
+    setChecked(e.target.checked);
+  };
+
+  const onMeasureChange = (selectedMeasures: React.SetStateAction<never[]>) => {
+    setMeasure(selectedMeasures);
+  };
+
+  const onLabelChange = (selectedLabels: React.SetStateAction<never[]>) => {
+    setLabel(selectedLabels);
+  };
 
   return (
     <>
@@ -90,6 +117,60 @@ export const SavePanel = ({
           data-test-subj="eventExplorer__querySaveName"
         />
       </EuiFormRow>
+      {showOptionList && (isEqual(curVisId, 'line')) && spanValue && (
+        <>
+          <EuiFormRow display="columnCompressedSwitch">
+            <EuiSwitch
+              showLabel={true}
+              label="Save as Metric"
+              checked={checked}
+              onChange={onToggleChange}
+              compressed
+            />
+          </EuiFormRow>
+          {checked && (
+            <>
+              <EuiSpacer size="s" />
+              <EuiTitle size="xxs">
+                <h3>{'Units of Measure'}</h3>
+              </EuiTitle>
+              <EuiFormRow>
+                <EuiComboBox
+                  placeholder="Select measure"
+                  singleSelection={{ asPlainText: true }}
+                  onChange={onMeasureChange}
+                  selectedOptions={measure}
+                  options={UNITS_OF_MEASURE.map((i) => {
+                    return {
+                      label: i,
+                    };
+                  })}
+                  isClearable={false}
+                  data-test-subj="eventExplorer__metricMeasureSaveComboBox"
+                />
+              </EuiFormRow>
+              <EuiSpacer size="s" />
+              <EuiTitle size="xxs">
+                <h3>{'Labels'}</h3>
+              </EuiTitle>
+              <EuiFormRow>
+                <EuiComboBox
+                  placeholder="Select labels"
+                  onChange={onLabelChange}
+                  selectedOptions={label}
+                  options={UNITS_OF_MEASURE.map((i) => {
+                    return {
+                      label: i,
+                    };
+                  })}
+                  isClearable={true}
+                  data-test-subj="eventExplorer__metricLabelSaveComboBox"
+                />
+              </EuiFormRow>
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

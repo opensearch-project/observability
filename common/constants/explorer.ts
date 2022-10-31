@@ -269,3 +269,13 @@ export enum ConfigChartOptionsEnum {
 
 export const CUSTOM_LABEL = 'customLabel';
 export const BREAKDOWNS = 'breakdowns';
+
+// Metrics constants
+export const UNITS_OF_MEASURE = [
+  'seconds (s)',
+  'hours (h)',
+  'celsius (C)',
+  'farenheit (F)',
+  'meters (m)',
+  'kilometers (k)',
+]
