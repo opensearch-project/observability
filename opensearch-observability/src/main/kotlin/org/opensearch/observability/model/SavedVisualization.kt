@@ -46,7 +46,7 @@ import org.opensearch.observability.util.logger
  *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}",
  *   "sub_type": "metric",
  *   "units_of_measure: "hours (h)",
- *   "selected_labels": [
+ *   "labels": [
  *      {"label":"avg"},
  *      {"label":"count"},
  *   ]
@@ -289,7 +289,7 @@ internal data class SavedVisualization(
     }
 
     internal data class SelectedLabels(
-        val labels:  List<Token>?,
+        val labels: List<Token>?,
     ) : BaseModel {
         internal companion object {
             private const val LABELS_TAG = "labels"
@@ -326,11 +326,11 @@ internal data class SavedVisualization(
             fun parse(parser: XContentParser): SelectedLabels {
                 var labels: List<Token>? = null
                 XContentParserUtils.ensureExpectedToken(
-                    XContentParser.Token.START_OBJECT,
+                    XContentParser.Token.START_ARRAY,
                     parser.currentToken(),
                     parser
                 )
-                while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
+                while (XContentParser.Token.END_ARRAY != parser.nextToken()) {
                     val fieldName = parser.currentName()
                     parser.nextToken()
                     when (fieldName) {
@@ -363,6 +363,7 @@ internal data class SavedVisualization(
          */
         override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
             builder!!
+            builder.startObject()
             if (labels != null) {
                 builder.startArray(LABELS_TAG)
                 labels.forEach { it.toXContent(builder, params) }

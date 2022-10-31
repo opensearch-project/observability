@@ -12,8 +12,10 @@ import org.junit.jupiter.api.assertThrows
 import org.opensearch.commons.utils.recreateObject
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
+// import org.opensearch.commons.utils.logger
 
 internal class SavedVisualizationTests {
+    // private val log by logger(SavedVisualizationTests::class.java)
     private val sampleSavedVisualization = SavedVisualization(
         "test-saved-visualization",
         "test description",
@@ -34,7 +36,8 @@ internal class SavedVisualizationTests {
         "metric",
         "hours (h)",
         SavedVisualization.SelectedLabels(
-            listOf(SavedVisualization.Token("avg", "count")))
+            listOf(SavedVisualization.Token("avg"))
+        )
     )
 
     @Test
@@ -47,13 +50,15 @@ internal class SavedVisualizationTests {
     fun `SavedVisualization serialize and deserialize using json object should be equal`() {
         val jsonString = getJsonString(sampleSavedVisualization)
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
+        // log.info("sampleSavedVisualization: $sampleSavedVisualization")
+        // println("recreatedObject: $recreatedObject")
         assertEquals(sampleSavedVisualization, recreatedObject)
     }
 
     @Test
     fun `SavedVisualization should deserialize json object using parser`() {
         val jsonString =
-            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\",\\\"layoutConfig\\\":\\\"{}\\\"}\"}"
+            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\",\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"units_of_measure\":\"hours (h)\",\"labels\":[{\"label\":\"avg\"}]}"
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
         assertEquals(sampleSavedVisualization, recreatedObject)
     }
@@ -69,7 +74,7 @@ internal class SavedVisualizationTests {
     @Test
     fun `SavedVisualization should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\",\\\"layoutConfig\\\":\\\"{}\\\"}\"}"
+            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\",\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"units_of_measure\":\"hours (h)\",\"labels\":[{\"label\":\"avg\"}]}"
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
         assertEquals(sampleSavedVisualization, recreatedObject)
     }
