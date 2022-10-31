@@ -2,14 +2,13 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+/* eslint-disable no-console */
 
 import './index.scss';
 import {
   EuiButtonIcon,
   EuiPage,
   EuiPageBody,
-  EuiPageHeader,
-  EuiPageHeaderSection,
   EuiSpacer,
   EuiSuperDatePicker,
   EuiSuperDatePickerProps,
@@ -25,16 +24,18 @@ import {
   EuiFlexItem,
 } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
-import React, { Fragment, useState } from 'react';
-import { StaticContext } from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
+import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { StaticContext } from 'react-router-dom';
+import { CUSTOM_PANELS_API_PREFIX } from ' ../../../common/constants/custom_panels';
 import { uiSettingsService } from '../../../common/utils';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
-import { ObservabilitySideBar } from '../common/side_nav';
 import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
-import { EuiAccordion } from '@opensearch-project/oui';
 import { EmptyMetricsView } from './view/empty_view';
+import { selectMetrics } from './redux/slices/metrics_slice';
 
 interface MetricsProps {
   http: CoreStart['http'];
@@ -52,16 +53,30 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
 
   // Side bar constants
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
-  const recentlyCreatedFields = ['1', '2', '3', '4'];
+  const metricsList = useSelector(selectMetrics);
 
-  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
-    // if (!isDateValid(convertDateTime(startTime), convertDateTime(endTime, false), setToast)) {
-    //   return;
-    // }
-
-    console.log('refreshed date picker');
+  // Using Visualizations for recently created custom metrics for now
+  const [visualizationsList, setVisualizationsList] = useState<any>([]);
+  // Fetch Saved Visualizations
+  const fetchVisualizations = async () => {
+    let savedVisualizations;
+    await http
+      .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`)
+      .then((res) => {
+        setVisualizationsList(res.visualizations);
+      })
+      .catch((err) => {
+        console.error('Issue in fetching all saved visualizations', err);
+      });
+    return savedVisualizations;
   };
+  useEffect(() => {
+    fetchVisualizations();
+  }, []);
 
+  // Date Picker functions
+  // Empty functions for now
+  const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {};
   const onDatePickerChange = (props: OnTimeChangeProps) => {
     onTimeChange(
       props.start,
@@ -74,6 +89,11 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
     onRefreshFilters(props.start, props.end);
   };
 
+  const mainSectionClassName = classNames({
+    'col-md-9': !isSidebarClosed,
+    'col-md-12': isSidebarClosed,
+  });
+
   return (
     <>
       <Route
@@ -83,13 +103,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
           <div>
             <EuiPage>
               <EuiPageBody component="div">
-                <EuiPageHeader>
-                  <EuiPageHeaderSection>
-                    <EuiTitle size="l">
-                      <h1>Metrics</h1>
-                    </EuiTitle>
-                  </EuiPageHeaderSection>
-                </EuiPageHeader>
                 <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
                   <EuiFlexItem grow={false}>
                     <EuiSuperDatePicker
@@ -101,14 +114,15 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
                       isDisabled={dateDisabled}
                     />
                   </EuiFlexItem>
-                  {/* <EuiPageContentBody> */}
                 </EuiFlexGroup>
-                <EuiSpacer size="l" />
-                <EuiFlexGroup>
-                  <EuiFlexItem grow={false}>
-                    <div className="row">
+                <div className="dscAppContainer">
+                  <div className="col-md-3 dscSidebar__container dscCollapsibleSidebar">
+                    <div className="">
                       {!isSidebarClosed && (
-                        <Sidebar recentlyCreatedFields={recentlyCreatedFields} />
+                        <Sidebar
+                          metricsList={metricsList}
+                          visualizationsList={visualizationsList}
+                        />
                       )}
                       <EuiButtonIcon
                         iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
@@ -126,12 +140,15 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
                         className="dscCollapsibleSidebar__collapseButton"
                       />
                     </div>
-                  </EuiFlexItem>
-                  <EuiFlexItem>
-                    <EmptyMetricsView />
-                  </EuiFlexItem>
-                </EuiFlexGroup>
-                {/* </EuiPageContentBody> */}
+                  </div>
+                  <div className={`dscWrapper ${mainSectionClassName}`}>
+                    <div className="dscWrapper__content">
+                      <div className="dscResults">
+                        <EmptyMetricsView />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </EuiPageBody>
             </EuiPage>
           </div>
