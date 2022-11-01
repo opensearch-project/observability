@@ -10,7 +10,6 @@ import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
 import { Moment } from 'moment-timezone';
 import React from 'react';
-import { SavedVisualizationType } from 'common/types/custom_panels';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
@@ -44,4 +43,18 @@ export const onTimeChange = (
   setStart(start);
   setEnd(end);
   setRecentlyUsedRanges(recentlyUsedRange.slice(0, 9));
+};
+
+// PPL Service requestor
+export const pplServiceRequestor = (pplService: PPLService, finalQuery: string) => {
+  return pplService.fetch({ query: finalQuery, format: 'viz' }).catch((error: Error) => {
+    console.error(error);
+  });
+};
+
+// Observability backend to fetch visualizations/custom metrics
+export const getVisualizations = (http: CoreStart['http']) => {
+  return http.get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`).catch((err) => {
+    console.error('Issue in fetching all saved visualizations', err);
+  });
 };
