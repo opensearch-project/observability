@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const SELECTED_METRICS = 'selectedMetrics';
-export const RECENTLY_CREATED_METRICS = 'unselectedMetrics';
-export const AVAILABLE_METRICS = 'availableMetrics';
+// requests constants
+export const PPL_PROMETHEUS_CATALOG_REQUEST =
+  'show catalogs | where CONNECTOR_TYPE="PROMETHEUS" | fields CATALOG_NAME';
 
 // redux
 export const REDUX_SLICE_METRICS = 'metrics';

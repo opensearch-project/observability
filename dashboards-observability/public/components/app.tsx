@@ -73,6 +73,7 @@ export const App = ({
                       chrome={chrome}
                       parentBreadcrumb={parentBreadcrumb}
                       renderProps={props}
+                      pplService={pplService}
                     />
                   );
                 }}

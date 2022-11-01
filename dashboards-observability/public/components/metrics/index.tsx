@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-/* eslint-disable no-console */
 
 import './index.scss';
 import {
@@ -35,16 +34,17 @@ import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
 import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
 import { EmptyMetricsView } from './view/empty_view';
-import { selectMetrics } from './redux/slices/metrics_slice';
+import PPLService from '../../services/requests/ppl';
 
 interface MetricsProps {
   http: CoreStart['http'];
   chrome: CoreStart['chrome'];
   parentBreadcrumb: ChromeBreadcrumb;
   renderProps: RouteComponentProps<any, StaticContext, any>;
+  pplService: PPLService;
 }
 
-export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsProps) => {
+export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }: MetricsProps) => {
   // Date picker constants
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
   const [start, setStart] = useState<ShortDate>('now-30m');
@@ -53,26 +53,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
 
   // Side bar constants
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
-  const metricsList = useSelector(selectMetrics);
-
-  // Using Visualizations for recently created custom metrics for now
-  const [visualizationsList, setVisualizationsList] = useState<any>([]);
-  // Fetch Saved Visualizations
-  const fetchVisualizations = async () => {
-    let savedVisualizations;
-    await http
-      .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`)
-      .then((res) => {
-        setVisualizationsList(res.visualizations);
-      })
-      .catch((err) => {
-        console.error('Issue in fetching all saved visualizations', err);
-      });
-    return savedVisualizations;
-  };
-  useEffect(() => {
-    fetchVisualizations();
-  }, []);
 
   // Date Picker functions
   // Empty functions for now
@@ -118,12 +98,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps }: MetricsPro
                 <div className="dscAppContainer">
                   <div className="col-md-3 dscSidebar__container dscCollapsibleSidebar">
                     <div className="">
-                      {!isSidebarClosed && (
-                        <Sidebar
-                          metricsList={metricsList}
-                          visualizationsList={visualizationsList}
-                        />
-                      )}
+                      {!isSidebarClosed && <Sidebar http={http} pplService={pplService} />}
                       <EuiButtonIcon
                         iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
                         iconSize="m"
