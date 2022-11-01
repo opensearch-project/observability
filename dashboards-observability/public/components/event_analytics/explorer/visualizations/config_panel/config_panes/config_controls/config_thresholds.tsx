@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import {
   EuiButton,
   EuiAccordion,
@@ -16,6 +16,7 @@ import {
   EuiFlexItem,
   EuiFieldText,
   htmlIdGenerator,
+  EuiToolTip,
 } from '@elastic/eui';
 import { isEmpty } from 'lodash';
 
@@ -24,6 +25,7 @@ export interface ThresholdUnitType {
   name: string;
   color: string;
   value: number;
+  isReadOnly?: boolean;
 }
 
 export const ConfigThresholds = ({
@@ -32,14 +34,26 @@ export const ConfigThresholds = ({
   vizState = [],
   handleConfigChange,
   sectionName = 'Thresholds',
+  props,
 }: any) => {
-  const addButtonText = '+ Add threadshold';
+  const { type } = visualizations?.vis;
+  const addButtonText = '+ Add threshold';
+  const AddButtonTextWrapper = () =>
+    props?.maxLimit && !isEmpty(vizState) && vizState.length === props.maxLimit ? (
+      <EuiToolTip position="top" content="Only one threshold can be applied">
+        <Fragment key="tooltip-button">{addButtonText}</Fragment>
+      </EuiToolTip>
+    ) : (
+      <Fragment key="tooltip-button">{addButtonText}</Fragment>
+    );
+
   const getThresholdUnit = () => {
     return {
       thid: htmlIdGenerator('thr')(),
       name: '',
       color: '#FC0505',
       value: 0,
+      isReadOnly: false,
     };
   };
 
@@ -74,7 +88,6 @@ export const ConfigThresholds = ({
     },
     [vizState, handleConfigChange]
   );
-
   return (
     <EuiAccordion
       initialIsOpen
@@ -87,14 +100,17 @@ export const ConfigThresholds = ({
         fullWidth
         size="s"
         onClick={handleAddThreshold}
+        {...(props?.maxLimit && {
+          isDisabled: !isEmpty(vizState) && vizState.length === props.maxLimit,
+        })}
       >
-        {addButtonText}
+        <AddButtonTextWrapper />
       </EuiButton>
       <EuiSpacer size="s" />
       {!isEmpty(vizState) &&
         vizState.map((thr: ThresholdUnitType) => {
           return (
-            <>
+            <Fragment key={thr.thid}>
               <EuiFormRow fullWidth label="">
                 <EuiFlexGroup alignItems="center" gutterSize="xs">
                   <EuiFlexItem grow={3}>
@@ -113,6 +129,7 @@ export const ConfigThresholds = ({
                         value={thr.name || ''}
                         arial-label="Input threshold name"
                         data-test-subj="nameFieldText"
+                        readOnly={thr.isReadOnly}
                       />
                     </EuiFormRow>
                   </EuiFlexItem>
@@ -125,17 +142,20 @@ export const ConfigThresholds = ({
                         onChange={handleThresholdChange(thr.thid, 'value')}
                         aria-label="Input threshold value"
                         data-test-subj="valueFieldNumber"
+                        readOnly={thr.isReadOnly}
                       />
                     </EuiFormRow>
                   </EuiFlexItem>
-                  <EuiFlexItem grow={1}>
-                    <EuiFormRow>
-                      <EuiIcon type="trash" onClick={handleThresholdDelete(thr.thid)} />
-                    </EuiFormRow>
-                  </EuiFlexItem>
+                  {!thr.isReadOnly && (
+                    <EuiFlexItem grow={1}>
+                      <EuiFormRow>
+                        <EuiIcon type="trash" onClick={handleThresholdDelete(thr.thid)} />
+                      </EuiFormRow>
+                    </EuiFlexItem>
+                  )}
                 </EuiFlexGroup>
               </EuiFormRow>
-            </>
+            </Fragment>
           );
         })}
     </EuiAccordion>

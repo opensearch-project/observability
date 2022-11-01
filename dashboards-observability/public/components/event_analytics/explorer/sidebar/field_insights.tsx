@@ -48,8 +48,8 @@ export const FieldInsights = ({ field, query }: any) => {
       format: 'viz',
     },
   ];
-  const numericalTypes = ['short', 'integer', 'long', 'float', 'double'];
-  const isNumericalField = indexOf(numericalTypes, field.type) > 0;
+  const NUMERICAL_TYPES = ['short', 'integer', 'long', 'float', 'double'];
+  const isNumericalField = indexOf(NUMERICAL_TYPES, field.type) > 0;
   const [curReport, setCurReport] = useState({ ...generalReports[0] });
   const [reportContent, setReportContent] = useState({});
 
@@ -137,7 +137,7 @@ export const FieldInsights = ({ field, query }: any) => {
               </EuiFlexItem>
             );
           })}
-          {indexOf(numericalTypes, field.type) > 0 &&
+          {indexOf(NUMERICAL_TYPES, field.type) > 0 &&
             numericalOnlyReports.map((report) => {
               return (
                 <EuiFlexItem grow={false}>
