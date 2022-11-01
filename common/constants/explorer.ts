@@ -270,7 +270,13 @@ export enum ConfigChartOptionsEnum {
 export const CUSTOM_LABEL = 'customLabel';
 export const BREAKDOWNS = 'breakdowns';
 export const SPAN = 'span';
-export const AGGREGATION_INFO = 'At least one metric is required to render a chart';
-export const DIMENSION_INFO = 'The timestamp type field can be selected as a first dimension only';
 export const TIME_FIELD = 'time_field';
-export const DISABLED_COLOUR = "#fafbfd";
+export const DISABLED_COLOUR = '#fafbfd';
+export const DATA_CONFIG_HINTS_INFO = {
+  [AGGREGATIONS]:
+    'Series is an aggregation function (mandatory). The argument of an aggregation must be a field.',
+  [GROUPBY]:
+    "Dimensions are 'by' clauses. They are fields or expressions like scalar and aggregation functions. Besides, the span clause for a dimension can be used to split a specific field into buckets in the same interval, the stats then does the aggregation by these span buckets.",
+  [BREAKDOWNS]:
+    "Defines how each series is broken down. Breakdowns are 'by' clauses that subdivide the existing series.",
+};

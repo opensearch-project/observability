@@ -16,12 +16,10 @@ import {
 import { isArray, isEmpty } from 'lodash';
 import {
   AGGREGATIONS,
-  AGGREGATION_INFO,
-  BREAKDOWNS,
   CUSTOM_LABEL,
-  DIMENSION_INFO,
   GROUPBY,
   SPAN,
+  DATA_CONFIG_HINTS_INFO
 } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import {
@@ -88,9 +86,7 @@ export const DataConfigPanelFields = ({
         <EuiTitle size="xxs" className="panel_title">
           <h3>{sectionName}</h3>
         </EuiTitle>
-
-        {sectionName !== BREAKDOWNS &&
-          infoToolTip(tooltipIcon, isAggregation ? AGGREGATION_INFO : DIMENSION_INFO)}
+        {infoToolTip(tooltipIcon, DATA_CONFIG_HINTS_INFO[`${sectionName}`])}
       </div>
       <EuiSpacer size="s" />
       {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
@@ -122,7 +118,7 @@ export const DataConfigPanelFields = ({
                 </EuiLink>
               </EuiText>
               {isAggregation
-                ? infoToolTip(crossIcon(index, sectionName), AGGREGATION_INFO)
+                ? infoToolTip(crossIcon(index, sectionName), DATA_CONFIG_HINTS_INFO[AGGREGATIONS])
                 : crossIcon(index, sectionName)}
             </EuiPanel>
             <EuiSpacer size="s" />

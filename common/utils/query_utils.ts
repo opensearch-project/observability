@@ -66,3 +66,22 @@ export const buildQuery = (baseQuery: string, currQuery: string) => {
   }
   return fullQuery;
 };
+
+export const composeFinalQuery = (
+  curQuery: string,
+  startingTime: string,
+  endingTime: string,
+  timeField: string,
+  isLiveQuery: boolean,
+  appBaseQuery: string
+) => {
+  const fullQuery = buildQuery(appBaseQuery, curQuery);
+  if (isEmpty(fullQuery)) return '';
+  return preprocessQuery({
+    rawQuery: fullQuery,
+    startTime: startingTime,
+    endTime: endingTime,
+    timeField,
+    isLiveQuery,
+  });
+};

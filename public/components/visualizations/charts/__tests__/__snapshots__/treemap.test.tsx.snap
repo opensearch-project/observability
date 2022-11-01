@@ -457,7 +457,7 @@ exports[`Treemap component Renders treemap component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 40,
+                      "defaultState": 70,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -477,13 +477,6 @@ exports[`Treemap component Renders treemap component 1`] = `
               ],
             },
             Object {
-              "content": Array [],
-              "editor": [Function],
-              "id": "style-panel",
-              "mapTo": "layoutConfig",
-              "name": "Layout",
-            },
-            Object {
               "editor": [Function],
               "id": "availability-panel",
               "mapTo": "availabilityConfig",
@@ -491,7 +484,7 @@ exports[`Treemap component Renders treemap component 1`] = `
             },
           ],
         },
-        "fillopacity": 40,
+        "fillopacity": 70,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
