@@ -158,7 +158,7 @@ export const DEFAULT_CHART_STYLES: DefaultChartStylesProps = {
   DefaultModeLine: 'lines',
   Interpolation: 'spline',
   LineWidth: 2,
-  FillOpacity: 40,
+  FillOpacity: 70,
   MarkerSize: 5,
   ShowLegend: 'show',
   LegendPosition: 'v',
@@ -187,3 +187,5 @@ export const PLOT_MARGIN = {
   t: 50,
   pad: 4,
 };
+
+export const WAITING_TIME_ON_USER_ACTIONS = 300;

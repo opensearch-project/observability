@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { find, isEmpty, last, some } from 'lodash';
 import React, { useMemo } from 'react';
+import { isEmpty, last } from 'lodash';
 import {
   AGGREGATIONS,
   BREAKDOWNS,
@@ -24,17 +24,16 @@ import { IVisualizationContainerProps } from '../../../../../common/types/explor
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
-import { getPropName, hexToRgb } from '../../../event_analytics/utils/utils';
+import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
+import { transformPreprocessedDataToTraces, preprocessJsonData } from '../shared/common';
 
 export const Bar = ({ visualizations, layout, config }: any) => {
   const {
     data: {
-      defaultAxes,
-      indexFields,
-      query,
       rawVizData: {
         data: queriedVizData,
+        jsonData,
         metadata: { fields },
       },
       userConfigs: {
@@ -51,7 +50,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         } = {},
         layoutConfig = {},
         availabilityConfig = {},
-      },
+      } = {},
     },
     vis: {
       type,
@@ -85,7 +84,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
   const barWidth = 1 - (chartStyles.barWidth || barwidth);
   const groupWidth = 1 - (chartStyles.groupWidth || groupwidth);
-  const showLegend = !(legend.showLegend && legend.showLegend !== showlegend);
+  const showLegend = legend.showLegend ?? showlegend;
   const legendPosition = legend.position || legendposition;
   const labelSize = chartStyles.labelSize || DEFAULT_BAR_CHART_STYLES.LabelSize;
   const legendSize = legend.legendSize;
@@ -93,128 +92,104 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     (colorTheme.length > 0 &&
       colorTheme.find((colorSelected) => colorSelected.name.label === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
-
-  let bars;
-
-  /**
-   * determine x axis
-   */
-  const xaxes = useMemo(() => {
-    // breakdown selections
-    if (breakdowns.length > 0) {
-      return [
-        ...dimensions.filter(
-          (dimension) => !some(breakdowns, (breakdown) => breakdown.label === dimension.label)
-        ),
-      ];
-    }
-
-    // span selection
-    const timestampField = find(fields, (field) => field.type === 'timestamp');
-    if (span && span.time_field && timestampField) {
-      return [timestampField, ...dimensions];
-    }
-
-    return [...dimensions];
-  }, [dimensions, breakdowns]);
-
-  /**
-   * determine y axis
-   */
-  const yaxes = useMemo(() => {
-    return Array.isArray(series) ? [...series] : [];
-  }, [series]);
-
-  /**
-   * prepare data for visualization, map x-xais to y-xais
-   */
-  const chartAxis = useMemo(() => {
-    return yaxes.length > 0 && Array.isArray(queriedVizData[getPropName(yaxes[0])])
-      ? queriedVizData[getPropName(yaxes[0])].map((_, idx) => {
-          // let combineXaxis = '';
-          const xaxisName = xaxes.map((xaxis) => {
-            return queriedVizData[xaxis.name] && queriedVizData[xaxis.name][idx]
-              ? queriedVizData[xaxis.name][idx]
-              : '';
-          });
-          return xaxisName.join(', ');
-        })
-      : [];
-  }, [queriedVizData, xaxes, yaxes]);
-
-  bars = yaxes?.map((yMetric, idx) => {
-    const selectedColor = getSelectedColorTheme(getPropName(yMetric), idx);
-    const fillColor = hexToRgb(selectedColor, fillOpacity);
-    return {
-      y: isVertical ? queriedVizData[getPropName(yMetric)] : chartAxis,
-      x: isVertical ? chartAxis : queriedVizData[getPropName(yMetric)],
-      type: type,
-      marker: {
-        color: fillColor,
-        line: {
-          color: selectedColor,
-          width: lineWidth,
-        },
-      },
-      name: getPropName(yMetric),
-      orientation: barOrientation,
-      hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
-    };
-  });
-
-  if (
-    isEmpty(queriedVizData) ||
-    !Array.isArray(dimensions) ||
-    !Array.isArray(series) ||
-    (breakdowns && !Array.isArray(breakdowns)) ||
-    yaxes.length === 0
-  )
-    return <EmptyPlaceholder icon={icontype} />;
-
   // If chart has length of result buckets < 16
   // then use the LONG_CHART_COLOR for all the bars in the chart
   const plotlyColorway =
     queriedVizData[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
 
-  const mergedLayout = {
-    colorway: plotlyColorway,
-    ...layout,
-    ...(layoutConfig.layout && layoutConfig.layout),
-    title: panelOptions.title || layoutConfig.layout?.title || '',
-    barmode: chartStyles.mode || visualizations.vis.mode,
-    xaxis: {
-      ...(isVertical && { tickangle: tickAngle }),
-      automargin: true,
-      tickfont: {
-        ...(labelSize && {
-          size: labelSize,
-        }),
-      },
-    },
-    yaxis: {
-      ...(!isVertical && { tickangle: tickAngle }),
-      automargin: true,
-      tickfont: {
-        ...(labelSize && {
-          size: labelSize,
-        }),
-      },
-    },
-    bargap: groupWidth,
-    bargroupgap: barWidth,
-    legend: {
-      ...layout.legend,
-      orientation: legendPosition,
-      ...(legendSize && {
-        font: {
-          size: legendSize,
+  if (
+    isEmpty(queriedVizData) ||
+    !Array.isArray(dimensions) ||
+    !Array.isArray(series) ||
+    (breakdowns && !Array.isArray(breakdowns))
+  )
+    return <EmptyPlaceholder icon={icontype} />;
+
+  const addStylesToTraces = (traces, traceStyles) => {
+    const { barOrientation, fillOpacity, tooltipMode, tooltipText, lineWidth } = traceStyles;
+    return traces.map((trace, idx: number) => {
+      const selectedColor = getSelectedColorTheme(trace.aggName, idx);
+      return {
+        ...trace,
+        type,
+        orientation: barOrientation,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
+        ...{
+          marker: {
+            color: hexToRgb(selectedColor, fillOpacity),
+            line: {
+              color: selectedColor,
+              width: lineWidth,
+            },
+          },
         },
-      }),
-    },
-    showlegend: showLegend,
-    hovermode: 'closest',
-    margin: PLOT_MARGIN,
+      };
+    });
   };
+
+  let bars = useMemo(() => {
+    const visConfig = {
+      dimensions,
+      series,
+      breakdowns,
+      span,
+      isVertical,
+    };
+    const traceStyles = {
+      barOrientation,
+      fillOpacity,
+      tooltipMode,
+      tooltipText,
+      lineWidth,
+    };
+
+    return addStylesToTraces(
+      transformPreprocessedDataToTraces(preprocessJsonData(jsonData, visConfig), visConfig),
+      { ...traceStyles }
+    );
+  }, [chartStyles, jsonData, dimensions, series, breakdowns, span, tooltipOptions]);
+
+  const mergedLayout = useMemo(() => {
+    return {
+      colorway: plotlyColorway,
+      ...layout,
+      title: panelOptions.title || layoutConfig.layout?.title || '',
+      barmode: chartStyles.mode || visualizations.vis.mode,
+      xaxis: {
+        ...(isVertical && { tickangle: tickAngle }),
+        automargin: true,
+        tickfont: {
+          ...(labelSize && {
+            size: labelSize,
+          }),
+        },
+      },
+      yaxis: {
+        ...(!isVertical && { tickangle: tickAngle }),
+        automargin: true,
+        tickfont: {
+          ...(labelSize && {
+            size: labelSize,
+          }),
+        },
+      },
+      bargap: groupWidth,
+      bargroupgap: barWidth,
+      legend: {
+        ...layout.legend,
+        orientation: legendPosition,
+        ...(legendSize && {
+          font: {
+            size: legendSize,
+          },
+        }),
+      },
+      showlegend,
+      hovermode: 'closest',
+      margin: PLOT_MARGIN,
+    };
+  }, [visualizations, layout, panelOptions, showLegend, chartStyles]);
+
   if (availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
@@ -223,7 +198,6 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       text: [],
     };
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
-
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
       return list.map((thr: ThresholdUnitType) => {
         thresholdTraces.x.push(
