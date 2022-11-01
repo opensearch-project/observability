@@ -3,70 +3,85 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createSlice } from '@reduxjs/toolkit';
-import { forEach } from 'lodash';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  SELECTED_METRICS,
-  RECENTLY_CREATED_METRICS,
-  AVAILABLE_METRICS,
+  PPL_PROMETHEUS_CATALOG_REQUEST,
   REDUX_SLICE_METRICS,
 } from '../../../../../common/constants/metrics';
-
-const METRIC_NAMES_PPL = 'source = prometheus.information_schema.tables';
-import { metricNamesTablePPL } from './mockMetrics';
-
-const initialMetrics = {
-  [SELECTED_METRICS]: [],
-  [RECENTLY_CREATED_METRICS]: [],
-  [AVAILABLE_METRICS]: metricNamesTablePPL.datarows,
-};
+import { pplServiceRequestor, getVisualizations } from '../../helpers/utils';
+import PPLService from '../../../../services/requests/ppl';
 
 const initialState = {
-  metrics: { ...initialMetrics },
+  pplService: PPLService,
+  metrics: [],
+  selected: [],
+};
+
+export const loadMetrics = createAsyncThunk('metrics/loadData', async (services: any) => {
+  const { http, pplService } = services;
+  const customData = await fetchCustomMetrics(http);
+  const remoteData = await fetchRemoteMetrics(pplService);
+
+  return Promise.all([customData, ...remoteData]).then((datasets) => datasets.flat());
+});
+
+const fetchCustomMetrics = async (http: any) => {
+  const dataSet = await getVisualizations(http);
+
+  const normalizedData = dataSet.visualizations.map((obj: any) => ({
+    id: obj.id,
+    name: obj.name,
+    catalog: 'CUSTOM_METRICS',
+    type: obj.type,
+  }));
+  return normalizedData;
+};
+
+const fetchRemoteMetrics = async (pplService: any) => {
+  const dataSet = [];
+  const catalogs = await pplServiceRequestor(pplService, PPL_PROMETHEUS_CATALOG_REQUEST);
+  for (const catalog of catalogs.jsonData) {
+    const catalogData = await pplServiceRequestor(
+      pplService,
+      `source = ${catalog.CATALOG_NAME}.information_schema.tables`
+    );
+    const normalizedData = catalogData.jsonData.map((obj: any) => ({
+      id: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
+      name: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
+      catalog: `${catalog.CATALOG_NAME}`,
+      type: obj.TABLE_TYPE,
+    }));
+    dataSet.push(normalizedData);
+  }
+  return dataSet;
 };
 
 export const metricSlice = createSlice({
   name: REDUX_SLICE_METRICS,
   initialState,
   reducers: {
-    init: (state) => {
-      state.metrics = {
-        ...initialMetrics,
-      };
+    selectMetric: (state, { payload }) => {
+      state.selected.push(payload.id);
     },
-    updateMetrics: (state, { payload }) => {
-      state.metrics = {
-        ...state.metrics,
-        ...payload.data,
-      };
-      console.log('updated metrics');
-      console.log(state);
-    },
-    reset: (state) => {
-      state.metrics = {
-        ...initialMetrics,
-      };
-    },
-    remove: (state) => {
-      delete state.metrics;
-    },
-    sortMetrics: (state, { payload }) => {
-      forEach(payload.data, (toSort: string) => {
-        state.metrics[toSort].sort((prev: any, cur: any) => cur[2].localeCompare(prev[2]));
-      });
-    },
-    fetchMetrics: (state, { payload }) => {
-      state = {
-        ...state,
-        ...payload.data,
-      };
+    deSelectMetric: (state, { payload }) => {
+      state.selected = state.selected.filter((id) => id !== payload.id);
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(loadMetrics.fulfilled, (state, { payload }) => {
+      state.metrics = payload;
+    });
+  },
 });
 
-export const { init, reset, remove, updateMetrics, sortMetrics } = metricSlice.actions;
+export const { deSelectMetric, selectMetric } = metricSlice.actions;
 
-export const selectMetrics = (state) => state.metrics;
+export const metricsStateSelector = (state) => state.metrics;
+
+export const availableMetricsSelector = (state) =>
+  state.metrics.metrics.filter((metric) => !state.metrics.selected.includes(metric.id));
+
+export const selectedMetricsSelector = (state) =>
+  state.metrics.metrics.filter((metric) => state.metrics.selected.includes(metric.id));
 
 export default metricSlice.reducer;

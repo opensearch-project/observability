@@ -60,6 +60,24 @@ export const App = ({
           <>
             <Switch>
               <Route
+                path="/metrics"
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    { text: 'Metrics', href: '#/metrics/' },
+                  ]);
+                  return (
+                    <MetricsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      renderProps={props}
+                      pplService={pplService}
+                    />
+                  );
+                }}
+              />
+              <Route
                 path={'/application_analytics'}
                 render={(props) => {
                   return (
