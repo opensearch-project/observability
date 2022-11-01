@@ -63,6 +63,7 @@ import {
   PPL_PATTERNS_REGEX,
   SELECTED_PATTERN,
   VIZ_CONTAIN_XY_AXIS,
+  FINAL_QUERY,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -425,9 +426,11 @@ export const Explorer = ({
         getEvents(undefined, getErrorHandler('Error fetching events'));
       }
       getCountVisualizations(minInterval);
-
-      const patternErrorHandler = getErrorHandler('Error fetching patterns');
-      getPatterns(patternErrorHandler);
+      // to fetch patterns data on current query
+      if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
+        const patternErrorHandler = getErrorHandler('Error fetching patterns');
+        getPatterns(patternErrorHandler);
+      }
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -609,8 +612,23 @@ export const Explorer = ({
     );
   };
 
-  const handleTimeRangePickerRefresh = (availability?: boolean) => {
+  const handleTimeRangePickerRefresh = async (availability?: boolean) => {
     handleQuerySearch(availability);
+    if (query.finalQuery.match(PPL_PATTERNS_REGEX)) {
+      let currQuery = queryRef.current![RAW_QUERY] as string;
+      const currPattern = queryRef.current![SELECTED_PATTERN] as string;
+      // Remove existing pattern selection if it exists
+      if (currQuery.match(PPL_PATTERNS_REGEX)) {
+        currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
+      }
+      const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern}`;
+      await setTempQuery(patternSelectQuery);
+      await updateQueryInStore(patternSelectQuery);
+      // Passing in empty string will remove pattern query
+      const patternErrorHandler = getErrorHandler('Error fetching patterns');
+      getPatterns(patternErrorHandler);
+      
+    }
   };
 
   /**
