@@ -64,6 +64,7 @@ import {
   SELECTED_PATTERN,
   VIZ_CONTAIN_XY_AXIS,
   FINAL_QUERY,
+  PATTERNS_REGEX,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -616,7 +617,7 @@ export const Explorer = ({
     handleQuerySearch(availability);
     if (query.finalQuery.match(PPL_PATTERNS_REGEX)) {
       let currQuery = queryRef.current![RAW_QUERY] as string;
-      const currPattern = queryRef.current![SELECTED_PATTERN] as string;
+      const currPattern = currQuery.match(PATTERNS_REGEX)!.groups!.pattern;
       // Remove existing pattern selection if it exists
       if (currQuery.match(PPL_PATTERNS_REGEX)) {
         currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
@@ -627,7 +628,6 @@ export const Explorer = ({
       // Passing in empty string will remove pattern query
       const patternErrorHandler = getErrorHandler('Error fetching patterns');
       getPatterns(patternErrorHandler);
-      
     }
   };
 
