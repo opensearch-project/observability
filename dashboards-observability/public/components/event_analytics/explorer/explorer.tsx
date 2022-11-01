@@ -177,6 +177,9 @@ export const Explorer = ({
     false
   );
   const [spanValue, setSpanValue] = useState(false);
+  const [subType, setSubType] = useState('visualization');
+  const [metricMeasure, setMetricMeasure] = useState('');
+  const [metricLabel, setMetricLabel] = useState([]);
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -1239,6 +1242,9 @@ export const Explorer = ({
               ? JSON.stringify(userVizConfigs[curVisId])
               : JSON.stringify({}),
             description: vizDescription,
+            subType: subType,
+            unitsOfMeasure: metricMeasure,
+            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             setToast(
@@ -1273,6 +1279,9 @@ export const Explorer = ({
               ? JSON.stringify(userVizConfigs[curVisId])
               : JSON.stringify({}),
             description: vizDescription,
+            subType: subType,
+            unitsOfMeasure: metricMeasure,
+            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             batch(() => {
@@ -1474,6 +1483,9 @@ export const Explorer = ({
           searchError={explorerVisualizations}
           curVisId={curVisId}
           spanValue={spanValue}
+          setSubType={setSubType}
+          setMetricMeasure={setMetricMeasure}
+          setMetricLabel={setMetricLabel}
         />
         <EuiTabbedContent
           className="mainContentTabs"

@@ -85,6 +85,9 @@ export const Search = (props: any) => {
     searchError = null,
     curVisId,
     spanValue,
+    setSubType,
+    setMetricMeasure,
+    setMetricLabel,
   } = props;
   
   const appLogEvents = tabId.match(APP_ANALYTICS_TAB_ID_REGEX);
@@ -216,9 +219,13 @@ export const Search = (props: any) => {
                   showOptionList={
                     showSavePanelOptionsList &&
                     searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
+                    
                   }
                   curVisId={curVisId}
                   spanValue={spanValue}
+                  setSubType={setSubType}
+                  setMetricMeasure={setMetricMeasure}
+                  setMetricLabel={setMetricLabel}
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
