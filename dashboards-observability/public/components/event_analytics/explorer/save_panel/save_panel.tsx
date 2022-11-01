@@ -165,11 +165,11 @@ export const SavePanel = ({
                   data-test-subj="eventExplorer__metricMeasureSaveComboBox"
                 />
               </EuiFormRow>
-              <EuiSpacer size="s" />
+              {/* <EuiSpacer size="s" />
               <EuiTitle size="xxs">
                 <h3>{'Labels'}</h3>
-              </EuiTitle>
-              <EuiFormRow>
+              </EuiTitle> */}
+              {/* <EuiFormRow>
                 <EuiComboBox
                   placeholder="Select labels"
                   onChange={onLabelChange}
@@ -182,7 +182,7 @@ export const SavePanel = ({
                   isClearable={true}
                   data-test-subj="eventExplorer__metricLabelSaveComboBox"
                 />
-              </EuiFormRow>
+              </EuiFormRow> */}
             </>
           )}
         </>

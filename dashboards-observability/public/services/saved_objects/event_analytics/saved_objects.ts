@@ -79,7 +79,6 @@ export default class SavedObjects {
         },
         name: name || '',
         description: description || '',
-        subType,
       },
     };
 
@@ -95,14 +94,18 @@ export default class SavedObjects {
       objRequest.object.user_configs = userConfigs;
     }
 
+    if (!isEmpty(subType)) {
+      objRequest.object.sub_type = subType;
+    }
+
     if (!isEmpty(unitsOfMeasure)) {
-      objRequest.object.unit_of_measure = unitsOfMeasure;
+      objRequest.object.units_of_measure = unitsOfMeasure;
     }
 
     if (!isEmpty(selectedLabels)) {
       objRequest.object.selected_labels = selectedLabels;
     }
-    
+
     return objRequest;
   }
 

@@ -1115,7 +1115,7 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            selectedLabels: metricLabel
+            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             setToast(
@@ -1155,7 +1155,7 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            selectedLabels: metricLabel
+            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             batch(() => {
