@@ -426,11 +426,8 @@ export const Explorer = ({
       }
       getCountVisualizations(minInterval);
 
-      // to fetch patterns data on current query
-      // if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
-        const patternErrorHandler = getErrorHandler('Error fetching patterns');
-        getPatterns(patternErrorHandler);
-      // }
+      const patternErrorHandler = getErrorHandler('Error fetching patterns');
+      getPatterns(patternErrorHandler);
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
