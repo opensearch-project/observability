@@ -5,12 +5,13 @@
 
 import './workspace_panel.scss';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import { EuiPanel, EuiSwitch } from '@elastic/eui';
 import { Visualization } from '../../../../visualizations/visualization';
 import { DataTable } from '../../../../visualizations/charts/data_table/data_table';
 import { uiSettingsService } from '../../../../../../common/utils';
+import { TabContext } from '../../../hooks';
 
 interface IWorkSpacePanel {
   curVisId: string;
@@ -20,6 +21,7 @@ interface IWorkSpacePanel {
 
 export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
   const [isTableViewOn, setIsTableViewOn] = useState(false);
+  const { explorerVisualizations } = useContext<any>(TabContext);
   const VisualizationPanel = useMemo(() => {
     return (
       <Visualization visualizations={visualizations} data-test-subj="workspace__visualizations" />
@@ -33,7 +35,9 @@ export function WorkspacePanel({ visualizations }: IWorkSpacePanel) {
           className="ws__visCanvasControl--switch"
           label="Table view"
           type="button"
-          disabled={isEmpty(visualizations?.data?.rawVizData)}
+          disabled={
+            isEmpty(visualizations?.data?.rawVizData) || explorerVisualizations.status !== 200
+          }
           checked={isTableViewOn}
           onChange={() => {
             setIsTableViewOn((staleState) => !staleState);

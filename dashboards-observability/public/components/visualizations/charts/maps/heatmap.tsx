@@ -48,8 +48,6 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
-
   const xaxisField = dimensions[0];
   const yaxisField = dimensions[1];
   const zMetrics = series[0];
@@ -62,7 +60,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(queriedVizData[yaxisField.label]) ||
     isEmpty(queriedVizData[getPropName(zMetrics)]) ||
     dimensions.length > 2 ||
-    series.length > 1
+    series.length > 1 ||
+    queriedVizData[Object.keys(queriedVizData)[0]].length === 0
   )
     return <EmptyPlaceholder icon={icontype} />;
 

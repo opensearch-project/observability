@@ -66,7 +66,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     xaxes = dimensions;
   }
 
-  if (isEmpty(xaxes) || isEmpty(series)) {
+  if (
+    isEmpty(xaxes) ||
+    isEmpty(series) ||
+    queriedVizData[Object.keys(queriedVizData)[0]].length === 0
+  ) {
     return <EmptyPlaceholder icon={icontype} />;
   }
 
