@@ -73,7 +73,6 @@ export const SavePanel = ({
 
   const onToggleChange = (e: { target: { checked: React.SetStateAction<boolean> } }) => {
     setChecked(e.target.checked);
-    // console.log("e.target.checked: ",e.target.checked);
     if (e.target.checked) {
       setSubType("metric")
     } else {
@@ -83,8 +82,6 @@ export const SavePanel = ({
 
   const onMeasureChange = (selectedMeasures: React.SetStateAction<never[]>) => {
     setMeasure(selectedMeasures);
-    // const obj = JSON.parse(selectedMeasures);
-    // console.log("selectedMeasures in options: ", selectedMeasures[0].label);
     setMetricMeasure(selectedMeasures[0].label);
   };
 
