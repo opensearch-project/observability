@@ -12,10 +12,8 @@ import org.junit.jupiter.api.assertThrows
 import org.opensearch.commons.utils.recreateObject
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
-// import org.opensearch.commons.utils.logger
 
 internal class SavedVisualizationTests {
-    // private val log by logger(SavedVisualizationTests::class.java)
     private val sampleSavedVisualization = SavedVisualization(
         "test-saved-visualization",
         "test description",
@@ -50,8 +48,6 @@ internal class SavedVisualizationTests {
     fun `SavedVisualization serialize and deserialize using json object should be equal`() {
         val jsonString = getJsonString(sampleSavedVisualization)
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
-        // log.info("sampleSavedVisualization: $sampleSavedVisualization")
-        // println("recreatedObject: $recreatedObject")
         assertEquals(sampleSavedVisualization, recreatedObject)
     }
 
