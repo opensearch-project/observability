@@ -13,12 +13,14 @@ import {
   INDEX,
   SELECTED_TIMESTAMP,
   APP_ANALYTICS_TAB_ID_REGEX,
+  SELECTED_PATTERN,
 } from '../../../../../common/constants/explorer';
 
 const initialQueryState = {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
+  [SELECTED_PATTERN]: '',
   [SELECTED_TIMESTAMP]: '',
   [SELECTED_DATE_RANGE]: ['now-15m', 'now'],
 };
@@ -27,6 +29,7 @@ const appBaseQueryState = {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
+  [SELECTED_PATTERN]: '',
   [SELECTED_TIMESTAMP]: '',
   [SELECTED_DATE_RANGE]: ['now-24h', 'now'],
 };
