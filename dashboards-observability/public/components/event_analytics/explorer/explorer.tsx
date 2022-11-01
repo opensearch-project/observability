@@ -65,6 +65,7 @@ import {
   VIZ_CONTAIN_XY_AXIS,
   FINAL_QUERY,
   PATTERNS_REGEX,
+  PATTERNS_EXTRACTOR_REGEX,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -615,12 +616,12 @@ export const Explorer = ({
 
   const handleTimeRangePickerRefresh = async (availability?: boolean) => {
     handleQuerySearch(availability);
-    if (query.finalQuery.match(PPL_PATTERNS_REGEX)) {
-      let currQuery = queryRef.current![RAW_QUERY] as string;
-      const currPattern = currQuery.match(PATTERNS_REGEX)!.groups!.pattern;
+    if (availability !== true && query.rawQuery.match(PATTERNS_REGEX)) {
+      let currQuery = query.rawQuery;
+      const currPattern = currQuery.match(PATTERNS_EXTRACTOR_REGEX)!.groups!.pattern;
       // Remove existing pattern selection if it exists
-      if (currQuery.match(PPL_PATTERNS_REGEX)) {
-        currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
+      if (currQuery.match(PATTERNS_REGEX)) {
+        currQuery = currQuery.replace(PATTERNS_REGEX, '');
       }
       const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern}`;
       await setTempQuery(patternSelectQuery);
