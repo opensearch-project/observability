@@ -4,7 +4,10 @@
  */
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { REDUX_SLICE_METRICS } from '../../../../../common/constants/metrics';
+import {
+  PPL_PROMETHEUS_CATALOG_REQUEST,
+  REDUX_SLICE_METRICS,
+} from '../../../../../common/constants/metrics';
 import { pplServiceRequestor, getVisualizations } from '../../helpers/utils';
 import PPLService from '../../../../services/requests/ppl';
 
@@ -36,10 +39,7 @@ const fetchCustomMetrics = async (http: any) => {
 
 const fetchRemoteMetrics = async (pplService: any) => {
   const dataSet = [];
-  const catalogs = await pplServiceRequestor(
-    pplService,
-    'show catalogs | where CONNECTOR_TYPE="PROMETHEUS" | fields CATALOG_NAME'
-  );
+  const catalogs = await pplServiceRequestor(pplService, PPL_PROMETHEUS_CATALOG_REQUEST);
   for (const catalog of catalogs.jsonData) {
     const catalogData = await pplServiceRequestor(
       pplService,
