@@ -150,14 +150,14 @@ export const Explorer = ({
   const [liveTailTabId, setLiveTailTabId] = useState(TAB_EVENT_ID);
   const [liveTailName, setLiveTailName] = useState('Live');
   const [liveHits, setLiveHits] = useState(0);
-  const [browserTabFocus, setBrowserTabFocus] = useState('');
+  const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
     false
   );
   const [spanValue, setSpanValue] = useState(false);
-  const [subType, setSubType] = useState('');
+  const [subType, setSubType] = useState('visualization');
   const [metricMeasure, setMetricMeasure] = useState('');
   const [metricLabel, setMetricLabel] = useState([]);
   const queryRef = useRef();
@@ -1097,9 +1097,6 @@ export const Explorer = ({
       const vizDescription = userVizConfigs[curVisId]?.dataConfig?.panelOptions?.description || '';
       const isTabMatchingSavedType = isEqual(currQuery![SAVED_OBJECT_TYPE], SAVED_VISUALIZATION);
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
-        console.log("subType viz: ", subType);
-        console.log("metricMeasure viz: ", metricMeasure);
-        console.log("metricLabel viz: ", metricLabel);
         savingVisRes = await savedObjects
           .updateSavedVisualizationById({
             query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
@@ -1115,7 +1112,7 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            selectedLabels: metricLabel
+            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             setToast(
@@ -1137,9 +1134,6 @@ export const Explorer = ({
           });
       } else {
         // create new saved visualization
-        console.log("subType viz: ", subType);
-        console.log("metricMeasure viz: ", metricMeasure);
-        console.log("metricLabel viz: ", metricLabel);
         savingVisRes = await savedObjects
           .createSavedVisualization({
             query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
@@ -1155,7 +1149,7 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            selectedLabels: metricLabel
+            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             batch(() => {
@@ -1299,7 +1293,6 @@ export const Explorer = ({
     const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
     const updatedDataConfig = getUpdatedDataConfig(statsTokens);
     setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
-    // console.log("span value: ", (!isEqual(typeof updatedDataConfig.span, 'undefined')));
   }, [tempQuery, query, selectedContentTabId]);
   
   return (

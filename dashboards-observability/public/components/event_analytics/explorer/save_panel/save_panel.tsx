@@ -73,7 +73,6 @@ export const SavePanel = ({
 
   const onToggleChange = (e: { target: { checked: React.SetStateAction<boolean> } }) => {
     setChecked(e.target.checked);
-    // console.log("e.target.checked: ",e.target.checked);
     if (e.target.checked) {
       setSubType("metric")
     } else {
@@ -83,8 +82,6 @@ export const SavePanel = ({
 
   const onMeasureChange = (selectedMeasures: React.SetStateAction<never[]>) => {
     setMeasure(selectedMeasures);
-    // const obj = JSON.parse(selectedMeasures);
-    // console.log("selectedMeasures in options: ", selectedMeasures[0].label);
     setMetricMeasure(selectedMeasures[0].label);
   };
 
@@ -165,11 +162,11 @@ export const SavePanel = ({
                   data-test-subj="eventExplorer__metricMeasureSaveComboBox"
                 />
               </EuiFormRow>
-              <EuiSpacer size="s" />
+              {/* <EuiSpacer size="s" />
               <EuiTitle size="xxs">
                 <h3>{'Labels'}</h3>
-              </EuiTitle>
-              <EuiFormRow>
+              </EuiTitle> */}
+              {/* <EuiFormRow>
                 <EuiComboBox
                   placeholder="Select labels"
                   onChange={onLabelChange}
@@ -182,7 +179,7 @@ export const SavePanel = ({
                   isClearable={true}
                   data-test-subj="eventExplorer__metricLabelSaveComboBox"
                 />
-              </EuiFormRow>
+              </EuiFormRow> */}
             </>
           )}
         </>
