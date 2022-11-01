@@ -25,10 +25,14 @@ import { IField } from '../../../../../common/types/explorer';
 import { FieldInsights } from './field_insights';
 
 interface IFieldProps {
+  query: string;
   field: IField;
+  selectedPattern: string;
+  isOverridingPattern: boolean;
+  handleOverridePattern: (pattern: IField) => void;
   selectedTimestamp: string;
   isOverridingTimestamp: boolean;
-  handleOverrideTimestamp: (timestamp: { name: string; type: string }) => void;
+  handleOverrideTimestamp: (timestamp: IField) => void;
   selected: boolean;
   showToggleButton: boolean;
   showTimestampOverrideButton: boolean;
@@ -40,6 +44,9 @@ export const Field = (props: IFieldProps) => {
   const {
     query,
     field,
+    selectedPattern,
+    isOverridingPattern,
+    handleOverridePattern,
     selectedTimestamp,
     isOverridingTimestamp,
     handleOverrideTimestamp,
@@ -71,6 +78,31 @@ export const Field = (props: IFieldProps) => {
   const getFieldActionDOM = () => {
     return (
       <>
+        <EuiToolTip id="override-pattern" delay="long" content="Override default pattern">
+          <>
+            {isEqual(field.type, 'string') ? (
+              isEqual(selectedPattern, field.name) ? (
+                <EuiMark data-test-subj="eventFields__default-pattern-mark">
+                  Default Pattern
+                </EuiMark>
+              ) : isOverridingPattern ? (
+                <EuiLoadingSpinner className="override_pattern_loading" size="m" />
+              ) : (
+                <EuiButtonIcon
+                  aria-labelledby="override_pattern"
+                  className="dscSidebarItem__action"
+                  size="s"
+                  color="text"
+                  iconType="inputOutput"
+                  onClick={() => handleOverridePattern(field)}
+                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                >
+                  Override
+                </EuiButtonIcon>
+              )
+            ) : null}
+          </>
+        </EuiToolTip>
         <EuiToolTip id="override-timestamp" delay="long" content="Override default timestamp">
           <>
             {showTimestampOverrideButton && isEqual(field.type, 'timestamp') ? (
