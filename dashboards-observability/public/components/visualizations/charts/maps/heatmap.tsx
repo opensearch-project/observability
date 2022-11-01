@@ -41,10 +41,10 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
           panelOptions = {},
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
-        },
+        } = {},
         layoutConfig = {},
-      },
-    },
+      } = {},
+    } = {},
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 

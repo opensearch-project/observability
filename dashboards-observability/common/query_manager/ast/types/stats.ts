@@ -64,6 +64,7 @@ export interface AggregationConfigurations {
   series: DataConfigSeries[];
   dimensions: GroupField[];
   span: SpanChunk;
+  breakdowns: GroupField[];
 }
 
 export interface PreviouslyParsedStaleStats {

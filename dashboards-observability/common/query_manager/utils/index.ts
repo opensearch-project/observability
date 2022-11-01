@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 import { AggregationConfigurations, PreviouslyParsedStaleStats } from '../ast/types';
 
@@ -19,7 +20,10 @@ export const composeAggregations = (
       },
     })),
     groupby: {
-      group_fields: aggConfig?.dimensions.map((dimension) => ({ name: dimension.name })),
+      group_fields: [
+        ...(aggConfig.dimensions || []),
+        ...(aggConfig.breakdowns || []),
+      ].map((dimension) => ({ name: dimension.name })),
       ...(aggConfig.span &&
         JSON.stringify(aggConfig?.span) !== '{}' && { span: composeSpan(aggConfig.span) }),
     },
