@@ -33,6 +33,7 @@ describe('Search bar', () => {
     const popoverItems = jest.fn();
     const isLiveTailOn = jest.fn();
     const countDistribution = jest.fn();
+    const setMetricLabel = jest.fn();
     const utils = render(
       <Search
         key="search-component"
@@ -61,6 +62,11 @@ describe('Search bar', () => {
         popoverItems={popoverItems}
         isLiveTailOn={isLiveTailOn}
         countDistribution={countDistribution}
+        curVisId={'line'} 
+        spanValue={false}
+        setSubType={'metric'}
+        setMetricMeasure={'hours (h)'}
+        setMetricLabel={setMetricLabel}
       />
     );
 

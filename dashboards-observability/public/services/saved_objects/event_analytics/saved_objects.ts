@@ -57,6 +57,9 @@ export default class SavedObjects {
     description = '',
     applicationId = '',
     userConfigs = '',
+    subType = '',
+    unitsOfMeasure = '',
+    selectedLabels,
   }: any) {
     const objRequest: any = {
       object: {
@@ -89,6 +92,18 @@ export default class SavedObjects {
 
     if (!isEmpty(userConfigs)) {
       objRequest.object.user_configs = userConfigs;
+    }
+
+    if (!isEmpty(subType)) {
+      objRequest.object.sub_type = subType;
+    }
+
+    if (!isEmpty(unitsOfMeasure)) {
+      objRequest.object.units_of_measure = unitsOfMeasure;
+    }
+
+    if (!isEmpty(selectedLabels)) {
+      objRequest.object.selected_labels = selectedLabels;
     }
 
     return objRequest;
@@ -167,6 +182,9 @@ export default class SavedObjects {
       timestamp: params.timestamp,
       userConfigs: params.userConfigs,
       description: params.description,
+      subType: params.subType,
+      unitsOfMeasure: params.unitsOfMeasure,
+      selectedLabels: params.selectedLabels
     });
 
     finalParams.object_id = params.objectId;
@@ -227,6 +245,9 @@ export default class SavedObjects {
       applicationId: params.applicationId,
       userConfigs: params.userConfigs,
       description: params.description,
+      subType: params.subType,
+      unitsOfMeasure: params.unitsOfMeasure,
+      selectedLabels: params.selectedLabels
     });
 
     return await this.http.post(
