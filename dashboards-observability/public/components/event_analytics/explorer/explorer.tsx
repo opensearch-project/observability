@@ -157,7 +157,7 @@ export const Explorer = ({
     false
   );
   const [spanValue, setSpanValue] = useState(false);
-  const [subType, setSubType] = useState('');
+  const [subType, setSubType] = useState('visualization');
   const [metricMeasure, setMetricMeasure] = useState('');
   const [metricLabel, setMetricLabel] = useState([]);
   const queryRef = useRef();
