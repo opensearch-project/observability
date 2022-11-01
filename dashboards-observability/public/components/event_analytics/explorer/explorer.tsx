@@ -9,7 +9,7 @@ import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement 
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
-import { EuiLoadingSpinner, EuiSpacer } from '@elastic/eui';
+import { EuiHorizontalRule, EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
 import {
   EuiText,
   EuiButtonIcon,
@@ -51,6 +51,8 @@ import {
   TAB_CHART_ID,
   DEFAULT_AVAILABILITY_QUERY,
   DATE_PICKER_FORMAT,
+  PPL_PATTERNS_REGEX,
+  SELECTED_PATTERN,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -77,6 +79,9 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+import { PatternsTable } from './log_patterns/patterns_table';
+import { selectPatterns } from '../redux/slices/patterns_slice';
+import { useFetchPatterns } from '../hooks/use_fetch_patterns';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -116,6 +121,10 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
+  const { getPatterns, setDefaultPatternsField } = useFetchPatterns({
+    pplService,
+    requestParams,
+  });
   const appLogEvents = tabId.startsWith('application-analytics-tab');
   const query = useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
@@ -123,6 +132,7 @@ export const Explorer = ({
   const countDistribution = useSelector(selectCountDistribution)[tabId];
   const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const userVizConfigs = useSelector(selectVisualizationConfig)[tabId] || {};
+  const patternsData = useSelector(selectPatterns)[tabId];
   const [selectedContentTabId, setSelectedContentTab] = useState(TAB_EVENT_ID);
   const [selectedCustomPanelOptions, setSelectedCustomPanelOptions] = useState([]);
   const [selectedPanelName, setSelectedPanelName] = useState('');
@@ -132,6 +142,7 @@ export const Explorer = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
+  const [isOverridingPattern, setIsOverridingPattern] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
@@ -141,7 +152,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
-
+  const [viewLogPatterns, setViewLogPatterns] = useState(false);
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -195,6 +206,15 @@ export const Explorer = ({
       }
     });
   });
+
+  const getErrorHandler = (title: string) => {
+    return (error: any) => {
+      const formattedError = formatError(error.name, error.message, error.body.message);
+      notifications.toasts.addError(formattedError, {
+        title,
+      });
+    };
+  };
 
   const composeFinalQuery = (
     curQuery: any,
@@ -327,6 +347,19 @@ export const Explorer = ({
       }
     }
 
+    let curPattern: string = curQuery![SELECTED_PATTERN];
+
+    if (isEmpty(curPattern)) {
+      const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
+      await setDefaultPatternsField(curIndex, '', patternErrorHandler);
+      const newQuery = queryRef.current;
+      curPattern = newQuery![SELECTED_PATTERN];
+      if (isEmpty(curPattern)) {
+        setToast('Index does not contain a valid pattern field.', 'danger');
+        return;
+      }
+    }
+
     if (isEqual(typeof startingTime, 'undefined') && isEqual(typeof endingTime, 'undefined')) {
       startingTime = curQuery![SELECTED_DATE_RANGE][0];
       endingTime = curQuery![SELECTED_DATE_RANGE][1];
@@ -358,21 +391,17 @@ export const Explorer = ({
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
-        getLiveTail(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
+        getLiveTail(undefined, getErrorHandler('Error fetching events'));
       } else {
-        getEvents(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
+        getEvents(undefined, getErrorHandler('Error fetching events'));
       }
       getCountVisualizations(minInterval);
+
+      // to fetch patterns data on current query
+      if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
+        const patternErrorHandler = getErrorHandler('Error fetching patterns');
+        getPatterns(patternErrorHandler);
+      }
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -538,6 +567,17 @@ export const Explorer = ({
     handleQuerySearch();
   };
 
+  const handleOverridePattern = async (pattern: IField) => {
+    setIsOverridingPattern(true);
+    await setDefaultPatternsField(
+      '',
+      pattern.name,
+      getErrorHandler('Error overriding default pattern')
+    );
+    setIsOverridingPattern(false);
+    await getPatterns(getErrorHandler('Error fetching patterns'));
+  };
+
   const totalHits: number = useMemo(() => {
     if (isLiveTailOn && countDistribution?.data) {
       const hits = reduce(
@@ -552,6 +592,21 @@ export const Explorer = ({
     }
     return 0;
   }, [countDistribution?.data]);
+
+  const onPatternSelection = async (pattern: string) => {
+    let currQuery = queryRef.current![RAW_QUERY] as string;
+    const currPattern = queryRef.current![SELECTED_PATTERN] as string;
+    // Remove existing pattern selection if it exists
+    if (currQuery.match(PPL_PATTERNS_REGEX)) {
+      currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
+    }
+    const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern} | where patterns_field = '${pattern}'`;
+    // Passing in empty string will remove pattern query
+    const newQuery = pattern ? patternSelectQuery : currQuery;
+    await setTempQuery(newQuery);
+    await updateQueryInStore(newQuery);
+    await handleTimeRangePickerRefresh(true);
+  };
 
   const getMainContent = () => {
     return (
@@ -569,10 +624,13 @@ export const Explorer = ({
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
+                  selectedPattern={query[SELECTED_PATTERN]}
                   handleOverrideTimestamp={handleOverrideTimestamp}
+                  handleOverridePattern={handleOverridePattern}
                   handleAddField={(field: IField) => handleAddField(field)}
                   handleRemoveField={(field: IField) => handleRemoveField(field)}
                   isOverridingTimestamp={isOverridingTimestamp}
+                  isOverridingPattern={isOverridingPattern}
                   isFieldToggleButtonDisabled={
                     isEmpty(explorerData.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))
@@ -628,6 +686,58 @@ export const Explorer = ({
                         </EuiFlexItem>
                       </EuiFlexGroup>
                       <CountDistribution countDistribution={countDistribution} />
+                      <EuiHorizontalRule margin="xs" />
+                      <EuiFlexGroup
+                        justifyContent="spaceBetween"
+                        alignItems="center"
+                        style={{ margin: '8px' }}
+                        gutterSize="xs"
+                      >
+                        <EuiFlexItem grow={false}>
+                          {viewLogPatterns && (
+                            <EuiTitle size="s">
+                              <h3 style={{ margin: '0px' }}>
+                                Patterns
+                                <span className="pattern-header-count">
+                                  {' '}
+                                  (
+                                  {patternsData.patternTableData
+                                    ? patternsData.patternTableData.length
+                                    : 0}
+                                  )
+                                </span>
+                              </h3>
+                            </EuiTitle>
+                          )}
+                        </EuiFlexItem>
+                        <EuiFlexItem grow={false}>
+                          <EuiFlexGroup>
+                            <EuiFlexItem grow={false}>
+                              {viewLogPatterns && (
+                                <EuiLink onClick={() => onPatternSelection('')}>
+                                  Clear Selection
+                                </EuiLink>
+                              )}
+                            </EuiFlexItem>
+                            <EuiFlexItem grow={false}>
+                              <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
+                                {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
+                              </EuiLink>
+                            </EuiFlexItem>
+                          </EuiFlexGroup>
+                        </EuiFlexItem>
+                      </EuiFlexGroup>
+                      <EuiHorizontalRule margin="xs" />
+                      {viewLogPatterns && (
+                        <>
+                          <PatternsTable
+                            tableData={patternsData.patternTableData || []}
+                            onPatternSelection={onPatternSelection}
+                            tabId={tabId}
+                          />
+                          <EuiHorizontalRule margin="xs" />
+                        </>
+                      )}
                     </>
                   )}
 
@@ -662,6 +772,26 @@ export const Explorer = ({
                           <EuiSpacer size="m" />
                         </>
                       )}
+                      {countDistribution?.data && (
+                        <EuiTitle size="s">
+                          <h3 style={{ margin: '0px', textAlign: 'left', marginLeft: '10px' }}>
+                            Events
+                            <span className="event-header-count">
+                              {' '}
+                              (
+                              {reduce(
+                                countDistribution.data['count()'],
+                                (sum, n) => {
+                                  return sum + n;
+                                },
+                                0
+                              )}
+                              )
+                            </span>
+                          </h3>
+                        </EuiTitle>
+                      )}
+                      <EuiHorizontalRule margin="xs" />
                       <DataGrid
                         http={http}
                         pplService={pplService}
@@ -775,6 +905,8 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
+    patternsData,
+    viewLogPatterns,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
