@@ -412,8 +412,7 @@ export const Explorer = ({
 
       // to fetch patterns data on current query
       if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
-        const patternErrorHandler = getErrorHandler('Error fetching patterns');
-        getPatterns(patternErrorHandler);
+        getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
       }
     }
 
@@ -602,7 +601,7 @@ export const Explorer = ({
       getErrorHandler('Error overriding default pattern')
     );
     setIsOverridingPattern(false);
-    await getPatterns(getErrorHandler('Error fetching patterns'));
+    await getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
   };
 
   const totalHits: number = useMemo(() => {
@@ -627,7 +626,7 @@ export const Explorer = ({
     if (currQuery.match(PPL_PATTERNS_REGEX)) {
       currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
     }
-    const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern} | where patterns_field = '${pattern}'`;
+    const patternSelectQuery = `${currQuery.trim()} | patterns \`${currPattern}\` | where patterns_field = '${pattern}'`;
     // Passing in empty string will remove pattern query
     const newQuery = pattern ? patternSelectQuery : currQuery;
     await setTempQuery(newQuery);
@@ -707,6 +706,7 @@ export const Explorer = ({
                             options={timeIntervalOptions}
                             onChangeInterval={(intrv) => {
                               getCountVisualizations(intrv);
+                              getPatterns(intrv, getErrorHandler('Error fetching patterns'));
                             }}
                             stateInterval="auto"
                           />
@@ -741,15 +741,19 @@ export const Explorer = ({
                           <EuiFlexGroup>
                             <EuiFlexItem grow={false}>
                               {viewLogPatterns && (
-                                <EuiLink onClick={() => onPatternSelection('')}>
-                                  Clear Selection
-                                </EuiLink>
+                                <EuiText size="s">
+                                  <EuiLink onClick={() => onPatternSelection('')}>
+                                    Clear Selection
+                                  </EuiLink>
+                                </EuiText>
                               )}
                             </EuiFlexItem>
                             <EuiFlexItem grow={false}>
-                              <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
-                                {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
-                              </EuiLink>
+                              <EuiText size="s">
+                                <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
+                                  {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
+                                </EuiLink>
+                              </EuiText>
                             </EuiFlexItem>
                           </EuiFlexGroup>
                         </EuiFlexItem>

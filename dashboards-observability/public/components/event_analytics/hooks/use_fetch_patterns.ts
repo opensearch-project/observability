@@ -4,12 +4,17 @@
  */
 
 import { IField, PatternTableData } from 'common/types/explorer';
-import { isEmpty, isUndefined } from 'lodash';
+import { isUndefined } from 'lodash';
 import PPLService from 'public/services/requests/ppl';
 import { useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
-import { FINAL_QUERY, SELECTED_PATTERN } from '../../../../common/constants/explorer';
-import { setPatterns, reset as resetPatterns } from '../redux/slices/patterns_slice';
+import {
+  FINAL_QUERY,
+  SELECTED_PATTERN,
+  SELECTED_TIMESTAMP,
+} from '../../../../common/constants/explorer';
+import { IPPLEventsDataSource } from '../../../../server/common/types';
+import { reset as resetPatterns, setPatterns } from '../redux/slices/patterns_slice';
 import { changeQuery, selectQueries } from '../redux/slices/query_slice';
 import { useFetchEvents } from './use_fetch_events';
 
@@ -46,47 +51,66 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     });
   };
 
-  const buildPatternDataQuery = (query: string, field: string) => {
-    return `${query.trim()} | patterns ${field} | stats count(), take(${field}, 1) by patterns_field`;
+  const buildPatternDataQuery = (query: string, patternField: string) => {
+    return (
+      `${query.trim()} | patterns \`${patternField}\` | ` +
+      `stats count(), take(\`${patternField}\`, 1) by patterns_field`
+    );
   };
 
-  const getPatterns = (errorHandler: (error: any) => void, query?: string) => {
+  const buildPatternAnomaliesQuery = (
+    query: string,
+    patternField: string,
+    timestampField: string,
+    interval: string
+  ) => {
+    return (
+      `${query.trim()} | patterns \`${patternField}\` | ` +
+      `stats count() by span(\`${timestampField}\`, 1${interval || 'm'}) as timestamp, ` +
+      `patterns_field | ` +
+      `AD time_field='timestamp' category_field='patterns_field'`
+    );
+  };
+
+  const getPatterns = (interval: string, errorHandler: (error: any) => void, query?: string) => {
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     const searchQuery = isUndefined(query) ? rawQuery : query;
     const patternField = cur![requestParams.tabId][SELECTED_PATTERN];
+    const timestampField = cur![requestParams.tabId][SELECTED_TIMESTAMP];
     const statsQuery = buildPatternDataQuery(searchQuery, patternField);
-    // Fetch patterns data for the current query results
-    fetchEvents(
-      { query: statsQuery },
-      'jdbc',
-      (res: { datarows: any[] }) => {
-        if (!isEmpty(res.datarows)) {
-          const formatToTableData = res.datarows.map((row: any) => {
-            return {
-              count: row[0],
-              pattern: row[2],
-              sampleLog: row[1][0],
-            } as PatternTableData;
-          });
-          // Fetch total number of events to divide count by for ratio
-          fetchEvents(
-            {
-              query: `${rawQuery} | stats count()`,
-            },
-            'jdbc',
-            (countRes: any) => {
-              dispatchOnPatterns({
-                patternTableData: formatToTableData,
-                total: countRes.datarows[0],
-              });
-            },
-            errorHandler
-          );
-        }
-      },
-      errorHandler
+    const anomaliesQuery = buildPatternAnomaliesQuery(
+      searchQuery,
+      patternField,
+      timestampField,
+      interval
     );
+    // Fetch patterns data for the current query results
+    Promise.all([
+      fetchEvents({ query: statsQuery }, 'jdbc', (res) => res, errorHandler),
+      fetchEvents({ query: anomaliesQuery }, 'jdbc', (res) => res, errorHandler),
+      fetchEvents({ query: `${rawQuery} | stats count()` }, 'jdbc', (res) => res, errorHandler),
+    ]).then((res) => {
+      const [statsRes, anomaliesRes, countRes] = res as IPPLEventsDataSource[];
+      const anomaliesMap: { [x: string]: number } = {};
+      anomaliesRes.datarows.forEach((row) => {
+        const pattern = row[2];
+        const score = row[3];
+        if (score > 0) {
+          anomaliesMap[pattern] = (anomaliesMap[pattern] || 0) + 1;
+        }
+      });
+      const formatToTableData: PatternTableData[] = statsRes.datarows.map((row) => ({
+        count: row[0],
+        pattern: row[2],
+        sampleLog: row[1][0],
+        anomalyCount: anomaliesMap[row[2]] || 0,
+      }));
+      dispatchOnPatterns({
+        patternTableData: formatToTableData,
+        total: countRes.datarows[0],
+      });
+    });
   };
 
   const setDefaultPatternsField = async (
