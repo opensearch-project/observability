@@ -27,6 +27,9 @@ interface ISavedPanelProps {
   showOptionList: boolean;
   curVisId: string;
   spanValue: boolean;
+  setSubType: any;
+  setMetricMeasure: any;
+  setMetricLabel: any;
 }
 
 interface CustomPanelOptions {
@@ -45,6 +48,9 @@ export const SavePanel = ({
   showOptionList,
   curVisId,
   spanValue,
+  setSubType,
+  setMetricMeasure,
+  setMetricLabel,
 }: ISavedPanelProps) => {
   const [options, setOptions] = useState([]);
   const [checked, setChecked] = useState(false);
@@ -67,14 +73,24 @@ export const SavePanel = ({
 
   const onToggleChange = (e: { target: { checked: React.SetStateAction<boolean> } }) => {
     setChecked(e.target.checked);
+    // console.log("e.target.checked: ",e.target.checked);
+    if (e.target.checked) {
+      setSubType("metric")
+    } else {
+      setSubType("visualization")
+    }
   };
 
   const onMeasureChange = (selectedMeasures: React.SetStateAction<never[]>) => {
     setMeasure(selectedMeasures);
+    // const obj = JSON.parse(selectedMeasures);
+    // console.log("selectedMeasures in options: ", selectedMeasures[0].label);
+    setMetricMeasure(selectedMeasures[0].label);
   };
 
   const onLabelChange = (selectedLabels: React.SetStateAction<never[]>) => {
     setLabel(selectedLabels);
+    setMetricLabel(selectedLabels);
   };
 
   return (
