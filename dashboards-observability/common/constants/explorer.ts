@@ -80,6 +80,9 @@ export const PLOTLY_GAUGE_COLUMN_NUMBER = 5;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
 export const PPL_PATTERNS_REGEX = /\|\s*patterns\s+\S+\s*\|\s*where\s+patterns_field\s*\=\s*'[^a-zA-Z0-9]+'/;
+// Greedily matches the longest substring for example (patterns referer | patterns message | where ...) used to modify the query for patterns table
 export const PATTERNS_REGEX = /\|\s*patterns\s+\S+\s*\|.*\s*where\s+patterns_field\s*\=\s*'[^a-zA-Z0-9]+'/;
+// Used to extract the initial pattern applied
 export const PATTERNS_EXTRACTOR_REGEX = /patterns\s+(?<pattern>\S+)/;
+// Used to extract the pattern that is being searched for (for highlighting pattern in pattern table)
 export const SELECTED_PATTERN_REGEX = /\|\s*patterns\s+\S+\s*\|\s*where\s+patterns_field\s*\=\s*'(?<pattern>[^a-zA-Z0-9]+)'/
