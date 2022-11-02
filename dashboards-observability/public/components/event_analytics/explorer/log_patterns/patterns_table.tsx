@@ -11,7 +11,7 @@ import {
   EuiEmptyPrompt,
   EuiIcon,
 } from '@elastic/eui';
-// import { PPL_PATTERNS_REGEX, SELECTED_PATTERN_EXTRACTOR_REGEX } from 'common/constants/explorer';
+import { SELECTED_PATTERN_REGEX } from '../../../../../common/constants/explorer';
 import { PatternTableData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
 import React from 'react';
@@ -29,7 +29,7 @@ interface PatternsTableProps {
 export function PatternsTable(props: PatternsTableProps) {
   const { tableData, tabId, onPatternSelection, query } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
-  const selectedPattern = query.rawQuery.match(/\|\s*patterns\s+\S+\s*\|\s*where\s+patterns_field\s*\=\s*'(?<pattern>[^a-zA-Z0-9]+)'/)?.groups?.pattern || '';
+  const selectedPattern = query.rawQuery.match(SELECTED_PATTERN_REGEX)?.groups?.pattern || '';
   
   const tableColumns = [
     {
@@ -110,7 +110,6 @@ export function PatternsTable(props: PatternsTableProps) {
       className: 'customRowClass',
       onClick: () => {
         onPatternSelection(pattern);
-        // setSelectedPattern(pattern);
       },
       isSelected: pattern === selectedPattern,
     };
