@@ -7,7 +7,6 @@ import {
   EuiFieldText,
   EuiSelect,
   EuiSuperDatePicker,
-  htmlIdGenerator,
   ShortDate,
   OnTimeChangeProps,
   EuiButton,
@@ -22,7 +21,6 @@ import { resolutionOptions } from '../../../../common/constants/metrics';
 
 interface TopMenuProps {
   IsTopPanelDisabled: boolean;
-  setIsTopPanelDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   startTime: ShortDate;
   endTime: ShortDate;
   onDatePickerChange: (props: OnTimeChangeProps) => void;
@@ -30,7 +28,6 @@ interface TopMenuProps {
   editMode: boolean;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   setEditActionType: React.Dispatch<React.SetStateAction<string>>;
-  reloadVisualizations: () => void;
   panelVisualizations: MetricType[];
   setPanelVisualizations: React.Dispatch<React.SetStateAction<MetricType[]>>;
   resolutionValue: string;
@@ -42,15 +39,13 @@ interface TopMenuProps {
 
 export const TopMenu = ({
   IsTopPanelDisabled,
-  setIsTopPanelDisabled,
   startTime,
   endTime,
   onDatePickerChange,
   recentlyUsedRanges,
   editMode,
-  setEditMode,
   setEditActionType,
-  reloadVisualizations,
+  setEditMode,
   panelVisualizations,
   setPanelVisualizations,
   resolutionValue,
@@ -63,35 +58,12 @@ export const TopMenu = ({
 
   // toggle between panel edit mode
   const editPanel = (editType: string) => {
-    // switch(editType){
-    //   case 'edit': {
-    //     setOriginalPanelVisualizations([...panelVisualizations]);
-    //     break;
-    //   }
-    //   // case 'save': {
-    //   //   setPanelVisualizations(tempPanelVisualizations)
-    //   //   break;
-    //   // }
-    //   case 'cancel': {
-    //     setPanelVisualizations(originalPanelVisualizations);
-    //     setOriginalPanelVisualizations([]);
-    //     break;
-    //   }
-    //   default: {
-    //     break;
-    //  }
-    // }
-
     setEditMode(!editMode);
     switch (editType) {
       case 'edit': {
         setOriginalPanelVisualizations([...panelVisualizations]);
         break;
       }
-      // case 'save': {
-      //   setPanelVisualizations(tempPanelVisualizations)
-      //   break;
-      // }
       case 'cancel': {
         setPanelVisualizations(originalPanelVisualizations);
         setOriginalPanelVisualizations([]);
@@ -101,10 +73,6 @@ export const TopMenu = ({
         break;
       }
     }
-    // if (editType === 'cancel') {
-    //   // setEditMode(false);
-    //   reloadVisualizations();
-    // }
     setEditActionType(editType);
   };
 

@@ -18,19 +18,15 @@ import { Route, RouteComponentProps } from 'react-router-dom';
 import classNames from 'classnames';
 import { StaticContext } from 'react-router-dom';
 import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
-import { getMinSpanInterval, getNewVizDimensions, onTimeChange } from './helpers/utils';
+import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
 import { EmptyMetricsView } from './view/empty_view';
 import PPLService from '../../services/requests/ppl';
 import { TopMenu } from './top_menu/top_menu';
-import { MetricData, MetricType } from '../../../common/types/metrics';
+import { MetricType } from '../../../common/types/metrics';
 import { MetricsGrid } from './view/metrics_grid';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  deSelectMetric,
-  selectedMetricsSelector,
-  selectMetric,
-} from './redux/slices/metrics_slice';
+import { useSelector } from 'react-redux';
+import { metricsLayoutSelector, selectedMetricsSelector } from './redux/slices/metrics_slice';
 import { resolutionOptions } from '../../../common/constants/metrics';
 
 interface MetricsProps {
@@ -42,11 +38,14 @@ interface MetricsProps {
 }
 
 export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }: MetricsProps) => {
+  // Redux tools
+  const selectedMetrics = useSelector(selectedMetricsSelector);
+  const metricsLayout = useSelector(metricsLayoutSelector);
+
   // Date picker constants
   const [recentlyUsedRanges, setRecentlyUsedRanges] = useState<DurationRange[]>([]);
   const [startTime, setStartTime] = useState<ShortDate>('now-1d');
   const [endTime, setEndTime] = useState<ShortDate>('now');
-  const [dateDisabled, setDateDisabled] = useState(false);
 
   // Top panel
   const [IsTopPanelDisabled, setIsTopPanelDisabled] = useState(false);
@@ -62,21 +61,9 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
 
   // Metrics constants
   const [panelVisualizations, setPanelVisualizations] = useState<MetricType[]>([]);
-  const dispatch = useDispatch();
-  const selectedMetrics = useSelector(selectedMetricsSelector);
-
-  const handleAddMetric = (metric: any) => dispatch(selectMetric(metric));
-
-  const handleRemoveMetric = (metric: any) => {
-    dispatch(deSelectMetric(metric));
-  };
 
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
     console.log('spanParam', spanValue + resolutionValue);
-    // const autoResolutionValue = getMinSpanInterval(startTime, endTime);
-    // setResolutionValue(
-    //   resolutionOptions.filter((option) => option.value === autoResolutionValue)[0].value
-    // );
     setOnRefresh(!onRefresh);
   };
 
@@ -96,34 +83,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
     window.location.assign(`#/event_analytics/explorer/${savedVisualizationId}`);
   };
 
-  const updateVisualizations = (selectedMetrics: MetricData[]) => {
-    let metricVisualizations: MetricType[] = [];
-
-    selectedMetrics.map((selectedMetric: any, index: number) => {
-      const newDimensions = getNewVizDimensions(metricVisualizations);
-
-      const metricVisualization: MetricType = {
-        id: index + '',
-        savedVisualizationId: selectedMetric.id,
-        x: newDimensions.x,
-        y: newDimensions.y,
-        h: newDimensions.h,
-        w: newDimensions.w,
-        metricType:
-          selectedMetric.catalog === 'CUSTOM_METRICS' ? 'savedCustomMetric' : 'prometheusMetric',
-      };
-      metricVisualizations.push(metricVisualization);
-    });
-
-    setPanelVisualizations(metricVisualizations);
-  };
-
-  const reloadVisualizations = () => {
-    updateVisualizations(selectedMetrics);
-  };
-
   const onSideBarClick = () => {
-    console.log('side bar clicked');
     setIsSidebarClosed((staleState) => {
       return !staleState;
     });
@@ -134,10 +94,15 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
 
   useEffect(() => {
     selectedMetrics.length > 0 ? setIsTopPanelDisabled(false) : setIsTopPanelDisabled(true);
-    updateVisualizations(selectedMetrics);
-    console.log('selectedMetrics', selectedMetrics);
-    setOnRefresh(!onRefresh);
   }, [selectedMetrics]);
+
+  useEffect(() => {
+    setPanelVisualizations(metricsLayout);
+  }, [metricsLayout]);
+
+  useEffect(() => {
+    if (editMode) setIsTopPanelDisabled(true);
+  }, [editMode]);
 
   const mainSectionClassName = classNames({
     'col-md-9': !isSidebarClosed,
@@ -155,7 +120,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
               <EuiPageBody component="div">
                 <TopMenu
                   IsTopPanelDisabled={IsTopPanelDisabled}
-                  setIsTopPanelDisabled={setIsTopPanelDisabled}
                   startTime={startTime}
                   endTime={endTime}
                   onDatePickerChange={onDatePickerChange}
@@ -163,7 +127,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
                   editMode={editMode}
                   setEditMode={setEditMode}
                   setEditActionType={setEditActionType}
-                  reloadVisualizations={reloadVisualizations}
                   panelVisualizations={panelVisualizations}
                   setPanelVisualizations={setPanelVisualizations}
                   resolutionValue={resolutionValue}
@@ -200,8 +163,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
                         pplService={pplService}
                         startTime={startTime}
                         endTime={endTime}
-                        setStartTime={setStartTime}
-                        setEndTime={setEndTime}
                         moveToEvents={onEditClick}
                         onRefresh={onRefresh}
                         editActionType={editActionType}

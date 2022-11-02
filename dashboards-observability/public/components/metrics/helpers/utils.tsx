@@ -14,7 +14,9 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../src/core/public';
-import { MetricType } from '../../../../common/types/metrics';
+import { MetricData, MetricType } from '../../../../common/types/metrics';
+import { Layout } from 'react-grid-layout';
+import { VisualizationType } from '../../../../common/types/custom_panels';
 
 export const convertDateTime = (datetime: string, isStart = true, formatted = true) => {
   let returnTime: undefined | Moment;
@@ -144,4 +146,51 @@ export const getMinSpanInterval = (start: any, end: any) => {
   else if (diffSeconds <= 86400 * 366) minInterval = 'M';
 
   return minInterval;
+};
+
+// Merges new layout into visualizations
+export const mergeLayoutAndMetrics = (
+  layout: Layout[],
+  newVisualizationList: VisualizationType[]
+) => {
+  const newPanelVisualizations: VisualizationType[] = [];
+
+  for (let i = 0; i < newVisualizationList.length; i++) {
+    for (let j = 0; j < layout.length; j++) {
+      if (newVisualizationList[i].id == layout[j].i) {
+        newPanelVisualizations.push({
+          ...newVisualizationList[i],
+          x: layout[j].x,
+          y: layout[j].y,
+          w: layout[j].w,
+          h: layout[j].h,
+        });
+      }
+    }
+  }
+  return newPanelVisualizations;
+};
+
+export const updateMetricsVisualizations = (selectedMetrics: MetricData[]) => {
+  let metricVisualizations: MetricType[] = [];
+
+  selectedMetrics.map((selectedMetric: any, index: number) => {
+    const newDimensions = getNewVizDimensions(metricVisualizations);
+
+    const metricVisualization: MetricType = {
+      id: index + '',
+      savedVisualizationId: selectedMetric.id,
+      x: newDimensions.x,
+      y: newDimensions.y,
+      h: newDimensions.h,
+      w: newDimensions.w,
+      metricType:
+        selectedMetric.catalog === 'CUSTOM_METRICS' ? 'savedCustomMetric' : 'prometheusMetric',
+    };
+    metricVisualizations.push(metricVisualization);
+  });
+
+  return metricVisualizations;
+
+  // updateMetricsLayout(metricVisualizations);
 };

@@ -12,7 +12,9 @@ import { VisualizationContainer } from '../../custom_panels/panel_modules/visual
 import { MetricType } from '../../../../common/types/metrics';
 import _ from 'lodash';
 import { mergeLayoutAndVisualizations } from '../../custom_panels/helpers/utils';
-import { getVizContainerProps } from '../../visualizations/charts/helpers';
+import { useDispatch } from 'react-redux';
+import { updateMetricsLayout, deSelectMetric } from '../redux/slices/metrics_slice';
+import { mergeLayoutAndMetrics } from '../helpers/utils';
 
 import './metrics_grid.scss';
 
@@ -28,8 +30,6 @@ interface MetricsGridProps {
   pplService: PPLService;
   startTime: string;
   endTime: string;
-  setStartTime: any;
-  setEndTime: any;
   moveToEvents: (savedVisualizationId: string) => any;
   onRefresh: boolean;
   editActionType: string;
@@ -45,16 +45,22 @@ export const MetricsGrid = ({
   pplService,
   startTime,
   endTime,
-  setStartTime,
-  setEndTime,
   moveToEvents,
   onRefresh,
   editActionType,
   spanParam,
 }: MetricsGridProps) => {
+  // Redux tools
+  const dispatch = useDispatch();
+  const updateLayout = (metric: any) => dispatch(updateMetricsLayout(metric));
+  const handleRemoveMetric = (metric: any) => {
+    dispatch(deSelectMetric(metric));
+  };
+
   const [currentLayout, setCurrentLayout] = useState<Layout[]>([]);
   const [postEditLayout, setPostEditLayout] = useState<Layout[]>([]);
   const [gridData, setGridData] = useState(panelVisualizations.map(() => <></>));
+  const [removeMetricsList, setRemoveMetricsList] = useState<{ id: string }[]>([]);
   const isLocked = useObservable(chrome.getIsNavDrawerLocked$());
 
   // Reset Size of Visualizations when layout is changed
@@ -64,46 +70,27 @@ export const MetricsGrid = ({
   };
 
   const loadVizComponents = () => {
-    const gridDataComps = panelVisualizations.map((panelVisualization: MetricType, index) =>
-      panelVisualization.metricType === 'savedCustomMetric' ? (
-        <VisualizationContainer
-          key={panelVisualization.id}
-          http={http}
-          editMode={editMode}
-          visualizationId={panelVisualization.id}
-          savedVisualizationId={panelVisualization.savedVisualizationId}
-          pplService={pplService}
-          fromTime={startTime}
-          toTime={endTime}
-          onRefresh={onRefresh}
-          onEditClick={moveToEvents}
-          usedInNotebooks={true}
-          pplFilterValue=""
-          removeVisualization={removeVisualization}
-          spanParam={spanParam}
-        />
-      ) : (
-        <>
-          <VisualizationContainer
-            key={panelVisualization.id}
-            http={http}
-            editMode={editMode}
-            visualizationId={panelVisualization.id}
-            savedVisualizationId={panelVisualization.savedVisualizationId}
-            pplService={pplService}
-            fromTime={startTime}
-            toTime={endTime}
-            onRefresh={onRefresh}
-            onEditClick={moveToEvents}
-            usedInNotebooks={true}
-            pplFilterValue=""
-            removeVisualization={removeVisualization}
-            catalogVisualization={true}
-            spanParam={spanParam}
-          />
-        </>
-      )
-    );
+    const gridDataComps = panelVisualizations.map((panelVisualization: MetricType, index) => (
+      <VisualizationContainer
+        key={panelVisualization.id}
+        http={http}
+        editMode={editMode}
+        visualizationId={panelVisualization.id}
+        savedVisualizationId={panelVisualization.savedVisualizationId}
+        pplService={pplService}
+        fromTime={startTime}
+        toTime={endTime}
+        onRefresh={onRefresh}
+        onEditClick={moveToEvents}
+        usedInNotebooks={true}
+        pplFilterValue=""
+        removeVisualization={removeVisualization}
+        catalogVisualization={
+          panelVisualization.metricType === 'savedCustomMetric' ? undefined : true
+        }
+        spanParam={spanParam}
+      />
+    ));
     setGridData(gridDataComps);
   };
 
@@ -116,6 +103,8 @@ export const MetricsGrid = ({
         y: panelVisualization.y,
         w: panelVisualization.w,
         h: panelVisualization.h,
+        minW: 12, // restricting width of the metric visualization
+        maxW: 12,
         static: !editMode,
       } as Layout;
     });
@@ -127,11 +116,9 @@ export const MetricsGrid = ({
     const newVisualizationList = _.reject(panelVisualizations, {
       id: visualizationId,
     });
+    setRemoveMetricsList([...removeMetricsList, { id: visualizationId }]);
     mergeLayoutAndVisualizations(postEditLayout, newVisualizationList, setPanelVisualizations);
   };
-
-  // Save Visualization Layouts when not in edit mode anymore (after users saves the panel)
-  const saveVisualizationLayouts = async (panelID: string, visualizationParams: any) => {};
 
   // Update layout whenever user edit gets completed
   useEffect(() => {
@@ -142,17 +129,12 @@ export const MetricsGrid = ({
   }, [editMode]);
 
   useEffect(() => {
+    if (editActionType === 'cancel') {
+      setRemoveMetricsList([]);
+    }
     if (editActionType === 'save') {
-      // const visualizationParams = postEditLayout.map((layout) =>
-      //   _.omit(layout, ['static', 'moved', 'isDraggable','isResizable', 'minW','minH','maxW','maxH'])
-      // );
-      // saveVisualizationLayouts(panelId, visualizationParams);
-      console.log('click saved', postEditLayout);
-      mergeLayoutAndVisualizations(postEditLayout, panelVisualizations, setPanelVisualizations);
-      // setPanelVisualizations(visualizationParams);
-      // if (updateAvailabilityVizId) {
-      //   updateAvailabilityVizId(panelVisualizations);
-      // }
+      removeMetricsList.map((value) => handleRemoveMetric(value));
+      updateLayout(mergeLayoutAndMetrics(postEditLayout, panelVisualizations));
     }
   }, [editActionType]);
 
