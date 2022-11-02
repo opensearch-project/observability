@@ -18,6 +18,7 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
+import { string } from 'joi';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -88,7 +89,8 @@ const queryAccumulator = (
   timestampField: string,
   startTime: string,
   endTime: string,
-  panelFilterQuery: string
+  panelFilterQuery: string,
+  spanParam: string | undefined
 ) => {
   const indexMatchArray = originalQuery.match(PPL_INDEX_REGEX);
   if (indexMatchArray == null) {
@@ -100,7 +102,17 @@ const queryAccumulator = (
     startTime
   )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
-  return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
+  const finalQuery = indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
+  console.log('spanParam in query accu', spanParam);
+  if (spanParam === undefined) {
+    console.log('normal query');
+    return finalQuery;
+  } else {
+    return finalQuery.replace(
+      new RegExp(`span\\(${timestampField},(.*?)\\)`),
+      `span(${timestampField},${spanParam})`
+    );
+  }
 };
 
 // PPL Service requestor
@@ -154,6 +166,7 @@ export const getQueryResponse = (
   type: string,
   startTime: string,
   endTime: string,
+  spanParam: string | undefined,
   setVisualizationData: React.Dispatch<React.SetStateAction<any[]>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsError: React.Dispatch<React.SetStateAction<string>>,
@@ -165,7 +178,14 @@ export const getQueryResponse = (
 
   let finalQuery = '';
   try {
-    finalQuery = queryAccumulator(query, timestampField, startTime, endTime, filterQuery);
+    finalQuery = queryAccumulator(
+      query,
+      timestampField,
+      startTime,
+      endTime,
+      filterQuery,
+      spanParam
+    );
   } catch (error) {
     const errorMessage = 'Issue in building final query';
     setIsError(errorMessage);
@@ -173,6 +193,7 @@ export const getQueryResponse = (
     setIsLoading(false);
     return;
   }
+  console.log('query here:', finalQuery);
 
   pplServiceRequestor(pplService, finalQuery, type, setVisualizationData, setIsLoading, setIsError);
 };
@@ -185,6 +206,7 @@ export const renderSavedVisualization = async (
   startTime: string,
   endTime: string,
   filterQuery: string,
+  spanParam: string | undefined,
   setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
@@ -219,11 +241,89 @@ export const renderSavedVisualization = async (
     visualization.type,
     startTime,
     endTime,
+    spanParam,
     setVisualizationData,
     setIsLoading,
     setIsError,
     filterQuery,
     visualization.timeField
+  );
+};
+
+const createCatalogVisualizationMetaData = (
+  catalogSource: string,
+  visualizationQuery: string,
+  visualizationType: string,
+  visualizationTimeField: string
+) => {
+  return {
+    name: catalogSource,
+    description: '',
+    query: visualizationQuery,
+    type: visualizationType,
+    selected_date_range: {
+      start: 'now/y',
+      end: 'now',
+      text: '',
+    },
+    selected_timestamp: {
+      name: visualizationTimeField,
+      type: 'timestamp',
+    },
+    selected_fields: {
+      text: '',
+      tokens: [],
+    },
+  };
+};
+
+//Creates a catalogVisualization for a runtime catalog based PPL query and runs getQueryResponse
+export const renderCatalogVisualization = async (
+  http: CoreStart['http'],
+  pplService: PPLService,
+  catalogSource: string,
+  startTime: string,
+  endTime: string,
+  filterQuery: string,
+  spanParam: string | undefined,
+  setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
+  setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
+  setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
+  setVisualizationMetaData: React.Dispatch<React.SetStateAction<undefined>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsError: React.Dispatch<React.SetStateAction<string>>,
+  spanResolution?: string
+) => {
+  setIsLoading(true);
+  setIsError('');
+
+  const visualizationType = 'line';
+  const visualizationTimeField = '@timestamp';
+  const visualizationQuery = `source = ${catalogSource} | stats avg(@value) by span(${visualizationTimeField},1h)`;
+
+  const visualizationMetaData = createCatalogVisualizationMetaData(
+    catalogSource,
+    visualizationQuery,
+    visualizationType,
+    visualizationTimeField
+  );
+  setVisualizationTitle(catalogSource);
+  setVisualizationType(visualizationType);
+
+  setVisualizationMetaData(visualizationMetaData);
+
+  getQueryResponse(
+    pplService,
+    visualizationQuery,
+    visualizationType,
+    startTime,
+    endTime,
+    spanParam,
+    setVisualizationData,
+    setIsLoading,
+    setIsError,
+    filterQuery,
+    visualizationTimeField
   );
 };
 
@@ -305,3 +405,17 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
     />
   );
 };
+
+// <Visualization
+//   visualizations={getVizContainerProps({
+//     vizId: 'line',
+//     rawVizData: sampleVizData,
+//     query: {
+//       rawQuery:
+//         'source = prometheus_1.promhttp_metric_handler_requests_total | stats avg(@value) by span(@timestamp, 1m)',
+//     },
+//     indexFields: {},
+//     userConfigs: '',
+//     explorer: { explorerData: sampleVizData },
+//   })}
+// />;

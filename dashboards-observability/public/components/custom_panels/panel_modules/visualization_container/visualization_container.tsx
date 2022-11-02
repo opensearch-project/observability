@@ -20,7 +20,11 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
-import { displayVisualization, renderSavedVisualization } from '../../helpers/utils';
+import {
+  displayVisualization,
+  renderCatalogVisualization,
+  renderSavedVisualization,
+} from '../../helpers/utils';
 import './visualization_container.scss';
 
 /*
@@ -40,6 +44,8 @@ import './visualization_container.scss';
  * pplFilterValue: string with panel PPL filter value
  * showFlyout: function to show the flyout
  * removeVisualization: function to remove all the visualizations
+ * catalogVisualization: boolean pointing if the container is used for catalog metrics
+ * spanParam: Override the span(timestamp, 1h) in visualization to span(timestamp, spanParam)
  */
 
 interface Props {
@@ -57,6 +63,8 @@ interface Props {
   cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
   showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization?: (visualizationId: string) => void;
+  catalogVisualization?: boolean;
+  spanParam?: string;
 }
 
 export const VisualizationContainer = ({
@@ -74,6 +82,8 @@ export const VisualizationContainer = ({
   cloneVisualization,
   showFlyout,
   removeVisualization,
+  catalogVisualization,
+  spanParam,
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
@@ -125,20 +135,38 @@ export const VisualizationContainer = ({
   }
 
   const loadVisaulization = async () => {
-    await renderSavedVisualization(
-      http,
-      pplService,
-      savedVisualizationId,
-      fromTime,
-      toTime,
-      pplFilterValue,
-      setVisualizationTitle,
-      setVisualizationType,
-      setVisualizationData,
-      setVisualizationMetaData,
-      setIsLoading,
-      setIsError
-    );
+    if (catalogVisualization)
+      await renderCatalogVisualization(
+        http,
+        pplService,
+        savedVisualizationId,
+        fromTime,
+        toTime,
+        pplFilterValue,
+        spanParam,
+        setVisualizationTitle,
+        setVisualizationType,
+        setVisualizationData,
+        setVisualizationMetaData,
+        setIsLoading,
+        setIsError
+      );
+    else
+      await renderSavedVisualization(
+        http,
+        pplService,
+        savedVisualizationId,
+        fromTime,
+        toTime,
+        pplFilterValue,
+        spanParam,
+        setVisualizationTitle,
+        setVisualizationType,
+        setVisualizationData,
+        setVisualizationMetaData,
+        setIsLoading,
+        setIsError
+      );
   };
 
   const memoisedVisualizationBox = useMemo(
