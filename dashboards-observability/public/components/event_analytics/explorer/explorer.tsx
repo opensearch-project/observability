@@ -53,6 +53,8 @@ import {
   DATE_PICKER_FORMAT,
   PPL_PATTERNS_REGEX,
   SELECTED_PATTERN,
+  PATTERNS_REGEX,
+  PATTERNS_EXTRACTOR_REGEX,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -500,8 +502,22 @@ export const Explorer = ({
     );
   };
 
-  const handleTimeRangePickerRefresh = (availability?: boolean) => {
+  const handleTimeRangePickerRefresh = async (availability?: boolean) => {
     handleQuerySearch(availability);
+    if (availability !== true && query.rawQuery.match(PATTERNS_REGEX)) {
+      let currQuery = query.rawQuery;
+      const currPattern = currQuery.match(PATTERNS_EXTRACTOR_REGEX)!.groups!.pattern;
+      // Remove existing pattern selection if it exists
+      if (currQuery.match(PATTERNS_REGEX)) {
+        currQuery = currQuery.replace(PATTERNS_REGEX, '');
+      }
+      const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern}`;
+      await setTempQuery(patternSelectQuery);
+      await updateQueryInStore(patternSelectQuery);
+      // Passing in empty string will remove pattern query
+      const patternErrorHandler = getErrorHandler('Error fetching patterns');
+      getPatterns(patternErrorHandler);
+    }
   };
 
   /**
@@ -734,6 +750,7 @@ export const Explorer = ({
                             tableData={patternsData.patternTableData || []}
                             onPatternSelection={onPatternSelection}
                             tabId={tabId}
+                            query={query}
                           />
                           <EuiHorizontalRule margin="xs" />
                         </>
