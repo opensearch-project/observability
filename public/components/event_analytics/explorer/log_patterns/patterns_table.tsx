@@ -11,9 +11,10 @@ import {
   EuiEmptyPrompt,
   EuiIcon,
 } from '@elastic/eui';
+import { SELECTED_PATTERN_REGEX } from '../../../../../common/constants/explorer';
 import { PatternTableData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { PPL_DOCUMENTATION_URL } from '../../../../../common/constants/shared';
 import { selectPatterns } from '../../redux/slices/patterns_slice';
@@ -22,13 +23,14 @@ interface PatternsTableProps {
   tableData: PatternTableData[];
   onPatternSelection: any;
   tabId: string;
+  query: any;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
-  const { tableData, tabId, onPatternSelection } = props;
+  const { tableData, tabId, onPatternSelection, query } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
-  const [selectedPattern, setSelectedPattern] = useState<string>();
-
+  const selectedPattern = query.rawQuery.match(SELECTED_PATTERN_REGEX)?.groups?.pattern || '';
+  
   const tableColumns = [
     {
       field: 'count',
@@ -42,7 +44,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'ratio',
       name: 'Ratio',
-      width: '4%',
+      width: '8%',
       sortable: (row: PatternTableData) => row.count,
       render: (item: number, row: PatternTableData) => {
         const ratio =
@@ -61,7 +63,7 @@ export function PatternsTable(props: PatternsTableProps) {
     {
       field: 'sampleLog',
       name: 'Sample Log',
-      width: '92%',
+      width: '88%',
       sortable: true,
       render: (item: string, row: PatternTableData) => {
         return <EuiText>{item}</EuiText>;
@@ -108,7 +110,6 @@ export function PatternsTable(props: PatternsTableProps) {
       className: 'customRowClass',
       onClick: () => {
         onPatternSelection(pattern);
-        setSelectedPattern(pattern);
       },
       isSelected: pattern === selectedPattern,
     };
@@ -123,6 +124,7 @@ export function PatternsTable(props: PatternsTableProps) {
       message={message}
       rowProps={getRowProps}
       isSelectable={true}
+      tableLayout="auto"
     />
   );
 }
