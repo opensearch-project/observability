@@ -38,10 +38,8 @@ export const DataTable = ({ visualizations, layout, config }: any) => {
         jsonData,
         metadata: { fields = [] },
       },
-      userConfigs: {
-        dataConfig: { chartStyles = {} },
-      },
-    },
+      userConfigs: { dataConfig: { chartStyles = {} } = {} } = {},
+    } = {},
     vis: visMetaData,
   }: IVisualizationContainerProps = visualizations;
 
