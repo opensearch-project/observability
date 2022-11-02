@@ -626,7 +626,9 @@ export const Explorer = ({
     if (currQuery.match(PPL_PATTERNS_REGEX)) {
       currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
     }
-    const patternSelectQuery = `${currQuery.trim()} | patterns \`${currPattern}\` | where patterns_field = '${pattern}'`;
+    const patternSelectQuery =
+      `${currQuery.trim()} | patterns \`${currPattern}\` | ` +
+      `where patterns_field = '${pattern.replaceAll("'", "''")}'`;
     // Passing in empty string will remove pattern query
     const newQuery = pattern ? patternSelectQuery : currQuery;
     await setTempQuery(newQuery);
