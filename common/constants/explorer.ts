@@ -82,6 +82,7 @@ export const PLOTLY_GAUGE_COLUMN_NUMBER = 4;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
 export const ADD_BUTTON_TEXT = '+ Add color theme';
+export const ADD_SERIES_POSITION_TEXT = '+ Add label position';
 export const NUMBER_INPUT_MIN_LIMIT = 1;
 
 export const VIZ_CONTAIN_XY_AXIS = [
@@ -280,3 +281,7 @@ export const DATA_CONFIG_HINTS_INFO = {
   [BREAKDOWNS]:
     "Defines how each series is broken down. Breakdowns are 'by' clauses that subdivide the existing series.",
 };
+export const SERIES_POSITION_OPTIONS = [
+  { id: htmlIdGenerator('ct')(), label: 'Left', side: 'left' },
+  { id: htmlIdGenerator('ct')(), label: 'Right', side: 'right' },
+];
