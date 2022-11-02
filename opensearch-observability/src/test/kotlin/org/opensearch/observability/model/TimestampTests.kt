@@ -53,7 +53,8 @@ internal class TimestampTests {
     @Test
     fun `Timestamp should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\",\"another\":\"field\"}"
+            "{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\"," +
+                "\"type\":\"timestamp\",\"dsl_type\":\"date\",\"another\":\"field\"}"
         val recreatedObject = createObjectFromJsonString(jsonString) { Timestamp.parse(it) }
         assertEquals(sampleTimestamp, recreatedObject)
     }
