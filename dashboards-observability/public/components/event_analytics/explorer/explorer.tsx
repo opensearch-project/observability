@@ -68,7 +68,12 @@ import {
   LIVE_END_TIME,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery, composeFinalQuery } from '../../../../common/utils';
+import {
+  getIndexPatternFromRawQuery,
+  preprocessQuery,
+  buildQuery,
+  composeFinalQuery,
+} from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
 import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
 import { selectQueryResult } from '../redux/slices/query_result_slice';
@@ -788,7 +793,7 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
-    userVizConfigs
+    userVizConfigs,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);

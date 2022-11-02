@@ -4,7 +4,7 @@
  */
 import React, { useMemo } from 'react';
 import { colorPalette } from '@elastic/eui';
-import { has, isEmpty, uniq } from 'lodash';
+import { find, has, isEmpty, uniq } from 'lodash';
 import Plotly from 'plotly.js-dist';
 import {
   HEATMAP_PALETTE_COLOR,
@@ -37,9 +37,10 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
         dataConfig: {
           chartStyles = {},
           legend = {},
+          span = {},
           tooltipOptions = {},
           panelOptions = {},
-          [GROUPBY]: dimensions = [],
+          [GROUPBY]: fieldDimensions = [],
           [AGGREGATIONS]: series = [],
         } = {},
         layoutConfig = {},
@@ -48,7 +49,14 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
+  const timestampField = find(fields, (field) => field.type === 'timestamp');
+
+  let dimensions;
+  if (span && span.time_field && timestampField) {
+    dimensions = fieldDimensions ? [timestampField, ...fieldDimensions] : [timestampField, []];
+  } else {
+    dimensions = fieldDimensions;
+  }
 
   const xaxisField = dimensions[0];
   const yaxisField = dimensions[1];
@@ -58,16 +66,23 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(xaxisField) ||
     isEmpty(yaxisField) ||
     isEmpty(zMetrics) ||
-    isEmpty(queriedVizData[xaxisField.label]) ||
+    isEmpty(queriedVizData[xaxisField.name]) ||
     isEmpty(queriedVizData[yaxisField.label]) ||
     isEmpty(queriedVizData[getPropName(zMetrics)]) ||
     dimensions.length > 2 ||
     series.length > 1
   )
-    return <EmptyPlaceholder icon={icontype} />;
+    return (
+      <EmptyPlaceholder
+        icon={icontype}
+        customMessage={
+          dimensions.length !== 0 || series.length !== 0 ? 'Invalid Configurations' : undefined
+        }
+      />
+    );
 
   const uniqueYaxis = uniq(queriedVizData[yaxisField.label]);
-  const uniqueXaxis = uniq(queriedVizData[xaxisField.label]);
+  const uniqueXaxis = uniq(queriedVizData[xaxisField.name]);
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
   const tooltipMode =
@@ -97,8 +112,8 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     const buckets = {};
 
     // maps bukcets to metrics
-    for (let i = 0; i < queriedVizData[xaxisField.label].length; i++) {
-      buckets[`${queriedVizData[xaxisField.label][i]},${queriedVizData[yaxisField.label][i]}`] =
+    for (let i = 0; i < queriedVizData[xaxisField.name].length; i++) {
+      buckets[`${queriedVizData[xaxisField.name][i]},${queriedVizData[yaxisField.name][i]}`] =
         queriedVizData[getPropName(zMetrics)][i];
     }
 

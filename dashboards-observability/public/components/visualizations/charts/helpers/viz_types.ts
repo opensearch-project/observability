@@ -151,12 +151,6 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
         [AGGREGATIONS]: [],
         [GROUPBY]: dimensions,
       };
-    } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
-      tempUserConfigs = {
-        ...tempUserConfigs,
-        [GROUPBY]: [],
-        [AGGREGATIONS]: [],
-      };
     } else {
       tempUserConfigs = {
         ...tempUserConfigs,
@@ -186,17 +180,6 @@ const getUserConfigs = (
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
   if (!(userSelectedConfigs.dataConfig?.GROUPBY || userSelectedConfigs.dataConfig?.AGGREGATIONS)) {
     switch (visName) {
-      case VIS_CHART_TYPES.HeatMap:
-        configOfUser = {
-          ...userSelectedConfigs,
-          dataConfig:
-            userSelectedConfigs?.dataConfig === undefined
-              ? { ...defaultUserConfigs(query, visName) }
-              : {
-                  ...userSelectedConfigs?.dataConfig,
-                },
-        };
-        break;
       case VIS_CHART_TYPES.TreeMap:
         configOfUser = {
           ...userSelectedConfigs,
@@ -271,7 +254,6 @@ export const getVizContainerProps = ({
     SIMILAR_VIZ_TYPES.includes(vizId as VIS_CHART_TYPES)
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
-
   return {
     data: {
       appData: { ...appData },

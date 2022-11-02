@@ -19,7 +19,8 @@ import {
   CUSTOM_LABEL,
   GROUPBY,
   SPAN,
-  DATA_CONFIG_HINTS_INFO
+  DATA_CONFIG_HINTS_INFO,
+  HEATMAP_DATA_CONFIG_HINTS_INFO,
 } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import {
@@ -44,6 +45,7 @@ export const DataConfigPanelFields = ({
   handleServiceEdit,
 }: DataConfigPanelFieldProps) => {
   const isAggregation = sectionName === AGGREGATIONS;
+  const { time_field, unit, interval } = dimensionSpan;
 
   // The function hides the click to add button for visualizations included in the const HIDE_ADD_BUTTON_VIZ_TYPES
   const hideClickToAddButton = (name: string) => {
@@ -51,12 +53,26 @@ export const DataConfigPanelFields = ({
     if (!isArray(list) || !HIDE_ADD_BUTTON_VIZ_TYPES.includes(visType)) return false;
     // condition for heatmap on the basis of section name
     if (visType === VIS_CHART_TYPES.HeatMap)
-      return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+      return name === AGGREGATIONS
+        ? list.length >= 1
+        : isEmpty(time_field)
+        ? list.length >= 2
+        : list.length >= 1;
     // condition for line and scatter for dimensions section.
     return name === GROUPBY && (list.length >= 1 || !isEmpty(time_field));
   };
 
-  const { time_field, unit, interval } = dimensionSpan;
+  const toolTipTextGenerator = (isAgg: boolean) => {
+    if (isAgg) {
+      return visType === VIS_CHART_TYPES.HeatMap
+        ? HEATMAP_DATA_CONFIG_HINTS_INFO[AGGREGATIONS]
+        : DATA_CONFIG_HINTS_INFO[AGGREGATIONS];
+    }
+    return visType === VIS_CHART_TYPES.HeatMap
+      ? HEATMAP_DATA_CONFIG_HINTS_INFO[GROUPBY]
+      : DATA_CONFIG_HINTS_INFO[GROUPBY];
+  };
+  // const { time_field, unit, interval } = dimensionSpan;
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
   const crossIcon = (index: number, configName: string) => (
@@ -86,7 +102,7 @@ export const DataConfigPanelFields = ({
         <EuiTitle size="xxs" className="panel_title">
           <h3>{sectionName}</h3>
         </EuiTitle>
-        {infoToolTip(tooltipIcon, DATA_CONFIG_HINTS_INFO[`${sectionName}`])}
+        {infoToolTip(tooltipIcon, toolTipTextGenerator(isAggregation))}
       </div>
       <EuiSpacer size="s" />
       {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
@@ -118,7 +134,7 @@ export const DataConfigPanelFields = ({
                 </EuiLink>
               </EuiText>
               {isAggregation
-                ? infoToolTip(crossIcon(index, sectionName), DATA_CONFIG_HINTS_INFO[AGGREGATIONS])
+                ? infoToolTip(crossIcon(index, sectionName), toolTipTextGenerator(true))
                 : crossIcon(index, sectionName)}
             </EuiPanel>
             <EuiSpacer size="s" />

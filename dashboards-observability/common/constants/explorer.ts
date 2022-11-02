@@ -280,3 +280,8 @@ export const DATA_CONFIG_HINTS_INFO = {
   [BREAKDOWNS]:
     "Defines how each series is broken down. Breakdowns are 'by' clauses that subdivide the existing series.",
 };
+
+export const HEATMAP_DATA_CONFIG_HINTS_INFO = {
+  [AGGREGATIONS]: 'only one Series is allowed',
+  [GROUPBY]: 'only two Dimensions are allowed',
+};
