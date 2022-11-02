@@ -10,14 +10,16 @@ import {
   ShortDate,
   OnTimeChangeProps,
   EuiButton,
+  EuiFieldSearch,
+  EuiButtonIcon,
 } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import { uiSettingsService } from '../../../../common/utils';
 import React, { useState } from 'react';
-
-import './top_menu.scss';
 import { MetricType } from '../../../../common/types/metrics';
 import { resolutionOptions } from '../../../../common/constants/metrics';
+
+import './top_menu.scss';
 
 interface TopMenuProps {
   IsTopPanelDisabled: boolean;
@@ -106,9 +108,19 @@ export const TopMenu = ({
     <>
       <EuiPageHeader>
         <EuiPageHeaderSection>
-          <EuiTitle size="l">
-            <h1>Metrics</h1>
-          </EuiTitle>
+          <EuiFlexGroup className="search-bar-top-menu">
+            <EuiFlexItem>
+              <EuiFieldSearch
+                placeholder="Search metrics"
+                isClearable={true}
+                aria-label="Use aria labels when no actual label is in use"
+                fullWidth={true}
+              />
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <EuiButtonIcon iconType="menuLeft"></EuiButtonIcon>
+            </EuiFlexItem>
+          </EuiFlexGroup>
         </EuiPageHeaderSection>
         <EuiPageHeaderSection>
           <EuiFlexGroup gutterSize="s">
