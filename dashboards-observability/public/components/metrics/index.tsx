@@ -63,7 +63,6 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
   const [panelVisualizations, setPanelVisualizations] = useState<MetricType[]>([]);
 
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
-    console.log('spanParam', spanValue + resolutionValue);
     setOnRefresh(!onRefresh);
   };
 

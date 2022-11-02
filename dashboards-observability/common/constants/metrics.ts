@@ -11,7 +11,6 @@ export const PPL_PROMETHEUS_CATALOG_REQUEST =
 export const REDUX_SLICE_METRICS = 'metrics';
 
 export const resolutionOptions = [
-  // { value: 'ms', text: 'milliseconds' },
   { value: 's', text: 'seconds' },
   { value: 'm', text: 'minutes' },
   { value: 'h', text: 'hours' },
@@ -20,3 +19,6 @@ export const resolutionOptions = [
   { value: 'q', text: 'quarters' },
   { value: 'y', text: 'years' },
 ];
+
+export const DEFAULT_METRIC_HEIGHT = 2;
+export const DEFAULT_METRIC_WIDTH = 12;

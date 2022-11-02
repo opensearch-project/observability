@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-/* eslint-disable no-console */
 
 import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
@@ -11,12 +10,13 @@ import _ from 'lodash';
 import { Moment } from 'moment-timezone';
 import React from 'react';
 import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
-import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
+import { PPL_DATE_FORMAT } from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../src/core/public';
-import { MetricData, MetricType } from '../../../../common/types/metrics';
+import { MetricType } from '../../../../common/types/metrics';
 import { Layout } from 'react-grid-layout';
 import { VisualizationType } from '../../../../common/types/custom_panels';
+import { DEFAULT_METRIC_HEIGHT, DEFAULT_METRIC_WIDTH } from '../../../../common/constants/metrics';
 
 export const convertDateTime = (datetime: string, isStart = true, formatted = true) => {
   let returnTime: undefined | Moment;
@@ -69,9 +69,6 @@ interface boxType {
   y2: number;
 }
 
-const defaultHeight = 3;
-const defaultWidth = 12;
-
 const calculatOverlapArea = (bb1: boxType, bb2: boxType) => {
   const x_left = Math.max(bb1.x1, bb2.x1);
   const y_top = Math.max(bb1.y1, bb2.y1);
@@ -83,7 +80,7 @@ const calculatOverlapArea = (bb1: boxType, bb2: boxType) => {
 };
 
 const getTotalOverlapArea = (panelVisualizations: MetricType[]) => {
-  const newVizBox = { x1: 0, y1: 0, x2: defaultWidth, y2: defaultHeight };
+  const newVizBox = { x1: 0, y1: 0, x2: DEFAULT_METRIC_WIDTH, y2: DEFAULT_METRIC_HEIGHT };
   const currentVizBoxes = panelVisualizations.map((visualization) => {
     return {
       x1: visualization.x,
@@ -110,7 +107,7 @@ export const getNewVizDimensions = (panelVisualizations: MetricType[]) => {
 
   // check if we can place the new visualization at default location
   if (getTotalOverlapArea(panelVisualizations) === 0) {
-    return { x: 0, y: 0, w: defaultWidth, h: defaultHeight };
+    return { x: 0, y: 0, w: DEFAULT_METRIC_WIDTH, h: DEFAULT_METRIC_HEIGHT };
   }
 
   // else place the new visualization at the bottom of the panel
@@ -121,14 +118,13 @@ export const getNewVizDimensions = (panelVisualizations: MetricType[]) => {
     }
   });
 
-  return { x: 0, y: maxY + maxYH, w: defaultWidth, h: defaultHeight };
+  return { x: 0, y: maxY + maxYH, w: DEFAULT_METRIC_WIDTH, h: DEFAULT_METRIC_HEIGHT };
 };
 
 export const getMinSpanInterval = (start: any, end: any) => {
   const momentStart = dateMath.parse(start)!;
   const momentEnd = dateMath.parse(end, { roundUp: true })!;
   const diffSeconds = momentEnd.unix() - momentStart.unix();
-  console.log('diffSeconds', diffSeconds);
   let minInterval;
   // // less than 1 second
   // if (diffSeconds <= 1) minInterval = 'ms';
@@ -169,28 +165,4 @@ export const mergeLayoutAndMetrics = (
     }
   }
   return newPanelVisualizations;
-};
-
-export const updateMetricsVisualizations = (selectedMetrics: MetricData[]) => {
-  let metricVisualizations: MetricType[] = [];
-
-  selectedMetrics.map((selectedMetric: any, index: number) => {
-    const newDimensions = getNewVizDimensions(metricVisualizations);
-
-    const metricVisualization: MetricType = {
-      id: index + '',
-      savedVisualizationId: selectedMetric.id,
-      x: newDimensions.x,
-      y: newDimensions.y,
-      h: newDimensions.h,
-      w: newDimensions.w,
-      metricType:
-        selectedMetric.catalog === 'CUSTOM_METRICS' ? 'savedCustomMetric' : 'prometheusMetric',
-    };
-    metricVisualizations.push(metricVisualization);
-  });
-
-  return metricVisualizations;
-
-  // updateMetricsLayout(metricVisualizations);
 };

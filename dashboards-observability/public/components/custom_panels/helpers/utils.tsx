@@ -18,7 +18,6 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
-import { string } from 'joi';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -405,17 +404,3 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
     />
   );
 };
-
-// <Visualization
-//   visualizations={getVizContainerProps({
-//     vizId: 'line',
-//     rawVizData: sampleVizData,
-//     query: {
-//       rawQuery:
-//         'source = prometheus_1.promhttp_metric_handler_requests_total | stats avg(@value) by span(@timestamp, 1m)',
-//     },
-//     indexFields: {},
-//     userConfigs: '',
-//     explorer: { explorerData: sampleVizData },
-//   })}
-// />;
