@@ -5,8 +5,7 @@
 
 import './sidebar.scss';
 
-import React, { useEffect, useState } from 'react';
-import { cloneDeep } from 'lodash';
+import React, { useEffect } from 'react';
 import { EuiTitle, EuiSpacer, EuiAccordion, EuiLink } from '@elastic/eui';
 import { I18nProvider } from '@osd/i18n/react';
 import { batch, useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,7 @@ import {
   selectMetric,
   loadMetrics,
   selectedMetricsSelector,
+  recentlyCreatedMetricsSelector,
 } from '../redux/slices/metrics_slice';
 import { CoreStart } from '../../../../../../src/core/public';
 import PPLService from '../../../services/requests/ppl';
@@ -31,6 +31,7 @@ export const Sidebar = (props: ISidebarProps) => {
 
   const availableMetrics = useSelector(availableMetricsSelector);
   const selectedMetrics = useSelector(selectedMetricsSelector);
+  const recentlyCreatedMetrics = useSelector(recentlyCreatedMetricsSelector);
 
   useEffect(() => {
     batch(() => {
@@ -56,7 +57,15 @@ export const Sidebar = (props: ISidebarProps) => {
             </EuiTitle>
           }
           paddingSize="xs"
-        />
+        >
+          <ul>
+            {recentlyCreatedMetrics.map((metric: any) => (
+              <li key={metric.id}>
+                <EuiLink onClick={() => handleAddMetric(metric)}>{metric.name}</EuiLink>
+              </li>
+            ))}
+          </ul>
+        </EuiAccordion>
         <EuiSpacer size="s" />
         <EuiAccordion
           initialIsOpen
@@ -88,12 +97,15 @@ export const Sidebar = (props: ISidebarProps) => {
           paddingSize="xs"
         >
           <ul>
-            {availableMetrics.map((metric: any) => (
+            {availableMetrics.slice(0, 100).map((metric: any) => (
               <li key={metric.id}>
                 <EuiLink onClick={() => handleAddMetric(metric)}>{metric.name}</EuiLink>
               </li>
             ))}
           </ul>
+          {availableMetrics.length > 100 && (
+            <p>Too many metrics to list! Please use search bar above to add hidden metrics.</p>
+          )}
         </EuiAccordion>
       </section>
     </I18nProvider>
