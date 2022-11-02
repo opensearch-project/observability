@@ -1,0 +1,646 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Horizontal bar component Renders horizontal bar component 1`] = `
+<Bar
+  config={true}
+  layout={
+    Object {
+      "colorway": Array [
+        "#8C55A3",
+      ],
+      "height": 220,
+      "margin": Object {
+        "b": 15,
+        "l": 60,
+        "pad": 0,
+        "r": 10,
+        "t": 30,
+      },
+      "showlegend": true,
+    }
+  }
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {},
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "count()": Array [
+              154,
+              1753,
+              116,
+              468,
+              1964,
+              219,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "count()": 154,
+              "tags": "error",
+            },
+            Object {
+              "count()": 1753,
+              "tags": "info",
+            },
+            Object {
+              "count()": 116,
+              "tags": "login",
+            },
+            Object {
+              "count()": 468,
+              "tags": "security",
+            },
+            Object {
+              "count()": 1964,
+              "tags": "success",
+            },
+            Object {
+              "count()": 219,
+              "tags": "warning",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "count()",
+                "type": "integer",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+            "size": 6,
+            "status": 200,
+          },
+        },
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "valueOptions": Object {
+              "dimensions": Array [
+                Object {
+                  "label": "tags",
+                  "name": "tags",
+                  "type": "text",
+                },
+              ],
+              "metrics": Array [
+                Object {
+                  "label": "count()",
+                  "name": "count()",
+                  "side": "left",
+                  "type": "integer",
+                },
+              ],
+            },
+          },
+        },
+      },
+      "vis": Object {
+        "barwidth": 0.97,
+        "category": "Visualizations",
+        "categoryaxis": "xaxis",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "position",
+                      "name": "Position",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Bottom",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "id": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fillopacity": 70,
+        "fulllabel": "Horizontal bar",
+        "groupwidth": 0.7,
+        "icon": [Function],
+        "icontype": "visBarHorizontalStacked",
+        "id": "horizontal_bar",
+        "label": "Horizontal bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 2,
+        "mode": "group",
+        "name": "horizontal_bar",
+        "orientation": "h",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
+        "type": "bar",
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "isUniColor": false,
+          "layout": Object {
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+>
+  <Plt
+    config={Object {}}
+    data={Array []}
+    layout={
+      Object {
+        "bargap": 0.30000000000000004,
+        "bargroupgap": 0.030000000000000027,
+        "barmode": "group",
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "height": 220,
+        "hovermode": "closest",
+        "legend": Object {
+          "orientation": "v",
+        },
+        "margin": Object {
+          "b": 30,
+          "l": 30,
+          "pad": 4,
+          "r": 5,
+          "t": 50,
+        },
+        "showlegend": "show",
+        "title": "",
+        "xaxis": Object {
+          "automargin": true,
+          "tickfont": Object {
+            "size": 12,
+          },
+        },
+        "yaxis": Object {
+          "automargin": true,
+          "tickangle": 0,
+          "tickfont": Object {
+            "size": 12,
+          },
+        },
+      }
+    }
+  >
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
+      data={Array []}
+      debug={false}
+      divId="explorerPlotComponent"
+      layout={
+        Object {
+          "autosize": true,
+          "bargap": 0.30000000000000004,
+          "bargroupgap": 0.030000000000000027,
+          "barmode": "group",
+          "colorway": Array [
+            "#8C55A3",
+          ],
+          "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "v",
+          },
+          "margin": Object {
+            "b": 30,
+            "l": 30,
+            "pad": 4,
+            "r": 5,
+            "t": 50,
+          },
+          "showlegend": "show",
+          "title": "",
+          "xaxis": Object {
+            "automargin": true,
+            "tickfont": Object {
+              "size": 12,
+            },
+          },
+          "yaxis": Object {
+            "automargin": true,
+            "tickangle": 0,
+            "tickfont": Object {
+              "size": 12,
+            },
+          },
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
+    >
+      <div
+        id="explorerPlotComponent"
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </PlotlyComponent>
+  </Plt>
+</Bar>
+`;

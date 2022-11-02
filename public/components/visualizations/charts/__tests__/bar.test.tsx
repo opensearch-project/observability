@@ -13,10 +13,10 @@ import {
   TEST_VISUALIZATIONS_DATA
 } from '../../../../../test/event_analytics_constants';
 
-describe('Bar component', () => {
+describe('Veritcal Bar component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders bar component', async () => {
+  it('Renders veritcal bar component', async () => {
     const wrapper = mount(
       <Bar
         visualizations={TEST_VISUALIZATIONS_DATA}

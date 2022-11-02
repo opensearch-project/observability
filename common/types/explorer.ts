@@ -5,6 +5,8 @@
 
 import { History } from 'history';
 import Plotly from 'plotly.js-dist';
+import { QueryManager } from 'common/query_manager';
+import { VIS_CHART_TYPES } from '../../common/constants/shared';
 import {
   RAW_QUERY,
   SELECTED_FIELDS,
@@ -15,13 +17,23 @@ import {
   FINAL_QUERY,
   SELECTED_TIMESTAMP,
   SELECTED_DATE_RANGE,
+  GROUPBY,
+  AGGREGATIONS,
+  CUSTOM_LABEL,
+  BREAKDOWNS,
 } from '../constants/explorer';
-import { CoreStart, HttpStart, NotificationsStart } from '../../../../src/core/public';
+import {
+  CoreStart,
+  CoreSetup,
+  HttpSetup,
+  HttpStart,
+  NotificationsStart,
+} from '../../../../src/core/public';
 import SavedObjects from '../../public/services/saved_objects/event_analytics/saved_objects';
 import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
 import DSLService from '../../public/services/requests/dsl';
-
+import { SavedObjectsStart } from '../../../../src/core/public/saved_objects';
 export interface IQueryTab {
   id: string;
   name: React.ReactNode | string;
@@ -31,6 +43,20 @@ export interface IQueryTab {
 export interface IField {
   name: string;
   type: string;
+  label?: string;
+}
+
+export interface TimeUnit {
+  name: string;
+  label: string;
+  value: string;
+}
+
+export interface ExplorerFields {
+  availableFields: IField[];
+  queriedFields: IField[];
+  selectedFields: IField[];
+  unselectedFields: IField[];
 }
 
 export interface ITabQueryResults {
@@ -82,6 +108,7 @@ export interface ILogExplorerProps {
   ) => void;
   savedObjectId: string;
   getExistingEmptyTab: (params: EmptyTabParams) => string;
+  queryManager: QueryManager;
 }
 
 export interface IExplorerProps {
@@ -112,6 +139,7 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
+  queryManager: QueryManager;
 }
 
 export interface SavedQuery {
@@ -150,6 +178,31 @@ export interface SavedVizRes {
   tenant: string;
 }
 
+export interface ExplorerDataType {
+  jsonData: object[];
+  jsonDataAll: object[];
+}
+
+export interface Query {
+  index: string;
+  isLoaded: boolean;
+  objectType: string;
+  rawQuery: string;
+  savedObjectId: string;
+  selectedDateRange: string[];
+  selectedTimestamp: string;
+  tabCreatedType: string;
+  finalQuery?: string;
+}
+
+export interface ExplorerData {
+  explorerData?: ExplorerDataType;
+  explorerFields?: IExplorerFields;
+  query?: Query;
+  http?: HttpSetup;
+  pplService?: PPLService;
+}
+
 export interface IVisualizationContainerPropsData {
   appData?: { fromApp: boolean };
   rawVizData?: any;
@@ -160,6 +213,7 @@ export interface IVisualizationContainerPropsData {
     xaxis: IField[];
     yaxis: IField[];
   };
+  explorer?: ExplorerData;
 }
 
 export interface IVisualizationContainerPropsVis {
@@ -186,9 +240,11 @@ export interface IConfigPanelOptions {
 export interface IConfigPanelOptionSection {
   name: string;
   component: null;
-  mapTo: 'mode';
+  mapTo: string;
   props?: any;
   isSingleSelection?: boolean;
+  defaultState?: boolean | string;
+  eleType?: string;
 }
 
 export interface IVisualizationTypeDefination {
@@ -196,13 +252,13 @@ export interface IVisualizationTypeDefination {
   type: string;
   id: string;
   label: string;
-  fullLabel: string;
+  fulllabel: string;
   category: string;
   icon: React.ReactNode;
-  editorConfig: {
+  editorconfig: {
     panelTabs: IConfigPanelTab;
   };
-  visConfig: {
+  visconfig: {
     layout: Partial<Plotly.Layout>;
     config: Partial<Plotly.Config>;
   };
@@ -232,4 +288,97 @@ export interface PatternTableData {
   count: number;
   pattern: string;
   sampleLog: string;
+};
+export interface ConfigListEntry {
+  label: string;
+  aggregation: string;
+  [CUSTOM_LABEL]: string;
+  name: string;
+  side: string;
+  type: string;
+  alias?: string;
+}
+
+export interface HistogramConfigList {
+  bucketSize: string;
+  bucketOffset: string;
+}
+
+export interface DimensionSpan {
+  time_field: IField[];
+  interval: number;
+  unit: TimeUnit[];
+}
+
+export interface ConfigList {
+  [GROUPBY]?: ConfigListEntry[] | HistogramConfigList[];
+  [AGGREGATIONS]?: ConfigListEntry[];
+  [BREAKDOWNS]?: ConfigListEntry[] | HistogramConfigList[];
+  span?: DimensionSpan;
+}
+
+export interface Breadcrumbs {
+  text: string;
+  href: string;
+}
+
+export interface EventAnalyticsProps {
+  chrome: CoreSetup;
+  parentBreadcrumbs: Breadcrumbs[];
+  pplService: any;
+  dslService: any;
+  savedObjects: SavedObjectsStart;
+  timestampUtils: TimestampUtils;
+  http: HttpStart;
+  notifications: NotificationsStart;
+  queryManager: QueryManager;
+}
+
+export interface DataConfigPanelProps {
+  fieldOptionList: IField[];
+  visualizations: IVisualizationContainerProps;
+  queryManager?: QueryManager;
+}
+export interface GetTooltipHoverInfoType {
+  tooltipMode: string;
+  tooltipText: string;
+}
+
+export interface SelectedConfigItem {
+  index: number;
+  name: string;
+}
+
+export interface ParentUnitType {
+  name: string;
+  label: string;
+  type: string;
+}
+
+export interface TreemapParentsProps {
+  selectedAxis: ParentUnitType[];
+  setSelectedParentItem: (item: { isClicked: boolean; index: number }) => void;
+  handleUpdateParentFields: (arr: ParentUnitType[]) => void;
+}
+
+export interface DataConfigPanelFieldProps {
+  list: ConfigListEntry[];
+  dimensionSpan: DimensionSpan;
+  sectionName: string;
+  visType: VIS_CHART_TYPES;
+  addButtonText: string;
+  handleServiceAdd: (name: string) => void;
+  handleServiceRemove: (index: number, name: string) => void;
+  handleServiceEdit: (arrIndex: number, sectionName: string, isTimeStamp: boolean) => void;
+}
+
+export interface VisMeta {
+  visId: string;
+}
+
+export interface VisualizationState {
+  query: Query;
+  visData: any;
+  visConfMetadata: ConfigList;
+  visMeta: VisMeta;
 }

@@ -12,7 +12,9 @@ export const PanelItem = ({
   selectedAxis,
   dropdownList,
   onSelectChange,
+  isInvalid,
   isSingleSelection = false,
+  isClearable = true,
 }: any) => {
   const options = dropdownList.map((item) => {
     return {
@@ -31,8 +33,9 @@ export const PanelItem = ({
         id={uniqueId('axis-select-')}
         placeholder="Select a field"
         options={options}
-        selectedOptions={selectedAxis}
-        isInvalid={isEmpty(selectedAxis)}
+        selectedOptions={Array.isArray(selectedAxis) ? selectedAxis : []}
+        isInvalid={isInvalid ?? isEmpty(selectedAxis)}
+        isClearable={isClearable}
         singleSelection={isSingleSelection}
         onChange={onSelectChange}
         aria-label="Use aria labels when no actual label is in use"
