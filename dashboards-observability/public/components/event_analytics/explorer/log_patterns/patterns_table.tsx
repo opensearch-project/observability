@@ -62,7 +62,7 @@ export function PatternsTable(props: PatternsTableProps) {
     },
     {
       field: 'anomalyCount',
-      name: 'Anomaly Count',
+      name: 'Anomalies',
       width: '6%',
       sortable: (row: PatternTableData) => row.anomalyCount,
       render: (item: number) => {
