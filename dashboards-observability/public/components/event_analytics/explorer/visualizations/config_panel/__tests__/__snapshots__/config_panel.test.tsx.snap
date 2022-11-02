@@ -1412,6 +1412,13 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                       Object {
                         "editor": [Function],
+                        "id": "yaxis-side",
+                        "mapTo": "seriesPosition",
+                        "name": "Series label position",
+                        "schemas": Array [],
+                      },
+                      Object {
+                        "editor": [Function],
                         "id": "color-theme",
                         "mapTo": "colorTheme",
                         "name": "Color theme",

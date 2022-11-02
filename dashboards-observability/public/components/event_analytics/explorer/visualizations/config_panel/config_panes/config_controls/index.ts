@@ -26,3 +26,4 @@ export { ButtonGroupItem } from './config_button_group';
 export { TextInputFieldItem } from './config_text_input';
 export { ConfigBarChartStyles } from './config_bar_chart_styles';
 export { ConfigAvailability } from './config_availability';
+export { ConfigYAxisSide } from './config_yaxis_side';

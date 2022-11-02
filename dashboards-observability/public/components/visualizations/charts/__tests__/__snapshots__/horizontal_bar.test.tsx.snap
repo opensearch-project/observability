@@ -552,7 +552,7 @@ exports[`Horizontal bar component Renders horizontal bar component 1`] = `
           "r": 5,
           "t": 50,
         },
-        "showlegend": "show",
+        "showlegend": true,
         "title": "",
         "xaxis": Object {
           "automargin": true,
@@ -600,7 +600,7 @@ exports[`Horizontal bar component Renders horizontal bar component 1`] = `
             "r": 5,
             "t": 50,
           },
-          "showlegend": "show",
+          "showlegend": true,
           "title": "",
           "xaxis": Object {
             "automargin": true,

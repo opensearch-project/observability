@@ -1374,7 +1374,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "r": 5,
                 "t": 50,
               },
-              "showlegend": "show",
+              "showlegend": true,
               "title": "",
               "xaxis": Object {
                 "automargin": true,
@@ -1432,7 +1432,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "r": 5,
                   "t": 50,
                 },
-                "showlegend": "show",
+                "showlegend": true,
                 "title": "",
                 "xaxis": Object {
                   "automargin": true,
@@ -1884,6 +1884,13 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         },
                       },
                     ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "yaxis-side",
+                    "mapTo": "seriesPosition",
+                    "name": "Series label position",
+                    "schemas": Array [],
                   },
                   Object {
                     "editor": [Function],
@@ -2385,6 +2392,13 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           },
                         },
                       ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "yaxis-side",
+                      "mapTo": "seriesPosition",
+                      "name": "Series label position",
+                      "schemas": Array [],
                     },
                     Object {
                       "editor": [Function],
@@ -2900,6 +2914,13 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             },
                           },
                         ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "yaxis-side",
+                        "mapTo": "seriesPosition",
+                        "name": "Series label position",
+                        "schemas": Array [],
                       },
                       Object {
                         "editor": [Function],
@@ -4450,7 +4471,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "r": 5,
                 "t": 50,
               },
-              "showlegend": "show",
+              "showlegend": true,
               "title": "",
               "xaxis": Object {
                 "automargin": true,
@@ -4508,7 +4529,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "r": 5,
                   "t": 50,
                 },
-                "showlegend": "show",
+                "showlegend": true,
                 "title": "",
                 "xaxis": Object {
                   "automargin": true,
