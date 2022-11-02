@@ -75,7 +75,7 @@ export const composeFinalQuery = (
   isLiveQuery: boolean,
   appBaseQuery: string
 ) => {
-  const fullQuery = buildQuery(appBaseQuery, curQuery);
+  const fullQuery = curQuery.includes(appBaseQuery) ? curQuery : buildQuery(appBaseQuery, curQuery);
   if (isEmpty(fullQuery)) return '';
   return preprocessQuery({
     rawQuery: fullQuery,
