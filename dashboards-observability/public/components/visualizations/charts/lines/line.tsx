@@ -87,6 +87,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
   const timestampField = find(fields, (field) => field.type === 'timestamp');
   const xaxis = [timestampField];
+  let multiYAxisLayout = {};
 
   if (!timestampField || isEmpty(series)) return <EmptyPlaceholder icon={icontype} />;
 
@@ -95,16 +96,34 @@ export const Line = ({ visualizations, layout, config }: any) => {
     return traces.map((trace, idx: number) => {
       const selectedColor = getSelectedColorTheme(trace.aggName, idx);
       const fillColor = hexToRgb(selectedColor, fillOpacity);
+      const side = seriesPosition.find((seriesItem) => seriesItem.label === trace.name);
+      const multiYaxis = { yaxis: `y${idx + 1}` };
+
+      multiYAxisLayout = {
+        ...multiYAxisLayout,
+        [`yaxis${idx > 0 ? idx + 1 : ''}`]: {
+          titlefont: {
+            color: selectedColor,
+          },
+          automargin: true,
+          tickfont: {
+            color: selectedColor,
+            ...(labelSize && {
+              size: labelSize,
+            }),
+          },
+          ...(idx > 0 && { overlaying: 'y' }),
+          side: side ? side.side : 'left',
+        },
+      };
 
       return {
         ...trace,
         hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         type: 'line',
         mode,
-        ...{
-          fill: 'tozeroy',
-          fillcolor: fillColor,
-        },
+        fill: 'tozeroy',
+        fillcolor: fillColor,
         line: {
           shape: lineShape,
           width: lineWidth,
@@ -112,14 +131,13 @@ export const Line = ({ visualizations, layout, config }: any) => {
         },
         marker: {
           size: markerSize,
-          ...{
-            color: fillColor,
-            line: {
-              color: selectedColor,
-              width: lineWidth,
-            },
+          color: fillColor,
+          line: {
+            color: selectedColor,
+            width: lineWidth,
           },
         },
+        ...(idx >= 1 && multiYaxis),
       };
     });
   };
@@ -173,9 +191,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
         tickangle: tickAngle,
         ...axisLabelsStyle,
       },
-      yaxis: {
-        ...axisLabelsStyle,
-      },
+      ...multiYAxisLayout,
       showlegend: showLegend,
       margin: PLOT_MARGIN,
     };
