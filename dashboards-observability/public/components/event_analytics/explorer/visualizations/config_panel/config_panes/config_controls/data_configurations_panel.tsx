@@ -253,7 +253,7 @@ export const DataConfigPanelItem = ({
         prevQuery[SELECTED_DATE_RANGE][1] || 'now',
         !isEmpty(visConfig.span?.time_field)
           ? visConfig.span?.time_field[0].name
-          : prevQuery['selectedTimestamp'],
+          : prevQuery.selectedTimestamp,
         false,
         ''
       ),
@@ -307,25 +307,27 @@ export const DataConfigPanelItem = ({
   }, [configList, query, visualizations]);
 
   const updateVisUIState = ({ visData, query, visConfMetadata, visMeta }: VisualizationState) => {
-    fillVisDataInStore({ visData: visData, query, visConfMetadata, visMeta });
+    fillVisDataInStore({ visData, query, visConfMetadata, visMeta });
   };
 
   const getTimeStampFilteredFields = (options: IField[]) =>
     filter(options, (i: IField) => i.type !== TIMESTAMP);
 
   const getOptionsAvailable = (sectionName: string) => {
-    if (
-      sectionName === AGGREGATIONS ||
-      sectionName === BREAKDOWNS ||
-      (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
-      isTimeStampSelected
-    )
-      return fieldOptionList;
+    if (sectionName === AGGREGATIONS || sectionName === BREAKDOWNS)
+      return getTimeStampFilteredFields(fieldOptionList);
     if (
       visualizations.vis.name === VIS_CHART_TYPES.Line ||
       visualizations.vis.name === VIS_CHART_TYPES.Scatter
     )
       return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
+    if (!isTimeStampSelected && !isEmpty(configList.span?.time_field))
+      return getTimeStampFilteredFields(fieldOptionList);
+    if (
+      (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
+      isTimeStampSelected
+    )
+      return fieldOptionList;
     return getTimeStampFilteredFields(fieldOptionList);
   };
 
