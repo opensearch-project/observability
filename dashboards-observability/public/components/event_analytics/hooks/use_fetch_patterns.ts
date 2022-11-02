@@ -10,7 +10,7 @@ import { useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import {
   FINAL_QUERY,
-  SELECTED_PATTERN,
+  SELECTED_PATTERN_FIELD,
   SELECTED_TIMESTAMP,
 } from '../../../../common/constants/explorer';
 import { IPPLEventsDataSource } from '../../../../server/common/types';
@@ -76,7 +76,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     const searchQuery = isUndefined(query) ? rawQuery : query;
-    const patternField = cur![requestParams.tabId][SELECTED_PATTERN];
+    const patternField = cur![requestParams.tabId][SELECTED_PATTERN_FIELD];
     const timestampField = cur![requestParams.tabId][SELECTED_TIMESTAMP];
     const statsQuery = buildPatternDataQuery(searchQuery, patternField);
     const anomaliesQuery = buildPatternAnomaliesQuery(
@@ -150,7 +150,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
       changeQuery({
         tabId: requestParams.tabId,
         query: {
-          [SELECTED_PATTERN]: patternField,
+          [SELECTED_PATTERN_FIELD]: patternField,
         },
       })
     );

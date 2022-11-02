@@ -12,6 +12,14 @@ import {
   PPL_NEWLINE_REGEX,
 } from '../../common/constants/shared';
 
+/**
+ * @param literal - string literal that will be put inside single quotes in PPL command
+ * @returns string with inner single quotes escaped
+ */
+const escapeQuotes = (literal: string) => {
+  return literal.replaceAll("'", "''");
+}
+
 export const getIndexPatternFromRawQuery = (query: string): string => {
   const matches = query.match(PPL_INDEX_REGEX);
   if (matches) {
@@ -27,12 +35,18 @@ export const preprocessQuery = ({
   endTime,
   timeField,
   isLiveQuery,
+  selectedPatternField,
+  patternRegex,
+  filteredPattern,
 }: {
   rawQuery: string;
   startTime: string;
   endTime: string;
   timeField?: string;
   isLiveQuery: boolean;
+  selectedPatternField?: string;
+  patternRegex?: string;
+  filteredPattern?: string;
 }) => {
   let finalQuery = '';
 
@@ -48,9 +62,20 @@ export const preprocessQuery = ({
   finalQuery = `${tokens![1]}=${
     tokens![2]
   } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]}`;
+
+  if (filteredPattern && selectedPatternField) {
+    finalQuery += ` | patterns `;
+    if (patternRegex) {
+      finalQuery += `pattern='${escapeQuotes(patternRegex)}' `
+    }
+    finalQuery += `\`${selectedPatternField}\` | where patterns_field='${escapeQuotes(filteredPattern)}'`
+  }
+
   if (isLiveQuery) {
     finalQuery = finalQuery + ` | sort - ${timeField}`;
   }
+
+  console.log('❗finalQuery:', finalQuery);
   return finalQuery;
 };
 
@@ -73,7 +98,10 @@ export const composeFinalQuery = (
   endingTime: string,
   timeField: string,
   isLiveQuery: boolean,
-  appBaseQuery: string
+  appBaseQuery: string,
+  selectedPatternField?: string,
+  patternRegex?: string,
+  filteredPattern?: string,
 ) => {
   const fullQuery = buildQuery(appBaseQuery, curQuery);
   if (isEmpty(fullQuery)) return '';
@@ -83,5 +111,8 @@ export const composeFinalQuery = (
     endTime: endingTime,
     timeField,
     isLiveQuery,
+    selectedPatternField,
+    patternRegex,
+    filteredPattern
   });
 };

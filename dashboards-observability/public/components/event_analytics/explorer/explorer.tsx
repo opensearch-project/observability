@@ -60,10 +60,13 @@ import {
   SELECTED_PATTERN,
   PATTERNS_REGEX,
   PATTERNS_EXTRACTOR_REGEX,
+  SELECTED_PATTERN_FIELD,
   GROUPBY,
   AGGREGATIONS,
   CUSTOM_LABEL,
   VIZ_CONTAIN_XY_AXIS,
+  FILTERED_PATTERN,
+  PATTERN_REGEX,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
@@ -349,13 +352,13 @@ export const Explorer = ({
       }
     }
 
-    let curPattern: string = curQuery![SELECTED_PATTERN];
+    let curPattern: string = curQuery![SELECTED_PATTERN_FIELD];
 
     if (isEmpty(curPattern)) {
       const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
       await setDefaultPatternsField(curIndex, '', patternErrorHandler);
       const newQuery = queryRef.current;
-      curPattern = newQuery![SELECTED_PATTERN];
+      curPattern = newQuery![SELECTED_PATTERN_FIELD];
       if (isEmpty(curPattern)) {
         setToast('Index does not contain a valid pattern field.', 'danger');
         return;
@@ -368,13 +371,17 @@ export const Explorer = ({
     }
 
     // compose final query
+    console.log('❗curQuery:', curQuery);
     const finalQuery = composeFinalQuery(
       curQuery![RAW_QUERY],
       startingTime!,
       endingTime!,
       curTimestamp,
       isLiveTailOnRef.current,
-      appBasedRef.current
+      appBasedRef.current,
+      curQuery![SELECTED_PATTERN_FIELD],
+      curQuery![PATTERN_REGEX],
+      curQuery![FILTERED_PATTERN],
     );
 
     await dispatch(
@@ -620,19 +627,19 @@ export const Explorer = ({
   }, [countDistribution?.data]);
 
   const onPatternSelection = async (pattern: string) => {
-    let currQuery = queryRef.current![RAW_QUERY] as string;
-    const currPattern = queryRef.current![SELECTED_PATTERN] as string;
-    // Remove existing pattern selection if it exists
-    if (currQuery.match(PPL_PATTERNS_REGEX)) {
-      currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
+    if (queryRef.current![FILTERED_PATTERN] === pattern) {
+      return;
     }
-    const patternSelectQuery =
-      `${currQuery.trim()} | patterns \`${currPattern}\` | ` +
-      `where patterns_field = '${pattern.replaceAll("'", "''")}'`;
-    // Passing in empty string will remove pattern query
-    const newQuery = pattern ? patternSelectQuery : currQuery;
-    await setTempQuery(newQuery);
-    await updateQueryInStore(newQuery);
+    dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [FILTERED_PATTERN]: pattern,
+        },
+      })
+    );
+    // workaround to refresh callback and trigger fetch data
+    await setTempQuery(queryRef.current![RAW_QUERY]);
     await handleTimeRangePickerRefresh(true);
   };
 
@@ -652,7 +659,7 @@ export const Explorer = ({
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
-                  selectedPattern={query[SELECTED_PATTERN]}
+                  selectedPattern={query[SELECTED_PATTERN_FIELD]}
                   handleOverrideTimestamp={handleOverrideTimestamp}
                   handleOverridePattern={handleOverridePattern}
                   handleAddField={(field: IField) => handleAddField(field)}
@@ -752,7 +759,13 @@ export const Explorer = ({
                             </EuiFlexItem>
                             <EuiFlexItem grow={false}>
                               <EuiText size="s">
-                                <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
+                                <EuiLink onClick={() => {
+                                  // hide patterns will also clear pattern selection
+                                  if (viewLogPatterns) {
+                                    onPatternSelection('');
+                                  }
+                                  setViewLogPatterns(!viewLogPatterns);
+                                }}>
                                   {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
                                 </EuiLink>
                               </EuiText>
