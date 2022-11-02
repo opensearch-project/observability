@@ -285,3 +285,8 @@ export const SERIES_POSITION_OPTIONS = [
   { id: htmlIdGenerator('ct')(), label: 'Left', side: 'left' },
   { id: htmlIdGenerator('ct')(), label: 'Right', side: 'right' },
 ];
+
+export const HEATMAP_DATA_CONFIG_HINTS_INFO = {
+  [AGGREGATIONS]: 'only one Series is allowed',
+  [GROUPBY]: 'only two Dimensions are allowed',
+};
