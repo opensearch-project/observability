@@ -119,13 +119,6 @@ describe('Utils helper functions', () => {
     );
     expect(wrapper2).toMatchSnapshot();
 
-    const wrapper3 = mount(
-      <div>
-        {displayVisualization(sampleSavedVisualizationForTreeMap, samplePPLResponse, 'tree_map')}
-      </div>
-    );
-    expect(wrapper3).toMatchSnapshot();
-
     const wrapper4 = mount(
       <div>
         {displayVisualization(
@@ -136,11 +129,6 @@ describe('Utils helper functions', () => {
       </div>
     );
     expect(wrapper4).toMatchSnapshot();
-
-    const wrapper5 = mount(
-      <div>{displayVisualization(sampleSavedVisualizationForPie, samplePPLResponse, 'pie')}</div>
-    );
-    expect(wrapper5).toMatchSnapshot();
 
     const wrapper6 = mount(
       <div>{displayVisualization({}, samplePPLEmptyResponse, 'horizontal_bar')}</div>

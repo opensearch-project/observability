@@ -5,7 +5,7 @@
 
 import './data_configurations_panel.scss';
 
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   EuiButton,
   EuiComboBox,
@@ -20,18 +20,19 @@ import {
   htmlIdGenerator,
 } from '@elastic/eui';
 import { filter, isEmpty } from 'lodash';
-import { batch, useDispatch } from 'react-redux';
 import {
   AGGREGATIONS,
   AGGREGATION_OPTIONS,
   BREAKDOWNS,
   CUSTOM_LABEL,
+  FINAL_QUERY,
   GROUPBY,
   RAW_QUERY,
   SPAN,
   TIMESTAMP,
   TIME_FIELD,
   TIME_INTERVAL_OPTIONS,
+  SELECTED_DATE_RANGE,
 } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import { composeAggregations } from '../../../../../../../../common/query_manager/utils';
@@ -42,13 +43,14 @@ import {
   DataConfigPanelProps,
   IField,
   SelectedConfigItem,
+  Query,
+  VisualizationState,
 } from '../../../../../../../../common/types/explorer';
-import { TabContext } from '../../../../../hooks';
-import { changeQuery } from '../../../../../redux/slices/query_slice';
-import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
+import { TabContext, useRenderVisualization } from '../../../../../hooks';
 import { DataConfigItemClickPanel } from '../config_controls/data_config_item_click_panel';
 import { DataConfigPanelFields } from '../config_controls/data_config_panel_fields';
 import { ButtonGroupItem } from './config_button_group';
+import { composeFinalQuery } from '../../../../../../../../common/utils';
 
 const initialDimensionEntry = {
   label: '',
@@ -61,6 +63,7 @@ const initialSeriesEntry = {
   name: '',
   aggregation: 'count',
 };
+
 const initialSpanEntry = { time_field: [], interval: 0, unit: [] };
 
 export const DataConfigPanelItem = ({
@@ -68,14 +71,16 @@ export const DataConfigPanelItem = ({
   visualizations,
   queryManager,
 }: DataConfigPanelProps) => {
-  const dispatch = useDispatch();
-  const { tabId, handleQueryChange, fetchData, fetchDataUpdateChart, curVisId } = useContext<any>(
-    TabContext
-  );
+  const { tabId, handleQueryChange, pplService } = useContext<any>(TabContext);
+  const requestParams = { tabId };
+  const { getVisualizations, fillVisDataInStore } = useRenderVisualization({
+    pplService,
+    requestParams,
+  });
   const { data } = visualizations;
-  const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
   const {
     indexFields: { availableFields },
+    query = {},
   } = data;
   const [configList, setConfigList] = useState<ConfigList>({});
   const [isAddConfigClicked, setIsAddConfigClicked] = useState<boolean>(false);
@@ -87,7 +92,7 @@ export const DataConfigPanelItem = ({
   const { userConfigs } = data;
 
   useEffect(() => {
-    if (userConfigs && userConfigs.dataConfig) {
+    if (userConfigs.dataConfig) {
       setConfigList({
         ...userConfigs.dataConfig,
       });
@@ -206,39 +211,99 @@ export const DataConfigPanelItem = ({
     setIsAddConfigClicked(false);
   };
 
-  // updateChart is fixed for multiple rerenders and this is only for testing
-  const updateChart = (updatedConfigList = configList) => {
-    if (visualizations.vis.name === VIS_CHART_TYPES.Histogram) {
-      dispatch(
-        changeVizConfig({
-          tabId,
-          vizId: curVisId,
-          data: {
-            ...userConfigs,
-            dataConfig: {
-              ...userConfigs.dataConfig,
-              [GROUPBY]: updatedConfigList[GROUPBY],
-              [AGGREGATIONS]: updatedConfigList[AGGREGATIONS],
-            },
-          },
-        })
-      );
-    } else {
-      const statsTokens = queryManager!.queryParser().parse(data.query.rawQuery).getStats();
-      const newQuery = queryManager!
-        .queryBuilder()
-        .build(data.query.rawQuery, composeAggregations(updatedConfigList, statsTokens));
-      handleQueryChange(newQuery);
+  /**
+   * Parses current query string to get its stats information.
+   * @param query PPL query string.
+   * @returns stats information of a parsed query.
+   */
+  const getStatsTokens = (query: string) => queryManager!.queryParser().parse(query).getStats();
 
-      const updatedQuery = {
-        tabId,
-        query: {
-          ...data.query,
-          [RAW_QUERY]: newQuery,
-        },
-      };
-      fetchDataUpdateChart(undefined, undefined, updatedQuery);
-    }
+  /**
+   * Builds new query based on existing query stats and new configurations.
+   * @param prevQuery query string from prevous query state.
+   * @param visConfig visualization UI configurations.
+   * @param statsTokens parsed stats tokens.
+   * @returns
+   */
+  const getNewQueryString = (prevQuery: string, visConfig: ConfigList, statsTokens) =>
+    queryManager!.queryBuilder().build(prevQuery, composeAggregations(visConfig, statsTokens));
+
+  /**
+   * Derives new query state from previous state and new configurations.
+   * @param prevQuery current query state.
+   * @param newQueryString new query.
+   * @param visConfig visualization configurations.
+   * @returns next query state.
+   */
+  const getNextQueryState = (
+    prevQuery: Query,
+    newQueryString: string,
+    visConfig: ConfigList
+  ): Query => {
+    return {
+      ...prevQuery,
+      [RAW_QUERY]: newQueryString,
+      [FINAL_QUERY]: composeFinalQuery(
+        newQueryString,
+        prevQuery[SELECTED_DATE_RANGE][0] || 'now',
+        prevQuery[SELECTED_DATE_RANGE][1] || 'now',
+        !isEmpty(visConfig.span?.time_field)
+          ? visConfig.span?.time_field[0].name
+          : prevQuery['selectedTimestamp'],
+        false,
+        ''
+      ),
+    };
+  };
+
+  /**
+   * calculate next visualization state on update chart event.
+   * @param param0 query and visualization config.
+   * @returns next visualization state.
+   */
+  const prepareNextVisState = ({
+    query,
+    visConfig,
+  }: {
+    query: Query;
+    visConfig: ConfigList;
+  }): Array<string | Query> => {
+    const newQuery: string = getNewQueryString(
+      query[RAW_QUERY],
+      visConfig,
+      getStatsTokens(query[RAW_QUERY])
+    );
+    return [newQuery, getNextQueryState(query, newQuery, visConfig)];
+  };
+
+  const updateChart = useCallback(() => {
+    const [newQueryString, nextQueryState] = prepareNextVisState({
+      query,
+      visConfig: {
+        ...configList,
+      },
+    });
+
+    handleQueryChange(newQueryString);
+    getVisualizations({
+      query: nextQueryState[FINAL_QUERY],
+      callback: (res) => {
+        updateVisUIState({
+          visData: res,
+          query: nextQueryState,
+          visConfMetadata: {
+            ...configList,
+          },
+          visMeta: {
+            visId: visualizations.vis?.name || '',
+          },
+        });
+      },
+    });
+  }, [configList, query, visualizations]);
+
+  const updateVisUIState = ({ visData, query, visConfMetadata, visMeta }: VisualizationState) => {
+    fillVisDataInStore({ visData: visData, query, visConfMetadata, visMeta });
   };
 
   const isPositionButtonVisible = (sectionName: string) =>
@@ -250,23 +315,19 @@ export const DataConfigPanelItem = ({
     filter(options, (i: IField) => i.type !== TIMESTAMP);
 
   const getOptionsAvailable = (sectionName: string) => {
-    const selectedFields = {};
-    const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
-    if (sectionName === AGGREGATIONS) return unselectedFields;
-    if (sectionName === BREAKDOWNS) return configList[GROUPBY];
+    if (
+      sectionName === AGGREGATIONS ||
+      sectionName === BREAKDOWNS ||
+      (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
+      isTimeStampSelected
+    )
+      return fieldOptionList;
     if (
       visualizations.vis.name === VIS_CHART_TYPES.Line ||
       visualizations.vis.name === VIS_CHART_TYPES.Scatter
     )
-      return filter(unselectedFields, (i) => i.type === TIMESTAMP);
-    if (!isTimeStampSelected && !isEmpty(configList.span?.time_field))
-      return getTimeStampFilteredFields(unselectedFields);
-    if (
-      (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
-      isTimeStampSelected
-    )
-      return unselectedFields;
-    return getTimeStampFilteredFields(unselectedFields);
+      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
+    return getTimeStampFilteredFields(fieldOptionList);
   };
 
   const getCommonUI = (title: string) => {
@@ -477,6 +538,7 @@ export const DataConfigPanelItem = ({
       handleServiceEdit,
     };
   };
+
   return isAddConfigClicked ? (
     getCommonUI(selectedConfigItem.name)
   ) : (
@@ -492,7 +554,8 @@ export const DataConfigPanelItem = ({
           {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
           <EuiSpacer size="s" />
           {(visualizations.vis.name === VIS_CHART_TYPES.Bar ||
-            visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar) && (
+            visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar ||
+            visualizations.vis.name === VIS_CHART_TYPES.Line) && (
             <>{DataConfigPanelFields(getRenderFieldsObj(BREAKDOWNS))}</>
           )}
         </>

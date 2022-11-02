@@ -184,7 +184,6 @@ export interface ExplorerDataType {
 }
 
 export interface Query {
-  finalQuery: string;
   index: string;
   isLoaded: boolean;
   objectType: string;
@@ -193,6 +192,7 @@ export interface Query {
   selectedDateRange: string[];
   selectedTimestamp: string;
   tabCreatedType: string;
+  finalQuery?: string;
 }
 
 export interface ExplorerData {
@@ -365,4 +365,15 @@ export interface DataConfigPanelFieldProps {
   handleServiceAdd: (name: string) => void;
   handleServiceRemove: (index: number, name: string) => void;
   handleServiceEdit: (arrIndex: number, sectionName: string, isTimeStamp: boolean) => void;
+}
+
+export interface VisMeta {
+  visId: string;
+}
+
+export interface VisualizationState {
+  query: Query;
+  visData: any;
+  visConfMetadata: ConfigList;
+  visMeta: VisMeta;
 }

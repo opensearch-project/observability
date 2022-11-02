@@ -442,7 +442,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 40,
+                      "defaultState": 70,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -462,13 +462,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               ],
             },
             Object {
-              "content": Array [],
-              "editor": [Function],
-              "id": "style-panel",
-              "mapTo": "layoutConfig",
-              "name": "Layout",
-            },
-            Object {
               "editor": [Function],
               "id": "availability-panel",
               "mapTo": "availabilityConfig",
@@ -476,7 +469,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
             },
           ],
         },
-        "fillopacity": 40,
+        "fillopacity": 70,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
@@ -772,7 +765,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 40,
+                            "defaultState": 70,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
                             "name": "Fill opacity",
@@ -792,13 +785,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                  Object {
                     "editor": [Function],
                     "id": "availability-panel",
                     "mapTo": "availabilityConfig",
@@ -806,7 +792,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   },
                 ],
               },
-              "fillopacity": 40,
+              "fillopacity": 70,
               "fulllabel": "Vertical bar",
               "groupwidth": 0.7,
               "icon": [Function],
@@ -1085,7 +1071,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 40,
+                            "defaultState": 70,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
                             "name": "Fill opacity",
@@ -1105,13 +1091,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                  Object {
                     "editor": [Function],
                     "id": "availability-panel",
                     "mapTo": "availabilityConfig",
@@ -1119,7 +1098,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   },
                 ],
               },
-              "fillopacity": 40,
+              "fillopacity": 70,
               "fulllabel": "Horizontal bar",
               "groupwidth": 0.7,
               "icon": [Function],
@@ -1370,7 +1349,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 40,
+                            "defaultState": 70,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
                             "name": "Fill opacity",
@@ -1447,13 +1426,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         "schemas": Array [],
                       },
                     ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
                   },
                   Object {
                     "editor": [Function],
@@ -1723,13 +1695,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                     ],
-                  },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
                   },
                 ],
               },
@@ -2171,13 +2136,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
                 ],
               },
               "fulllabel": "Hubble",
@@ -2539,7 +2497,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 40,
+                            "defaultState": 70,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
                             "name": "Fill opacity",
@@ -2559,13 +2517,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     ],
                   },
                   Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  },
-                  Object {
                     "editor": [Function],
                     "id": "availability-panel",
                     "mapTo": "availabilityConfig",
@@ -2573,7 +2524,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                   },
                 ],
               },
-              "fillopacity": 40,
+              "fillopacity": 70,
               "fulllabel": "Vertical bar",
               "groupwidth": 0.7,
               "icon": [Function],
@@ -2884,7 +2835,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                               Object {
                                 "component": [Function],
-                                "defaultState": 40,
+                                "defaultState": 70,
                                 "eleType": "slider",
                                 "mapTo": "fillOpacity",
                                 "name": "Fill opacity",
@@ -2904,13 +2855,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                       Object {
-                        "content": Array [],
-                        "editor": [Function],
-                        "id": "style-panel",
-                        "mapTo": "layoutConfig",
-                        "name": "Layout",
-                      },
-                      Object {
                         "editor": [Function],
                         "id": "availability-panel",
                         "mapTo": "availabilityConfig",
@@ -2918,7 +2862,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                       },
                     ],
                   },
-                  "fillopacity": 40,
+                  "fillopacity": 70,
                   "fulllabel": "Vertical bar",
                   "groupwidth": 0.7,
                   "icon": [Function],
@@ -3234,7 +3178,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                     Object {
                                       "component": [Function],
-                                      "defaultState": 40,
+                                      "defaultState": 70,
                                       "eleType": "slider",
                                       "mapTo": "fillOpacity",
                                       "name": "Fill opacity",
@@ -3254,13 +3198,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               ],
                             },
                             Object {
-                              "content": Array [],
-                              "editor": [Function],
-                              "id": "style-panel",
-                              "mapTo": "layoutConfig",
-                              "name": "Layout",
-                            },
-                            Object {
                               "editor": [Function],
                               "id": "availability-panel",
                               "mapTo": "availabilityConfig",
@@ -3269,7 +3206,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           ],
                         }
                       }
-                      fillopacity={40}
+                      fillopacity={70}
                       fulllabel="Vertical bar"
                       groupwidth={0.7}
                       icon={[Function]}
@@ -3519,7 +3456,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "component": [Function],
-                                        "defaultState": 40,
+                                        "defaultState": 70,
                                         "eleType": "slider",
                                         "mapTo": "fillOpacity",
                                         "name": "Fill opacity",
@@ -3539,13 +3476,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               Object {
-                                "content": Array [],
-                                "editor": [Function],
-                                "id": "style-panel",
-                                "mapTo": "layoutConfig",
-                                "name": "Layout",
-                              },
-                              Object {
                                 "editor": [Function],
                                 "id": "availability-panel",
                                 "mapTo": "availabilityConfig",
@@ -3553,7 +3483,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               },
                             ],
                           },
-                          "fillopacity": 40,
+                          "fillopacity": 70,
                           "fulllabel": "Vertical bar",
                           "groupwidth": 0.7,
                           "icon": [Function],
@@ -3870,7 +3800,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                       Object {
                                         "component": [Function],
-                                        "defaultState": 40,
+                                        "defaultState": 70,
                                         "eleType": "slider",
                                         "mapTo": "fillOpacity",
                                         "name": "Fill opacity",
@@ -3890,13 +3820,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               },
                               Object {
-                                "content": Array [],
-                                "editor": [Function],
-                                "id": "style-panel",
-                                "mapTo": "layoutConfig",
-                                "name": "Layout",
-                              },
-                              Object {
                                 "editor": [Function],
                                 "id": "availability-panel",
                                 "mapTo": "availabilityConfig",
@@ -3905,7 +3828,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             ],
                           }
                         }
-                        fillopacity={40}
+                        fillopacity={70}
                         fulllabel="Vertical bar"
                         groupwidth={0.7}
                         icon={[Function]}
@@ -4191,7 +4114,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           },
                                           Object {
                                             "component": [Function],
-                                            "defaultState": 40,
+                                            "defaultState": 70,
                                             "eleType": "slider",
                                             "mapTo": "fillOpacity",
                                             "name": "Fill opacity",
@@ -4211,13 +4134,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     ],
                                   },
                                   Object {
-                                    "content": Array [],
-                                    "editor": [Function],
-                                    "id": "style-panel",
-                                    "mapTo": "layoutConfig",
-                                    "name": "Layout",
-                                  },
-                                  Object {
                                     "editor": [Function],
                                     "id": "availability-panel",
                                     "mapTo": "availabilityConfig",
@@ -4226,7 +4142,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 ],
                               }
                             }
-                            fillopacity={40}
+                            fillopacity={70}
                             fulllabel="Vertical bar"
                             groupwidth={0.7}
                             icon={[Function]}
@@ -4680,7 +4596,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 40,
+                          "defaultState": 70,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
                           "name": "Fill opacity",
@@ -5138,7 +5054,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "component": [Function],
-                                  "defaultState": 40,
+                                  "defaultState": 70,
                                   "eleType": "slider",
                                   "mapTo": "fillOpacity",
                                   "name": "Fill opacity",
@@ -5158,13 +5074,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           ],
                         },
                         Object {
-                          "content": Array [],
-                          "editor": [Function],
-                          "id": "style-panel",
-                          "mapTo": "layoutConfig",
-                          "name": "Layout",
-                        },
-                        Object {
                           "editor": [Function],
                           "id": "availability-panel",
                           "mapTo": "availabilityConfig",
@@ -5172,7 +5081,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                       ],
                     },
-                    "fillopacity": 40,
+                    "fillopacity": 70,
                     "fulllabel": "Vertical bar",
                     "groupwidth": 0.7,
                     "icon": [Function],
@@ -5478,7 +5387,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                           Object {
                             "component": [Function],
-                            "defaultState": 40,
+                            "defaultState": 70,
                             "eleType": "slider",
                             "mapTo": "fillOpacity",
                             "name": "Fill opacity",
@@ -5936,7 +5845,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                   Object {
                                     "component": [Function],
-                                    "defaultState": 40,
+                                    "defaultState": 70,
                                     "eleType": "slider",
                                     "mapTo": "fillOpacity",
                                     "name": "Fill opacity",
@@ -5956,13 +5865,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             ],
                           },
                           Object {
-                            "content": Array [],
-                            "editor": [Function],
-                            "id": "style-panel",
-                            "mapTo": "layoutConfig",
-                            "name": "Layout",
-                          },
-                          Object {
                             "editor": [Function],
                             "id": "availability-panel",
                             "mapTo": "availabilityConfig",
@@ -5970,7 +5872,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
-                      "fillopacity": 40,
+                      "fillopacity": 70,
                       "fulllabel": "Vertical bar",
                       "groupwidth": 0.7,
                       "icon": [Function],
@@ -6038,24 +5940,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
               />,
               "id": "data-panel",
               "name": "Style",
-            },
-            Object {
-              "content": <ConfigEditor
-                onConfigEditorChange={[Function]}
-                setToast={[MockFunction]}
-                spec="MOCK HJSON STRING"
-                tabProps={
-                  Object {
-                    "content": Array [],
-                    "editor": [Function],
-                    "id": "style-panel",
-                    "mapTo": "layoutConfig",
-                    "name": "Layout",
-                  }
-                }
-              />,
-              "id": "style-panel",
-              "name": "Layout",
             },
             Object {
               "content": <ConfigAvailability
@@ -6507,7 +6391,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                   Object {
                                     "component": [Function],
-                                    "defaultState": 40,
+                                    "defaultState": 70,
                                     "eleType": "slider",
                                     "mapTo": "fillOpacity",
                                     "name": "Fill opacity",
@@ -6527,13 +6411,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             ],
                           },
                           Object {
-                            "content": Array [],
-                            "editor": [Function],
-                            "id": "style-panel",
-                            "mapTo": "layoutConfig",
-                            "name": "Layout",
-                          },
-                          Object {
                             "editor": [Function],
                             "id": "availability-panel",
                             "mapTo": "availabilityConfig",
@@ -6541,7 +6418,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
-                      "fillopacity": 40,
+                      "fillopacity": 70,
                       "fulllabel": "Vertical bar",
                       "groupwidth": 0.7,
                       "icon": [Function],
@@ -6624,30 +6501,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     className="euiTab__content"
                   >
                     Style
-                  </span>
-                </button>
-              </EuiTab>
-              <EuiTab
-                aria-controls="random_html_id"
-                id="style-panel"
-                isSelected={false}
-                key="style-panel"
-                onClick={[Function]}
-              >
-                <button
-                  aria-controls="random_html_id"
-                  aria-selected={false}
-                  className="euiTab"
-                  disabled={false}
-                  id="style-panel"
-                  onClick={[Function]}
-                  role="tab"
-                  type="button"
-                >
-                  <span
-                    className="euiTab__content"
-                  >
-                    Layout
                   </span>
                 </button>
               </EuiTab>
@@ -6915,7 +6768,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                         Object {
                           "component": [Function],
-                          "defaultState": 40,
+                          "defaultState": 70,
                           "eleType": "slider",
                           "mapTo": "fillOpacity",
                           "name": "Fill opacity",
@@ -7373,7 +7226,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "component": [Function],
-                                  "defaultState": 40,
+                                  "defaultState": 70,
                                   "eleType": "slider",
                                   "mapTo": "fillOpacity",
                                   "name": "Fill opacity",
@@ -7393,13 +7246,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           ],
                         },
                         Object {
-                          "content": Array [],
-                          "editor": [Function],
-                          "id": "style-panel",
-                          "mapTo": "layoutConfig",
-                          "name": "Layout",
-                        },
-                        Object {
                           "editor": [Function],
                           "id": "availability-panel",
                           "mapTo": "availabilityConfig",
@@ -7407,7 +7253,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                       ],
                     },
-                    "fillopacity": 40,
+                    "fillopacity": 70,
                     "fulllabel": "Vertical bar",
                     "groupwidth": 0.7,
                     "icon": [Function],
@@ -7940,7 +7786,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 40,
+                                                "defaultState": 70,
                                                 "eleType": "slider",
                                                 "mapTo": "fillOpacity",
                                                 "name": "Fill opacity",
@@ -7960,13 +7806,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         ],
                                       },
                                       Object {
-                                        "content": Array [],
-                                        "editor": [Function],
-                                        "id": "style-panel",
-                                        "mapTo": "layoutConfig",
-                                        "name": "Layout",
-                                      },
-                                      Object {
                                         "editor": [Function],
                                         "id": "availability-panel",
                                         "mapTo": "availabilityConfig",
@@ -7974,7 +7813,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
-                                  "fillopacity": 40,
+                                  "fillopacity": 70,
                                   "fulllabel": "Vertical bar",
                                   "groupwidth": 0.7,
                                   "icon": [Function],
@@ -8774,7 +8613,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 40,
+                                                "defaultState": 70,
                                                 "eleType": "slider",
                                                 "mapTo": "fillOpacity",
                                                 "name": "Fill opacity",
@@ -8794,13 +8633,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         ],
                                       },
                                       Object {
-                                        "content": Array [],
-                                        "editor": [Function],
-                                        "id": "style-panel",
-                                        "mapTo": "layoutConfig",
-                                        "name": "Layout",
-                                      },
-                                      Object {
                                         "editor": [Function],
                                         "id": "availability-panel",
                                         "mapTo": "availabilityConfig",
@@ -8808,7 +8640,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
-                                  "fillopacity": 40,
+                                  "fillopacity": 70,
                                   "fulllabel": "Vertical bar",
                                   "groupwidth": 0.7,
                                   "icon": [Function],
@@ -10107,7 +9939,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 40,
+                                                "defaultState": 70,
                                                 "eleType": "slider",
                                                 "mapTo": "fillOpacity",
                                                 "name": "Fill opacity",
@@ -10127,13 +9959,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         ],
                                       },
                                       Object {
-                                        "content": Array [],
-                                        "editor": [Function],
-                                        "id": "style-panel",
-                                        "mapTo": "layoutConfig",
-                                        "name": "Layout",
-                                      },
-                                      Object {
                                         "editor": [Function],
                                         "id": "availability-panel",
                                         "mapTo": "availabilityConfig",
@@ -10141,7 +9966,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
-                                  "fillopacity": 40,
+                                  "fillopacity": 70,
                                   "fulllabel": "Vertical bar",
                                   "groupwidth": 0.7,
                                   "icon": [Function],
@@ -11011,7 +10836,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                                 Object {
                                   "component": [Function],
-                                  "defaultState": 40,
+                                  "defaultState": 70,
                                   "eleType": "slider",
                                   "mapTo": "fillOpacity",
                                   "name": "Fill opacity",
@@ -11461,7 +11286,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 40,
+                                                "defaultState": 70,
                                                 "eleType": "slider",
                                                 "mapTo": "fillOpacity",
                                                 "name": "Fill opacity",
@@ -11481,13 +11306,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         ],
                                       },
                                       Object {
-                                        "content": Array [],
-                                        "editor": [Function],
-                                        "id": "style-panel",
-                                        "mapTo": "layoutConfig",
-                                        "name": "Layout",
-                                      },
-                                      Object {
                                         "editor": [Function],
                                         "id": "availability-panel",
                                         "mapTo": "availabilityConfig",
@@ -11495,7 +11313,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
-                                  "fillopacity": 40,
+                                  "fillopacity": 70,
                                   "fulllabel": "Vertical bar",
                                   "groupwidth": 0.7,
                                   "icon": [Function],
@@ -13668,7 +13486,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           />
                                         </EuiSpacer>
                                         <SliderConfig
-                                          currentRange={40}
+                                          currentRange={70}
                                           handleSliderChange={[Function]}
                                           max={100}
                                           maxRange={100}
@@ -13765,7 +13583,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             showTicks={false}
                                             showValue={false}
                                             step={1}
-                                            value={40}
+                                            value={70}
                                           >
                                             <EuiRangeWrapper
                                               className="euiRange euiRange--hasInput"
@@ -13784,7 +13602,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   onChange={[Function]}
                                                   showTicks={false}
                                                   step={1}
-                                                  value={40}
+                                                  value={70}
                                                 >
                                                   <div
                                                     aria-hidden={true}
@@ -13802,7 +13620,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                       showTicks={false}
                                                       step={1}
                                                       tabIndex={-1}
-                                                      value={40}
+                                                      value={70}
                                                     >
                                                       <input
                                                         aria-hidden={true}
@@ -13815,7 +13633,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         step={1}
                                                         tabIndex={-1}
                                                         type="range"
-                                                        value={40}
+                                                        value={70}
                                                       />
                                                     </EuiRangeSlider>
                                                   </div>
@@ -13836,7 +13654,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   name="Fill opacity"
                                                   onChange={[Function]}
                                                   step={1}
-                                                  value={40}
+                                                  value={70}
                                                 >
                                                   <EuiFieldNumber
                                                     aria-label="change lineWidth slider"
@@ -13855,7 +13673,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                         "width": "4.4em",
                                                       }
                                                     }
-                                                    value={40}
+                                                    value={70}
                                                   >
                                                     <EuiFormControlLayout
                                                       compressed={true}
@@ -13885,7 +13703,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                                 }
                                                               }
                                                               type="number"
-                                                              value={40}
+                                                              value={70}
                                                             />
                                                           </EuiValidatableControl>
                                                           <EuiFormControlLayoutIcons
@@ -14380,7 +14198,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                               },
                                               Object {
                                                 "component": [Function],
-                                                "defaultState": 40,
+                                                "defaultState": 70,
                                                 "eleType": "slider",
                                                 "mapTo": "fillOpacity",
                                                 "name": "Fill opacity",
@@ -14400,13 +14218,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         ],
                                       },
                                       Object {
-                                        "content": Array [],
-                                        "editor": [Function],
-                                        "id": "style-panel",
-                                        "mapTo": "layoutConfig",
-                                        "name": "Layout",
-                                      },
-                                      Object {
                                         "editor": [Function],
                                         "id": "availability-panel",
                                         "mapTo": "availabilityConfig",
@@ -14414,7 +14225,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
-                                  "fillopacity": 40,
+                                  "fillopacity": 70,
                                   "fulllabel": "Vertical bar",
                                   "groupwidth": 0.7,
                                   "icon": [Function],

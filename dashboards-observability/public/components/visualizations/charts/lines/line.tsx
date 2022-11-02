@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { find, isEmpty, last, take } from 'lodash';
+import { find, isEmpty, last, forEach } from 'lodash';
 import React, { useMemo } from 'react';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 import {
@@ -14,11 +14,12 @@ import {
   PLOT_MARGIN,
 } from '../../../../../common/constants/shared';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
-import { getPropName, hexToRgb } from '../../../../components/event_analytics/utils/utils';
+import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { Plt } from '../../plotly/plot';
+import { transformPreprocessedDataToTraces, preprocessJsonData } from '../shared/common';
 
 export const Line = ({ visualizations, layout, config }: any) => {
   const {
@@ -37,6 +38,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
     data: {
       rawVizData: {
         data: queriedVizData,
+        jsonData,
         metadata: { fields },
       },
       userConfigs: {
@@ -50,6 +52,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
           panelOptions = {},
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
+          breakdowns = [],
         } = {},
         layoutConfig = {},
         availabilityConfig = {},
@@ -61,7 +64,6 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const tooltipMode =
     tooltipOptions.tooltipMode !== undefined ? tooltipOptions.tooltipMode : 'show';
   const tooltipText = tooltipOptions.tooltipText !== undefined ? tooltipOptions.tooltipText : 'all';
-
   const lastIndex = fields.length - 1;
   const visType: string = name;
   const mode =
@@ -78,83 +80,81 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const tickAngle = chartStyles.rotateLabels || LabelAngle;
   const labelSize = chartStyles.labelSize;
   const legendSize = legend.legendSize;
-
   const getSelectedColorTheme = (field: any, index: number) =>
     (colorTheme.length > 0 &&
       colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     PLOTLY_COLOR[index % PLOTLY_COLOR.length];
   const timestampField = find(fields, (field) => field.type === 'timestamp');
+  let xaxis = [timestampField];
 
-  let xaxis;
-  if (span && span.time_field && timestampField) {
-    xaxis = dimensions ? [timestampField, ...dimensions] : [timestampField, []];
-  } else {
-    xaxis = dimensions;
-  }
+  if (!timestampField || isEmpty(series)) return <EmptyPlaceholder icon={icontype} />;
 
-  if (!timestampField || xaxis.length !== 1 || isEmpty(series))
-    return <EmptyPlaceholder icon={icontype} />;
-
-  let multiMetrics = {};
-  const [calculatedLayout, lineValues] = useMemo(() => {
-    const isBarMode = mode === 'bar';
-    let calculatedLineValues = series.map((field: any, index: number) => {
-      const selectedColor = getSelectedColorTheme(field.name, index);
+  const addStylesToTraces = (traces, traceStyles) => {
+    const { fillOpacity, tooltipMode, tooltipText, lineWidth, lineShape, markerSize } = traceStyles;
+    return traces.map((trace, idx: number) => {
+      const selectedColor = getSelectedColorTheme(trace.aggName, idx);
       const fillColor = hexToRgb(selectedColor, fillOpacity);
-      const barMarker = {
-        color: fillColor,
-        line: {
-          color: selectedColor,
-          width: lineWidth,
-        },
-      };
-      const fillProperty = {
-        fill: 'tozeroy',
-        fillcolor: fillColor,
-      };
-      const multiYaxis = { yaxis: `y${index + 1}` };
-      multiMetrics = {
-        ...multiMetrics,
-        [`yaxis${index > 0 ? index + 1 : ''}`]: {
-          titlefont: {
-            color: selectedColor,
-          },
-          automargin: true,
-          tickfont: {
-            color: selectedColor,
-            ...(labelSize && {
-              size: labelSize,
-            }),
-          },
-          ...(index > 0 && { overlaying: 'y' }),
-          side: field.side,
-        },
-      };
 
       return {
-        x: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name],
-        y: queriedVizData[getPropName(field)],
-        type: isBarMode ? 'bar' : 'scatter',
-        name: getPropName(field),
+        ...trace,
+        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
+        type: 'line',
         mode,
-        ...(!['bar', 'markers'].includes(mode) && fillProperty),
+        ...{
+          fill: 'tozeroy',
+          fillcolor: fillColor,
+        },
         line: {
           shape: lineShape,
           width: lineWidth,
           color: selectedColor,
         },
-        hoverinfo: tooltipMode === 'hidden' ? 'none' : tooltipText,
         marker: {
           size: markerSize,
-          ...(isBarMode && barMarker),
+          ...{
+            color: fillColor,
+            line: {
+              color: selectedColor,
+              width: lineWidth,
+            },
+          },
         },
-        ...(index >= 1 && multiYaxis),
       };
     });
+  };
 
-    const layoutForBarMode = {
-      barmode: 'group',
+  let lines = useMemo(() => {
+    const visConfig = {
+      dimensions,
+      series,
+      breakdowns,
+      span,
     };
+    const traceStyles = {
+      fillOpacity,
+      tooltipMode,
+      tooltipText,
+      lineShape,
+      lineWidth,
+      markerSize,
+    };
+
+    return addStylesToTraces(
+      transformPreprocessedDataToTraces(preprocessJsonData(jsonData, visConfig), visConfig),
+      traceStyles
+    );
+  }, [
+    chartStyles,
+    jsonData,
+    dimensions,
+    series,
+    span,
+    breakdowns,
+    panelOptions,
+    tooltipOptions,
+  ]);
+
+  const mergedLayout = useMemo(() => {
     const axisLabelsStyle = {
       automargin: true,
       tickfont: {
@@ -163,9 +163,9 @@ export const Line = ({ visualizations, layout, config }: any) => {
         }),
       },
     };
-    const mergedLayout = {
+
+    return {
       ...layout,
-      ...layoutConfig.layout,
       title: panelOptions.title || layoutConfig.layout?.title || '',
       legend: {
         ...layout.legend,
@@ -185,59 +185,57 @@ export const Line = ({ visualizations, layout, config }: any) => {
         ...axisLabelsStyle,
       },
       showlegend: showLegend,
-      ...(isBarMode && layoutForBarMode),
-      ...(multiMetrics && multiMetrics),
       margin: PLOT_MARGIN,
     };
+  }, [visualizations]);
 
-    if (thresholds || availabilityConfig.level) {
-      const thresholdTraces = {
-        x: [],
-        y: [],
-        mode: 'text',
-        text: [],
-        showlegend: false,
-      };
-      const threshold = thresholds ? thresholds : [];
-      const levels = availabilityConfig.level ? availabilityConfig.level : [];
+  if (thresholds || availabilityConfig.level) {
+    const thresholdTraces = {
+      x: [],
+      y: [],
+      mode: 'text',
+      text: [],
+      showlegend: false,
+    };
 
-      const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
-        return list.map((thr: ThresholdUnitType) => {
-          thresholdTraces.x.push(
-            queriedVizData[
-              !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.name : fields[lastIndex].name
-            ][0]
-          );
-          thresholdTraces.y.push(thr.value * (1 + 0.06));
-          thresholdTraces.text.push(thr.name);
-          return {
-            type: 'line',
-            x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name][0],
-            y0: thr.value,
-            x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name]),
-            y1: thr.value,
-            name: thr.name || '',
-            opacity: 0.7,
-            line: {
-              color: thr.color,
-              width: 3,
-              ...lineStyle,
-            },
-          };
-        });
-      };
+    const levels = availabilityConfig.level ? availabilityConfig.level : [];
 
-      mergedLayout.shapes = [
-        ...mapToLine(
-          thresholds.filter((i: ThresholdUnitType) => i.value !== ''),
-          { dash: 'dashdot' }
-        ),
-        ...mapToLine(levels, {}),
-      ];
-      calculatedLineValues = [...calculatedLineValues, thresholdTraces];
-    }
-    return [mergedLayout, calculatedLineValues];
-  }, [queriedVizData, fields, lastIndex, layout, layoutConfig, xaxis, mode, series, labelSize]);
+    const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
+      return list.map((thr: ThresholdUnitType) => {
+        thresholdTraces.x.push(
+          queriedVizData[
+            !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.name : fields[lastIndex].name
+          ][0]
+        );
+        thresholdTraces.y.push(thr.value * (1 + 0.06));
+        thresholdTraces.text.push(thr.name);
+        return {
+          type: 'line',
+          x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name][0],
+          y0: thr.value,
+          x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name]),
+          y1: thr.value,
+          name: thr.name || '',
+          opacity: 0.7,
+          line: {
+            color: thr.color,
+            width: 3,
+            ...lineStyle,
+          },
+        };
+      });
+    };
+
+    mergedLayout.shapes = [
+      ...mapToLine(
+        thresholds.filter((i: ThresholdUnitType) => i.value !== ''),
+        { dash: 'dashdot' }
+      ),
+      ...mapToLine(levels, {}),
+    ];
+
+    lines = [...lines, thresholdTraces];
+  }
 
   const mergedConfigs = useMemo(
     () => ({
@@ -247,5 +245,5 @@ export const Line = ({ visualizations, layout, config }: any) => {
     [config, layoutConfig.config]
   );
 
-  return <Plt data={lineValues} layout={calculatedLayout} config={mergedConfigs} />;
+  return <Plt data={lines} layout={mergedLayout} config={mergedConfigs} />;
 };

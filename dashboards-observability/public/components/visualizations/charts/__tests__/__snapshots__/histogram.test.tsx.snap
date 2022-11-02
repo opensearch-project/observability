@@ -457,7 +457,7 @@ exports[`Histogram component Renders histogram component 1`] = `
                     },
                     Object {
                       "component": [Function],
-                      "defaultState": 40,
+                      "defaultState": 70,
                       "eleType": "slider",
                       "mapTo": "fillOpacity",
                       "name": "Fill opacity",
@@ -477,13 +477,6 @@ exports[`Histogram component Renders histogram component 1`] = `
               ],
             },
             Object {
-              "content": Array [],
-              "editor": [Function],
-              "id": "style-panel",
-              "mapTo": "layoutConfig",
-              "name": "Layout",
-            },
-            Object {
               "editor": [Function],
               "id": "availability-panel",
               "mapTo": "availabilityConfig",
@@ -491,7 +484,7 @@ exports[`Histogram component Renders histogram component 1`] = `
             },
           ],
         },
-        "fillopacity": 40,
+        "fillopacity": 70,
         "fulllabel": "Vertical bar",
         "groupwidth": 0.7,
         "icon": [Function],
@@ -543,7 +536,7 @@ exports[`Histogram component Renders histogram component 1`] = `
         Object {
           "hoverinfo": "all",
           "marker": Object {
-            "color": "rgba(60,161,199,0.2)",
+            "color": "rgba(60,161,199,0.35)",
             "line": Object {
               "color": "rgba(60,161,199,1)",
               "width": 2,
@@ -596,7 +589,7 @@ exports[`Histogram component Renders histogram component 1`] = `
           Object {
             "hoverinfo": "all",
             "marker": Object {
-              "color": "rgba(60,161,199,0.2)",
+              "color": "rgba(60,161,199,0.35)",
               "line": Object {
                 "color": "rgba(60,161,199,1)",
                 "width": 2,

@@ -166,9 +166,9 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
           name: agg.function?.value_expression,
           aggregation: agg.function?.name,
         })),
-        [GROUPBY]: statsTokens.groupby?.group_fields?.map((agg) => ({
-          label: agg.name ?? '',
-          name: agg.name ?? '',
+        [GROUPBY]: statsTokens.groupby?.group_fields?.map((dimension) => ({
+          label: dimension.name ?? '',
+          name: dimension.name ?? '',
         })),
       };
     }
@@ -272,9 +272,6 @@ export const getVizContainerProps = ({
       ? { ...getVisType(vizId, { type: vizId }) }
       : { ...getVisType(vizId) };
 
-  const userSetConfigs = isEmpty(query)
-    ? userConfigs
-    : getUserConfigs(userConfigs, rawVizData?.metadata?.fields, getVisTypeData(vizId).name, query);
   return {
     data: {
       appData: { ...appData },
@@ -282,7 +279,7 @@ export const getVizContainerProps = ({
       query: { ...query },
       indexFields: { ...indexFields },
       userConfigs: {
-        ...userSetConfigs,
+        ...userConfigs,
       },
       defaultAxes: {
         ...getDefaultXYAxisLabels(rawVizData?.metadata?.fields, getVisTypeData(vizId).name),

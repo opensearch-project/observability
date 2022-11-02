@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import './explorer.scss';
 import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
@@ -69,7 +68,7 @@ import {
   LIVE_END_TIME,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../../common/utils';
+import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery, composeFinalQuery } from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
 import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
 import { selectQueryResult } from '../redux/slices/query_result_slice';
@@ -215,24 +214,6 @@ export const Explorer = ({
     });
   });
 
-  const composeFinalQuery = (
-    curQuery: any,
-    startingTime: string,
-    endingTime: string,
-    timeField: string,
-    isLiveQuery: boolean
-  ) => {
-    const fullQuery = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
-    if (isEmpty(fullQuery)) return '';
-    return preprocessQuery({
-      rawQuery: fullQuery,
-      startTime: startingTime,
-      endTime: endingTime,
-      timeField,
-      isLiveQuery,
-    });
-  };
-
   const getSavedDataById = async (objectId: string) => {
     // load saved query/visualization if object id exists
     await savedObjects
@@ -353,11 +334,12 @@ export const Explorer = ({
 
     // compose final query
     const finalQuery = composeFinalQuery(
-      curQuery,
+      curQuery![RAW_QUERY],
       startingTime!,
       endingTime!,
       curTimestamp,
-      isLiveTailOnRef.current
+      isLiveTailOnRef.current,
+      appBasedRef.current
     );
 
     await dispatch(
@@ -384,99 +366,6 @@ export const Explorer = ({
           })
         );
       }
-    } else {
-      findAutoInterval(startTime, endTime);
-      if (isLiveTailOnRef.current) {
-        getLiveTail(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
-      } else {
-        getEvents(undefined, (error) => {
-          const formattedError = formatError(error.name, error.message, error.body.message);
-          notifications.toasts.addError(formattedError, {
-            title: 'Error fetching events',
-          });
-        });
-      }
-      getCountVisualizations(minInterval);
-    }
-
-    // for comparing usage if for the same tab, user changed index from one to another
-    if (!isLiveTailOnRef.current) {
-      setPrevIndex(curTimestamp);
-      if (!queryRef.current!.isLoaded) {
-        dispatch(
-          changeQuery({
-            tabId,
-            query: {
-              isLoaded: true,
-            },
-          })
-        );
-      }
-    }
-  };
-
-  // for testing purpose only: fix for multiple rerenders in case of update chart
-  const fetchDataUpdateChart = async (
-    startingTime?: string | undefined,
-    endingTime?: string | undefined,
-    updatedQuery?: any
-  ) => {
-    const curQuery = updatedQuery.query;
-    const rawQueryStr = curQuery[RAW_QUERY];
-    const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
-    if (isEmpty(rawQueryStr)) return;
-
-    if (isEmpty(curIndex)) {
-      setToast('Query does not include valid index.', 'danger');
-      return;
-    }
-
-    let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
-    if (isEmpty(curTimestamp)) {
-      const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
-      if (isEmpty(defaultTimestamp.default_timestamp)) {
-        setToast(defaultTimestamp.message, 'danger');
-        return;
-      }
-      curTimestamp = defaultTimestamp.default_timestamp;
-      if (defaultTimestamp.hasSchemaConflict) {
-        setToast(defaultTimestamp.message, 'danger');
-      }
-    }
-
-    if (isEqual(typeof startingTime, 'undefined') && isEqual(typeof endingTime, 'undefined')) {
-      startingTime = curQuery![SELECTED_DATE_RANGE][0];
-      endingTime = curQuery![SELECTED_DATE_RANGE][1];
-    }
-
-    // compose final query
-    const finalQuery = composeFinalQuery(
-      curQuery,
-      startingTime!,
-      endingTime!,
-      curTimestamp,
-      isLiveTailOnRef.current
-    );
-
-    await dispatch(
-      changeQuery({
-        tabId,
-        query: {
-          finalQuery,
-          [SELECTED_TIMESTAMP]: curTimestamp,
-          [RAW_QUERY]: rawQueryStr,
-        },
-      })
-    );
-
-    // search
-    if (finalQuery.match(PPL_STATS_REGEX)) {
-      getVisualizations();
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -837,7 +726,7 @@ export const Explorer = ({
       rawVizData: explorerVisualizations,
       query,
       indexFields: explorerFields,
-      userConfigs: userVizConfigs[curVisId] || {},
+      userConfigs: { ...userVizConfigs[curVisId] } || {},
       appData: { fromApp: appLogEvents },
       explorer: { explorerData, explorerFields, query, http, pplService },
     });
@@ -849,39 +738,6 @@ export const Explorer = ({
       setTriggerAvailability(false);
     }
   };
-
-  const isSeriesNotEmpty = (seriesArray: ConfigListEntry[]) => seriesArray.length !== 0;
-  const isDimensionOrSpanPresent = (dimArray: ConfigListEntry[], spanExpression: DimensionSpan) =>
-    dimArray.length !== 0 || !isEmpty(spanExpression);
-
-  const isValidValueOptionConfigSelected = useMemo(() => {
-    const { series = [], dimensions = [], span = {} } = visualizations.data.userConfigs?.dataConfig;
-    const { TreeMap, Gauge, HeatMap, Metrics } = VIS_CHART_TYPES;
-    const isValidValueOptionsXYAxes =
-      VIZ_CONTAIN_XY_AXIS.includes(curVisId as VIS_CHART_TYPES) &&
-      isSeriesNotEmpty(series) &&
-      isDimensionOrSpanPresent(dimensions, span);
-
-    const isValidValueOptions: { [key: string]: boolean } = {
-      tree_map:
-        curVisId === TreeMap &&
-        dimensions.length > 0 &&
-        dimensions.childField?.length !== 0 &&
-        dimensions.valueField?.length !== 0,
-      gauge: curVisId === Gauge && isSeriesNotEmpty(series),
-      heatmap: Boolean(curVisId === HeatMap && series.length === 1 && dimensions.length === 2),
-      bar: isValidValueOptionsXYAxes,
-      line: isValidValueOptionsXYAxes,
-      histogram: isValidValueOptionsXYAxes,
-      pie: isValidValueOptionsXYAxes,
-      scatter: isValidValueOptionsXYAxes,
-      logs_view: true,
-      metrics: curVisId === Metrics && isSeriesNotEmpty(series),
-      horizontal_bar: isValidValueOptionsXYAxes,
-      data_table: true,
-    };
-    return isValidValueOptions[curVisId];
-  }, [curVisId, visualizations]);
 
   const getExplorerVis = () => {
     return (
@@ -932,6 +788,7 @@ export const Explorer = ({
     visualizations,
     query,
     isLiveTailOnRef.current,
+    userVizConfigs
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -1118,10 +975,6 @@ export const Explorer = ({
     if (isEmpty(selectedPanelNameRef.current)) {
       setIsPanelTextFieldInvalid(true);
       setToast('Name field cannot be empty.', 'danger');
-      return;
-    }
-    if (!isValidValueOptionConfigSelected) {
-      setToast('Invalid data configurations selected.', 'danger');
       return;
     }
     setIsPanelTextFieldInvalid(false);
@@ -1420,7 +1273,6 @@ export const Explorer = ({
         handleQueryChange,
         setTempQuery,
         fetchData,
-        fetchDataUpdateChart,
         explorerFields,
         explorerData,
         http,
