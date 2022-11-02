@@ -2,7 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import './explorer.scss';
 import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
@@ -30,7 +29,13 @@ import { NoResults } from './no_results';
 import { HitsCounter } from './hits_counter/hits_counter';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
-import { IField, IQueryTab, IDefaultTimestampState } from '../../../../common/types/explorer';
+import {
+  IField,
+  IQueryTab,
+  IDefaultTimestampState,
+  ConfigListEntry,
+  DimensionSpan,
+} from '../../../../common/types/explorer';
 import {
   TAB_CHART_TITLE,
   TAB_EVENT_TITLE,
@@ -55,14 +60,19 @@ import {
   SELECTED_PATTERN,
   PATTERNS_REGEX,
   PATTERNS_EXTRACTOR_REGEX,
+  GROUPBY,
+  AGGREGATIONS,
+  CUSTOM_LABEL,
+  VIZ_CONTAIN_XY_AXIS,
 } from '../../../../common/constants/explorer';
 import {
   PPL_STATS_REGEX,
   PPL_NEWLINE_REGEX,
   LIVE_OPTIONS,
   LIVE_END_TIME,
+  VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery } from '../../../../common/utils';
+import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery, composeFinalQuery } from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
 import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
 import { selectQueryResult } from '../redux/slices/query_result_slice';
@@ -70,6 +80,7 @@ import { selectFields, updateFields, sortFields } from '../redux/slices/field_sl
 import { updateTabName } from '../redux/slices/query_tab_slice';
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import {
   selectVisualizationConfig,
   change as changeVisualizationConfig,
@@ -84,6 +95,12 @@ import { sleep } from '../../common/live_tail/live_tail_button';
 import { PatternsTable } from './log_patterns/patterns_table';
 import { selectPatterns } from '../redux/slices/patterns_slice';
 import { useFetchPatterns } from '../hooks/use_fetch_patterns';
+import {
+  statsChunk,
+  GroupByChunk,
+  StatsAggregationChunk,
+  GroupField,
+} from '../../../../common/query_manager/ast/types';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -112,6 +129,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
+  queryManager,
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
@@ -218,24 +236,6 @@ export const Explorer = ({
     };
   };
 
-  const composeFinalQuery = (
-    curQuery: any,
-    startingTime: string,
-    endingTime: string,
-    timeField: string,
-    isLiveQuery: boolean
-  ) => {
-    const fullQuery = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
-    if (isEmpty(fullQuery)) return '';
-    return preprocessQuery({
-      rawQuery: fullQuery,
-      startTime: startingTime,
-      endTime: endingTime,
-      timeField,
-      isLiveQuery,
-    });
-  };
-
   const getSavedDataById = async (objectId: string) => {
     // load saved query/visualization if object id exists
     await savedObjects
@@ -328,6 +328,7 @@ export const Explorer = ({
     const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
+
     if (isEmpty(rawQueryStr)) return;
 
     if (isEmpty(curIndex)) {
@@ -336,7 +337,6 @@ export const Explorer = ({
     }
 
     let curTimestamp: string = curQuery![SELECTED_TIMESTAMP];
-
     if (isEmpty(curTimestamp)) {
       const defaultTimestamp = await getDefaultTimestampByIndexPattern(curIndex);
       if (isEmpty(defaultTimestamp.default_timestamp)) {
@@ -369,11 +369,12 @@ export const Explorer = ({
 
     // compose final query
     const finalQuery = composeFinalQuery(
-      curQuery,
+      curQuery![RAW_QUERY],
       startingTime!,
       endingTime!,
       curTimestamp,
-      isLiveTailOnRef.current
+      isLiveTailOnRef.current,
+      appBasedRef.current
     );
 
     await dispatch(
@@ -388,8 +389,18 @@ export const Explorer = ({
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
+      const cusVisIds = userVizConfigs ? Object.keys(userVizConfigs) : [];
       getVisualizations();
       getAvailableFields(`search source=${curIndex}`);
+      for (const visId of cusVisIds) {
+        dispatch(
+          changeVisualizationConfig({
+            tabId,
+            vizId: visId,
+            data: { ...userVizConfigs[visId] },
+          })
+        );
+      }
     } else {
       findAutoInterval(startTime, endTime);
       if (isLiveTailOnRef.current) {
@@ -634,7 +645,7 @@ export const Explorer = ({
             data-test-subj="eventExplorer__sidebar"
           >
             {!isSidebarClosed && (
-              <div className="dscFieldChooser">
+              <div className="explorerFieldSelector">
                 <Sidebar
                   query={query}
                   explorerFields={explorerFields}
@@ -862,8 +873,9 @@ export const Explorer = ({
       rawVizData: explorerVisualizations,
       query,
       indexFields: explorerFields,
-      userConfigs: userVizConfigs[curVisId] || {},
+      userConfigs: { ...userVizConfigs[curVisId] } || {},
       appData: { fromApp: appLogEvents },
+      explorer: { explorerData, explorerFields, query, http, pplService },
     });
   }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
 
@@ -888,6 +900,7 @@ export const Explorer = ({
         visualizations={visualizations}
         handleOverrideTimestamp={handleOverrideTimestamp}
         callback={callbackForConfig}
+        queryManager={queryManager}
       />
     );
   };
@@ -924,6 +937,7 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
+    userVizConfigs
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -950,6 +964,123 @@ export const Explorer = ({
     );
   };
 
+  const getSpanValue = (groupByToken: GroupByChunk) => {
+    const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+      (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+    )?.text;
+    return groupByToken?.span !== null
+      ? {
+          time_field: [
+            {
+              name: groupByToken?.span.span_expression.field,
+              type: 'timestamp',
+              label: groupByToken?.span.span_expression.field,
+            },
+          ],
+          unit: [
+            {
+              text: timeUnitValue,
+              value: groupByToken?.span.span_expression.time_unit,
+              label: timeUnitValue,
+            },
+          ],
+          interval: groupByToken?.span.span_expression.literal_value,
+        }
+      : undefined;
+  };
+
+  const getUpdatedDataConfig = (statsToken: statsChunk) => {
+    if (statsToken === null) {
+      return {
+        [GROUPBY]: [],
+        [AGGREGATIONS]: [],
+      };
+    }
+
+    const groupByToken = statsToken.groupby;
+    const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+    const span = getSpanValue(groupByToken);
+    switch (curVisId) {
+      case VIS_CHART_TYPES.TreeMap:
+        return {
+          [GROUPBY]: [
+            {
+              childField: {
+                ...(groupByToken?.group_fields
+                  ? {
+                      label: groupByToken?.group_fields[0].name ?? '',
+                      name: groupByToken?.group_fields[0].name ?? '',
+                    }
+                  : { label: '', name: '' }),
+              },
+              parentFields: [],
+            },
+          ],
+          [AGGREGATIONS]: [
+            {
+              valueField: {
+                ...(seriesToken
+                  ? {
+                      label: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                      name: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
+                    }
+                  : { label: '', name: '' }),
+              },
+            },
+          ],
+        };
+      case VIS_CHART_TYPES.Histogram:
+        return {
+          [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
+          [AGGREGATIONS]: [],
+        };
+      case VIS_CHART_TYPES.LogsView: {
+        const dimensions = statsToken.aggregations
+          .map((agg) => {
+            const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
+            return {
+              label: logViewField,
+              name: logViewField,
+            };
+          })
+          .concat(
+            groupByToken.group_fields?.map((agg) => ({
+              label: agg.name ?? '',
+              name: agg.name ?? '',
+            }))
+          );
+        if (span !== undefined) {
+          const { time_field, interval, unit } = span;
+          const timespanField = `span(${time_field[0].name},${interval}${unit[0].value})`;
+          dimensions.push({
+            label: timespanField,
+            name: timespanField,
+          });
+        }
+        return {
+          [AGGREGATIONS]: [],
+          [GROUPBY]: dimensions,
+        };
+      }
+
+      default:
+        return {
+          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+            label: agg.function?.value_expression,
+            name: agg.function?.value_expression,
+            aggregation: agg.function?.name,
+            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
+          })),
+          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+            label: agg.name ?? '',
+            name: agg.name ?? '',
+            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
+          })),
+          span,
+        };
+    }
+  };
+
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
       // clear previous selected timestamp when index pattern changes
@@ -963,14 +1094,25 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      fetchData();
+      await fetchData();
+
+      if (selectedContentTabId === TAB_CHART_ID) {
+        // parse stats section on every search
+        const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
+        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+        await dispatch(
+          changeVizConfig({
+            tabId,
+            vizId: curVisId,
+            data: { dataConfig: { ...updatedDataConfig } },
+          })
+        );
+      }
     },
-    [tempQuery, query[RAW_QUERY]]
+    [tempQuery, query, selectedContentTabId]
   );
 
-  const handleQueryChange = async (newQuery: string) => {
-    setTempQuery(newQuery);
-  };
+  const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
 
   const handleSavingObject = async () => {
     const currQuery = queryRef.current;
@@ -1276,6 +1418,14 @@ export const Explorer = ({
         explorerVisualizations,
         setToast,
         pplService,
+        handleQuerySearch,
+        handleQueryChange,
+        setTempQuery,
+        fetchData,
+        explorerFields,
+        explorerData,
+        http,
+        query,
       }}
     >
       <div className="dscAppContainer">
@@ -1311,6 +1461,7 @@ export const Explorer = ({
           stopLive={stopLive}
           setIsLiveTailPopoverOpen={setIsLiveTailPopoverOpen}
           liveTailName={liveTailNameRef.current}
+          searchError={explorerVisualizations}
         />
         <EuiTabbedContent
           className="mainContentTabs"

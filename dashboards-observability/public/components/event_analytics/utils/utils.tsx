@@ -1,18 +1,25 @@
+/* eslint-disable no-bitwise */
 /*
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { uniqueId } from 'lodash';
-import React from 'react';
-import moment from 'moment';
 import dateMath from '@elastic/datemath';
-import { IExplorerFields, IField } from '../../../../common/types/explorer';
-import { DocViewRow, IDocType } from '../explorer/events_views';
+import { uniqueId } from 'lodash';
+import moment from 'moment';
+import React from 'react';
 import { HttpStart } from '../../../../../../src/core/public';
-import PPLService from '../../../services/requests/ppl';
-import { TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
+import { CUSTOM_LABEL, TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
+import {
+  ConfigListEntry,
+  GetTooltipHoverInfoType,
+  IExplorerFields,
+  IField,
+} from '../../../../common/types/explorer';
+import PPLService from '../../../services/requests/ppl';
+import { DocViewRow, IDocType } from '../explorer/events_views';
+import { ConfigTooltip } from '../explorer/visualizations/config_panel/config_panes/config_controls';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -284,4 +291,102 @@ export const findAutoInterval = (start: string = '', end: string = '') => {
   else if (diffSeconds <= 86400 * 366) minInterval = 'M';
 
   return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
+};
+
+export const hexToRgb = (
+  hex: string = '#3CA1C7',
+  opacity: number = 1,
+  colorWithOpacity: boolean = true
+) => {
+  // default color PLOTLY_COLOR[0]: '#3CA1C7'
+  const defaultColor = [hex, '60', '161', '199'];
+  const rgbElements = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) || defaultColor;
+  const [, r, g, b] = rgbElements.map((color) => parseInt(color, 16));
+  const rgbaFormat = colorWithOpacity ? `rgba(${r},${g},${b},${opacity})` : `rgb(${r},${g},${b})`;
+  return rgbaFormat;
+};
+
+export const lightenColor = (color: string, percent: number) => {
+  const num = parseInt(color.replace('#', ''), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const B = ((num >> 8) & 0x00ff) + amt;
+  const G = (num & 0x0000ff) + amt;
+  return (
+    '#' +
+    (
+      0x1000000 +
+      (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+      (B < 255 ? (B < 1 ? 0 : B) : 255) * 0x100 +
+      (G < 255 ? (G < 1 ? 0 : G) : 255)
+    )
+      .toString(16)
+      .slice(1)
+  );
+};
+
+// Get config objects according to specific editor
+export const fetchConfigObject = (editor: string, propsOptions: any) => {
+  switch (editor) {
+    case 'Tooltip':
+      return {
+        id: 'tooltip_options',
+        name: 'Tooltip options',
+        editor: ConfigTooltip,
+        mapTo: 'tooltipOptions',
+        schemas: [
+          {
+            name: 'Tooltip mode',
+            component: null,
+            mapTo: 'tooltipMode',
+            props: {
+              options: [
+                { name: 'Show', id: 'show' },
+                { name: 'Hidden', id: 'hidden' },
+              ],
+              defaultSelections: [{ name: 'Show', id: 'show' }],
+            },
+          },
+          {
+            name: 'Tooltip text',
+            component: null,
+            mapTo: 'tooltipText',
+            props: propsOptions,
+          },
+        ],
+      };
+    default:
+      return null;
+  }
+};
+
+export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHoverInfoType) => {
+  if (tooltipMode === 'hidden') {
+    return 'none';
+  }
+  if (tooltipText === undefined) {
+    return 'all';
+  }
+  return tooltipText;
+};
+
+export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
+  parameter.filter((configItem: ConfigListEntry) => configItem.label);
+
+export const getRoundOf = (value: number, places: number) => value.toFixed(places);
+
+export const getPropName = (queriedVizObj: {
+  customLabel?: string;
+  aggregation: string;
+  name: string;
+  label: string;
+}) => {
+  if (queriedVizObj) {
+    if (queriedVizObj[CUSTOM_LABEL] === '' || queriedVizObj[CUSTOM_LABEL] === undefined) {
+      return `${queriedVizObj.aggregation}(${queriedVizObj.name})`;
+    }
+    return queriedVizObj[CUSTOM_LABEL];
+  } else {
+    return '';
+  }
 };

@@ -4,7 +4,7 @@
  */
 
 .lnsConfigPanel__addLayerBtn {
-  color: transparentize($euiColorMediumShade, .3);
+  color: transparentize($euiColorMediumShade, 0.3);
   // Remove EuiButton's default shadow to make button more subtle
   // sass-lint:disable-block no-important
   box-shadow: none !important;
@@ -21,7 +21,7 @@ $vis-editor-sidebar-min-width: 350px;
   min-width: $vis-editor-sidebar-min-width;
 
   // a hack for IE, issue: https://github.com/elastic/kibana/issues/66586
-  > .visEditorSidebar__formWrapper {
+  >.visEditorSidebar__formWrapper {
     flex-basis: auto;
   }
 }
@@ -32,7 +32,10 @@ $vis-editor-sidebar-min-width: 350px;
 }
 
 .visEditorSidebar__config {
+  @include euiYScrollWithShadows;
   padding: $euiSizeS;
+  overflow-y: auto;
+  height: calc(100vh - 398px);
 }
 
 .visEditorSidebar__config-isHidden {
@@ -66,7 +69,7 @@ $vis-editor-sidebar-min-width: 350px;
   padding: $euiSizeS;
   border-radius: $euiBorderRadius;
 
-  + .visEditorSidebar__section {
+  +.visEditorSidebar__section {
     margin-top: $euiSizeS;
   }
 }
@@ -122,4 +125,74 @@ $vis-editor-sidebar-min-width: 350px;
   .visEditorSidebar__autoApplyButton {
     margin-left: $euiSizeM;
   }
+}
+
+.euiComboBoxOptionsList__rowWrap {
+  max-height: 250px;
+}
+
+.euiComboBoxOptionsList__rowWrap>div {
+  height: 250px !important;
+}
+
+.cp__rightContainer {
+  display: grid;
+  
+  .cp__rightHeader, .cp__rightSettings {
+    padding: 8px;
+    background-color: #FFF;
+  }
+
+  .cp__rightHeader {
+    border-bottom: 1px solid #D3DAE6;
+    .euiBadge {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+    }
+  }
+
+  .cp__rightSettings {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.info-icon {
+  margin-left: 7px;
+  margin-top: 5px;
+}
+
+#vis__mainContent .vis__leftPanel {
+  overflow-y: unset; // unset default setting
+}
+
+.panelItem_button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: $euiSizeS;
+  padding: $euiSizeS $euiSizeM;
+  align-items: center;
+}
+
+.field_text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.panel_section {
+  border-bottom: 1px solid #d3dae6;
+}
+
+.panel_title {
+  display: block;
+}
+
+.panel_title:first-letter {
+  text-transform: uppercase;
+}
+
+.color-theme-combo-box-option .euiFlexItem.euiFlexItem--flexGrowZero {
+  display: none;
 }

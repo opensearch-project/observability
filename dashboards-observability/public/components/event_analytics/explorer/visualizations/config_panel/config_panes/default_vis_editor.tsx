@@ -28,6 +28,7 @@ export const VizDataPanel = ({ visualizations, onConfigChange, vizState = {}, ta
           vizState={vizState[section.mapTo] || section.defaultState || {}}
           sectionName={section.name}
           sectionId={section.id}
+          props={section.props || {}}
         />
       </EuiFormRow>
     );
