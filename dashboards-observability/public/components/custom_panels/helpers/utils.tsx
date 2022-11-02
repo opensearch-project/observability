@@ -102,9 +102,7 @@ const queryAccumulator = (
   )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
   const finalQuery = indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
-  console.log('spanParam in query accu', spanParam);
   if (spanParam === undefined) {
-    console.log('normal query');
     return finalQuery;
   } else {
     return finalQuery.replace(
@@ -192,7 +190,6 @@ export const getQueryResponse = (
     setIsLoading(false);
     return;
   }
-  console.log('query here:', finalQuery);
 
   pplServiceRequestor(pplService, finalQuery, type, setVisualizationData, setIsLoading, setIsError);
 };
