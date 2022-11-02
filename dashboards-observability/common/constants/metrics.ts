@@ -9,3 +9,16 @@ export const PPL_PROMETHEUS_CATALOG_REQUEST =
 
 // redux
 export const REDUX_SLICE_METRICS = 'metrics';
+
+export const resolutionOptions = [
+  { value: 's', text: 'seconds' },
+  { value: 'm', text: 'minutes' },
+  { value: 'h', text: 'hours' },
+  { value: 'd', text: 'days' },
+  { value: 'M', text: 'Months' },
+  { value: 'q', text: 'quarters' },
+  { value: 'y', text: 'years' },
+];
+
+export const DEFAULT_METRIC_HEIGHT = 2;
+export const DEFAULT_METRIC_WIDTH = 12;
