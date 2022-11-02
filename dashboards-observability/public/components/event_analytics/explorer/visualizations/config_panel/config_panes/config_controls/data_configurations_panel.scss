@@ -18,7 +18,7 @@
 
     .configPanelFields {
       @include euiYScrollWithShadows;
-      height: 90%;
+      height: 100%;
       overflow-y: scroll;
     }
 
@@ -65,7 +65,7 @@
     left: 100%;
   }
 
-  &.showSecondary>.wizConfig__section {
+  &.showSecondary > .wizConfig__section {
     transform: translateX(-100%);
   }
 }
