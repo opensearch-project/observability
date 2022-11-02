@@ -57,7 +57,7 @@ export const pplServiceRequestor = (pplService: PPLService, finalQuery: string) 
 
 // Observability backend to fetch visualizations/custom metrics
 export const getVisualizations = (http: CoreStart['http']) => {
-  return http.get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`).catch((err) => {
+  return http.get(`${CUSTOM_PANELS_API_PREFIX}/visualizations`).catch((err) => {
     console.error('Issue in fetching all saved visualizations', err);
   });
 };
