@@ -58,7 +58,7 @@ export const Sidebar = (props: ISidebarProps) => {
           }
           paddingSize="xs"
         >
-          <ul>
+          <ul className="metricsList">
             {recentlyCreatedMetrics.map((metric: any) => (
               <li key={metric.id}>
                 <EuiLink onClick={() => handleAddMetric(metric)}>{metric.name}</EuiLink>
@@ -77,7 +77,7 @@ export const Sidebar = (props: ISidebarProps) => {
           }
           paddingSize="xs"
         >
-          <ul>
+          <ul className="metricsList">
             {selectedMetrics.map((metric: any) => (
               <li key={metric.id}>
                 <EuiLink onClick={() => handleRemoveMetric(metric)}>{metric.name}</EuiLink>
@@ -96,7 +96,7 @@ export const Sidebar = (props: ISidebarProps) => {
           }
           paddingSize="xs"
         >
-          <ul>
+          <ul className="metricsList">
             {availableMetrics.slice(0, 100).map((metric: any) => (
               <li key={metric.id}>
                 <EuiLink onClick={() => handleAddMetric(metric)}>{metric.name}</EuiLink>
