@@ -5,7 +5,7 @@
 
 import datemath from '@elastic/datemath';
 import { isEmpty } from 'lodash';
-import { DATE_PICKER_FORMAT } from '../../common/constants/explorer';
+import { DATE_PICKER_FORMAT, PPL_DEFAULT_PATTERN_REGEX_FILETER } from '../../common/constants/explorer';
 import {
   PPL_INDEX_INSERT_POINT_REGEX,
   PPL_INDEX_REGEX,
@@ -63,21 +63,29 @@ export const preprocessQuery = ({
     tokens![2]
   } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]}`;
 
-  if (filteredPattern && selectedPatternField) {
-    finalQuery += ` | patterns `;
-    if (patternRegex) {
-      finalQuery += `pattern='${escapeQuotes(patternRegex)}' `
-    }
-    finalQuery += `\`${selectedPatternField}\` | where patterns_field='${escapeQuotes(filteredPattern)}'`
-  }
-
   if (isLiveQuery) {
     finalQuery = finalQuery + ` | sort - ${timeField}`;
   }
 
-  console.log('❗finalQuery:', finalQuery);
+  finalQuery = buildPatternsQuery(finalQuery, selectedPatternField, patternRegex, filteredPattern);
+
   return finalQuery;
 };
+
+export const buildPatternsQuery = (baseQuery: string, selectedPatternField?: string, patternRegex?: string, filteredPattern?: string) => {
+  let finalQuery = baseQuery;
+  if (selectedPatternField) {
+    finalQuery += ` | patterns `;
+    if (patternRegex && patternRegex !== PPL_DEFAULT_PATTERN_REGEX_FILETER) {
+      finalQuery += `pattern='${escapeQuotes(patternRegex)}' `;
+    }
+    finalQuery += `\`${selectedPatternField}\` `;
+    if (filteredPattern) {
+      finalQuery += `| where patterns_field='${escapeQuotes(filteredPattern)}'`;
+    }
+  }
+  return finalQuery;
+}
 
 export const buildQuery = (baseQuery: string, currQuery: string) => {
   let fullQuery: string;

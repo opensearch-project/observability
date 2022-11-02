@@ -10,9 +10,11 @@ import { useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import {
   FINAL_QUERY,
+    PATTERN_REGEX,
   SELECTED_PATTERN_FIELD,
   SELECTED_TIMESTAMP,
 } from '../../../../common/constants/explorer';
+import { buildPatternsQuery } from '../../../../common/utils/query_utils';
 import { IPPLEventsDataSource } from '../../../../server/common/types';
 import { reset as resetPatterns, setPatterns } from '../redux/slices/patterns_slice';
 import { changeQuery, selectQueries } from '../redux/slices/query_slice';
@@ -51,25 +53,24 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     });
   };
 
-  const buildPatternDataQuery = (query: string, patternField: string) => {
-    return (
-      `${query.trim()} | patterns \`${patternField}\` | ` +
-      `stats count(), take(\`${patternField}\`, 1) by patterns_field`
-    );
+  const buildPatternDataQuery = (query: string, patternField: string, patternRegex: string) => {
+    let statsQuery = buildPatternsQuery(query, patternField, patternRegex);
+    statsQuery += ` | stats count(), take(\`${patternField}\`, 1) by patterns_field`;
+    return statsQuery;
   };
 
   const buildPatternAnomaliesQuery = (
     query: string,
     patternField: string,
+    patternRegex: string,
     timestampField: string,
     interval: string
   ) => {
-    return (
-      `${query.trim()} | patterns \`${patternField}\` | ` +
-      `stats count() by span(\`${timestampField}\`, 1${interval || 'm'}) as timestamp, ` +
-      `patterns_field | ` +
-      `AD time_field='timestamp' category_field='patterns_field'`
-    );
+    let statsQuery = buildPatternsQuery(query, patternField, patternRegex);
+    statsQuery +=
+      ` | stats count() by span(\`${timestampField}\`, 1${interval || 'm'}) as timestamp, ` +
+      `patterns_field | AD time_field='timestamp' category_field='patterns_field'`;
+    return statsQuery;
   };
 
   const getPatterns = (interval: string, errorHandler: (error: any) => void, query?: string) => {
@@ -78,10 +79,13 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     const searchQuery = isUndefined(query) ? rawQuery : query;
     const patternField = cur![requestParams.tabId][SELECTED_PATTERN_FIELD];
     const timestampField = cur![requestParams.tabId][SELECTED_TIMESTAMP];
-    const statsQuery = buildPatternDataQuery(searchQuery, patternField);
+    const patternRegex = cur![requestParams.tabId][PATTERN_REGEX];
+    console.log('❗patternRegex:', patternRegex);
+    const statsQuery = buildPatternDataQuery(searchQuery, patternField, patternRegex);
     const anomaliesQuery = buildPatternAnomaliesQuery(
       searchQuery,
       patternField,
+      patternRegex,
       timestampField,
       interval
     );

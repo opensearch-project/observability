@@ -3,50 +3,45 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './explorer.scss';
-import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
-import { batch, useDispatch, useSelector } from 'react-redux';
-import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
-import { FormattedMessage } from '@osd/i18n/react';
-import { EuiHorizontalRule, EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
+import dateMath from '@elastic/datemath';
 import {
-  EuiText,
+  EuiButton,
+  EuiButtonEmpty,
   EuiButtonIcon,
-  EuiTabbedContent,
-  EuiTabbedContentTab,
+  EuiContextMenuItem,
+  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiFormRow,
+  EuiHorizontalRule,
   EuiLink,
-  EuiContextMenuItem,
+  EuiLoadingSpinner,
+  EuiPopover,
+  EuiPopoverFooter,
+  EuiSpacer,
+  EuiTabbedContent,
+  EuiTabbedContentTab,
+  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
-import dateMath from '@elastic/datemath';
+import { FormattedMessage } from '@osd/i18n/react';
 import classNames from 'classnames';
-import { Search } from '../../common/search/search';
-import { CountDistribution } from './visualizations/count_distribution';
-import { DataGrid } from './events_views/data_grid';
-import { Sidebar } from './sidebar';
-import { NoResults } from './no_results';
-import { HitsCounter } from './hits_counter/hits_counter';
-import { TimechartHeader } from './timechart_header';
-import { ExplorerVisualizations } from './visualizations';
+import { cloneDeep, has, isEmpty, isEqual, reduce } from 'lodash';
+import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import {
-  IField,
-  IQueryTab,
-  IDefaultTimestampState,
-  ConfigListEntry,
-  DimensionSpan,
-} from '../../../../common/types/explorer';
-import {
-  TAB_CHART_TITLE,
-  TAB_EVENT_TITLE,
-  RAW_QUERY,
-  SELECTED_DATE_RANGE,
-  SELECTED_FIELDS,
-  SELECTED_TIMESTAMP,
+  AGGREGATIONS,
   AVAILABLE_FIELDS,
-  TIME_INTERVAL_OPTIONS,
-  SAVED_QUERY,
-  SAVED_VISUALIZATION,
+  CUSTOM_LABEL,
+  DATE_PICKER_FORMAT,
+  DEFAULT_AVAILABILITY_QUERY,
+  EVENT_ANALYTICS_DOCUMENTATION_URL,
+  FILTERED_PATTERN,
+  GROUPBY,
+  NEW_TAB,
+  PATTERN_REGEX,
+  PPL_PATTERNS_REGEX,
+  RAW_QUERY,
   SAVED_OBJECT_ID,
   SAVED_OBJECT_TYPE,
   NEW_TAB,
@@ -60,50 +55,72 @@ import {
   SELECTED_PATTERN,
   PATTERNS_REGEX,
   PATTERNS_EXTRACTOR_REGEX,
+  SAVED_QUERY,
+  SAVED_VISUALIZATION,
+  SELECTED_DATE_RANGE,
+  SELECTED_FIELDS,
   SELECTED_PATTERN_FIELD,
-  GROUPBY,
-  AGGREGATIONS,
-  CUSTOM_LABEL,
-  VIZ_CONTAIN_XY_AXIS,
-  FILTERED_PATTERN,
-  PATTERN_REGEX,
+  SELECTED_TIMESTAMP,
+  TAB_CHART_ID,
+  TAB_CHART_TITLE,
+  TAB_CREATED_TYPE,
+  TAB_EVENT_ID,
+  TAB_EVENT_TITLE,
+  TIME_INTERVAL_OPTIONS,
 } from '../../../../common/constants/explorer';
 import {
-  PPL_STATS_REGEX,
-  PPL_NEWLINE_REGEX,
-  LIVE_OPTIONS,
   LIVE_END_TIME,
+  LIVE_OPTIONS,
+  PPL_NEWLINE_REGEX,
+  PPL_STATS_REGEX,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery, composeFinalQuery } from '../../../../common/utils';
-import { useFetchEvents, useFetchVisualizations } from '../hooks';
-import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
-import { selectQueryResult } from '../redux/slices/query_result_slice';
-import { selectFields, updateFields, sortFields } from '../redux/slices/field_slice';
-import { updateTabName } from '../redux/slices/query_tab_slice';
-import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
-import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
-import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import {
-  selectVisualizationConfig,
-  change as changeVisualizationConfig,
-} from '../redux/slices/viualization_config_slice';
-import { change as updateVizConfig } from '../redux/slices/viualization_config_slice';
-import { IExplorerProps, IVisualizationContainerProps } from '../../../../common/types/explorer';
-import { TabContext } from '../hooks';
-import { getVizContainerProps } from '../../visualizations/charts/helpers';
-import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
-import { formatError } from '../utils';
-import { sleep } from '../../common/live_tail/live_tail_button';
-import { PatternsTable } from './log_patterns/patterns_table';
-import { selectPatterns } from '../redux/slices/patterns_slice';
-import { useFetchPatterns } from '../hooks/use_fetch_patterns';
-import {
-  statsChunk,
   GroupByChunk,
-  StatsAggregationChunk,
   GroupField,
+  StatsAggregationChunk,
 } from '../../../../common/query_manager/ast/types';
+import {
+  IDefaultTimestampState,
+  IExplorerProps,
+  IField,
+  IQueryTab,
+  IVisualizationContainerProps,
+} from '../../../../common/types/explorer';
+import {
+  buildQuery,
+  composeFinalQuery,
+  getIndexPatternFromRawQuery,
+} from '../../../../common/utils';
+import { sleep } from '../../common/live_tail/live_tail_button';
+import { onItemSelect, parseGetSuggestions } from '../../common/search/autocomplete_logic';
+import { Search } from '../../common/search/search';
+import { getVizContainerProps } from '../../visualizations/charts/helpers';
+import { TabContext, useFetchEvents, useFetchVisualizations } from '../hooks';
+import { useFetchPatterns } from '../hooks/use_fetch_patterns';
+import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
+import { selectFields, sortFields, updateFields } from '../redux/slices/field_slice';
+import { selectPatterns } from '../redux/slices/patterns_slice';
+import { selectQueryResult } from '../redux/slices/query_result_slice';
+import { changeDateRange, changeQuery, selectQueries } from '../redux/slices/query_slice';
+import { updateTabName } from '../redux/slices/query_tab_slice';
+import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import {
+  change as changeVisualizationConfig,
+  change as changeVizConfig,
+  change as updateVizConfig,
+  selectVisualizationConfig,
+} from '../redux/slices/viualization_config_slice';
+import { formatError } from '../utils';
+import { DataGrid } from './events_views/data_grid';
+import './explorer.scss';
+import { HitsCounter } from './hits_counter/hits_counter';
+import { PatternsTable } from './log_patterns/patterns_table';
+import { NoResults } from './no_results';
+import { Sidebar } from './sidebar';
+import { TimechartHeader } from './timechart_header';
+import { ExplorerVisualizations } from './visualizations';
+import { CountDistribution } from './visualizations/count_distribution';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -166,6 +183,7 @@ export const Explorer = ({
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [isOverridingPattern, setIsOverridingPattern] = useState(false);
+  const [isPatternConfigPopoverOpen, setIsPatternConfigPopoverOpen] = useState(false);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
@@ -381,7 +399,7 @@ export const Explorer = ({
       appBasedRef.current,
       curQuery![SELECTED_PATTERN_FIELD],
       curQuery![PATTERN_REGEX],
-      curQuery![FILTERED_PATTERN],
+      curQuery![FILTERED_PATTERN]
     );
 
     await dispatch(
@@ -731,19 +749,76 @@ export const Explorer = ({
                       >
                         <EuiFlexItem grow={false}>
                           {viewLogPatterns && (
-                            <EuiTitle size="s">
-                              <h3 style={{ margin: '0px' }}>
-                                Patterns
-                                <span className="pattern-header-count">
-                                  {' '}
-                                  (
-                                  {patternsData.patternTableData
-                                    ? patternsData.patternTableData.length
-                                    : 0}
-                                  )
-                                </span>
-                              </h3>
-                            </EuiTitle>
+                            <EuiFlexGroup gutterSize="s" alignItems="center">
+                              <EuiFlexItem grow={false}>
+                                <EuiTitle size="s">
+                                  <h3 style={{ margin: '0px' }}>
+                                    Patterns{' '}
+                                    <span className="pattern-header-count">
+                                      ({patternsData.patternTableData?.length || 0})
+                                    </span>
+                                  </h3>
+                                </EuiTitle>
+                              </EuiFlexItem>
+                              <EuiFlexItem grow={false}>
+                                <EuiPopover
+                                  button={
+                                    <EuiButtonIcon
+                                      iconType="gear"
+                                      onClick={() =>
+                                        setIsPatternConfigPopoverOpen(!isPatternConfigPopoverOpen)
+                                      }
+                                    />
+                                  }
+                                  isOpen={isPatternConfigPopoverOpen}
+                                  closePopover={() => setIsPatternConfigPopoverOpen(false)}
+                                  anchorPosition="upCenter"
+                                >
+                                  <EuiTitle size="xxs">
+                                    <h3>Regex filter</h3>
+                                  </EuiTitle>
+                                  <EuiFormRow helpText="Characters matched will be removed in patterns.">
+                                    <EuiFieldText
+                                      value={queryRef.current![PATTERN_REGEX]}
+                                      onChange={(e) => {
+                                        dispatch(
+                                          changeQuery({
+                                            tabId,
+                                            query: {
+                                              [PATTERN_REGEX]: e.target.value,
+                                            },
+                                          })
+                                        );
+                                      }}
+                                    />
+                                  </EuiFormRow>
+                                  <EuiPopoverFooter>
+                                    <EuiFlexGroup justifyContent="flexEnd">
+                                      <EuiFlexItem grow={false}>
+                                        <EuiButtonEmpty
+                                          size="s"
+                                          onClick={() => setIsPatternConfigPopoverOpen(false)}
+                                        >
+                                          Cancel
+                                        </EuiButtonEmpty>
+                                      </EuiFlexItem>
+                                      <EuiFlexItem grow={false}>
+                                        <EuiButton
+                                          size="s"
+                                          fill
+                                          onClick={() => {
+                                            setIsPatternConfigPopoverOpen(false);
+                                            getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
+                                          }}
+                                        >
+                                          Save
+                                        </EuiButton>
+                                      </EuiFlexItem>
+                                    </EuiFlexGroup>
+                                  </EuiPopoverFooter>
+                                </EuiPopover>
+                              </EuiFlexItem>
+                            </EuiFlexGroup>
                           )}
                         </EuiFlexItem>
                         <EuiFlexItem grow={false}>
@@ -759,13 +834,16 @@ export const Explorer = ({
                             </EuiFlexItem>
                             <EuiFlexItem grow={false}>
                               <EuiText size="s">
-                                <EuiLink onClick={() => {
-                                  // hide patterns will also clear pattern selection
-                                  if (viewLogPatterns) {
-                                    onPatternSelection('');
-                                  }
-                                  setViewLogPatterns(!viewLogPatterns);
-                                }}>
+                                <EuiLink
+                                  onClick={() => {
+                                    // hide patterns will also clear pattern selection
+                                    if (viewLogPatterns) {
+                                      onPatternSelection('');
+                                    }
+                                    setViewLogPatterns(!viewLogPatterns);
+                                    setIsPatternConfigPopoverOpen(false);
+                                  }}
+                                >
                                   {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
                                 </EuiLink>
                               </EuiText>
@@ -956,7 +1034,8 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
-    userVizConfigs
+    isPatternConfigPopoverOpen,
+    userVizConfigs,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -1354,7 +1433,7 @@ export const Explorer = ({
     delayTime: number
   ) => {
     setLiveTailName(name);
-    setLiveTailTabId((curSelectedTabId.current as unknown) as string);
+    setLiveTailTabId(curSelectedTabId.current as unknown as string);
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
