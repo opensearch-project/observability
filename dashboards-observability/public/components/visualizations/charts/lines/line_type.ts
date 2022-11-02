@@ -14,6 +14,7 @@ import {
   ConfigLegend,
   InputFieldItem,
   ConfigColorTheme,
+  ConfigYAxisSide,
 } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 import { ConfigAvailability } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import {
@@ -203,6 +204,13 @@ export const createLineTypeDefinition = (params: any = {}) => ({
                 },
               },
             ],
+          },
+          {
+            id: 'yaxis-side',
+            name: 'Series label position',
+            editor: ConfigYAxisSide,
+            mapTo: 'seriesPosition',
+            schemas: [],
           },
           {
             id: 'color-theme',
