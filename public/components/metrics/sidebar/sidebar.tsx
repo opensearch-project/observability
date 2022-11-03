@@ -60,8 +60,14 @@ export const Sidebar = (props: ISidebarProps) => {
         >
           <ul className="metricsList">
             {recentlyCreatedMetrics.map((metric: any) => (
-              <li key={metric.id}>
-                <EuiLink onClick={() => handleAddMetric(metric)}>{metric.name}</EuiLink>
+              <li className="metricName" key={metric.id}>
+                <EuiLink
+                  className="metricName eui-textTruncate"
+                  title={metric.name}
+                  onClick={() => handleAddMetric(metric)}
+                >
+                  {metric.name}
+                </EuiLink>
               </li>
             ))}
           </ul>
@@ -80,7 +86,13 @@ export const Sidebar = (props: ISidebarProps) => {
           <ul className="metricsList">
             {selectedMetrics.map((metric: any) => (
               <li key={metric.id}>
-                <EuiLink onClick={() => handleRemoveMetric(metric)}>{metric.name}</EuiLink>
+                <EuiLink
+                  className="metricName eui-textTruncate"
+                  title={metric.name}
+                  onClick={() => handleRemoveMetric(metric)}
+                >
+                  {metric.name}
+                </EuiLink>
               </li>
             ))}
           </ul>
@@ -99,7 +111,13 @@ export const Sidebar = (props: ISidebarProps) => {
           <ul className="metricsList">
             {availableMetrics.slice(0, 100).map((metric: any) => (
               <li key={metric.id}>
-                <EuiLink onClick={() => handleAddMetric(metric)}>{metric.name}</EuiLink>
+                <EuiLink
+                  className="metricName eui-textTruncate"
+                  title={metric.name}
+                  onClick={() => handleAddMetric(metric)}
+                >
+                  {metric.name}
+                </EuiLink>
               </li>
             ))}
           </ul>
