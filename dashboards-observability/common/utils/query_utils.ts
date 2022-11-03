@@ -5,12 +5,20 @@
 
 import datemath from '@elastic/datemath';
 import { isEmpty } from 'lodash';
-import { DATE_PICKER_FORMAT } from '../../common/constants/explorer';
+import { DATE_PICKER_FORMAT, PPL_DEFAULT_PATTERN_REGEX_FILETER } from '../../common/constants/explorer';
 import {
   PPL_INDEX_INSERT_POINT_REGEX,
   PPL_INDEX_REGEX,
   PPL_NEWLINE_REGEX,
 } from '../../common/constants/shared';
+
+/**
+ * @param literal - string literal that will be put inside single quotes in PPL command
+ * @returns string with inner single quotes escaped
+ */
+const escapeQuotes = (literal: string) => {
+  return literal.replaceAll("'", "''");
+}
 
 export const getIndexPatternFromRawQuery = (query: string): string => {
   const matches = query.match(PPL_INDEX_REGEX);
@@ -27,12 +35,18 @@ export const preprocessQuery = ({
   endTime,
   timeField,
   isLiveQuery,
+  selectedPatternField,
+  patternRegex,
+  filteredPattern,
 }: {
   rawQuery: string;
   startTime: string;
   endTime: string;
   timeField?: string;
   isLiveQuery: boolean;
+  selectedPatternField?: string;
+  patternRegex?: string;
+  filteredPattern?: string;
 }) => {
   let finalQuery = '';
 
@@ -48,11 +62,30 @@ export const preprocessQuery = ({
   finalQuery = `${tokens![1]}=${
     tokens![2]
   } | where ${timeField} >= '${start}' and ${timeField} <= '${end}'${tokens![3]}`;
+
   if (isLiveQuery) {
     finalQuery = finalQuery + ` | sort - ${timeField}`;
   }
+
+  finalQuery = buildPatternsQuery(finalQuery, selectedPatternField, patternRegex, filteredPattern);
+
   return finalQuery;
 };
+
+export const buildPatternsQuery = (baseQuery: string, selectedPatternField?: string, patternRegex?: string, filteredPattern?: string) => {
+  let finalQuery = baseQuery;
+  if (selectedPatternField) {
+    finalQuery += ` | patterns `;
+    if (patternRegex && patternRegex !== PPL_DEFAULT_PATTERN_REGEX_FILETER) {
+      finalQuery += `pattern='${escapeQuotes(patternRegex)}' `;
+    }
+    finalQuery += `\`${selectedPatternField}\` `;
+    if (filteredPattern) {
+      finalQuery += `| where patterns_field='${escapeQuotes(filteredPattern)}'`;
+    }
+  }
+  return finalQuery;
+}
 
 export const buildQuery = (baseQuery: string, currQuery: string) => {
   let fullQuery: string;
@@ -73,7 +106,10 @@ export const composeFinalQuery = (
   endingTime: string,
   timeField: string,
   isLiveQuery: boolean,
-  appBaseQuery: string
+  appBaseQuery: string,
+  selectedPatternField?: string,
+  patternRegex?: string,
+  filteredPattern?: string,
 ) => {
   const fullQuery = buildQuery(appBaseQuery, curQuery);
   if (isEmpty(fullQuery)) return '';
@@ -83,5 +119,8 @@ export const composeFinalQuery = (
     endTime: endingTime,
     timeField,
     isLiveQuery,
+    selectedPatternField,
+    patternRegex,
+    filteredPattern
   });
 };

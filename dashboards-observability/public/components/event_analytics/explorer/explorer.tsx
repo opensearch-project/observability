@@ -3,73 +3,69 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './explorer.scss';
-import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
-import { batch, useDispatch, useSelector } from 'react-redux';
-import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
-import { FormattedMessage } from '@osd/i18n/react';
-import { EuiHorizontalRule, EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
+import dateMath from '@elastic/datemath';
 import {
-  EuiText,
+  EuiButton,
+  EuiButtonEmpty,
   EuiButtonIcon,
-  EuiTabbedContent,
-  EuiTabbedContentTab,
+  EuiContextMenuItem,
+  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiFormRow,
+  EuiHorizontalRule,
   EuiLink,
-  EuiContextMenuItem,
+  EuiLoadingSpinner,
+  EuiPopover,
+  EuiPopoverFooter,
+  EuiSpacer,
+  EuiTabbedContent,
+  EuiTabbedContentTab,
+  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
-import dateMath from '@elastic/datemath';
+import { FormattedMessage } from '@osd/i18n/react';
 import classNames from 'classnames';
-import { Search } from '../../common/search/search';
-import { CountDistribution } from './visualizations/count_distribution';
-import { DataGrid } from './events_views/data_grid';
-import { Sidebar } from './sidebar';
-import { NoResults } from './no_results';
-import { HitsCounter } from './hits_counter/hits_counter';
-import { TimechartHeader } from './timechart_header';
-import { ExplorerVisualizations } from './visualizations';
+import { cloneDeep, has, isEmpty, isEqual, reduce } from 'lodash';
+import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import {
-  IField,
-  IQueryTab,
-  IDefaultTimestampState,
-  ConfigListEntry,
-  DimensionSpan,
-} from '../../../../common/types/explorer';
-import {
-  TAB_CHART_TITLE,
-  TAB_EVENT_TITLE,
-  RAW_QUERY,
-  SELECTED_DATE_RANGE,
-  SELECTED_FIELDS,
-  SELECTED_TIMESTAMP,
+  AGGREGATIONS,
   AVAILABLE_FIELDS,
-  TIME_INTERVAL_OPTIONS,
-  SAVED_QUERY,
-  SAVED_VISUALIZATION,
+  CUSTOM_LABEL,
+  DATE_PICKER_FORMAT,
+  DEFAULT_AVAILABILITY_QUERY,
+  EVENT_ANALYTICS_DOCUMENTATION_URL,
+  FILTERED_PATTERN,
+  GROUPBY,
+  NEW_TAB,
+  PATTERNS_EXTRACTOR_REGEX,
+  PATTERNS_REGEX,
+  PATTERN_REGEX,
+  PPL_DEFAULT_PATTERN_REGEX_FILETER,
+  PPL_PATTERNS_REGEX,
+  RAW_QUERY,
   SAVED_OBJECT_ID,
   SAVED_OBJECT_TYPE,
-  NEW_TAB,
-  TAB_CREATED_TYPE,
-  EVENT_ANALYTICS_DOCUMENTATION_URL,
-  TAB_EVENT_ID,
+  SAVED_QUERY,
+  SAVED_VISUALIZATION,
+  SELECTED_DATE_RANGE,
+  SELECTED_FIELDS,
+  SELECTED_PATTERN_FIELD,
+  SELECTED_TIMESTAMP,
   TAB_CHART_ID,
-  DEFAULT_AVAILABILITY_QUERY,
-  DATE_PICKER_FORMAT,
-  PPL_PATTERNS_REGEX,
-  SELECTED_PATTERN,
-  PATTERNS_REGEX,
-  PATTERNS_EXTRACTOR_REGEX,
-  GROUPBY,
-  AGGREGATIONS,
-  CUSTOM_LABEL,
-  VIZ_CONTAIN_XY_AXIS,
+  TAB_CHART_TITLE,
+  TAB_CREATED_TYPE,
+  TAB_EVENT_ID,
+  TAB_EVENT_TITLE,
+  TIME_INTERVAL_OPTIONS,
 } from '../../../../common/constants/explorer';
 import {
-  PPL_STATS_REGEX,
-  PPL_NEWLINE_REGEX,
-  LIVE_OPTIONS,
   LIVE_END_TIME,
+  LIVE_OPTIONS,
+  PPL_NEWLINE_REGEX,
+  PPL_PATTERNS_DOCUMENTATION_URL,
+  PPL_STATS_REGEX,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
 import {
@@ -78,34 +74,47 @@ import {
   buildQuery,
   composeFinalQuery,
 } from '../../../../common/utils';
-import { useFetchEvents, useFetchVisualizations } from '../hooks';
-import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
-import { selectQueryResult } from '../redux/slices/query_result_slice';
-import { selectFields, updateFields, sortFields } from '../redux/slices/field_slice';
-import { updateTabName } from '../redux/slices/query_tab_slice';
-import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
-import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
-import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
-import {
-  selectVisualizationConfig,
-  change as changeVisualizationConfig,
-} from '../redux/slices/viualization_config_slice';
-import { change as updateVizConfig } from '../redux/slices/viualization_config_slice';
-import { IExplorerProps, IVisualizationContainerProps } from '../../../../common/types/explorer';
-import { TabContext } from '../hooks';
-import { getVizContainerProps } from '../../visualizations/charts/helpers';
-import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError, getDefaultVisConfig } from '../utils';
-import { sleep } from '../../common/live_tail/live_tail_button';
-import { PatternsTable } from './log_patterns/patterns_table';
-import { selectPatterns } from '../redux/slices/patterns_slice';
-import { useFetchPatterns } from '../hooks/use_fetch_patterns';
 import {
   statsChunk,
   GroupByChunk,
-  StatsAggregationChunk,
   GroupField,
+  StatsAggregationChunk,
 } from '../../../../common/query_manager/ast/types';
+import {
+  IDefaultTimestampState,
+  IExplorerProps,
+  IField,
+  IQueryTab,
+  IVisualizationContainerProps,
+} from '../../../../common/types/explorer';
+import { sleep } from '../../common/live_tail/live_tail_button';
+import { onItemSelect, parseGetSuggestions } from '../../common/search/autocomplete_logic';
+import { Search } from '../../common/search/search';
+import { getVizContainerProps } from '../../visualizations/charts/helpers';
+import { TabContext, useFetchEvents, useFetchPatterns, useFetchVisualizations } from '../hooks';
+import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
+import { selectFields, sortFields, updateFields } from '../redux/slices/field_slice';
+import { selectPatterns } from '../redux/slices/patterns_slice';
+import { selectQueryResult } from '../redux/slices/query_result_slice';
+import { changeDateRange, changeQuery, selectQueries } from '../redux/slices/query_slice';
+import { updateTabName } from '../redux/slices/query_tab_slice';
+import { selectExplorerVisualization } from '../redux/slices/visualization_slice';
+import {
+  change as changeVisualizationConfig,
+  change as changeVizConfig,
+  change as updateVizConfig,
+  selectVisualizationConfig,
+} from '../redux/slices/viualization_config_slice';
+import { DataGrid } from './events_views/data_grid';
+import './explorer.scss';
+import { HitsCounter } from './hits_counter/hits_counter';
+import { PatternsTable } from './log_patterns/patterns_table';
+import { NoResults } from './no_results';
+import { Sidebar } from './sidebar';
+import { TimechartHeader } from './timechart_header';
+import { ExplorerVisualizations } from './visualizations';
+import { CountDistribution } from './visualizations/count_distribution';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -146,7 +155,11 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-  const { getPatterns, setDefaultPatternsField } = useFetchPatterns({
+  const {
+    isEventsLoading: isPatternLoading,
+    getPatterns,
+    setDefaultPatternsField,
+  } = useFetchPatterns({
     pplService,
     requestParams,
   });
@@ -168,6 +181,8 @@ export const Explorer = ({
   const [timeIntervalOptions, setTimeIntervalOptions] = useState(TIME_INTERVAL_OPTIONS);
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [isOverridingPattern, setIsOverridingPattern] = useState(false);
+  const [isPatternConfigPopoverOpen, setIsPatternConfigPopoverOpen] = useState(false);
+  const [patternRegexInput, setPatternRegexInput] = useState(PPL_DEFAULT_PATTERN_REGEX_FILETER);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
@@ -368,13 +383,13 @@ export const Explorer = ({
       }
     }
 
-    let curPattern: string = curQuery![SELECTED_PATTERN];
+    let curPattern: string = curQuery![SELECTED_PATTERN_FIELD];
 
     if (isEmpty(curPattern)) {
       const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
       await setDefaultPatternsField(curIndex, '', patternErrorHandler);
       const newQuery = queryRef.current;
-      curPattern = newQuery![SELECTED_PATTERN];
+      curPattern = newQuery![SELECTED_PATTERN_FIELD];
       if (isEmpty(curPattern)) {
         setToast('Index does not contain a valid pattern field.', 'danger');
         return;
@@ -393,7 +408,10 @@ export const Explorer = ({
       endingTime!,
       curTimestamp,
       isLiveTailOnRef.current,
-      appBasedRef.current
+      appBasedRef.current,
+      curQuery![SELECTED_PATTERN_FIELD],
+      curQuery![PATTERN_REGEX],
+      curQuery![FILTERED_PATTERN]
     );
 
     await dispatch(
@@ -431,8 +449,7 @@ export const Explorer = ({
 
       // to fetch patterns data on current query
       if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
-        const patternErrorHandler = getErrorHandler('Error fetching patterns');
-        getPatterns(patternErrorHandler);
+        getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
       }
     }
 
@@ -546,7 +563,7 @@ export const Explorer = ({
       await updateQueryInStore(patternSelectQuery);
       // Passing in empty string will remove pattern query
       const patternErrorHandler = getErrorHandler('Error fetching patterns');
-      getPatterns(patternErrorHandler);
+      getPatterns(minInterval, patternErrorHandler);
     }
   };
 
@@ -621,7 +638,7 @@ export const Explorer = ({
       getErrorHandler('Error overriding default pattern')
     );
     setIsOverridingPattern(false);
-    await getPatterns(getErrorHandler('Error fetching patterns'));
+    await getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
   };
 
   const totalHits: number = useMemo(() => {
@@ -640,17 +657,19 @@ export const Explorer = ({
   }, [countDistribution?.data]);
 
   const onPatternSelection = async (pattern: string) => {
-    let currQuery = queryRef.current![RAW_QUERY] as string;
-    const currPattern = queryRef.current![SELECTED_PATTERN] as string;
-    // Remove existing pattern selection if it exists
-    if (currQuery.match(PPL_PATTERNS_REGEX)) {
-      currQuery = currQuery.replace(PPL_PATTERNS_REGEX, '');
+    if (queryRef.current![FILTERED_PATTERN] === pattern) {
+      return;
     }
-    const patternSelectQuery = `${currQuery.trim()} | patterns ${currPattern} | where patterns_field = '${pattern}'`;
-    // Passing in empty string will remove pattern query
-    const newQuery = pattern ? patternSelectQuery : currQuery;
-    await setTempQuery(newQuery);
-    await updateQueryInStore(newQuery);
+    dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [FILTERED_PATTERN]: pattern,
+        },
+      })
+    );
+    // workaround to refresh callback and trigger fetch data
+    await setTempQuery(queryRef.current![RAW_QUERY]);
     await handleTimeRangePickerRefresh(true);
   };
 
@@ -670,7 +689,7 @@ export const Explorer = ({
                   explorerFields={explorerFields}
                   explorerData={explorerData}
                   selectedTimestamp={query[SELECTED_TIMESTAMP]}
-                  selectedPattern={query[SELECTED_PATTERN]}
+                  selectedPattern={query[SELECTED_PATTERN_FIELD]}
                   handleOverrideTimestamp={handleOverrideTimestamp}
                   handleOverridePattern={handleOverridePattern}
                   handleAddField={(field: IField) => handleAddField(field)}
@@ -726,6 +745,7 @@ export const Explorer = ({
                             options={timeIntervalOptions}
                             onChangeInterval={(intrv) => {
                               getCountVisualizations(intrv);
+                              getPatterns(intrv, getErrorHandler('Error fetching patterns'));
                             }}
                             stateInterval="auto"
                           />
@@ -741,34 +761,123 @@ export const Explorer = ({
                       >
                         <EuiFlexItem grow={false}>
                           {viewLogPatterns && (
-                            <EuiTitle size="s">
-                              <h3 style={{ margin: '0px' }}>
-                                Patterns
-                                <span className="pattern-header-count">
-                                  {' '}
-                                  (
-                                  {patternsData.patternTableData
-                                    ? patternsData.patternTableData.length
-                                    : 0}
-                                  )
-                                </span>
-                              </h3>
-                            </EuiTitle>
+                            <EuiFlexGroup gutterSize="s" alignItems="center">
+                              <EuiFlexItem grow={false}>
+                                <EuiTitle size="s">
+                                  <h3 style={{ margin: '0px' }}>
+                                    Patterns{' '}
+                                    <span className="pattern-header-count">
+                                      ({patternsData.patternTableData?.length || 0})
+                                    </span>
+                                  </h3>
+                                </EuiTitle>
+                              </EuiFlexItem>
+                              <EuiFlexItem grow={false}>
+                                <EuiPopover
+                                  button={
+                                    <EuiButtonIcon
+                                      iconType="gear"
+                                      onClick={() =>
+                                        setIsPatternConfigPopoverOpen(!isPatternConfigPopoverOpen)
+                                      }
+                                    />
+                                  }
+                                  isOpen={isPatternConfigPopoverOpen}
+                                  closePopover={() => setIsPatternConfigPopoverOpen(false)}
+                                  anchorPosition="upCenter"
+                                >
+                                  <EuiTitle size="xxs">
+                                    <h3>Pattern regex</h3>
+                                  </EuiTitle>
+                                  <EuiText size="s">
+                                    Log patterns allow you to cluster your logs, to help
+                                  </EuiText>
+                                  <EuiText size="s">summarize large volume of logs.</EuiText>
+                                  <EuiSpacer size="s" />
+                                  <EuiFormRow
+                                    helpText={
+                                      <EuiText size="s">
+                                        Pattern regex is used to reduce logs into log groups.{' '}
+                                        <EuiLink
+                                          href={PPL_PATTERNS_DOCUMENTATION_URL}
+                                          target="_blank"
+                                        >
+                                          help
+                                        </EuiLink>
+                                      </EuiText>
+                                    }
+                                  >
+                                    <EuiFieldText
+                                      value={patternRegexInput}
+                                      onChange={(e) => setPatternRegexInput(e.target.value)}
+                                    />
+                                  </EuiFormRow>
+                                  <EuiPopoverFooter>
+                                    <EuiFlexGroup justifyContent="flexEnd">
+                                      <EuiFlexItem grow={false}>
+                                        <EuiButtonEmpty
+                                          size="s"
+                                          onClick={() => setIsPatternConfigPopoverOpen(false)}
+                                        >
+                                          Cancel
+                                        </EuiButtonEmpty>
+                                      </EuiFlexItem>
+                                      <EuiFlexItem grow={false}>
+                                        <EuiButton
+                                          size="s"
+                                          fill
+                                          onClick={async () => {
+                                            await setIsPatternConfigPopoverOpen(false);
+                                            await dispatch(
+                                              changeQuery({
+                                                tabId,
+                                                query: {
+                                                  [PATTERN_REGEX]: patternRegexInput,
+                                                },
+                                              })
+                                            );
+                                            await getPatterns(
+                                              minInterval,
+                                              getErrorHandler('Error fetching patterns')
+                                            );
+                                          }}
+                                        >
+                                          Apply
+                                        </EuiButton>
+                                      </EuiFlexItem>
+                                    </EuiFlexGroup>
+                                  </EuiPopoverFooter>
+                                </EuiPopover>
+                              </EuiFlexItem>
+                            </EuiFlexGroup>
                           )}
                         </EuiFlexItem>
                         <EuiFlexItem grow={false}>
                           <EuiFlexGroup>
                             <EuiFlexItem grow={false}>
                               {viewLogPatterns && (
-                                <EuiLink onClick={() => onPatternSelection('')}>
-                                  Clear Selection
-                                </EuiLink>
+                                <EuiText size="s">
+                                  <EuiLink onClick={() => onPatternSelection('')}>
+                                    Clear Selection
+                                  </EuiLink>
+                                </EuiText>
                               )}
                             </EuiFlexItem>
                             <EuiFlexItem grow={false}>
-                              <EuiLink onClick={() => setViewLogPatterns(!viewLogPatterns)}>
-                                {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
-                              </EuiLink>
+                              <EuiText size="s">
+                                <EuiLink
+                                  onClick={() => {
+                                    // hide patterns will also clear pattern selection
+                                    if (viewLogPatterns) {
+                                      onPatternSelection('');
+                                    }
+                                    setViewLogPatterns(!viewLogPatterns);
+                                    setIsPatternConfigPopoverOpen(false);
+                                  }}
+                                >
+                                  {`${viewLogPatterns ? 'Hide' : 'Show'} Patterns`}
+                                </EuiLink>
+                              </EuiText>
                             </EuiFlexItem>
                           </EuiFlexGroup>
                         </EuiFlexItem>
@@ -781,6 +890,7 @@ export const Explorer = ({
                             onPatternSelection={onPatternSelection}
                             tabId={tabId}
                             query={query}
+                            isPatternLoading={isPatternLoading}
                           />
                           <EuiHorizontalRule margin="xs" />
                         </>
@@ -956,6 +1066,8 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
+    isPatternConfigPopoverOpen,
+    patternRegexInput,
     userVizConfigs,
   ]);
 
@@ -1017,6 +1129,7 @@ export const Explorer = ({
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
         await updateCurrentTimeStamp('');
+        await setDefaultPatternsField('', '');
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
@@ -1268,7 +1381,7 @@ export const Explorer = ({
     delayTime: number
   ) => {
     setLiveTailName(name);
-    setLiveTailTabId((curSelectedTabId.current as unknown) as string);
+    setLiveTailTabId(curSelectedTabId.current as unknown as string);
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
