@@ -444,12 +444,6 @@ exports[`Metrics component Renders Metrics component 1`] = `
               "mapTo": "layoutConfig",
               "name": "Layout",
             },
-            Object {
-              "editor": [Function],
-              "id": "availability-panel",
-              "mapTo": "availabilityConfig",
-              "name": "Availability",
-            },
           ],
         },
         "fulllabel": "Metrics",
