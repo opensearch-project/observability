@@ -36,7 +36,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
   const queriesRef = useRef();
   queriesRef.current = queries;
 
-  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[]; total: number[] }) => {
+  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[]; total: number }) => {
     batch(() => {
       dispatch(
         resetPatterns({
@@ -76,7 +76,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
 
   const clearPatternCommands = (query: string) => query.replace(PATTERNS_REGEX, '');
 
-  const getPatterns = (interval: string, errorHandler: (error: any) => void, query?: string) => {
+  const getPatterns = (interval: string, errorHandler?: (error: any) => void, query?: string) => {
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     const searchQuery = isUndefined(query) ? clearPatternCommands(rawQuery) : query;
@@ -95,9 +95,8 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     Promise.all([
       fetchEvents({ query: statsQuery }, 'jdbc', (res) => res, errorHandler),
       fetchEvents({ query: anomaliesQuery }, 'jdbc', (res) => res, errorHandler),
-      fetchEvents({ query: `${searchQuery} | stats count()` }, 'jdbc', (res) => res, errorHandler),
     ]).then((res) => {
-      const [statsRes, anomaliesRes, countRes] = res as IPPLEventsDataSource[];
+      const [statsRes, anomaliesRes] = res as IPPLEventsDataSource[];
       const anomaliesMap: { [x: string]: number } = {};
       anomaliesRes.datarows.forEach((row) => {
         const pattern = row[2];
@@ -114,7 +113,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
       }));
       dispatchOnPatterns({
         patternTableData: formatToTableData,
-        total: countRes.datarows[0],
+        total: formatToTableData.reduce((p, v) => p + v.count, 0),
       });
     });
   };

@@ -448,7 +448,7 @@ export const Explorer = ({
       getCountVisualizations(minInterval);
 
       // to fetch patterns data on current query
-      if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
+      if (!finalQuery.match(PATTERNS_REGEX)) {
         getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
       }
     }

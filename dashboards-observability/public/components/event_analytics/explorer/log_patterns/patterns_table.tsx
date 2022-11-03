@@ -12,7 +12,7 @@ import {
   SortDirection,
 } from '@elastic/eui';
 import { PatternTableData } from 'common/types/explorer';
-import { reduce, round } from 'lodash';
+import { round } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { FILTERED_PATTERN } from '../../../../../common/constants/explorer';
@@ -47,16 +47,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '6%',
       sortable: (row: PatternTableData) => row.count,
       render: (item: number) => {
-        const ratio =
-          (item /
-            reduce(
-              patternsData.total,
-              (sum, n) => {
-                return sum + n;
-              },
-              0
-            )) *
-          100;
+        const ratio = (item / patternsData.total) * 100;
         return <EuiText size="s">{`${round(ratio, 2)}%`}</EuiText>;
       },
     },
