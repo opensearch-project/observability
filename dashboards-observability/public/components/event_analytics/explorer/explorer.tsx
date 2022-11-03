@@ -1205,6 +1205,7 @@ export const Explorer = ({
         isIndexPatternChanged(tempQuery, query[RAW_QUERY])
       ) {
         await updateCurrentTimeStamp('');
+        await setDefaultPatternsField('', '');
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);

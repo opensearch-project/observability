@@ -121,14 +121,10 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
 
   const setDefaultPatternsField = async (
     index: string,
-    pattern: string,
-    errorHandler: (error: any) => void
+    patternField: string,
+    errorHandler?: (error: any) => void
   ) => {
-    let patternField = pattern;
-    if (!pattern) {
-      if (!index) {
-        return;
-      }
+    if (!patternField && index) {
       const query = `source = ${index} | head 1`;
       await fetchEvents(
         { query },
@@ -152,7 +148,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
       );
     }
     // Set pattern to the pattern passed in or the default pattern field found if pattern is empty
-    await dispatch(
+    dispatch(
       changeQuery({
         tabId: requestParams.tabId,
         query: {
