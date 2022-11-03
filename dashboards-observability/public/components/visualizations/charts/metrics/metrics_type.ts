@@ -164,12 +164,6 @@ export const createMetricsTypeDefinition = (params: any = {}) => ({
         editor: ConfigEditor,
         content: [],
       },
-      {
-        id: 'availability-panel',
-        name: 'Availability',
-        mapTo: 'availabilityConfig',
-        editor: ConfigAvailability,
-      },
     ],
   },
   visconfig: {

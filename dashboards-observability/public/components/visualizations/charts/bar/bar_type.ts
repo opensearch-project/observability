@@ -212,12 +212,6 @@ export const createBarTypeDefinition = (params: any) => ({
         mapTo: 'availabilityConfig',
         editor: ConfigAvailability,
       },
-      {
-        id: 'availability-panel',
-        name: 'Availability',
-        mapTo: 'availabilityConfig',
-        editor: ConfigAvailability,
-      },
     ],
   },
   visconfig: {
