@@ -62,7 +62,7 @@ export const preprocessJsonData = (
       let tabularVizData = {};
       const serieKey = sr[CUSTOM_LABEL] ? sr[CUSTOM_LABEL] : `${sr.aggregation}(${sr.name})`;
       let timespanDimension = [];
-      if (span) {
+      if (!isEmpty(span)) {
         timespanDimension.push(getCompleteTimespanKey(span));
       }
       if (!isEmpty(serieKey)) {

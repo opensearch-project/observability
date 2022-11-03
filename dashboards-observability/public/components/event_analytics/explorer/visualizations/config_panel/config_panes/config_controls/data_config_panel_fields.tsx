@@ -72,7 +72,6 @@ export const DataConfigPanelFields = ({
       ? HEATMAP_DATA_CONFIG_HINTS_INFO[GROUPBY]
       : DATA_CONFIG_HINTS_INFO[GROUPBY];
   };
-  // const { time_field, unit, interval } = dimensionSpan;
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
   const crossIcon = (index: number, configName: string) => (
