@@ -72,6 +72,7 @@ import {
   LIVE_END_TIME,
   LIVE_OPTIONS,
   PPL_NEWLINE_REGEX,
+  PPL_PATTERNS_DOCUMENTATION_URL,
   PPL_STATS_REGEX,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
@@ -775,9 +776,26 @@ export const Explorer = ({
                                   anchorPosition="upCenter"
                                 >
                                   <EuiTitle size="xxs">
-                                    <h3>Regex filter</h3>
+                                    <h3>Pattern regex</h3>
                                   </EuiTitle>
-                                  <EuiFormRow helpText="Characters matched will be removed in patterns.">
+                                  <EuiText size="s">
+                                    Log patterns allow you to cluster your logs, to help
+                                  </EuiText>
+                                  <EuiText size="s">summarize large volume of logs.</EuiText>
+                                  <EuiSpacer size="s" />
+                                  <EuiFormRow
+                                    helpText={
+                                      <EuiText size="s">
+                                        Pattern regex is used to reduce logs into log groups.{' '}
+                                        <EuiLink
+                                          href={PPL_PATTERNS_DOCUMENTATION_URL}
+                                          target="_blank"
+                                        >
+                                          help
+                                        </EuiLink>
+                                      </EuiText>
+                                    }
+                                  >
                                     <EuiFieldText
                                       value={queryRef.current![PATTERN_REGEX]}
                                       onChange={(e) => {
@@ -808,10 +826,13 @@ export const Explorer = ({
                                           fill
                                           onClick={() => {
                                             setIsPatternConfigPopoverOpen(false);
-                                            getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
+                                            getPatterns(
+                                              minInterval,
+                                              getErrorHandler('Error fetching patterns')
+                                            );
                                           }}
                                         >
-                                          Save
+                                          Apply
                                         </EuiButton>
                                       </EuiFlexItem>
                                     </EuiFlexGroup>
