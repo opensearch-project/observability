@@ -390,7 +390,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
   if (metaData === undefined || _.isEmpty(metaData)) {
     return <></>;
   }
-  let userVisConfig =
+  const userVisConfig =
     !_.isEmpty(metaData.user_configs) && !_.isEmpty(metaData.user_configs.series)
       ? metaData.user_configs
       : {
@@ -400,6 +400,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
             ),
           },
         };
+        
   return (
     <Visualization
       visualizations={getVizContainerProps({
