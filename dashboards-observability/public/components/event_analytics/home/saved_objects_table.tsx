@@ -6,6 +6,7 @@
 import React, { useState, useRef } from 'react';
 import { EuiLink, EuiInMemoryTable, EuiIcon } from '@elastic/eui';
 import { FILTER_OPTIONS } from '../../../../common/constants/explorer';
+import { isEmpty } from 'lodash';
 
 interface savedQueryTableProps {
   savedHistories: Array<any>;
@@ -86,6 +87,14 @@ export function SavedQueryTable({
     const isSavedVisualization = h.hasOwnProperty('savedVisualization');
     const savedObject = isSavedVisualization ? h.savedVisualization : h.savedQuery;
     const curType = isSavedVisualization ? 'savedVisualization' : 'savedQuery';
+    var subType = '';
+    if (isSavedVisualization) {
+      if (savedObject?.sub_type === 'metric') {
+        subType = 'Metric'
+      } else {
+        subType = savedObject?.sub_type;
+      }
+    }
     const record = {
       objectId: h.objectId,
       objectType: curType,
@@ -100,7 +109,7 @@ export function SavedQueryTable({
       id: h.objectId,
       data: record,
       name: savedObject.name,
-      type: isSavedVisualization ? 'Visualization' : 'Query',
+      type: isSavedVisualization ? (!isEmpty(subType)) ? subType: 'Visualization' : 'Query',
     };
   });
 
