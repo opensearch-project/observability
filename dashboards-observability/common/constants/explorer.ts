@@ -281,6 +281,10 @@ export const DATA_CONFIG_HINTS_INFO = {
   [BREAKDOWNS]:
     "Defines how each series is broken down. Breakdowns are 'by' clauses that subdivide the existing series.",
 };
+export const SERIES_POSITION_OPTIONS = [
+  { id: htmlIdGenerator('ct')(), label: 'Left', side: 'left' },
+  { id: htmlIdGenerator('ct')(), label: 'Right', side: 'right' },
+];
 
 export const HEATMAP_DATA_CONFIG_HINTS_INFO = {
   [AGGREGATIONS]: `${DATA_CONFIG_HINTS_INFO[AGGREGATIONS]} and max one series is allowed`,
