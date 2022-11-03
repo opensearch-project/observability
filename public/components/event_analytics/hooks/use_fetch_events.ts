@@ -40,30 +40,18 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
   fieldsRef.current = fields;
   responseRef.current = response;
 
-  const fetchEvents = async (
+  const fetchEvents = (
     { query }: { query: string },
     format: string,
-    handler: (res: any) => void,
+    handler: (res: any) => unknown,
     errorHandler?: (error: any) => void
   ) => {
     setIsEventsLoading(true);
-    await pplService
-      .fetch(
-        {
-          query,
-          format,
-        },
-        errorHandler
-      )
-      .then((res: any) => {
-        handler(res);
-      })
-      .catch((err: any) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsEventsLoading(false);
-      });
+    return pplService
+      .fetch({ query, format }, errorHandler)
+      .then((res: any) => handler(res))
+      .catch((err: any) => console.error(err))
+      .finally(() => setIsEventsLoading(false));
   };
 
   const dispatchOnGettingHis = (res: any) => {
