@@ -7,28 +7,19 @@ import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
-import { Moment } from 'moment-timezone';
 import React from 'react';
-import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
-import { PPL_DATE_FORMAT } from '../../../../common/constants/shared';
+import { Layout } from 'react-grid-layout';
+import { VISUALIZATION, SAVED_VISUALIZATION } from '../../../../common/constants/metrics';
+import {
+  EVENT_ANALYTICS,
+  OBSERVABILITY_BASE,
+  SAVED_OBJECTS,
+} from '../../../../common/constants/shared';
 import PPLService from '../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../src/core/public';
 import { MetricType } from '../../../../common/types/metrics';
-import { Layout } from 'react-grid-layout';
 import { VisualizationType } from '../../../../common/types/custom_panels';
 import { DEFAULT_METRIC_HEIGHT, DEFAULT_METRIC_WIDTH } from '../../../../common/constants/metrics';
-
-export const convertDateTime = (datetime: string, isStart = true, formatted = true) => {
-  let returnTime: undefined | Moment;
-  if (isStart) {
-    returnTime = dateMath.parse(datetime);
-  } else {
-    returnTime = dateMath.parse(datetime, { roundUp: true });
-  }
-
-  if (formatted) return returnTime!.format(PPL_DATE_FORMAT);
-  return returnTime;
-};
 
 export const onTimeChange = (
   start: ShortDate,
@@ -50,16 +41,20 @@ export const onTimeChange = (
 
 // PPL Service requestor
 export const pplServiceRequestor = (pplService: PPLService, finalQuery: string) => {
-  return pplService.fetch({ query: finalQuery, format: 'viz' }).catch((error: Error) => {
+  return pplService.fetch({ query: finalQuery, format: VISUALIZATION }).catch((error: Error) => {
     console.error(error);
   });
 };
 
 // Observability backend to fetch visualizations/custom metrics
 export const getVisualizations = (http: CoreStart['http']) => {
-  return http.get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/`).catch((err) => {
-    console.error('Issue in fetching all saved visualizations', err);
-  });
+  return http
+    .get(`${OBSERVABILITY_BASE}${EVENT_ANALYTICS}${SAVED_OBJECTS}`, {
+      query: { objectType: [SAVED_VISUALIZATION] },
+    })
+    .catch((err) => {
+      console.error('Issue in fetching all saved visualizations', err);
+    });
 };
 
 interface boxType {

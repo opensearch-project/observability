@@ -29,12 +29,15 @@ export const loadMetrics = createAsyncThunk('metrics/loadData', async (services:
 
 const fetchCustomMetrics = async (http: any) => {
   const dataSet = await getVisualizations(http);
-
-  const normalizedData = dataSet.visualizations.map((obj: any) => ({
-    id: obj.id,
-    name: obj.name,
+  const savedMetrics = dataSet.observabilityObjectList.filter(
+    (obj: any) => obj.savedVisualization.sub_type === 'metric'
+  );
+  const normalizedData = savedMetrics.map((obj: any) => ({
+    id: obj.objectId,
+    name: obj.savedVisualization.name,
     catalog: 'CUSTOM_METRICS',
-    type: obj.type,
+    type: obj.savedVisualization.type,
+    recentlyCreated: (Date.now() - obj.createdTimeMs) / 36e5 <= 12,
   }));
   return normalizedData;
 };
@@ -52,6 +55,7 @@ const fetchRemoteMetrics = async (pplService: any) => {
       name: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
       catalog: `${catalog.CATALOG_NAME}`,
       type: obj.TABLE_TYPE,
+      recentlyCreated: false,
     }));
     dataSet.push(normalizedData);
   }
@@ -122,10 +126,20 @@ export const { deSelectMetric, selectMetric, updateMetricsLayout } = metricSlice
 export const metricsStateSelector = (state) => state.metrics;
 
 export const availableMetricsSelector = (state) =>
-  state.metrics.metrics.filter((metric) => !state.metrics.selected.includes(metric.id));
+  state.metrics.metrics.filter(
+    (metric) => !state.metrics.selected.includes(metric.id) && !metric.recentlyCreated
+  );
 
 export const selectedMetricsSelector = (state) =>
   state.metrics.metrics.filter((metric) => state.metrics.selected.includes(metric.id));
+
+export const recentlyCreatedMetricsSelector = (state) =>
+  state.metrics.metrics.filter(
+    (metric) => !state.metrics.selected.includes(metric.id) && metric.recentlyCreated
+  );
+
+export const allAvailableMetricsSelector = (state) =>
+  state.metrics.metrics.filter((metric) => !state.metrics.selected.includes(metric.id));
 
 export const metricsLayoutSelector = (state) => state.metrics.metricsLayout;
 
