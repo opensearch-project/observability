@@ -482,12 +482,6 @@ exports[`Histogram component Renders histogram component 1`] = `
               "mapTo": "availabilityConfig",
               "name": "Availability",
             },
-            Object {
-              "editor": [Function],
-              "id": "availability-panel",
-              "mapTo": "availabilityConfig",
-              "name": "Availability",
-            },
           ],
         },
         "fillopacity": 70,
