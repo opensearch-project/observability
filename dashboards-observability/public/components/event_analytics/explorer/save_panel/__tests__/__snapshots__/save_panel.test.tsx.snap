@@ -2,6 +2,7 @@
 
 exports[`Saved query table component Renders saved query table 1`] = `
 <SavePanel
+  curVisId="line"
   handleNameChange={[MockFunction]}
   handleOptionChange={[MockFunction]}
   savePanelName="Count by depature"
@@ -32,7 +33,11 @@ exports[`Saved query table component Renders saved query table 1`] = `
       },
     ]
   }
+  setMetricLabel={[MockFunction]}
+  setMetricMeasure="hours (h)"
+  setSubType="metric"
   showOptionList={true}
+  spanValue={false}
 >
   <EuiTitle
     size="xxs"
@@ -698,6 +703,85 @@ exports[`Saved query table component Renders saved query table 1`] = `
             Name for your savings
           </div>
         </EuiFormHelpText>
+      </div>
+    </div>
+  </EuiFormRow>
+  <EuiFormRow
+    describedByIds={Array []}
+    display="columnCompressedSwitch"
+    fullWidth={false}
+    hasChildLabel={true}
+    hasEmptyLabelSpace={false}
+    labelType="label"
+  >
+    <div
+      className="euiFormRow euiFormRow--compressed euiFormRow--horizontal euiFormRow--hasSwitch"
+      id="random_html_id-row"
+    >
+      <div
+        className="euiFormRow__fieldWrapper"
+      >
+        <EuiToolTip
+          content="Only Time Series visualization and a query including stats/span can be saved as Metric"
+          delay="regular"
+          id="random_html_id"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          position="top"
+        >
+          <span
+            className="euiToolTipAnchor"
+            onKeyUp={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <EuiSwitch
+              checked={false}
+              compressed={true}
+              disabled={true}
+              label="Save as Metric"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              showLabel={true}
+            >
+              <div
+                className="euiSwitch euiSwitch--compressed"
+              >
+                <button
+                  aria-checked={false}
+                  aria-labelledby="random_html_id"
+                  className="euiSwitch__button"
+                  disabled={true}
+                  id="random_html_id"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  role="switch"
+                  type="button"
+                >
+                  <span
+                    className="euiSwitch__body"
+                  >
+                    <span
+                      className="euiSwitch__thumb"
+                    />
+                    <span
+                      className="euiSwitch__track"
+                    />
+                  </span>
+                </button>
+                <span
+                  className="euiSwitch__label"
+                  id="random_html_id"
+                  onClick={[Function]}
+                >
+                  Save as Metric
+                </span>
+              </div>
+            </EuiSwitch>
+          </span>
+        </EuiToolTip>
       </div>
     </div>
   </EuiFormRow>
