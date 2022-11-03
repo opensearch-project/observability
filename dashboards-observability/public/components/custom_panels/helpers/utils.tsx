@@ -18,6 +18,8 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
+import { QueryManager } from '../../../../common/query_manager';
+import { getDefaultVisConfig } from '../../event_analytics/utils';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -388,6 +390,16 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
   if (metaData === undefined || _.isEmpty(metaData)) {
     return <></>;
   }
+  let userVisConfig =
+    !_.isEmpty(metaData.user_configs) && !_.isEmpty(metaData.user_configs.series)
+      ? metaData.user_configs
+      : {
+          dataConfig: {
+            ...getDefaultVisConfig(
+              new QueryManager().queryParser().parse(metaData.query).getStats()
+            ),
+          },
+        };
   return (
     <Visualization
       visualizations={getVizContainerProps({
@@ -395,7 +407,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
         rawVizData: data,
         query: { rawQuery: metaData.query },
         indexFields: {},
-        userConfigs: metaData.user_configs,
+        userConfigs: userVisConfig,
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
       })}
     />

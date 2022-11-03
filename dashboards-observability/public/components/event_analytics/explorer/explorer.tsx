@@ -95,7 +95,7 @@ import { IExplorerProps, IVisualizationContainerProps } from '../../../../common
 import { TabContext } from '../hooks';
 import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
-import { formatError } from '../utils';
+import { formatError, getDefaultVisConfig } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
 import { PatternsTable } from './log_patterns/patterns_table';
 import { selectPatterns } from '../redux/slices/patterns_slice';
@@ -308,7 +308,7 @@ export const Explorer = ({
               visConfig = JSON.parse(objectData.user_configs);
             } else {
               const statsTokens = queryManager.queryParser().parse(objectData.query).getStats();
-              visConfig = { dataConfig: { ...getUpdatedDataConfig(statsTokens) } };
+              visConfig = { dataConfig: { ...getDefaultVisConfig(statsTokens) } };
             }
             await dispatch(
               updateVizConfig({
@@ -1008,98 +1008,6 @@ export const Explorer = ({
       : undefined;
   };
 
-  const getUpdatedDataConfig = (statsToken: statsChunk) => {
-    if (statsToken === null) {
-      return {
-        [GROUPBY]: [],
-        [AGGREGATIONS]: [],
-      };
-    }
-
-    const groupByToken = statsToken.groupby;
-    const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
-    const span = getSpanValue(groupByToken);
-    switch (curVisId) {
-      case VIS_CHART_TYPES.TreeMap:
-        return {
-          [GROUPBY]: [
-            {
-              childField: {
-                ...(groupByToken?.group_fields
-                  ? {
-                      label: groupByToken?.group_fields[0].name ?? '',
-                      name: groupByToken?.group_fields[0].name ?? '',
-                    }
-                  : { label: '', name: '' }),
-              },
-              parentFields: [],
-            },
-          ],
-          [AGGREGATIONS]: [
-            {
-              valueField: {
-                ...(seriesToken
-                  ? {
-                      label: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
-                      name: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
-                    }
-                  : { label: '', name: '' }),
-              },
-            },
-          ],
-        };
-      case VIS_CHART_TYPES.Histogram:
-        return {
-          [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
-          [AGGREGATIONS]: [],
-        };
-      case VIS_CHART_TYPES.LogsView: {
-        const dimensions = statsToken.aggregations
-          .map((agg) => {
-            const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
-            return {
-              label: logViewField,
-              name: logViewField,
-            };
-          })
-          .concat(
-            groupByToken.group_fields?.map((agg) => ({
-              label: agg.name ?? '',
-              name: agg.name ?? '',
-            }))
-          );
-        if (span !== undefined) {
-          const { time_field, interval, unit } = span;
-          const timespanField = `span(${time_field[0].name},${interval}${unit[0].value})`;
-          dimensions.push({
-            label: timespanField,
-            name: timespanField,
-          });
-        }
-        return {
-          [AGGREGATIONS]: [],
-          [GROUPBY]: dimensions,
-        };
-      }
-
-      default:
-        return {
-          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
-            label: agg.function?.value_expression,
-            name: agg.function?.value_expression,
-            aggregation: agg.function?.name,
-            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
-          })),
-          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
-            label: agg.name ?? '',
-            name: agg.name ?? '',
-            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
-          })),
-          span,
-        };
-    }
-  };
-
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
       // clear previous selected timestamp when index pattern changes
@@ -1118,7 +1026,7 @@ export const Explorer = ({
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
         const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+        const updatedDataConfig = getDefaultVisConfig(statsTokens);
         await dispatch(
           changeVizConfig({
             tabId,
@@ -1436,7 +1344,7 @@ export const Explorer = ({
   useEffect(() => {
     if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
       const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-      const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+      const updatedDataConfig = getDefaultVisConfig(statsTokens);
       setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
     }
   }, [tempQuery, selectedContentTabId, curVisId]);
