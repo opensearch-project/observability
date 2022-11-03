@@ -47,7 +47,7 @@ export class ObservabilityPlugin implements Plugin<ObservabilitySetup, Observabi
         const pplService = new PPLService(coreStart.http);
         const dslService = new DSLService(coreStart.http);
         const savedObjects = new SavedObjects(coreStart.http);
-        const timestampUtils = new TimestampUtils(dslService);
+        const timestampUtils = new TimestampUtils(dslService, pplService);
         const qm = new QueryManager();
         return Observability(
           coreStart,
