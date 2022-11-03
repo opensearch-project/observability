@@ -81,10 +81,6 @@ export function SpanDetailPanel(props: {
     handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL);
   }, 150);
 
-  useEffect(() => {
-    console.log("dsl", JSON.stringify(DSL));
-  }, [DSL])
-
   const spanFiltersToDSL = () => {
     const spanDSL: any = {
       query: {

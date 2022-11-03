@@ -144,7 +144,7 @@ export const getServiceBreakdownQuery = (traceID: string) => {
     aggs: {
       service_type: {
         terms: {
-          field: 'serviceName',
+          field: 'process.serviceName',
           order: [
             {
               total_latency_nanos: 'desc',
@@ -154,7 +154,7 @@ export const getServiceBreakdownQuery = (traceID: string) => {
         aggs: {
           total_latency_nanos: {
             sum: {
-              field: 'durationInNanos',
+              field: 'duration',
             },
           },
           total_latency: {
@@ -163,7 +163,7 @@ export const getServiceBreakdownQuery = (traceID: string) => {
                 count: '_count',
                 latency: 'total_latency_nanos.value',
               },
-              script: 'Math.round(params.latency / 10000) / 100.0',
+              script: 'Math.round(params.latency / 10) / 100.0',
             },
           },
         },
@@ -205,12 +205,12 @@ export const getSpanDetailQuery = (traceID: string, size = 3000) => {
     _source: {
       includes: [
         'process.serviceName',
-        'name',
+        'operationName',
         'startTime',
         'endTime',
         'spanID',
-        'status.code',
-        'durationInNanos',
+        'tag.error',
+        'duration',
       ],
     },
   };

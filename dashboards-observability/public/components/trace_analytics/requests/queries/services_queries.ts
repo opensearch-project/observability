@@ -122,7 +122,7 @@ export const getServiceNodesQuery = () => {
     aggs: {
       service_name: {
         terms: {
-          field: 'serviceName',
+          field: 'process.serviceName',
           size: SERVICE_MAP_MAX_NODES,
         },
         aggs: {

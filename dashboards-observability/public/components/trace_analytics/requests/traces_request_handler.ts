@@ -9,7 +9,7 @@ import moment from 'moment';
 import { v1 as uuid } from 'uuid';
 import { HttpSetup } from '../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../common/constants/trace_analytics';
-import { nanoToMilliSec } from '../components/common/helper_functions';
+import { microToMilliSec, nanoToMilliSec } from '../components/common/helper_functions';
 import { SpanSearchParams } from '../components/traces/span_detail_table';
 import {
   getPayloadQuery,
@@ -212,21 +212,21 @@ const hitsToSpanDetailData = async (hits: any, colorMap: any) => {
   };
   if (hits.length === 0) return data;
 
-  const minStartTime = nanoToMilliSec(hits[hits.length - 1].sort[0]);
+  const minStartTime = microToMilliSec(hits[hits.length - 1].sort[0]);
   let maxEndTime = 0;
 
   hits.forEach((hit: any) => {
-    const startTime = nanoToMilliSec(hit.sort[0]) - minStartTime;
-    const duration = _.round(nanoToMilliSec(hit._source.durationInNanos), 2);
-    const serviceName = _.get(hit, ['_source', 'serviceName']);
-    const name = _.get(hit, '_source.name');
-    const error = hit._source['status.code'] === 2 ? ' \u26a0 Error' : '';
+    const startTime = microToMilliSec(hit.sort[0]) - minStartTime;
+    const duration = _.round(microToMilliSec(hit._source.duration), 2);
+    const serviceName = _.get(hit, ['_source', 'process'])['serviceName'];
+    const name = _.get(hit, '_source.operationName');
+    const error = hit._source['tag.error'] === true ? ' \u26a0 Error' : '';
     const uniqueLabel = `${serviceName} <br>${name} ` + uuid();
     maxEndTime = Math.max(maxEndTime, startTime + duration);
 
     data.table.push({
       service_name: serviceName,
-      span_id: hit._source.spanId,
+      span_id: hit._source.spanID,
       latency: duration,
       vs_benchmark: 0,
       error,
