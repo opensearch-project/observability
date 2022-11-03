@@ -25,11 +25,13 @@ interface PatternsTableProps {
   tabId: string;
   query: any;
   isPatternLoading: boolean;
+  totalHits?: number;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
   const { tableData, tabId, onPatternSelection, query } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
+  const totalHits = props.totalHits || tableData.reduce((p, v) => p + v.count, 0);
 
   const tableColumns = [
     {
@@ -47,7 +49,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '6%',
       sortable: (row: PatternTableData) => row.count,
       render: (item: number) => {
-        const ratio = (item / patternsData.total) * 100;
+        const ratio = (item / totalHits) * 100;
         return <EuiText size="s">{`${round(ratio, 2)}%`}</EuiText>;
       },
     },

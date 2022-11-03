@@ -36,7 +36,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
   const queriesRef = useRef();
   queriesRef.current = queries;
 
-  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[]; total: number }) => {
+  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[] }) => {
     batch(() => {
       dispatch(
         resetPatterns({
@@ -123,10 +123,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
           sampleLog: row[1][0],
           anomalyCount: anomaliesResultsAvailable ? anomaliesMap[row[2]] || 0 : undefined,
         }));
-        dispatchOnPatterns({
-          patternTableData: formatToTableData,
-          total: formatToTableData.reduce((p, v) => p + v.count, 0),
-        });
+        dispatchOnPatterns({ patternTableData: formatToTableData });
       })
       .catch(errorHandler);
   };
