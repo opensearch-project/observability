@@ -14,12 +14,14 @@ import {
   EuiButtonIcon,
 } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
+import { useDispatch, useSelector } from 'react-redux';
 import { uiSettingsService } from '../../../../common/utils';
 import React, { useState } from 'react';
 import { MetricType } from '../../../../common/types/metrics';
 import { resolutionOptions } from '../../../../common/constants/metrics';
-
 import './top_menu.scss';
+import { allAvailableMetricsSelector, selectMetric } from '../redux/slices/metrics_slice';
+import { SearchBar } from '../sidebar/search_bar';
 
 interface TopMenuProps {
   IsTopPanelDisabled: boolean;
@@ -58,6 +60,10 @@ export const TopMenu = ({
 }: TopMenuProps) => {
   const [originalPanelVisualizations, setOriginalPanelVisualizations] = useState<MetricType[]>([]);
 
+  const dispatch = useDispatch();
+  const allAvailableMetrics = useSelector(allAvailableMetricsSelector);
+  const handleAddMetric = (metric: any) => dispatch(selectMetric(metric));
+
   // toggle between panel edit mode
   const editPanel = (editType: string) => {
     setEditMode(!editMode);
@@ -82,12 +88,6 @@ export const TopMenu = ({
     setResolutionValue(e.target.value);
   };
 
-  const cancelButton = (
-    <EuiButton size="s" iconType="cross" color="danger" onClick={() => editPanel('cancel')}>
-      Cancel
-    </EuiButton>
-  );
-
   const saveButton = (
     <EuiButton size="s" iconType="save" onClick={() => editPanel('save')}>
       Save view
@@ -110,15 +110,10 @@ export const TopMenu = ({
         <EuiPageHeaderSection>
           <EuiFlexGroup className="search-bar-top-menu">
             <EuiFlexItem>
-              <EuiFieldSearch
-                placeholder="Search metrics"
-                isClearable={true}
-                aria-label="Use aria labels when no actual label is in use"
-                fullWidth={true}
+              <SearchBar
+                allAvailableMetrics={allAvailableMetrics}
+                handleAddMetric={handleAddMetric}
               />
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <EuiButtonIcon iconType="menuLeft"></EuiButtonIcon>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiPageHeaderSection>
@@ -172,7 +167,6 @@ export const TopMenu = ({
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         {editMode ? (
           <>
-            <EuiFlexItem grow={false}>{cancelButton}</EuiFlexItem>
             <EuiFlexItem grow={false}>{saveButton}</EuiFlexItem>
           </>
         ) : (
