@@ -30,7 +30,7 @@ export const TAB_CHART_ID_TXT_PFX = 'main-content-vis-';
 export const TAB_EVENT_ID = 'main-content-events';
 export const TAB_CHART_ID = 'main-content-vis';
 export const HAS_SAVED_TIMESTAMP = 'hasSavedTimestamp';
-export const FILTER_OPTIONS = ['Visualization', 'Query'];
+export const FILTER_OPTIONS = ['Visualization', 'Query', 'Metric'];
 export const SAVED_QUERY = 'savedQuery';
 export const SAVED_VISUALIZATION = 'savedVisualization';
 export const SAVED_OBJECT_ID = 'savedObjectId';
@@ -289,3 +289,13 @@ export const DATA_CONFIG_HINTS_INFO = {
   [BREAKDOWNS]:
     "Defines how each series is broken down. Breakdowns are 'by' clauses that subdivide the existing series.",
 };
+
+// Metrics constants
+export const UNITS_OF_MEASURE = [
+  'seconds (s)',
+  'hours (h)',
+  'celsius (C)',
+  'farenheit (F)',
+  'meters (m)',
+  'kilometers (k)',
+]
