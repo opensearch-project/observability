@@ -449,7 +449,7 @@ export const Explorer = ({
 
       // to fetch patterns data on current query
       if (!finalQuery.match(PATTERNS_REGEX)) {
-        getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
+        getPatterns(minInterval);
       }
     }
 

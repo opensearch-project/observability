@@ -57,7 +57,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '6%',
       sortable: (row: PatternTableData) => row.anomalyCount,
       render: (item: number) => {
-        return <EuiText size="s">{item}</EuiText>;
+        return <EuiText size="s">{item ?? 'N/A'}</EuiText>;
       },
     },
     {
