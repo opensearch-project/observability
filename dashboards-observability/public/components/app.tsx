@@ -17,6 +17,7 @@ import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
+import { Home as MetricsHome } from './metrics/index';
 
 interface ObservabilityAppDeps {
   CoreStartProp: CoreStart;
