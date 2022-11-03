@@ -72,7 +72,12 @@ import {
   LIVE_END_TIME,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery, composeFinalQuery } from '../../../../common/utils';
+import {
+  getIndexPatternFromRawQuery,
+  preprocessQuery,
+  buildQuery,
+  composeFinalQuery,
+} from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
 import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
 import { selectQueryResult } from '../redux/slices/query_result_slice';
@@ -298,11 +303,18 @@ export const Explorer = ({
           );
           // fill saved user configs
           if (objectData?.type) {
+            let visConfig = {};
+            if (!isEmpty(objectData.user_configs) && !isEmpty(objectData.user_configs.series)) {
+              visConfig = JSON.parse(objectData.user_configs);
+            } else {
+              const statsTokens = queryManager.queryParser().parse(objectData.query).getStats();
+              visConfig = { dataConfig: { ...getUpdatedDataConfig(statsTokens) } };
+            }
             await dispatch(
               updateVizConfig({
                 tabId,
                 vizId: objectData?.type,
-                data: !isEmpty(objectData?.user_configs) ? JSON.parse(objectData.user_configs) : {},
+                data: visConfig,
               })
             );
           }
@@ -944,7 +956,7 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
-    userVizConfigs
+    userVizConfigs,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -1116,7 +1128,7 @@ export const Explorer = ({
         );
       }
     },
-    [tempQuery, query, selectedContentTabId]
+    [tempQuery, query, selectedContentTabId, curVisId]
   );
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
@@ -1422,11 +1434,13 @@ export const Explorer = ({
   );
 
   useEffect(() => {
-    const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-    const updatedDataConfig = getUpdatedDataConfig(statsTokens);
-    setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
-  }, [tempQuery, query, selectedContentTabId]);
-  
+    if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+      const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
+      const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+      setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
+    }
+  }, [tempQuery, selectedContentTabId, curVisId]);
+
   return (
     <TabContext.Provider
       value={{
