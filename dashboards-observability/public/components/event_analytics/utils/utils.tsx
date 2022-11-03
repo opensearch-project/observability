@@ -9,7 +9,13 @@ import { uniqueId } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { HttpStart } from '../../../../../../src/core/public';
-import { CUSTOM_LABEL, TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
+import {
+  CUSTOM_LABEL,
+  TIME_INTERVAL_OPTIONS,
+  GROUPBY,
+  AGGREGATIONS,
+  BREAKDOWNS,
+} from '../../../../common/constants/explorer';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import {
   ConfigListEntry,
@@ -20,6 +26,12 @@ import {
 import PPLService from '../../../services/requests/ppl';
 import { DocViewRow, IDocType } from '../explorer/events_views';
 import { ConfigTooltip } from '../explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  GroupByChunk,
+  GroupField,
+  StatsAggregationChunk,
+  statsChunk,
+} from '../../../../common/query_manager/ast/types';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -389,4 +401,57 @@ export const getPropName = (queriedVizObj: {
   } else {
     return '';
   }
+};
+
+export const getDefaultVisConfig = (statsToken: statsChunk) => {
+  if (statsToken === null) {
+    return {
+      [GROUPBY]: [],
+      [AGGREGATIONS]: [],
+      [BREAKDOWNS]: []
+    };
+  }
+
+  const groupByToken = statsToken.groupby;
+  // const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+  const span = getSpanValue(groupByToken);
+  return {
+    [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+      label: agg.function?.value_expression,
+      name: agg.function?.value_expression,
+      aggregation: agg.function?.name,
+      [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
+    })),
+    [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+      label: agg.name ?? '',
+      name: agg.name ?? '',
+      [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
+    })),
+    span,
+  };
+};
+
+const getSpanValue = (groupByToken: GroupByChunk) => {
+  const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+    (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+  )?.text;
+  return groupByToken?.span !== null
+    ? {
+        time_field: [
+          {
+            name: groupByToken?.span.span_expression.field,
+            type: 'timestamp',
+            label: groupByToken?.span.span_expression.field,
+          },
+        ],
+        unit: [
+          {
+            text: timeUnitValue,
+            value: groupByToken?.span.span_expression.time_unit,
+            label: timeUnitValue,
+          },
+        ],
+        interval: groupByToken?.span.span_expression.literal_value,
+      }
+    : undefined;
 };

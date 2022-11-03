@@ -18,6 +18,7 @@ describe('Saved query table component', () => {
   it('Renders saved query table', async () => {
     const handleNameChange = jest.fn();
     const handleOptionChange = jest.fn();
+    const setMetricLabel = jest.fn();
     const savedObjects = new SavedObjects(httpClientMock);
     
     const wrapper = mount(
@@ -28,7 +29,12 @@ describe('Saved query table component', () => {
         savedObjects={savedObjects}
         savePanelName={'Count by depature'}
         showOptionList={true}
-      />
+        curVisId={'line'}
+        spanValue={false} 
+        setSubType={'metric'} 
+        setMetricMeasure={'hours (h)'}
+        setMetricLabel={setMetricLabel}      
+        />
     );
     
     wrapper.update();
