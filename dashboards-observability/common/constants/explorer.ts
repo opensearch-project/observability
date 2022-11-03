@@ -15,7 +15,9 @@ export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
 export const INDEX = 'index';
-export const SELECTED_PATTERN = 'selectedPattern';
+export const SELECTED_PATTERN_FIELD = 'selectedPatternField';
+export const PATTERN_REGEX = 'patternRegex';
+export const FILTERED_PATTERN = 'filteredPattern';
 export const SELECTED_TIMESTAMP = 'selectedTimestamp';
 export const SELECTED_FIELDS = 'selectedFields';
 export const UNSELECTED_FIELDS = 'unselectedFields';
@@ -83,13 +85,14 @@ export const REDUX_EXPL_SLICE_PATTERNS = 'patterns';
 export const PLOTLY_GAUGE_COLUMN_NUMBER = 4;
 export const APP_ANALYTICS_TAB_ID_REGEX = /application-analytics-tab.+/;
 export const DEFAULT_AVAILABILITY_QUERY = 'stats count() by span( timestamp, 1h )';
-export const PPL_PATTERNS_REGEX = /\|\s*patterns\s+\S+\s*\|\s*where\s+patterns_field\s*\=\s*'[^a-zA-Z0-9]+'/;
-// Greedily matches the longest substring for example (patterns referer | patterns message | where ...) used to modify the query for patterns table
-export const PATTERNS_REGEX = /\|\s*patterns\s+\S+\s*\|.*\s*where\s+patterns_field\s*\=\s*'[^a-zA-Z0-9]+'/;
+export const PPL_DEFAULT_PATTERN_REGEX_FILETER = '[a-zA-Z\\d]';
+export const PPL_PATTERNS_REGEX = /\|\s*patterns.+?\|\s*where\s+patterns_field\s*\=\s*'[^a-zA-Z0-9]+'/;
+// Greedily matches the longest substring for example (patterns referer | patterns pattern='[0-9]' message | where ...) used to modify the query for patterns table
+export const PATTERNS_REGEX = /\|\s*patterns.+?\|.*\s*where\s+patterns_field\s*\=\s*'[^a-zA-Z0-9]+'/;
 // Used to extract the initial pattern applied
 export const PATTERNS_EXTRACTOR_REGEX = /patterns\s+(?<pattern>\S+)/;
 // Used to extract the pattern that is being searched for (for highlighting pattern in pattern table)
-export const SELECTED_PATTERN_REGEX = /\|\s*patterns\s+\S+\s*\|\s*where\s+patterns_field\s*\=\s*'(?<pattern>[^a-zA-Z0-9]+)'/
+export const SELECTED_PATTERN_REGEX = /\|\s*patterns.+?\|\s*where\s+patterns_field\s*\=\s*'(?<pattern>[^a-zA-Z0-9]+)'/
 export const ADD_BUTTON_TEXT = '+ Add color theme';
 export const NUMBER_INPUT_MIN_LIMIT = 1;
 
