@@ -6,10 +6,11 @@
 import { isEmpty, isEqual, values, keys } from 'lodash';
 import DSLService from '../requests/dsl';
 import { IDefaultTimestampState } from '../../../common/types/explorer';
+import PPLService from '../requests/ppl';
 
 // eslint-disable-next-line import/no-default-export
 export default class TimestampUtils {
-  constructor(private dslService: DSLService) {}
+  constructor(private dslService: DSLService, private pplService: PPLService) {}
 
   isTimeField(type: string) {
     return ['date', 'date_nanos'].some((dateTimeType) => isEqual(type, dateTimeType));
@@ -60,6 +61,53 @@ export default class TimestampUtils {
   }
 
   async getIndexMappings(index: string) {
+    const myArray = index.split('.');
+    if (myArray.length > 1) {
+      if (await this.isPrometheusCatalog(myArray[0])) {
+        const mappings = await this.pplService.fetch({
+          query: 'describe ' + index + ' | fields COLUMN_NAME, DATA_TYPE',
+          format: 'jdbc',
+        });
+        return this.convertToMappings(index, mappings);
+      }
+    }
     return await this.dslService.fetchFields(index);
+  }
+
+  async isPrometheusCatalog(catalog: string) {
+    const catalogs = await this.pplService.fetch({
+      query: "show catalogs | where CONNECTOR_TYPE='PROMETHEUS' | fields CATALOG_NAME",
+      format: 'viz',
+    });
+    if (
+      catalogs.data &&
+      catalogs.data.CATALOG_NAME &&
+      catalogs.data.CATALOG_NAME.includes(catalog)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private convertToMappings(index: string, {datarows}: object) {
+    const result = {};
+    result[index] = {};
+    result[index]["mappings"]={};
+    result[index]["mappings"]["properties"] = {};
+    if(datarows) {
+      for (const s of datarows) {
+        const key = s[0];
+        let datatype = s[1];
+        if(datatype === 'timestamp') {
+          datatype = 'date';
+        }
+        result[index]["mappings"]["properties"][key] = {
+          type : datatype
+        };
+      }
+    }
+    console.log(result);
+    return result;
   }
 }
