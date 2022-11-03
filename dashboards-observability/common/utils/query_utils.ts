@@ -10,6 +10,7 @@ import {
   PPL_INDEX_INSERT_POINT_REGEX,
   PPL_INDEX_REGEX,
   PPL_NEWLINE_REGEX,
+  PPL_STATS_REGEX,
 } from '../../common/constants/shared';
 
 /**
@@ -67,7 +68,9 @@ export const preprocessQuery = ({
     finalQuery = finalQuery + ` | sort - ${timeField}`;
   }
 
-  finalQuery = buildPatternsQuery(finalQuery, selectedPatternField, patternRegex, filteredPattern);
+  // if a pattern is selected as filter, build it into finalQuery
+  if (selectedPatternField && filteredPattern)
+    finalQuery = buildPatternsQuery(finalQuery, selectedPatternField, patternRegex, filteredPattern);
 
   return finalQuery;
 };
