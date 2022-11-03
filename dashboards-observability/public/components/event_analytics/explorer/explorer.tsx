@@ -69,6 +69,14 @@ import {
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
 import {
+  getIndexPatternFromRawQuery,
+  preprocessQuery,
+  buildQuery,
+  composeFinalQuery,
+} from '../../../../common/utils';
+import { formatError, getDefaultVisConfig } from '../utils';
+import {
+  statsChunk,
   GroupByChunk,
   GroupField,
   StatsAggregationChunk,
@@ -80,11 +88,6 @@ import {
   IQueryTab,
   IVisualizationContainerProps,
 } from '../../../../common/types/explorer';
-import {
-  buildQuery,
-  composeFinalQuery,
-  getIndexPatternFromRawQuery,
-} from '../../../../common/utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
 import { onItemSelect, parseGetSuggestions } from '../../common/search/autocomplete_logic';
 import { Search } from '../../common/search/search';
@@ -103,7 +106,6 @@ import {
   change as updateVizConfig,
   selectVisualizationConfig,
 } from '../redux/slices/viualization_config_slice';
-import { formatError } from '../utils';
 import { DataGrid } from './events_views/data_grid';
 import './explorer.scss';
 import { HitsCounter } from './hits_counter/hits_counter';
@@ -316,11 +318,18 @@ export const Explorer = ({
           );
           // fill saved user configs
           if (objectData?.type) {
+            let visConfig = {};
+            if (!isEmpty(objectData.user_configs) && !isEmpty(objectData.user_configs.series)) {
+              visConfig = JSON.parse(objectData.user_configs);
+            } else {
+              const statsTokens = queryManager.queryParser().parse(objectData.query).getStats();
+              visConfig = { dataConfig: { ...getDefaultVisConfig(statsTokens) } };
+            }
             await dispatch(
               updateVizConfig({
                 tabId,
                 vizId: objectData?.type,
-                data: JSON.parse(objectData.user_configs),
+                data: visConfig,
               })
             );
           }
@@ -1111,98 +1120,6 @@ export const Explorer = ({
       : undefined;
   };
 
-  const getUpdatedDataConfig = (statsToken: statsChunk) => {
-    if (statsToken === null) {
-      return {
-        [GROUPBY]: [],
-        [AGGREGATIONS]: [],
-      };
-    }
-
-    const groupByToken = statsToken.groupby;
-    const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
-    const span = getSpanValue(groupByToken);
-    switch (curVisId) {
-      case VIS_CHART_TYPES.TreeMap:
-        return {
-          [GROUPBY]: [
-            {
-              childField: {
-                ...(groupByToken?.group_fields
-                  ? {
-                      label: groupByToken?.group_fields[0].name ?? '',
-                      name: groupByToken?.group_fields[0].name ?? '',
-                    }
-                  : { label: '', name: '' }),
-              },
-              parentFields: [],
-            },
-          ],
-          [AGGREGATIONS]: [
-            {
-              valueField: {
-                ...(seriesToken
-                  ? {
-                      label: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
-                      name: `${seriesToken.function?.name}(${seriesToken.function?.value_expression})`,
-                    }
-                  : { label: '', name: '' }),
-              },
-            },
-          ],
-        };
-      case VIS_CHART_TYPES.Histogram:
-        return {
-          [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
-          [AGGREGATIONS]: [],
-        };
-      case VIS_CHART_TYPES.LogsView: {
-        const dimensions = statsToken.aggregations
-          .map((agg) => {
-            const logViewField = `${agg.function.name}(${agg.function.value_expression})` ?? '';
-            return {
-              label: logViewField,
-              name: logViewField,
-            };
-          })
-          .concat(
-            groupByToken.group_fields?.map((agg) => ({
-              label: agg.name ?? '',
-              name: agg.name ?? '',
-            }))
-          );
-        if (span !== undefined) {
-          const { time_field, interval, unit } = span;
-          const timespanField = `span(${time_field[0].name},${interval}${unit[0].value})`;
-          dimensions.push({
-            label: timespanField,
-            name: timespanField,
-          });
-        }
-        return {
-          [AGGREGATIONS]: [],
-          [GROUPBY]: dimensions,
-        };
-      }
-
-      default:
-        return {
-          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
-            label: agg.function?.value_expression,
-            name: agg.function?.value_expression,
-            aggregation: agg.function?.name,
-            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
-          })),
-          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
-            label: agg.name ?? '',
-            name: agg.name ?? '',
-            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
-          })),
-          span,
-        };
-    }
-  };
-
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
       // clear previous selected timestamp when index pattern changes
@@ -1222,7 +1139,7 @@ export const Explorer = ({
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
         const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
+        const updatedDataConfig = getDefaultVisConfig(statsTokens);
         await dispatch(
           changeVizConfig({
             tabId,
@@ -1232,7 +1149,7 @@ export const Explorer = ({
         );
       }
     },
-    [tempQuery, query, selectedContentTabId]
+    [tempQuery, query, selectedContentTabId, curVisId]
   );
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);
@@ -1538,11 +1455,13 @@ export const Explorer = ({
   );
 
   useEffect(() => {
-    const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-    const updatedDataConfig = getUpdatedDataConfig(statsTokens);
-    setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
-  }, [tempQuery, query, selectedContentTabId]);
-  
+    if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
+      const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
+      const updatedDataConfig = getDefaultVisConfig(statsTokens);
+      setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
+    }
+  }, [tempQuery, selectedContentTabId, curVisId]);
+
   return (
     <TabContext.Provider
       value={{
