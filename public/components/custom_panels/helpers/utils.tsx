@@ -77,6 +77,24 @@ export const mergeLayoutAndVisualizations = (
   setPanelVisualizations(newPanelVisualizations);
 };
 
+/* Update Span interval for a Query
+ * Input query -> source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)
+ * spanParam -> 1M
+ *
+ * Updates the span command interval
+ * Returns -> source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1M)
+ */
+export const updateQuerySpanInterval = (
+  query: string,
+  timestampField: string,
+  spanParam: string
+) => {
+  return query.replace(
+    new RegExp(`span\\((.*?)${timestampField}(.*?),(.*?)\\)`),
+    `span(${timestampField},${spanParam})`
+  );
+};
+
 /* Builds Final Query by adding time and query filters(From panel UI) to the original visualization query
  * -> Final Query is as follows:
  * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
@@ -84,6 +102,8 @@ export const mergeLayoutAndVisualizations = (
  *                  + | where utc_time > ‘2021-07-01 00:00:00’ and utc_time < ‘2021-07-02 00:00:00’
  *                  + | where Carrier='OpenSearch-Air'
  *                  + | stats sum(FlightDelayMin) as delays by Carrier
+ *
+ * Also, checks is span interval update is needed and retruns accordingly
  */
 const queryAccumulator = (
   originalQuery: string,
@@ -103,15 +123,12 @@ const queryAccumulator = (
     startTime
   )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
+
   const finalQuery = indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
-  if (spanParam === undefined) {
-    return finalQuery;
-  } else {
-    return finalQuery.replace(
-      new RegExp(`span\\(${timestampField},(.*?)\\)`),
-      `span(${timestampField},${spanParam})`
-    );
-  }
+
+  return spanParam === undefined
+    ? finalQuery
+    : updateQuerySpanInterval(finalQuery, timestampField, spanParam);
 };
 
 // PPL Service requestor
@@ -400,7 +417,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
             ),
           },
         };
-        
+
   return (
     <Visualization
       visualizations={getVizContainerProps({
