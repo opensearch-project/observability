@@ -145,5 +145,13 @@
 }
 
 .metricsList {
-  overflow-x:auto;
+  line-height:normal;
+  margin-top:10px;
+}
+
+.metricName {
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  margin-bottom:10px;
 }

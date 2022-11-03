@@ -108,6 +108,10 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
     'col-md-12': isSidebarClosed,
   });
 
+  const sidebarClassName = classNames({
+    closed: isSidebarClosed,
+  });
+
   return (
     <>
       <Route
@@ -135,7 +139,9 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
                   resolutionSelectId={resolutionSelectId}
                 />
                 <div className="dscAppContainer">
-                  <div className="col-md-3 dscSidebar__container dscCollapsibleSidebar">
+                  <div
+                    className={`col-md-3 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
+                  >
                     <div className="">
                       {!isSidebarClosed && <Sidebar http={http} pplService={pplService} />}
                       <EuiButtonIcon
