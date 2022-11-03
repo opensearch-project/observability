@@ -41,7 +41,7 @@ export const SearchBar = (props: ISearchBarProps) => {
   };
 
   const onChange = ({ query }) => {
-    const metric = allAvailableMetrics.find((row: any) => row.name === query.text);
+    const metric = allAvailableMetrics.find((row: any) => row.name.includes(query.text));
     if (metric) {
       handleAddMetric(metric);
       addToast('success');

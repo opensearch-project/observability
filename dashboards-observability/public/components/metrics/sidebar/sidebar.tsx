@@ -47,13 +47,13 @@ export const Sidebar = (props: ISidebarProps) => {
 
   return (
     <I18nProvider>
-      <section className="sidebarHeight ">
+      <section className="sidebarHeight">
         <EuiAccordion
           initialIsOpen
           id="recentlyCreatedMetricsSelector"
           buttonContent={
             <EuiTitle size="xxxs">
-              <span>Recently Created Fields</span>
+              <span>Recently Created Metrics</span>
             </EuiTitle>
           }
           paddingSize="xs"
@@ -104,7 +104,7 @@ export const Sidebar = (props: ISidebarProps) => {
             ))}
           </ul>
           {availableMetrics.length > 100 && (
-            <p>Too many metrics to list! Please use search bar above to add hidden metrics.</p>
+            <p>Use search bar for searching through all metrics.</p>
           )}
         </EuiAccordion>
       </section>
