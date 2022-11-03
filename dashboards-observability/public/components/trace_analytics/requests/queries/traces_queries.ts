@@ -209,7 +209,7 @@ export const getSpanDetailQuery = (traceID: string, size = 3000) => {
         'startTime',
         'endTime',
         'spanID',
-        'tag.error',
+        'tag',
         'duration',
       ],
     },
