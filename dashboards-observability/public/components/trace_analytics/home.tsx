@@ -157,6 +157,7 @@ export const Home = (props: HomeProps) => {
             chrome={props.chrome}
             http={props.http}
             traceId={decodeURIComponent(routerProps.match.params.id)}
+            {...commonProps}
           />
         )}
       />

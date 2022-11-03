@@ -34,6 +34,8 @@ import { SpanDetailPanel } from './span_detail_panel';
 
 interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
+  startTime: string;
+  endTime: string;
 }
 
 export function TraceView(props: TraceViewProps) {
@@ -146,7 +148,7 @@ export function TraceView(props: TraceViewProps) {
   >('latency');
 
   const refresh = async () => {
-    const DSL = filtersToDsl([], '', "now", "now", page);
+    const DSL = filtersToDsl([], '', processTimeStamp(props.startTime), processTimeStamp(props.endTime), page);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
     handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);

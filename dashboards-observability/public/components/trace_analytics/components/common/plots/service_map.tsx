@@ -124,7 +124,7 @@ export function ServiceMap({
       const serviceName = items?.graph.nodes.find((node: any) => node.id === nodes[0])?.label;
       if (serviceName) {
         addFilter({
-          field: 'serviceName',
+          field: 'process.serviceName',
           operator: 'is',
           value: serviceName,
           inverted: false,

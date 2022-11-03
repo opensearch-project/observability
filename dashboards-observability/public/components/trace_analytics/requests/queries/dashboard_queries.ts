@@ -275,7 +275,7 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
         aggs: {
           trace_count: {
             cardinality: {
-              field: 'traceId',
+              field: 'traceID',
             },
           },
         },
