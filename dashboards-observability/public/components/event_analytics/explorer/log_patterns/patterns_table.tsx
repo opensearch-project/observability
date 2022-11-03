@@ -11,11 +11,11 @@ import {
   EuiText,
   SortDirection,
 } from '@elastic/eui';
-import { SELECTED_PATTERN_REGEX } from '../../../../../common/constants/explorer';
 import { PatternTableData } from 'common/types/explorer';
 import { reduce, round } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { SELECTED_PATTERN_REGEX } from '../../../../../common/constants/explorer';
 import { PPL_DOCUMENTATION_URL } from '../../../../../common/constants/shared';
 import { selectPatterns } from '../../redux/slices/patterns_slice';
 
@@ -24,13 +24,14 @@ interface PatternsTableProps {
   onPatternSelection: any;
   tabId: string;
   query: any;
+  isPatternLoading: boolean;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
   const { tableData, tabId, onPatternSelection, query } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
   const selectedPattern = query.rawQuery.match(SELECTED_PATTERN_REGEX)?.groups?.pattern || '';
-  
+
   const tableColumns = [
     {
       field: 'count',
@@ -118,7 +119,9 @@ export function PatternsTable(props: PatternsTableProps) {
       'data-test-subj': `row-${pattern}`,
       className: 'customRowClass',
       onClick: () => {
-        onPatternSelection(pattern);
+        if (!props.isPatternLoading) {
+          onPatternSelection(pattern);
+        }
       },
       isSelected: pattern === selectedPattern,
     };

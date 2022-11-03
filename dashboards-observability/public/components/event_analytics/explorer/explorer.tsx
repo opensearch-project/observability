@@ -39,22 +39,14 @@ import {
   FILTERED_PATTERN,
   GROUPBY,
   NEW_TAB,
+  PATTERNS_EXTRACTOR_REGEX,
+  PATTERNS_REGEX,
   PATTERN_REGEX,
+  PPL_DEFAULT_PATTERN_REGEX_FILETER,
   PPL_PATTERNS_REGEX,
   RAW_QUERY,
   SAVED_OBJECT_ID,
   SAVED_OBJECT_TYPE,
-  NEW_TAB,
-  TAB_CREATED_TYPE,
-  EVENT_ANALYTICS_DOCUMENTATION_URL,
-  TAB_EVENT_ID,
-  TAB_CHART_ID,
-  DEFAULT_AVAILABILITY_QUERY,
-  DATE_PICKER_FORMAT,
-  PPL_PATTERNS_REGEX,
-  SELECTED_PATTERN,
-  PATTERNS_REGEX,
-  PATTERNS_EXTRACTOR_REGEX,
   SAVED_QUERY,
   SAVED_VISUALIZATION,
   SELECTED_DATE_RANGE,
@@ -97,8 +89,7 @@ import { sleep } from '../../common/live_tail/live_tail_button';
 import { onItemSelect, parseGetSuggestions } from '../../common/search/autocomplete_logic';
 import { Search } from '../../common/search/search';
 import { getVizContainerProps } from '../../visualizations/charts/helpers';
-import { TabContext, useFetchEvents, useFetchVisualizations } from '../hooks';
-import { useFetchPatterns } from '../hooks/use_fetch_patterns';
+import { TabContext, useFetchEvents, useFetchPatterns, useFetchVisualizations } from '../hooks';
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectFields, sortFields, updateFields } from '../redux/slices/field_slice';
 import { selectPatterns } from '../redux/slices/patterns_slice';
@@ -162,7 +153,11 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
-  const { getPatterns, setDefaultPatternsField } = useFetchPatterns({
+  const {
+    isEventsLoading: isPatternLoading,
+    getPatterns,
+    setDefaultPatternsField,
+  } = useFetchPatterns({
     pplService,
     requestParams,
   });
@@ -185,6 +180,7 @@ export const Explorer = ({
   const [isOverridingTimestamp, setIsOverridingTimestamp] = useState(false);
   const [isOverridingPattern, setIsOverridingPattern] = useState(false);
   const [isPatternConfigPopoverOpen, setIsPatternConfigPopoverOpen] = useState(false);
+  const [patternRegexInput, setPatternRegexInput] = useState(PPL_DEFAULT_PATTERN_REGEX_FILETER);
   const [tempQuery, setTempQuery] = useState(query[RAW_QUERY]);
   const [isLiveTailPopoverOpen, setIsLiveTailPopoverOpen] = useState(false);
   const [isLiveTailOn, setIsLiveTailOn] = useState(false);
@@ -390,7 +386,6 @@ export const Explorer = ({
     }
 
     // compose final query
-    console.log('❗curQuery:', curQuery);
     const finalQuery = composeFinalQuery(
       curQuery![RAW_QUERY],
       startingTime!,
@@ -552,7 +547,7 @@ export const Explorer = ({
       await updateQueryInStore(patternSelectQuery);
       // Passing in empty string will remove pattern query
       const patternErrorHandler = getErrorHandler('Error fetching patterns');
-      getPatterns(patternErrorHandler);
+      getPatterns(minInterval, patternErrorHandler);
     }
   };
 
@@ -797,17 +792,8 @@ export const Explorer = ({
                                     }
                                   >
                                     <EuiFieldText
-                                      value={queryRef.current![PATTERN_REGEX]}
-                                      onChange={(e) => {
-                                        dispatch(
-                                          changeQuery({
-                                            tabId,
-                                            query: {
-                                              [PATTERN_REGEX]: e.target.value,
-                                            },
-                                          })
-                                        );
-                                      }}
+                                      value={patternRegexInput}
+                                      onChange={(e) => setPatternRegexInput(e.target.value)}
                                     />
                                   </EuiFormRow>
                                   <EuiPopoverFooter>
@@ -824,9 +810,17 @@ export const Explorer = ({
                                         <EuiButton
                                           size="s"
                                           fill
-                                          onClick={() => {
-                                            setIsPatternConfigPopoverOpen(false);
-                                            getPatterns(
+                                          onClick={async () => {
+                                            await setIsPatternConfigPopoverOpen(false);
+                                            await dispatch(
+                                              changeQuery({
+                                                tabId,
+                                                query: {
+                                                  [PATTERN_REGEX]: patternRegexInput,
+                                                },
+                                              })
+                                            );
+                                            await getPatterns(
                                               minInterval,
                                               getErrorHandler('Error fetching patterns')
                                             );
@@ -880,6 +874,7 @@ export const Explorer = ({
                             onPatternSelection={onPatternSelection}
                             tabId={tabId}
                             query={query}
+                            isPatternLoading={isPatternLoading}
                           />
                           <EuiHorizontalRule margin="xs" />
                         </>
@@ -1056,6 +1051,7 @@ export const Explorer = ({
     patternsData,
     viewLogPatterns,
     isPatternConfigPopoverOpen,
+    patternRegexInput,
     userVizConfigs,
   ]);
 

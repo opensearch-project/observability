@@ -10,7 +10,8 @@ import { useRef } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import {
   FINAL_QUERY,
-    PATTERN_REGEX,
+  PATTERNS_REGEX,
+  PATTERN_REGEX,
   SELECTED_PATTERN_FIELD,
   SELECTED_TIMESTAMP,
 } from '../../../../common/constants/explorer';
@@ -27,7 +28,7 @@ interface IFetchPatternsParams {
 
 export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsParams) => {
   const dispatch = useDispatch();
-  const { fetchEvents } = useFetchEvents({
+  const { isEventsLoading, fetchEvents } = useFetchEvents({
     pplService,
     requestParams,
   });
@@ -66,21 +67,22 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     timestampField: string,
     interval: string
   ) => {
-    let statsQuery = buildPatternsQuery(query, patternField, patternRegex);
-    statsQuery +=
+    let adQuery = buildPatternsQuery(query, patternField, patternRegex);
+    adQuery +=
       ` | stats count() by span(\`${timestampField}\`, 1${interval || 'm'}) as timestamp, ` +
       `patterns_field | AD time_field='timestamp' category_field='patterns_field'`;
-    return statsQuery;
+    return adQuery;
   };
+
+  const clearPatternCommands = (query: string) => query.replace(PATTERNS_REGEX, '');
 
   const getPatterns = (interval: string, errorHandler: (error: any) => void, query?: string) => {
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
-    const searchQuery = isUndefined(query) ? rawQuery : query;
+    const searchQuery = isUndefined(query) ? clearPatternCommands(rawQuery) : query;
     const patternField = cur![requestParams.tabId][SELECTED_PATTERN_FIELD];
     const timestampField = cur![requestParams.tabId][SELECTED_TIMESTAMP];
     const patternRegex = cur![requestParams.tabId][PATTERN_REGEX];
-    console.log('❗patternRegex:', patternRegex);
     const statsQuery = buildPatternDataQuery(searchQuery, patternField, patternRegex);
     const anomaliesQuery = buildPatternAnomaliesQuery(
       searchQuery,
@@ -93,7 +95,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
     Promise.all([
       fetchEvents({ query: statsQuery }, 'jdbc', (res) => res, errorHandler),
       fetchEvents({ query: anomaliesQuery }, 'jdbc', (res) => res, errorHandler),
-      fetchEvents({ query: `${rawQuery} | stats count()` }, 'jdbc', (res) => res, errorHandler),
+      fetchEvents({ query: `${searchQuery} | stats count()` }, 'jdbc', (res) => res, errorHandler),
     ]).then((res) => {
       const [statsRes, anomaliesRes, countRes] = res as IPPLEventsDataSource[];
       const anomaliesMap: { [x: string]: number } = {};
@@ -161,6 +163,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
   };
 
   return {
+    isEventsLoading,
     getPatterns,
     setDefaultPatternsField,
   };
