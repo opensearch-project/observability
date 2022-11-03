@@ -302,7 +302,7 @@ export const Explorer = ({
               updateVizConfig({
                 tabId,
                 vizId: objectData?.type,
-                data: JSON.parse(objectData.user_configs),
+                data: !isEmpty(objectData?.user_configs) ? JSON.parse(objectData.user_configs) : {},
               })
             );
           }
