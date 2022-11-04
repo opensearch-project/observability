@@ -68,7 +68,6 @@ export const MetricsExportPanel = ({
           : createPrometheusMetricById(metricLayout.id);
       })
     );
-    console.log('tempVisualizationsMetaData', tempVisualizationsMetaData);
     setVisualizationsMetaData(tempVisualizationsMetaData);
   };
 
