@@ -25,13 +25,11 @@ interface PatternsTableProps {
   tabId: string;
   query: any;
   isPatternLoading: boolean;
-  totalHits?: number;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
-  const { tableData, tabId, onPatternSelection, query } = props;
-  const patternsData = useSelector(selectPatterns)[tabId];
-  const totalHits = props.totalHits || tableData.reduce((p, v) => p + v.count, 0);
+  const { tableData, onPatternSelection, query } = props;
+  const totalHits = tableData.reduce((p, v) => p + v.count, 0);
 
   const tableColumns = [
     {
