@@ -44,7 +44,7 @@ exports[`Export Metrics Panel Component renders Export Metrics Panel Component 1
     <div
       style={
         Object {
-          "minWidth": "25vw",
+          "minWidth": "15vw",
         }
       }
     >

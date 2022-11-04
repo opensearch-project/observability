@@ -17,7 +17,7 @@ export const resolutionOptions = [
   { value: 'm', text: 'minutes' },
   { value: 'h', text: 'hours' },
   { value: 'd', text: 'days' },
-  // { value: 'M', text: 'Months' },
+  // { value: 'M', text: 'Months' }, // commenting it here as prometheus doesn't have support
   // { value: 'q', text: 'quarters' },
   { value: 'y', text: 'years' },
 ];
