@@ -23,7 +23,7 @@ import {
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { VisCanvassPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components';
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
 import { transformPreprocessedDataToTraces, preprocessJsonData } from '../shared/common';
@@ -97,13 +97,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const plotlyColorway =
     queriedVizData[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
 
-  if (
-    isEmpty(queriedVizData) ||
-    !Array.isArray(dimensions) ||
-    !Array.isArray(series) ||
-    (breakdowns && !Array.isArray(breakdowns))
-  )
-    return <EmptyPlaceholder icon={icontype} />;
+  if (isEmpty(series))
+    return <VisCanvassPlaceholder message="Missing aggregations" icon={icontype} />;
 
   const addStylesToTraces = (traces, traceStyles) => {
     const { barOrientation, fillOpacity, tooltipMode, tooltipText, lineWidth } = traceStyles;

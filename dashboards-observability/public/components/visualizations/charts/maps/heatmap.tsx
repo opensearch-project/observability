@@ -4,7 +4,7 @@
  */
 import React, { useMemo } from 'react';
 import { colorPalette } from '@elastic/eui';
-import { has, isEmpty, uniq } from 'lodash';
+import { forEach, has, isEmpty, isEqual, uniq } from 'lodash';
 import Plotly from 'plotly.js-dist';
 import {
   HEATMAP_PALETTE_COLOR,
@@ -18,17 +18,16 @@ import {
   getPropName,
 } from '../../../../components/event_analytics/utils/utils';
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { VisCanvassPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/vis_canvass_placeholder';
 import { Plt } from '../../plotly/plot';
 import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 import { PLOT_MARGIN } from '../../../../../common/constants/shared';
+import { getCompleteTimespanKey } from '../../../visualizations/charts/shared/common';
+import { removeBacktick } from '../../../../../common/utils';
 
 export const HeatMap = ({ visualizations, layout, config }: any) => {
   const {
     data: {
-      defaultAxes,
-      indexFields,
-      query,
       rawVizData: {
         data: queriedVizData,
         metadata: { fields },
@@ -36,6 +35,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       userConfigs: {
         dataConfig: {
           chartStyles = {},
+          span = {},
           legend = {},
           tooltipOptions = {},
           panelOptions = {},
@@ -48,26 +48,31 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
+  const backtickRemovedVisData = {};
+  forEach(queriedVizData, (value, key) => {
+    backtickRemovedVisData[removeBacktick(key)] = value;
+  });
 
-  const xaxisField = dimensions[0];
-  const yaxisField = dimensions[1];
-  const zMetrics = series[0];
-
+  const combinedDemensions = [
+    ...(!isEmpty(span) ? [getCompleteTimespanKey(span)] : []),
+    ...dimensions,
+  ];
+  if (!isEqual(combinedDemensions.length, 2) || !isEqual(series.length, 1))
+    return <VisCanvassPlaceholder message="Invalid data, heatmap can only have exact 2 dimensions and 1 series" icon={icontype} />;
+  const xaxisField = { ...combinedDemensions[0] };
+  const yaxisField = { ...combinedDemensions[1] };
+  const zMetrics = { ...series[0] };
   if (
     isEmpty(xaxisField) ||
     isEmpty(yaxisField) ||
     isEmpty(zMetrics) ||
-    isEmpty(queriedVizData[xaxisField.label]) ||
-    isEmpty(queriedVizData[yaxisField.label]) ||
-    isEmpty(queriedVizData[getPropName(zMetrics)]) ||
-    dimensions.length > 2 ||
-    series.length > 1
+    isEmpty(backtickRemovedVisData[removeBacktick(xaxisField.label)]) ||
+    isEmpty(backtickRemovedVisData[removeBacktick(yaxisField.label)])
   )
-    return <EmptyPlaceholder icon={icontype} />;
+    return <VisCanvassPlaceholder message="Invalid data" icon={icontype} />;
 
-  const uniqueYaxis = uniq(queriedVizData[yaxisField.label]);
-  const uniqueXaxis = uniq(queriedVizData[xaxisField.label]);
+  const uniqueYaxis = uniq(backtickRemovedVisData[removeBacktick(yaxisField.label)]);
+  const uniqueXaxis = uniq(backtickRemovedVisData[removeBacktick(xaxisField.label)]);
   const uniqueYaxisLength = uniqueYaxis.length;
   const uniqueXaxisLength = uniqueXaxis.length;
   const tooltipMode =
@@ -97,9 +102,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     const buckets = {};
 
     // maps bukcets to metrics
-    for (let i = 0; i < queriedVizData[xaxisField.label].length; i++) {
-      buckets[`${queriedVizData[xaxisField.label][i]},${queriedVizData[yaxisField.label][i]}`] =
-        queriedVizData[getPropName(zMetrics)][i];
+    for (let i = 0; i < backtickRemovedVisData[removeBacktick(xaxisField.label)].length; i++) {
+      buckets[`${backtickRemovedVisData[removeBacktick(xaxisField.label)][i]},${backtickRemovedVisData[removeBacktick(yaxisField.label)][i]}`] =
+      backtickRemovedVisData[getPropName(zMetrics)][i];
     }
 
     // initialize empty 2 dimensional array, inner loop for each xaxis field, outer loop for yaxis
@@ -122,7 +127,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
 
     return heapMapZaxis;
   }, [
-    queriedVizData,
+    backtickRemovedVisData,
     uniqueYaxis,
     uniqueXaxis,
     uniqueYaxisLength,

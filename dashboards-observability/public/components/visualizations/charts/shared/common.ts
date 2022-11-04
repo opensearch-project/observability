@@ -11,7 +11,8 @@ import { removeBacktick } from '../../../../../common/utils';
 export const getCompleteTimespanKey = (span: DimensionSpan) => {
   if (isEmpty(span) || isEmpty(span.time_field) || isEmpty(span.interval) || isEmpty(span.unit))
     return '';
-  return { name: `span(${span.time_field[0]?.name},${span.interval}${span.unit[0]?.value})` };
+  const spanName = `span(${span.time_field[0]?.name},${span.interval}${span.unit[0]?.value})`;
+  return { name: spanName, label: spanName };
 };
 
 /**
@@ -64,7 +65,6 @@ export const preprocessJsonData = (
     // remove backtick, so data in jsonData can be accessed through using field name
     forEach(entry, (value, key) => {
       backtickRemovedEntry[removeBacktick(key)] = value;
-      removeBacktick(key);
     });
     forEach(series, (sr) => {
       let tabularVizData = {};
@@ -75,7 +75,7 @@ export const preprocessJsonData = (
           ...dimensions,
         ]
           .map((dimension) => {
-            return removeBacktick(backtickRemovedEntry[removeBacktick(dimension.name)]);
+            return backtickRemovedEntry[removeBacktick(dimension.name)] ?? '';
           })
           .join(',');
         const concatedBreakdownLabel = breakdowns

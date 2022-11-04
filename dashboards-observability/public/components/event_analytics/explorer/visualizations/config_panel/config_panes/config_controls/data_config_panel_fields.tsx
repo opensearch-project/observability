@@ -32,6 +32,7 @@ const HIDE_ADD_BUTTON_VIZ_TYPES = [
   VIS_CHART_TYPES.HeatMap,
   VIS_CHART_TYPES.Line,
   VIS_CHART_TYPES.Scatter,
+  VIS_CHART_TYPES.Pie
 ];
 
 export const DataConfigPanelFields = ({
