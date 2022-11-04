@@ -2,15 +2,12 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
 import { updateFields, sortFields } from '../redux/slices/field_slice';
 import { render as renderExplorerVis } from '../redux/slices/visualization_slice';
 import { fetchSuccess } from '../redux/slices/query_result_slice';
-import {
-  QUERIED_FIELDS,
-  SELECTED_FIELDS,
-} from '../../../../common/constants/explorer';
+import { QUERIED_FIELDS, SELECTED_FIELDS } from '../../../../common/constants/explorer';
 import { change as changeVizConfig } from '../redux/slices/viualization_config_slice';
 import { changeQuery } from '../redux/slices/query_slice';
 import { VisualizationState } from 'common/types/explorer';
@@ -21,6 +18,7 @@ export interface IVisualizationParams {
 }
 
 export const useRenderVisualization = ({ pplService, requestParams }) => {
+  const [isRenderViz, setIsRenderViz] = useState<boolean>(false);
   const dispatch = useDispatch();
   const fetchVisualizations = async (
     { query }: { query: string },
@@ -36,16 +34,19 @@ export const useRenderVisualization = ({ pplService, requestParams }) => {
         },
         (error) => {
           errorHandler(error);
+          setIsRenderViz(false);
         }
       )
       .then((res: any) => {
         if (res && res.status === 200) {
           successHandler(res);
         }
+        setIsRenderViz(false);
       });
   };
 
   const getVisualizations = ({ query, callback }: IVisualizationParams) => {
+    setIsRenderViz(true);
     fetchVisualizations(
       {
         query,
@@ -55,6 +56,7 @@ export const useRenderVisualization = ({ pplService, requestParams }) => {
         callback && callback(res);
       },
       (error: any) => {
+        setIsRenderViz(false);
         dispatch(
           renderExplorerVis({
             tabId: requestParams.tabId,
@@ -128,6 +130,7 @@ export const useRenderVisualization = ({ pplService, requestParams }) => {
   };
 
   return {
+    isRenderViz,
     getVisualizations,
     fillVisDataInStore,
   };

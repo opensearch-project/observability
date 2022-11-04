@@ -15,3 +15,15 @@
   background-color: #FFF;
   height: 100%;
 }
+
+.loadingSpinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.loadingSpinner svg {
+  width: 64px;
+  height: 64px;
+}

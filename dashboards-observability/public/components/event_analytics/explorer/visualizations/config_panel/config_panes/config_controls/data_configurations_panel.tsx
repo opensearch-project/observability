@@ -70,10 +70,11 @@ export const DataConfigPanelItem = ({
   fieldOptionList,
   visualizations,
   queryManager,
+  setLoadingStatus,
 }: DataConfigPanelProps) => {
   const { tabId, handleQueryChange, pplService } = useContext<any>(TabContext);
   const requestParams = { tabId };
-  const { getVisualizations, fillVisDataInStore } = useRenderVisualization({
+  const { getVisualizations, fillVisDataInStore, isRenderViz } = useRenderVisualization({
     pplService,
     requestParams,
   });
@@ -90,6 +91,10 @@ export const DataConfigPanelItem = ({
   });
   const [isTimeStampSelected, setIsTimeStampSelected] = useState<boolean>(false);
   const { userConfigs } = data;
+
+  useEffect(() => {
+    setLoadingStatus(isRenderViz);
+  }, [isRenderViz]);
 
   useEffect(() => {
     if (userConfigs.dataConfig) {

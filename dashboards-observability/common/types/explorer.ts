@@ -333,6 +333,7 @@ export interface DataConfigPanelProps {
   fieldOptionList: IField[];
   visualizations: IVisualizationContainerProps;
   queryManager?: QueryManager;
+  setLoadingStatus: (status: boolean) => void;
 }
 export interface GetTooltipHoverInfoType {
   tooltipMode: string;
