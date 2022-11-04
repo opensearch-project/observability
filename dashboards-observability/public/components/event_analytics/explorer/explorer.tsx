@@ -1068,9 +1068,9 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
-    userVizConfigs,
     isPatternConfigPopoverOpen,
     patternRegexInput,
+    userVizConfigs,
   ]);
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
 
