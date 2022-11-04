@@ -218,6 +218,7 @@ export const TopMenu = ({
                   className="resolutionSelectText"
                   prepend="Span Interval"
                   value={spanValue}
+                  isInvalid={spanValue < 1}
                   onChange={(e) => setSpanValue(e.target.value)}
                   append={
                     <EuiSelect
