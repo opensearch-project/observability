@@ -72,7 +72,12 @@ import {
   LIVE_END_TIME,
   VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import { getIndexPatternFromRawQuery, preprocessQuery, buildQuery, composeFinalQuery } from '../../../../common/utils';
+import {
+  getIndexPatternFromRawQuery,
+  preprocessQuery,
+  buildQuery,
+  composeFinalQuery,
+} from '../../../../common/utils';
 import { useFetchEvents, useFetchVisualizations } from '../hooks';
 import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
 import { selectQueryResult } from '../redux/slices/query_result_slice';
@@ -180,6 +185,7 @@ export const Explorer = ({
   const [subType, setSubType] = useState('visualization');
   const [metricMeasure, setMetricMeasure] = useState('');
   const [metricLabel, setMetricLabel] = useState([]);
+  const [metricChecked, setMetricChecked] = useState(false);
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -254,6 +260,7 @@ export const Explorer = ({
         const isSavedQuery = has(savedData, SAVED_QUERY);
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
         const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
+        const isSavedVisualization = savedData.savedVisualization;
         const currQuery = appLogEvents
           ? objectData?.query.replace(appBaseQuery + '| ', '')
           : objectData?.query || '';
@@ -314,6 +321,13 @@ export const Explorer = ({
         setTempQuery((staleTempQuery: string) => {
           return appLogEvents ? currQuery : objectData?.query || staleTempQuery;
         });
+        if (isSavedVisualization?.sub_type) {
+          if (isSavedVisualization?.sub_type === 'metric') {
+            setMetricChecked(true);
+            setMetricMeasure(isSavedVisualization?.measure)
+          }
+          setSubType(isSavedVisualization?.sub_type);
+        }
         const tabToBeFocused = isSavedQuery
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
           : TYPE_TAB_MAPPING[SAVED_VISUALIZATION];
@@ -944,7 +958,7 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
-    userVizConfigs
+    userVizConfigs,
   ]);
 
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
@@ -1426,7 +1440,7 @@ export const Explorer = ({
     const updatedDataConfig = getUpdatedDataConfig(statsTokens);
     setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
   }, [tempQuery, query, selectedContentTabId]);
-  
+
   return (
     <TabContext.Provider
       value={{
@@ -1484,8 +1498,10 @@ export const Explorer = ({
           curVisId={curVisId}
           spanValue={spanValue}
           setSubType={setSubType}
+          metricMeasure={metricMeasure}
           setMetricMeasure={setMetricMeasure}
           setMetricLabel={setMetricLabel}
+          metricChecked={metricChecked}
         />
         <EuiTabbedContent
           className="mainContentTabs"

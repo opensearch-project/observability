@@ -14,7 +14,8 @@ import {
   EuiSwitch,
   EuiIconTip,
   EuiFlexItem,
-  EuiToolTip
+  EuiToolTip,
+  EuiSelect,
 } from '@elastic/eui';
 import { useEffect } from 'react';
 import { isEmpty, isEqual } from 'lodash';
@@ -31,8 +32,10 @@ interface ISavedPanelProps {
   curVisId: string;
   spanValue: boolean;
   setSubType: any;
+  metricMeasure: string;
   setMetricMeasure: any;
   setMetricLabel: any;
+  metricChecked: boolean;
 }
 
 interface CustomPanelOptions {
@@ -52,12 +55,14 @@ export const SavePanel = ({
   curVisId,
   spanValue,
   setSubType,
+  metricMeasure,
   setMetricMeasure,
   setMetricLabel,
+  metricChecked,
 }: ISavedPanelProps) => {
   const [options, setOptions] = useState([]);
   const [checked, setChecked] = useState(false);
-  const [measure, setMeasure] = useState([]);
+  const [measure, setMeasure] = useState(UNITS_OF_MEASURE[2]);
   const [label, setLabel] = useState([]);
 
   const getCustomPabnelList = async (savedObjects: SavedObjects) => {
@@ -83,9 +88,11 @@ export const SavePanel = ({
     }
   };
 
-  const onMeasureChange = (selectedMeasures: React.SetStateAction<never[]>) => {
+  const onMeasureChange = (selectedMeasures: any) => {
     setMeasure(selectedMeasures);
-    setMetricMeasure(selectedMeasures[0].label);
+    console.log('measure format: ', selectedMeasures);
+    setMetricMeasure(selectedMeasures);
+    // setMetricMeasure(selectedMeasures[0].label);
   };
 
   const onLabelChange = (selectedLabels: React.SetStateAction<never[]>) => {
@@ -93,6 +100,13 @@ export const SavePanel = ({
     setMetricLabel(selectedLabels);
   };
 
+  useEffect(() => {
+    if (metricChecked) {
+      setChecked(true);
+      setMeasure(metricMeasure);
+    }
+  }, [])
+  
   return (
     <>
       {showOptionList && (
@@ -155,17 +169,14 @@ export const SavePanel = ({
                 <h3>{'Units of Measure'}</h3>
               </EuiTitle>
               <EuiFormRow>
-                <EuiComboBox
+                <EuiSelect
                   placeholder="Select measure"
-                  singleSelection={{ asPlainText: true }}
+                  // singleSelection={{ asPlainText: true }}
                   onChange={onMeasureChange}
-                  selectedOptions={measure}
+                  value={measure}
                   options={UNITS_OF_MEASURE.map((i) => {
-                    return {
-                      label: i,
-                    };
+                    return { value: i, text: i };
                   })}
-                  isClearable={false}
                   data-test-subj="eventExplorer__metricMeasureSaveComboBox"
                 />
               </EuiFormRow>
