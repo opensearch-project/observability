@@ -103,6 +103,7 @@ export const SavePanel = ({
     }
   }, [])
   
+  console.log('checked');
   return (
     <>
       {showOptionList && (
@@ -158,25 +159,6 @@ export const SavePanel = ({
             />
           </EuiToolTip>
           </EuiFormRow>        
-          {checked && (
-            <>
-              <EuiSpacer size="s" />
-              <EuiTitle size="xxs">
-                <h3>{'Units of Measure'}</h3>
-              </EuiTitle>
-              <EuiFormRow>
-                <EuiSelect
-                  placeholder="Select measure"
-                  value={measure}
-                  onChange={(e) => onMeasureChange(e.target.value)}
-                  options={UNITS_OF_MEASURE.map((i) => {
-                    return { value: i, text: i };
-                  })}
-                  data-test-subj="eventExplorer__metricMeasureSaveSelectBox"
-                />
-              </EuiFormRow>
-            </>
-          )}
         </>
       )}
     </>

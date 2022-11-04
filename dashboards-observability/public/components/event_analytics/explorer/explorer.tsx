@@ -1247,7 +1247,6 @@ export const Explorer = ({
               : JSON.stringify({}),
             description: vizDescription,
             subType: subType,
-            unitsOfMeasure: metricMeasure,
           })
           .then((res: any) => {
             setToast(
@@ -1283,7 +1282,6 @@ export const Explorer = ({
               : JSON.stringify({}),
             description: vizDescription,
             subType: subType,
-            unitsOfMeasure: metricMeasure,
           })
           .then((res: any) => {
             batch(() => {
