@@ -36,7 +36,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
   const queriesRef = useRef();
   queriesRef.current = queries;
 
-  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[]; total: number[] }) => {
+  const dispatchOnPatterns = (res: { patternTableData: PatternTableData[] }) => {
     batch(() => {
       dispatch(
         resetPatterns({
@@ -76,7 +76,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
 
   const clearPatternCommands = (query: string) => query.replace(PATTERNS_REGEX, '');
 
-  const getPatterns = (interval: string, errorHandler: (error: any) => void, query?: string) => {
+  const getPatterns = (interval: string, errorHandler?: (error: any) => void, query?: string) => {
     const cur = queriesRef.current;
     const rawQuery = cur![requestParams.tabId][FINAL_QUERY];
     const searchQuery = isUndefined(query) ? clearPatternCommands(rawQuery) : query;
@@ -92,31 +92,40 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
       interval
     );
     // Fetch patterns data for the current query results
-    Promise.all([
-      fetchEvents({ query: statsQuery }, 'jdbc', (res) => res, errorHandler),
-      fetchEvents({ query: anomaliesQuery }, 'jdbc', (res) => res, errorHandler),
-      fetchEvents({ query: `${searchQuery} | stats count()` }, 'jdbc', (res) => res, errorHandler),
-    ]).then((res) => {
-      const [statsRes, anomaliesRes, countRes] = res as IPPLEventsDataSource[];
-      const anomaliesMap: { [x: string]: number } = {};
-      anomaliesRes.datarows.forEach((row) => {
-        const pattern = row[2];
-        const score = row[3];
-        if (score > 0) {
-          anomaliesMap[pattern] = (anomaliesMap[pattern] || 0) + 1;
+    Promise.allSettled([
+      fetchEvents({ query: statsQuery }, 'jdbc', (res) => res),
+      fetchEvents({ query: anomaliesQuery }, 'jdbc', (res) => res),
+    ])
+      .then((res) => {
+        const [statsResp, anomaliesResp] = res as PromiseSettledResult<IPPLEventsDataSource>[];
+        if (statsResp.status === 'rejected') {
+          throw statsResp.reason;
         }
-      });
-      const formatToTableData: PatternTableData[] = statsRes.datarows.map((row) => ({
-        count: row[0],
-        pattern: row[2],
-        sampleLog: row[1][0],
-        anomalyCount: anomaliesMap[row[2]] || 0,
-      }));
-      dispatchOnPatterns({
-        patternTableData: formatToTableData,
-        total: countRes.datarows[0],
-      });
-    });
+
+        let anomaliesResultsAvailable = true;
+        const anomaliesMap: { [x: string]: number } = {};
+        if (anomaliesResp.status === 'fulfilled') {
+          anomaliesResp.value.datarows.forEach((row) => {
+            const pattern = row[2];
+            const score = row[3];
+            if (score > 0) {
+              anomaliesMap[pattern] = (anomaliesMap[pattern] || 0) + 1;
+            }
+          });
+        } else {
+          console.error('Error fetching anomalies in patterns');
+          anomaliesResultsAvailable = false;
+        }
+
+        const formatToTableData: PatternTableData[] = statsResp.value.datarows.map((row) => ({
+          count: row[0],
+          pattern: row[2],
+          sampleLog: row[1][0],
+          anomalyCount: anomaliesResultsAvailable ? anomaliesMap[row[2]] || 0 : undefined,
+        }));
+        dispatchOnPatterns({ patternTableData: formatToTableData });
+      })
+      .catch(errorHandler);
   };
 
   const setDefaultPatternsField = async (
