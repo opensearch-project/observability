@@ -125,10 +125,7 @@ const queryAccumulator = (
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
 
   const finalQuery = indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
-
-  return spanParam === undefined
-    ? finalQuery
-    : updateQuerySpanInterval(finalQuery, timestampField, spanParam);
+  return finalQuery;
 };
 
 // PPL Service requestor
@@ -233,6 +230,7 @@ export const renderSavedVisualization = async (
   setIsError('');
 
   let visualization = {} as SavedVisualizationType;
+  let updatedVisualizationQuery = '';
   visualization = await fetchVisualizationById(http, savedVisualizationId, setIsError);
 
   if (_.isEmpty(visualization)) {
@@ -248,11 +246,21 @@ export const renderSavedVisualization = async (
     setVisualizationType(visualization.type);
   }
 
-  setVisualizationMetaData(visualization);
+  if (spanParam !== undefined) {
+    updatedVisualizationQuery = updateQuerySpanInterval(
+      visualization.query,
+      visualization.timeField,
+      spanParam
+    );
+  } else {
+    updatedVisualizationQuery = visualization.query;
+  }
+
+  setVisualizationMetaData({ ...visualization, query: updatedVisualizationQuery });
 
   getQueryResponse(
     pplService,
-    visualization.query,
+    updatedVisualizationQuery,
     visualization.type,
     startTime,
     endTime,
@@ -314,7 +322,15 @@ export const renderCatalogVisualization = async (
 
   const visualizationType = 'line';
   const visualizationTimeField = '@timestamp';
-  const visualizationQuery = `source = ${catalogSource} | stats avg(@value) by span(${visualizationTimeField},1h)`;
+  let visualizationQuery = `source = ${catalogSource} | stats avg(@value) by span(${visualizationTimeField},1h)`;
+
+  if (spanParam !== undefined) {
+    visualizationQuery = updateQuerySpanInterval(
+      visualizationQuery,
+      visualizationTimeField,
+      spanParam
+    );
+  }
 
   const visualizationMetaData = createCatalogVisualizationMetaData(
     catalogSource,
@@ -325,7 +341,7 @@ export const renderCatalogVisualization = async (
   setVisualizationTitle(catalogSource);
   setVisualizationType(visualizationType);
 
-  setVisualizationMetaData(visualizationMetaData);
+  setVisualizationMetaData({ ...visualizationMetaData, query: visualizationQuery });
 
   getQueryResponse(
     pplService,
