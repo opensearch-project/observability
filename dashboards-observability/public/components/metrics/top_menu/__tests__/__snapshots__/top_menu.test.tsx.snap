@@ -275,14 +275,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                                   "value": "d",
                                 },
                                 Object {
-                                  "text": "Months",
-                                  "value": "M",
-                                },
-                                Object {
-                                  "text": "quarters",
-                                  "value": "q",
-                                },
-                                Object {
                                   "text": "years",
                                   "value": "y",
                                 },
@@ -322,14 +314,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                                   Object {
                                     "text": "days",
                                     "value": "d",
-                                  },
-                                  Object {
-                                    "text": "Months",
-                                    "value": "M",
-                                  },
-                                  Object {
-                                    "text": "quarters",
-                                    "value": "q",
                                   },
                                   Object {
                                     "text": "years",
@@ -397,14 +381,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                                     "value": "d",
                                   },
                                   Object {
-                                    "text": "Months",
-                                    "value": "M",
-                                  },
-                                  Object {
-                                    "text": "quarters",
-                                    "value": "q",
-                                  },
-                                  Object {
                                     "text": "years",
                                     "value": "y",
                                   },
@@ -465,18 +441,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                                         </option>
                                         <option
                                           key="4"
-                                          value="M"
-                                        >
-                                          Months
-                                        </option>
-                                        <option
-                                          key="5"
-                                          value="q"
-                                        >
-                                          quarters
-                                        </option>
-                                        <option
-                                          key="6"
                                           value="y"
                                         >
                                           years
@@ -1632,14 +1596,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                                   "value": "d",
                                 },
                                 Object {
-                                  "text": "Months",
-                                  "value": "M",
-                                },
-                                Object {
-                                  "text": "quarters",
-                                  "value": "q",
-                                },
-                                Object {
                                   "text": "years",
                                   "value": "y",
                                 },
@@ -1679,14 +1635,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                                   Object {
                                     "text": "days",
                                     "value": "d",
-                                  },
-                                  Object {
-                                    "text": "Months",
-                                    "value": "M",
-                                  },
-                                  Object {
-                                    "text": "quarters",
-                                    "value": "q",
                                   },
                                   Object {
                                     "text": "years",
@@ -1754,14 +1702,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                                     "value": "d",
                                   },
                                   Object {
-                                    "text": "Months",
-                                    "value": "M",
-                                  },
-                                  Object {
-                                    "text": "quarters",
-                                    "value": "q",
-                                  },
-                                  Object {
                                     "text": "years",
                                     "value": "y",
                                   },
@@ -1822,18 +1762,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                                         </option>
                                         <option
                                           key="4"
-                                          value="M"
-                                        >
-                                          Months
-                                        </option>
-                                        <option
-                                          key="5"
-                                          value="q"
-                                        >
-                                          quarters
-                                        </option>
-                                        <option
-                                          key="6"
                                           value="y"
                                         >
                                           years
@@ -2935,14 +2863,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                                   "value": "d",
                                 },
                                 Object {
-                                  "text": "Months",
-                                  "value": "M",
-                                },
-                                Object {
-                                  "text": "quarters",
-                                  "value": "q",
-                                },
-                                Object {
                                   "text": "years",
                                   "value": "y",
                                 },
@@ -2982,14 +2902,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                                   Object {
                                     "text": "days",
                                     "value": "d",
-                                  },
-                                  Object {
-                                    "text": "Months",
-                                    "value": "M",
-                                  },
-                                  Object {
-                                    "text": "quarters",
-                                    "value": "q",
                                   },
                                   Object {
                                     "text": "years",
@@ -3057,14 +2969,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                                     "value": "d",
                                   },
                                   Object {
-                                    "text": "Months",
-                                    "value": "M",
-                                  },
-                                  Object {
-                                    "text": "quarters",
-                                    "value": "q",
-                                  },
-                                  Object {
                                     "text": "years",
                                     "value": "y",
                                   },
@@ -3125,18 +3029,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                                         </option>
                                         <option
                                           key="4"
-                                          value="M"
-                                        >
-                                          Months
-                                        </option>
-                                        <option
-                                          key="5"
-                                          value="q"
-                                        >
-                                          quarters
-                                        </option>
-                                        <option
-                                          key="6"
                                           value="y"
                                         >
                                           years
