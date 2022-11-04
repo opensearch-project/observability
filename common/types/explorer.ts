@@ -288,7 +288,7 @@ export interface PatternTableData {
   count: number;
   pattern: string;
   sampleLog: string;
-  anomalyCount: number;
+  anomalyCount?: number;
 };
 
 export interface ConfigListEntry {
