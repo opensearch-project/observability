@@ -452,13 +452,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                     },
                   ],
                 },
-                Object {
-                  "editor": [Function],
-                  "id": "color-theme",
-                  "mapTo": "colorTheme",
-                  "name": "Color theme",
-                  "schemas": Array [],
-                },
               ],
             },
             Object {
@@ -775,13 +768,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
                     ],
                   },
                   Object {
@@ -1080,13 +1066,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             },
                           },
                         ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
                       },
                     ],
                   },
@@ -1411,13 +1390,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                       Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
-                      Object {
                         "defaultState": Array [],
                         "editor": [Function],
                         "id": "thresholds",
@@ -1669,28 +1641,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "eleType": "input",
                             "mapTo": "labelSize",
                             "name": "Label size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": Object {
-                              "name": "default",
-                            },
-                            "eleType": "colorpicker",
-                            "isSingleSelection": true,
-                            "mapTo": "colorTheme",
-                            "name": "Color theme",
-                            "options": Array [
-                              Object {
-                                "title": "Default",
-                                "type": "text",
-                                "value": "default",
-                              },
-                              Object {
-                                "title": "Single Color",
-                                "type": "text",
-                                "value": "singleColor",
-                              },
-                            ],
                           },
                         ],
                       },
@@ -2507,13 +2457,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         ],
                       },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
                     ],
                   },
                   Object {
@@ -2844,13 +2787,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               },
                             ],
-                          },
-                          Object {
-                            "editor": [Function],
-                            "id": "color-theme",
-                            "mapTo": "colorTheme",
-                            "name": "Color theme",
-                            "schemas": Array [],
                           },
                         ],
                       },
@@ -3188,13 +3124,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                   ],
                                 },
-                                Object {
-                                  "editor": [Function],
-                                  "id": "color-theme",
-                                  "mapTo": "colorTheme",
-                                  "name": "Color theme",
-                                  "schemas": Array [],
-                                },
                               ],
                             },
                             Object {
@@ -3465,13 +3394,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         },
                                       },
                                     ],
-                                  },
-                                  Object {
-                                    "editor": [Function],
-                                    "id": "color-theme",
-                                    "mapTo": "colorTheme",
-                                    "name": "Color theme",
-                                    "schemas": Array [],
                                   },
                                 ],
                               },
@@ -3810,13 +3732,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                       },
                                     ],
                                   },
-                                  Object {
-                                    "editor": [Function],
-                                    "id": "color-theme",
-                                    "mapTo": "colorTheme",
-                                    "name": "Color theme",
-                                    "schemas": Array [],
-                                  },
                                 ],
                               },
                               Object {
@@ -4123,13 +4038,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                             },
                                           },
                                         ],
-                                      },
-                                      Object {
-                                        "editor": [Function],
-                                        "id": "color-theme",
-                                        "mapTo": "colorTheme",
-                                        "name": "Color theme",
-                                        "schemas": Array [],
                                       },
                                     ],
                                   },
@@ -4606,13 +4514,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         },
                       ],
                     },
-                    Object {
-                      "editor": [Function],
-                      "id": "color-theme",
-                      "mapTo": "colorTheme",
-                      "name": "Color theme",
-                      "schemas": Array [],
-                    },
                   ],
                 }
               }
@@ -5064,13 +4965,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                 },
                               ],
                             },
-                            Object {
-                              "editor": [Function],
-                              "id": "color-theme",
-                              "mapTo": "colorTheme",
-                              "name": "Color theme",
-                              "schemas": Array [],
-                            },
                           ],
                         },
                         Object {
@@ -5396,13 +5290,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             },
                           },
                         ],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
                       },
                     ],
                   }
@@ -5854,13 +5741,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                     },
                                   },
                                 ],
-                              },
-                              Object {
-                                "editor": [Function],
-                                "id": "color-theme",
-                                "mapTo": "colorTheme",
-                                "name": "Color theme",
-                                "schemas": Array [],
                               },
                             ],
                           },
@@ -6401,13 +6281,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 ],
                               },
-                              Object {
-                                "editor": [Function],
-                                "id": "color-theme",
-                                "mapTo": "colorTheme",
-                                "name": "Color theme",
-                                "schemas": Array [],
-                              },
                             ],
                           },
                           Object {
@@ -6777,13 +6650,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                           },
                         },
                       ],
-                    },
-                    Object {
-                      "editor": [Function],
-                      "id": "color-theme",
-                      "mapTo": "colorTheme",
-                      "name": "Color theme",
-                      "schemas": Array [],
                     },
                   ],
                 }
@@ -7235,13 +7101,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                   },
                                 },
                               ],
-                            },
-                            Object {
-                              "editor": [Function],
-                              "id": "color-theme",
-                              "mapTo": "colorTheme",
-                              "name": "Color theme",
-                              "schemas": Array [],
                             },
                           ],
                         },
@@ -7795,13 +7654,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               },
                                             ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "color-theme",
-                                            "mapTo": "colorTheme",
-                                            "name": "Color theme",
-                                            "schemas": Array [],
                                           },
                                         ],
                                       },
@@ -8622,13 +8474,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               },
                                             ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "color-theme",
-                                            "mapTo": "colorTheme",
-                                            "name": "Color theme",
-                                            "schemas": Array [],
                                           },
                                         ],
                                       },
@@ -9948,13 +9793,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               },
                                             ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "color-theme",
-                                            "mapTo": "colorTheme",
-                                            "name": "Color theme",
-                                            "schemas": Array [],
                                           },
                                         ],
                                       },
@@ -11295,13 +11133,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                 },
                                               },
                                             ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "color-theme",
-                                            "mapTo": "colorTheme",
-                                            "name": "Color theme",
-                                            "schemas": Array [],
                                           },
                                         ],
                                       },
@@ -13733,679 +13564,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                               </div>
                             </EuiAccordion>
                           </ConfigBarChartStyles>
-                        </div>
-                      </div>
-                    </EuiFormRow>
-                    <EuiFormRow
-                      describedByIds={Array []}
-                      display="row"
-                      fullWidth={true}
-                      hasChildLabel={true}
-                      hasEmptyLabelSpace={false}
-                      labelType="label"
-                    >
-                      <div
-                        className="euiFormRow euiFormRow--fullWidth"
-                        id="random_html_id-row"
-                      >
-                        <div
-                          className="euiFormRow__fieldWrapper"
-                        >
-                          <ConfigColorTheme
-                            handleConfigChange={[Function]}
-                            id="random_html_id"
-                            onBlur={[Function]}
-                            onFocus={[Function]}
-                            props={Object {}}
-                            schemas={Array []}
-                            sectionId="color-theme"
-                            sectionName="Color theme"
-                            visualizations={
-                              Object {
-                                "data": Object {
-                                  "appData": Object {
-                                    "fromApp": false,
-                                  },
-                                  "defaultAxes": Object {},
-                                  "indexFields": Object {
-                                    "availableFields": Array [
-                                      Object {
-                                        "name": "agent",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "bytes",
-                                        "type": "long",
-                                      },
-                                      Object {
-                                        "name": "clientip",
-                                        "type": "ip",
-                                      },
-                                      Object {
-                                        "name": "event",
-                                        "type": "struct",
-                                      },
-                                      Object {
-                                        "name": "extension",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "geo",
-                                        "type": "struct",
-                                      },
-                                      Object {
-                                        "name": "host",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "index",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "ip",
-                                        "type": "ip",
-                                      },
-                                      Object {
-                                        "name": "machine",
-                                        "type": "struct",
-                                      },
-                                      Object {
-                                        "name": "memory",
-                                        "type": "double",
-                                      },
-                                      Object {
-                                        "name": "message",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "phpmemory",
-                                        "type": "long",
-                                      },
-                                      Object {
-                                        "name": "referer",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "request",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "response",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "tags",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "timestamp",
-                                        "type": "timestamp",
-                                      },
-                                      Object {
-                                        "name": "url",
-                                        "type": "string",
-                                      },
-                                      Object {
-                                        "name": "utc_time",
-                                        "type": "timestamp",
-                                      },
-                                    ],
-                                    "queriedFields": Array [
-                                      Object {
-                                        "name": "double_per_ip_bytes",
-                                        "type": "long",
-                                      },
-                                      Object {
-                                        "name": "host",
-                                        "type": "text",
-                                      },
-                                      Object {
-                                        "name": "ip_count",
-                                        "type": "integer",
-                                      },
-                                      Object {
-                                        "name": "per_ip_bytes",
-                                        "type": "long",
-                                      },
-                                      Object {
-                                        "name": "resp_code",
-                                        "type": "text",
-                                      },
-                                      Object {
-                                        "name": "sum_bytes",
-                                        "type": "long",
-                                      },
-                                    ],
-                                    "selectedFields": Array [],
-                                    "unselectedFields": Array [],
-                                  },
-                                  "query": Object {},
-                                  "rawVizData": Object {
-                                    "data": Object {
-                                      "count()": Array [
-                                        154,
-                                        1753,
-                                        116,
-                                        468,
-                                        1964,
-                                        219,
-                                      ],
-                                      "tags": Array [
-                                        "error",
-                                        "info",
-                                        "login",
-                                        "security",
-                                        "success",
-                                        "warning",
-                                      ],
-                                    },
-                                    "jsonData": Array [
-                                      Object {
-                                        "count()": 154,
-                                        "tags": "error",
-                                      },
-                                      Object {
-                                        "count()": 1753,
-                                        "tags": "info",
-                                      },
-                                      Object {
-                                        "count()": 116,
-                                        "tags": "login",
-                                      },
-                                      Object {
-                                        "count()": 468,
-                                        "tags": "security",
-                                      },
-                                      Object {
-                                        "count()": 1964,
-                                        "tags": "success",
-                                      },
-                                      Object {
-                                        "count()": 219,
-                                        "tags": "warning",
-                                      },
-                                    ],
-                                    "metadata": Object {
-                                      "fields": Array [
-                                        Object {
-                                          "name": "count()",
-                                          "type": "integer",
-                                        },
-                                        Object {
-                                          "name": "tags",
-                                          "type": "text",
-                                        },
-                                      ],
-                                      "size": 6,
-                                      "status": 200,
-                                    },
-                                  },
-                                  "userConfigs": Object {
-                                    "dataConfig": Object {
-                                      "valueOptions": Object {
-                                        "dimensions": Array [
-                                          Object {
-                                            "label": "tags",
-                                            "name": "tags",
-                                            "type": "text",
-                                          },
-                                        ],
-                                        "metrics": Array [
-                                          Object {
-                                            "label": "count()",
-                                            "name": "count()",
-                                            "side": "left",
-                                            "type": "integer",
-                                          },
-                                        ],
-                                      },
-                                    },
-                                  },
-                                },
-                                "vis": Object {
-                                  "barwidth": 0.97,
-                                  "category": "Visualizations",
-                                  "categoryaxis": "xaxis",
-                                  "component": [Function],
-                                  "editorconfig": Object {
-                                    "panelTabs": Array [
-                                      Object {
-                                        "editor": [Function],
-                                        "id": "data-panel",
-                                        "mapTo": "dataConfig",
-                                        "name": "Style",
-                                        "sections": Array [
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "tooltip_options",
-                                            "mapTo": "tooltipOptions",
-                                            "name": "Tooltip options",
-                                            "schemas": Array [
-                                              Object {
-                                                "component": null,
-                                                "mapTo": "tooltipMode",
-                                                "name": "Tooltip mode",
-                                                "props": Object {
-                                                  "defaultSelections": Array [
-                                                    Object {
-                                                      "id": "show",
-                                                      "name": "Show",
-                                                    },
-                                                  ],
-                                                  "options": Array [
-                                                    Object {
-                                                      "id": "show",
-                                                      "name": "Show",
-                                                    },
-                                                    Object {
-                                                      "id": "hidden",
-                                                      "name": "Hidden",
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              Object {
-                                                "component": null,
-                                                "mapTo": "tooltipText",
-                                                "name": "Tooltip text",
-                                                "props": Object {
-                                                  "defaultSelections": Array [
-                                                    Object {
-                                                      "id": "all",
-                                                      "name": "All",
-                                                    },
-                                                  ],
-                                                  "options": Array [
-                                                    Object {
-                                                      "id": "all",
-                                                      "name": "All",
-                                                    },
-                                                    Object {
-                                                      "id": "x",
-                                                      "name": "Dimension",
-                                                    },
-                                                    Object {
-                                                      "id": "y",
-                                                      "name": "Series",
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                            ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "legend",
-                                            "mapTo": "legend",
-                                            "name": "Legend",
-                                            "schemas": Array [
-                                              Object {
-                                                "component": null,
-                                                "mapTo": "showLegend",
-                                                "name": "Show legend",
-                                                "props": Object {
-                                                  "defaultSelections": Array [
-                                                    Object {
-                                                      "id": "show",
-                                                      "name": "Show",
-                                                    },
-                                                  ],
-                                                  "options": Array [
-                                                    Object {
-                                                      "id": "show",
-                                                      "name": "Show",
-                                                    },
-                                                    Object {
-                                                      "id": "hidden",
-                                                      "name": "Hidden",
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              Object {
-                                                "component": null,
-                                                "mapTo": "position",
-                                                "name": "Position",
-                                                "props": Object {
-                                                  "defaultSelections": Array [
-                                                    Object {
-                                                      "id": "v",
-                                                      "name": "Right",
-                                                    },
-                                                  ],
-                                                  "options": Array [
-                                                    Object {
-                                                      "id": "v",
-                                                      "name": "Right",
-                                                    },
-                                                    Object {
-                                                      "id": "h",
-                                                      "name": "Bottom",
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "eleType": "input",
-                                                "mapTo": "legendSize",
-                                                "name": "Legend size",
-                                                "title": "Legend size",
-                                              },
-                                            ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "chart_styles",
-                                            "mapTo": "chartStyles",
-                                            "name": "Chart styles",
-                                            "schemas": Array [
-                                              Object {
-                                                "component": [Function],
-                                                "eleType": "buttons",
-                                                "mapTo": "mode",
-                                                "name": "Mode",
-                                                "props": Object {
-                                                  "defaultSelections": Array [
-                                                    Object {
-                                                      "id": "group",
-                                                      "name": "Group",
-                                                    },
-                                                  ],
-                                                  "options": Array [
-                                                    Object {
-                                                      "id": "group",
-                                                      "name": "Group",
-                                                    },
-                                                    Object {
-                                                      "id": "stack",
-                                                      "name": "Stack",
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "eleType": "input",
-                                                "mapTo": "labelSize",
-                                                "name": "Label size",
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "defaultState": 0,
-                                                "eleType": "slider",
-                                                "mapTo": "rotateBarLabels",
-                                                "name": "Rotate bar labels",
-                                                "props": Object {
-                                                  "max": 90,
-                                                  "min": -90,
-                                                  "showTicks": true,
-                                                  "ticks": Array [
-                                                    Object {
-                                                      "label": "-90°",
-                                                      "value": -90,
-                                                    },
-                                                    Object {
-                                                      "label": "-45°",
-                                                      "value": -45,
-                                                    },
-                                                    Object {
-                                                      "label": "0°",
-                                                      "value": 0,
-                                                    },
-                                                    Object {
-                                                      "label": "45°",
-                                                      "value": 45,
-                                                    },
-                                                    Object {
-                                                      "label": "90°",
-                                                      "value": 90,
-                                                    },
-                                                  ],
-                                                },
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "defaultState": 0.7,
-                                                "eleType": "slider",
-                                                "mapTo": "groupWidth",
-                                                "name": "Group width",
-                                                "props": Object {
-                                                  "max": 1,
-                                                  "step": 0.01,
-                                                },
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "defaultState": 0.97,
-                                                "eleType": "slider",
-                                                "mapTo": "barWidth",
-                                                "name": "Bar width",
-                                                "props": Object {
-                                                  "max": 1,
-                                                  "step": 0.01,
-                                                },
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "defaultState": 2,
-                                                "eleType": "slider",
-                                                "mapTo": "lineWidth",
-                                                "name": "Line width",
-                                                "props": Object {
-                                                  "max": 10,
-                                                },
-                                              },
-                                              Object {
-                                                "component": [Function],
-                                                "defaultState": 70,
-                                                "eleType": "slider",
-                                                "mapTo": "fillOpacity",
-                                                "name": "Fill opacity",
-                                                "props": Object {
-                                                  "max": 100,
-                                                },
-                                              },
-                                            ],
-                                          },
-                                          Object {
-                                            "editor": [Function],
-                                            "id": "color-theme",
-                                            "mapTo": "colorTheme",
-                                            "name": "Color theme",
-                                            "schemas": Array [],
-                                          },
-                                        ],
-                                      },
-                                      Object {
-                                        "editor": [Function],
-                                        "id": "availability-panel",
-                                        "mapTo": "availabilityConfig",
-                                        "name": "Availability",
-                                      },
-                                    ],
-                                  },
-                                  "fillopacity": 70,
-                                  "fulllabel": "Vertical bar",
-                                  "groupwidth": 0.7,
-                                  "icon": [Function],
-                                  "icontype": "visBarVerticalStacked",
-                                  "id": "bar",
-                                  "label": "Vertical bar",
-                                  "labelangle": 0,
-                                  "legendposition": "v",
-                                  "linewidth": 2,
-                                  "mode": "group",
-                                  "name": "bar",
-                                  "orientation": "v",
-                                  "selection": Object {
-                                    "dataLoss": "nothing",
-                                  },
-                                  "seriesaxis": "yaxis",
-                                  "showlegend": "show",
-                                  "type": "bar",
-                                  "visconfig": Object {
-                                    "config": Object {
-                                      "displaylogo": false,
-                                      "responsive": true,
-                                    },
-                                    "isUniColor": false,
-                                    "layout": Object {
-                                      "height": 1180,
-                                      "legend": Object {
-                                        "orientation": "v",
-                                        "traceorder": "normal",
-                                      },
-                                      "margin": Object {
-                                        "b": 30,
-                                        "l": 60,
-                                        "pad": 0,
-                                        "r": 30,
-                                        "t": 50,
-                                      },
-                                      "showlegend": true,
-                                    },
-                                  },
-                                },
-                              }
-                            }
-                            vizState={Object {}}
-                          >
-                            <EuiAccordion
-                              arrowDisplay="left"
-                              buttonContent="Color theme"
-                              id="configPanel__Color theme"
-                              initialIsOpen={true}
-                              isLoading={false}
-                              isLoadingMessage={false}
-                              paddingSize="s"
-                            >
-                              <div
-                                className="euiAccordion euiAccordion-isOpen"
-                              >
-                                <div
-                                  className="euiAccordion__triggerWrapper"
-                                >
-                                  <button
-                                    aria-controls="configPanel__Color theme"
-                                    aria-expanded={true}
-                                    className="euiAccordion__button"
-                                    id="random_html_id"
-                                    onClick={[Function]}
-                                    type="button"
-                                  >
-                                    <span
-                                      className="euiAccordion__iconWrapper"
-                                    >
-                                      <EuiIcon
-                                        className="euiAccordion__icon euiAccordion__icon-isOpen"
-                                        size="m"
-                                        type="arrowRight"
-                                      >
-                                        <EuiIconEmpty
-                                          aria-hidden={true}
-                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                                          focusable="false"
-                                          role="img"
-                                          style={null}
-                                        >
-                                          <svg
-                                            aria-hidden={true}
-                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                                            focusable="false"
-                                            height={16}
-                                            role="img"
-                                            style={null}
-                                            viewBox="0 0 16 16"
-                                            width={16}
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          />
-                                        </EuiIconEmpty>
-                                      </EuiIcon>
-                                    </span>
-                                    <span
-                                      className="euiIEFlexWrapFix"
-                                    >
-                                      Color theme
-                                    </span>
-                                  </button>
-                                </div>
-                                <div
-                                  aria-labelledby="random_html_id"
-                                  className="euiAccordion__childWrapper"
-                                  id="configPanel__Color theme"
-                                  role="region"
-                                  tabIndex={-1}
-                                >
-                                  <EuiResizeObserver
-                                    onResize={[Function]}
-                                  >
-                                    <div>
-                                      <div
-                                        className="euiAccordion__padding--s"
-                                      >
-                                        <EuiButton
-                                          fullWidth={true}
-                                          onClick={[Function]}
-                                          size="s"
-                                        >
-                                          <EuiButtonDisplay
-                                            baseClassName="euiButton"
-                                            disabled={false}
-                                            element="button"
-                                            fullWidth={true}
-                                            isDisabled={false}
-                                            onClick={[Function]}
-                                            size="s"
-                                            type="button"
-                                          >
-                                            <button
-                                              className="euiButton euiButton--primary euiButton--small euiButton--fullWidth"
-                                              disabled={false}
-                                              onClick={[Function]}
-                                              style={
-                                                Object {
-                                                  "minWidth": undefined,
-                                                }
-                                              }
-                                              type="button"
-                                            >
-                                              <EuiButtonContent
-                                                className="euiButton__content"
-                                                iconSide="left"
-                                                textProps={
-                                                  Object {
-                                                    "className": "euiButton__text",
-                                                  }
-                                                }
-                                              >
-                                                <span
-                                                  className="euiButtonContent euiButton__content"
-                                                >
-                                                  <span
-                                                    className="euiButton__text"
-                                                  >
-                                                    + Add color theme
-                                                  </span>
-                                                </span>
-                                              </EuiButtonContent>
-                                            </button>
-                                          </EuiButtonDisplay>
-                                        </EuiButton>
-                                        <EuiSpacer
-                                          size="s"
-                                        >
-                                          <div
-                                            className="euiSpacer euiSpacer--s"
-                                          />
-                                        </EuiSpacer>
-                                      </div>
-                                    </div>
-                                  </EuiResizeObserver>
-                                </div>
-                              </div>
-                            </EuiAccordion>
-                          </ConfigColorTheme>
                         </div>
                       </div>
                     </EuiFormRow>

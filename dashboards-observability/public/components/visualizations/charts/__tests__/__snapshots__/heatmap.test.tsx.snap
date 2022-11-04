@@ -467,13 +467,6 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                     },
                   ],
                 },
-                Object {
-                  "editor": [Function],
-                  "id": "color-theme",
-                  "mapTo": "colorTheme",
-                  "name": "Color theme",
-                  "schemas": Array [],
-                },
               ],
             },
             Object {
