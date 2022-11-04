@@ -73,7 +73,7 @@ fun constructNotebookRequest(name: String = "test notebook"): String {
         }
     """.trimIndent()
 }
-
+@Suppress("MaxLineLength")
 fun constructSavedQueryRequest(name: String = "test saved query"): String {
     return """
         {
@@ -101,7 +101,7 @@ fun constructSavedQueryRequest(name: String = "test saved query"): String {
         }
     """.trimIndent()
 }
-
+@Suppress("MaxLineLength")
 fun constructSavedVisualizationRequest(name: String = "test saved visualization"): String {
     return """
         {

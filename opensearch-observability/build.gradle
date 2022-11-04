@@ -36,7 +36,7 @@ buildscript {
         classpath "org.opensearch.gradle:build-tools:${opensearch_version}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.12.0"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
     }
 }
@@ -141,6 +141,7 @@ configurations.all {
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
         force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.13.4"
         force "org.mockito:mockito-core:4.6.1"
+        force "org.yaml:snakeyaml:1.32"
     }
 }
 
