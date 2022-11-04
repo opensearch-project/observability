@@ -205,13 +205,6 @@ export const createLineTypeDefinition = (params: any = {}) => ({
             ],
           },
           {
-            id: 'color-theme',
-            name: 'Color theme',
-            editor: ConfigColorTheme,
-            mapTo: 'colorTheme',
-            schemas: [],
-          },
-          {
             id: 'thresholds',
             name: 'Thresholds',
             editor: ConfigThresholds,
