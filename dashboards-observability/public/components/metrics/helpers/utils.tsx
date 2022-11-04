@@ -20,6 +20,8 @@ import { CoreStart } from '../../../../../../src/core/public';
 import { MetricType } from '../../../../common/types/metrics';
 import { VisualizationType } from '../../../../common/types/custom_panels';
 import { DEFAULT_METRIC_HEIGHT, DEFAULT_METRIC_WIDTH } from '../../../../common/constants/metrics';
+import { UNITS_OF_MEASURE } from '../../../../common/constants/explorer';
+import { updateQuerySpanInterval } from '../../custom_panels/helpers/utils';
 
 export const onTimeChange = (
   start: ShortDate,
@@ -160,4 +162,53 @@ export const mergeLayoutAndMetrics = (
     }
   }
   return newPanelVisualizations;
+};
+
+export const sortMetricLayout = (metricsLayout: MetricType[]) => {
+  return metricsLayout.sort((a: MetricType, b: MetricType) => {
+    if (a.y > b.y) return 1;
+    if (a.y < b.y) return -1;
+    else return 0;
+  });
+};
+
+export const createPrometheusMetricById = (metricId: string) => {
+  return {
+    name: '[Prometheus Metric] ' + metricId,
+    description: '',
+    query: 'source = ' + metricId + ' | stats avg(@value) by span(@timestamp,1h)',
+    type: 'line',
+    timeField: '@timestamp',
+    selected_fields: {
+      text: '',
+      tokens: [],
+    },
+    sub_type: 'metric',
+    units_of_measure: UNITS_OF_MEASURE[1],
+    user_configs: {},
+  };
+};
+
+export const updateMetricsWithSelections = (
+  savedVisualization: any,
+  startTime: ShortDate,
+  endTime: ShortDate,
+  spanValue: string
+) => {
+  return {
+    query: updateQuerySpanInterval(
+      savedVisualization.query,
+      savedVisualization.timeField,
+      spanValue
+    ),
+    fields: savedVisualization.selected_fields.tokens,
+    dateRange: [startTime, endTime],
+    timestamp: savedVisualization.timeField,
+    name: savedVisualization.name,
+    description: savedVisualization.description,
+    type: 'line',
+    subType: 'metric',
+    userConfigs: JSON.stringify(savedVisualization.user_configs),
+    unitsOfMeasure: savedVisualization.units_of_measure,
+  };
 };

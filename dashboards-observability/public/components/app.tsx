@@ -74,6 +74,7 @@ export const App = ({
                       parentBreadcrumb={parentBreadcrumb}
                       renderProps={props}
                       pplService={pplService}
+                      savedObjects={savedObjects}
                     />
                   );
                 }}
