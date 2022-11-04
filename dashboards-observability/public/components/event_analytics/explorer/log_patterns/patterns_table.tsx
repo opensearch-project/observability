@@ -12,7 +12,7 @@ import {
   SortDirection,
 } from '@elastic/eui';
 import { PatternTableData } from 'common/types/explorer';
-import { reduce, round } from 'lodash';
+import { round } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { FILTERED_PATTERN } from '../../../../../common/constants/explorer';
@@ -25,11 +25,13 @@ interface PatternsTableProps {
   tabId: string;
   query: any;
   isPatternLoading: boolean;
+  totalHits?: number;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
   const { tableData, tabId, onPatternSelection, query } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
+  const totalHits = props.totalHits || tableData.reduce((p, v) => p + v.count, 0);
 
   const tableColumns = [
     {
@@ -47,16 +49,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '6%',
       sortable: (row: PatternTableData) => row.count,
       render: (item: number) => {
-        const ratio =
-          (item /
-            reduce(
-              patternsData.total,
-              (sum, n) => {
-                return sum + n;
-              },
-              0
-            )) *
-          100;
+        const ratio = (item / totalHits) * 100;
         return <EuiText size="s">{`${round(ratio, 2)}%`}</EuiText>;
       },
     },
@@ -66,7 +59,7 @@ export function PatternsTable(props: PatternsTableProps) {
       width: '6%',
       sortable: (row: PatternTableData) => row.anomalyCount,
       render: (item: number) => {
-        return <EuiText size="s">{item}</EuiText>;
+        return <EuiText size="s">{item ?? 'N/A'}</EuiText>;
       },
     },
     {

@@ -46,7 +46,9 @@ internal class OperationalPanelTests {
     @Test
     fun `OperationalPanel should deserialize json object using parser`() {
         val jsonString =
-            "{\"name\":\"test-operational-panel\",\"visualizations\":[{\"id\":\"panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17\",\"savedVisualizationId\":\"oyuecXwBYVazWqOOde0o\",\"x\":0,\"y\":0,\"w\":10,\"h\":10}],\"timeRange\":{\"to\":\"now\",\"from\":\"now-1d\"},\"queryFilter\":{\"query\":\"| where Carrier='OpenSearch-Air'\",\"language\":\"ppl\"}}"
+            "{\"name\":\"test-operational-panel\",\"visualizations\":[{\"id\":\"panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17\"," +
+                "\"savedVisualizationId\":\"oyuecXwBYVazWqOOde0o\",\"x\":0,\"y\":0,\"w\":10,\"h\":10}],\"timeRange\":{\"to\":" +
+                "\"now\",\"from\":\"now-1d\"},\"queryFilter\":{\"query\":\"| where Carrier='OpenSearch-Air'\",\"language\":\"ppl\"}}"
         val recreatedObject = createObjectFromJsonString(jsonString) { OperationalPanel.parse(it) }
         assertEquals(sampleOperationalPanel, recreatedObject)
     }
@@ -62,7 +64,9 @@ internal class OperationalPanelTests {
     @Test
     fun `OperationalPanel should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"name\":\"test-operational-panel\",\"visualizations\":[{\"id\":\"panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17\",\"savedVisualizationId\":\"oyuecXwBYVazWqOOde0o\",\"x\":0,\"y\":0,\"w\":10,\"h\":10}],\"timeRange\":{\"to\":\"now\",\"from\":\"now-1d\"},\"queryFilter\":{\"query\":\"| where Carrier='OpenSearch-Air'\",\"language\":\"ppl\"},\"another\":\"field\"}"
+            "{\"name\":\"test-operational-panel\",\"visualizations\":[{\"id\":\"panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17\",\"" +
+                "savedVisualizationId\":\"oyuecXwBYVazWqOOde0o\",\"x\":0,\"y\":0,\"w\":10,\"h\":10}],\"timeRange\":{\"to\":\"now\"," +
+                "\"from\":\"now-1d\"},\"queryFilter\":{\"query\":\"| where Carrier='OpenSearch-Air'\",\"language\":\"ppl\"},\"another\":\"field\"}"
         val recreatedObject = createObjectFromJsonString(jsonString) { OperationalPanel.parse(it) }
         assertEquals(sampleOperationalPanel, recreatedObject)
     }

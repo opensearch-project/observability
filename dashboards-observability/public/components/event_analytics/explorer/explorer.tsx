@@ -30,20 +30,16 @@ import { cloneDeep, has, isEmpty, isEqual, reduce } from 'lodash';
 import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import {
-  AGGREGATIONS,
   AVAILABLE_FIELDS,
-  CUSTOM_LABEL,
   DATE_PICKER_FORMAT,
   DEFAULT_AVAILABILITY_QUERY,
   EVENT_ANALYTICS_DOCUMENTATION_URL,
   FILTERED_PATTERN,
-  GROUPBY,
   NEW_TAB,
   PATTERNS_EXTRACTOR_REGEX,
   PATTERNS_REGEX,
   PATTERN_REGEX,
   PPL_DEFAULT_PATTERN_REGEX_FILETER,
-  PPL_PATTERNS_REGEX,
   RAW_QUERY,
   SAVED_OBJECT_ID,
   SAVED_OBJECT_TYPE,
@@ -66,21 +62,8 @@ import {
   PPL_NEWLINE_REGEX,
   PPL_PATTERNS_DOCUMENTATION_URL,
   PPL_STATS_REGEX,
-  VIS_CHART_TYPES,
 } from '../../../../common/constants/shared';
-import {
-  getIndexPatternFromRawQuery,
-  preprocessQuery,
-  buildQuery,
-  composeFinalQuery,
-} from '../../../../common/utils';
-import { formatError, getDefaultVisConfig } from '../utils';
-import {
-  statsChunk,
-  GroupByChunk,
-  GroupField,
-  StatsAggregationChunk,
-} from '../../../../common/query_manager/ast/types';
+import { GroupByChunk } from '../../../../common/query_manager/ast/types';
 import {
   IDefaultTimestampState,
   IExplorerProps,
@@ -88,6 +71,11 @@ import {
   IQueryTab,
   IVisualizationContainerProps,
 } from '../../../../common/types/explorer';
+import {
+  buildQuery,
+  composeFinalQuery,
+  getIndexPatternFromRawQuery,
+} from '../../../../common/utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
 import { onItemSelect, parseGetSuggestions } from '../../common/search/autocomplete_logic';
 import { Search } from '../../common/search/search';
@@ -106,6 +94,7 @@ import {
   change as updateVizConfig,
   selectVisualizationConfig,
 } from '../redux/slices/viualization_config_slice';
+import { formatError, getDefaultVisConfig } from '../utils';
 import { DataGrid } from './events_views/data_grid';
 import './explorer.scss';
 import { HitsCounter } from './hits_counter/hits_counter';
@@ -193,9 +182,8 @@ export const Explorer = ({
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [viewLogPatterns, setViewLogPatterns] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] = useState<boolean>(
-    false
-  );
+  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] =
+    useState<boolean>(false);
   const [spanValue, setSpanValue] = useState(false);
   const [subType, setSubType] = useState('visualization');
   const [metricMeasure, setMetricMeasure] = useState('');
@@ -448,8 +436,8 @@ export const Explorer = ({
       getCountVisualizations(minInterval);
 
       // to fetch patterns data on current query
-      if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
-        getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
+      if (!finalQuery.match(PATTERNS_REGEX)) {
+        getPatterns(minInterval);
       }
     }
 
@@ -891,6 +879,11 @@ export const Explorer = ({
                             tabId={tabId}
                             query={query}
                             isPatternLoading={isPatternLoading}
+                            totalHits={reduce(
+                              countDistribution.data['count()'],
+                              (sum, n) => sum + n,
+                              0
+                            )}
                           />
                           <EuiHorizontalRule margin="xs" />
                         </>

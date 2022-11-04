@@ -6,6 +6,7 @@
 import './index.scss';
 import {
   EuiButtonIcon,
+  EuiGlobalToastList,
   EuiPage,
   EuiPageBody,
   htmlIdGenerator,
@@ -17,7 +18,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import classNames from 'classnames';
 import { StaticContext } from 'react-router-dom';
-import { ChromeBreadcrumb, CoreStart } from '../../../../../src/core/public';
+import { ChromeBreadcrumb, CoreStart, Toast } from '../../../../../src/core/public';
 import { onTimeChange } from './helpers/utils';
 import { Sidebar } from './sidebar/sidebar';
 import { EmptyMetricsView } from './view/empty_view';
@@ -28,6 +29,7 @@ import { MetricsGrid } from './view/metrics_grid';
 import { useSelector } from 'react-redux';
 import { metricsLayoutSelector, selectedMetricsSelector } from './redux/slices/metrics_slice';
 import { resolutionOptions } from '../../../common/constants/metrics';
+import SavedObjects from '../../services/saved_objects/event_analytics/saved_objects';
 
 interface MetricsProps {
   http: CoreStart['http'];
@@ -35,9 +37,17 @@ interface MetricsProps {
   parentBreadcrumb: ChromeBreadcrumb;
   renderProps: RouteComponentProps<any, StaticContext, any>;
   pplService: PPLService;
+  savedObjects: SavedObjects;
 }
 
-export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }: MetricsProps) => {
+export const Home = ({
+  http,
+  chrome,
+  parentBreadcrumb,
+  renderProps,
+  pplService,
+  savedObjects,
+}: MetricsProps) => {
   // Redux tools
   const selectedMetrics = useSelector(selectedMetricsSelector);
   const metricsLayout = useSelector(metricsLayoutSelector);
@@ -55,6 +65,8 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
   const [resolutionValue, setResolutionValue] = useState(resolutionOptions[2].value);
   const [spanValue, setSpanValue] = useState(1);
   const resolutionSelectId = htmlIdGenerator('resolutionSelect')();
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toastRightSide, setToastRightSide] = useState<boolean>(true);
 
   // Side bar constants
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -62,7 +74,17 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
   // Metrics constants
   const [panelVisualizations, setPanelVisualizations] = useState<MetricType[]>([]);
 
+  const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
+    if (!text) text = '';
+    setToastRightSide(!side ? true : false);
+    setToasts([...toasts, { id: new Date().toISOString(), title, text, color } as Toast]);
+  };
+
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
+    if (spanValue < 1) {
+      setToast('Please add a valid span interval', 'danger');
+      return;
+    }
     setOnRefresh(!onRefresh);
   };
 
@@ -92,16 +114,16 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
   };
 
   useEffect(() => {
-    selectedMetrics.length > 0 ? setIsTopPanelDisabled(false) : setIsTopPanelDisabled(true);
-  }, [selectedMetrics]);
+    if (!editMode) {
+      selectedMetrics.length > 0 ? setIsTopPanelDisabled(false) : setIsTopPanelDisabled(true);
+    } else {
+      setIsTopPanelDisabled(true);
+    }
+  }, [selectedMetrics, editMode]);
 
   useEffect(() => {
     setPanelVisualizations(metricsLayout);
   }, [metricsLayout]);
-
-  useEffect(() => {
-    if (editMode) setIsTopPanelDisabled(true);
-  }, [editMode]);
 
   const mainSectionClassName = classNames({
     'col-md-9': !isSidebarClosed,
@@ -114,6 +136,14 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
 
   return (
     <>
+      <EuiGlobalToastList
+        toasts={toasts}
+        dismissToast={(removedToast) => {
+          setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
+        }}
+        side={toastRightSide ? 'right' : 'left'}
+        toastLifeTimeMs={6000}
+      />
       <Route
         exact
         path="/metrics"
@@ -122,6 +152,7 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
             <EuiPage>
               <EuiPageBody component="div">
                 <TopMenu
+                  http={http}
                   IsTopPanelDisabled={IsTopPanelDisabled}
                   startTime={startTime}
                   endTime={endTime}
@@ -137,6 +168,8 @@ export const Home = ({ http, chrome, parentBreadcrumb, renderProps, pplService }
                   spanValue={spanValue}
                   setSpanValue={setSpanValue}
                   resolutionSelectId={resolutionSelectId}
+                  savedObjects={savedObjects}
+                  setToast={setToast}
                 />
                 <div className="dscAppContainer">
                   <div
