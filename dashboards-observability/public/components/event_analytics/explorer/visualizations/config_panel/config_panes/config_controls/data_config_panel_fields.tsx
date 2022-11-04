@@ -26,6 +26,7 @@ import {
   ConfigListEntry,
   DataConfigPanelFieldProps,
 } from '../../../../../../../../common/types/explorer';
+import { removeBacktick } from '../../../../../../../../common/utils'
 
 const HIDE_ADD_BUTTON_VIZ_TYPES = [
   VIS_CHART_TYPES.HeatMap,
@@ -114,7 +115,7 @@ export const DataConfigPanelFields = ({
                   tabIndex={0}
                   onClick={() => handleServiceEdit(index, sectionName, false)}
                 >
-                  {obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`}
+                  {removeBacktick(obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`)}
                 </EuiLink>
               </EuiText>
               {isAggregation
