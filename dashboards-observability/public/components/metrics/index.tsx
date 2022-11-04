@@ -146,7 +146,7 @@ export const Home = ({
       />
       <Route
         exact
-        path="/metrics"
+        path="/metrics_analytics"
         render={(props) => (
           <div>
             <EuiPage>
