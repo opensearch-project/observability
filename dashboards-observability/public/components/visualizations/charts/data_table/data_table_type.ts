@@ -97,13 +97,6 @@ export const createDatatableTypeDefinition = (params: any = {}) => ({
           },
         ],
       },
-      {
-        id: 'style-panel',
-        name: 'Layout',
-        mapTo: 'layoutConfig',
-        editor: ConfigEditor,
-        content: [],
-      },
     ],
   },
   visconfig: {
