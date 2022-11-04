@@ -125,7 +125,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
               initialIsOpen={true}
               isLoading={false}
               isLoadingMessage={false}
-              paddingSize="xs"
+              paddingSize="none"
             >
               <div
                 className="euiAccordion euiAccordion-isOpen"
@@ -197,7 +197,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
                   >
                     <div>
                       <div
-                        className="euiAccordion__padding--xs"
+                        className=""
                       >
                         <ul
                           className="metricsList"
@@ -230,7 +230,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
               initialIsOpen={true}
               isLoading={false}
               isLoadingMessage={false}
-              paddingSize="xs"
+              paddingSize="none"
             >
               <div
                 className="euiAccordion euiAccordion-isOpen"
@@ -302,7 +302,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
                   >
                     <div>
                       <div
-                        className="euiAccordion__padding--xs"
+                        className=""
                       >
                         <ul
                           className="metricsList"
@@ -335,7 +335,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
               initialIsOpen={true}
               isLoading={false}
               isLoadingMessage={false}
-              paddingSize="xs"
+              paddingSize="none"
             >
               <div
                 className="euiAccordion euiAccordion-isOpen"
@@ -407,7 +407,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
                   >
                     <div>
                       <div
-                        className="euiAccordion__padding--xs"
+                        className=""
                       >
                         <ul
                           className="metricsList"
