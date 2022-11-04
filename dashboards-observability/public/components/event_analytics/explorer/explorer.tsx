@@ -1088,31 +1088,6 @@ export const Explorer = ({
     );
   };
 
-  const getSpanValue = (groupByToken: GroupByChunk) => {
-    const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
-      (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
-    )?.text;
-    return groupByToken?.span !== null
-      ? {
-          time_field: [
-            {
-              name: groupByToken?.span.span_expression.field,
-              type: 'timestamp',
-              label: groupByToken?.span.span_expression.field,
-            },
-          ],
-          unit: [
-            {
-              text: timeUnitValue,
-              value: groupByToken?.span.span_expression.time_unit,
-              label: timeUnitValue,
-            },
-          ],
-          interval: groupByToken?.span.span_expression.literal_value,
-        }
-      : undefined;
-  };
-
   const handleQuerySearch = useCallback(
     async (availability?: boolean) => {
       // clear previous selected timestamp when index pattern changes
@@ -1270,7 +1245,6 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             setToast(
@@ -1307,7 +1281,6 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             batch(() => {

@@ -529,8 +529,9 @@ exports[`Line component Renders line component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder
+  <VisCanvassPlaceholder
     icon="visBarVerticalStacked"
+    message="Missing mandatory series"
   >
     <EuiText
       className="lnsChart__empty"
@@ -589,15 +590,7 @@ exports[`Line component Renders line component 1`] = `
                   />
                 </EuiSpacer>
                 <p>
-                  <FormattedMessage
-                    defaultMessage="No results found"
-                    id="visualization_noData"
-                    values={Object {}}
-                  >
-                    <span>
-                      No results found
-                    </span>
-                  </FormattedMessage>
+                  Missing mandatory series
                 </p>
               </div>
             </EuiTextColor>
@@ -605,6 +598,6 @@ exports[`Line component Renders line component 1`] = `
         </EuiTextAlign>
       </div>
     </EuiText>
-  </EmptyPlaceholder>
+  </VisCanvassPlaceholder>
 </Line>
 `;

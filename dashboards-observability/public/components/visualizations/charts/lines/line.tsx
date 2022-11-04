@@ -17,7 +17,7 @@ import { IVisualizationContainerProps } from '../../../../../common/types/explor
 import { hexToRgb } from '../../../../components/event_analytics/utils/utils';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { VisCanvassPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components';
 import { Plt } from '../../plotly/plot';
 import { transformPreprocessedDataToTraces, preprocessJsonData } from '../shared/common';
 
@@ -87,7 +87,7 @@ export const Line = ({ visualizations, layout, config }: any) => {
   const timestampField = find(fields, (field) => field.type === 'timestamp');
   let xaxis = [timestampField];
 
-  if (!timestampField || isEmpty(series)) return <EmptyPlaceholder icon={icontype} />;
+  if (isEmpty(series)) return <VisCanvassPlaceholder message='Missing mandatory series' icon={icontype} />;
 
   const addStylesToTraces = (traces, traceStyles) => {
     const { fillOpacity, tooltipMode, tooltipText, lineWidth, lineShape, markerSize } = traceStyles;

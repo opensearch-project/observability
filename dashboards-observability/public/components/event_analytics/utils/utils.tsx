@@ -5,7 +5,7 @@
  */
 
 import dateMath from '@elastic/datemath';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { HttpStart } from '../../../../../../src/core/public';
@@ -408,7 +408,7 @@ export const getDefaultVisConfig = (statsToken: statsChunk) => {
     return {
       [GROUPBY]: [],
       [AGGREGATIONS]: [],
-      [BREAKDOWNS]: []
+      [BREAKDOWNS]: [],
     };
   }
 
@@ -435,23 +435,23 @@ const getSpanValue = (groupByToken: GroupByChunk) => {
   const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
     (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
   )?.text;
-  return groupByToken?.span !== null
+  return !isEmpty(groupByToken?.span)
     ? {
         time_field: [
           {
-            name: groupByToken?.span.span_expression.field,
+            name: groupByToken?.span?.span_expression?.field,
             type: 'timestamp',
-            label: groupByToken?.span.span_expression.field,
+            label: groupByToken?.span?.span_expression?.field,
           },
         ],
         unit: [
           {
             text: timeUnitValue,
-            value: groupByToken?.span.span_expression.time_unit,
+            value: groupByToken?.span?.span_expression?.time_unit,
             label: timeUnitValue,
           },
         ],
-        interval: groupByToken?.span.span_expression.literal_value,
+        interval: groupByToken?.span?.span_expression?.literal_value,
       }
     : undefined;
 };

@@ -27,20 +27,15 @@ const doubleValueGetter = (params) => {
   return params.data[params.column.colId];
 };
 
-export const DataTable = ({ visualizations, layout, config }: any) => {
+export const DataTable = ({ visualizations }: any) => {
   const {
     data: {
-      defaultAxes,
-      indexFields,
-      query,
       rawVizData: {
-        data: queriedVizData,
-        jsonData,
-        metadata: { fields = [] },
-      },
+        jsonData = [],
+        metadata: { fields = [] } = {},
+      } = {},
       userConfigs: { dataConfig: { chartStyles = {} } = {} } = {},
-    } = {},
-    vis: visMetaData,
+    } = {}
   }: IVisualizationContainerProps = visualizations;
 
   const enablePagination =

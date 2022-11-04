@@ -569,12 +569,12 @@ exports[`Metrics component Renders Metrics component 1`] = `
                 </EuiSpacer>
                 <p>
                   <FormattedMessage
-                    defaultMessage="No results found"
+                    defaultMessage="No data found"
                     id="visualization_noData"
                     values={Object {}}
                   >
                     <span>
-                      No results found
+                      No data found
                     </span>
                   </FormattedMessage>
                 </p>
