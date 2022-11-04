@@ -4,13 +4,20 @@
  */
 
 import {
+  EuiButton,
   EuiButtonIcon,
+  EuiCodeBlock,
   EuiContextMenuItem,
   EuiContextMenuPanel,
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
   EuiLoadingChart,
+  EuiModal,
+  EuiModalBody,
+  EuiModalFooter,
+  EuiModalHeader,
+  EuiModalHeaderTitle,
   EuiPanel,
   EuiPopover,
   EuiSpacer,
@@ -96,6 +103,39 @@ export const VisualizationContainer = ({
   const onActionsMenuClick = () => setIsPopoverOpen((currPopoverOpen) => !currPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const closeModal = () => setIsModalVisible(false);
+  const showModal = () => setIsModalVisible(true);
+
+  let modal;
+
+  if (isModalVisible) {
+    modal = (
+      <EuiModal onClose={closeModal}>
+        <EuiModalHeader>
+          <EuiModalHeaderTitle>
+            <h1>{visualizationMetaData.name}</h1>
+          </EuiModalHeaderTitle>
+        </EuiModalHeader>
+
+        <EuiModalBody>
+          This PPL Query is generated in runtime from selected data source
+          <EuiSpacer />
+          <EuiCodeBlock language="html" isCopyable>
+            {visualizationMetaData.query}
+          </EuiCodeBlock>
+        </EuiModalBody>
+
+        <EuiModalFooter>
+          <EuiButton onClick={closeModal} fill>
+            Close
+          </EuiButton>
+        </EuiModalFooter>
+      </EuiModal>
+    );
+  }
+
   let popoverPanel = [
     <EuiContextMenuItem
       data-test-subj="editVizContextMenuItem"
@@ -130,8 +170,22 @@ export const VisualizationContainer = ({
     </EuiContextMenuItem>,
   ];
 
+  let showModelPanel = [
+    <EuiContextMenuItem
+      data-test-subj="showCatalogPPLQuery"
+      key="view_query"
+      disabled={disablePopover}
+      onClick={() => {
+        closeActionsMenu();
+        showModal();
+      }}
+    >
+      View query
+    </EuiContextMenuItem>,
+  ];
+
   if (usedInNotebooks) {
-    popoverPanel = [popoverPanel[0]];
+    popoverPanel = catalogVisualization ? [showModelPanel] : [popoverPanel[0]];
   }
 
   const loadVisaulization = async () => {
@@ -199,52 +253,55 @@ export const VisualizationContainer = ({
   }, [editMode]);
 
   return (
-    <EuiPanel
-      data-test-subj={`${visualizationTitle}VisualizationPanel`}
-      className="panel-full-width"
-      grow={false}
-    >
-      <div className={editMode ? 'mouseGrabber' : ''}>
-        <EuiFlexGroup justifyContent="spaceBetween">
-          <EuiFlexItem
-            style={{
-              width: '35%',
-            }}
-          >
-            <EuiText grow={false} className="panels-title-text">
-              <EuiToolTip delay="long" position="top" content={visualizationTitle}>
-                <h5>{visualizationTitle}</h5>
-              </EuiToolTip>
-            </EuiText>
-          </EuiFlexItem>
-          <EuiFlexItem grow={false} className="visualization-action-button">
-            {disablePopover ? (
-              <EuiIcon
-                type="crossInACircleFilled"
-                onClick={() => {
-                  removeVisualization(visualizationId);
-                }}
-              />
-            ) : (
-              <EuiPopover
-                button={
-                  <EuiButtonIcon
-                    aria-label="actionMenuButton"
-                    iconType="boxesHorizontal"
-                    onClick={onActionsMenuClick}
-                  />
-                }
-                isOpen={isPopoverOpen}
-                closePopover={closeActionsMenu}
-                anchorPosition="downLeft"
-              >
-                <EuiContextMenuPanel items={popoverPanel} />
-              </EuiPopover>
-            )}
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </div>
-      {memoisedVisualizationBox}
-    </EuiPanel>
+    <>
+      <EuiPanel
+        data-test-subj={`${visualizationTitle}VisualizationPanel`}
+        className="panel-full-width"
+        grow={false}
+      >
+        <div className={editMode ? 'mouseGrabber' : ''}>
+          <EuiFlexGroup justifyContent="spaceBetween">
+            <EuiFlexItem
+              style={{
+                width: '35%',
+              }}
+            >
+              <EuiText grow={false} className="panels-title-text">
+                <EuiToolTip delay="long" position="top" content={visualizationTitle}>
+                  <h5>{visualizationTitle}</h5>
+                </EuiToolTip>
+              </EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false} className="visualization-action-button">
+              {disablePopover ? (
+                <EuiIcon
+                  type="crossInACircleFilled"
+                  onClick={() => {
+                    removeVisualization(visualizationId);
+                  }}
+                />
+              ) : (
+                <EuiPopover
+                  button={
+                    <EuiButtonIcon
+                      aria-label="actionMenuButton"
+                      iconType="boxesHorizontal"
+                      onClick={onActionsMenuClick}
+                    />
+                  }
+                  isOpen={isPopoverOpen}
+                  closePopover={closeActionsMenu}
+                  anchorPosition="downLeft"
+                >
+                  <EuiContextMenuPanel items={popoverPanel} />
+                </EuiPopover>
+              )}
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </div>
+        {memoisedVisualizationBox}
+      </EuiPanel>
+      {modal}
+    </>
   );
 };
