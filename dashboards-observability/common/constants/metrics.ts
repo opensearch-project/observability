@@ -17,8 +17,8 @@ export const resolutionOptions = [
   { value: 'm', text: 'minutes' },
   { value: 'h', text: 'hours' },
   { value: 'd', text: 'days' },
-  { value: 'M', text: 'Months' },
-  { value: 'q', text: 'quarters' },
+  // { value: 'M', text: 'Months' },
+  // { value: 'q', text: 'quarters' },
   { value: 'y', text: 'years' },
 ];
 
