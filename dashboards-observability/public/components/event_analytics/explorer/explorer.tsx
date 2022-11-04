@@ -104,6 +104,7 @@ import { Sidebar } from './sidebar';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
 import { CountDistribution } from './visualizations/count_distribution';
+import { QueryManager } from '../../../../common/query_manager'
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -132,7 +133,7 @@ export const Explorer = ({
   setEndTime,
   callback,
   callbackInApp,
-  queryManager,
+  queryManager = new QueryManager(),
 }: IExplorerProps) => {
   const dispatch = useDispatch();
   const requestParams = { tabId };
