@@ -184,7 +184,6 @@ export const createPrometheusMetricById = (metricId: string) => {
       tokens: [],
     },
     sub_type: 'metric',
-    units_of_measure: UNITS_OF_MEASURE[1],
     user_configs: {},
   };
 };
@@ -209,6 +208,5 @@ export const updateMetricsWithSelections = (
     type: 'line',
     subType: 'metric',
     userConfigs: JSON.stringify(savedVisualization.user_configs),
-    unitsOfMeasure: savedVisualization.units_of_measure,
   };
 };

@@ -53,7 +53,6 @@ export const sampleMetric = {
   },
   user_configs: '{}',
   sub_type: 'metric',
-  units_of_measure: 'kilometers (k)',
 };
 
 export const sampleSortedMetricsLayout = [
@@ -102,7 +101,6 @@ export const sampleVisualizationById = {
   selected_fields: {},
   user_configs: {},
   sub_type: 'metric',
-  units_of_measure: 'kilometers (k)',
 };
 
 export const sampleAllAvailableMetrics = [
@@ -204,7 +202,6 @@ export const samplePrometheusVisualizationComponent = {
     tokens: [],
   },
   sub_type: 'metric',
-  units_of_measure: 'hours (h)',
   user_configs: {},
 };
 
@@ -261,7 +258,6 @@ export const samplePrometheusSampleUpdateWithSelections = {
   subType: 'metric',
   timestamp: '@timestamp',
   type: 'line',
-  unitsOfMeasure: 'hours (h)',
   userConfigs: '{}',
 };
 
@@ -312,7 +308,6 @@ export const sampleSavedMetric = {
     },
   },
   sub_type: 'metric',
-  units_of_measure: 'hours (h)',
 };
 
 export const sampleSavedMetricUpdate = {
@@ -325,7 +320,6 @@ export const sampleSavedMetricUpdate = {
   subType: 'metric',
   timestamp: 'timestamp',
   type: 'line',
-  unitsOfMeasure: 'hours (h)',
   userConfigs:
     '{"dataConfig":{"series":[{"label":"machine.ram","name":"machine.ram","aggregation":"avg","customLabel":""}],"dimensions":[],"span":{"time_field":[{"name":"timestamp","type":"timestamp","label":"timestamp"}],"unit":[{"text":"Day","value":"d","label":"Day"}],"interval":"1"}}}',
 };
