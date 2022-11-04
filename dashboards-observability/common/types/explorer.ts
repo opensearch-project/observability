@@ -139,7 +139,7 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
-  queryManager: QueryManager;
+  queryManager?: QueryManager;
 }
 
 export interface SavedQuery {

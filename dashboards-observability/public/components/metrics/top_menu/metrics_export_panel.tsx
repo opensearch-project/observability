@@ -14,9 +14,7 @@ import {
   EuiFormRow,
   EuiFlexItem,
   EuiForm,
-  EuiSelect,
 } from '@elastic/eui';
-import { UNITS_OF_MEASURE } from '../../../../common/constants/explorer';
 import { createPrometheusMetricById } from '../helpers/utils';
 import { MetricType } from '../../../../common/types/metrics';
 import { fetchVisualizationById } from '../../custom_panels/helpers/utils';
@@ -82,14 +80,8 @@ export const MetricsExportPanel = ({
     setVisualizationsMetaData(tempVisualizationsMetaData);
   };
 
-  const onMeasureChange = (index: number, measureOption: any) => {
-    let tempVisualizationsMetaData = [...visualizationsMetaData];
-    tempVisualizationsMetaData[index].units_of_measure = measureOption;
-    setVisualizationsMetaData(tempVisualizationsMetaData);
-  };
-
   return (
-    <div style={{ minWidth: '25vw' }}>
+    <div style={{ minWidth: '15vw' }}>
       <EuiFormRow
         label="Custom operational dashboards/application"
         helpText="Search existing dashboards or applications by name"
@@ -124,21 +116,6 @@ export const MetricsExportPanel = ({
                         value={visualizationsMetaData[index].name}
                         onChange={(e) => onNameChange(index, e.target.value)}
                         data-test-subj="metrics__querySaveName"
-                      />
-                    </EuiFormRow>
-                  </EuiFlexItem>
-
-                  <EuiFlexItem>
-                    <EuiFormRow label="Units of Measure">
-                      <EuiSelect
-                        id={'selector' + index}
-                        options={UNITS_OF_MEASURE.map((i) => {
-                          return { value: i, text: i };
-                        })}
-                        value={visualizationsMetaData[index].units_of_measure}
-                        onChange={(e) => onMeasureChange(index, e.target.value)}
-                        data-test-subj="metrics__measureSelector"
-                        aria-label="metrics__measureSelector"
                       />
                     </EuiFormRow>
                   </EuiFlexItem>
