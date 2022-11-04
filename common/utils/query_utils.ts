@@ -127,3 +127,8 @@ export const composeFinalQuery = (
     filteredPattern
   });
 };
+
+export const removeBacktick = (stringContainsBacktick: string) => {
+  if (!stringContainsBacktick) return '';
+  return stringContainsBacktick.replace(/`/g, '');
+};

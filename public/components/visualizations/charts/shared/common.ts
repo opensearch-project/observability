@@ -6,10 +6,13 @@
 import { isEmpty, forEach } from 'lodash';
 import { CUSTOM_LABEL } from '../../../../../common/constants/explorer';
 import { ConfigList, DimensionSpan } from '../../../../../common/types/explorer';
+import { removeBacktick } from '../../../../../common/utils';
 
 export const getCompleteTimespanKey = (span: DimensionSpan) => {
-  if (!span || isEmpty(span.time_field) || isEmpty(span.interval) || isEmpty(span.unit)) return '';
-  return { name: `span(${span.time_field[0]?.name},${span.interval}${span.unit[0]?.value})` };
+  if (isEmpty(span) || isEmpty(span.time_field) || isEmpty(span.interval) || isEmpty(span.unit))
+    return '';
+  const spanName = `span(${span.time_field[0]?.name},${span.interval}${span.unit[0]?.value})`;
+  return { name: spanName, label: spanName };
 };
 
 /**
@@ -58,22 +61,30 @@ export const preprocessJsonData = (
 ) => {
   const seriesFlattenedEntries = [];
   forEach(visJson, (entry) => {
+    const backtickRemovedEntry = {};
+    // remove backtick, so data in jsonData can be accessed through using field name
+    forEach(entry, (value, key) => {
+      backtickRemovedEntry[removeBacktick(key)] = value;
+    });
     forEach(series, (sr) => {
       let tabularVizData = {};
       const serieKey = sr[CUSTOM_LABEL] ? sr[CUSTOM_LABEL] : `${sr.aggregation}(${sr.name})`;
-      let timespanDimension = [];
-      if (span) {
-        timespanDimension.push(getCompleteTimespanKey(span));
-      }
       if (!isEmpty(serieKey)) {
-        const concatedXaxisLabel = [...timespanDimension, ...(dimensions)]
-          .map((dimension) => entry[dimension.name])
+        const concatedXaxisLabel = [
+          ...(!isEmpty(span) ? [getCompleteTimespanKey(span)] : []),
+          ...dimensions,
+        ]
+          .map((dimension) => {
+            return backtickRemovedEntry[removeBacktick(dimension.name)] ?? '';
+          })
           .join(',');
         const concatedBreakdownLabel = breakdowns
-          ? breakdowns.map((breakdown) => entry[breakdown.name]).join(',')
+          ? breakdowns
+              .map((breakdown) => backtickRemovedEntry[removeBacktick(breakdown.name)])
+              .join(',')
           : '';
         tabularVizData = {
-          value: entry[serieKey],
+          value: backtickRemovedEntry[serieKey],
           x: concatedXaxisLabel,
           breakdown: concatedBreakdownLabel,
           aggName: serieKey,

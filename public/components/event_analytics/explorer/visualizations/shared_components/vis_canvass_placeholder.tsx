@@ -5,10 +5,9 @@
 
 import React from 'react';
 import { EuiIcon, EuiText, EuiSpacer } from '@elastic/eui';
-import { FormattedMessage } from '@osd/i18n/react';
 import './empty_placeholder.scss';
 
-export const EmptyPlaceholder = (props: { icon: string }) => (
+export const VisCanvassPlaceholder = (props: { message: string; icon: string }) => (
   <>
     <EuiText
       className="lnsChart__empty"
@@ -20,7 +19,7 @@ export const EmptyPlaceholder = (props: { icon: string }) => (
       <EuiIcon type={props.icon} color="subdued" size="xxl" />
       <EuiSpacer size="l" />
       <p>
-        <FormattedMessage id="visualization_noData" defaultMessage="No data found" />
+        { props.message }
       </p>
     </EuiText>
   </>

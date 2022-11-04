@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { find, isEmpty } from 'lodash';
+import { find, isEmpty, forEach } from 'lodash';
 import React, { useMemo } from 'react';
 import { DEFAULT_PALETTE, HEX_CONTRAST_COLOR } from '../../../../../common/constants/colors';
 import {
@@ -21,6 +21,7 @@ import {
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { getPropName, getTooltipHoverInfo } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
+import { removeBacktick } from '../../../../../common/utils';
 
 export const Pie = ({ visualizations, layout, config }: any) => {
   const {
@@ -56,6 +57,11 @@ export const Pie = ({ visualizations, layout, config }: any) => {
   const title = panelOptions.title || layoutConfig.layout?.title || '';
   const timestampField = find(fields, (field) => field.type === 'timestamp');
 
+  const backtickRemovedVisData = {};
+  forEach(queriedVizData, (value, key) => {
+    backtickRemovedVisData[removeBacktick(key)] = value;
+  });
+
   /**
    * determine x axis
    */
@@ -74,10 +80,10 @@ export const Pie = ({ visualizations, layout, config }: any) => {
     (Number(`0x1${hex}`) ^ HEX_CONTRAST_COLOR).toString(16).substr(1).toUpperCase();
 
   const labelsOfXAxis = xaxes.reduce((prev, cur) => {
-    if (queriedVizData[cur.name]) {
-      if (prev.length === 0) return queriedVizData[cur.name].flat();
+    if (backtickRemovedVisData[removeBacktick(cur.name)]) {
+      if (prev.length === 0) return backtickRemovedVisData[removeBacktick(cur.name)].flat();
       return prev.map(
-        (item: string | number, index: number) => `${item}, ${queriedVizData[cur.name][index]}`
+        (item: string | number, index: number) => `${item}, ${backtickRemovedVisData[removeBacktick(cur.name)][index]}`
       );
     }
   }, []);
@@ -92,7 +98,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           colorTheme.name !== DEFAULT_PALETTE
             ? {
                 marker: {
-                  colors: [...Array(queriedVizData[fieldName].length).fill(colorTheme.childColor)],
+                  colors: [...Array(backtickRemovedVisData[removeBacktick(fieldName)].length).fill(colorTheme.childColor)],
                   line: {
                     color: hexColor,
                     width: 1,
@@ -102,7 +108,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
             : undefined;
         return {
           labels: labelsOfXAxis,
-          values: queriedVizData[fieldName],
+          values: backtickRemovedVisData[removeBacktick(fieldName)],
           type: 'pie',
           name: getPropName(field),
           hole: type === 'pie' ? 0 : 0.5,
@@ -125,7 +131,7 @@ export const Pie = ({ visualizations, layout, config }: any) => {
           },
         };
       }),
-    [series, queriedVizData, chartLabelSize, labelsOfXAxis, colorTheme]
+    [series, backtickRemovedVisData, chartLabelSize, labelsOfXAxis, colorTheme]
   );
 
   const mergedLayout = useMemo(() => {
