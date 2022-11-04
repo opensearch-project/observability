@@ -13,6 +13,11 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 2.4.0
 * UI changes for sidebar and update to PPL request ([#1246](https://github.com/opensearch-project/observability/pull/1246))
 * Backtick supports ([#1250](https://github.com/opensearch-project/observability/pull/1250))
 * Use in-memory count for total hits in patterns ratio ([#1254](https://github.com/opensearch-project/observability/pull/1254))
+* Show metrics in events homepage ([#1232](https://github.com/opensearch-project/observability/pull/1232))
+* Update Sidepanel ([#1230](https://github.com/opensearch-project/observability/pull/1230))
+* Added dummy search field, panel push button ([#1227](https://github.com/opensearch-project/observability/pull/1227))
+* Adding visualizations panel to metrics ([#1222](https://github.com/opensearch-project/observability/pull/1222))
+* Add metrics api events ([#1214](https://github.com/opensearch-project/observability/pull/1214))
 
 ### Bug Fixes
 * Fix column spacing and pattern table highlighting ([#1218](https://github.com/opensearch-project/observability/pull/1218))
@@ -23,8 +28,8 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 2.4.0
 * Update detekt version ([#1226](https://github.com/opensearch-project/observability/pull/1226))
 * Fix metrics visualization regression ([#1244](https://github.com/opensearch-project/observability/pull/1244))
 * Fix Prometheus Mappings ([#1242](https://github.com/opensearch-project/observability/pull/1242))
-* Metrics bug fixes ([#1248](https://github.com/opensearch-project/observability/pull/1248))
-* Metrics bug fixes and unit tests ([#1253](https://github.com/opensearch-project/observability/pull/1253))
+* Metrics bug fixes ([#1248](https://github.com/opensearch-project/observability/pull/1248))([#1253](https://github.com/opensearch-project/observability/pull/1253))
+* Fix metrics switch ([#1247](https://github.com/opensearch-project/observability/pull/1247))
 
 ### Infrastructure
 * Add groupId to pluginzip publication ([#1115](https://github.com/opensearch-project/observability/pull/1115))
