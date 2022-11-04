@@ -103,7 +103,6 @@ export const SavePanel = ({
     }
   }, [])
   
-  console.log('checked');
   return (
     <>
       {showOptionList && (
