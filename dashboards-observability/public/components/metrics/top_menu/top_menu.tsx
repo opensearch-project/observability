@@ -17,7 +17,7 @@ import {
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiSettingsService } from '../../../../common/utils';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MetricType } from '../../../../common/types/metrics';
 import { resolutionOptions } from '../../../../common/constants/metrics';
 import './top_menu.scss';
