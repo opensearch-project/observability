@@ -104,7 +104,7 @@ import { Sidebar } from './sidebar';
 import { TimechartHeader } from './timechart_header';
 import { ExplorerVisualizations } from './visualizations';
 import { CountDistribution } from './visualizations/count_distribution';
-import { QueryManager } from '../../../../common/query_manager'
+import { QueryManager } from '../../../../common/query_manager';
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
@@ -183,8 +183,6 @@ export const Explorer = ({
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
   const [viewLogPatterns, setViewLogPatterns] = useState(false);
-  const [isValidDataConfigOptionSelected, setIsValidDataConfigOptionSelected] =
-    useState<boolean>(false);
   const [spanValue, setSpanValue] = useState(false);
   const [subType, setSubType] = useState('visualization');
   const [metricMeasure, setMetricMeasure] = useState('');
@@ -310,8 +308,9 @@ export const Explorer = ({
           // fill saved user configs
           if (objectData?.type) {
             let visConfig = {};
-            if (!isEmpty(objectData.user_configs) && !isEmpty(objectData.user_configs.series)) {
-              visConfig = JSON.parse(objectData.user_configs);
+            const customConfig = objectData.user_configs ? JSON.parse(objectData.user_configs) : {};
+            if (!isEmpty(customConfig.dataConfig) && !isEmpty(customConfig.dataConfig?.series)) {
+              visConfig = { ...customConfig };
             } else {
               const statsTokens = queryManager.queryParser().parse(objectData.query).getStats();
               visConfig = { dataConfig: { ...getDefaultVisConfig(statsTokens) } };
@@ -1351,7 +1350,7 @@ export const Explorer = ({
     delayTime: number
   ) => {
     setLiveTailName(name);
-    setLiveTailTabId(curSelectedTabId.current as unknown as string);
+    setLiveTailTabId((curSelectedTabId.current as unknown) as string);
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
