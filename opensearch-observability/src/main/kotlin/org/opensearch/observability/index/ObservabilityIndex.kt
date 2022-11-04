@@ -54,7 +54,6 @@ internal object ObservabilityIndex {
     private const val NOTEBOOKS_INDEX_NAME = ".opensearch-notebooks"
     private const val OBSERVABILITY_MAPPING_FILE_NAME = "observability-mapping.yml"
     private const val OBSERVABILITY_SETTINGS_FILE_NAME = "observability-settings.yml"
-    private const val MAPPING_TYPE = "_doc"
 
     private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
@@ -102,10 +101,12 @@ internal object ObservabilityIndex {
                     log.info("$LOG_PREFIX:Index $INDEX_NAME creation Acknowledged")
                     reindexNotebooks()
                 } else {
-                    throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
+                    error("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
                 }
+            } catch (exception: ResourceAlreadyExistsException) {
+                log.warn("message: ${exception.message}")
             } catch (exception: Exception) {
-                if (exception !is ResourceAlreadyExistsException && exception.cause !is ResourceAlreadyExistsException) {
+                if (exception.cause !is ResourceAlreadyExistsException) {
                     throw exception
                 }
             }
@@ -129,7 +130,7 @@ internal object ObservabilityIndex {
             if (response.isAcknowledged) {
                 log.info("$LOG_PREFIX:Index $INDEX_NAME update mapping Acknowledged")
             } else {
-                throw IllegalStateException("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
+                error("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
             }
             this.mappingsUpdated = true
         } catch (exception: IndexNotFoundException) {
@@ -152,11 +153,11 @@ internal object ObservabilityIndex {
                     .refresh(true)
                     .get()
                 if (reindexResponse.isTimedOut) {
-                    throw IllegalStateException("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME timed out")
+                    error("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME timed out")
                 } else if (reindexResponse.searchFailures.isNotEmpty()) {
-                    throw IllegalStateException("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME failed with searchFailures")
+                    error("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME failed with searchFailures")
                 } else if (reindexResponse.bulkFailures.isNotEmpty()) {
-                    throw IllegalStateException("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME failed with bulkFailures")
+                    error("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME failed with bulkFailures")
                 } else if (reindexResponse.total != reindexResponse.created + reindexResponse.updated) {
                     throw IllegalStateException(
                         "$LOG_PREFIX:Index - reindex number of docs created:${reindexResponse.created} + " +
@@ -167,8 +168,10 @@ internal object ObservabilityIndex {
                     "$LOG_PREFIX:Index - reindex ${reindexResponse.created} docs created " +
                         "and ${reindexResponse.updated} docs updated in $INDEX_NAME"
                 )
+            } catch (exception: ResourceNotFoundException) {
+                log.warn("message: ${exception.message}")
             } catch (exception: Exception) {
-                if (exception !is ResourceNotFoundException && exception.cause !is ResourceNotFoundException) {
+                if (exception.cause !is ResourceNotFoundException) {
                     throw exception
                 }
             }

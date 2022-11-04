@@ -135,7 +135,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "Carrier",
+                  "name": "Carrier",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "sum",
+                  "customLabel": "delays",
+                  "label": "FlightDelayMin",
+                  "name": "FlightDelayMin",
+                },
+              ],
+              "span": undefined,
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -398,12 +417,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "mapTo": "availabilityConfig",
                 "name": "Availability",
               },
-              Object {
-                "editor": [Function],
-                "id": "availability-panel",
-                "mapTo": "availabilityConfig",
-                "name": "Availability",
-              },
             ],
           },
           "fillopacity": 70,
@@ -584,7 +597,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "Carrier",
+                    "name": "Carrier",
+                  },
+                ],
+                "series": Array [
+                  Object {
+                    "aggregation": "sum",
+                    "customLabel": "delays",
+                    "label": "FlightDelayMin",
+                    "name": "FlightDelayMin",
+                  },
+                ],
+                "span": undefined,
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -847,12 +879,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "mapTo": "availabilityConfig",
                   "name": "Availability",
                 },
-                Object {
-                  "editor": [Function],
-                  "id": "availability-panel",
-                  "mapTo": "availabilityConfig",
-                  "name": "Availability",
-                },
               ],
             },
             "fillopacity": 70,
@@ -1040,7 +1066,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "Carrier",
+                      "name": "Carrier",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "sum",
+                      "customLabel": "delays",
+                      "label": "FlightDelayMin",
+                      "name": "FlightDelayMin",
+                    },
+                  ],
+                  "span": undefined,
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -1303,12 +1348,6 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     "mapTo": "availabilityConfig",
                     "name": "Availability",
                   },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
                 ],
               },
               "fillopacity": 70,
@@ -1363,7 +1402,35 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "responsive": true,
             }
           }
-          data={Array []}
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                },
+                "name": "delays",
+                "orientation": "v",
+                "type": "bar",
+                "x": Array [
+                  ",BeatsWest",
+                  ",Logstash Airways",
+                  ",OpenSearch Dashboards Airlines",
+                  ",OpenSearch-Air",
+                ],
+                "y": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+              },
+            ]
+          }
           layout={
             Object {
               "bargap": 0.30000000000000004,
@@ -1418,7 +1485,35 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "responsive": true,
               }
             }
-            data={Array []}
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                  },
+                  "name": "delays",
+                  "orientation": "v",
+                  "type": "bar",
+                  "x": Array [
+                    ",BeatsWest",
+                    ",Logstash Airways",
+                    ",OpenSearch Dashboards Airlines",
+                    ",OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                },
+              ]
+            }
             debug={false}
             divId="explorerPlotComponent"
             layout={
@@ -1631,7 +1726,36 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": Object {
+                "interval": "1",
+                "time_field": Array [
+                  Object {
+                    "label": "timestamp",
+                    "name": "timestamp",
+                    "type": "timestamp",
+                  },
+                ],
+                "unit": Array [
+                  Object {
+                    "label": "Day",
+                    "text": "Day",
+                    "value": "d",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
           "category": "Visualizations",
@@ -1926,12 +2050,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "mapTo": "availabilityConfig",
                 "name": "Availability",
               },
-              Object {
-                "editor": [Function],
-                "id": "availability-panel",
-                "mapTo": "availabilityConfig",
-                "name": "Availability",
-              },
             ],
           },
           "fulllabel": "Time series",
@@ -2138,7 +2256,36 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": Object {
+                  "interval": "1",
+                  "time_field": Array [
+                    Object {
+                      "label": "timestamp",
+                      "name": "timestamp",
+                      "type": "timestamp",
+                    },
+                  ],
+                  "unit": Array [
+                    Object {
+                      "label": "Day",
+                      "text": "Day",
+                      "value": "d",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
             "category": "Visualizations",
@@ -2433,12 +2580,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   "mapTo": "availabilityConfig",
                   "name": "Availability",
                 },
-                Object {
-                  "editor": [Function],
-                  "id": "availability-panel",
-                  "mapTo": "availabilityConfig",
-                  "name": "Availability",
-                },
               ],
             },
             "fulllabel": "Time series",
@@ -2659,7 +2800,36 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": Object {
+                    "interval": "1",
+                    "time_field": Array [
+                      Object {
+                        "label": "timestamp",
+                        "name": "timestamp",
+                        "type": "timestamp",
+                      },
+                    ],
+                    "unit": Array [
+                      Object {
+                        "label": "Day",
+                        "text": "Day",
+                        "value": "d",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
               "category": "Visualizations",
@@ -2954,12 +3124,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     "mapTo": "availabilityConfig",
                     "name": "Availability",
                   },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
                 ],
               },
               "fulllabel": "Time series",
@@ -3247,7 +3411,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "machine.os",
+                  "name": "machine.os",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": undefined,
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -3510,12 +3693,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "mapTo": "availabilityConfig",
                 "name": "Availability",
               },
-              Object {
-                "editor": [Function],
-                "id": "availability-panel",
-                "mapTo": "availabilityConfig",
-                "name": "Availability",
-              },
             ],
           },
           "fillopacity": 70,
@@ -3696,7 +3873,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "machine.os",
+                    "name": "machine.os",
+                  },
+                ],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": undefined,
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -3959,12 +4155,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "mapTo": "availabilityConfig",
                   "name": "Availability",
                 },
-                Object {
-                  "editor": [Function],
-                  "id": "availability-panel",
-                  "mapTo": "availabilityConfig",
-                  "name": "Availability",
-                },
               ],
             },
             "fillopacity": 70,
@@ -4152,7 +4342,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "machine.os",
+                      "name": "machine.os",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": undefined,
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -4415,12 +4624,6 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "mapTo": "availabilityConfig",
                     "name": "Availability",
                   },
-                  Object {
-                    "editor": [Function],
-                    "id": "availability-panel",
-                    "mapTo": "availabilityConfig",
-                    "name": "Availability",
-                  },
                 ],
               },
               "fillopacity": 70,
@@ -4475,7 +4678,35 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "responsive": true,
             }
           }
-          data={Array []}
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                },
+                "name": "avg(machine.ram)",
+                "orientation": "h",
+                "type": "bar",
+                "x": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+                "y": Array [
+                  ",",
+                  ",",
+                  ",",
+                  ",",
+                ],
+              },
+            ]
+          }
           layout={
             Object {
               "bargap": 0.30000000000000004,
@@ -4530,7 +4761,35 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "responsive": true,
               }
             }
-            data={Array []}
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                  },
+                  "name": "avg(machine.ram)",
+                  "orientation": "h",
+                  "type": "bar",
+                  "x": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                  "y": Array [
+                    ",",
+                    ",",
+                    ",",
+                    ",",
+                  ],
+                },
+              ]
+            }
             debug={false}
             divId="explorerPlotComponent"
             layout={

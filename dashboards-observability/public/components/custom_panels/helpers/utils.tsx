@@ -7,7 +7,7 @@
 import dateMath from '@elastic/datemath';
 import { ShortDate } from '@elastic/eui';
 import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
-import _, { isEmpty } from 'lodash';
+import _ from 'lodash';
 import { Moment } from 'moment-timezone';
 import React from 'react';
 import { Layout } from 'react-grid-layout';
@@ -18,6 +18,8 @@ import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_pa
 import { VisualizationType, SavedVisualizationType } from '../../../../common/types/custom_panels';
 import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
+import { QueryManager } from '../../../../common/query_manager';
+import { getDefaultVisConfig } from '../../event_analytics/utils';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -75,6 +77,24 @@ export const mergeLayoutAndVisualizations = (
   setPanelVisualizations(newPanelVisualizations);
 };
 
+/* Update Span interval for a Query
+ * Input query -> source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)
+ * spanParam -> 1M
+ *
+ * Updates the span command interval
+ * Returns -> source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1M)
+ */
+export const updateQuerySpanInterval = (
+  query: string,
+  timestampField: string,
+  spanParam: string
+) => {
+  return query.replace(
+    new RegExp(`span\\(\\s*${timestampField}\\s*,(.*?)\\)`),
+    `span(${timestampField},${spanParam})`
+  );
+};
+
 /* Builds Final Query by adding time and query filters(From panel UI) to the original visualization query
  * -> Final Query is as follows:
  * -> finalQuery = indexPartOfQuery + timeQueryFilter + panelFilterQuery + filterPartOfQuery
@@ -82,6 +102,7 @@ export const mergeLayoutAndVisualizations = (
  *                  + | where utc_time > ‘2021-07-01 00:00:00’ and utc_time < ‘2021-07-02 00:00:00’
  *                  + | where Carrier='OpenSearch-Air'
  *                  + | stats sum(FlightDelayMin) as delays by Carrier
+ *
  */
 const queryAccumulator = (
   originalQuery: string,
@@ -100,7 +121,9 @@ const queryAccumulator = (
     startTime
   )}' and ${timestampField} <= '${convertDateTime(endTime, false)}'`;
   const pplFilterQuery = panelFilterQuery === '' ? '' : ` | ${panelFilterQuery}`;
-  return indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
+
+  const finalQuery = indexPartOfQuery + timeQueryFilter + pplFilterQuery + filterPartOfQuery;
+  return finalQuery;
 };
 
 // PPL Service requestor
@@ -185,6 +208,7 @@ export const renderSavedVisualization = async (
   startTime: string,
   endTime: string,
   filterQuery: string,
+  spanParam: string | undefined,
   setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
   setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
@@ -196,6 +220,7 @@ export const renderSavedVisualization = async (
   setIsError('');
 
   let visualization = {} as SavedVisualizationType;
+  let updatedVisualizationQuery = '';
   visualization = await fetchVisualizationById(http, savedVisualizationId, setIsError);
 
   if (_.isEmpty(visualization)) {
@@ -211,11 +236,21 @@ export const renderSavedVisualization = async (
     setVisualizationType(visualization.type);
   }
 
-  setVisualizationMetaData(visualization);
+  if (spanParam !== undefined) {
+    updatedVisualizationQuery = updateQuerySpanInterval(
+      visualization.query,
+      visualization.timeField,
+      spanParam
+    );
+  } else {
+    updatedVisualizationQuery = visualization.query;
+  }
+
+  setVisualizationMetaData({ ...visualization, query: updatedVisualizationQuery });
 
   getQueryResponse(
     pplService,
-    visualization.query,
+    updatedVisualizationQuery,
     visualization.type,
     startTime,
     endTime,
@@ -224,6 +259,90 @@ export const renderSavedVisualization = async (
     setIsError,
     filterQuery,
     visualization.timeField
+  );
+};
+
+const createCatalogVisualizationMetaData = (
+  catalogSource: string,
+  visualizationQuery: string,
+  visualizationType: string,
+  visualizationTimeField: string
+) => {
+  return {
+    name: catalogSource,
+    description: '',
+    query: visualizationQuery,
+    type: visualizationType,
+    selected_date_range: {
+      start: 'now/y',
+      end: 'now',
+      text: '',
+    },
+    selected_timestamp: {
+      name: visualizationTimeField,
+      type: 'timestamp',
+    },
+    selected_fields: {
+      text: '',
+      tokens: [],
+    },
+  };
+};
+
+//Creates a catalogVisualization for a runtime catalog based PPL query and runs getQueryResponse
+export const renderCatalogVisualization = async (
+  http: CoreStart['http'],
+  pplService: PPLService,
+  catalogSource: string,
+  startTime: string,
+  endTime: string,
+  filterQuery: string,
+  spanParam: string | undefined,
+  setVisualizationTitle: React.Dispatch<React.SetStateAction<string>>,
+  setVisualizationType: React.Dispatch<React.SetStateAction<string>>,
+  setVisualizationData: React.Dispatch<React.SetStateAction<Plotly.Data[]>>,
+  setVisualizationMetaData: React.Dispatch<React.SetStateAction<undefined>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsError: React.Dispatch<React.SetStateAction<string>>,
+  spanResolution?: string
+) => {
+  setIsLoading(true);
+  setIsError('');
+
+  const visualizationType = 'line';
+  const visualizationTimeField = '@timestamp';
+  let visualizationQuery = `source = ${catalogSource} | stats avg(@value) by span(${visualizationTimeField},1h)`;
+
+  if (spanParam !== undefined) {
+    visualizationQuery = updateQuerySpanInterval(
+      visualizationQuery,
+      visualizationTimeField,
+      spanParam
+    );
+  }
+
+  const visualizationMetaData = createCatalogVisualizationMetaData(
+    catalogSource,
+    visualizationQuery,
+    visualizationType,
+    visualizationTimeField
+  );
+  setVisualizationTitle(catalogSource);
+  setVisualizationType(visualizationType);
+
+  setVisualizationMetaData({ ...visualizationMetaData, query: visualizationQuery });
+
+  getQueryResponse(
+    pplService,
+    visualizationQuery,
+    visualizationType,
+    startTime,
+    endTime,
+    setVisualizationData,
+    setIsLoading,
+    setIsError,
+    filterQuery,
+    visualizationTimeField
   );
 };
 
@@ -289,9 +408,20 @@ export const isPPLFilterValid = (
 
 // Renders visualization in the vizualization container component
 export const displayVisualization = (metaData: any, data: any, type: string) => {
-  if (metaData === undefined || isEmpty(metaData)) {
+  if (metaData === undefined || _.isEmpty(metaData)) {
     return <></>;
   }
+  const userVisConfig =
+    !_.isEmpty(metaData.user_configs) && !_.isEmpty(metaData.user_configs.series)
+      ? metaData.user_configs
+      : {
+          dataConfig: {
+            ...getDefaultVisConfig(
+              new QueryManager().queryParser().parse(metaData.query).getStats()
+            ),
+          },
+        };
+
   return (
     <Visualization
       visualizations={getVizContainerProps({
@@ -299,7 +429,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
         rawVizData: data,
         query: { rawQuery: metaData.query },
         indexFields: {},
-        userConfigs: metaData.user_configs,
+        userConfigs: userVisConfig,
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
       })}
     />

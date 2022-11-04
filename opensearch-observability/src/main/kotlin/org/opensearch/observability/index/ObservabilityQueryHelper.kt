@@ -113,10 +113,6 @@ internal class ObservabilityQueryHelper(private val types: EnumSet<Observability
         }
     }
 
-    private fun addTermQueryBuilder(query: BoolQueryBuilder, queryKey: String, queryValue: String) {
-        prefixes.forEach { query.filter(QueryBuilders.termQuery("${it.tag}.$queryKey", queryValue)) }
-    }
-
     private fun addTermsQueryBuilder(query: BoolQueryBuilder, queryKey: String, queryValue: String) {
         prefixes.forEach { query.filter(QueryBuilders.termsQuery("${it.tag}.$queryKey", queryValue.split(","))) }
     }

@@ -220,6 +220,12 @@ export class CustomPanelsAdaptor {
       user_configs: visualization.savedVisualization.hasOwnProperty('user_configs')
         ? JSON.parse(visualization.savedVisualization.user_configs)
         : {},
+      sub_type: visualization.savedVisualization.hasOwnProperty('sub_type')
+        ? visualization.savedVisualization.sub_type
+        : '',
+      units_of_measure: visualization.savedVisualization.hasOwnProperty('units_of_measure')
+        ? visualization.savedVisualization.units_of_measure
+        : '',
       ...(visualization.savedVisualization.application_id
         ? { application_id: visualization.savedVisualization.application_id }
         : {}),
@@ -361,6 +367,39 @@ export class CustomPanelsAdaptor {
         visualizations: newPanelVisualizations,
       });
       return newPanelVisualizations;
+    } catch (error) {
+      throw new Error('Add/Replace Visualization Error:' + error);
+    }
+  };
+
+  // Add Multiple visualizations in a Panel
+  addMultipleVisualizations = async (
+    client: ILegacyScopedClusterClient,
+    panelId: string,
+    savedVisualizationIds: string[]
+  ) => {
+    try {
+      let allPanelVisualizations = await this.getVisualizations(client, panelId);
+
+      let newDimensions;
+      let visualizationsList = [...allPanelVisualizations];
+
+      savedVisualizationIds.map((savedVisualizationId) => {
+        newDimensions = this.getNewVizDimensions(visualizationsList);
+        visualizationsList = [
+          ...visualizationsList,
+          {
+            id: 'panel_viz_' + uuidv4(),
+            savedVisualizationId,
+            ...newDimensions,
+          },
+        ];
+      });
+
+      const updatePanelResponse = await this.updatePanel(client, panelId, {
+        visualizations: visualizationsList,
+      });
+      return visualizationsList;
     } catch (error) {
       throw new Error('Add/Replace Visualization Error:' + error);
     }

@@ -4,17 +4,18 @@
  */
 
 import {
-  EuiLink,
-  EuiText,
-  EuiInMemoryTable,
-  Direction,
   EuiEmptyPrompt,
   EuiIcon,
+  EuiInMemoryTable,
+  EuiLink,
+  EuiText,
+  SortDirection,
 } from '@elastic/eui';
 import { PatternTableData } from 'common/types/explorer';
-import { reduce, round } from 'lodash';
-import React, { useState } from 'react';
+import { round } from 'lodash';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { FILTERED_PATTERN } from '../../../../../common/constants/explorer';
 import { PPL_DOCUMENTATION_URL } from '../../../../../common/constants/shared';
 import { selectPatterns } from '../../redux/slices/patterns_slice';
 
@@ -22,49 +23,52 @@ interface PatternsTableProps {
   tableData: PatternTableData[];
   onPatternSelection: any;
   tabId: string;
+  query: any;
+  isPatternLoading: boolean;
+  totalHits?: number;
 }
 
 export function PatternsTable(props: PatternsTableProps) {
-  const { tableData, tabId, onPatternSelection } = props;
+  const { tableData, tabId, onPatternSelection, query } = props;
   const patternsData = useSelector(selectPatterns)[tabId];
-  const [selectedPattern, setSelectedPattern] = useState<string>();
+  const totalHits = props.totalHits || tableData.reduce((p, v) => p + v.count, 0);
 
   const tableColumns = [
     {
       field: 'count',
       name: 'Count',
-      width: '4%',
+      width: '6%',
       sortable: true,
-      render: (item: string, row: PatternTableData) => {
-        return <EuiText>{item}</EuiText>;
+      render: (item: string) => {
+        return <EuiText size="s">{item}</EuiText>;
       },
     },
     {
-      field: 'ratio',
+      field: 'count',
       name: 'Ratio',
-      width: '4%',
+      width: '6%',
       sortable: (row: PatternTableData) => row.count,
-      render: (item: number, row: PatternTableData) => {
-        const ratio =
-          (row.count /
-            reduce(
-              patternsData.total,
-              (sum, n) => {
-                return sum + n;
-              },
-              0
-            )) *
-          100;
-        return <EuiText>{`${round(ratio, 2)}%`}</EuiText>;
+      render: (item: number) => {
+        const ratio = (item / totalHits) * 100;
+        return <EuiText size="s">{`${round(ratio, 2)}%`}</EuiText>;
+      },
+    },
+    {
+      field: 'anomalyCount',
+      name: 'Anomalies',
+      width: '6%',
+      sortable: (row: PatternTableData) => row.anomalyCount,
+      render: (item: number) => {
+        return <EuiText size="s">{item ?? 'N/A'}</EuiText>;
       },
     },
     {
       field: 'sampleLog',
       name: 'Sample Log',
-      width: '92%',
+      width: '82%',
       sortable: true,
-      render: (item: string, row: PatternTableData) => {
-        return <EuiText>{item}</EuiText>;
+      render: (item: string) => {
+        return <EuiText size="s">{item}</EuiText>;
       },
     },
   ];
@@ -72,7 +76,7 @@ export function PatternsTable(props: PatternsTableProps) {
   const sorting = {
     sort: {
       field: 'count',
-      direction: 'desc' as Direction,
+      direction: SortDirection.DESC,
     },
     allowNeutralSort: true,
     enableAllColumns: true,
@@ -107,10 +111,11 @@ export function PatternsTable(props: PatternsTableProps) {
       'data-test-subj': `row-${pattern}`,
       className: 'customRowClass',
       onClick: () => {
-        onPatternSelection(pattern);
-        setSelectedPattern(pattern);
+        if (!props.isPatternLoading) {
+          onPatternSelection(pattern);
+        }
       },
-      isSelected: pattern === selectedPattern,
+      isSelected: pattern === query[FILTERED_PATTERN],
     };
   };
 
@@ -123,6 +128,7 @@ export function PatternsTable(props: PatternsTableProps) {
       message={message}
       rowProps={getRowProps}
       isSelectable={true}
+      tableLayout="auto"
     />
   );
 }

@@ -30,7 +30,9 @@ internal class SavedVisualizationTests {
             listOf(SavedQuery.Token("utc_time", "timestamp"))
         ),
         "KE1Ie34BbsTr-CsB4G6Y",
-        "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}"
+        "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}",
+        "metric",
+        "hours (h)"
     )
 
     @Test
@@ -49,7 +51,15 @@ internal class SavedVisualizationTests {
     @Test
     fun `SavedVisualization should deserialize json object using parser`() {
         val jsonString =
-            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\",\\\"layoutConfig\\\":\\\"{}\\\"}\"}"
+            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | " +
+                "where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"," +
+                "\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time >" +
+                " timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"}," +
+                "\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"" +
+                "| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]}," +
+                "\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\"," +
+                "\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"units_of_measure\":\"hours (h)\"}"
+
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
         assertEquals(sampleSavedVisualization, recreatedObject)
     }
@@ -65,7 +75,15 @@ internal class SavedVisualizationTests {
     @Test
     fun `SavedVisualization should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\",\\\"layoutConfig\\\":\\\"{}\\\"}\"}"
+            "{\"name\":\"test-saved-visualization\",\"description\":\"test description\",\"query\":\"source=index | " +
+                "where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"," +
+                "\"type\":\"bar\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > " +
+                "timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"}," +
+                "\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"|" +
+                " fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]}," +
+                "\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\"," +
+                "\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"units_of_measure\":\"hours (h)\"}"
+
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
         assertEquals(sampleSavedVisualization, recreatedObject)
     }
