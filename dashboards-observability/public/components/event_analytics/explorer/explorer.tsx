@@ -879,11 +879,6 @@ export const Explorer = ({
                             tabId={tabId}
                             query={query}
                             isPatternLoading={isPatternLoading}
-                            totalHits={reduce(
-                              countDistribution.data['count()'],
-                              (sum, n) => sum + n,
-                              0
-                            )}
                           />
                           <EuiHorizontalRule margin="xs" />
                         </>
