@@ -4,7 +4,7 @@
  */
 
 import { EuiGlobalToastList, EuiSearchBar, EuiToast } from '@elastic/eui';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { pplServiceRequestor } from '../helpers/utils';
 
 interface ISearchBarProps {

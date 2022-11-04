@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Empty View Component renders empty view container without metrics 1`] = `
+<EmptyMetricsView>
+  <div>
+    <EuiPanel
+      className="empty-view-metrics"
+    >
+      <div
+        className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow empty-view-metrics"
+      >
+        <div
+          className="align-center-view"
+        >
+          <EuiText>
+            <div
+              className="euiText euiText--medium"
+            >
+              <EuiIcon
+                size="xxl"
+                type="minusInCircle"
+              >
+                <EuiIconEmpty
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--xxLarge euiIcon-isLoading"
+                  focusable="false"
+                  role="img"
+                  style={null}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--xxLarge euiIcon-isLoading"
+                    focusable="false"
+                    height={16}
+                    role="img"
+                    style={null}
+                    viewBox="0 0 16 16"
+                    width={16}
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </EuiIconEmpty>
+              </EuiIcon>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <h2>
+                No Metrics Selected
+              </h2>
+              <EuiSpacer
+                size="m"
+              >
+                <div
+                  className="euiSpacer euiSpacer--m"
+                />
+              </EuiSpacer>
+              <EuiText
+                color="subdued"
+                size="m"
+              >
+                <div
+                  className="euiText euiText--medium"
+                >
+                  <EuiTextColor
+                    color="subdued"
+                    component="div"
+                  >
+                    <div
+                      className="euiTextColor euiTextColor--subdued"
+                    >
+                      Select a metric from the left sidepanel to view results.
+                    </div>
+                  </EuiTextColor>
+                </div>
+              </EuiText>
+            </div>
+          </EuiText>
+        </div>
+      </div>
+    </EuiPanel>
+  </div>
+</EmptyMetricsView>
+`;
