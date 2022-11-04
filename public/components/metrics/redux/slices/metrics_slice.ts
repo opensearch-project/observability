@@ -5,7 +5,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  PPL_PROMETHEUS_CATALOG_REQUEST,
+  PPL_DATASOURCES_REQUEST,
   REDUX_SLICE_METRICS,
 } from '../../../../../common/constants/metrics';
 import { pplServiceRequestor, getVisualizations, getNewVizDimensions } from '../../helpers/utils';
@@ -44,16 +44,16 @@ const fetchCustomMetrics = async (http: any) => {
 
 const fetchRemoteMetrics = async (pplService: any) => {
   const dataSet = [];
-  const catalogs = await pplServiceRequestor(pplService, PPL_PROMETHEUS_CATALOG_REQUEST);
-  for (const catalog of catalogs.jsonData) {
+  const dataSources = await pplServiceRequestor(pplService, PPL_DATASOURCES_REQUEST);
+  for (const dataSource of dataSources.jsonData) {
     const catalogData = await pplServiceRequestor(
       pplService,
-      `source = ${catalog.CATALOG_NAME}.information_schema.tables`
+      `source = ${dataSource.DATASOURCE_NAME}.information_schema.tables`
     );
     const normalizedData = catalogData.jsonData.map((obj: any) => ({
       id: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
       name: `${obj.TABLE_CATALOG}.${obj.TABLE_NAME}`,
-      catalog: `${catalog.CATALOG_NAME}`,
+      catalog: `${dataSource.DATASOURCE_NAME}`,
       type: obj.TABLE_TYPE,
       recentlyCreated: false,
     }));

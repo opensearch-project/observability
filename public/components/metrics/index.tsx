@@ -126,7 +126,7 @@ export const Home = ({
   }, [metricsLayout]);
 
   const mainSectionClassName = classNames({
-    'col-md-9': !isSidebarClosed,
+    'col-md-10': !isSidebarClosed,
     'col-md-12': isSidebarClosed,
   });
 
@@ -173,7 +173,7 @@ export const Home = ({
                 />
                 <div className="dscAppContainer">
                   <div
-                    className={`col-md-3 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
+                    className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
                   >
                     <div className="">
                       {!isSidebarClosed && <Sidebar http={http} pplService={pplService} />}

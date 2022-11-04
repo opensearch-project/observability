@@ -6,8 +6,8 @@
 // requests constants
 export const VISUALIZATION = 'viz';
 export const SAVED_VISUALIZATION = 'savedVisualization';
-export const PPL_PROMETHEUS_CATALOG_REQUEST =
-  'show catalogs | where CONNECTOR_TYPE="PROMETHEUS" | fields CATALOG_NAME';
+export const PPL_DATASOURCES_REQUEST =
+  'show datasources | where CONNECTOR_TYPE="PROMETHEUS" | fields DATASOURCE_NAME';
 
 // redux
 export const REDUX_SLICE_METRICS = 'metrics';

@@ -146,12 +146,14 @@
 
 .metricsList {
   line-height:normal;
-  margin-top:10px;
+  margin-top:5px;
+}
+
+.metricsListContainer {
+  margin-left:25px;
+  margin-right:5px;
 }
 
 .metricName {
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
   margin-bottom:10px;
 }

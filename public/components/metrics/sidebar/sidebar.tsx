@@ -56,11 +56,11 @@ export const Sidebar = (props: ISidebarProps) => {
               <span>Recently Created Metrics</span>
             </EuiTitle>
           }
-          paddingSize="xs"
+          paddingSize="none"
         >
           <ul className="metricsList">
             {recentlyCreatedMetrics.map((metric: any) => (
-              <li className="metricName" key={metric.id}>
+              <li key={metric.id} className="metricsListContainer">
                 <EuiLink
                   className="metricName eui-textTruncate"
                   title={metric.name}
@@ -81,11 +81,11 @@ export const Sidebar = (props: ISidebarProps) => {
               <span>Selected Metrics</span>
             </EuiTitle>
           }
-          paddingSize="xs"
+          paddingSize="none"
         >
           <ul className="metricsList">
             {selectedMetrics.map((metric: any) => (
-              <li key={metric.id}>
+              <li key={metric.id} className="metricsListContainer">
                 <EuiLink
                   className="metricName eui-textTruncate"
                   title={metric.name}
@@ -106,11 +106,11 @@ export const Sidebar = (props: ISidebarProps) => {
               <span>Available Metrics</span>
             </EuiTitle>
           }
-          paddingSize="xs"
+          paddingSize="none"
         >
           <ul className="metricsList">
             {availableMetrics.slice(0, 100).map((metric: any) => (
-              <li key={metric.id}>
+              <li key={metric.id} className="metricsListContainer">
                 <EuiLink
                   className="metricName eui-textTruncate"
                   title={metric.name}
