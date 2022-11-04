@@ -81,6 +81,10 @@ export const Home = ({
   };
 
   const onRefreshFilters = (startTime: ShortDate, endTime: ShortDate) => {
+    if (spanValue < 1) {
+      setToast('Please add a valid span interval', 'danger');
+      return;
+    }
     setOnRefresh(!onRefresh);
   };
 
@@ -110,16 +114,16 @@ export const Home = ({
   };
 
   useEffect(() => {
-    selectedMetrics.length > 0 ? setIsTopPanelDisabled(false) : setIsTopPanelDisabled(true);
-  }, [selectedMetrics]);
+    if (!editMode) {
+      selectedMetrics.length > 0 ? setIsTopPanelDisabled(false) : setIsTopPanelDisabled(true);
+    } else {
+      setIsTopPanelDisabled(true);
+    }
+  }, [selectedMetrics, editMode]);
 
   useEffect(() => {
     setPanelVisualizations(metricsLayout);
   }, [metricsLayout]);
-
-  useEffect(() => {
-    if (editMode) setIsTopPanelDisabled(true);
-  }, [editMode]);
 
   const mainSectionClassName = classNames({
     'col-md-9': !isSidebarClosed,
