@@ -30,11 +30,13 @@ describe('Saved query table component', () => {
         savePanelName={'Count by depature'}
         showOptionList={true}
         curVisId={'line'}
-        spanValue={false} 
-        setSubType={'metric'} 
+        spanValue={false}
+        setSubType={'metric'}
         setMetricMeasure={'hours (h)'}
-        setMetricLabel={setMetricLabel}      
-        />
+        setMetricLabel={setMetricLabel} 
+        metricMeasure={'hours (h)'} 
+        metricChecked={true}        
+      />
     );
     
     wrapper.update();

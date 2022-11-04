@@ -188,6 +188,7 @@ export const Explorer = ({
   const [subType, setSubType] = useState('visualization');
   const [metricMeasure, setMetricMeasure] = useState('');
   const [metricLabel, setMetricLabel] = useState([]);
+  const [metricChecked, setMetricChecked] = useState(false);
   const queryRef = useRef();
   const appBasedRef = useRef('');
   appBasedRef.current = appBaseQuery;
@@ -262,6 +263,7 @@ export const Explorer = ({
         const isSavedQuery = has(savedData, SAVED_QUERY);
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
         const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
+        const isSavedVisualization = savedData.savedVisualization;
         const currQuery = appLogEvents
           ? objectData?.query.replace(appBaseQuery + '| ', '')
           : objectData?.query || '';
@@ -329,6 +331,13 @@ export const Explorer = ({
         setTempQuery((staleTempQuery: string) => {
           return appLogEvents ? currQuery : objectData?.query || staleTempQuery;
         });
+        if (isSavedVisualization?.sub_type) {
+          if (isSavedVisualization?.sub_type === 'metric') {
+            setMetricChecked(true);
+            setMetricMeasure(isSavedVisualization?.units_of_measure);
+          }
+          setSubType(isSavedVisualization?.sub_type);
+        }
         const tabToBeFocused = isSavedQuery
           ? TYPE_TAB_MAPPING[SAVED_QUERY]
           : TYPE_TAB_MAPPING[SAVED_VISUALIZATION];
@@ -1058,7 +1067,6 @@ export const Explorer = ({
     patternRegexInput,
     userVizConfigs,
   ]);
-
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
 
   const updateQueryInStore = async (updateQuery: string) => {
@@ -1480,8 +1488,10 @@ export const Explorer = ({
           curVisId={curVisId}
           spanValue={spanValue}
           setSubType={setSubType}
+          metricMeasure={metricMeasure}
           setMetricMeasure={setMetricMeasure}
           setMetricLabel={setMetricLabel}
+          metricChecked={metricChecked}
         />
         <EuiTabbedContent
           className="mainContentTabs"

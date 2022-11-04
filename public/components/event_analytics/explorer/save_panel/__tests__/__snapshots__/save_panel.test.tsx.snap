@@ -5,6 +5,8 @@ exports[`Saved query table component Renders saved query table 1`] = `
   curVisId="line"
   handleNameChange={[MockFunction]}
   handleOptionChange={[MockFunction]}
+  metricChecked={true}
+  metricMeasure="hours (h)"
   savePanelName="Count by depature"
   savedObjects={
     SavedObjects {
@@ -736,7 +738,7 @@ exports[`Saved query table component Renders saved query table 1`] = `
             onMouseOver={[Function]}
           >
             <EuiSwitch
-              checked={false}
+              checked={true}
               compressed={true}
               disabled={true}
               label="Save as Metric"
@@ -749,7 +751,7 @@ exports[`Saved query table component Renders saved query table 1`] = `
                 className="euiSwitch euiSwitch--compressed"
               >
                 <button
-                  aria-checked={false}
+                  aria-checked={true}
                   aria-labelledby="random_html_id"
                   className="euiSwitch__button"
                   disabled={true}
@@ -782,6 +784,199 @@ exports[`Saved query table component Renders saved query table 1`] = `
             </EuiSwitch>
           </span>
         </EuiToolTip>
+      </div>
+    </div>
+  </EuiFormRow>
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>
+  <EuiTitle
+    size="xxs"
+  >
+    <h3
+      className="euiTitle euiTitle--xxsmall"
+    >
+      Units of Measure
+    </h3>
+  </EuiTitle>
+  <EuiFormRow
+    describedByIds={Array []}
+    display="row"
+    fullWidth={false}
+    hasChildLabel={true}
+    hasEmptyLabelSpace={false}
+    labelType="label"
+  >
+    <div
+      className="euiFormRow"
+      id="random_html_id-row"
+    >
+      <div
+        className="euiFormRow__fieldWrapper"
+      >
+        <EuiSelect
+          data-test-subj="eventExplorer__metricMeasureSaveSelectBox"
+          id="random_html_id"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          options={
+            Array [
+              Object {
+                "text": "seconds (s)",
+                "value": "seconds (s)",
+              },
+              Object {
+                "text": "hours (h)",
+                "value": "hours (h)",
+              },
+              Object {
+                "text": "celsius (C)",
+                "value": "celsius (C)",
+              },
+              Object {
+                "text": "farenheit (F)",
+                "value": "farenheit (F)",
+              },
+              Object {
+                "text": "meters (m)",
+                "value": "meters (m)",
+              },
+              Object {
+                "text": "kilometers (k)",
+                "value": "kilometers (k)",
+              },
+            ]
+          }
+          placeholder="Select measure"
+          value="hours (h)"
+        >
+          <EuiFormControlLayout
+            compressed={false}
+            fullWidth={false}
+            icon={
+              Object {
+                "side": "right",
+                "type": "arrowDown",
+              }
+            }
+            inputId="random_html_id"
+            isLoading={false}
+          >
+            <div
+              className="euiFormControlLayout"
+            >
+              <div
+                className="euiFormControlLayout__childrenWrapper"
+              >
+                <EuiValidatableControl>
+                  <select
+                    className="euiSelect"
+                    data-test-subj="eventExplorer__metricMeasureSaveSelectBox"
+                    id="random_html_id"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onMouseUp={[Function]}
+                    placeholder="Select measure"
+                    value="hours (h)"
+                  >
+                    <option
+                      key="0"
+                      value="seconds (s)"
+                    >
+                      seconds (s)
+                    </option>
+                    <option
+                      key="1"
+                      value="hours (h)"
+                    >
+                      hours (h)
+                    </option>
+                    <option
+                      key="2"
+                      value="celsius (C)"
+                    >
+                      celsius (C)
+                    </option>
+                    <option
+                      key="3"
+                      value="farenheit (F)"
+                    >
+                      farenheit (F)
+                    </option>
+                    <option
+                      key="4"
+                      value="meters (m)"
+                    >
+                      meters (m)
+                    </option>
+                    <option
+                      key="5"
+                      value="kilometers (k)"
+                    >
+                      kilometers (k)
+                    </option>
+                  </select>
+                </EuiValidatableControl>
+                <EuiFormControlLayoutIcons
+                  compressed={false}
+                  icon={
+                    Object {
+                      "side": "right",
+                      "type": "arrowDown",
+                    }
+                  }
+                  isLoading={false}
+                >
+                  <div
+                    className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                  >
+                    <EuiFormControlLayoutCustomIcon
+                      size="m"
+                      type="arrowDown"
+                    >
+                      <span
+                        className="euiFormControlLayoutCustomIcon"
+                      >
+                        <EuiIcon
+                          aria-hidden="true"
+                          className="euiFormControlLayoutCustomIcon__icon"
+                          size="m"
+                          type="arrowDown"
+                        >
+                          <EuiIconEmpty
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                            focusable="false"
+                            role="img"
+                            style={null}
+                          >
+                            <svg
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                              focusable="false"
+                              height={16}
+                              role="img"
+                              style={null}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                      </span>
+                    </EuiFormControlLayoutCustomIcon>
+                  </div>
+                </EuiFormControlLayoutIcons>
+              </div>
+            </div>
+          </EuiFormControlLayout>
+        </EuiSelect>
       </div>
     </div>
   </EuiFormRow>
