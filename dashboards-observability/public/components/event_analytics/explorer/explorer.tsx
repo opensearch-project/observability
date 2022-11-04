@@ -63,16 +63,6 @@ import {
   PPL_PATTERNS_DOCUMENTATION_URL,
   PPL_STATS_REGEX,
 } from '../../../../common/constants/shared';
-<<<<<<< HEAD
-import {
-  getIndexPatternFromRawQuery,
-  preprocessQuery,
-  buildQuery,
-  composeFinalQuery,
-} from '../../../../common/utils';
-import { useFetchEvents, useFetchVisualizations } from '../hooks';
-import { changeQuery, changeDateRange, selectQueries } from '../redux/slices/query_slice';
-=======
 import { GroupByChunk } from '../../../../common/query_manager/ast/types';
 import {
   IDefaultTimestampState,
@@ -94,7 +84,6 @@ import { TabContext, useFetchEvents, useFetchPatterns, useFetchVisualizations } 
 import { selectCountDistribution } from '../redux/slices/count_distribution_slice';
 import { selectFields, sortFields, updateFields } from '../redux/slices/field_slice';
 import { selectPatterns } from '../redux/slices/patterns_slice';
->>>>>>> 03b62c2ab88a5105662a813727dc10a18e373b69
 import { selectQueryResult } from '../redux/slices/query_result_slice';
 import { changeDateRange, changeQuery, selectQueries } from '../redux/slices/query_slice';
 import { updateTabName } from '../redux/slices/query_tab_slice';
@@ -345,7 +334,7 @@ export const Explorer = ({
         if (isSavedVisualization?.sub_type) {
           if (isSavedVisualization?.sub_type === 'metric') {
             setMetricChecked(true);
-            setMetricMeasure(isSavedVisualization?.measure)
+            setMetricMeasure(isSavedVisualization?.units_of_measure);
           }
           setSubType(isSavedVisualization?.sub_type);
         }
@@ -1079,14 +1068,8 @@ export const Explorer = ({
     isLiveTailOnRef.current,
     patternsData,
     viewLogPatterns,
-<<<<<<< HEAD
-=======
-    isPatternConfigPopoverOpen,
-    patternRegexInput,
->>>>>>> 03b62c2ab88a5105662a813727dc10a18e373b69
     userVizConfigs,
   ]);
-
   const handleContentTabClick = (selectedTab: IQueryTab) => setSelectedContentTab(selectedTab.id);
 
   const updateQueryInStore = async (updateQuery: string) => {
@@ -1293,7 +1276,6 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             setToast(
@@ -1330,7 +1312,6 @@ export const Explorer = ({
             description: vizDescription,
             subType: subType,
             unitsOfMeasure: metricMeasure,
-            // selectedLabels: metricLabel
           })
           .then((res: any) => {
             batch(() => {
@@ -1471,19 +1452,12 @@ export const Explorer = ({
   );
 
   useEffect(() => {
-<<<<<<< HEAD
-    const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-    const updatedDataConfig = getUpdatedDataConfig(statsTokens);
-    setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
-  }, [tempQuery, query, selectedContentTabId]);
-=======
     if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
       const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
       const updatedDataConfig = getDefaultVisConfig(statsTokens);
       setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
     }
   }, [tempQuery, selectedContentTabId, curVisId]);
->>>>>>> 03b62c2ab88a5105662a813727dc10a18e373b69
 
   return (
     <TabContext.Provider
