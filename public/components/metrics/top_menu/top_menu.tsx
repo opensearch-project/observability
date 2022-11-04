@@ -112,6 +112,12 @@ export const TopMenu = ({
     setResolutionValue(e.target.value);
   };
 
+  const cancelButton = (
+    <EuiButton size="s" iconType="cross" color="danger" onClick={() => editPanel('cancel')}>
+      Cancel
+    </EuiButton>
+  );
+
   const saveButton = (
     <EuiButton size="s" iconType="save" onClick={() => editPanel('save')}>
       Save view
@@ -193,7 +199,7 @@ export const TopMenu = ({
         console.error(message, e);
         setToast('Issue in saving metrics', 'danger');
       }
-      setToast('Saved metrics to panels!');
+      setToast('Saved metrics to panels successfully!');
     }
   };
 
@@ -291,6 +297,7 @@ export const TopMenu = ({
       <EuiFlexGroup gutterSize="s" justifyContent="flexEnd">
         {editMode ? (
           <>
+            <EuiFlexItem grow={false}>{cancelButton}</EuiFlexItem>
             <EuiFlexItem grow={false}>{saveButton}</EuiFlexItem>
           </>
         ) : (

@@ -90,7 +90,7 @@ export const updateQuerySpanInterval = (
   spanParam: string
 ) => {
   return query.replace(
-    new RegExp(`span\\((.*?)${timestampField}(.*?),(.*?)\\)`),
+    new RegExp(`span\\(\\s*${timestampField}\\s*,(.*?)\\)`),
     `span(${timestampField},${spanParam})`
   );
 };
@@ -103,15 +103,13 @@ export const updateQuerySpanInterval = (
  *                  + | where Carrier='OpenSearch-Air'
  *                  + | stats sum(FlightDelayMin) as delays by Carrier
  *
- * Also, checks is span interval update is needed and retruns accordingly
  */
 const queryAccumulator = (
   originalQuery: string,
   timestampField: string,
   startTime: string,
   endTime: string,
-  panelFilterQuery: string,
-  spanParam: string | undefined
+  panelFilterQuery: string
 ) => {
   const indexMatchArray = originalQuery.match(PPL_INDEX_REGEX);
   if (indexMatchArray == null) {
@@ -179,7 +177,6 @@ export const getQueryResponse = (
   type: string,
   startTime: string,
   endTime: string,
-  spanParam: string | undefined,
   setVisualizationData: React.Dispatch<React.SetStateAction<any[]>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setIsError: React.Dispatch<React.SetStateAction<string>>,
@@ -191,14 +188,7 @@ export const getQueryResponse = (
 
   let finalQuery = '';
   try {
-    finalQuery = queryAccumulator(
-      query,
-      timestampField,
-      startTime,
-      endTime,
-      filterQuery,
-      spanParam
-    );
+    finalQuery = queryAccumulator(query, timestampField, startTime, endTime, filterQuery);
   } catch (error) {
     const errorMessage = 'Issue in building final query';
     setIsError(errorMessage);
@@ -264,7 +254,6 @@ export const renderSavedVisualization = async (
     visualization.type,
     startTime,
     endTime,
-    spanParam,
     setVisualizationData,
     setIsLoading,
     setIsError,
@@ -349,7 +338,6 @@ export const renderCatalogVisualization = async (
     visualizationType,
     startTime,
     endTime,
-    spanParam,
     setVisualizationData,
     setIsLoading,
     setIsError,
