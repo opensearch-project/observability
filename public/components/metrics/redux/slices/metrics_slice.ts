@@ -8,7 +8,12 @@ import {
   PPL_DATASOURCES_REQUEST,
   REDUX_SLICE_METRICS,
 } from '../../../../../common/constants/metrics';
-import { pplServiceRequestor, getVisualizations, getNewVizDimensions } from '../../helpers/utils';
+import {
+  pplServiceRequestor,
+  getVisualizations,
+  getNewVizDimensions,
+  sortMetricLayout,
+} from '../../helpers/utils';
 import PPLService from '../../../../services/requests/ppl';
 import { MetricType } from '../../../../../common/types/metrics';
 
@@ -78,11 +83,7 @@ const updateLayoutBySelection = (state: any, newMetric: any) => {
 };
 
 const updateLayoutByDeSelection = (state: any, newMetric: any) => {
-  const sortedMetricsLayout = state.metricsLayout.sort((a: MetricType, b: MetricType) => {
-    if (a.y > b.y) return 1;
-    if (a.y < b.y) return -1;
-    else return 0;
-  });
+  const sortedMetricsLayout = sortMetricLayout(state.metricsLayout);
 
   let newMetricsLayout = [] as MetricType[];
   let heightSubtract = 0;
@@ -96,6 +97,15 @@ const updateLayoutByDeSelection = (state: any, newMetric: any) => {
     }
   });
   state.metricsLayout = newMetricsLayout;
+};
+
+const filterDeletedLayoutIds = (state: any, payload: any) => {
+  let deletedMetricIds: string[] = [];
+  const payloadIds = payload.map((metric: any) => metric.id);
+  state.metricsLayout.map((metricLayout: MetricType) => {
+    if (!payloadIds.includes(metricLayout.id)) deletedMetricIds.push(metricLayout.id);
+  });
+  deletedMetricIds.map((metricId: string) => updateLayoutByDeSelection(state, { id: metricId }));
 };
 
 export const metricSlice = createSlice({
@@ -117,6 +127,7 @@ export const metricSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loadMetrics.fulfilled, (state, { payload }) => {
       state.metrics = payload;
+      filterDeletedLayoutIds(state, payload);
     });
   },
 });

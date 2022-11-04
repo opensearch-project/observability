@@ -166,7 +166,6 @@ export const fetchVisualizationById = async (
       setIsError(`Could not locate saved visualization id:${savedVisualizationId}`);
       console.error('Issue in fetching the saved Visualization by Id', err);
     });
-
   return savedVisualization;
 };
 
