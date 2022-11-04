@@ -61,11 +61,11 @@ export const App = ({
           <>
             <Switch>
               <Route
-                path="/metrics"
+                path="#/metrics_analytics/"
                 render={(props) => {
                   chrome.setBreadcrumbs([
                     parentBreadcrumb,
-                    { text: 'Metrics', href: '#/metrics/' },
+                    { text: 'Metrics analytics', href: '#/metrics_analytics/' },
                   ]);
                   return (
                     <MetricsHome
