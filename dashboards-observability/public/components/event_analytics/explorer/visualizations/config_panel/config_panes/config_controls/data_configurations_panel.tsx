@@ -283,7 +283,7 @@ export const DataConfigPanelItem = ({
         ...configList,
       },
     });
-
+    console.log('newQueryString: ', newQueryString);
     handleQueryChange(newQueryString);
     getVisualizations({
       query: nextQueryState[FINAL_QUERY],
@@ -316,17 +316,17 @@ export const DataConfigPanelItem = ({
 
   const getOptionsAvailable = (sectionName: string) => {
     if (
+      visualizations.vis.name === VIS_CHART_TYPES.Line ||
+      visualizations.vis.name === VIS_CHART_TYPES.Scatter
+    )
+      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
+    if (
       sectionName === AGGREGATIONS ||
       sectionName === BREAKDOWNS ||
       (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
       isTimeStampSelected
     )
       return fieldOptionList;
-    if (
-      visualizations.vis.name === VIS_CHART_TYPES.Line ||
-      visualizations.vis.name === VIS_CHART_TYPES.Scatter
-    )
-      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
     return getTimeStampFilteredFields(fieldOptionList);
   };
 
