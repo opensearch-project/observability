@@ -669,7 +669,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                   size="xxxs"
                 >
                   <span>
-                    Query fields
+                    Query Fields
                   </span>
                 </EuiTitle>
               }
@@ -731,7 +731,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                         <span
                           className="euiTitle euiTitle--xxxsmall"
                         >
-                          Query fields
+                          Query Fields
                         </span>
                       </EuiTitle>
                     </span>

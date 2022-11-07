@@ -66,7 +66,7 @@ export const Sidebar = (props: ISidebarProps) => {
                   id="fieldSelector__queriedFields"
                   buttonContent={
                     <EuiTitle size="xxxs">
-                      <span>Query fields</span>
+                      <span>Query Fields</span>
                     </EuiTitle>
                   }
                   paddingSize="xs"
