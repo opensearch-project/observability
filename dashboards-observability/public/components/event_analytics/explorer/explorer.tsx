@@ -79,10 +79,13 @@ import { getVizContainerProps } from '../../visualizations/charts/helpers';
 import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
 import { formatError } from '../utils';
 import { sleep } from '../../common/live_tail/live_tail_button';
+<<<<<<< HEAD
 import { intervalOptions } from '../../../../../../src/plugins/data/common';
 import { PatternsTable } from './log_patterns/patterns_table';
 import { selectPatterns } from '../redux/slices/patterns_slice';
 import { useFetchPatterns } from '../hooks/use_fetch_patterns';
+=======
+>>>>>>> 91a28ca (remove unecessary import)
 
 const TYPE_TAB_MAPPING = {
   [SAVED_QUERY]: TAB_EVENT_ID,
