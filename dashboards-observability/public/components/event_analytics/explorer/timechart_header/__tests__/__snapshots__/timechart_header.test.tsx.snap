@@ -203,7 +203,7 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
                       },
                     ]
                   }
-                  value="m"
+                  value="w"
                 >
                   <EuiFormControlLayout
                     compressed={true}
