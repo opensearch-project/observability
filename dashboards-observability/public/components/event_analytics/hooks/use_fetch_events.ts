@@ -16,6 +16,7 @@ import {
   QUERIED_FIELDS,
 } from '../../../../common/constants/explorer';
 import { fetchSuccess, reset as queryResultReset } from '../redux/slices/query_result_slice';
+import { reset as patternsReset } from '../redux/slices/patterns_slice';
 import { selectQueries } from '../redux/slices/query_slice';
 import { reset as visualizationReset } from '../redux/slices/visualization_slice';
 import { updateFields, sortFields, selectFields } from '../redux/slices/field_slice';
@@ -66,9 +67,9 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
   };
 
   const dispatchOnGettingHis = (res: any) => {
-    const selectedFields: Array<string> = fieldsRef.current![requestParams.tabId][
-      SELECTED_FIELDS
-    ].map((field: IField) => field.name);
+    const selectedFields: string[] = fieldsRef.current![requestParams.tabId][SELECTED_FIELDS].map(
+      (field: IField) => field.name
+    );
     setResponse(res);
     batch(() => {
       dispatch(
@@ -90,15 +91,7 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
           data: {
             [UNSELECTED_FIELDS]: res?.schema ? [...res.schema] : [],
             [QUERIED_FIELDS]: [],
-            [AVAILABLE_FIELDS]: res?.schema
-              ? isEmpty(selectedFields)
-                ? [...res.schema]
-                : [
-                    ...res?.schema.filter(
-                      (curField: IField) => !selectedFields.includes(curField.name)
-                    ),
-                  ]
-              : [],
+            [AVAILABLE_FIELDS]: res?.schema || [],
           },
         })
       );
@@ -143,6 +136,11 @@ export const useFetchEvents = ({ pplService, requestParams }: IFetchEventsParams
       );
       dispatch(
         visualizationReset({
+          tabId: requestParams.tabId,
+        })
+      );
+      dispatch(
+        patternsReset({
           tabId: requestParams.tabId,
         })
       );
