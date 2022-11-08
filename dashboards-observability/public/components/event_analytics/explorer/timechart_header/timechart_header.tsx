@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { EuiFlexGroup, EuiFlexItem, EuiToolTip, EuiText, EuiSelect } from '@elastic/eui';
 import { I18nProvider } from '@osd/i18n/react';
 import { i18n } from '@osd/i18n';
-import moment from 'moment';
 
 export interface TimechartHeaderProps {
   /**
@@ -32,7 +31,7 @@ export interface TimechartHeaderProps {
   /**
    * selected interval
    */
-  stateInterval: string;
+  stateInterval?: string | undefined;
 }
 
 export function TimechartHeader({

@@ -401,7 +401,7 @@ export const Explorer = ({
       } else {
         getEvents(undefined, getErrorHandler('Error fetching events'));
       }
-      getCountVisualizations(selectedIntervalRef.current!.value.length > 2 ? selectedIntervalRef.current!.value.slice(5) : selectedIntervalRef.current!.value);
+      getCountVisualizations(selectedIntervalRef.current!.value.replace(/^auto_/, ''));
 
       // to fetch patterns data on current query
       if (!finalQuery.match(PPL_PATTERNS_REGEX)) {
@@ -690,7 +690,7 @@ export const Explorer = ({
                               getCountVisualizations(intrv);
                               selectedIntervalRef.current = timeIntervalOptions[intervalOptionsIndex]
                             }}
-                            stateInterval={selectedIntervalRef.current?.value || ''}
+                            stateInterval={selectedIntervalRef.current?.value}
                           />
                         </EuiFlexItem>
                       </EuiFlexGroup>
