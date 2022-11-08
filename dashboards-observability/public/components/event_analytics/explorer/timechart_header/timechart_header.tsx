@@ -37,13 +37,12 @@ export interface TimechartHeaderProps {
 
 export function TimechartHeader({
   options,
-  onChangeInterval
+  onChangeInterval,
+  stateInterval,
 }: TimechartHeaderProps) {
-  const [interval, setInterval] = useState(options[0].value);
 
   const handleIntervalChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setInterval(e.target.value);
-    onChangeInterval(e.target.value.length > 2 ? e.target.value.slice(5) : e.target.value);
+    onChangeInterval(e.target.value);
   };
 
   return (
@@ -68,7 +67,7 @@ export function TimechartHeader({
             id="dscResultsIntervalSelector"
             data-test-subj="eventAnalytics__EventIntervalSelect"
             options={options}
-            value={interval}
+            value={stateInterval || options[0].value}
             onChange={handleIntervalChange}
             append={undefined}
           />
