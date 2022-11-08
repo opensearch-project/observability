@@ -21,10 +21,30 @@ exports[`Field component Renders a sidebar field 1`] = `
     anchorPosition="rightUp"
     button={
       <FieldButton
-        className="dscSidebarItem"
+        className="shard__fieldSelectorField explorer__fieldSelectorField"
         dataTestSubj="field-agent-showDetails"
         fieldAction={
           <React.Fragment>
+            <EuiToolTip
+              content="Override default pattern"
+              delay="long"
+              id="override-pattern"
+              position="top"
+            >
+              <React.Fragment>
+                <EuiButtonIcon
+                  aria-labelledby="override_pattern"
+                  className="dscSidebarItem__action"
+                  color="text"
+                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                  iconType="inputOutput"
+                  onClick={[Function]}
+                  size="s"
+                >
+                  Override
+                </EuiButtonIcon>
+              </React.Fragment>
+            </EuiToolTip>
             <EuiToolTip
               content="Override default timestamp"
               delay="long"
@@ -67,7 +87,7 @@ exports[`Field component Renders a sidebar field 1`] = `
         }
         isActive={false}
         onClick={[Function]}
-        size="s"
+        size="m"
       />
     }
     closePopover={[Function]}
@@ -85,10 +105,30 @@ exports[`Field component Renders a sidebar field 1`] = `
         className="euiPopover__anchor"
       >
         <FieldButton
-          className="dscSidebarItem"
+          className="shard__fieldSelectorField explorer__fieldSelectorField"
           dataTestSubj="field-agent-showDetails"
           fieldAction={
             <React.Fragment>
+              <EuiToolTip
+                content="Override default pattern"
+                delay="long"
+                id="override-pattern"
+                position="top"
+              >
+                <React.Fragment>
+                  <EuiButtonIcon
+                    aria-labelledby="override_pattern"
+                    className="dscSidebarItem__action"
+                    color="text"
+                    data-test-subj="eventExplorer__overrideDefaultPattern"
+                    iconType="inputOutput"
+                    onClick={[Function]}
+                    size="s"
+                  >
+                    Override
+                  </EuiButtonIcon>
+                </React.Fragment>
+              </EuiToolTip>
               <EuiToolTip
                 content="Override default timestamp"
                 delay="long"
@@ -131,10 +171,10 @@ exports[`Field component Renders a sidebar field 1`] = `
           }
           isActive={false}
           onClick={[Function]}
-          size="s"
+          size="m"
         >
           <div
-            className="osdFieldButton osdFieldButton--small dscSidebarItem"
+            className="osdFieldButton shard__fieldSelectorField explorer__fieldSelectorField"
           >
             <button
               className="osd-resetFocusState osdFieldButton__button"
@@ -151,23 +191,23 @@ exports[`Field component Renders a sidebar field 1`] = `
                     aria-label="string"
                     className="osdFieldIcon"
                     iconType="tokenString"
-                    size="s"
+                    size="l"
                     title="string"
                   >
                     <span
-                      className="euiToken euiToken--euiColorVis1 euiToken--square euiToken--light euiToken--small osdFieldIcon"
+                      className="euiToken euiToken--euiColorVis1 euiToken--square euiToken--light euiToken--large osdFieldIcon"
                       style={Object {}}
                     >
                       <EuiIcon
                         aria-label="string"
-                        size="m"
+                        size="l"
                         title="string"
                         type="tokenString"
                       >
                         <EuiIconEmpty
                           aria-hidden={true}
                           aria-label="string"
-                          className="euiIcon euiIcon--medium euiIcon-isLoading"
+                          className="euiIcon euiIcon--large euiIcon-isLoading"
                           focusable="false"
                           role="img"
                           style={null}
@@ -176,7 +216,7 @@ exports[`Field component Renders a sidebar field 1`] = `
                           <svg
                             aria-hidden={true}
                             aria-label="string"
-                            className="euiIcon euiIcon--medium euiIcon-isLoading"
+                            className="euiIcon euiIcon--large euiIcon-isLoading"
                             focusable="false"
                             height={16}
                             role="img"
@@ -206,6 +246,66 @@ exports[`Field component Renders a sidebar field 1`] = `
             <div
               className="osdFieldButton__fieldAction"
             >
+              <EuiToolTip
+                content="Override default pattern"
+                delay="long"
+                id="override-pattern"
+                position="top"
+              >
+                <span
+                  className="euiToolTipAnchor"
+                  onKeyUp={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  <EuiButtonIcon
+                    aria-labelledby="override_pattern"
+                    className="dscSidebarItem__action"
+                    color="text"
+                    data-test-subj="eventExplorer__overrideDefaultPattern"
+                    iconType="inputOutput"
+                    onClick={[Function]}
+                    size="s"
+                  >
+                    <button
+                      aria-labelledby="override_pattern"
+                      className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                      data-test-subj="eventExplorer__overrideDefaultPattern"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <EuiIcon
+                        aria-hidden="true"
+                        className="euiButtonIcon__icon"
+                        color="inherit"
+                        size="m"
+                        type="inputOutput"
+                      >
+                        <EuiIconEmpty
+                          aria-hidden={true}
+                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                          focusable="false"
+                          role="img"
+                          style={null}
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                            focusable="false"
+                            height={16}
+                            role="img"
+                            style={null}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                        </EuiIconEmpty>
+                      </EuiIcon>
+                    </button>
+                  </EuiButtonIcon>
+                </span>
+              </EuiToolTip>
               <EuiToolTip
                 content="Override default timestamp"
                 delay="long"

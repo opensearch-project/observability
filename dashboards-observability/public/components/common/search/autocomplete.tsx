@@ -185,7 +185,13 @@ export const Autocomplete = (props: AutocompleteProps) => {
                             <div className="aa-ItemWrapper">
                               <div className="aa-ItemContent">
                                 <div className="aa-ItemContentBody">
-                                  <div
+                                  <div>
+                                    <span>
+                                      <b>{fullWord.slice(0, -item.suggestion.length)}</b>
+                                      {item.suggestion}
+                                    </span>
+                                  </div>
+                                  {/* <div
                                     className="aa-ItemContentTitle"
                                     // eslint-disable-next-line react/no-danger
                                     dangerouslySetInnerHTML={{
@@ -195,7 +201,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
                                       }</span>
                                       </div>`,
                                     }}
-                                  />
+                                  /> */}
                                 </div>
                               </div>
                             </div>

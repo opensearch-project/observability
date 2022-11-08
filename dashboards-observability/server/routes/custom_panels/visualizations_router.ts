@@ -128,6 +128,48 @@ export function VisualizationsRouter(router: IRouter) {
     }
   );
 
+  // Add multiple visualizations to the panel
+  router.post(
+    {
+      path: `${API_PREFIX}/visualizations/multiple`,
+      validate: {
+        body: schema.object({
+          panelId: schema.string(),
+          savedVisualizationIds: schema.arrayOf(schema.string()),
+        }),
+      },
+    },
+    async (
+      context,
+      request,
+      response
+    ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
+        request
+      );
+
+      try {
+        const allVisualizations = await customPanelBackend.addMultipleVisualizations(
+          opensearchNotebooksClient,
+          request.body.panelId,
+          request.body.savedVisualizationIds
+        );
+        return response.ok({
+          body: {
+            message: 'Visualizations Added',
+            visualizations: allVisualizations,
+          },
+        });
+      } catch (error) {
+        console.error('Issue in adding visualization:', error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+
   // Replace an existing visualization
   router.post(
     {

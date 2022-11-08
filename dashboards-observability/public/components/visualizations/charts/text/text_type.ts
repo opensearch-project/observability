@@ -17,21 +17,21 @@ export const createTextTypeDefinition = (params: any = {}) => ({
   name: 'text',
   type: 'text',
   id: 'text',
-  label: 'Text',
-  fullLabel: 'Text',
-  iconType: 'visText',
+  label: 'Markdown',
+  fulllabel: 'Markdown',
+  icontype: 'visText',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  categoryAxis: 'xaxis',
-  seriesAxis: 'yaxis',
-  editorConfig: {
+  categoryaxis: 'xaxis',
+  seriesaxis: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
@@ -46,7 +46,7 @@ export const createTextTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
       ...{
