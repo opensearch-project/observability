@@ -217,7 +217,7 @@ export function calculateTicks(min: number, max: number, numTicks = 5): number[]
 export const minFixedInterval = (startTime: string, endTime: string) => {
   if (startTime?.length === 0 || endTime?.length === 0 || startTime === endTime) return '1d';
   const momentStart = dateMath.parse(startTime)!;
-  const momentEnd = dateMath.parse(endTime)!;
+  const momentEnd = dateMath.parse(endTime, { roundUp: true })!;
   const diffSeconds = momentEnd.unix() - momentStart.unix();
 
   if (diffSeconds <= 1) return '1ms'; // less than 1 second

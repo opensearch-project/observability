@@ -11,5 +11,4 @@ export {
   populateDataGrid,
   isValidTraceId,
   formatError,
-  findAutoInterval,
 } from './utils';

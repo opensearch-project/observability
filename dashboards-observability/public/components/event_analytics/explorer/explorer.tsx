@@ -175,7 +175,7 @@ export const Explorer = ({
 
   const findAutoInterval = (start: string = '', end: string = '') => {
     const momentStart = dateMath.parse(start)!;
-    const momentEnd = dateMath.parse(end)!;
+    const momentEnd = dateMath.parse(end, { roundUp: true })!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
     let minInterval = 'y'
 
@@ -1189,7 +1189,7 @@ export const Explorer = ({
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
-    setLiveTimestamp(dateMath.parse(endingTime)?.utc().format(DATE_PICKER_FORMAT) || '');
+    setLiveTimestamp(dateMath.parse(endingTime, { roundUp: true })?.utc().format(DATE_PICKER_FORMAT) || '');
     setLiveHits(0);
     await sleep(2000);
     const curLiveTailname = liveTailNameRef.current;
