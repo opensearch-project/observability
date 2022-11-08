@@ -3,12 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './explorer.scss';
-import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
-import { batch, useDispatch, useSelector } from 'react-redux';
-import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
-import { FormattedMessage } from '@osd/i18n/react';
-import { EuiHorizontalRule, EuiLoadingSpinner, EuiSpacer, EuiTitle } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import {
   EuiButton,
@@ -59,11 +53,6 @@ import {
   TAB_CHART_TITLE,
   TAB_CREATED_TYPE,
   TAB_EVENT_ID,
-  TAB_CHART_ID,
-  DEFAULT_AVAILABILITY_QUERY,
-  DATE_PICKER_FORMAT,
-  PPL_PATTERNS_REGEX,
-  SELECTED_PATTERN,
   TAB_EVENT_TITLE,
   TIME_INTERVAL_OPTIONS,
 } from '../../../../common/constants/explorer';
@@ -105,16 +94,6 @@ import {
   change as updateVizConfig,
   selectVisualizationConfig,
 } from '../redux/slices/viualization_config_slice';
-import { change as updateVizConfig } from '../redux/slices/viualization_config_slice';
-import { IExplorerProps, IVisualizationContainerProps } from '../../../../common/types/explorer';
-import { TabContext } from '../hooks';
-import { getVizContainerProps } from '../../visualizations/charts/helpers';
-import { parseGetSuggestions, onItemSelect } from '../../common/search/autocomplete_logic';
-import { formatError } from '../utils';
-import { sleep } from '../../common/live_tail/live_tail_button';
-import { PatternsTable } from './log_patterns/patterns_table';
-import { selectPatterns } from '../redux/slices/patterns_slice';
-import { useFetchPatterns } from '../hooks/use_fetch_patterns';
 import { formatError, getDefaultVisConfig } from '../utils';
 import { DataGrid } from './events_views/data_grid';
 import './explorer.scss';
