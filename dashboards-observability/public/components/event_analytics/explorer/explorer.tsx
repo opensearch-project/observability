@@ -686,7 +686,7 @@ export const Explorer = ({
                             options={timeIntervalOptions}
                             onChangeInterval={(selectedIntrv) => {
                               const intervalOptionsIndex = timeIntervalOptions.findIndex(item => item.value === selectedIntrv)
-                              const intrv = selectedIntrv.length > 2 ? selectedIntrv.slice(5) : selectedIntrv
+                              const intrv = selectedIntrv.replace(/^auto_/, '')
                               getCountVisualizations(intrv);
                               selectedIntervalRef.current = timeIntervalOptions[intervalOptionsIndex]
                             }}
