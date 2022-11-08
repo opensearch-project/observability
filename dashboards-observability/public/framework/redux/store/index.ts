@@ -5,21 +5,45 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../reducers';
+import storage from 'redux-persist/lib/storage/session';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
   devTools: process.env.NODE_ENV !== 'production',
   enhancers: [],
 });
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./rootReducer', () => {
-    const newRootReducer = require('./rootReducer').default;
-    store.replaceReducer(newRootReducer);
+    store.replaceReducer(persistReducer(persistConfig, require('./rootReducer').default));
   });
 }
 
 export type AppDispatch = typeof store.dispatch;
+
+export const persistor = persistStore(store);
 
 export default store;

@@ -7,6 +7,7 @@ import { I18nProvider } from '@osd/i18n/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import { QueryManager } from 'common/query_manager';
 import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
@@ -16,6 +17,7 @@ import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './event_analytics';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
+import { Home as MetricsHome } from './metrics/index';
 
 interface ObservabilityAppDeps {
   CoreStartProp: CoreStart;
@@ -24,6 +26,7 @@ interface ObservabilityAppDeps {
   dslService: any;
   savedObjects: any;
   timestampUtils: any;
+  queryManager: QueryManager;
 }
 
 // for cypress to test redux store
@@ -38,6 +41,7 @@ export const App = ({
   dslService,
   savedObjects,
   timestampUtils,
+  queryManager,
 }: ObservabilityAppDeps) => {
   const { chrome, http, notifications } = CoreStartProp;
   const parentBreadcrumb = {
@@ -56,6 +60,25 @@ export const App = ({
         <I18nProvider>
           <>
             <Switch>
+              <Route
+                path="/metrics_analytics/"
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    { text: 'Metrics analytics', href: '#/metrics_analytics/' },
+                  ]);
+                  return (
+                    <MetricsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      renderProps={props}
+                      pplService={pplService}
+                      savedObjects={savedObjects}
+                    />
+                  );
+                }}
+              />
               <Route
                 path={'/application_analytics'}
                 render={(props) => {
@@ -130,6 +153,7 @@ export const App = ({
                       timestampUtils={timestampUtils}
                       http={http}
                       notifications={notifications}
+                      queryManager={queryManager}
                       {...props}
                     />
                   );

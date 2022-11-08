@@ -11,4 +11,5 @@ export {
   populateDataGrid,
   isValidTraceId,
   formatError,
+  getDefaultVisConfig
 } from './utils';

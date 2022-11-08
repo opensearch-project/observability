@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { LONG_CHART_COLOR } from '../../../../../../common/constants/shared';
+import { BarOrientation, LONG_CHART_COLOR } from '../../../../../../common/constants/shared';
 import { Plt } from '../../../../visualizations/plotly/plot';
 
 export const CountDistribution = ({ countDistribution }: any) => {
@@ -27,7 +27,7 @@ export const CountDistribution = ({ countDistribution }: any) => {
       y: [...data[fields[0].name]],
       type: 'bar',
       name: fields[0],
-      orientation: 'v',
+      orientation: BarOrientation.vertical,
     },
   ];
 
