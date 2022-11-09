@@ -182,6 +182,11 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
+
+  const selectedIntervalRef = useRef<{
+    text: string;
+    value: string;
+  }>();
   const [viewLogPatterns, setViewLogPatterns] = useState(false);
   const [spanValue, setSpanValue] = useState(false);
   const [subType, setSubType] = useState('visualization');
@@ -203,13 +208,11 @@ export const Explorer = ({
   liveTailTabIdRef.current = liveTailTabId;
   liveTailNameRef.current = liveTailName;
 
-  let minInterval = 'y';
   const findAutoInterval = (start: string = '', end: string = '') => {
-    if (start?.length === 0 || end?.length === 0 || start === end)
-      return ['d', [...TIME_INTERVAL_OPTIONS]];
     const momentStart = dateMath.parse(start)!;
-    const momentEnd = dateMath.parse(end)!;
+    const momentEnd = dateMath.parse(end, { roundUp: true })!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
+    let minInterval = 'y'
 
     // less than 1 second
     if (diffSeconds <= 1) minInterval = 'ms';
@@ -230,6 +233,7 @@ export const Explorer = ({
       { text: 'Auto', value: 'auto_' + minInterval },
       ...TIME_INTERVAL_OPTIONS,
     ]);
+    selectedIntervalRef.current = ({ text: 'Auto', value: 'auto_' + minInterval })
   };
 
   useEffect(() => {
@@ -436,18 +440,20 @@ export const Explorer = ({
         );
       }
     } else {
-      findAutoInterval(startTime, endTime);
+      if (!selectedIntervalRef.current || selectedIntervalRef.current.text === 'Auto') {
+        findAutoInterval(startingTime, endingTime);
+      }
       if (isLiveTailOnRef.current) {
         getLiveTail(undefined, getErrorHandler('Error fetching events'));
       } else {
         getEvents(undefined, getErrorHandler('Error fetching events'));
       }
-      getCountVisualizations(minInterval);
+      getCountVisualizations(selectedIntervalRef.current!.value.replace(/^auto_/, ''));
 
       // to fetch patterns data on current query
       if (!finalQuery.match(PATTERNS_REGEX)) {
-        getPatterns(minInterval);
-      }
+        getPatterns(selectedIntervalRef.current!.value.replace(/^auto_/, ''));
+      }  
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -740,11 +746,14 @@ export const Explorer = ({
                           <TimechartHeader
                             dateFormat={'MMM D, YYYY @ HH:mm:ss.SSS'}
                             options={timeIntervalOptions}
-                            onChangeInterval={(intrv) => {
+                            onChangeInterval={(selectedIntrv) => {
+                              const intervalOptionsIndex = timeIntervalOptions.findIndex(item => item.value === selectedIntrv)
+                              const intrv = selectedIntrv.replace(/^auto_/, '')
                               getCountVisualizations(intrv);
+                              selectedIntervalRef.current = timeIntervalOptions[intervalOptionsIndex]
                               getPatterns(intrv, getErrorHandler('Error fetching patterns'));
                             }}
-                            stateInterval="auto"
+                            stateInterval={selectedIntervalRef.current?.value}
                           />
                         </EuiFlexItem>
                       </EuiFlexGroup>
@@ -1352,7 +1361,7 @@ export const Explorer = ({
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
-    setLiveTimestamp(dateMath.parse(endingTime)?.utc().format(DATE_PICKER_FORMAT) || '');
+    setLiveTimestamp(dateMath.parse(endingTime, { roundUp: true })?.utc().format(DATE_PICKER_FORMAT) || '');
     setLiveHits(0);
     await sleep(2000);
     const curLiveTailname = liveTailNameRef.current;
