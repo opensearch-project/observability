@@ -9,6 +9,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { TraceConfig } from '../components/config_components/trace_config';
 import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import DSLService from 'public/services/requests/dsl';
+import { HttpResponse } from '../../../../../../src/core/public';
 
 describe('Trace Config component', () => {
   configure({ adapter: new Adapter() });
@@ -30,6 +31,8 @@ describe('Trace Config component', () => {
       fetchIndices: jest.fn(),
       fetchFields: jest.fn(),
     } as unknown) as DSLService;
+    core.http.get = jest.fn(() => Promise.resolve((null as unknown) as HttpResponse));
+
     const wrapper = mount(
       <TraceConfig
         http={core.http}
@@ -110,7 +113,8 @@ describe('Trace Config component', () => {
         setFiltersWithStorage={setFiltersWithStorage}
       />
     );
-
+    core.http.get = jest.fn(() => Promise.resolve((null as unknown) as HttpResponse));
+    wrapper.find('button[data-test-subj="dashboard-table-percentile-button-1"]').simulate('click');
     expect(wrapper).toMatchSnapshot();
   });
 });
