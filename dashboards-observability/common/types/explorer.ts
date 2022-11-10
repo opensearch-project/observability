@@ -267,7 +267,7 @@ export interface IVisualizationTypeDefination {
 
 export interface IVisualizationContainerProps {
   data: IVisualizationContainerPropsData;
-  vis: IVisualizationContainerPropsVis;
+  vis: IVisualizationTypeDefination;
 }
 
 export interface IDefaultTimestampState {
@@ -339,7 +339,7 @@ export interface GetTooltipHoverInfoType {
   tooltipText: string;
 }
 
-export interface SelectedConfigItem {
+export interface SelectedItemConfig {
   index: number;
   name: string;
 }
@@ -359,8 +359,9 @@ export interface TreemapParentsProps {
 export interface DataConfigPanelFieldProps {
   list: ConfigListEntry[];
   dimensionSpan: DimensionSpan;
+  isSpanError: boolean;
   sectionName: string;
-  visType: VIS_CHART_TYPES;
+  visType: string;
   addButtonText: string;
   handleServiceAdd: (name: string) => void;
   handleServiceRemove: (index: number, name: string) => void;

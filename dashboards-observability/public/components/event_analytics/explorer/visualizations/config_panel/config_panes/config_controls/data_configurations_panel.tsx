@@ -8,6 +8,7 @@ import './data_configurations_panel.scss';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   EuiButton,
+  EuiCallOut,
   EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFieldNumber,
@@ -28,6 +29,7 @@ import {
   FINAL_QUERY,
   GROUPBY,
   RAW_QUERY,
+  REQUIRED_FIELDS,
   SPAN,
   TIMESTAMP,
   TIME_FIELD,
@@ -42,9 +44,10 @@ import {
   DataConfigPanelFieldProps,
   DataConfigPanelProps,
   IField,
-  SelectedConfigItem,
+  SelectedItemConfig,
   Query,
   VisualizationState,
+  DimensionSpan,
 } from '../../../../../../../../common/types/explorer';
 import { TabContext, useRenderVisualization } from '../../../../../hooks';
 import { DataConfigItemClickPanel } from '../config_controls/data_config_item_click_panel';
@@ -77,19 +80,23 @@ export const DataConfigPanelItem = ({
     pplService,
     requestParams,
   });
-  const { data } = visualizations;
+  const { data, vis } = visualizations;
   const {
     indexFields: { availableFields },
     query = {},
   } = data;
+  const { Bar, HorizontalBar, Line, Scatter, Histogram } = VIS_CHART_TYPES;
   const [configList, setConfigList] = useState<ConfigList>({});
   const [isAddConfigClicked, setIsAddConfigClicked] = useState<boolean>(false);
-  const [selectedConfigItem, setSelectedConfigItem] = useState<SelectedConfigItem>({
+  const [selectedItemConfig, setSelectedItemConfig] = useState<SelectedItemConfig>({
     index: -1,
     name: '',
   });
+  const [selectedItem, setSelectedItem] = useState<ConfigListEntry | DimensionSpan | {}>({});
   const [isTimeStampSelected, setIsTimeStampSelected] = useState<boolean>(false);
   const { userConfigs } = data;
+  const { time_field, unit, interval } = configList[SPAN] || {};
+  const isSpanError = !isEmpty(time_field) && (unit?.length === 0 || Number(interval) === 0);
 
   useEffect(() => {
     if (userConfigs.dataConfig) {
@@ -98,31 +105,31 @@ export const DataConfigPanelItem = ({
       });
       setIsAddConfigClicked(false);
     }
-  }, [userConfigs?.dataConfig, visualizations.vis.name]);
+  }, [userConfigs?.dataConfig, vis.name]);
 
   const updateList = (value: string, field: string) => {
-    const { index, name } = selectedConfigItem;
-    let listItem = { ...configList[name][index] };
-    listItem = {
-      ...listItem,
-      [field]: field === 'custom_label' ? value.trim() : value,
-    };
-    if (field === 'label') {
-      listItem.name = value;
+    let listItem = { ...selectedItem };
+    if (isTimeStampSelected) {
+      delete configList[SPAN];
+      listItem = {};
+      updateConfigState(false, isAddConfigClicked, {});
     }
-    const updatedList = {
-      ...configList,
-      [name]: [
-        ...configList[name].slice(0, index),
-        listItem,
-        ...configList[name].slice(index + 1, configList[name].length),
-      ],
-      ...(configList[SPAN] !== undefined && {
-        [SPAN]: isTimeStampSelected ? initialSpanEntry : { ...configList[SPAN] },
-      }),
-    };
-    setIsTimeStampSelected(false);
-    setConfigList(updatedList);
+    switch (field) {
+      case 'custom_label':
+        listItem = {
+          ...listItem,
+          [field]: value.trim(),
+        };
+        break;
+      case 'label':
+        listItem.name = value;
+      default:
+        listItem = {
+          ...listItem,
+          [field]: value,
+        };
+    }
+    setSelectedItem(listItem);
   };
 
   const updateHistogramConfig = (configName: string, fieldName: string, value: string) => {
@@ -134,6 +141,19 @@ export const DataConfigPanelItem = ({
       [configName]: [listItem],
     };
     setConfigList(updatedList);
+  };
+
+  const removeListItem = (
+    arr: ConfigListEntry[],
+    index: number,
+    count: number,
+    objToReplace?: ConfigListEntry
+  ) => (objToReplace ? arr.splice(index, count, objToReplace) : arr.splice(index, count));
+
+  const updateConfigState = (timestamp: boolean, isConfigClicked: boolean, selectedObj: {}) => {
+    setSelectedItem(selectedObj);
+    setIsTimeStampSelected(timestamp);
+    setIsAddConfigClicked(isConfigClicked);
   };
 
   /**
@@ -148,28 +168,27 @@ export const DataConfigPanelItem = ({
       delete list[SPAN];
     } else {
       const arr = [...list[name]];
-      arr.splice(index, 1);
+      removeListItem(arr, index, 1);
       list = { ...list, [name]: arr };
     }
     setConfigList(list);
   };
 
   const handleServiceAdd = (name: string) => {
+    switch (name) {
+      case AGGREGATIONS:
+        setSelectedItem(initialSeriesEntry);
+        break;
+      case BREAKDOWNS:
+      case GROUPBY:
+        setSelectedItem(initialDimensionEntry);
+        break;
+    }
     setIsAddConfigClicked(true);
-    const list = {
-      ...configList,
-      [name]:
-        name !== `${BREAKDOWNS}`
-          ? [
-              ...(configList[name] ?? []),
-              name === AGGREGATIONS ? initialSeriesEntry : initialDimensionEntry,
-            ]
-          : configList[name] !== undefined
-          ? [...configList[name], initialDimensionEntry]
-          : [initialDimensionEntry],
-    };
-    setSelectedConfigItem({ index: list[name].length - 1, name });
-    setConfigList(list);
+    setSelectedItemConfig({
+      index: configList[name] !== undefined ? configList[name].length : 0,
+      name,
+    });
   };
 
   /**
@@ -179,41 +198,46 @@ export const DataConfigPanelItem = ({
    * @param timestamp if selected field is span
    */
   const handleServiceEdit = (arrIndex: number, sectionName: string, isTimeStamp: boolean) => {
-    setIsTimeStampSelected(isTimeStamp);
-    setSelectedConfigItem({ index: arrIndex, name: sectionName });
-    setIsAddConfigClicked(true);
+    setSelectedItemConfig({ index: arrIndex, name: sectionName });
+    updateConfigState(
+      isTimeStamp,
+      true,
+      isTimeStamp ? configList[SPAN] : configList[sectionName][arrIndex]
+    );
   };
 
   const handleClosePanel = () => {
-    const { index, name } = selectedConfigItem;
-    if (index > -1) {
-      const selectedObj = configList[name][index] ?? [];
-      const list = { ...configList };
-      if (
-        selectedObj?.aggregation !== 'count' &&
-        (selectedObj?.aggregation === '' || selectedObj?.name === '')
-      ) {
-        list[name].splice(index, 1);
+    const { index, name } = selectedItemConfig;
+
+    let list = { ...configList };
+    // Replaces span object when timestamp is selected.
+    if (isTimeStampSelected && !isEmpty(selectedItem?.time_field)) {
+      list = {
+        ...list,
+        [SPAN]: selectedItem as DimensionSpan,
+      };
+    } else {
+      // Checks if entry is valid then either replace or add the entry in the config list.
+      const item = { ...(selectedItem as ConfigListEntry) };
+      if (item.aggregation === 'count' || (item.aggregation !== '' && item.name !== '')) {
+        let configItem = list[name] !== undefined ? [...list[name]] : [];
+        if (configItem.length > 0) removeListItem(configItem, index, 1, item);
+        else configItem = [item];
+        list = {
+          ...list,
+          [name]: configItem,
+        };
+      } else {
+        removeListItem(list[name], index, 1);
       }
-      if (isTimeStampSelected) {
-        if (selectedObj?.name !== '') {
-          const updConfig = [...configList[name]];
-          updConfig.splice(index, 1);
-          list[GROUPBY] = [...updConfig];
-        }
-        if (configList.span?.interval === 0 || configList.span?.unit?.length === 0) {
-          delete list[SPAN];
-        }
-      }
-      setConfigList(list);
     }
-    setIsTimeStampSelected(false);
-    setIsAddConfigClicked(false);
+    setConfigList(list);
+    updateConfigState(false, false, {});
   };
 
   /**
    * Parses current query string to get its stats information.
-   * @param query PPL query string.
+   * @param query PPL query string.u
    * @returns stats information of a parsed query.
    */
   const getStatsTokens = (query: string) => queryManager!.queryParser().parse(query).getStats();
@@ -249,7 +273,7 @@ export const DataConfigPanelItem = ({
         prevQuery[SELECTED_DATE_RANGE][1] || 'now',
         !isEmpty(visConfig.span?.time_field)
           ? visConfig.span?.time_field[0].name
-          : prevQuery['selectedTimestamp'],
+          : prevQuery.selectedTimestamp,
         false,
         ''
       ),
@@ -295,7 +319,7 @@ export const DataConfigPanelItem = ({
             ...configList,
           },
           visMeta: {
-            visId: visualizations.vis?.name || '',
+            visId: vis?.name || '',
           },
         });
       },
@@ -303,32 +327,42 @@ export const DataConfigPanelItem = ({
   }, [configList, query, visualizations]);
 
   const updateVisUIState = ({ visData, query, visConfMetadata, visMeta }: VisualizationState) => {
-    fillVisDataInStore({ visData: visData, query, visConfMetadata, visMeta });
+    fillVisDataInStore({ visData, query, visConfMetadata, visMeta });
   };
 
   const getTimeStampFilteredFields = (options: IField[]) =>
     filter(options, (i: IField) => i.type !== TIMESTAMP);
 
   const getOptionsAvailable = (sectionName: string) => {
+    const { name, index } = selectedItemConfig;
+    if (sectionName === AGGREGATIONS || sectionName === BREAKDOWNS)
+      return getTimeStampFilteredFields(fieldOptionList);
+    if (vis.name === Line || vis.name === Scatter)
+      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
     if (
-      sectionName === AGGREGATIONS ||
-      sectionName === BREAKDOWNS ||
-      (selectedConfigItem.name === GROUPBY && selectedConfigItem.index === 0) ||
+      (name === GROUPBY &&
+        isEmpty(time_field) &&
+        (index === 0 || index === Number(configList[GROUPBY]?.length) + 1)) ||
       isTimeStampSelected
     )
       return fieldOptionList;
-    if (
-      visualizations.vis.name === VIS_CHART_TYPES.Line ||
-      visualizations.vis.name === VIS_CHART_TYPES.Scatter
-    )
-      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
+
     return getTimeStampFilteredFields(fieldOptionList);
   };
 
+  const getSelectedOptions = (field: string) =>
+    selectedItem[field]
+      ? [
+          {
+            label: selectedItem[field],
+          },
+        ]
+      : [];
+
   const getCommonUI = (title: string) => {
-    const { index, name } = selectedConfigItem;
-    const selectedObj = isTimeStampSelected ? configList[SPAN] : configList[name][index];
+    const { name } = selectedItemConfig;
     const isAggregations = name === AGGREGATIONS;
+    const obj = { ...(selectedItem as ConfigListEntry) };
     return (
       <>
         <div className="services">
@@ -346,28 +380,21 @@ export const DataConfigPanelItem = ({
                     aria-label="aggregation input"
                     placeholder="Select a aggregation"
                     singleSelection={{ asPlainText: true }}
+                    isInvalid={obj?.aggregation === ''}
                     options={AGGREGATION_OPTIONS}
-                    selectedOptions={
-                      selectedObj.aggregation
-                        ? [
-                            {
-                              label: selectedObj.aggregation,
-                            },
-                          ]
-                        : []
-                    }
+                    selectedOptions={getSelectedOptions('aggregation')}
                     onChange={(e) => updateList(e.length > 0 ? e[0].label : '', 'aggregation')}
                   />
                 </EuiFormRow>
               )}
               {/* Show input fields for Series when aggregation is not empty  */}
-              {isAggregations && selectedObj.aggregation !== '' && (
+              {isAggregations && obj.aggregation !== '' && (
                 <>
-                  {getCommonDimensionsField(selectedObj, name)}
+                  {getCommonDimensionsField(name)}
                   <EuiFormRow label="Custom label">
                     <EuiFieldText
                       placeholder="Custom label"
-                      value={selectedObj[CUSTOM_LABEL]}
+                      value={obj[CUSTOM_LABEL]}
                       onChange={(e) => updateList(e.target.value, CUSTOM_LABEL)}
                       aria-label="input label"
                     />
@@ -375,7 +402,7 @@ export const DataConfigPanelItem = ({
                 </>
               )}
               {/* Show input fields for dimensions */}
-              {!isAggregations && getCommonDimensionsField(selectedObj, name)}
+              {!isAggregations && getCommonDimensionsField(name)}
             </EuiPanel>
             <EuiSpacer size="s" />
           </div>
@@ -391,25 +418,26 @@ export const DataConfigPanelItem = ({
     value: Array<EuiComboBoxOptionOption<unknown>>,
     field: string
   ) => {
-    const { index, name } = selectedConfigItem;
-    const updatedList = {
-      ...configList,
-      [SPAN]:
-        configList[SPAN] === undefined
-          ? {
-              ...initialSpanEntry,
-              [field]: value,
-            }
-          : { ...configList[SPAN], [field]: value },
-    };
+    const { index, name } = selectedItemConfig;
+    const updatedSpan =
+      selectedItem.time_field === undefined
+        ? { ...initialSpanEntry, [field]: value }
+        : { ...selectedItem, [field]: value };
     if (field === TIME_FIELD && index > -1) {
       handleServiceRemove(index, name);
     }
-    setIsTimeStampSelected(true);
-    setConfigList(updatedList as ConfigList);
+    updateConfigState(true, isAddConfigClicked, updatedSpan);
   };
 
-  const getCommonDimensionsField = (selectedObj: ConfigListEntry, name: string) => {
+  const onDimensionFieldChange = (value: Array<EuiComboBoxOptionOption<unknown>>) =>
+    isTimeStampFieldsSelected(value.length > 0 ? value[0].label : '')
+      ? handleTimeStampFieldsChange(value, TIME_FIELD)
+      : updateList(value.length > 0 ? value[0].label : '', 'label');
+
+  const getCommonDimensionsField = (name: string) => {
+    const options = isTimeStampSelected
+      ? [...selectedItem?.time_field]
+      : getSelectedOptions('label');
     return (
       <>
         <EuiFormRow label="Field">
@@ -418,49 +446,36 @@ export const DataConfigPanelItem = ({
             placeholder="Select a field"
             singleSelection={{ asPlainText: true }}
             isClearable={false}
+            isInvalid={selectedItem?.label === ''}
             options={getOptionsAvailable(name)}
-            selectedOptions={
-              isTimeStampSelected
-                ? [...configList.span?.time_field]
-                : selectedObj?.label
-                ? [
-                    {
-                      label: selectedObj?.label,
-                    },
-                  ]
-                : []
-            }
-            onChange={(e) =>
-              isTimeStampFieldsSelected(e.length > 0 ? e[0].label : '')
-                ? handleTimeStampFieldsChange(e, TIME_FIELD)
-                : updateList(e.length > 0 ? e[0].label : '', 'label')
-            }
+            selectedOptions={options}
+            onChange={onDimensionFieldChange}
           />
         </EuiFormRow>
-        {isTimeStampSelected && DateHistogram}
+        {isTimeStampSelected && DateHistogram()}
       </>
     );
   };
 
-  const getNumberField = (type: string) => (
-    <>
-      <EuiFieldNumber
-        id={htmlIdGenerator('input-number')()}
-        fullWidth
-        placeholder="auto"
-        value={
-          configList[GROUPBY] && configList[GROUPBY].length > 0 && configList[GROUPBY][0][type]
-            ? configList[GROUPBY][0][type]
-            : ''
-        }
-        onChange={(e) => updateHistogramConfig(GROUPBY, type, e.target.value)}
-        data-test-subj="valueFieldNumber"
-      />
-      <EuiSpacer size="s" />
-    </>
-  );
+  const getNumberField = (type: string) => {
+    const dimension = configList[GROUPBY];
+    const value = dimension && dimension.length > 0 && dimension[0][type] ? dimension[0][type] : '';
+    return (
+      <>
+        <EuiFieldNumber
+          id={htmlIdGenerator('input-number')()}
+          fullWidth
+          placeholder="auto"
+          value={value}
+          onChange={(e) => updateHistogramConfig(GROUPBY, type, e.target.value)}
+          data-test-subj="valueFieldNumber"
+        />
+        <EuiSpacer size="s" />
+      </>
+    );
+  };
 
-  const DateHistogram = useMemo(() => {
+  const DateHistogram = () => {
     return (
       <>
         <div className="services">
@@ -470,18 +485,13 @@ export const DataConfigPanelItem = ({
               <EuiFormRow label="Interval">
                 <EuiFieldNumber
                   placeholder="Placeholder text"
-                  value={configList.span?.interval ?? 1}
+                  value={selectedItem?.interval ?? 1}
                   min={1}
                   onChange={(e) => {
                     e.persist();
-                    setConfigList((staleState) => {
-                      return {
-                        ...staleState,
-                        span: {
-                          ...staleState.span,
-                          interval: e.target?.value ?? 0,
-                        },
-                      };
+                    setSelectedItem({
+                      ...selectedItem,
+                      interval: Number(e.target?.value) ?? 0,
                     });
                   }}
                   aria-label="interval field"
@@ -493,13 +503,14 @@ export const DataConfigPanelItem = ({
                   placeholder="Select fields"
                   singleSelection={{ asPlainText: true }}
                   isClearable={false}
+                  isInvalid={selectedItem?.unit.length === 0}
                   options={TIME_INTERVAL_OPTIONS.map((option) => {
                     return {
                       ...option,
                       label: option.text,
                     };
                   })}
-                  selectedOptions={configList.span?.unit ? [...configList.span?.unit] : []}
+                  selectedOptions={[...selectedItem?.unit] ?? []}
                   onChange={(e) => handleTimeStampFieldsChange(e, 'unit')}
                 />
               </EuiFormRow>
@@ -508,39 +519,48 @@ export const DataConfigPanelItem = ({
         </div>
       </>
     );
-  }, [availableFields, configList.span]);
+  };
+
+  const spanErrorMessage = (
+    <EuiCallOut title="error" color="danger" iconType="alert">
+      {REQUIRED_FIELDS}
+    </EuiCallOut>
+  );
 
   const getRenderFieldsObj = (sectionName: string): DataConfigPanelFieldProps => {
     return {
       list: configList[sectionName] ?? [],
       dimensionSpan: configList[SPAN] ?? initialSpanEntry,
+      isSpanError,
       sectionName,
-      visType: visualizations.vis.name,
+      visType: vis.name,
       addButtonText: 'Click to add',
       handleServiceAdd,
       handleServiceRemove,
       handleServiceEdit,
     };
   };
+  const getDataConfigPanel = (sectionName: string) =>
+    DataConfigPanelFields(getRenderFieldsObj(sectionName));
 
   return isAddConfigClicked ? (
-    getCommonUI(selectedConfigItem.name)
+    getCommonUI(selectedItemConfig.name)
   ) : (
     <>
       <EuiTitle size="xxs">
         <h3>Configuration</h3>
       </EuiTitle>
       <EuiSpacer size="s" />
-      {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
+      {isSpanError && spanErrorMessage}
+      <EuiSpacer size="s" />
+      {vis.name !== Histogram ? (
         <>
-          {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
+          {getDataConfigPanel(AGGREGATIONS)}
           <EuiSpacer size="s" />
-          {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
+          {getDataConfigPanel(GROUPBY)}
           <EuiSpacer size="s" />
-          {(visualizations.vis.name === VIS_CHART_TYPES.Bar ||
-            visualizations.vis.name === VIS_CHART_TYPES.HorizontalBar ||
-            visualizations.vis.name === VIS_CHART_TYPES.Line) && (
-            <>{DataConfigPanelFields(getRenderFieldsObj(BREAKDOWNS))}</>
+          {(vis.name === Bar || vis.name === HorizontalBar || vis.name === Line) && (
+            <>{getDataConfigPanel(BREAKDOWNS)}</>
           )}
         </>
       ) : (

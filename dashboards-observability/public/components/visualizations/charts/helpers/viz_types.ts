@@ -153,7 +153,6 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       };
     } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
       tempUserConfigs = {
-        ...tempUserConfigs,
         [GROUPBY]: [],
         [AGGREGATIONS]: [],
       };
