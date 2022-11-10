@@ -13,8 +13,39 @@ import {
   isNameValid,
   removeTabData,
 } from '../helpers/utils';
+import configureStore from 'redux-mock-store';
 
 describe('Utils application analytics helper functions', () => {
+
+  const middlewares: any[] = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    queries: {
+      'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T': {
+        rawQuery: '',
+        finalQuery:
+          "source=opensearch_dashboards_sample_data_logs | where timestamp >= '2022-11-08 09:03:50' and timestamp <= '2022-11-09 09:03:50' ",
+        index: '',
+        selectedTimestamp: 'timestamp',
+        0: 'now-24h',
+        1: 'now',
+        tabCreatedType: 'newTab',
+        isLoaded: true,
+      },
+      'application-analytics-tab-1': {
+        rawQuery: '',
+        finalQuery:
+          "source=opensearch_dashboards_sample_data_logs | where timestamp >= '2022-11-08 09:03:50' and timestamp <= '2022-11-09 09:03:50' ",
+        index: '',
+        selectedTimestamp: 'timestamp',
+        0: 'now-24h',
+        1: 'now',
+        tabCreatedType: 'newTab',
+        isLoaded: true,
+      },
+    },
+  };
+  const store = mockStore(initialState);
   const pplService = ({
     http: jest.fn(),
     fetch: jest.fn(),
@@ -100,12 +131,119 @@ describe('Utils application analytics helper functions', () => {
     ).toBeTruthy();
   });
   it('validate removeTabData function', () => {
-    expect(removeTabData(jest.fn(), 'pomjQYQBg4Jf5lv0c5Ke', 'hQ_MOIQB3_rWtxyd0C4T'));
+    removeTabData(store.dispatch, 'pomjQYQBg4Jf5lv0c5Ke', 'hQ_MOIQB3_rWtxyd0C4T');
+    const actions = store.getActions();
+    const expectedPayload = [
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'queries/remove',
+      },
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'fields/remove',
+      },
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'queryResults/remove',
+      },
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'explorerVizConfigs/reset',
+      },
+      {
+        payload: {
+          newSelectedQueryTab: 'hQ_MOIQB3_rWtxyd0C4T',
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'queryTabs/removeTab',
+      },
+    ];
+    expect(actions).toEqual(expectedPayload);
   });
   it('validate initializeTabData function', () => {
-    expect(
-      initializeTabData(jest.fn(), 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T', 'newTab')
-    );
+    initializeTabData(store.dispatch, 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T', 'newTab');
+    const actions = store.getActions();
+    const expectedPayload = [
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'queries/remove',
+      },
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'fields/remove',
+      },
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'queryResults/remove',
+      },
+      {
+        payload: {
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'explorerVizConfigs/reset',
+      },
+      {
+        payload: {
+          newSelectedQueryTab: 'hQ_MOIQB3_rWtxyd0C4T',
+          tabId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+        type: 'queryTabs/removeTab',
+      },
+      {
+        payload: {
+          tabId: 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T',
+        },
+        type: 'queries/init',
+      },
+      {
+        payload: {
+          tabId: 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T',
+        },
+        type: 'queryResults/init',
+      },
+      {
+        payload: {
+          tabId: 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T',
+        },
+        type: 'fields/init',
+      },
+      {
+        payload: {
+          tabId: 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T',
+        },
+        type: 'queryTabs/addTab',
+      },
+      {
+        payload: {
+          tabId: 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T',
+        },
+        type: 'explorerVizConfigs/init',
+      },
+      {
+        payload: {
+          query: {
+            tabCreatedType: 'newTab',
+          },
+          tabId: 'application-analytics-tab-hQ_MOIQB3_rWtxyd0C4T',
+        },
+        type: 'queries/changeQuery',
+      },
+    ];
+    expect(actions).toEqual(expectedPayload);
   });
   it('validate calculateAvailability function', () => {
     httpClientMock.get = jest.fn(() =>
