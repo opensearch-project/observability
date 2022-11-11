@@ -14,6 +14,7 @@ import {
   UNSELECTED_FIELDS,
   QUERIED_FIELDS,
 } from '../common/constants/explorer';
+import { createLineTypeDefinition } from '../public/components/visualizations/charts/lines/line_type';
 
 export const AVAILABLE_FIELDS = [
   {
@@ -691,7 +692,22 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
 };
 
 export const GAUGE_TEST_VISUALIZATIONS_DATA = {
-  ...TEST_VISUALIZATIONS_DATA,
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    userConfigs: {
+      ...VALUE_OPTIONS,
+      dataConfig: {
+        chartStyles: {
+          showThresholdLabels: true,
+          showThresholdMarkers: true,
+          orientation: 'v',
+          legendPlacement: 'right',
+          titleSize: '10',
+          valueSize: '12',
+        },
+      },
+    },
+  },
   vis: createGaugeTypeDefinition(),
 };
 
@@ -707,6 +723,58 @@ export const HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA = {
 };
 
 export const HEATMAP_TEST_VISUALIZATIONS_DATA = {
-  ...TEST_VISUALIZATIONS_DATA,
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    userConfigs: {
+      ...VALUE_OPTIONS,
+      dataConfig: {
+        chartStyles: {
+          style: 'lines',
+          interpolation: 'linear',
+          lineWidth: '4',
+          fillOpacity: '71',
+          labelSize: '10',
+          rotateLabels: '36',
+          color: {
+            name: 'singleColor',
+            color: '#6092C0',
+          },
+          pointSize: '12',
+          colorMode: [
+            {
+              name: 'opacity',
+              label: 'opacity',
+              value: 'opacity',
+            },
+          ],
+        },
+      },
+    },
+  },
   vis: createMapsVisDefinition(),
+};
+
+export const LINE_TEST_VISUALIZATIONS_DATA = {
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    userConfigs: {
+      ...VALUE_OPTIONS,
+      dataConfig: {
+        chartStyles: {
+          style: 'lines',
+          interpolation: 'linear',
+          lineWidth: '4',
+          fillOpacity: '71',
+          labelSize: '10',
+          rotateLabels: '36',
+          color: {
+            name: 'singleColor',
+            color: '#6092C0',
+          },
+          pointSize: '12',
+        },
+      },
+    },
+  },
+  vis: createLineTypeDefinition(),
 };
