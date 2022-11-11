@@ -16,7 +16,7 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
       ownFocus={false}
       size="m"
     >
-      <OuiWindowEvent
+      <EuiWindowEvent
         event="keydown"
         handler={[Function]}
       />
