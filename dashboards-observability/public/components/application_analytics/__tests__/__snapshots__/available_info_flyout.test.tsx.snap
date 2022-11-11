@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AvailabilityInfoFlyout component renders AvailabilityInfoFlyout 1`] = `
+<AvailabilityInfoFlyout
+  closeFlyout={[MockFunction]}
+>
+  <EuiFlyout
+    onClose={[MockFunction]}
+    size="s"
+    type="push"
+  >
+    <EuiWindowEvent
+      event="keydown"
+      handler={[Function]}
+    />
+    <EuiFocusTrap
+      clickOutsideDisables={false}
+      disabled={true}
+      noIsolation={true}
+      returnFocus={true}
+      scrollLock={false}
+    >
+      <ForwardRef
+        enabled={false}
+        noIsolation={true}
+        onClickOutside={[Function]}
+        returnFocus={true}
+        scrollLock={false}
+      >
+        <ForwardRef
+          enabled={false}
+          noIsolation={true}
+          onClickOutside={[Function]}
+          returnFocus={true}
+          scrollLock={false}
+          sideCar={[Function]}
+        >
+          <ForwardRef(FocusLockUI)
+            as={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "classNames": Object {
+                  "fullWidth": "width-before-scroll-bar",
+                  "zeroRight": "right-scroll-bar-position",
+                },
+                "defaultProps": Object {
+                  "enabled": true,
+                  "inert": false,
+                  "removeScrollBar": true,
+                },
+                "render": [Function],
+              }
+            }
+            autoFocus={true}
+            crossFrame={true}
+            disabled={true}
+            lockProps={
+              Object {
+                "allowPinchZoom": undefined,
+                "as": undefined,
+                "enabled": false,
+                "inert": undefined,
+                "shards": undefined,
+                "sideCar": [Function],
+                "style": undefined,
+              }
+            }
+            noFocusGuards={false}
+            persistentFocus={false}
+            returnFocus={true}
+            sideCar={[Function]}
+          >
+            <div
+              data-focus-guard={true}
+              key="guard-first"
+              style={
+                Object {
+                  "height": "0px",
+                  "left": "1px",
+                  "overflow": "hidden",
+                  "padding": 0,
+                  "position": "fixed",
+                  "top": "1px",
+                  "width": "1px",
+                }
+              }
+              tabIndex={-1}
+            />
+            <ForwardRef
+              data-focus-lock-disabled="disabled"
+              enabled={false}
+              inert={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              removeScrollBar={true}
+              sideCar={[Function]}
+            >
+              <div
+                data-focus-lock-disabled="disabled"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onScrollCapture={[Function]}
+                onTouchMoveCapture={[Function]}
+                onWheelCapture={[Function]}
+              >
+                <EuiOutsideClickDetector
+                  isDisabled={true}
+                  onOutsideClick={[Function]}
+                >
+                  <div
+                    className="euiFlyout euiFlyout--push euiFlyout--small euiFlyout--paddingLarge"
+                    onMouseDown={[Function]}
+                    onMouseUp={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchStart={[Function]}
+                    role="dialog"
+                    tabIndex={-1}
+                  >
+                    <EuiI18n
+                      default="Close this dialog"
+                      token="euiFlyout.closeAriaLabel"
+                    >
+                      <EuiButtonIcon
+                        aria-label="Close this dialog"
+                        className="euiFlyout__closeButton euiFlyout__closeButton--inside"
+                        color="text"
+                        data-test-subj="euiFlyoutCloseButton"
+                        display="empty"
+                        iconType="cross"
+                        onClick={[Function]}
+                      >
+                        <button
+                          aria-label="Close this dialog"
+                          className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                          data-test-subj="euiFlyoutCloseButton"
+                          disabled={false}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <EuiIcon
+                            aria-hidden="true"
+                            className="euiButtonIcon__icon"
+                            color="inherit"
+                            size="m"
+                            type="cross"
+                          >
+                            <EuiIconEmpty
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                              focusable="false"
+                              role="img"
+                              style={null}
+                            >
+                              <svg
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                focusable="false"
+                                height={16}
+                                role="img"
+                                style={null}
+                                viewBox="0 0 16 16"
+                                width={16}
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                            </EuiIconEmpty>
+                          </EuiIcon>
+                        </button>
+                      </EuiButtonIcon>
+                    </EuiI18n>
+                    <EuiFlyoutHeader>
+                      <div
+                        className="euiFlyoutHeader"
+                      >
+                        <EuiTitle>
+                          <h2
+                            className="euiTitle euiTitle--medium"
+                          >
+                            Availability
+                          </h2>
+                        </EuiTitle>
+                      </div>
+                    </EuiFlyoutHeader>
+                    <EuiFlyoutBody>
+                      <div
+                        className="euiFlyoutBody"
+                      >
+                        <div
+                          className="euiFlyoutBody__overflow"
+                          tabIndex={0}
+                        >
+                          <div
+                            className="euiFlyoutBody__overflowContent"
+                          >
+                            <EuiText>
+                              <div
+                                className="euiText euiText--medium"
+                              >
+                                <h3>
+                                  Configure availability
+                                </h3>
+                                Availability is the status of your application determined by availability levels set on a time series metric. To create an availability level, you must configure the following:
+                                <ul>
+                                  <li>
+                                    color: The color of the availability badge on the home page
+                                  </li>
+                                  <li>
+                                    name: The text in the availability badge on the home page
+                                  </li>
+                                  <li>
+                                    expression: Comparison operator to determine the availability
+                                  </li>
+                                  <li>
+                                    value: Value to use when calculating availability
+                                  </li>
+                                </ul>
+                                <h3>
+                                  Configuring availability
+                                </h3>
+                                By default, Application analytics shows results from the last 24 hours of your data. To see data from a different timeframe, use the date and time selector.
+                                <h3>
+                                  Time series metric
+                                </h3>
+                                A time series metric is any visualization that has a query that spans over a timestamp and is a bar/line chart. You can use the PPL language to define arbitrary conditions on your logs to create a visualization over time.
+                                <h4>
+                                  Example
+                                </h4>
+                                <EuiCodeBlock>
+                                  <EuiCodeBlockImpl
+                                    inline={false}
+                                  >
+                                    <div
+                                      className="euiCodeBlock euiCodeBlock--fontSmall euiCodeBlock--paddingLarge prismjs language-none"
+                                      style={Object {}}
+                                    >
+                                      <pre
+                                        className="euiCodeBlock__pre euiCodeBlock__pre--whiteSpacePreWrap"
+                                        style={Object {}}
+                                        tabIndex={-1}
+                                      >
+                                        <code
+                                          className="euiCodeBlock__code"
+                                        >
+                                          source = &lt;index_name&gt; | ... | ... | stats ... by span(&lt;timestamp_field&gt;, 1h)
+                                        </code>
+                                      </pre>
+                                    </div>
+                                  </EuiCodeBlockImpl>
+                                </EuiCodeBlock>
+                                You can then choose 
+                                <strong>
+                                  Bar
+                                </strong>
+                                 or 
+                                <strong>
+                                  Line
+                                </strong>
+                                 in visualization configurations to create a time series metric.
+                              </div>
+                            </EuiText>
+                          </div>
+                        </div>
+                      </div>
+                    </EuiFlyoutBody>
+                    <EuiFlyoutFooter>
+                      <div
+                        className="euiFlyoutFooter"
+                      >
+                        <EuiButton
+                          onClick={[MockFunction]}
+                        >
+                          <EuiButtonDisplay
+                            baseClassName="euiButton"
+                            disabled={false}
+                            element="button"
+                            isDisabled={false}
+                            onClick={[MockFunction]}
+                            type="button"
+                          >
+                            <button
+                              className="euiButton euiButton--primary"
+                              disabled={false}
+                              onClick={[MockFunction]}
+                              style={
+                                Object {
+                                  "minWidth": undefined,
+                                }
+                              }
+                              type="button"
+                            >
+                              <EuiButtonContent
+                                className="euiButton__content"
+                                iconSide="left"
+                                textProps={
+                                  Object {
+                                    "className": "euiButton__text",
+                                  }
+                                }
+                              >
+                                <span
+                                  className="euiButtonContent euiButton__content"
+                                >
+                                  <span
+                                    className="euiButton__text"
+                                  >
+                                    Close
+                                  </span>
+                                </span>
+                              </EuiButtonContent>
+                            </button>
+                          </EuiButtonDisplay>
+                        </EuiButton>
+                      </div>
+                    </EuiFlyoutFooter>
+                  </div>
+                </EuiOutsideClickDetector>
+              </div>
+            </ForwardRef>
+            <div
+              data-focus-guard={true}
+              style={
+                Object {
+                  "height": "0px",
+                  "left": "1px",
+                  "overflow": "hidden",
+                  "padding": 0,
+                  "position": "fixed",
+                  "top": "1px",
+                  "width": "1px",
+                }
+              }
+              tabIndex={-1}
+            />
+          </ForwardRef(FocusLockUI)>
+        </ForwardRef>
+      </ForwardRef>
+    </EuiFocusTrap>
+  </EuiFlyout>
+</AvailabilityInfoFlyout>
+`;

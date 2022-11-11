@@ -1,0 +1,1146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TraceDetailRender component renders TraceDetailRender 1`] = `
+<TraceDetailRender
+  http={[MockFunction]}
+  openSpanFlyout={[MockFunction]}
+  traceId="03f9c770db5ee2f1caac0afc36db49ba"
+>
+  <EuiText
+    size="m"
+  >
+    <div
+      className="euiText euiText--medium"
+    >
+      <span
+        className="panel-title"
+      >
+        Overview
+      </span>
+    </div>
+  </EuiText>
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>
+  <div
+    key="list-item-Trace ID"
+  >
+    <EuiDescriptionList
+      align="center"
+      compressed={true}
+      data-test-subj="Trace IDDescriptionList"
+      listItems={
+        Array [
+          Object {
+            "description": <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <b>
+                03f9c770db5ee2f1caac0afc36db49ba
+              </b>
+            </EuiText>,
+            "title": <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              Trace ID
+            </EuiText>,
+          },
+        ]
+      }
+      type="column"
+    >
+      <dl
+        className="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+        data-test-subj="Trace IDDescriptionList"
+      >
+        <EuiDescriptionListTitle
+          key="title-0"
+        >
+          <dt
+            className="euiDescriptionList__title"
+          >
+            <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <EuiTextColor
+                  color="subdued"
+                  component="div"
+                >
+                  <div
+                    className="euiTextColor euiTextColor--subdued"
+                  >
+                    Trace ID
+                  </div>
+                </EuiTextColor>
+              </div>
+            </EuiText>
+          </dt>
+        </EuiDescriptionListTitle>
+        <EuiDescriptionListDescription
+          key="description-0"
+        >
+          <dd
+            className="euiDescriptionList__description"
+          >
+            <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "whiteSpace": "pre-line",
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <b>
+                  03f9c770db5ee2f1caac0afc36db49ba
+                </b>
+              </div>
+            </EuiText>
+          </dd>
+        </EuiDescriptionListDescription>
+      </dl>
+    </EuiDescriptionList>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+  </div>
+  <div
+    key="list-item-Trace group name"
+  >
+    <EuiDescriptionList
+      align="center"
+      compressed={true}
+      data-test-subj="Trace group nameDescriptionList"
+      listItems={
+        Array [
+          Object {
+            "description": <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <b>
+                -
+              </b>
+            </EuiText>,
+            "title": <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              Trace group name
+            </EuiText>,
+          },
+        ]
+      }
+      type="column"
+    >
+      <dl
+        className="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+        data-test-subj="Trace group nameDescriptionList"
+      >
+        <EuiDescriptionListTitle
+          key="title-0"
+        >
+          <dt
+            className="euiDescriptionList__title"
+          >
+            <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <EuiTextColor
+                  color="subdued"
+                  component="div"
+                >
+                  <div
+                    className="euiTextColor euiTextColor--subdued"
+                  >
+                    Trace group name
+                  </div>
+                </EuiTextColor>
+              </div>
+            </EuiText>
+          </dt>
+        </EuiDescriptionListTitle>
+        <EuiDescriptionListDescription
+          key="description-0"
+        >
+          <dd
+            className="euiDescriptionList__description"
+          >
+            <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "whiteSpace": "pre-line",
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <b>
+                  -
+                </b>
+              </div>
+            </EuiText>
+          </dd>
+        </EuiDescriptionListDescription>
+      </dl>
+    </EuiDescriptionList>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+  </div>
+  <div
+    key="list-item-Latency"
+  >
+    <EuiDescriptionList
+      align="center"
+      compressed={true}
+      data-test-subj="LatencyDescriptionList"
+      listItems={
+        Array [
+          Object {
+            "description": <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <b />
+            </EuiText>,
+            "title": <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              Latency
+            </EuiText>,
+          },
+        ]
+      }
+      type="column"
+    >
+      <dl
+        className="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+        data-test-subj="LatencyDescriptionList"
+      >
+        <EuiDescriptionListTitle
+          key="title-0"
+        >
+          <dt
+            className="euiDescriptionList__title"
+          >
+            <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <EuiTextColor
+                  color="subdued"
+                  component="div"
+                >
+                  <div
+                    className="euiTextColor euiTextColor--subdued"
+                  >
+                    Latency
+                  </div>
+                </EuiTextColor>
+              </div>
+            </EuiText>
+          </dt>
+        </EuiDescriptionListTitle>
+        <EuiDescriptionListDescription
+          key="description-0"
+        >
+          <dd
+            className="euiDescriptionList__description"
+          >
+            <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "whiteSpace": "pre-line",
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <b />
+              </div>
+            </EuiText>
+          </dd>
+        </EuiDescriptionListDescription>
+      </dl>
+    </EuiDescriptionList>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+  </div>
+  <div
+    key="list-item-Last updated"
+  >
+    <EuiDescriptionList
+      align="center"
+      compressed={true}
+      data-test-subj="Last updatedDescriptionList"
+      listItems={
+        Array [
+          Object {
+            "description": <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <b />
+            </EuiText>,
+            "title": <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              Last updated
+            </EuiText>,
+          },
+        ]
+      }
+      type="column"
+    >
+      <dl
+        className="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+        data-test-subj="Last updatedDescriptionList"
+      >
+        <EuiDescriptionListTitle
+          key="title-0"
+        >
+          <dt
+            className="euiDescriptionList__title"
+          >
+            <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <EuiTextColor
+                  color="subdued"
+                  component="div"
+                >
+                  <div
+                    className="euiTextColor euiTextColor--subdued"
+                  >
+                    Last updated
+                  </div>
+                </EuiTextColor>
+              </div>
+            </EuiText>
+          </dt>
+        </EuiDescriptionListTitle>
+        <EuiDescriptionListDescription
+          key="description-0"
+        >
+          <dd
+            className="euiDescriptionList__description"
+          >
+            <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "whiteSpace": "pre-line",
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <b />
+              </div>
+            </EuiText>
+          </dd>
+        </EuiDescriptionListDescription>
+      </dl>
+    </EuiDescriptionList>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+  </div>
+  <div
+    key="list-item-Errors"
+  >
+    <EuiDescriptionList
+      align="center"
+      compressed={true}
+      data-test-subj="ErrorsDescriptionList"
+      listItems={
+        Array [
+          Object {
+            "description": <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <b>
+                <React.Fragment />
+              </b>
+            </EuiText>,
+            "title": <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              Errors
+            </EuiText>,
+          },
+        ]
+      }
+      type="column"
+    >
+      <dl
+        className="euiDescriptionList euiDescriptionList--column euiDescriptionList--center euiDescriptionList--compressed"
+        data-test-subj="ErrorsDescriptionList"
+      >
+        <EuiDescriptionListTitle
+          key="title-0"
+        >
+          <dt
+            className="euiDescriptionList__title"
+          >
+            <EuiText
+              color="subdued"
+              size="s"
+              style={
+                Object {
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <EuiTextColor
+                  color="subdued"
+                  component="div"
+                >
+                  <div
+                    className="euiTextColor euiTextColor--subdued"
+                  >
+                    Errors
+                  </div>
+                </EuiTextColor>
+              </div>
+            </EuiText>
+          </dt>
+        </EuiDescriptionListTitle>
+        <EuiDescriptionListDescription
+          key="description-0"
+        >
+          <dd
+            className="euiDescriptionList__description"
+          >
+            <EuiText
+              size="s"
+              style={
+                Object {
+                  "whiteSpace": "pre-line",
+                  "wordBreak": "break-all",
+                  "wordWrap": "break-word",
+                }
+              }
+            >
+              <div
+                className="euiText euiText--small"
+                style={
+                  Object {
+                    "whiteSpace": "pre-line",
+                    "wordBreak": "break-all",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                <b />
+              </div>
+            </EuiText>
+          </dd>
+        </EuiDescriptionListDescription>
+      </dl>
+    </EuiDescriptionList>
+    <EuiSpacer
+      size="s"
+    >
+      <div
+        className="euiSpacer euiSpacer--s"
+      />
+    </EuiSpacer>
+  </div>
+  <EuiSpacer
+    size="xs"
+  >
+    <div
+      className="euiSpacer euiSpacer--xs"
+    />
+  </EuiSpacer>
+  <EuiHorizontalRule
+    margin="s"
+  >
+    <hr
+      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
+    />
+  </EuiHorizontalRule>
+  <ServiceBreakdownPanel
+    data={Array []}
+  >
+    <EuiPanel>
+      <div
+        className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+      >
+        <PanelTitle
+          title="Time spent by service"
+        >
+          <EuiText
+            size="m"
+          >
+            <div
+              className="euiText euiText--medium"
+            >
+              <span
+                className="panel-title"
+              >
+                Time spent by service
+              </span>
+            </div>
+          </EuiText>
+        </PanelTitle>
+        <EuiHorizontalRule
+          margin="m"
+        >
+          <hr
+            className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+          />
+        </EuiHorizontalRule>
+        <EuiFlexGroup
+          alignItems="center"
+          direction="column"
+        >
+          <div
+            className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--directionColumn euiFlexGroup--responsive"
+          >
+            <EuiFlexItem>
+              <div
+                className="euiFlexItem"
+              />
+            </EuiFlexItem>
+            <EuiSpacer>
+              <div
+                className="euiSpacer euiSpacer--l"
+              />
+            </EuiSpacer>
+            <EuiFlexItem>
+              <div
+                className="euiFlexItem"
+              />
+            </EuiFlexItem>
+          </div>
+        </EuiFlexGroup>
+        <EuiSpacer>
+          <div
+            className="euiSpacer euiSpacer--l"
+          />
+        </EuiSpacer>
+      </div>
+    </EuiPanel>
+  </ServiceBreakdownPanel>
+  <EuiSpacer
+    size="xs"
+  >
+    <div
+      className="euiSpacer euiSpacer--xs"
+    />
+  </EuiSpacer>
+  <EuiHorizontalRule
+    margin="s"
+  >
+    <hr
+      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
+    />
+  </EuiHorizontalRule>
+  <SpanDetailPanel
+    colorMap={Object {}}
+    http={[MockFunction]}
+    openSpanFlyout={[MockFunction]}
+    page="app"
+    traceId="03f9c770db5ee2f1caac0afc36db49ba"
+  >
+    <EuiPanel>
+      <div
+        className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+      >
+        <EuiFlexGroup>
+          <div
+            className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <EuiFlexItem>
+              <div
+                className="euiFlexItem"
+              >
+                <PanelTitle
+                  title="Spans"
+                  totalItems={0}
+                >
+                  <EuiText
+                    size="m"
+                  >
+                    <div
+                      className="euiText euiText--medium"
+                    >
+                      <span
+                        className="panel-title"
+                      >
+                        Spans
+                      </span>
+                      <span
+                        className="panel-title-count"
+                      >
+                         (0)
+                      </span>
+                    </div>
+                  </EuiText>
+                </PanelTitle>
+              </div>
+            </EuiFlexItem>
+            <EuiFlexItem
+              grow={false}
+            >
+              <div
+                className="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <EuiButtonGroup
+                  idSelected="timeline"
+                  legend="Select view of spans"
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "id": "timeline",
+                        "label": "Timeline",
+                      },
+                      Object {
+                        "id": "span_list",
+                        "label": "Span list",
+                      },
+                    ]
+                  }
+                >
+                  <fieldset
+                    className="euiButtonGroup euiButtonGroup--small euiButtonGroup--text"
+                    disabled={false}
+                  >
+                    <EuiScreenReaderOnly>
+                      <legend
+                        className="euiScreenReaderOnly"
+                      >
+                        Select view of spans
+                      </legend>
+                    </EuiScreenReaderOnly>
+                    <div
+                      className="euiButtonGroup__buttons"
+                    >
+                      <EuiButtonGroupButton
+                        color="text"
+                        element="label"
+                        id="timeline"
+                        isDisabled={false}
+                        isIconOnly={false}
+                        isSelected={true}
+                        key="0"
+                        label="Timeline"
+                        name="random_html_id"
+                        onChange={[Function]}
+                        size="s"
+                      >
+                        <EuiButtonDisplay
+                          baseClassName="euiButtonGroupButton"
+                          className="euiButtonGroupButton-isSelected"
+                          color="text"
+                          element="label"
+                          fill={true}
+                          htmlFor="random_html_id"
+                          isDisabled={false}
+                          onClick={[Function]}
+                          size="s"
+                          textProps={
+                            Object {
+                              "className": "euiButtonGroupButton__textShift",
+                              "data-text": "Timeline",
+                              "ref": [Function],
+                              "title": "Timeline",
+                            }
+                          }
+                        >
+                          <label
+                            className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small euiButtonGroupButton--fill euiButtonGroupButton-isSelected"
+                            disabled={false}
+                            htmlFor="random_html_id"
+                            onClick={[Function]}
+                            style={
+                              Object {
+                                "minWidth": undefined,
+                              }
+                            }
+                          >
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text euiButtonGroupButton__textShift",
+                                  "data-text": "Timeline",
+                                  "ref": [Function],
+                                  "title": "Timeline",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text euiButtonGroupButton__textShift"
+                                  data-text="Timeline"
+                                  title="Timeline"
+                                >
+                                  <input
+                                    checked={true}
+                                    className="euiScreenReaderOnly"
+                                    data-test-subj="timeline"
+                                    disabled={false}
+                                    id="random_html_id"
+                                    name="random_html_id"
+                                    onChange={[Function]}
+                                    type="radio"
+                                  />
+                                  Timeline
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </label>
+                        </EuiButtonDisplay>
+                      </EuiButtonGroupButton>
+                      <EuiButtonGroupButton
+                        color="text"
+                        element="label"
+                        id="span_list"
+                        isDisabled={false}
+                        isIconOnly={false}
+                        isSelected={false}
+                        key="1"
+                        label="Span list"
+                        name="random_html_id"
+                        onChange={[Function]}
+                        size="s"
+                      >
+                        <EuiButtonDisplay
+                          baseClassName="euiButtonGroupButton"
+                          className=""
+                          color="text"
+                          element="label"
+                          fill={false}
+                          htmlFor="random_html_id"
+                          isDisabled={false}
+                          onClick={[Function]}
+                          size="s"
+                          textProps={
+                            Object {
+                              "className": "euiButtonGroupButton__textShift",
+                              "data-text": "Span list",
+                              "ref": [Function],
+                              "title": "Span list",
+                            }
+                          }
+                        >
+                          <label
+                            className="euiButtonGroupButton euiButtonGroupButton--text euiButtonGroupButton--small"
+                            disabled={false}
+                            htmlFor="random_html_id"
+                            onClick={[Function]}
+                            style={
+                              Object {
+                                "minWidth": undefined,
+                              }
+                            }
+                          >
+                            <EuiButtonContent
+                              className="euiButton__content"
+                              iconSide="left"
+                              textProps={
+                                Object {
+                                  "className": "euiButton__text euiButtonGroupButton__textShift",
+                                  "data-text": "Span list",
+                                  "ref": [Function],
+                                  "title": "Span list",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  className="euiButton__text euiButtonGroupButton__textShift"
+                                  data-text="Span list"
+                                  title="Span list"
+                                >
+                                  <input
+                                    checked={false}
+                                    className="euiScreenReaderOnly"
+                                    data-test-subj="span_list"
+                                    disabled={false}
+                                    id="random_html_id"
+                                    name="random_html_id"
+                                    onChange={[Function]}
+                                    type="radio"
+                                  />
+                                  Span list
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </label>
+                        </EuiButtonDisplay>
+                      </EuiButtonGroupButton>
+                    </div>
+                  </fieldset>
+                </EuiButtonGroup>
+              </div>
+            </EuiFlexItem>
+          </div>
+        </EuiFlexGroup>
+        <EuiHorizontalRule
+          margin="m"
+        >
+          <hr
+            className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginMedium"
+          />
+        </EuiHorizontalRule>
+        <div
+          style={
+            Object {
+              "maxHeight": 500,
+              "overflowY": "auto",
+            }
+          }
+        >
+          <Plt
+            data={Array []}
+            layout={
+              Object {
+                "height": 60,
+                "margin": Object {
+                  "b": 30,
+                  "l": 260,
+                  "r": 5,
+                  "t": 30,
+                },
+                "width": 800,
+                "xaxis": Object {
+                  "color": "#91989c",
+                  "range": Array [
+                    0,
+                    0,
+                  ],
+                  "showline": true,
+                  "side": "top",
+                  "ticksuffix": " ms",
+                },
+                "yaxis": Object {
+                  "showgrid": false,
+                  "ticktext": Array [],
+                  "tickvals": Array [],
+                },
+              }
+            }
+            onClickHandler={[Function]}
+            onHoverHandler={[Function]}
+            onUnhoverHandler={[Function]}
+          >
+            <PlotlyComponent
+              config={
+                Object {
+                  "displayModeBar": false,
+                }
+              }
+              data={Array []}
+              debug={false}
+              divId="explorerPlotComponent"
+              layout={
+                Object {
+                  "autosize": true,
+                  "barmode": "stack",
+                  "height": 60,
+                  "hovermode": "closest",
+                  "legend": Object {
+                    "orientation": "h",
+                    "traceorder": "normal",
+                  },
+                  "margin": Object {
+                    "b": 30,
+                    "l": 260,
+                    "r": 5,
+                    "t": 30,
+                  },
+                  "showlegend": false,
+                  "width": 800,
+                  "xaxis": Object {
+                    "color": "#91989c",
+                    "range": Array [
+                      0,
+                      0,
+                    ],
+                    "showline": true,
+                    "side": "top",
+                    "ticksuffix": " ms",
+                  },
+                  "yaxis": Object {
+                    "showgrid": false,
+                    "ticktext": Array [],
+                    "tickvals": Array [],
+                  },
+                }
+              }
+              onClick={[Function]}
+              onHover={[Function]}
+              onUnhover={[Function]}
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+              useResizeHandler={true}
+            >
+              <div
+                id="explorerPlotComponent"
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              />
+            </PlotlyComponent>
+          </Plt>
+        </div>
+      </div>
+    </EuiPanel>
+  </SpanDetailPanel>
+  <EuiSpacer
+    size="xs"
+  >
+    <div
+      className="euiSpacer euiSpacer--xs"
+    />
+  </EuiSpacer>
+  <EuiHorizontalRule
+    margin="s"
+  >
+    <hr
+      className="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
+    />
+  </EuiHorizontalRule>
+  <EuiText
+    size="m"
+  >
+    <div
+      className="euiText euiText--medium"
+    >
+      <span
+        className="panel-title"
+      >
+        Payload
+      </span>
+    </div>
+  </EuiText>
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>
+</TraceDetailRender>
+`;
