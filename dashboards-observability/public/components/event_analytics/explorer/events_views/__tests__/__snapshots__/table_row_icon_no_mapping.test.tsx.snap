@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocViewTableRowIconNoMapping component Renders DocViewTableRowIconNoMapping component 1`] = `
+<DocViewTableRowIconNoMapping>
+  <EuiIconTip
+    aria-label="Warning"
+    color="warning"
+    content="No cached mapping for this field. Refresh field list from the Management > Index Patterns page"
+    iconProps={
+      Object {
+        "className": "osdDocViewer__warning",
+        "data-test-subj": "noMappingWarning",
+      }
+    }
+    size="s"
+    type="alert"
+  >
+    <EuiToolTip
+      content="No cached mapping for this field. Refresh field list from the Management > Index Patterns page"
+      delay="regular"
+      position="top"
+    >
+      <span
+        className="euiToolTipAnchor"
+        onKeyUp={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <EuiIcon
+          aria-label="Warning"
+          className="osdDocViewer__warning"
+          color="warning"
+          data-test-subj="noMappingWarning"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          size="s"
+          tabIndex={0}
+          type="alert"
+        >
+          <EuiIconEmpty
+            aria-hidden={true}
+            aria-label="Warning"
+            className="euiIcon euiIcon--small euiIcon--warning euiIcon-isLoading osdDocViewer__warning"
+            data-test-subj="noMappingWarning"
+            focusable="true"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            role="img"
+            style={null}
+            tabIndex={0}
+          >
+            <svg
+              aria-hidden={true}
+              aria-label="Warning"
+              className="euiIcon euiIcon--small euiIcon--warning euiIcon-isLoading osdDocViewer__warning"
+              data-test-subj="noMappingWarning"
+              focusable="true"
+              height={16}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              role="img"
+              style={null}
+              tabIndex={0}
+              viewBox="0 0 16 16"
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
+            />
+          </EuiIconEmpty>
+        </EuiIcon>
+      </span>
+    </EuiToolTip>
+  </EuiIconTip>
+</DocViewTableRowIconNoMapping>
+`;

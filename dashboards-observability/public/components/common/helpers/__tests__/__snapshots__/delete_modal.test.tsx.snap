@@ -1,0 +1,1248 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delete modal component Renders Delete modal 1`] = `
+<DeleteModal
+  message="Action can't be undone"
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  title="Delete"
+>
+  <EuiOverlayMask>
+    <Portal
+      containerInfo={
+        <div
+          aria-hidden="true"
+          class="euiOverlayMask euiOverlayMask--aboveHeader"
+          data-aria-hidden="true"
+        />
+      }
+    >
+      <EuiModal
+        initialFocus="[name=input]"
+        onClose={[Function]}
+      >
+        <EuiOverlayMask>
+          <Portal
+            containerInfo={
+              <div
+                class="euiOverlayMask euiOverlayMask--aboveHeader"
+              >
+                <div
+                  aria-hidden="true"
+                  data-aria-hidden="true"
+                  data-focus-guard="true"
+                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+                  tabindex="0"
+                />
+                <div
+                  data-focus-lock-disabled="false"
+                >
+                  <div
+                    class="euiModal euiModal--maxWidth-default"
+                    tabindex="0"
+                  >
+                    <button
+                      aria-label="Closes this modal window"
+                      class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiModal__closeIcon"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                        focusable="false"
+                        height="16"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </button>
+                    <div
+                      class="euiModal__flex"
+                    >
+                      <div
+                        class="euiModalHeader"
+                      >
+                        <div
+                          class="euiModalHeader__title"
+                        >
+                          Delete
+                        </div>
+                      </div>
+                      <div
+                        class="euiModalBody"
+                      >
+                        <div
+                          class="euiModalBody__overflow"
+                        >
+                          <div
+                            class="euiText euiText--medium"
+                          >
+                            Action can't be undone
+                          </div>
+                          <div
+                            class="euiText euiText--medium"
+                          >
+                            The action cannot be undone.
+                          </div>
+                          <div
+                            class="euiSpacer euiSpacer--l"
+                          />
+                          <div
+                            class="euiForm"
+                          >
+                            <div
+                              class="euiFormRow"
+                              id="random_html_id-row"
+                            >
+                              <div
+                                class="euiFormRow__labelWrapper"
+                              >
+                                <label
+                                  class="euiFormLabel euiFormRow__label euiFormLabel-isFocused"
+                                  for="random_html_id"
+                                >
+                                  To confirm deletion, enter "delete" in the text field
+                                </label>
+                              </div>
+                              <div
+                                class="euiFormRow__fieldWrapper"
+                              >
+                                <div
+                                  class="euiFormControlLayout"
+                                >
+                                  <div
+                                    class="euiFormControlLayout__childrenWrapper"
+                                  >
+                                    <input
+                                      class="euiFieldText"
+                                      data-autofocus="true"
+                                      data-test-subj="popoverModal__deleteTextInput"
+                                      id="random_html_id"
+                                      name="input"
+                                      placeholder="delete"
+                                      type="text"
+                                      value=""
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="euiModalFooter"
+                      >
+                        <button
+                          class="euiButtonEmpty euiButtonEmpty--primary"
+                          type="button"
+                        >
+                          <span
+                            class="euiButtonContent euiButtonEmpty__content"
+                          >
+                            <span
+                              class="euiButtonEmpty__text"
+                            >
+                              Cancel
+                            </span>
+                          </span>
+                        </button>
+                        <button
+                          class="euiButton euiButton--danger euiButton--fill euiButton-isDisabled"
+                          data-test-subj="popoverModal__deleteButton"
+                          disabled=""
+                          type="button"
+                        >
+                          <span
+                            class="euiButtonContent euiButton__content"
+                          >
+                            <span
+                              class="euiButton__text"
+                            >
+                              Delete
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  aria-hidden="true"
+                  data-aria-hidden="true"
+                  data-focus-guard="true"
+                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+                  tabindex="0"
+                />
+              </div>
+            }
+          >
+            <EuiFocusTrap
+              clickOutsideDisables={false}
+              disabled={false}
+              initialFocus="[name=input]"
+              noIsolation={true}
+              returnFocus={true}
+              scrollLock={false}
+            >
+              <ForwardRef
+                enabled={true}
+                initialFocus="[name=input]"
+                noIsolation={true}
+                onClickOutside={[Function]}
+                returnFocus={true}
+                scrollLock={false}
+              >
+                <ForwardRef
+                  enabled={true}
+                  initialFocus="[name=input]"
+                  noIsolation={true}
+                  onClickOutside={[Function]}
+                  returnFocus={true}
+                  scrollLock={false}
+                  sideCar={[Function]}
+                >
+                  <ForwardRef(FocusLockUI)
+                    as={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "classNames": Object {
+                          "fullWidth": "width-before-scroll-bar",
+                          "zeroRight": "right-scroll-bar-position",
+                        },
+                        "defaultProps": Object {
+                          "enabled": true,
+                          "inert": false,
+                          "removeScrollBar": true,
+                        },
+                        "render": [Function],
+                      }
+                    }
+                    autoFocus={true}
+                    crossFrame={true}
+                    disabled={false}
+                    lockProps={
+                      Object {
+                        "allowPinchZoom": undefined,
+                        "as": undefined,
+                        "enabled": false,
+                        "inert": undefined,
+                        "onMouseDown": [Function],
+                        "onTouchStart": [Function],
+                        "shards": undefined,
+                        "sideCar": [Function],
+                        "style": undefined,
+                      }
+                    }
+                    noFocusGuards={false}
+                    onActivation={[Function]}
+                    onDeactivation={[Function]}
+                    persistentFocus={false}
+                    returnFocus={true}
+                    sideCar={[Function]}
+                  >
+                    <div
+                      data-focus-guard={true}
+                      key="guard-first"
+                      style={
+                        Object {
+                          "height": "0px",
+                          "left": "1px",
+                          "overflow": "hidden",
+                          "padding": 0,
+                          "position": "fixed",
+                          "top": "1px",
+                          "width": "1px",
+                        }
+                      }
+                      tabIndex={0}
+                    />
+                    <RequireSideCar
+                      autoFocus={true}
+                      crossFrame={true}
+                      disabled={false}
+                      id={Object {}}
+                      observed={
+                        <div
+                          data-focus-lock-disabled="false"
+                        >
+                          <div
+                            class="euiModal euiModal--maxWidth-default"
+                            tabindex="0"
+                          >
+                            <button
+                              aria-label="Closes this modal window"
+                              class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiModal__closeIcon"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                focusable="false"
+                                height="16"
+                                role="img"
+                                viewBox="0 0 16 16"
+                                width="16"
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                            </button>
+                            <div
+                              class="euiModal__flex"
+                            >
+                              <div
+                                class="euiModalHeader"
+                              >
+                                <div
+                                  class="euiModalHeader__title"
+                                >
+                                  Delete
+                                </div>
+                              </div>
+                              <div
+                                class="euiModalBody"
+                              >
+                                <div
+                                  class="euiModalBody__overflow"
+                                >
+                                  <div
+                                    class="euiText euiText--medium"
+                                  >
+                                    Action can't be undone
+                                  </div>
+                                  <div
+                                    class="euiText euiText--medium"
+                                  >
+                                    The action cannot be undone.
+                                  </div>
+                                  <div
+                                    class="euiSpacer euiSpacer--l"
+                                  />
+                                  <div
+                                    class="euiForm"
+                                  >
+                                    <div
+                                      class="euiFormRow"
+                                      id="random_html_id-row"
+                                    >
+                                      <div
+                                        class="euiFormRow__labelWrapper"
+                                      >
+                                        <label
+                                          class="euiFormLabel euiFormRow__label euiFormLabel-isFocused"
+                                          for="random_html_id"
+                                        >
+                                          To confirm deletion, enter "delete" in the text field
+                                        </label>
+                                      </div>
+                                      <div
+                                        class="euiFormRow__fieldWrapper"
+                                      >
+                                        <div
+                                          class="euiFormControlLayout"
+                                        >
+                                          <div
+                                            class="euiFormControlLayout__childrenWrapper"
+                                          >
+                                            <input
+                                              class="euiFieldText"
+                                              data-autofocus="true"
+                                              data-test-subj="popoverModal__deleteTextInput"
+                                              id="random_html_id"
+                                              name="input"
+                                              placeholder="delete"
+                                              type="text"
+                                              value=""
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="euiModalFooter"
+                              >
+                                <button
+                                  class="euiButtonEmpty euiButtonEmpty--primary"
+                                  type="button"
+                                >
+                                  <span
+                                    class="euiButtonContent euiButtonEmpty__content"
+                                  >
+                                    <span
+                                      class="euiButtonEmpty__text"
+                                    >
+                                      Cancel
+                                    </span>
+                                  </span>
+                                </button>
+                                <button
+                                  class="euiButton euiButton--danger euiButton--fill euiButton-isDisabled"
+                                  data-test-subj="popoverModal__deleteButton"
+                                  disabled=""
+                                  type="button"
+                                >
+                                  <span
+                                    class="euiButtonContent euiButton__content"
+                                  >
+                                    <span
+                                      class="euiButton__text"
+                                    >
+                                      Delete
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                      onActivation={[Function]}
+                      onDeactivation={[Function]}
+                      persistentFocus={false}
+                      returnFocus={[Function]}
+                      shards={Array []}
+                      sideCar={
+                        Object {
+                          "assignMedium": [Function],
+                          "assignSyncMedium": [Function],
+                          "options": Object {
+                            "async": true,
+                            "ssr": false,
+                          },
+                          "read": [Function],
+                          "useMedium": [Function],
+                        }
+                      }
+                    >
+                      <SideCar
+                        autoFocus={true}
+                        crossFrame={true}
+                        disabled={false}
+                        id={Object {}}
+                        observed={
+                          <div
+                            data-focus-lock-disabled="false"
+                          >
+                            <div
+                              class="euiModal euiModal--maxWidth-default"
+                              tabindex="0"
+                            >
+                              <button
+                                aria-label="Closes this modal window"
+                                class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiModal__closeIcon"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                  focusable="false"
+                                  height="16"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  width="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </button>
+                              <div
+                                class="euiModal__flex"
+                              >
+                                <div
+                                  class="euiModalHeader"
+                                >
+                                  <div
+                                    class="euiModalHeader__title"
+                                  >
+                                    Delete
+                                  </div>
+                                </div>
+                                <div
+                                  class="euiModalBody"
+                                >
+                                  <div
+                                    class="euiModalBody__overflow"
+                                  >
+                                    <div
+                                      class="euiText euiText--medium"
+                                    >
+                                      Action can't be undone
+                                    </div>
+                                    <div
+                                      class="euiText euiText--medium"
+                                    >
+                                      The action cannot be undone.
+                                    </div>
+                                    <div
+                                      class="euiSpacer euiSpacer--l"
+                                    />
+                                    <div
+                                      class="euiForm"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__labelWrapper"
+                                        >
+                                          <label
+                                            class="euiFormLabel euiFormRow__label euiFormLabel-isFocused"
+                                            for="random_html_id"
+                                          >
+                                            To confirm deletion, enter "delete" in the text field
+                                          </label>
+                                        </div>
+                                        <div
+                                          class="euiFormRow__fieldWrapper"
+                                        >
+                                          <div
+                                            class="euiFormControlLayout"
+                                          >
+                                            <div
+                                              class="euiFormControlLayout__childrenWrapper"
+                                            >
+                                              <input
+                                                class="euiFieldText"
+                                                data-autofocus="true"
+                                                data-test-subj="popoverModal__deleteTextInput"
+                                                id="random_html_id"
+                                                name="input"
+                                                placeholder="delete"
+                                                type="text"
+                                                value=""
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="euiModalFooter"
+                                >
+                                  <button
+                                    class="euiButtonEmpty euiButtonEmpty--primary"
+                                    type="button"
+                                  >
+                                    <span
+                                      class="euiButtonContent euiButtonEmpty__content"
+                                    >
+                                      <span
+                                        class="euiButtonEmpty__text"
+                                      >
+                                        Cancel
+                                      </span>
+                                    </span>
+                                  </button>
+                                  <button
+                                    class="euiButton euiButton--danger euiButton--fill euiButton-isDisabled"
+                                    data-test-subj="popoverModal__deleteButton"
+                                    disabled=""
+                                    type="button"
+                                  >
+                                    <span
+                                      class="euiButtonContent euiButton__content"
+                                    >
+                                      <span
+                                        class="euiButton__text"
+                                      >
+                                        Delete
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                        onActivation={[Function]}
+                        onDeactivation={[Function]}
+                        persistentFocus={false}
+                        returnFocus={[Function]}
+                        shards={Array []}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
+                      >
+                        <SideEffect(FocusWatcher)
+                          autoFocus={true}
+                          crossFrame={true}
+                          disabled={false}
+                          id={Object {}}
+                          observed={
+                            <div
+                              data-focus-lock-disabled="false"
+                            >
+                              <div
+                                class="euiModal euiModal--maxWidth-default"
+                                tabindex="0"
+                              >
+                                <button
+                                  aria-label="Closes this modal window"
+                                  class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiModal__closeIcon"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    height="16"
+                                    role="img"
+                                    viewBox="0 0 16 16"
+                                    width="16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  />
+                                </button>
+                                <div
+                                  class="euiModal__flex"
+                                >
+                                  <div
+                                    class="euiModalHeader"
+                                  >
+                                    <div
+                                      class="euiModalHeader__title"
+                                    >
+                                      Delete
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiModalBody"
+                                  >
+                                    <div
+                                      class="euiModalBody__overflow"
+                                    >
+                                      <div
+                                        class="euiText euiText--medium"
+                                      >
+                                        Action can't be undone
+                                      </div>
+                                      <div
+                                        class="euiText euiText--medium"
+                                      >
+                                        The action cannot be undone.
+                                      </div>
+                                      <div
+                                        class="euiSpacer euiSpacer--l"
+                                      />
+                                      <div
+                                        class="euiForm"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__labelWrapper"
+                                          >
+                                            <label
+                                              class="euiFormLabel euiFormRow__label euiFormLabel-isFocused"
+                                              for="random_html_id"
+                                            >
+                                              To confirm deletion, enter "delete" in the text field
+                                            </label>
+                                          </div>
+                                          <div
+                                            class="euiFormRow__fieldWrapper"
+                                          >
+                                            <div
+                                              class="euiFormControlLayout"
+                                            >
+                                              <div
+                                                class="euiFormControlLayout__childrenWrapper"
+                                              >
+                                                <input
+                                                  class="euiFieldText"
+                                                  data-autofocus="true"
+                                                  data-test-subj="popoverModal__deleteTextInput"
+                                                  id="random_html_id"
+                                                  name="input"
+                                                  placeholder="delete"
+                                                  type="text"
+                                                  value=""
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiModalFooter"
+                                  >
+                                    <button
+                                      class="euiButtonEmpty euiButtonEmpty--primary"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButtonEmpty__content"
+                                      >
+                                        <span
+                                          class="euiButtonEmpty__text"
+                                        >
+                                          Cancel
+                                        </span>
+                                      </span>
+                                    </button>
+                                    <button
+                                      class="euiButton euiButton--danger euiButton--fill euiButton-isDisabled"
+                                      data-test-subj="popoverModal__deleteButton"
+                                      disabled=""
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButton__content"
+                                      >
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          Delete
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          }
+                          onActivation={[Function]}
+                          onDeactivation={[Function]}
+                          persistentFocus={false}
+                          returnFocus={[Function]}
+                          shards={Array []}
+                        >
+                          <FocusWatcher
+                            autoFocus={true}
+                            crossFrame={true}
+                            disabled={false}
+                            id={Object {}}
+                            observed={
+                              <div
+                                data-focus-lock-disabled="false"
+                              >
+                                <div
+                                  class="euiModal euiModal--maxWidth-default"
+                                  tabindex="0"
+                                >
+                                  <button
+                                    aria-label="Closes this modal window"
+                                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiModal__closeIcon"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </button>
+                                  <div
+                                    class="euiModal__flex"
+                                  >
+                                    <div
+                                      class="euiModalHeader"
+                                    >
+                                      <div
+                                        class="euiModalHeader__title"
+                                      >
+                                        Delete
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiModalBody"
+                                    >
+                                      <div
+                                        class="euiModalBody__overflow"
+                                      >
+                                        <div
+                                          class="euiText euiText--medium"
+                                        >
+                                          Action can't be undone
+                                        </div>
+                                        <div
+                                          class="euiText euiText--medium"
+                                        >
+                                          The action cannot be undone.
+                                        </div>
+                                        <div
+                                          class="euiSpacer euiSpacer--l"
+                                        />
+                                        <div
+                                          class="euiForm"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__labelWrapper"
+                                            >
+                                              <label
+                                                class="euiFormLabel euiFormRow__label euiFormLabel-isFocused"
+                                                for="random_html_id"
+                                              >
+                                                To confirm deletion, enter "delete" in the text field
+                                              </label>
+                                            </div>
+                                            <div
+                                              class="euiFormRow__fieldWrapper"
+                                            >
+                                              <div
+                                                class="euiFormControlLayout"
+                                              >
+                                                <div
+                                                  class="euiFormControlLayout__childrenWrapper"
+                                                >
+                                                  <input
+                                                    class="euiFieldText"
+                                                    data-autofocus="true"
+                                                    data-test-subj="popoverModal__deleteTextInput"
+                                                    id="random_html_id"
+                                                    name="input"
+                                                    placeholder="delete"
+                                                    type="text"
+                                                    value=""
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiModalFooter"
+                                    >
+                                      <button
+                                        class="euiButtonEmpty euiButtonEmpty--primary"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButtonEmpty__content"
+                                        >
+                                          <span
+                                            class="euiButtonEmpty__text"
+                                          >
+                                            Cancel
+                                          </span>
+                                        </span>
+                                      </button>
+                                      <button
+                                        class="euiButton euiButton--danger euiButton--fill euiButton-isDisabled"
+                                        data-test-subj="popoverModal__deleteButton"
+                                        disabled=""
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            Delete
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                            onActivation={[Function]}
+                            onDeactivation={[Function]}
+                            persistentFocus={false}
+                            returnFocus={[Function]}
+                            shards={Array []}
+                          />
+                        </SideEffect(FocusWatcher)>
+                      </SideCar>
+                    </RequireSideCar>
+                    <ForwardRef
+                      data-focus-lock-disabled={false}
+                      enabled={false}
+                      inert={false}
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onTouchStart={[Function]}
+                      removeScrollBar={true}
+                      sideCar={[Function]}
+                    >
+                      <div
+                        data-focus-lock-disabled={false}
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onScrollCapture={[Function]}
+                        onTouchMoveCapture={[Function]}
+                        onTouchStart={[Function]}
+                        onWheelCapture={[Function]}
+                      >
+                        <div
+                          className="euiModal euiModal--maxWidth-default"
+                          onKeyDown={[Function]}
+                          tabIndex={0}
+                        >
+                          <EuiI18n
+                            default="Closes this modal window"
+                            token="euiModal.closeModal"
+                          >
+                            <EuiButtonIcon
+                              aria-label="Closes this modal window"
+                              className="euiModal__closeIcon"
+                              color="text"
+                              iconType="cross"
+                              onClick={[Function]}
+                            >
+                              <button
+                                aria-label="Closes this modal window"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiModal__closeIcon"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="cross"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </EuiI18n>
+                          <div
+                            className="euiModal__flex"
+                          >
+                            <EuiModalHeader>
+                              <div
+                                className="euiModalHeader"
+                              >
+                                <EuiModalHeaderTitle>
+                                  <div
+                                    className="euiModalHeader__title"
+                                  >
+                                    Delete
+                                  </div>
+                                </EuiModalHeaderTitle>
+                              </div>
+                            </EuiModalHeader>
+                            <EuiModalBody>
+                              <div
+                                className="euiModalBody"
+                              >
+                                <div
+                                  className="euiModalBody__overflow"
+                                >
+                                  <EuiText>
+                                    <div
+                                      className="euiText euiText--medium"
+                                    >
+                                      Action can't be undone
+                                    </div>
+                                  </EuiText>
+                                  <EuiText>
+                                    <div
+                                      className="euiText euiText--medium"
+                                    >
+                                      The action cannot be undone.
+                                    </div>
+                                  </EuiText>
+                                  <EuiSpacer>
+                                    <div
+                                      className="euiSpacer euiSpacer--l"
+                                    />
+                                  </EuiSpacer>
+                                  <EuiForm>
+                                    <div
+                                      className="euiForm"
+                                    >
+                                      <EuiFormRow
+                                        describedByIds={Array []}
+                                        display="row"
+                                        fullWidth={false}
+                                        hasChildLabel={true}
+                                        hasEmptyLabelSpace={false}
+                                        label="To confirm deletion, enter \\"delete\\" in the text field"
+                                        labelType="label"
+                                      >
+                                        <div
+                                          className="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            className="euiFormRow__labelWrapper"
+                                          >
+                                            <EuiFormLabel
+                                              className="euiFormRow__label"
+                                              htmlFor="random_html_id"
+                                              isFocused={true}
+                                              type="label"
+                                            >
+                                              <label
+                                                className="euiFormLabel euiFormRow__label euiFormLabel-isFocused"
+                                                htmlFor="random_html_id"
+                                              >
+                                                To confirm deletion, enter "delete" in the text field
+                                              </label>
+                                            </EuiFormLabel>
+                                          </div>
+                                          <div
+                                            className="euiFormRow__fieldWrapper"
+                                          >
+                                            <EuiFieldText
+                                              data-test-subj="popoverModal__deleteTextInput"
+                                              id="random_html_id"
+                                              name="input"
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              placeholder="delete"
+                                              value=""
+                                            >
+                                              <EuiFormControlLayout
+                                                fullWidth={false}
+                                                inputId="random_html_id"
+                                              >
+                                                <div
+                                                  className="euiFormControlLayout"
+                                                >
+                                                  <div
+                                                    className="euiFormControlLayout__childrenWrapper"
+                                                  >
+                                                    <EuiValidatableControl>
+                                                      <input
+                                                        className="euiFieldText"
+                                                        data-test-subj="popoverModal__deleteTextInput"
+                                                        id="random_html_id"
+                                                        name="input"
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onFocus={[Function]}
+                                                        placeholder="delete"
+                                                        type="text"
+                                                        value=""
+                                                      />
+                                                    </EuiValidatableControl>
+                                                    <EuiFormControlLayoutIcons />
+                                                  </div>
+                                                </div>
+                                              </EuiFormControlLayout>
+                                            </EuiFieldText>
+                                          </div>
+                                        </div>
+                                      </EuiFormRow>
+                                    </div>
+                                  </EuiForm>
+                                </div>
+                              </div>
+                            </EuiModalBody>
+                            <EuiModalFooter>
+                              <div
+                                className="euiModalFooter"
+                              >
+                                <EuiButtonEmpty
+                                  onClick={[Function]}
+                                >
+                                  <button
+                                    className="euiButtonEmpty euiButtonEmpty--primary"
+                                    disabled={false}
+                                    onClick={[Function]}
+                                    type="button"
+                                  >
+                                    <EuiButtonContent
+                                      className="euiButtonEmpty__content"
+                                      iconSide="left"
+                                      iconSize="m"
+                                      textProps={
+                                        Object {
+                                          "className": "euiButtonEmpty__text",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className="euiButtonContent euiButtonEmpty__content"
+                                      >
+                                        <span
+                                          className="euiButtonEmpty__text"
+                                        >
+                                          Cancel
+                                        </span>
+                                      </span>
+                                    </EuiButtonContent>
+                                  </button>
+                                </EuiButtonEmpty>
+                                <EuiButton
+                                  color="danger"
+                                  data-test-subj="popoverModal__deleteButton"
+                                  disabled={true}
+                                  fill={true}
+                                  onClick={[Function]}
+                                >
+                                  <EuiButtonDisplay
+                                    baseClassName="euiButton"
+                                    color="danger"
+                                    data-test-subj="popoverModal__deleteButton"
+                                    disabled={true}
+                                    element="button"
+                                    fill={true}
+                                    isDisabled={true}
+                                    onClick={[Function]}
+                                    type="button"
+                                  >
+                                    <button
+                                      className="euiButton euiButton--danger euiButton--fill euiButton-isDisabled"
+                                      data-test-subj="popoverModal__deleteButton"
+                                      disabled={true}
+                                      onClick={[Function]}
+                                      style={
+                                        Object {
+                                          "minWidth": undefined,
+                                        }
+                                      }
+                                      type="button"
+                                    >
+                                      <EuiButtonContent
+                                        className="euiButton__content"
+                                        iconSide="left"
+                                        textProps={
+                                          Object {
+                                            "className": "euiButton__text",
+                                          }
+                                        }
+                                      >
+                                        <span
+                                          className="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            className="euiButton__text"
+                                          >
+                                            Delete
+                                          </span>
+                                        </span>
+                                      </EuiButtonContent>
+                                    </button>
+                                  </EuiButtonDisplay>
+                                </EuiButton>
+                              </div>
+                            </EuiModalFooter>
+                          </div>
+                        </div>
+                      </div>
+                    </ForwardRef>
+                    <div
+                      data-focus-guard={true}
+                      style={
+                        Object {
+                          "height": "0px",
+                          "left": "1px",
+                          "overflow": "hidden",
+                          "padding": 0,
+                          "position": "fixed",
+                          "top": "1px",
+                          "width": "1px",
+                        }
+                      }
+                      tabIndex={0}
+                    />
+                  </ForwardRef(FocusLockUI)>
+                  <RequireSideCar
+                    initialFocus="[name=input]"
+                    noIsolation={true}
+                    onClickOutside={[Function]}
+                    setLockProps={[Function]}
+                    sideCar={
+                      Object {
+                        "assignMedium": [Function],
+                        "assignSyncMedium": [Function],
+                        "options": Object {
+                          "async": true,
+                          "ssr": false,
+                        },
+                        "read": [Function],
+                        "useMedium": [Function],
+                      }
+                    }
+                  >
+                    <SideCar
+                      initialFocus="[name=input]"
+                      noIsolation={true}
+                      onClickOutside={[Function]}
+                      setLockProps={[Function]}
+                      sideCar={
+                        Object {
+                          "assignMedium": [Function],
+                          "assignSyncMedium": [Function],
+                          "options": Object {
+                            "async": true,
+                            "ssr": false,
+                          },
+                          "read": [Function],
+                          "useMedium": [Function],
+                        }
+                      }
+                    >
+                      <Effect
+                        initialFocus="[name=input]"
+                        noIsolation={true}
+                        onClickOutside={[Function]}
+                        setLockProps={[Function]}
+                      >
+                        <Component>
+                          <Sheet
+                            styles="
+ [data-focus-on-hidden] {
+   pointer-events: none !important;
+ }
+"
+                          />
+                        </Component>
+                      </Effect>
+                    </SideCar>
+                  </RequireSideCar>
+                </ForwardRef>
+              </ForwardRef>
+            </EuiFocusTrap>
+          </Portal>
+        </EuiOverlayMask>
+      </EuiModal>
+    </Portal>
+  </EuiOverlayMask>
+</DeleteModal>
+`;
