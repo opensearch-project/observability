@@ -30,10 +30,11 @@ export const ConfigYAxisSide = ({
   handleConfigChange,
   sectionName = 'Series position',
 }: any) => {
+  console.log('vizState===', vizState);
   const { data } = visualizations;
   const { metadata: { fields = [] } = {} } = data?.rawVizData;
   const { dataConfig = {} } = data?.userConfigs;
-
+  console.log('dataConfig==', dataConfig, 'fields===', fields);
   const options = (dataConfig[AGGREGATIONS] && dataConfig[AGGREGATIONS].length !== 0
     ? dataConfig[AGGREGATIONS]
     : fields
@@ -86,7 +87,12 @@ export const ConfigYAxisSide = ({
       buttonContent={sectionName}
       paddingSize="s"
     >
-      <EuiButton fullWidth size="s" onClick={handleAddPosition}>
+      <EuiButton
+        fullWidth
+        size="s"
+        onClick={handleAddPosition}
+        data-test-subj="add-series-position-button"
+      >
         {ADD_SERIES_POSITION_TEXT}
       </EuiButton>
       <EuiSpacer size="s" />

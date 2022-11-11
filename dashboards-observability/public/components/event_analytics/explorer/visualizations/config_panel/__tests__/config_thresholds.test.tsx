@@ -45,12 +45,12 @@ describe('ConfigThresholds component', () => {
             isReadOnly: false,
           },
         ]}
-        props={{ maxLimit: 1 }}
+        props={{ maxLimit: 2 }}
         visualizations={TEST_VISUALIZATIONS_DATA}
       />
     );
 
-    wrapper.update();
+    wrapper.find('button[data-test-subj="addThresholdButton"]').simulate('click');
 
     await waitFor(() => {
       expect(wrapper).toMatchSnapshot();
