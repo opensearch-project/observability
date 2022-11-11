@@ -271,27 +271,30 @@ exports[`Gauge component Renders gauge component 1`] = `
         },
         "userConfigs": Object {
           "dataConfig": Object {
-            "dimensions": Array [
-              Object {
-                "customLabel": "",
-                "label": "host",
-                "name": "host",
-              },
-              Object {
-                "customLabel": "",
-                "label": "tags",
-                "name": "tags",
-              },
-            ],
-            "series": Array [
-              Object {
-                "aggregation": "max",
-                "customLabel": "",
-                "label": "bytes",
-                "name": "bytes",
-              },
-            ],
+            "chartStyles": Object {
+              "legendPlacement": "right",
+              "orientation": "v",
+              "showThresholdLabels": true,
+              "showThresholdMarkers": true,
+              "titleSize": "10",
+              "valueSize": "12",
+            },
           },
+          "dimensions": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "metrics": Array [
+            Object {
+              "label": "count()",
+              "name": "count()",
+              "side": "left",
+              "type": "integer",
+            },
+          ],
         },
       },
       "vis": Object {
@@ -457,139 +460,82 @@ exports[`Gauge component Renders gauge component 1`] = `
     }
   }
 >
-  <Plt
-    config={Object {}}
-    data={
-      Array [
-        Object {
-          "domain": Object {
-            "column": 0,
-            "row": 0,
-          },
-          "gauge": Object {},
-          "mode": "gauge+number+delta",
-          "title": Object {
-            "align": "center",
-            "font": Object {
-              "size": 14,
-            },
-            "text": "artifacts.opensearch.org, error, max(bytes)",
-          },
-          "type": "indicator",
-          "value": 19897,
-        },
-      ]
-    }
-    layout={
-      Object {
-        "colorway": Array [
-          "#8C55A3",
-        ],
-        "grid": Object {
-          "columns": 1,
-          "pattern": "independent",
-          "rows": 1,
-        },
-        "height": 220,
-        "margin": Object {
-          "b": 30,
-          "l": 30,
-          "pad": 4,
-          "r": 5,
-          "t": 100,
-        },
-        "showlegend": true,
-        "title": "",
-      }
-    }
+  <EmptyPlaceholder
+    icon="visGauge"
   >
-    <PlotlyComponent
-      config={
-        Object {
-          "displayModeBar": false,
-        }
-      }
-      data={
-        Array [
-          Object {
-            "domain": Object {
-              "column": 0,
-              "row": 0,
-            },
-            "gauge": Object {},
-            "mode": "gauge+number+delta",
-            "title": Object {
-              "align": "center",
-              "font": Object {
-                "size": 14,
-              },
-              "text": "artifacts.opensearch.org, error, max(bytes)",
-            },
-            "type": "indicator",
-            "value": 19897,
-          },
-        ]
-      }
-      debug={false}
-      divId="explorerPlotComponent"
-      layout={
-        Object {
-          "autosize": true,
-          "barmode": "stack",
-          "colorway": Array [
-            "#8C55A3",
-          ],
-          "grid": Object {
-            "columns": 1,
-            "pattern": "independent",
-            "rows": 1,
-          },
-          "height": 220,
-          "hovermode": "closest",
-          "legend": Object {
-            "orientation": "h",
-            "traceorder": "normal",
-          },
-          "margin": Object {
-            "b": 30,
-            "l": 30,
-            "pad": 4,
-            "r": 5,
-            "t": 100,
-          },
-          "showlegend": true,
-          "title": "",
-          "xaxis": Object {
-            "automargin": true,
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
-          },
-          "yaxis": Object {
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
-          },
-        }
-      }
-      style={
-        Object {
-          "height": "100%",
-          "width": "100%",
-        }
-      }
-      useResizeHandler={true}
+    <EuiText
+      className="lnsChart__empty"
+      color="subdued"
+      data-test-subj="vizWorkspace__noData"
+      size="xs"
+      textAlign="center"
     >
       <div
-        id="explorerPlotComponent"
-        style={
-          Object {
-            "height": "100%",
-            "width": "100%",
-          }
-        }
-      />
-    </PlotlyComponent>
-  </Plt>
+        className="euiText euiText--extraSmall lnsChart__empty"
+        data-test-subj="vizWorkspace__noData"
+      >
+        <EuiTextAlign
+          textAlign="center"
+        >
+          <div
+            className="euiTextAlign euiTextAlign--center"
+          >
+            <EuiTextColor
+              color="subdued"
+              component="div"
+            >
+              <div
+                className="euiTextColor euiTextColor--subdued"
+              >
+                <EuiIcon
+                  color="subdued"
+                  size="xxl"
+                  type="visGauge"
+                >
+                  <EuiIconEmpty
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                    focusable="false"
+                    role="img"
+                    style={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+                <EuiSpacer
+                  size="l"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <p>
+                  <FormattedMessage
+                    defaultMessage="No results found"
+                    id="visualization_noData"
+                    values={Object {}}
+                  >
+                    <span>
+                      No results found
+                    </span>
+                  </FormattedMessage>
+                </p>
+              </div>
+            </EuiTextColor>
+          </div>
+        </EuiTextAlign>
+      </div>
+    </EuiText>
+  </EmptyPlaceholder>
 </Gauge>
 `;

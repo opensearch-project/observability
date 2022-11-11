@@ -16,7 +16,7 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
       ownFocus={false}
       size="m"
     >
-      <EuiWindowEvent
+      <OuiWindowEvent
         event="keydown"
         handler={[Function]}
       />

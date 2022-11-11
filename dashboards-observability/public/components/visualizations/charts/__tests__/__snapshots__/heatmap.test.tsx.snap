@@ -17,10 +17,6 @@ exports[`Heatmap component Renders heatmap component 1`] = `
         "t": 30,
       },
       "showlegend": true,
-      "yaxis": Object {
-        "automargin": true,
-        "autosize": true,
-      },
     }
   }
   visualizations={
@@ -275,27 +271,42 @@ exports[`Heatmap component Renders heatmap component 1`] = `
         },
         "userConfigs": Object {
           "dataConfig": Object {
-            "dimensions": Array [
-              Object {
-                "customLabel": "",
-                "label": "host",
-                "name": "host",
+            "chartStyles": Object {
+              "color": Object {
+                "color": "#6092C0",
+                "name": "singleColor",
               },
-              Object {
-                "customLabel": "",
-                "label": "tags",
-                "name": "tags",
-              },
-            ],
-            "series": Array [
-              Object {
-                "aggregation": "max",
-                "customLabel": "",
-                "label": "bytes",
-                "name": "bytes",
-              },
-            ],
+              "colorMode": Array [
+                Object {
+                  "label": "opacity",
+                  "name": "opacity",
+                  "value": "opacity",
+                },
+              ],
+              "fillOpacity": "71",
+              "interpolation": "linear",
+              "labelSize": "10",
+              "lineWidth": "4",
+              "pointSize": "12",
+              "rotateLabels": "36",
+              "style": "lines",
+            },
           },
+          "dimensions": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "metrics": Array [
+            Object {
+              "label": "count()",
+              "name": "count()",
+              "side": "left",
+              "type": "integer",
+            },
+          ],
         },
       },
       "vis": Object {
@@ -714,186 +725,82 @@ exports[`Heatmap component Renders heatmap component 1`] = `
     }
   }
 >
-  <Plt
-    config={Object {}}
-    data={
-      Array [
-        Object {
-          "colorscale": "Reds",
-          "hoverinfo": "all",
-          "showscale": true,
-          "type": "heatmap",
-          "x": Array [
-            "artifacts.opensearch.org",
-            "cdn.opensearch-opensearch-opensearch.org",
-          ],
-          "y": Array [
-            "error",
-            "info",
-            "login",
-            "security",
-            "success",
-            "warning",
-          ],
-          "z": Array [
-            Array [
-              19897,
-              9947,
-            ],
-            Array [
-              19904,
-              9998,
-            ],
-            Array [
-              19929,
-              9717,
-            ],
-            Array [
-              19856,
-              9973,
-            ],
-            Array [
-              19904,
-              null,
-            ],
-            Array [
-              19929,
-              null,
-            ],
-          ],
-        },
-      ]
-    }
-    layout={
-      Object {
-        "colorway": Array [
-          "#8C55A3",
-        ],
-        "height": 220,
-        "margin": Object {
-          "b": 30,
-          "l": 30,
-          "pad": 4,
-          "r": 5,
-          "t": 50,
-        },
-        "showlegend": true,
-        "title": "",
-        "yaxis": Object {
-          "automargin": true,
-          "autosize": true,
-        },
-      }
-    }
+  <EmptyPlaceholder
+    icon="heatmap"
   >
-    <PlotlyComponent
-      config={
-        Object {
-          "displayModeBar": false,
-        }
-      }
-      data={
-        Array [
-          Object {
-            "colorscale": "Reds",
-            "hoverinfo": "all",
-            "showscale": true,
-            "type": "heatmap",
-            "x": Array [
-              "artifacts.opensearch.org",
-              "cdn.opensearch-opensearch-opensearch.org",
-            ],
-            "y": Array [
-              "error",
-              "info",
-              "login",
-              "security",
-              "success",
-              "warning",
-            ],
-            "z": Array [
-              Array [
-                19897,
-                9947,
-              ],
-              Array [
-                19904,
-                9998,
-              ],
-              Array [
-                19929,
-                9717,
-              ],
-              Array [
-                19856,
-                9973,
-              ],
-              Array [
-                19904,
-                null,
-              ],
-              Array [
-                19929,
-                null,
-              ],
-            ],
-          },
-        ]
-      }
-      debug={false}
-      divId="explorerPlotComponent"
-      layout={
-        Object {
-          "autosize": true,
-          "barmode": "stack",
-          "colorway": Array [
-            "#8C55A3",
-          ],
-          "height": 220,
-          "hovermode": "closest",
-          "legend": Object {
-            "orientation": "h",
-            "traceorder": "normal",
-          },
-          "margin": Object {
-            "b": 30,
-            "l": 30,
-            "pad": 4,
-            "r": 5,
-            "t": 50,
-          },
-          "showlegend": true,
-          "title": "",
-          "xaxis": Object {
-            "automargin": true,
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
-          },
-          "yaxis": Object {
-            "automargin": true,
-            "autosize": true,
-          },
-        }
-      }
-      style={
-        Object {
-          "height": "100%",
-          "width": "100%",
-        }
-      }
-      useResizeHandler={true}
+    <EuiText
+      className="lnsChart__empty"
+      color="subdued"
+      data-test-subj="vizWorkspace__noData"
+      size="xs"
+      textAlign="center"
     >
       <div
-        id="explorerPlotComponent"
-        style={
-          Object {
-            "height": "100%",
-            "width": "100%",
-          }
-        }
-      />
-    </PlotlyComponent>
-  </Plt>
+        className="euiText euiText--extraSmall lnsChart__empty"
+        data-test-subj="vizWorkspace__noData"
+      >
+        <EuiTextAlign
+          textAlign="center"
+        >
+          <div
+            className="euiTextAlign euiTextAlign--center"
+          >
+            <EuiTextColor
+              color="subdued"
+              component="div"
+            >
+              <div
+                className="euiTextColor euiTextColor--subdued"
+              >
+                <EuiIcon
+                  color="subdued"
+                  size="xxl"
+                  type="heatmap"
+                >
+                  <EuiIconEmpty
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                    focusable="false"
+                    role="img"
+                    style={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+                <EuiSpacer
+                  size="l"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--l"
+                  />
+                </EuiSpacer>
+                <p>
+                  <FormattedMessage
+                    defaultMessage="No results found"
+                    id="visualization_noData"
+                    values={Object {}}
+                  >
+                    <span>
+                      No results found
+                    </span>
+                  </FormattedMessage>
+                </p>
+              </div>
+            </EuiTextColor>
+          </div>
+        </EuiTextAlign>
+      </div>
+    </EuiText>
+  </EmptyPlaceholder>
 </HeatMap>
 `;
