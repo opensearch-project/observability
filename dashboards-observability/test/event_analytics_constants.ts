@@ -619,8 +619,26 @@ export const EXPLORER_VISUALIZATIONS_FOR_HEATMAP = {
 };
 
 export const VALUE_OPTIONS = {
-  dimensions: [{ name: 'tags', type: 'text', label: 'tags' }],
-  metrics: [{ name: 'count()', type: 'integer', label: 'count()', side: 'left' }],
+  series: [
+    {
+      label: 'bytes',
+      name: 'bytes',
+      aggregation: 'max',
+      customLabel: '',
+    },
+  ],
+  dimensions: [
+    {
+      label: 'host',
+      name: 'host',
+      customLabel: '',
+    },
+    {
+      label: 'tags',
+      name: 'tags',
+      customLabel: '',
+    },
+  ],
 };
 
 export const TEST_VISUALIZATIONS_DATA = {
@@ -695,8 +713,8 @@ export const GAUGE_TEST_VISUALIZATIONS_DATA = {
   data: {
     ...TEST_VISUALIZATIONS_DATA.data,
     userConfigs: {
-      ...VALUE_OPTIONS,
       dataConfig: {
+        ...TEST_VISUALIZATIONS_DATA.data.userConfigs.dataConfig,
         chartStyles: {
           showThresholdLabels: true,
           showThresholdMarkers: true,
@@ -726,8 +744,8 @@ export const HEATMAP_TEST_VISUALIZATIONS_DATA = {
   data: {
     ...TEST_VISUALIZATIONS_DATA.data,
     userConfigs: {
-      ...VALUE_OPTIONS,
       dataConfig: {
+        ...TEST_VISUALIZATIONS_DATA.data.userConfigs.dataConfig,
         chartStyles: {
           style: 'lines',
           interpolation: 'linear',
@@ -758,8 +776,8 @@ export const LINE_TEST_VISUALIZATIONS_DATA = {
   data: {
     ...TEST_VISUALIZATIONS_DATA.data,
     userConfigs: {
-      ...VALUE_OPTIONS,
       dataConfig: {
+        ...TEST_VISUALIZATIONS_DATA.data.userConfigs.dataConfig,
         chartStyles: {
           style: 'lines',
           interpolation: 'linear',
