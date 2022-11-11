@@ -2,10 +2,39 @@
 
 exports[`ConfigThresholds component Renders ConfigThresholds with data 1`] = `
 <ConfigThresholds
-  handleConfigChange={[MockFunction]}
+  handleConfigChange={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            Object {
+              "color": "#FC0505",
+              "isReadOnly": false,
+              "name": "",
+              "thid": "random_html_id",
+              "value": 0,
+            },
+            Object {
+              "color": "#FC0505",
+              "isReadOnly": false,
+              "name": "test threshold",
+              "thid": "thr_a6cf51b1-60e7-11ed-88bc-e547509e6367",
+              "value": "10000000",
+            },
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
   props={
     Object {
-      "maxLimit": 1,
+      "maxLimit": 2,
     }
   }
   sectionName="Thresholds"
@@ -611,25 +640,25 @@ exports[`ConfigThresholds component Renders ConfigThresholds with data 1`] = `
               <EuiButton
                 data-test-subj="addThresholdButton"
                 fullWidth={true}
-                isDisabled={true}
+                isDisabled={false}
                 onClick={[Function]}
                 size="s"
               >
                 <EuiButtonDisplay
                   baseClassName="euiButton"
                   data-test-subj="addThresholdButton"
-                  disabled={true}
+                  disabled={false}
                   element="button"
                   fullWidth={true}
-                  isDisabled={true}
+                  isDisabled={false}
                   onClick={[Function]}
                   size="s"
                   type="button"
                 >
                   <button
-                    className="euiButton euiButton--primary euiButton--small euiButton--fullWidth euiButton-isDisabled"
+                    className="euiButton euiButton--primary euiButton--small euiButton--fullWidth"
                     data-test-subj="addThresholdButton"
-                    disabled={true}
+                    disabled={false}
                     onClick={[Function]}
                     style={
                       Object {
@@ -654,20 +683,7 @@ exports[`ConfigThresholds component Renders ConfigThresholds with data 1`] = `
                           className="euiButton__text"
                         >
                           <AddButtonTextWrapper>
-                            <EuiToolTip
-                              content="Only one threshold can be applied"
-                              delay="regular"
-                              position="top"
-                            >
-                              <span
-                                className="euiToolTipAnchor"
-                                onKeyUp={[Function]}
-                                onMouseOut={[Function]}
-                                onMouseOver={[Function]}
-                              >
-                                + Add threshold
-                              </span>
-                            </EuiToolTip>
+                            + Add threshold
                           </AddButtonTextWrapper>
                         </span>
                       </span>

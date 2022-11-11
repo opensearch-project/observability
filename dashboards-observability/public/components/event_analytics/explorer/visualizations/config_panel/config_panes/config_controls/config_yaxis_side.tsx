@@ -30,6 +30,7 @@ export const ConfigYAxisSide = ({
   handleConfigChange,
   sectionName = 'Series position',
 }: any) => {
+  console.log('vizState===', vizState);
   const { data } = visualizations;
   const { metadata: { fields = [] } = {} } = data?.rawVizData;
   const { dataConfig = {} } = data?.userConfigs;
