@@ -25,7 +25,27 @@ exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
         "appData": Object {
           "fromApp": false,
         },
-        "defaultAxes": Object {},
+        "defaultAxes": Object {
+          "xaxis": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "yaxis": Array [
+            Object {
+              "label": "max(bytes)",
+              "name": "max(bytes)",
+              "type": "long",
+            },
+            Object {
+              "label": "host",
+              "name": "host",
+              "type": "text",
+            },
+          ],
+        },
         "indexFields": Object {
           "availableFields": Array [
             Object {
@@ -141,13 +161,29 @@ exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
         "query": Object {},
         "rawVizData": Object {
           "data": Object {
-            "count()": Array [
-              154,
-              1753,
-              116,
-              468,
-              1964,
-              219,
+            "host": Array [
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+            ],
+            "max(bytes)": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
             ],
             "tags": Array [
               "error",
@@ -156,68 +192,105 @@ exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
               "security",
               "success",
               "warning",
+              "error",
+              "info",
+              "login",
+              "security",
             ],
           },
           "jsonData": Array [
             Object {
-              "count()": 154,
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19897,
               "tags": "error",
             },
             Object {
-              "count()": 1753,
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
               "tags": "info",
             },
             Object {
-              "count()": 116,
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
               "tags": "login",
             },
             Object {
-              "count()": 468,
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19856,
               "tags": "security",
             },
             Object {
-              "count()": 1964,
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
               "tags": "success",
             },
             Object {
-              "count()": 219,
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
               "tags": "warning",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9947,
+              "tags": "error",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9998,
+              "tags": "info",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9717,
+              "tags": "login",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9973,
+              "tags": "security",
             },
           ],
           "metadata": Object {
             "fields": Array [
               Object {
-                "name": "count()",
-                "type": "integer",
+                "name": "max(bytes)",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
               },
               Object {
                 "name": "tags",
                 "type": "text",
               },
             ],
-            "size": 6,
-            "status": 200,
           },
+          "size": 10,
+          "status": 200,
         },
         "userConfigs": Object {
           "dataConfig": Object {
-            "valueOptions": Object {
-              "dimensions": Array [
-                Object {
-                  "label": "tags",
-                  "name": "tags",
-                  "type": "text",
-                },
-              ],
-              "metrics": Array [
-                Object {
-                  "label": "count()",
-                  "name": "count()",
-                  "side": "left",
-                  "type": "integer",
-                },
-              ],
-            },
+            "dimensions": Array [
+              Object {
+                "customLabel": "",
+                "label": "host",
+                "name": "host",
+              },
+              Object {
+                "customLabel": "",
+                "label": "tags",
+                "name": "tags",
+              },
+            ],
+            "series": Array [
+              Object {
+                "aggregation": "max",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
+            ],
           },
         },
       },
@@ -531,7 +604,47 @@ exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
 >
   <Plt
     config={Object {}}
-    data={Array []}
+    data={
+      Array [
+        Object {
+          "hoverinfo": "all",
+          "marker": Object {
+            "color": "rgba(60,161,199,0.35)",
+            "line": Object {
+              "color": "#3CA1C7",
+              "width": 2,
+            },
+          },
+          "name": "max(bytes)",
+          "orientation": "v",
+          "type": "bar",
+          "x": Array [
+            ",artifacts.opensearch.org,error",
+            ",artifacts.opensearch.org,info",
+            ",artifacts.opensearch.org,login",
+            ",artifacts.opensearch.org,security",
+            ",artifacts.opensearch.org,success",
+            ",artifacts.opensearch.org,warning",
+            ",cdn.opensearch-opensearch-opensearch.org,error",
+            ",cdn.opensearch-opensearch-opensearch.org,info",
+            ",cdn.opensearch-opensearch-opensearch.org,login",
+            ",cdn.opensearch-opensearch-opensearch.org,security",
+          ],
+          "y": Array [
+            19897,
+            19904,
+            19929,
+            19856,
+            19904,
+            19929,
+            9947,
+            9998,
+            9717,
+            9973,
+          ],
+        },
+      ]
+    }
     layout={
       Object {
         "bargap": 0.30000000000000004,
@@ -576,7 +689,47 @@ exports[`Veritcal Bar component Renders veritcal bar component 1`] = `
           "displayModeBar": false,
         }
       }
-      data={Array []}
+      data={
+        Array [
+          Object {
+            "hoverinfo": "all",
+            "marker": Object {
+              "color": "rgba(60,161,199,0.35)",
+              "line": Object {
+                "color": "#3CA1C7",
+                "width": 2,
+              },
+            },
+            "name": "max(bytes)",
+            "orientation": "v",
+            "type": "bar",
+            "x": Array [
+              ",artifacts.opensearch.org,error",
+              ",artifacts.opensearch.org,info",
+              ",artifacts.opensearch.org,login",
+              ",artifacts.opensearch.org,security",
+              ",artifacts.opensearch.org,success",
+              ",artifacts.opensearch.org,warning",
+              ",cdn.opensearch-opensearch-opensearch.org,error",
+              ",cdn.opensearch-opensearch-opensearch.org,info",
+              ",cdn.opensearch-opensearch-opensearch.org,login",
+              ",cdn.opensearch-opensearch-opensearch.org,security",
+            ],
+            "y": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
+            ],
+          },
+        ]
+      }
       debug={false}
       divId="explorerPlotComponent"
       layout={

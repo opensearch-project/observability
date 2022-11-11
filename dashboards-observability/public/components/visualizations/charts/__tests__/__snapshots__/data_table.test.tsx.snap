@@ -7,14 +7,25 @@ exports[`Data table component Renders data table component 1`] = `
     columnDefs={
       Array [
         Object {
-          "colId": "count()",
+          "colId": "max(bytes)",
           "columnsMenuParams": Object {
             "suppressColumnExpandAll": true,
             "suppressColumnFilter": true,
             "suppressColumnSelectAll": true,
           },
-          "field": "count()",
-          "headerName": "count()",
+          "field": "max(bytes)",
+          "headerName": "max(bytes)",
+          "lockVisible": true,
+        },
+        Object {
+          "colId": "host",
+          "columnsMenuParams": Object {
+            "suppressColumnExpandAll": true,
+            "suppressColumnFilter": true,
+            "suppressColumnSelectAll": true,
+          },
+          "field": "host",
+          "headerName": "host",
           "lockVisible": true,
         },
         Object {
@@ -48,28 +59,54 @@ exports[`Data table component Renders data table component 1`] = `
     rowData={
       Array [
         Object {
-          "count()": 154,
+          "host": "artifacts.opensearch.org",
+          "max(bytes)": 19897,
           "tags": "error",
         },
         Object {
-          "count()": 1753,
+          "host": "artifacts.opensearch.org",
+          "max(bytes)": 19904,
           "tags": "info",
         },
         Object {
-          "count()": 116,
+          "host": "artifacts.opensearch.org",
+          "max(bytes)": 19929,
           "tags": "login",
         },
         Object {
-          "count()": 468,
+          "host": "artifacts.opensearch.org",
+          "max(bytes)": 19856,
           "tags": "security",
         },
         Object {
-          "count()": 1964,
+          "host": "artifacts.opensearch.org",
+          "max(bytes)": 19904,
           "tags": "success",
         },
         Object {
-          "count()": 219,
+          "host": "artifacts.opensearch.org",
+          "max(bytes)": 19929,
           "tags": "warning",
+        },
+        Object {
+          "host": "cdn.opensearch-opensearch-opensearch.org",
+          "max(bytes)": 9947,
+          "tags": "error",
+        },
+        Object {
+          "host": "cdn.opensearch-opensearch-opensearch.org",
+          "max(bytes)": 9998,
+          "tags": "info",
+        },
+        Object {
+          "host": "cdn.opensearch-opensearch-opensearch.org",
+          "max(bytes)": 9717,
+          "tags": "login",
+        },
+        Object {
+          "host": "cdn.opensearch-opensearch-opensearch.org",
+          "max(bytes)": 9973,
+          "tags": "security",
         },
       ]
     }

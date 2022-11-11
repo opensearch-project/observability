@@ -7,12 +7,14 @@ import { LONG_CHART_COLOR, VIS_CHART_TYPES } from '../common/constants/shared';
 import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
 import { createGaugeTypeDefinition } from '../public/components/visualizations/charts/financial/gauge/gauge_type';
 import { createMetricsTypeDefinition } from '../public/components/visualizations/charts/metrics/metrics_type';
+import { createMapsVisDefinition } from '../public/components/visualizations/charts/maps/heatmap_type';
 import {
   SELECTED_FIELDS,
   AVAILABLE_FIELDS as AVAILABLE_FIELDS_NAME,
   UNSELECTED_FIELDS,
   QUERIED_FIELDS,
 } from '../common/constants/explorer';
+import { createLineTypeDefinition } from '../public/components/visualizations/charts/lines/line_type';
 
 export const AVAILABLE_FIELDS = [
   {
@@ -509,10 +511,111 @@ export const EXPLORER_VISUALIZATIONS = {
     fields: [
       { name: 'count()', type: 'integer' },
       { name: 'tags', type: 'text' },
+      { name: 'timestamp', type: 'timestamp' },
     ],
     size: 6,
     status: 200,
   },
+};
+
+export const EXPLORER_VISUALIZATIONS_FOR_HEATMAP = {
+  data: {
+    'max(bytes)': [19897, 19904, 19929, 19856, 19904, 19929, 9947, 9998, 9717, 9973],
+    host: [
+      'artifacts.opensearch.org',
+      'artifacts.opensearch.org',
+      'artifacts.opensearch.org',
+      'artifacts.opensearch.org',
+      'artifacts.opensearch.org',
+      'artifacts.opensearch.org',
+      'cdn.opensearch-opensearch-opensearch.org',
+      'cdn.opensearch-opensearch-opensearch.org',
+      'cdn.opensearch-opensearch-opensearch.org',
+      'cdn.opensearch-opensearch-opensearch.org',
+    ],
+    tags: [
+      'error',
+      'info',
+      'login',
+      'security',
+      'success',
+      'warning',
+      'error',
+      'info',
+      'login',
+      'security',
+    ],
+  },
+  jsonData: [
+    {
+      'max(bytes)': 19897,
+      host: 'artifacts.opensearch.org',
+      tags: 'error',
+    },
+    {
+      'max(bytes)': 19904,
+      host: 'artifacts.opensearch.org',
+      tags: 'info',
+    },
+    {
+      'max(bytes)': 19929,
+      host: 'artifacts.opensearch.org',
+      tags: 'login',
+    },
+    {
+      'max(bytes)': 19856,
+      host: 'artifacts.opensearch.org',
+      tags: 'security',
+    },
+    {
+      'max(bytes)': 19904,
+      host: 'artifacts.opensearch.org',
+      tags: 'success',
+    },
+    {
+      'max(bytes)': 19929,
+      host: 'artifacts.opensearch.org',
+      tags: 'warning',
+    },
+    {
+      'max(bytes)': 9947,
+      host: 'cdn.opensearch-opensearch-opensearch.org',
+      tags: 'error',
+    },
+    {
+      'max(bytes)': 9998,
+      host: 'cdn.opensearch-opensearch-opensearch.org',
+      tags: 'info',
+    },
+    {
+      'max(bytes)': 9717,
+      host: 'cdn.opensearch-opensearch-opensearch.org',
+      tags: 'login',
+    },
+    {
+      'max(bytes)': 9973,
+      host: 'cdn.opensearch-opensearch-opensearch.org',
+      tags: 'security',
+    },
+  ],
+  metadata: {
+    fields: [
+      {
+        name: 'max(bytes)',
+        type: 'long',
+      },
+      {
+        name: 'host',
+        type: 'text',
+      },
+      {
+        name: 'tags',
+        type: 'text',
+      },
+    ],
+  },
+  size: 10,
+  status: 200,
 };
 
 export const VALUE_OPTIONS = {
@@ -523,13 +626,52 @@ export const VALUE_OPTIONS = {
 export const TEST_VISUALIZATIONS_DATA = {
   data: {
     appData: { fromApp: false },
-    defaultAxes: {},
+    defaultAxes: {
+      xaxis: [
+        {
+          name: 'tags',
+          type: 'text',
+          label: 'tags',
+        },
+      ],
+      yaxis: [
+        {
+          name: 'max(bytes)',
+          type: 'long',
+          label: 'max(bytes)',
+        },
+        {
+          name: 'host',
+          type: 'text',
+          label: 'host',
+        },
+      ],
+    },
     indexFields: EXPLORER_FIELDS,
     query: {},
-    rawVizData: EXPLORER_VISUALIZATIONS,
+    rawVizData: EXPLORER_VISUALIZATIONS_FOR_HEATMAP,
     userConfigs: {
       dataConfig: {
-        valueOptions: VALUE_OPTIONS,
+        series: [
+          {
+            label: 'bytes',
+            name: 'bytes',
+            aggregation: 'max',
+            customLabel: '',
+          },
+        ],
+        dimensions: [
+          {
+            label: 'host',
+            name: 'host',
+            customLabel: '',
+          },
+          {
+            label: 'tags',
+            name: 'tags',
+            customLabel: '',
+          },
+        ],
       },
     },
   },
@@ -550,7 +692,22 @@ export const PIE_TEST_VISUALIZATIONS_DATA = {
 };
 
 export const GAUGE_TEST_VISUALIZATIONS_DATA = {
-  ...TEST_VISUALIZATIONS_DATA,
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    userConfigs: {
+      ...VALUE_OPTIONS,
+      dataConfig: {
+        chartStyles: {
+          showThresholdLabels: true,
+          showThresholdMarkers: true,
+          orientation: 'v',
+          legendPlacement: 'right',
+          titleSize: '10',
+          valueSize: '12',
+        },
+      },
+    },
+  },
   vis: createGaugeTypeDefinition(),
 };
 
@@ -563,4 +720,61 @@ export const HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA = {
   vis: createBarTypeDefinition({
     type: VIS_CHART_TYPES.HorizontalBar,
   }),
+};
+
+export const HEATMAP_TEST_VISUALIZATIONS_DATA = {
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    userConfigs: {
+      ...VALUE_OPTIONS,
+      dataConfig: {
+        chartStyles: {
+          style: 'lines',
+          interpolation: 'linear',
+          lineWidth: '4',
+          fillOpacity: '71',
+          labelSize: '10',
+          rotateLabels: '36',
+          color: {
+            name: 'singleColor',
+            color: '#6092C0',
+          },
+          pointSize: '12',
+          colorMode: [
+            {
+              name: 'opacity',
+              label: 'opacity',
+              value: 'opacity',
+            },
+          ],
+        },
+      },
+    },
+  },
+  vis: createMapsVisDefinition(),
+};
+
+export const LINE_TEST_VISUALIZATIONS_DATA = {
+  data: {
+    ...TEST_VISUALIZATIONS_DATA.data,
+    userConfigs: {
+      ...VALUE_OPTIONS,
+      dataConfig: {
+        chartStyles: {
+          style: 'lines',
+          interpolation: 'linear',
+          lineWidth: '4',
+          fillOpacity: '71',
+          labelSize: '10',
+          rotateLabels: '36',
+          color: {
+            name: 'singleColor',
+            color: '#6092C0',
+          },
+          pointSize: '12',
+        },
+      },
+    },
+  },
+  vis: createLineTypeDefinition(),
 };
