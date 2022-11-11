@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field Insights component Renders a field insights 1`] = `
+<FieldInsights
+  field={
+    Object {
+      "name": "agent",
+      "type": "string",
+    }
+  }
+  query={
+    Object {
+      "rawQuery": "source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier",
+    }
+  }
+>
+  <EuiFlexGroup
+    data-test-subj="sidebarField__fieldInsights"
+    direction="column"
+  >
+    <div
+      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionColumn euiFlexGroup--responsive"
+      data-test-subj="sidebarField__fieldInsights"
+    >
+      <EuiFlexItem
+        grow={false}
+      >
+        <div
+          className="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <EuiFlexGroup
+            wrap={true}
+          >
+            <div
+              className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive euiFlexGroup--wrap"
+            >
+              <EuiFlexItem
+                grow={false}
+              >
+                <div
+                  className="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <EuiLink
+                    onClick={[Function]}
+                  >
+                    <button
+                      className="euiLink euiLink--primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      Top values
+                    </button>
+                  </EuiLink>
+                </div>
+              </EuiFlexItem>
+              <EuiFlexItem
+                grow={false}
+              >
+                <div
+                  className="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <EuiLink
+                    onClick={[Function]}
+                  >
+                    <button
+                      className="euiLink euiLink--primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      Rare values
+                    </button>
+                  </EuiLink>
+                </div>
+              </EuiFlexItem>
+            </div>
+          </EuiFlexGroup>
+        </div>
+      </EuiFlexItem>
+      <EuiFlexItem
+        grow={false}
+      >
+        <div
+          className="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <EuiBasicTable
+            columns={
+              Array [
+                Object {
+                  "field": "agent",
+                  "name": "agent",
+                },
+              ]
+            }
+            items={Array []}
+            noItemsMessage="No items found"
+            responsive={true}
+            tableLayout="fixed"
+          >
+            <div
+              className="euiBasicTable"
+            >
+              <div>
+                <EuiTableHeaderMobile>
+                  <div
+                    className="euiTableHeaderMobile"
+                  >
+                    <EuiFlexGroup
+                      alignItems="baseline"
+                      justifyContent="spaceBetween"
+                      responsive={false}
+                    >
+                      <div
+                        className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+                      >
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                          />
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={false}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                          />
+                        </EuiFlexItem>
+                      </div>
+                    </EuiFlexGroup>
+                  </div>
+                </EuiTableHeaderMobile>
+                <EuiTable
+                  id="random_html_id"
+                  responsive={true}
+                  tableLayout="fixed"
+                >
+                  <table
+                    className="euiTable euiTable--responsive"
+                    id="random_html_id"
+                    tabIndex={-1}
+                  >
+                    <EuiScreenReaderOnly>
+                      <caption
+                        className="euiScreenReaderOnly euiTableCaption"
+                      >
+                        <EuiDelayRender
+                          delay={500}
+                        />
+                      </caption>
+                    </EuiScreenReaderOnly>
+                    <EuiTableHeader>
+                      <thead>
+                        <tr>
+                          <EuiTableHeaderCell
+                            align="left"
+                            data-test-subj="tableHeaderCell_agent_0"
+                            key="_data_h_agent_0"
+                          >
+                            <th
+                              className="euiTableHeaderCell"
+                              data-test-subj="tableHeaderCell_agent_0"
+                              role="columnheader"
+                              scope="col"
+                              style={
+                                Object {
+                                  "width": undefined,
+                                }
+                              }
+                            >
+                              <CellContents
+                                className="euiTableCellContent"
+                                showSortMsg={false}
+                              >
+                                <span
+                                  className="euiTableCellContent"
+                                >
+                                  <EuiInnerText>
+                                    <EuiI18n
+                                      default="{innerText}; {description}"
+                                      token="euiTableHeaderCell.titleTextWithDesc"
+                                      values={
+                                        Object {
+                                          "description": undefined,
+                                          "innerText": "agent",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className="euiTableCellContent__text"
+                                        title="agent"
+                                      >
+                                        agent
+                                      </span>
+                                    </EuiI18n>
+                                  </EuiInnerText>
+                                </span>
+                              </CellContents>
+                            </th>
+                          </EuiTableHeaderCell>
+                        </tr>
+                      </thead>
+                    </EuiTableHeader>
+                    <EuiTableBody>
+                      <tbody>
+                        <EuiTableRow>
+                          <tr
+                            className="euiTableRow"
+                          >
+                            <EuiTableRowCell
+                              align="center"
+                              colSpan={1}
+                              isMobileFullWidth={true}
+                            >
+                              <td
+                                className="euiTableRowCell euiTableRowCell--isMobileFullWidth"
+                                colSpan={1}
+                                style={
+                                  Object {
+                                    "width": undefined,
+                                  }
+                                }
+                              >
+                                <div
+                                  className="euiTableCellContent euiTableCellContent--alignCenter"
+                                >
+                                  <span
+                                    className="euiTableCellContent__text"
+                                  >
+                                    No items found
+                                  </span>
+                                </div>
+                              </td>
+                            </EuiTableRowCell>
+                          </tr>
+                        </EuiTableRow>
+                      </tbody>
+                    </EuiTableBody>
+                  </table>
+                </EuiTable>
+              </div>
+            </div>
+          </EuiBasicTable>
+        </div>
+      </EuiFlexItem>
+    </div>
+  </EuiFlexGroup>
+</FieldInsights>
+`;
