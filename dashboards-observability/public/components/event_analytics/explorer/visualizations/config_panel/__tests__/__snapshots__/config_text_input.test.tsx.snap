@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Config text input component Renders TextInputFieldItem with data 1`] = `
+<TextInputFieldItem
+  currentValue="units"
+  handleInputChange={[MockFunction]}
+  name="seriesUnits"
+  title="Series"
+>
+  <EuiTitle
+    size="xxs"
+  >
+    <h3
+      className="euiTitle euiTitle--xxsmall"
+    >
+      Series
+    </h3>
+  </EuiTitle>
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>
+  <EuiFieldText
+    data-test-subj="valueFieldText"
+    fullWidth={true}
+    id="random_html_id"
+    name="seriesUnits"
+    onBlur={[Function]}
+    onChange={[Function]}
+    placeholder="Series"
+    value="units"
+  >
+    <EuiFormControlLayout
+      fullWidth={true}
+      inputId="random_html_id"
+    >
+      <div
+        className="euiFormControlLayout euiFormControlLayout--fullWidth"
+      >
+        <div
+          className="euiFormControlLayout__childrenWrapper"
+        >
+          <EuiValidatableControl>
+            <input
+              className="euiFieldText euiFieldText--fullWidth"
+              data-test-subj="valueFieldText"
+              id="random_html_id"
+              name="seriesUnits"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Series"
+              type="text"
+              value="units"
+            />
+          </EuiValidatableControl>
+          <EuiFormControlLayoutIcons />
+        </div>
+      </div>
+    </EuiFormControlLayout>
+  </EuiFieldText>
+</TextInputFieldItem>
+`;
+
+exports[`Config text input component Renders TextInputFieldItem with empty data 1`] = `
+<TextInputFieldItem
+  currentValue=""
+  handleInputChange={[MockFunction]}
+  name=""
+  title=""
+>
+  <EuiTitle
+    size="xxs"
+  >
+    <h3
+      className="euiTitle euiTitle--xxsmall"
+    />
+  </EuiTitle>
+  <EuiSpacer
+    size="s"
+  >
+    <div
+      className="euiSpacer euiSpacer--s"
+    />
+  </EuiSpacer>
+  <EuiFieldText
+    data-test-subj="valueFieldText"
+    fullWidth={true}
+    id="random_html_id"
+    name=""
+    onBlur={[Function]}
+    onChange={[Function]}
+    placeholder=""
+    value=""
+  >
+    <EuiFormControlLayout
+      fullWidth={true}
+      inputId="random_html_id"
+    >
+      <div
+        className="euiFormControlLayout euiFormControlLayout--fullWidth"
+      >
+        <div
+          className="euiFormControlLayout__childrenWrapper"
+        >
+          <EuiValidatableControl>
+            <input
+              className="euiFieldText euiFieldText--fullWidth"
+              data-test-subj="valueFieldText"
+              id="random_html_id"
+              name=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder=""
+              type="text"
+              value=""
+            />
+          </EuiValidatableControl>
+          <EuiFormControlLayoutIcons />
+        </div>
+      </div>
+    </EuiFormControlLayout>
+  </EuiFieldText>
+</TextInputFieldItem>
+`;
