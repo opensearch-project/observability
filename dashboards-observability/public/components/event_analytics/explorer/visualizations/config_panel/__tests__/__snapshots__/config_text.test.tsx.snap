@@ -1,0 +1,3352 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Config text input component Renders ConfigText with data 1`] = `
+<ConfigText
+  handleConfigChange={[MockFunction]}
+  schemas={Array []}
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {
+          "xaxis": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "yaxis": Array [
+            Object {
+              "label": "max(bytes)",
+              "name": "max(bytes)",
+              "type": "long",
+            },
+            Object {
+              "label": "host",
+              "name": "host",
+              "type": "text",
+            },
+          ],
+        },
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "host": Array [
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+            ],
+            "max(bytes)": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+              "error",
+              "info",
+              "login",
+              "security",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19897,
+              "tags": "error",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "info",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "login",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19856,
+              "tags": "security",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "success",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "warning",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9947,
+              "tags": "error",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9998,
+              "tags": "info",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9717,
+              "tags": "login",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9973,
+              "tags": "security",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "max(bytes)",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+          },
+          "size": 10,
+          "status": 200,
+        },
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "dimensions": Array [
+              Object {
+                "customLabel": "",
+                "label": "host",
+                "name": "host",
+              },
+              Object {
+                "customLabel": "",
+                "label": "tags",
+                "name": "tags",
+              },
+            ],
+            "series": Array [
+              Object {
+                "aggregation": "max",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
+            ],
+          },
+        },
+      },
+      "vis": Object {
+        "barwidth": 0.97,
+        "category": "Visualizations",
+        "categoryaxis": "xaxis",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "position",
+                      "name": "Position",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Bottom",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "id": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fillopacity": 70,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
+        "icon": [Function],
+        "icontype": "visBarVerticalStacked",
+        "id": "bar",
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 2,
+        "mode": "group",
+        "name": "bar",
+        "orientation": "v",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
+        "type": "bar",
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "isUniColor": false,
+          "layout": Object {
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+  vizState={Object {}}
+>
+  <EuiAccordion
+    arrowDisplay="left"
+    buttonContent="Text"
+    id="configPanel__textOptions"
+    initialIsOpen={true}
+    isLoading={false}
+    isLoadingMessage={false}
+    paddingSize="s"
+  >
+    <div
+      className="euiAccordion euiAccordion-isOpen"
+    >
+      <div
+        className="euiAccordion__triggerWrapper"
+      >
+        <button
+          aria-controls="configPanel__textOptions"
+          aria-expanded={true}
+          className="euiAccordion__button"
+          id="random_html_id"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="euiAccordion__iconWrapper"
+          >
+            <EuiIcon
+              className="euiAccordion__icon euiAccordion__icon-isOpen"
+              size="m"
+              type="arrowRight"
+            >
+              <EuiIconArrowRight
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiAccordion__icon euiAccordion__icon-isOpen"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiAccordion__icon euiAccordion__icon-isOpen"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.157 13.069l4.611-4.685a.546.546 0 000-.768L5.158 2.93a.552.552 0 010-.771.53.53 0 01.759 0l4.61 4.684c.631.641.63 1.672 0 2.312l-4.61 4.684a.53.53 0 01-.76 0 .552.552 0 010-.771z"
+                    fillRule="nonzero"
+                  />
+                </svg>
+              </EuiIconArrowRight>
+            </EuiIcon>
+          </span>
+          <span
+            className="euiIEFlexWrapFix"
+          >
+            Text
+          </span>
+        </button>
+      </div>
+      <div
+        aria-labelledby="random_html_id"
+        className="euiAccordion__childWrapper"
+        id="configPanel__textOptions"
+        role="region"
+        tabIndex={-1}
+      >
+        <EuiResizeObserver
+          onResize={[Function]}
+        >
+          <div>
+            <div
+              className="euiAccordion__padding--s"
+            >
+              <EuiMarkdownEditor
+                aria-label="EUI markdown editor demo"
+                height={400}
+                onChange={[Function]}
+                placeholder="Your markdown here..."
+                value=""
+              >
+                <div
+                  className="euiMarkdownEditor"
+                  placeholder="Your markdown here..."
+                >
+                  <EuiMarkdownEditorToolbar
+                    markdownActions={
+                      MarkdownActions {
+                        "editorID": "random_html_id",
+                        "styles": Object {
+                          "mdBold": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "prefix": "**",
+                              "suffix": "**",
+                              "trimFirst": true,
+                            },
+                            "name": "mdBold",
+                          },
+                          "mdCode": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "blockPrefix": "\`\`\`",
+                              "blockSuffix": "\`\`\`",
+                              "prefix": "\`",
+                              "suffix": "\`",
+                            },
+                            "name": "mdCode",
+                          },
+                          "mdItalic": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "prefix": "_",
+                              "suffix": "_",
+                              "trimFirst": true,
+                            },
+                            "name": "mdItalic",
+                          },
+                          "mdLink": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "prefix": "[",
+                              "replaceNext": "url",
+                              "scanFor": "https?://",
+                              "suffix": "](url)",
+                            },
+                            "name": "mdLink",
+                          },
+                          "mdOl": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "orderedList": true,
+                              "prefix": "1. ",
+                            },
+                            "name": "mdOl",
+                          },
+                          "mdQuote": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "prefix": "> ",
+                              "surroundWithNewlines": true,
+                            },
+                            "name": "mdQuote",
+                          },
+                          "mdTl": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "prefix": "- [ ] ",
+                              "surroundWithNewlines": true,
+                            },
+                            "name": "mdTl",
+                          },
+                          "mdUl": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "prefix": "- ",
+                              "surroundWithNewlines": true,
+                            },
+                            "name": "mdUl",
+                          },
+                          "tooltipPlugin": Object {
+                            "button": Object {
+                              "iconType": "editorComment",
+                              "label": "Tooltip",
+                            },
+                            "formatting": Object {
+                              "prefix": "!{tooltip[",
+                              "suffix": "]()}",
+                              "trimFirst": true,
+                            },
+                            "helpText": <EuiCodeBlock
+                              fontSize="l"
+                              language="md"
+                              paddingSize="s"
+                            >
+                              !{tooltip[anchor text](helpful description)}
+                            </EuiCodeBlock>,
+                            "name": "tooltipPlugin",
+                          },
+                        },
+                      }
+                    }
+                    onClickPreview={[Function]}
+                    uiPlugins={
+                      Array [
+                        Object {
+                          "button": Object {
+                            "iconType": "editorComment",
+                            "label": "Tooltip",
+                          },
+                          "formatting": Object {
+                            "prefix": "!{tooltip[",
+                            "suffix": "]()}",
+                            "trimFirst": true,
+                          },
+                          "helpText": <EuiCodeBlock
+                            fontSize="l"
+                            language="md"
+                            paddingSize="s"
+                          >
+                            !{tooltip[anchor text](helpful description)}
+                          </EuiCodeBlock>,
+                          "name": "tooltipPlugin",
+                        },
+                      ]
+                    }
+                    viewMode="editing"
+                  >
+                    <div
+                      className="euiMarkdownEditorToolbar"
+                    >
+                      <div
+                        className="euiMarkdownEditorToolbar__buttons"
+                      >
+                        <EuiToolTip
+                          content="Bold"
+                          delay="long"
+                          key="mdBold"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Bold"
+                              color="text"
+                              iconType="editorBold"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Bold"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorBold"
+                                >
+                                  <EuiIconEditorBold
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M8.193 13H4V3h4.151c1.816 0 2.987.977 2.987 2.495 0 1.074-.797 2.01-1.823 2.176v.055c1.359.132 2.308 1.11 2.308 2.433 0 1.76-1.296 2.841-3.43 2.841zM5.788 4.393v2.82h1.635c1.248 0 1.948-.526 1.948-1.455 0-.873-.603-1.365-1.67-1.365H5.788zm0 7.214h1.996c1.316 0 2.016-.547 2.016-1.573 0-1.019-.72-1.552-2.092-1.552h-1.92v3.125z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorBold>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Italic"
+                          delay="long"
+                          key="mdItalic"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Italic"
+                              color="text"
+                              iconType="editorItalic"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Italic"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorItalic"
+                                >
+                                  <EuiIconEditorItalic
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M8.16 12H9.5a.5.5 0 110 1h-4a.5.5 0 110-1h1.639l1.7-8H7.5a.5.5 0 010-1h4a.5.5 0 110 1H9.861l-1.7 8z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorItalic>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <span
+                          className="euiMarkdownEditorToolbar__divider"
+                        />
+                        <EuiToolTip
+                          content="Unordered list"
+                          delay="long"
+                          key="mdUl"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Unordered list"
+                              color="text"
+                              iconType="editorUnorderedList"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Unordered list"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorUnorderedList"
+                                >
+                                  <EuiIconEditorUnorderedList
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M5.5 4h8a.5.5 0 110 1h-8a.5.5 0 010-1zm0 4h8a.5.5 0 110 1h-8a.5.5 0 010-1zm0 4h8a.5.5 0 110 1h-8a.5.5 0 110-1zm-3-7a.5.5 0 110-1 .5.5 0 010 1zm0 4a.5.5 0 110-1 .5.5 0 010 1zm0 4a.5.5 0 110-1 .5.5 0 010 1z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorUnorderedList>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Ordered list"
+                          delay="long"
+                          key="mdOl"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Ordered list"
+                              color="text"
+                              iconType="editorOrderedList"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Ordered list"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorOrderedList"
+                                >
+                                  <EuiIconEditorOrderedList
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M3 8v1h1v1H1V9h1V8H1V7h3v1H3zm1 4v2H1v-1h1v-1H1v-1h3v1zM3 5h1v1H1V5h1V4H1V3h2v2zm2.5-1h8a.5.5 0 110 1h-8a.5.5 0 010-1zm0 4h8a.5.5 0 110 1h-8a.5.5 0 010-1zm0 4h8a.5.5 0 110 1h-8a.5.5 0 110-1z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorOrderedList>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Task list"
+                          delay="long"
+                          key="mdTl"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Task list"
+                              color="text"
+                              iconType={[Function]}
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Task list"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type={[Function]}
+                                >
+                                  <MarkdownCheckmark
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      fill="none"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M11.828 13H4.172A1.173 1.173 0 013 11.828V4.172C3 3.526 3.526 3 4.172 3h7.656C12.474 3 13 3.526 13 4.172v7.656c0 .646-.526 1.172-1.172 1.172zM4.172 3.781a.391.391 0 00-.39.39v7.657c0 .216.175.39.39.39h7.656a.39.39 0 00.39-.39V4.172a.391.391 0 00-.39-.39H4.172zm7.244 2.175l-.582-.521L7.22 9.469 5.125 7.476l-.539.566 2.68 2.548 4.15-4.634z"
+                                      />
+                                    </svg>
+                                  </MarkdownCheckmark>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <span
+                          className="euiMarkdownEditorToolbar__divider"
+                        />
+                        <EuiToolTip
+                          content="Quote"
+                          delay="long"
+                          key="mdQuote"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Quote"
+                              color="text"
+                              iconType="quote"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Quote"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="quote"
+                                >
+                                  <EuiIconQuote
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M6.848 2.47a1 1 0 01-.318 1.378A7.284 7.284 0 003.75 7.01 3 3 0 111 10v-.027a3.521 3.521 0 01.01-.232c.009-.15.027-.36.062-.618.07-.513.207-1.22.484-2.014.552-1.59 1.67-3.555 3.914-4.957a1 1 0 011.378.318zm7 0a1 1 0 01-.318 1.378 7.283 7.283 0 00-2.78 3.162A3 3 0 118 10v-.027a3.521 3.521 0 01.01-.232c.009-.15.027-.36.062-.618.07-.513.207-1.22.484-2.014.552-1.59 1.67-3.555 3.914-4.957a1 1 0 011.378.318z"
+                                      />
+                                    </svg>
+                                  </EuiIconQuote>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Code"
+                          delay="long"
+                          key="mdCode"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Code"
+                              color="text"
+                              iconType="editorCodeBlock"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Code"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorCodeBlock"
+                                >
+                                  <EuiIconEditorCodeBlock
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M2.414 8.036L4.89 10.51a.5.5 0 01-.707.708L1.354 8.389a.5.5 0 010-.707l2.828-2.828a.5.5 0 11.707.707L2.414 8.036zm8.768 2.474l2.475-2.474-2.475-2.475a.5.5 0 01.707-.707l2.829 2.828a.5.5 0 010 .707l-2.829 2.829a.5.5 0 11-.707-.708zM8.559 2.506a.5.5 0 01.981.19L7.441 13.494a.5.5 0 01-.981-.19L8.559 2.506z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorCodeBlock>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Link"
+                          delay="long"
+                          key="mdLink"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Link"
+                              color="text"
+                              iconType="editorLink"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Link"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorLink"
+                                >
+                                  <EuiIconEditorLink
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M7.556 5.051a.45.45 0 00.637.637l1.503-1.504c.432-.431 1.278-.382 1.89.23.612.612.662 1.458.23 1.89L9.519 8.6c-.432.432-1.278.383-1.89-.23a.45.45 0 10-.636.637c.914.914 2.33 1.063 3.162.23l2.297-2.297c.833-.833.684-2.248-.23-3.162-.914-.915-2.33-1.063-3.162-.23L7.556 5.051zm.888 5.261a.45.45 0 00-.637 0l-1.503 1.504c-.432.431-1.278.382-1.89-.23-.612-.612-.661-1.458-.23-1.89L6.481 7.4c.432-.432 1.278-.383 1.89.23a.45.45 0 00.636-.637c-.914-.914-2.33-1.063-3.162-.23L3.548 9.06c-.833.833-.685 2.248.23 3.162.914.915 2.33 1.063 3.162.23l1.504-1.503a.45.45 0 000-.637zM7.877 5.76a.39.39 0 00.274-.114l1.503-1.504-1.503 1.504a.39.39 0 01-.274.114zm.912 3.183c-.4.003-.843-.172-1.202-.53.359.358.802.533 1.202.53zM12.18 3.82c-.502-.503-1.155-.766-1.773-.76.618-.006 1.27.257 1.773.76.898.898 1.034 2.275.23 3.078l-2.297 2.297 2.297-2.297c.804-.803.668-2.18-.23-3.078zm-4.062 6.42a.39.39 0 01.284.667L6.898 12.41l1.504-1.503a.39.39 0 00-.284-.667zm-.926-3.965c.618-.006 1.27.257 1.773.76-.502-.503-1.155-.766-1.773-.76zM5.414 12.15a1.762 1.762 0 01-1.042-.522c-.626-.627-.692-1.511-.23-1.974L6.44 7.358 4.142 9.654c-.462.463-.396 1.348.23 1.974.311.311.687.484 1.042.522z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorLink>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <span
+                          className="euiMarkdownEditorToolbar__divider"
+                        />
+                        <EuiToolTip
+                          content="Tooltip"
+                          delay="long"
+                          key="tooltipPlugin"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Tooltip"
+                              color="text"
+                              iconType="editorComment"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Tooltip"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorComment"
+                                >
+                                  <EuiIconEditorComment
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M6.111 10H12a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v4a1 1 0 001 1h1v1.297L6.111 10zm.46 1L4 14v-3a2 2 0 01-2-2V5a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H6.571z"
+                                      />
+                                    </svg>
+                                  </EuiIconEditorComment>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                      </div>
+                      <EuiButtonEmpty
+                        color="text"
+                        iconType="eye"
+                        onClick={[Function]}
+                        size="s"
+                      >
+                        <button
+                          className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small"
+                          disabled={false}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <EuiButtonContent
+                            className="euiButtonEmpty__content"
+                            iconSide="left"
+                            iconSize="m"
+                            iconType="eye"
+                            textProps={
+                              Object {
+                                "className": "euiButtonEmpty__text",
+                              }
+                            }
+                          >
+                            <span
+                              className="euiButtonContent euiButtonEmpty__content"
+                            >
+                              <EuiIcon
+                                className="euiButtonContent__icon"
+                                color="inherit"
+                                size="m"
+                                type="eye"
+                              >
+                                <EuiIconEye
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                  focusable="false"
+                                  role="img"
+                                  style={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonContent__icon"
+                                    focusable="false"
+                                    height={16}
+                                    role="img"
+                                    style={null}
+                                    viewBox="0 0 16 16"
+                                    width={16}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M15.98 7.873c.013.03.02.064.02.098v.06a.24.24 0 01-.02.097C15.952 8.188 13.291 14 8 14S.047 8.188.02 8.128A.24.24 0 010 8.03v-.059c0-.034.007-.068.02-.098C.048 7.813 2.709 2 8 2s7.953 5.813 7.98 5.873zm-1.37-.424a12.097 12.097 0 00-1.385-1.862C11.739 3.956 9.999 3 8 3c-2 0-3.74.956-5.225 2.587a12.098 12.098 0 00-1.701 2.414 12.095 12.095 0 001.7 2.413C4.26 12.043 6.002 13 8 13s3.74-.956 5.225-2.587A12.097 12.097 0 0014.926 8c-.08-.15-.189-.343-.315-.551zM8 4.75A3.253 3.253 0 0111.25 8 3.254 3.254 0 018 11.25 3.253 3.253 0 014.75 8 3.252 3.252 0 018 4.75zm0 1C6.76 5.75 5.75 6.76 5.75 8S6.76 10.25 8 10.25 10.25 9.24 10.25 8 9.24 5.75 8 5.75zm0 1.5a.75.75 0 100 1.5.75.75 0 000-1.5z"
+                                    />
+                                  </svg>
+                                </EuiIconEye>
+                              </EuiIcon>
+                              <span
+                                className="euiButtonEmpty__text"
+                              >
+                                <EuiI18n
+                                  default="Preview"
+                                  token="euiMarkdownEditorToolbar.previewMarkdown"
+                                >
+                                  Preview
+                                </EuiI18n>
+                              </span>
+                            </span>
+                          </EuiButtonContent>
+                        </button>
+                      </EuiButtonEmpty>
+                    </div>
+                  </EuiMarkdownEditorToolbar>
+                  <div
+                    className="euiMarkdownEditor__toggleContainer"
+                    style={
+                      Object {
+                        "height": "calc(100% - 0px)",
+                      }
+                    }
+                  >
+                    <EuiMarkdownEditorDropZone
+                      dropHandlers={Array []}
+                      errors={Array []}
+                      hasUnacceptedItems={false}
+                      insertText={[Function]}
+                      isEditing={true}
+                      setEditorFooterHeight={[Function]}
+                      setHasUnacceptedItems={[Function]}
+                      uiPlugins={
+                        Array [
+                          Object {
+                            "button": Object {
+                              "iconType": "editorComment",
+                              "label": "Tooltip",
+                            },
+                            "formatting": Object {
+                              "prefix": "!{tooltip[",
+                              "suffix": "]()}",
+                              "trimFirst": true,
+                            },
+                            "helpText": <EuiCodeBlock
+                              fontSize="l"
+                              language="md"
+                              paddingSize="s"
+                            >
+                              !{tooltip[anchor text](helpful description)}
+                            </EuiCodeBlock>,
+                            "name": "tooltipPlugin",
+                          },
+                        ]
+                      }
+                    >
+                      <div
+                        className="euiMarkdownEditorDropZone"
+                        onBlur={null}
+                        onClick={null}
+                        onDragEnter={null}
+                        onDragLeave={null}
+                        onDragOver={null}
+                        onDrop={null}
+                        onFocus={null}
+                        onKeyDown={null}
+                        role="button"
+                      >
+                        <EuiResizeObserver
+                          onResize={[Function]}
+                        >
+                          <EuiMarkdownEditorTextArea
+                            aria-label="EUI markdown editor demo"
+                            height="calc(400px)"
+                            id="random_html_id"
+                            maxHeight="500px"
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            value=""
+                          >
+                            <textarea
+                              aria-label="EUI markdown editor demo"
+                              className="euiMarkdownEditorTextArea"
+                              id="random_html_id"
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              rows={6}
+                              style={
+                                Object {
+                                  "height": "calc(400px)",
+                                  "maxHeight": "500px",
+                                }
+                              }
+                              value=""
+                            />
+                          </EuiMarkdownEditorTextArea>
+                        </EuiResizeObserver>
+                        <EuiMarkdownEditorFooter
+                          dropHandlers={Array []}
+                          errors={Array []}
+                          hasUnacceptedItems={false}
+                          isUploadingFiles={false}
+                          openFiles={[Function]}
+                          uiPlugins={
+                            Array [
+                              Object {
+                                "button": Object {
+                                  "iconType": "editorComment",
+                                  "label": "Tooltip",
+                                },
+                                "formatting": Object {
+                                  "prefix": "!{tooltip[",
+                                  "suffix": "]()}",
+                                  "trimFirst": true,
+                                },
+                                "helpText": <EuiCodeBlock
+                                  fontSize="l"
+                                  language="md"
+                                  paddingSize="s"
+                                >
+                                  !{tooltip[anchor text](helpful description)}
+                                </EuiCodeBlock>,
+                                "name": "tooltipPlugin",
+                              },
+                            ]
+                          }
+                        >
+                          <div
+                            className="euiMarkdownEditorFooter"
+                          >
+                            <div
+                              className="euiMarkdownEditorFooter__actions"
+                            />
+                            <EuiButtonIcon
+                              aria-label="Show markdown help"
+                              className="euiMarkdownEditorFooter__help"
+                              color="text"
+                              iconType={[Function]}
+                              onClick={[Function]}
+                            >
+                              <button
+                                aria-label="Show markdown help"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiMarkdownEditorFooter__help"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type={[Function]}
+                                >
+                                  <MarkdownLogo
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      fill="none"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 26 16"
+                                      width="26"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1.25 1.875c0-.345.28-.625.625-.625h22.25c.345 0 .625.28.625.625v12.25c0 .345-.28.625-.625.625H1.875a.625.625 0 01-.625-.625V1.875zM1.875 0C.839 0 0 .84 0 1.875v12.25C0 15.161.84 16 1.875 16h22.25C25.16 16 26 15.16 26 14.125V1.875C26 .839 25.16 0 24.125 0H1.875zM3.75 3.75v8.5h2.5V7.375l2.5 3.125 2.5-3.125v4.875h2.5v-8.5h-2.5l-2.5 3.125-2.5-3.125h-2.5zm11.875 4.375l3.75 4.125 3.75-4.125h-2.5V3.75h-2.5v4.375h-2.5z"
+                                      />
+                                    </svg>
+                                  </MarkdownLogo>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </div>
+                        </EuiMarkdownEditorFooter>
+                        <input
+                          autoComplete="off"
+                          multiple={true}
+                          onChange={null}
+                          onClick={null}
+                          style={
+                            Object {
+                              "display": "none",
+                            }
+                          }
+                          tabIndex={-1}
+                          type="file"
+                        />
+                      </div>
+                    </EuiMarkdownEditorDropZone>
+                  </div>
+                </div>
+              </EuiMarkdownEditor>
+            </div>
+          </div>
+        </EuiResizeObserver>
+      </div>
+    </div>
+  </EuiAccordion>
+</ConfigText>
+`;
+
+exports[`Config text input component Renders ConfigText with empty data 1`] = `
+<ConfigText
+  handleConfigChange={[MockFunction]}
+  schemas={Array []}
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {
+          "xaxis": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "yaxis": Array [
+            Object {
+              "label": "max(bytes)",
+              "name": "max(bytes)",
+              "type": "long",
+            },
+            Object {
+              "label": "host",
+              "name": "host",
+              "type": "text",
+            },
+          ],
+        },
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "host": Array [
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+            ],
+            "max(bytes)": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+              "error",
+              "info",
+              "login",
+              "security",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19897,
+              "tags": "error",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "info",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "login",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19856,
+              "tags": "security",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "success",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "warning",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9947,
+              "tags": "error",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9998,
+              "tags": "info",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9717,
+              "tags": "login",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9973,
+              "tags": "security",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "max(bytes)",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+          },
+          "size": 10,
+          "status": 200,
+        },
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "dimensions": Array [
+              Object {
+                "customLabel": "",
+                "label": "host",
+                "name": "host",
+              },
+              Object {
+                "customLabel": "",
+                "label": "tags",
+                "name": "tags",
+              },
+            ],
+            "series": Array [
+              Object {
+                "aggregation": "max",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
+            ],
+          },
+        },
+      },
+      "vis": Object {
+        "barwidth": 0.97,
+        "category": "Visualizations",
+        "categoryaxis": "xaxis",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "position",
+                      "name": "Position",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Bottom",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "id": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fillopacity": 70,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
+        "icon": [Function],
+        "icontype": "visBarVerticalStacked",
+        "id": "bar",
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 2,
+        "mode": "group",
+        "name": "bar",
+        "orientation": "v",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
+        "type": "bar",
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "isUniColor": false,
+          "layout": Object {
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+  vizState={Object {}}
+>
+  <EuiAccordion
+    arrowDisplay="left"
+    buttonContent="Text"
+    id="configPanel__textOptions"
+    initialIsOpen={true}
+    isLoading={false}
+    isLoadingMessage={false}
+    paddingSize="s"
+  >
+    <div
+      className="euiAccordion euiAccordion-isOpen"
+    >
+      <div
+        className="euiAccordion__triggerWrapper"
+      >
+        <button
+          aria-controls="configPanel__textOptions"
+          aria-expanded={true}
+          className="euiAccordion__button"
+          id="random_html_id"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="euiAccordion__iconWrapper"
+          >
+            <EuiIcon
+              className="euiAccordion__icon euiAccordion__icon-isOpen"
+              size="m"
+              type="arrowRight"
+            >
+              <EuiIconEmpty
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                />
+              </EuiIconEmpty>
+            </EuiIcon>
+          </span>
+          <span
+            className="euiIEFlexWrapFix"
+          >
+            Text
+          </span>
+        </button>
+      </div>
+      <div
+        aria-labelledby="random_html_id"
+        className="euiAccordion__childWrapper"
+        id="configPanel__textOptions"
+        role="region"
+        tabIndex={-1}
+      >
+        <EuiResizeObserver
+          onResize={[Function]}
+        >
+          <div>
+            <div
+              className="euiAccordion__padding--s"
+            >
+              <EuiMarkdownEditor
+                aria-label="EUI markdown editor demo"
+                height={400}
+                onChange={[Function]}
+                placeholder="Your markdown here..."
+                value=""
+              >
+                <div
+                  className="euiMarkdownEditor"
+                  placeholder="Your markdown here..."
+                >
+                  <EuiMarkdownEditorToolbar
+                    markdownActions={
+                      MarkdownActions {
+                        "editorID": "random_html_id",
+                        "styles": Object {
+                          "mdBold": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "prefix": "**",
+                              "suffix": "**",
+                              "trimFirst": true,
+                            },
+                            "name": "mdBold",
+                          },
+                          "mdCode": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "blockPrefix": "\`\`\`",
+                              "blockSuffix": "\`\`\`",
+                              "prefix": "\`",
+                              "suffix": "\`",
+                            },
+                            "name": "mdCode",
+                          },
+                          "mdItalic": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "prefix": "_",
+                              "suffix": "_",
+                              "trimFirst": true,
+                            },
+                            "name": "mdItalic",
+                          },
+                          "mdLink": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "prefix": "[",
+                              "replaceNext": "url",
+                              "scanFor": "https?://",
+                              "suffix": "](url)",
+                            },
+                            "name": "mdLink",
+                          },
+                          "mdOl": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "orderedList": true,
+                              "prefix": "1. ",
+                            },
+                            "name": "mdOl",
+                          },
+                          "mdQuote": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "prefix": "> ",
+                              "surroundWithNewlines": true,
+                            },
+                            "name": "mdQuote",
+                          },
+                          "mdTl": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "prefix": "- [ ] ",
+                              "surroundWithNewlines": true,
+                            },
+                            "name": "mdTl",
+                          },
+                          "mdUl": Object {
+                            "button": Object {
+                              "iconType": "",
+                              "label": "",
+                            },
+                            "formatting": Object {
+                              "multiline": true,
+                              "prefix": "- ",
+                              "surroundWithNewlines": true,
+                            },
+                            "name": "mdUl",
+                          },
+                          "tooltipPlugin": Object {
+                            "button": Object {
+                              "iconType": "editorComment",
+                              "label": "Tooltip",
+                            },
+                            "formatting": Object {
+                              "prefix": "!{tooltip[",
+                              "suffix": "]()}",
+                              "trimFirst": true,
+                            },
+                            "helpText": <EuiCodeBlock
+                              fontSize="l"
+                              language="md"
+                              paddingSize="s"
+                            >
+                              !{tooltip[anchor text](helpful description)}
+                            </EuiCodeBlock>,
+                            "name": "tooltipPlugin",
+                          },
+                        },
+                      }
+                    }
+                    onClickPreview={[Function]}
+                    uiPlugins={
+                      Array [
+                        Object {
+                          "button": Object {
+                            "iconType": "editorComment",
+                            "label": "Tooltip",
+                          },
+                          "formatting": Object {
+                            "prefix": "!{tooltip[",
+                            "suffix": "]()}",
+                            "trimFirst": true,
+                          },
+                          "helpText": <EuiCodeBlock
+                            fontSize="l"
+                            language="md"
+                            paddingSize="s"
+                          >
+                            !{tooltip[anchor text](helpful description)}
+                          </EuiCodeBlock>,
+                          "name": "tooltipPlugin",
+                        },
+                      ]
+                    }
+                    viewMode="editing"
+                  >
+                    <div
+                      className="euiMarkdownEditorToolbar"
+                    >
+                      <div
+                        className="euiMarkdownEditorToolbar__buttons"
+                      >
+                        <EuiToolTip
+                          content="Bold"
+                          delay="long"
+                          key="mdBold"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Bold"
+                              color="text"
+                              iconType="editorBold"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Bold"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorBold"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Italic"
+                          delay="long"
+                          key="mdItalic"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Italic"
+                              color="text"
+                              iconType="editorItalic"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Italic"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorItalic"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <span
+                          className="euiMarkdownEditorToolbar__divider"
+                        />
+                        <EuiToolTip
+                          content="Unordered list"
+                          delay="long"
+                          key="mdUl"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Unordered list"
+                              color="text"
+                              iconType="editorUnorderedList"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Unordered list"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorUnorderedList"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Ordered list"
+                          delay="long"
+                          key="mdOl"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Ordered list"
+                              color="text"
+                              iconType="editorOrderedList"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Ordered list"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorOrderedList"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Task list"
+                          delay="long"
+                          key="mdTl"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Task list"
+                              color="text"
+                              iconType={[Function]}
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Task list"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type={[Function]}
+                                >
+                                  <MarkdownCheckmark
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      fill="none"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M11.828 13H4.172A1.173 1.173 0 013 11.828V4.172C3 3.526 3.526 3 4.172 3h7.656C12.474 3 13 3.526 13 4.172v7.656c0 .646-.526 1.172-1.172 1.172zM4.172 3.781a.391.391 0 00-.39.39v7.657c0 .216.175.39.39.39h7.656a.39.39 0 00.39-.39V4.172a.391.391 0 00-.39-.39H4.172zm7.244 2.175l-.582-.521L7.22 9.469 5.125 7.476l-.539.566 2.68 2.548 4.15-4.634z"
+                                      />
+                                    </svg>
+                                  </MarkdownCheckmark>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <span
+                          className="euiMarkdownEditorToolbar__divider"
+                        />
+                        <EuiToolTip
+                          content="Quote"
+                          delay="long"
+                          key="mdQuote"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Quote"
+                              color="text"
+                              iconType="quote"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Quote"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="quote"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Code"
+                          delay="long"
+                          key="mdCode"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Code"
+                              color="text"
+                              iconType="editorCodeBlock"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Code"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorCodeBlock"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <EuiToolTip
+                          content="Link"
+                          delay="long"
+                          key="mdLink"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Link"
+                              color="text"
+                              iconType="editorLink"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Link"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorLink"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                        <span
+                          className="euiMarkdownEditorToolbar__divider"
+                        />
+                        <EuiToolTip
+                          content="Tooltip"
+                          delay="long"
+                          key="tooltipPlugin"
+                          position="top"
+                        >
+                          <span
+                            className="euiToolTipAnchor"
+                            onKeyUp={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                          >
+                            <EuiButtonIcon
+                              aria-label="Tooltip"
+                              color="text"
+                              iconType="editorComment"
+                              isDisabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                            >
+                              <button
+                                aria-label="Tooltip"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type="editorComment"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </span>
+                        </EuiToolTip>
+                      </div>
+                      <EuiButtonEmpty
+                        color="text"
+                        iconType="eye"
+                        onClick={[Function]}
+                        size="s"
+                      >
+                        <button
+                          className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small"
+                          disabled={false}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <EuiButtonContent
+                            className="euiButtonEmpty__content"
+                            iconSide="left"
+                            iconSize="m"
+                            iconType="eye"
+                            textProps={
+                              Object {
+                                "className": "euiButtonEmpty__text",
+                              }
+                            }
+                          >
+                            <span
+                              className="euiButtonContent euiButtonEmpty__content"
+                            >
+                              <EuiIcon
+                                className="euiButtonContent__icon"
+                                color="inherit"
+                                size="m"
+                                type="eye"
+                              >
+                                <EuiIconEmpty
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                  focusable="false"
+                                  role="img"
+                                  style={null}
+                                >
+                                  <svg
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                    focusable="false"
+                                    height={16}
+                                    role="img"
+                                    style={null}
+                                    viewBox="0 0 16 16"
+                                    width={16}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  />
+                                </EuiIconEmpty>
+                              </EuiIcon>
+                              <span
+                                className="euiButtonEmpty__text"
+                              >
+                                <EuiI18n
+                                  default="Preview"
+                                  token="euiMarkdownEditorToolbar.previewMarkdown"
+                                >
+                                  Preview
+                                </EuiI18n>
+                              </span>
+                            </span>
+                          </EuiButtonContent>
+                        </button>
+                      </EuiButtonEmpty>
+                    </div>
+                  </EuiMarkdownEditorToolbar>
+                  <div
+                    className="euiMarkdownEditor__toggleContainer"
+                    style={
+                      Object {
+                        "height": "calc(100% - 0px)",
+                      }
+                    }
+                  >
+                    <EuiMarkdownEditorDropZone
+                      dropHandlers={Array []}
+                      errors={Array []}
+                      hasUnacceptedItems={false}
+                      insertText={[Function]}
+                      isEditing={true}
+                      setEditorFooterHeight={[Function]}
+                      setHasUnacceptedItems={[Function]}
+                      uiPlugins={
+                        Array [
+                          Object {
+                            "button": Object {
+                              "iconType": "editorComment",
+                              "label": "Tooltip",
+                            },
+                            "formatting": Object {
+                              "prefix": "!{tooltip[",
+                              "suffix": "]()}",
+                              "trimFirst": true,
+                            },
+                            "helpText": <EuiCodeBlock
+                              fontSize="l"
+                              language="md"
+                              paddingSize="s"
+                            >
+                              !{tooltip[anchor text](helpful description)}
+                            </EuiCodeBlock>,
+                            "name": "tooltipPlugin",
+                          },
+                        ]
+                      }
+                    >
+                      <div
+                        className="euiMarkdownEditorDropZone"
+                        onBlur={null}
+                        onClick={null}
+                        onDragEnter={null}
+                        onDragLeave={null}
+                        onDragOver={null}
+                        onDrop={null}
+                        onFocus={null}
+                        onKeyDown={null}
+                        role="button"
+                      >
+                        <EuiResizeObserver
+                          onResize={[Function]}
+                        >
+                          <EuiMarkdownEditorTextArea
+                            aria-label="EUI markdown editor demo"
+                            height="calc(400px)"
+                            id="random_html_id"
+                            maxHeight="500px"
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            value=""
+                          >
+                            <textarea
+                              aria-label="EUI markdown editor demo"
+                              className="euiMarkdownEditorTextArea"
+                              id="random_html_id"
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              rows={6}
+                              style={
+                                Object {
+                                  "height": "calc(400px)",
+                                  "maxHeight": "500px",
+                                }
+                              }
+                              value=""
+                            />
+                          </EuiMarkdownEditorTextArea>
+                        </EuiResizeObserver>
+                        <EuiMarkdownEditorFooter
+                          dropHandlers={Array []}
+                          errors={Array []}
+                          hasUnacceptedItems={false}
+                          isUploadingFiles={false}
+                          openFiles={[Function]}
+                          uiPlugins={
+                            Array [
+                              Object {
+                                "button": Object {
+                                  "iconType": "editorComment",
+                                  "label": "Tooltip",
+                                },
+                                "formatting": Object {
+                                  "prefix": "!{tooltip[",
+                                  "suffix": "]()}",
+                                  "trimFirst": true,
+                                },
+                                "helpText": <EuiCodeBlock
+                                  fontSize="l"
+                                  language="md"
+                                  paddingSize="s"
+                                >
+                                  !{tooltip[anchor text](helpful description)}
+                                </EuiCodeBlock>,
+                                "name": "tooltipPlugin",
+                              },
+                            ]
+                          }
+                        >
+                          <div
+                            className="euiMarkdownEditorFooter"
+                          >
+                            <div
+                              className="euiMarkdownEditorFooter__actions"
+                            />
+                            <EuiButtonIcon
+                              aria-label="Show markdown help"
+                              className="euiMarkdownEditorFooter__help"
+                              color="text"
+                              iconType={[Function]}
+                              onClick={[Function]}
+                            >
+                              <button
+                                aria-label="Show markdown help"
+                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiMarkdownEditorFooter__help"
+                                disabled={false}
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <EuiIcon
+                                  aria-hidden="true"
+                                  className="euiButtonIcon__icon"
+                                  color="inherit"
+                                  size="m"
+                                  type={[Function]}
+                                >
+                                  <MarkdownLogo
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon--inherit euiButtonIcon__icon"
+                                      fill="none"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 26 16"
+                                      width="26"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1.25 1.875c0-.345.28-.625.625-.625h22.25c.345 0 .625.28.625.625v12.25c0 .345-.28.625-.625.625H1.875a.625.625 0 01-.625-.625V1.875zM1.875 0C.839 0 0 .84 0 1.875v12.25C0 15.161.84 16 1.875 16h22.25C25.16 16 26 15.16 26 14.125V1.875C26 .839 25.16 0 24.125 0H1.875zM3.75 3.75v8.5h2.5V7.375l2.5 3.125 2.5-3.125v4.875h2.5v-8.5h-2.5l-2.5 3.125-2.5-3.125h-2.5zm11.875 4.375l3.75 4.125 3.75-4.125h-2.5V3.75h-2.5v4.375h-2.5z"
+                                      />
+                                    </svg>
+                                  </MarkdownLogo>
+                                </EuiIcon>
+                              </button>
+                            </EuiButtonIcon>
+                          </div>
+                        </EuiMarkdownEditorFooter>
+                        <input
+                          autoComplete="off"
+                          multiple={true}
+                          onChange={null}
+                          onClick={null}
+                          style={
+                            Object {
+                              "display": "none",
+                            }
+                          }
+                          tabIndex={-1}
+                          type="file"
+                        />
+                      </div>
+                    </EuiMarkdownEditorDropZone>
+                  </div>
+                </div>
+              </EuiMarkdownEditor>
+            </div>
+          </div>
+        </EuiResizeObserver>
+      </div>
+    </div>
+  </EuiAccordion>
+</ConfigText>
+`;
