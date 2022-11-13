@@ -1,0 +1,2290 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfigAvailability component Renders configAvailability component with visualization and viztypes data 1`] = `
+<ConfigAvailability
+  onConfigChange={[Function]}
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {},
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {
+          "finalQuery": "source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)",
+        },
+        "rawVizData": Object {
+          "data": Object {
+            "count()": Array [
+              154,
+              1753,
+              116,
+              468,
+              1964,
+              219,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "count()": 154,
+              "tags": "error",
+            },
+            Object {
+              "count()": 1753,
+              "tags": "info",
+            },
+            Object {
+              "count()": 116,
+              "tags": "login",
+            },
+            Object {
+              "count()": 468,
+              "tags": "security",
+            },
+            Object {
+              "count()": 1964,
+              "tags": "success",
+            },
+            Object {
+              "count()": 219,
+              "tags": "warning",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "count()",
+                "type": "integer",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+            "size": 6,
+            "status": 200,
+          },
+        },
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "valueOptions": Object {
+              "dimensions": Array [
+                Object {
+                  "label": "tags",
+                  "name": "tags",
+                  "type": "text",
+                },
+              ],
+              "metrics": Array [
+                Object {
+                  "label": "count()",
+                  "name": "count()",
+                  "side": "left",
+                  "type": "integer",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "sum",
+                  "customLabel": "delays",
+                  "label": "FlightDelayMin",
+                  "name": "FlightDelayMin",
+                },
+              ],
+            },
+          },
+        },
+      },
+      "vis": Object {
+        "barwidth": 0.97,
+        "category": "Visualizations",
+        "categoryaxis": "xaxis",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "position",
+                      "name": "Position",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Bottom",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "id": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fillopacity": 70,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
+        "icon": [Function],
+        "icontype": "visBarVerticalStacked",
+        "id": "bar",
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 2,
+        "mode": "group",
+        "name": "bar",
+        "orientation": "v",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
+        "type": "bar",
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "isUniColor": false,
+          "layout": Object {
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+  vizState={
+    Object {
+      "level": Array [
+        Object {
+          "color": "#FFFFFF",
+          "expression": "≥",
+          "name": "testNameA",
+          "thid": "AA12BB44",
+          "value": 4,
+        },
+        Object {
+          "color": "#000000",
+          "expression": "≥",
+          "name": "testNameB",
+          "thid": "AA13BB45",
+          "value": 3,
+        },
+      ],
+    }
+  }
+>
+  <EuiSpacer>
+    <div
+      className="euiSpacer euiSpacer--l"
+    />
+  </EuiSpacer>
+  <EuiAccordion
+    arrowDisplay="left"
+    buttonContent={
+      <EuiFlexGroup
+        direction="row"
+        justifyContent="center"
+      >
+        <EuiText>
+            Availability 
+        </EuiText>
+        <EuiIcon
+          onClick={[Function]}
+          size="m"
+          type="questionInCircle"
+        />
+      </EuiFlexGroup>
+    }
+    id="configPanel__Availability"
+    initialIsOpen={true}
+    isLoading={false}
+    isLoadingMessage={false}
+    paddingSize="s"
+  >
+    <div
+      className="euiAccordion euiAccordion-isOpen"
+    >
+      <div
+        className="euiAccordion__triggerWrapper"
+      >
+        <button
+          aria-controls="configPanel__Availability"
+          aria-expanded={true}
+          className="euiAccordion__button"
+          id="random_html_id"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="euiAccordion__iconWrapper"
+          >
+            <EuiIcon
+              className="euiAccordion__icon euiAccordion__icon-isOpen"
+              size="m"
+              type="arrowRight"
+            >
+              <EuiIconEmpty
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                />
+              </EuiIconEmpty>
+            </EuiIcon>
+          </span>
+          <span
+            className="euiIEFlexWrapFix"
+          >
+            <EuiFlexGroup
+              direction="row"
+              justifyContent="center"
+            >
+              <div
+                className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+              >
+                <EuiText>
+                  <div
+                    className="euiText euiText--medium"
+                  >
+                      Availability 
+                  </div>
+                </EuiText>
+                <EuiIcon
+                  onClick={[Function]}
+                  size="m"
+                  type="questionInCircle"
+                >
+                  <EuiIconEmpty
+                    aria-hidden={true}
+                    className="euiIcon euiIcon--medium euiIcon-isLoading"
+                    focusable="false"
+                    onClick={[Function]}
+                    role="img"
+                    style={null}
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      focusable="false"
+                      height={16}
+                      onClick={[Function]}
+                      role="img"
+                      style={null}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </EuiIconEmpty>
+                </EuiIcon>
+              </div>
+            </EuiFlexGroup>
+          </span>
+        </button>
+      </div>
+      <div
+        aria-labelledby="random_html_id"
+        className="euiAccordion__childWrapper"
+        id="configPanel__Availability"
+        role="region"
+        tabIndex={-1}
+      >
+        <EuiResizeObserver
+          onResize={[Function]}
+        >
+          <div>
+            <div
+              className="euiAccordion__padding--s"
+            >
+              <EuiButton
+                data-test-subj="config-availibility-accordion"
+                disabled={true}
+                fullWidth={true}
+                onClick={[Function]}
+                size="s"
+              >
+                <EuiButtonDisplay
+                  baseClassName="euiButton"
+                  data-test-subj="config-availibility-accordion"
+                  disabled={true}
+                  element="button"
+                  fullWidth={true}
+                  isDisabled={true}
+                  onClick={[Function]}
+                  size="s"
+                  type="button"
+                >
+                  <button
+                    className="euiButton euiButton--primary euiButton--small euiButton--fullWidth euiButton-isDisabled"
+                    data-test-subj="config-availibility-accordion"
+                    disabled={true}
+                    onClick={[Function]}
+                    style={
+                      Object {
+                        "minWidth": undefined,
+                      }
+                    }
+                    type="button"
+                  >
+                    <EuiButtonContent
+                      className="euiButton__content"
+                      iconSide="left"
+                      textProps={
+                        Object {
+                          "className": "euiButton__text",
+                        }
+                      }
+                    >
+                      <span
+                        className="euiButtonContent euiButton__content"
+                      >
+                        <span
+                          className="euiButton__text"
+                        >
+                          + Add availability level
+                        </span>
+                      </span>
+                    </EuiButtonContent>
+                  </button>
+                </EuiButtonDisplay>
+              </EuiButton>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+              <EuiFormRow
+                describedByIds={Array []}
+                display="row"
+                fullWidth={true}
+                hasChildLabel={true}
+                hasEmptyLabelSpace={false}
+                label=""
+                labelType="label"
+              >
+                <div
+                  className="euiFormRow euiFormRow--fullWidth"
+                  id="random_html_id-row"
+                >
+                  <div
+                    className="euiFormRow__fieldWrapper"
+                  >
+                    <EuiFlexGroup
+                      alignItems="center"
+                      gutterSize="xs"
+                      id="random_html_id"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                    >
+                      <div
+                        className="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                        id="random_html_id"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                      >
+                        <EuiFlexItem
+                          grow={3}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow3"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              helpText="color"
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiColorPicker
+                                    aria-describedby="random_html_id-help-0"
+                                    color="#FFFFFF"
+                                    data-test-subj="config-availibility-colorpicker-AA12BB44"
+                                    fullWidth={true}
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                  >
+                                    <EuiPopover
+                                      anchorPosition="downLeft"
+                                      attachToAnchor={true}
+                                      button={
+                                        <EuiFormControlLayout
+                                          compressed={false}
+                                          fullWidth={true}
+                                          icon={
+                                            Object {
+                                              "side": "right",
+                                              "type": "arrowDown",
+                                            }
+                                          }
+                                          onKeyDown={[Function]}
+                                          readOnly={false}
+                                        >
+                                          <div
+                                            style={
+                                              Object {
+                                                "color": "rgb(255,255,255)",
+                                              }
+                                            }
+                                          >
+                                            <EuiI18n
+                                              defaults={
+                                                Array [
+                                                  "Press the escape key to close the popover",
+                                                  "Press the down key to open a popover containing color options",
+                                                  "Transparent",
+                                                ]
+                                              }
+                                              tokens={
+                                                Array [
+                                                  "euiColorPicker.openLabel",
+                                                  "euiColorPicker.closeLabel",
+                                                  "euiColorPicker.transparent",
+                                                ]
+                                              }
+                                            >
+                                              [Function]
+                                            </EuiI18n>
+                                          </div>
+                                        </EuiFormControlLayout>
+                                      }
+                                      className="euiColorPicker__popoverAnchor"
+                                      closePopover={[Function]}
+                                      display="block"
+                                      hasArrow={true}
+                                      isOpen={false}
+                                      ownFocus={false}
+                                      panelClassName="euiColorPicker__popoverPanel"
+                                      panelPaddingSize="s"
+                                    >
+                                      <EuiOutsideClickDetector
+                                        onOutsideClick={[Function]}
+                                      >
+                                        <div
+                                          className="euiPopover euiPopover--anchorDownLeft euiPopover--displayBlock euiColorPicker__popoverAnchor"
+                                          onKeyDown={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onTouchEnd={[Function]}
+                                          onTouchStart={[Function]}
+                                        >
+                                          <div
+                                            className="euiPopover__anchor"
+                                          >
+                                            <EuiFormControlLayout
+                                              compressed={false}
+                                              fullWidth={true}
+                                              icon={
+                                                Object {
+                                                  "side": "right",
+                                                  "type": "arrowDown",
+                                                }
+                                              }
+                                              onKeyDown={[Function]}
+                                              readOnly={false}
+                                            >
+                                              <div
+                                                className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                                onKeyDown={[Function]}
+                                              >
+                                                <div
+                                                  className="euiFormControlLayout__childrenWrapper"
+                                                >
+                                                  <div
+                                                    style={
+                                                      Object {
+                                                        "color": "rgb(255,255,255)",
+                                                      }
+                                                    }
+                                                  >
+                                                    <EuiI18n
+                                                      defaults={
+                                                        Array [
+                                                          "Press the escape key to close the popover",
+                                                          "Press the down key to open a popover containing color options",
+                                                          "Transparent",
+                                                        ]
+                                                      }
+                                                      tokens={
+                                                        Array [
+                                                          "euiColorPicker.openLabel",
+                                                          "euiColorPicker.closeLabel",
+                                                          "euiColorPicker.transparent",
+                                                        ]
+                                                      }
+                                                    >
+                                                      <EuiFieldText
+                                                        aria-label="Press the down key to open a popover containing color options"
+                                                        autoComplete="off"
+                                                        className="euiColorPicker__input"
+                                                        compressed={false}
+                                                        data-test-subj="euiColorPickerAnchor config-availibility-colorpicker-AA12BB44"
+                                                        fullWidth={true}
+                                                        icon="swatchInput"
+                                                        id="random_html_id"
+                                                        inputRef={[Function]}
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onClick={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        readOnly={false}
+                                                        value="#FFFFFF"
+                                                      >
+                                                        <EuiFormControlLayout
+                                                          compressed={false}
+                                                          fullWidth={true}
+                                                          icon="swatchInput"
+                                                          inputId="random_html_id"
+                                                          readOnly={false}
+                                                        >
+                                                          <div
+                                                            className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                                          >
+                                                            <div
+                                                              className="euiFormControlLayout__childrenWrapper"
+                                                            >
+                                                              <EuiValidatableControl>
+                                                                <input
+                                                                  aria-label="Press the down key to open a popover containing color options"
+                                                                  autoComplete="off"
+                                                                  className="euiFieldText euiColorPicker__input euiFieldText--withIcon euiFieldText--fullWidth"
+                                                                  data-test-subj="euiColorPickerAnchor config-availibility-colorpicker-AA12BB44"
+                                                                  id="random_html_id"
+                                                                  onBlur={[Function]}
+                                                                  onChange={[Function]}
+                                                                  onClick={[Function]}
+                                                                  onKeyDown={[Function]}
+                                                                  readOnly={false}
+                                                                  type="text"
+                                                                  value="#FFFFFF"
+                                                                />
+                                                              </EuiValidatableControl>
+                                                              <EuiFormControlLayoutIcons
+                                                                compressed={false}
+                                                                icon="swatchInput"
+                                                              >
+                                                                <div
+                                                                  className="euiFormControlLayoutIcons"
+                                                                >
+                                                                  <EuiFormControlLayoutCustomIcon
+                                                                    size="m"
+                                                                    type="swatchInput"
+                                                                  >
+                                                                    <span
+                                                                      className="euiFormControlLayoutCustomIcon"
+                                                                    >
+                                                                      <EuiIcon
+                                                                        aria-hidden="true"
+                                                                        className="euiFormControlLayoutCustomIcon__icon"
+                                                                        size="m"
+                                                                        type="swatchInput"
+                                                                      >
+                                                                        <EuiIconEmpty
+                                                                          aria-hidden={true}
+                                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                                          focusable="false"
+                                                                          role="img"
+                                                                          style={null}
+                                                                        >
+                                                                          <svg
+                                                                            aria-hidden={true}
+                                                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                                            focusable="false"
+                                                                            height={16}
+                                                                            role="img"
+                                                                            style={null}
+                                                                            viewBox="0 0 16 16"
+                                                                            width={16}
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                          />
+                                                                        </EuiIconEmpty>
+                                                                      </EuiIcon>
+                                                                    </span>
+                                                                  </EuiFormControlLayoutCustomIcon>
+                                                                </div>
+                                                              </EuiFormControlLayoutIcons>
+                                                            </div>
+                                                          </div>
+                                                        </EuiFormControlLayout>
+                                                      </EuiFieldText>
+                                                    </EuiI18n>
+                                                  </div>
+                                                  <EuiFormControlLayoutIcons
+                                                    compressed={false}
+                                                    icon={
+                                                      Object {
+                                                        "side": "right",
+                                                        "type": "arrowDown",
+                                                      }
+                                                    }
+                                                  >
+                                                    <div
+                                                      className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                                                    >
+                                                      <EuiFormControlLayoutCustomIcon
+                                                        size="m"
+                                                        type="arrowDown"
+                                                      >
+                                                        <span
+                                                          className="euiFormControlLayoutCustomIcon"
+                                                        >
+                                                          <EuiIcon
+                                                            aria-hidden="true"
+                                                            className="euiFormControlLayoutCustomIcon__icon"
+                                                            size="m"
+                                                            type="arrowDown"
+                                                          >
+                                                            <EuiIconEmpty
+                                                              aria-hidden={true}
+                                                              className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                              focusable="false"
+                                                              role="img"
+                                                              style={null}
+                                                            >
+                                                              <svg
+                                                                aria-hidden={true}
+                                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                                focusable="false"
+                                                                height={16}
+                                                                role="img"
+                                                                style={null}
+                                                                viewBox="0 0 16 16"
+                                                                width={16}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              />
+                                                            </EuiIconEmpty>
+                                                          </EuiIcon>
+                                                        </span>
+                                                      </EuiFormControlLayoutCustomIcon>
+                                                    </div>
+                                                  </EuiFormControlLayoutIcons>
+                                                </div>
+                                              </div>
+                                            </EuiFormControlLayout>
+                                          </div>
+                                        </div>
+                                      </EuiOutsideClickDetector>
+                                    </EuiPopover>
+                                  </EuiColorPicker>
+                                  <EuiFormHelpText
+                                    className="euiFormRow__text"
+                                    id="random_html_id-help-0"
+                                    key="color"
+                                  >
+                                    <div
+                                      className="euiFormHelpText euiFormRow__text"
+                                      id="random_html_id-help-0"
+                                    >
+                                      color
+                                    </div>
+                                  </EuiFormHelpText>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={5}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow5"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              helpText="name"
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiFieldText
+                                    aria-describedby="random_html_id-help-0"
+                                    arial-label="Input availability name"
+                                    data-test-subj="config-availibility-fieldtext-AA12BB44"
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    value="testNameA"
+                                  >
+                                    <EuiFormControlLayout
+                                      fullWidth={false}
+                                      inputId="random_html_id"
+                                    >
+                                      <div
+                                        className="euiFormControlLayout"
+                                      >
+                                        <div
+                                          className="euiFormControlLayout__childrenWrapper"
+                                        >
+                                          <EuiValidatableControl>
+                                            <input
+                                              aria-describedby="random_html_id-help-0"
+                                              arial-label="Input availability name"
+                                              className="euiFieldText"
+                                              data-test-subj="config-availibility-fieldtext-AA12BB44"
+                                              id="random_html_id"
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              type="text"
+                                              value="testNameA"
+                                            />
+                                          </EuiValidatableControl>
+                                          <EuiFormControlLayoutIcons />
+                                        </div>
+                                      </div>
+                                    </EuiFormControlLayout>
+                                  </EuiFieldText>
+                                  <EuiFormHelpText
+                                    className="euiFormRow__text"
+                                    id="random_html_id-help-0"
+                                    key="name"
+                                  >
+                                    <div
+                                      className="euiFormHelpText euiFormRow__text"
+                                      id="random_html_id-help-0"
+                                    >
+                                      name
+                                    </div>
+                                  </EuiFormHelpText>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFormRow
+                          describedByIds={Array []}
+                          display="row"
+                          fullWidth={false}
+                          hasChildLabel={true}
+                          hasEmptyLabelSpace={false}
+                          helpText="expression"
+                          labelType="label"
+                        >
+                          <div
+                            className="euiFormRow"
+                            id="random_html_id-row"
+                          >
+                            <div
+                              className="euiFormRow__fieldWrapper"
+                            >
+                              <EuiFlexItem
+                                aria-describedby="random_html_id-help-0"
+                                grow={4}
+                                id="random_html_id"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help-0"
+                                  className="euiFlexItem euiFlexItem--flexGrow4"
+                                  id="random_html_id"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                >
+                                  <EuiSelect
+                                    aria-label="Select availability expression"
+                                    data-test-subj="config-availibility-select-AA12BB44"
+                                    onChange={[Function]}
+                                    options={
+                                      Array [
+                                        Object {
+                                          "text": "≥",
+                                          "value": "≥",
+                                        },
+                                        Object {
+                                          "text": "≤",
+                                          "value": "≤",
+                                        },
+                                        Object {
+                                          "text": ">",
+                                          "value": ">",
+                                        },
+                                        Object {
+                                          "text": "<",
+                                          "value": "<",
+                                        },
+                                        Object {
+                                          "text": "=",
+                                          "value": "=",
+                                        },
+                                        Object {
+                                          "text": "≠",
+                                          "value": "≠",
+                                        },
+                                      ]
+                                    }
+                                    value="≥"
+                                  >
+                                    <EuiFormControlLayout
+                                      compressed={false}
+                                      fullWidth={false}
+                                      icon={
+                                        Object {
+                                          "side": "right",
+                                          "type": "arrowDown",
+                                        }
+                                      }
+                                      isLoading={false}
+                                    >
+                                      <div
+                                        className="euiFormControlLayout"
+                                      >
+                                        <div
+                                          className="euiFormControlLayout__childrenWrapper"
+                                        >
+                                          <EuiValidatableControl>
+                                            <select
+                                              aria-label="Select availability expression"
+                                              className="euiSelect"
+                                              data-test-subj="config-availibility-select-AA12BB44"
+                                              onChange={[Function]}
+                                              onMouseUp={[Function]}
+                                              value="≥"
+                                            >
+                                              <option
+                                                key="0"
+                                                value="≥"
+                                              >
+                                                ≥
+                                              </option>
+                                              <option
+                                                key="1"
+                                                value="≤"
+                                              >
+                                                ≤
+                                              </option>
+                                              <option
+                                                key="2"
+                                                value=">"
+                                              >
+                                                &gt;
+                                              </option>
+                                              <option
+                                                key="3"
+                                                value="<"
+                                              >
+                                                &lt;
+                                              </option>
+                                              <option
+                                                key="4"
+                                                value="="
+                                              >
+                                                =
+                                              </option>
+                                              <option
+                                                key="5"
+                                                value="≠"
+                                              >
+                                                ≠
+                                              </option>
+                                            </select>
+                                          </EuiValidatableControl>
+                                          <EuiFormControlLayoutIcons
+                                            compressed={false}
+                                            icon={
+                                              Object {
+                                                "side": "right",
+                                                "type": "arrowDown",
+                                              }
+                                            }
+                                            isLoading={false}
+                                          >
+                                            <div
+                                              className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                                            >
+                                              <EuiFormControlLayoutCustomIcon
+                                                size="m"
+                                                type="arrowDown"
+                                              >
+                                                <span
+                                                  className="euiFormControlLayoutCustomIcon"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiFormControlLayoutCustomIcon__icon"
+                                                    size="m"
+                                                    type="arrowDown"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </span>
+                                              </EuiFormControlLayoutCustomIcon>
+                                            </div>
+                                          </EuiFormControlLayoutIcons>
+                                        </div>
+                                      </div>
+                                    </EuiFormControlLayout>
+                                  </EuiSelect>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFormHelpText
+                                className="euiFormRow__text"
+                                id="random_html_id-help-0"
+                                key="expression"
+                              >
+                                <div
+                                  className="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help-0"
+                                >
+                                  expression
+                                </div>
+                              </EuiFormHelpText>
+                            </div>
+                          </div>
+                        </EuiFormRow>
+                        <EuiFlexItem
+                          grow={5}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow5"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              helpText="value"
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiFieldNumber
+                                    aria-describedby="random_html_id-help-0"
+                                    aria-label="Input availability value"
+                                    data-test-subj="config-availibility-fieldnumber-AA12BB44"
+                                    fullWidth={true}
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    placeholder="availability value"
+                                    value={4}
+                                  >
+                                    <EuiFormControlLayout
+                                      compressed={false}
+                                      fullWidth={true}
+                                      inputId="random_html_id"
+                                      isLoading={false}
+                                    >
+                                      <div
+                                        className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                      >
+                                        <div
+                                          className="euiFormControlLayout__childrenWrapper"
+                                        >
+                                          <EuiValidatableControl>
+                                            <input
+                                              aria-describedby="random_html_id-help-0"
+                                              aria-label="Input availability value"
+                                              className="euiFieldNumber euiFieldNumber--fullWidth"
+                                              data-test-subj="config-availibility-fieldnumber-AA12BB44"
+                                              id="random_html_id"
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              placeholder="availability value"
+                                              type="number"
+                                              value={4}
+                                            />
+                                          </EuiValidatableControl>
+                                          <EuiFormControlLayoutIcons
+                                            compressed={false}
+                                            isLoading={false}
+                                          />
+                                        </div>
+                                      </div>
+                                    </EuiFormControlLayout>
+                                  </EuiFieldNumber>
+                                  <EuiFormHelpText
+                                    className="euiFormRow__text"
+                                    id="random_html_id-help-0"
+                                    key="value"
+                                  >
+                                    <div
+                                      className="euiFormHelpText euiFormRow__text"
+                                      id="random_html_id-help-0"
+                                    >
+                                      value
+                                    </div>
+                                  </EuiFormHelpText>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={1}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow1"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiIcon
+                                    data-test-subj="config-availibility-trash-AA12BB44"
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    type="trash"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                      data-test-subj="config-availibility-trash-AA12BB44"
+                                      focusable="false"
+                                      id="random_html_id"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                        data-test-subj="config-availibility-trash-AA12BB44"
+                                        focusable="false"
+                                        height={16}
+                                        id="random_html_id"
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                      </div>
+                    </EuiFlexGroup>
+                  </div>
+                </div>
+              </EuiFormRow>
+              <EuiFormRow
+                describedByIds={Array []}
+                display="row"
+                fullWidth={true}
+                hasChildLabel={true}
+                hasEmptyLabelSpace={false}
+                label=""
+                labelType="label"
+              >
+                <div
+                  className="euiFormRow euiFormRow--fullWidth"
+                  id="random_html_id-row"
+                >
+                  <div
+                    className="euiFormRow__fieldWrapper"
+                  >
+                    <EuiFlexGroup
+                      alignItems="center"
+                      gutterSize="xs"
+                      id="random_html_id"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                    >
+                      <div
+                        className="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                        id="random_html_id"
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                      >
+                        <EuiFlexItem
+                          grow={3}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow3"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              helpText="color"
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiColorPicker
+                                    aria-describedby="random_html_id-help-0"
+                                    color="#000000"
+                                    data-test-subj="config-availibility-colorpicker-AA13BB45"
+                                    fullWidth={true}
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                  >
+                                    <EuiPopover
+                                      anchorPosition="downLeft"
+                                      attachToAnchor={true}
+                                      button={
+                                        <EuiFormControlLayout
+                                          compressed={false}
+                                          fullWidth={true}
+                                          icon={
+                                            Object {
+                                              "side": "right",
+                                              "type": "arrowDown",
+                                            }
+                                          }
+                                          onKeyDown={[Function]}
+                                          readOnly={false}
+                                        >
+                                          <div
+                                            style={
+                                              Object {
+                                                "color": "rgb(0,0,0)",
+                                              }
+                                            }
+                                          >
+                                            <EuiI18n
+                                              defaults={
+                                                Array [
+                                                  "Press the escape key to close the popover",
+                                                  "Press the down key to open a popover containing color options",
+                                                  "Transparent",
+                                                ]
+                                              }
+                                              tokens={
+                                                Array [
+                                                  "euiColorPicker.openLabel",
+                                                  "euiColorPicker.closeLabel",
+                                                  "euiColorPicker.transparent",
+                                                ]
+                                              }
+                                            >
+                                              [Function]
+                                            </EuiI18n>
+                                          </div>
+                                        </EuiFormControlLayout>
+                                      }
+                                      className="euiColorPicker__popoverAnchor"
+                                      closePopover={[Function]}
+                                      display="block"
+                                      hasArrow={true}
+                                      isOpen={false}
+                                      ownFocus={false}
+                                      panelClassName="euiColorPicker__popoverPanel"
+                                      panelPaddingSize="s"
+                                    >
+                                      <EuiOutsideClickDetector
+                                        onOutsideClick={[Function]}
+                                      >
+                                        <div
+                                          className="euiPopover euiPopover--anchorDownLeft euiPopover--displayBlock euiColorPicker__popoverAnchor"
+                                          onKeyDown={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseUp={[Function]}
+                                          onTouchEnd={[Function]}
+                                          onTouchStart={[Function]}
+                                        >
+                                          <div
+                                            className="euiPopover__anchor"
+                                          >
+                                            <EuiFormControlLayout
+                                              compressed={false}
+                                              fullWidth={true}
+                                              icon={
+                                                Object {
+                                                  "side": "right",
+                                                  "type": "arrowDown",
+                                                }
+                                              }
+                                              onKeyDown={[Function]}
+                                              readOnly={false}
+                                            >
+                                              <div
+                                                className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                                onKeyDown={[Function]}
+                                              >
+                                                <div
+                                                  className="euiFormControlLayout__childrenWrapper"
+                                                >
+                                                  <div
+                                                    style={
+                                                      Object {
+                                                        "color": "rgb(0,0,0)",
+                                                      }
+                                                    }
+                                                  >
+                                                    <EuiI18n
+                                                      defaults={
+                                                        Array [
+                                                          "Press the escape key to close the popover",
+                                                          "Press the down key to open a popover containing color options",
+                                                          "Transparent",
+                                                        ]
+                                                      }
+                                                      tokens={
+                                                        Array [
+                                                          "euiColorPicker.openLabel",
+                                                          "euiColorPicker.closeLabel",
+                                                          "euiColorPicker.transparent",
+                                                        ]
+                                                      }
+                                                    >
+                                                      <EuiFieldText
+                                                        aria-label="Press the down key to open a popover containing color options"
+                                                        autoComplete="off"
+                                                        className="euiColorPicker__input"
+                                                        compressed={false}
+                                                        data-test-subj="euiColorPickerAnchor config-availibility-colorpicker-AA13BB45"
+                                                        fullWidth={true}
+                                                        icon="swatchInput"
+                                                        id="random_html_id"
+                                                        inputRef={[Function]}
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onClick={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        readOnly={false}
+                                                        value="#000000"
+                                                      >
+                                                        <EuiFormControlLayout
+                                                          compressed={false}
+                                                          fullWidth={true}
+                                                          icon="swatchInput"
+                                                          inputId="random_html_id"
+                                                          readOnly={false}
+                                                        >
+                                                          <div
+                                                            className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                                          >
+                                                            <div
+                                                              className="euiFormControlLayout__childrenWrapper"
+                                                            >
+                                                              <EuiValidatableControl>
+                                                                <input
+                                                                  aria-label="Press the down key to open a popover containing color options"
+                                                                  autoComplete="off"
+                                                                  className="euiFieldText euiColorPicker__input euiFieldText--withIcon euiFieldText--fullWidth"
+                                                                  data-test-subj="euiColorPickerAnchor config-availibility-colorpicker-AA13BB45"
+                                                                  id="random_html_id"
+                                                                  onBlur={[Function]}
+                                                                  onChange={[Function]}
+                                                                  onClick={[Function]}
+                                                                  onKeyDown={[Function]}
+                                                                  readOnly={false}
+                                                                  type="text"
+                                                                  value="#000000"
+                                                                />
+                                                              </EuiValidatableControl>
+                                                              <EuiFormControlLayoutIcons
+                                                                compressed={false}
+                                                                icon="swatchInput"
+                                                              >
+                                                                <div
+                                                                  className="euiFormControlLayoutIcons"
+                                                                >
+                                                                  <EuiFormControlLayoutCustomIcon
+                                                                    size="m"
+                                                                    type="swatchInput"
+                                                                  >
+                                                                    <span
+                                                                      className="euiFormControlLayoutCustomIcon"
+                                                                    >
+                                                                      <EuiIcon
+                                                                        aria-hidden="true"
+                                                                        className="euiFormControlLayoutCustomIcon__icon"
+                                                                        size="m"
+                                                                        type="swatchInput"
+                                                                      >
+                                                                        <EuiIconEmpty
+                                                                          aria-hidden={true}
+                                                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                                          focusable="false"
+                                                                          role="img"
+                                                                          style={null}
+                                                                        >
+                                                                          <svg
+                                                                            aria-hidden={true}
+                                                                            className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                                            focusable="false"
+                                                                            height={16}
+                                                                            role="img"
+                                                                            style={null}
+                                                                            viewBox="0 0 16 16"
+                                                                            width={16}
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                          />
+                                                                        </EuiIconEmpty>
+                                                                      </EuiIcon>
+                                                                    </span>
+                                                                  </EuiFormControlLayoutCustomIcon>
+                                                                </div>
+                                                              </EuiFormControlLayoutIcons>
+                                                            </div>
+                                                          </div>
+                                                        </EuiFormControlLayout>
+                                                      </EuiFieldText>
+                                                    </EuiI18n>
+                                                  </div>
+                                                  <EuiFormControlLayoutIcons
+                                                    compressed={false}
+                                                    icon={
+                                                      Object {
+                                                        "side": "right",
+                                                        "type": "arrowDown",
+                                                      }
+                                                    }
+                                                  >
+                                                    <div
+                                                      className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                                                    >
+                                                      <EuiFormControlLayoutCustomIcon
+                                                        size="m"
+                                                        type="arrowDown"
+                                                      >
+                                                        <span
+                                                          className="euiFormControlLayoutCustomIcon"
+                                                        >
+                                                          <EuiIcon
+                                                            aria-hidden="true"
+                                                            className="euiFormControlLayoutCustomIcon__icon"
+                                                            size="m"
+                                                            type="arrowDown"
+                                                          >
+                                                            <EuiIconEmpty
+                                                              aria-hidden={true}
+                                                              className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                              focusable="false"
+                                                              role="img"
+                                                              style={null}
+                                                            >
+                                                              <svg
+                                                                aria-hidden={true}
+                                                                className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                                focusable="false"
+                                                                height={16}
+                                                                role="img"
+                                                                style={null}
+                                                                viewBox="0 0 16 16"
+                                                                width={16}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              />
+                                                            </EuiIconEmpty>
+                                                          </EuiIcon>
+                                                        </span>
+                                                      </EuiFormControlLayoutCustomIcon>
+                                                    </div>
+                                                  </EuiFormControlLayoutIcons>
+                                                </div>
+                                              </div>
+                                            </EuiFormControlLayout>
+                                          </div>
+                                        </div>
+                                      </EuiOutsideClickDetector>
+                                    </EuiPopover>
+                                  </EuiColorPicker>
+                                  <EuiFormHelpText
+                                    className="euiFormRow__text"
+                                    id="random_html_id-help-0"
+                                    key="color"
+                                  >
+                                    <div
+                                      className="euiFormHelpText euiFormRow__text"
+                                      id="random_html_id-help-0"
+                                    >
+                                      color
+                                    </div>
+                                  </EuiFormHelpText>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={5}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow5"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              helpText="name"
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiFieldText
+                                    aria-describedby="random_html_id-help-0"
+                                    arial-label="Input availability name"
+                                    data-test-subj="config-availibility-fieldtext-AA13BB45"
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    value="testNameB"
+                                  >
+                                    <EuiFormControlLayout
+                                      fullWidth={false}
+                                      inputId="random_html_id"
+                                    >
+                                      <div
+                                        className="euiFormControlLayout"
+                                      >
+                                        <div
+                                          className="euiFormControlLayout__childrenWrapper"
+                                        >
+                                          <EuiValidatableControl>
+                                            <input
+                                              aria-describedby="random_html_id-help-0"
+                                              arial-label="Input availability name"
+                                              className="euiFieldText"
+                                              data-test-subj="config-availibility-fieldtext-AA13BB45"
+                                              id="random_html_id"
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              type="text"
+                                              value="testNameB"
+                                            />
+                                          </EuiValidatableControl>
+                                          <EuiFormControlLayoutIcons />
+                                        </div>
+                                      </div>
+                                    </EuiFormControlLayout>
+                                  </EuiFieldText>
+                                  <EuiFormHelpText
+                                    className="euiFormRow__text"
+                                    id="random_html_id-help-0"
+                                    key="name"
+                                  >
+                                    <div
+                                      className="euiFormHelpText euiFormRow__text"
+                                      id="random_html_id-help-0"
+                                    >
+                                      name
+                                    </div>
+                                  </EuiFormHelpText>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFormRow
+                          describedByIds={Array []}
+                          display="row"
+                          fullWidth={false}
+                          hasChildLabel={true}
+                          hasEmptyLabelSpace={false}
+                          helpText="expression"
+                          labelType="label"
+                        >
+                          <div
+                            className="euiFormRow"
+                            id="random_html_id-row"
+                          >
+                            <div
+                              className="euiFormRow__fieldWrapper"
+                            >
+                              <EuiFlexItem
+                                aria-describedby="random_html_id-help-0"
+                                grow={4}
+                                id="random_html_id"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                              >
+                                <div
+                                  aria-describedby="random_html_id-help-0"
+                                  className="euiFlexItem euiFlexItem--flexGrow4"
+                                  id="random_html_id"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                >
+                                  <EuiSelect
+                                    aria-label="Select availability expression"
+                                    data-test-subj="config-availibility-select-AA13BB45"
+                                    onChange={[Function]}
+                                    options={
+                                      Array [
+                                        Object {
+                                          "text": "≥",
+                                          "value": "≥",
+                                        },
+                                        Object {
+                                          "text": "≤",
+                                          "value": "≤",
+                                        },
+                                        Object {
+                                          "text": ">",
+                                          "value": ">",
+                                        },
+                                        Object {
+                                          "text": "<",
+                                          "value": "<",
+                                        },
+                                        Object {
+                                          "text": "=",
+                                          "value": "=",
+                                        },
+                                        Object {
+                                          "text": "≠",
+                                          "value": "≠",
+                                        },
+                                      ]
+                                    }
+                                    value="≥"
+                                  >
+                                    <EuiFormControlLayout
+                                      compressed={false}
+                                      fullWidth={false}
+                                      icon={
+                                        Object {
+                                          "side": "right",
+                                          "type": "arrowDown",
+                                        }
+                                      }
+                                      isLoading={false}
+                                    >
+                                      <div
+                                        className="euiFormControlLayout"
+                                      >
+                                        <div
+                                          className="euiFormControlLayout__childrenWrapper"
+                                        >
+                                          <EuiValidatableControl>
+                                            <select
+                                              aria-label="Select availability expression"
+                                              className="euiSelect"
+                                              data-test-subj="config-availibility-select-AA13BB45"
+                                              onChange={[Function]}
+                                              onMouseUp={[Function]}
+                                              value="≥"
+                                            >
+                                              <option
+                                                key="0"
+                                                value="≥"
+                                              >
+                                                ≥
+                                              </option>
+                                              <option
+                                                key="1"
+                                                value="≤"
+                                              >
+                                                ≤
+                                              </option>
+                                              <option
+                                                key="2"
+                                                value=">"
+                                              >
+                                                &gt;
+                                              </option>
+                                              <option
+                                                key="3"
+                                                value="<"
+                                              >
+                                                &lt;
+                                              </option>
+                                              <option
+                                                key="4"
+                                                value="="
+                                              >
+                                                =
+                                              </option>
+                                              <option
+                                                key="5"
+                                                value="≠"
+                                              >
+                                                ≠
+                                              </option>
+                                            </select>
+                                          </EuiValidatableControl>
+                                          <EuiFormControlLayoutIcons
+                                            compressed={false}
+                                            icon={
+                                              Object {
+                                                "side": "right",
+                                                "type": "arrowDown",
+                                              }
+                                            }
+                                            isLoading={false}
+                                          >
+                                            <div
+                                              className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                                            >
+                                              <EuiFormControlLayoutCustomIcon
+                                                size="m"
+                                                type="arrowDown"
+                                              >
+                                                <span
+                                                  className="euiFormControlLayoutCustomIcon"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiFormControlLayoutCustomIcon__icon"
+                                                    size="m"
+                                                    type="arrowDown"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </span>
+                                              </EuiFormControlLayoutCustomIcon>
+                                            </div>
+                                          </EuiFormControlLayoutIcons>
+                                        </div>
+                                      </div>
+                                    </EuiFormControlLayout>
+                                  </EuiSelect>
+                                </div>
+                              </EuiFlexItem>
+                              <EuiFormHelpText
+                                className="euiFormRow__text"
+                                id="random_html_id-help-0"
+                                key="expression"
+                              >
+                                <div
+                                  className="euiFormHelpText euiFormRow__text"
+                                  id="random_html_id-help-0"
+                                >
+                                  expression
+                                </div>
+                              </EuiFormHelpText>
+                            </div>
+                          </div>
+                        </EuiFormRow>
+                        <EuiFlexItem
+                          grow={5}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow5"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              helpText="value"
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiFieldNumber
+                                    aria-describedby="random_html_id-help-0"
+                                    aria-label="Input availability value"
+                                    data-test-subj="config-availibility-fieldnumber-AA13BB45"
+                                    fullWidth={true}
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    placeholder="availability value"
+                                    value={3}
+                                  >
+                                    <EuiFormControlLayout
+                                      compressed={false}
+                                      fullWidth={true}
+                                      inputId="random_html_id"
+                                      isLoading={false}
+                                    >
+                                      <div
+                                        className="euiFormControlLayout euiFormControlLayout--fullWidth"
+                                      >
+                                        <div
+                                          className="euiFormControlLayout__childrenWrapper"
+                                        >
+                                          <EuiValidatableControl>
+                                            <input
+                                              aria-describedby="random_html_id-help-0"
+                                              aria-label="Input availability value"
+                                              className="euiFieldNumber euiFieldNumber--fullWidth"
+                                              data-test-subj="config-availibility-fieldnumber-AA13BB45"
+                                              id="random_html_id"
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              placeholder="availability value"
+                                              type="number"
+                                              value={3}
+                                            />
+                                          </EuiValidatableControl>
+                                          <EuiFormControlLayoutIcons
+                                            compressed={false}
+                                            isLoading={false}
+                                          />
+                                        </div>
+                                      </div>
+                                    </EuiFormControlLayout>
+                                  </EuiFieldNumber>
+                                  <EuiFormHelpText
+                                    className="euiFormRow__text"
+                                    id="random_html_id-help-0"
+                                    key="value"
+                                  >
+                                    <div
+                                      className="euiFormHelpText euiFormRow__text"
+                                      id="random_html_id-help-0"
+                                    >
+                                      value
+                                    </div>
+                                  </EuiFormHelpText>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                        <EuiFlexItem
+                          grow={1}
+                        >
+                          <div
+                            className="euiFlexItem euiFlexItem--flexGrow1"
+                          >
+                            <EuiFormRow
+                              describedByIds={Array []}
+                              display="row"
+                              fullWidth={false}
+                              hasChildLabel={true}
+                              hasEmptyLabelSpace={false}
+                              labelType="label"
+                            >
+                              <div
+                                className="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  className="euiFormRow__fieldWrapper"
+                                >
+                                  <EuiIcon
+                                    data-test-subj="config-availibility-trash-AA13BB45"
+                                    id="random_html_id"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    type="trash"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                      data-test-subj="config-availibility-trash-AA13BB45"
+                                      focusable="false"
+                                      id="random_html_id"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                        data-test-subj="config-availibility-trash-AA13BB45"
+                                        focusable="false"
+                                        height={16}
+                                        id="random_html_id"
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </div>
+                              </div>
+                            </EuiFormRow>
+                          </div>
+                        </EuiFlexItem>
+                      </div>
+                    </EuiFlexGroup>
+                  </div>
+                </div>
+              </EuiFormRow>
+            </div>
+          </div>
+        </EuiResizeObserver>
+      </div>
+    </div>
+  </EuiAccordion>
+</ConfigAvailability>
+`;

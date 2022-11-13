@@ -84,7 +84,12 @@ export const ConfigColorTheme = ({
       buttonContent={sectionName}
       paddingSize="s"
     >
-      <EuiButton fullWidth size="s" onClick={handleAddColorTheme}>
+      <EuiButton
+        data-test-subj="config-color-theme-accordion"
+        fullWidth
+        size="s"
+        onClick={handleAddColorTheme}
+      >
         {addButtonText}
       </EuiButton>
       <EuiSpacer size="s" />
@@ -97,6 +102,7 @@ export const ConfigColorTheme = ({
                   <EuiFlexItem grow={3}>
                     <EuiFormRow helpText="Color">
                       <EuiColorPicker
+                        data-test-subj={`config-color-theme-colorpicker-${ct.ctid}`}
                         fullWidth
                         onChange={handleColorThemeChange(ct.ctid, 'color')}
                         color={ct.color}
@@ -106,6 +112,7 @@ export const ConfigColorTheme = ({
                   <EuiFlexItem grow={4}>
                     <EuiFormRow helpText="Field">
                       <EuiComboBox
+                        data-test-subj={`config-color-theme-combobox-${ct.ctid}`}
                         id={ct.ctid}
                         placeholder="Select a field"
                         options={getUpdatedOptions()}
@@ -118,7 +125,11 @@ export const ConfigColorTheme = ({
                   </EuiFlexItem>
                   <EuiFlexItem grow={1}>
                     <EuiFormRow>
-                      <EuiIcon type="trash" onClick={handleColorThemeDelete(ct.ctid)} />
+                      <EuiIcon
+                        type="trash"
+                        data-test-subj={`config-color-theme-trash-${ct.ctid}`}
+                        onClick={handleColorThemeDelete(ct.ctid)}
+                      />
                     </EuiFormRow>
                   </EuiFlexItem>
                 </EuiFlexGroup>

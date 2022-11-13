@@ -121,7 +121,7 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
       >
         <EuiButton
           fullWidth
-          data-test-subj="addAvailabilityButton"
+          data-test-subj="config-availibility-accordion"
           size="s"
           onClick={handleAddAvailability}
           disabled={!hasSpanInApp}
@@ -138,6 +138,7 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
                     <EuiFlexItem grow={3}>
                       <EuiFormRow helpText="color">
                         <EuiColorPicker
+                          data-test-subj={`config-availibility-colorpicker-${thr.thid}`}
                           fullWidth
                           onChange={handleAvailabilityChange(thr.thid, 'color')}
                           color={thr.color}
@@ -147,39 +148,43 @@ export const ConfigAvailability = ({ visualizations, onConfigChange, vizState = 
                     <EuiFlexItem grow={5}>
                       <EuiFormRow helpText="name">
                         <EuiFieldText
+                          data-test-subj={`config-availibility-fieldtext-${thr.thid}`}
                           onChange={handleAvailabilityChange(thr.thid, 'name')}
                           value={thr.name || ''}
                           arial-label="Input availability name"
-                          data-test-subj="nameFieldText"
                         />
                       </EuiFormRow>
                     </EuiFlexItem>
                     <EuiFormRow helpText="expression">
                       <EuiFlexItem grow={4}>
                         <EuiSelect
+                          data-test-subj={`config-availibility-select-${thr.thid}`}
                           options={expressionOptions}
                           value={thr.expression || ''}
                           onChange={handleAvailabilityChange(thr.thid, 'expression')}
                           aria-label="Select availability expression"
-                          data-test-subj="expressionSelect"
                         />
                       </EuiFlexItem>
                     </EuiFormRow>
                     <EuiFlexItem grow={5}>
                       <EuiFormRow helpText="value">
                         <EuiFieldNumber
+                          data-test-subj={`config-availibility-fieldnumber-${thr.thid}`}
                           fullWidth
                           placeholder="availability value"
                           value={thr.value || 0}
                           onChange={handleAvailabilityChange(thr.thid, 'value')}
                           aria-label="Input availability value"
-                          data-test-subj="valueFieldNumber"
                         />
                       </EuiFormRow>
                     </EuiFlexItem>
                     <EuiFlexItem grow={1}>
                       <EuiFormRow>
-                        <EuiIcon type="trash" onClick={handleAvailabilityDelete(thr.thid)} />
+                        <EuiIcon
+                          type="trash"
+                          data-test-subj={`config-availibility-trash-${thr.thid}`}
+                          onClick={handleAvailabilityDelete(thr.thid)}
+                        />
                       </EuiFormRow>
                     </EuiFlexItem>
                   </EuiFlexGroup>

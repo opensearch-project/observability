@@ -13,6 +13,8 @@ import {
   UNSELECTED_FIELDS,
   QUERIED_FIELDS,
 } from '../common/constants/explorer';
+import { createHistogramVisDefinition } from '../public/components/visualizations/charts/histogram/histogram_type';
+import { createMapsVisDefinition } from '../public/components/visualizations/charts/maps/heatmap_type';
 
 export const AVAILABLE_FIELDS = [
   {
@@ -563,4 +565,58 @@ export const HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA = {
   vis: createBarTypeDefinition({
     type: VIS_CHART_TYPES.HorizontalBar,
   }),
+};
+
+export const TEST_DATA = {
+  dimensions: [{ name: 'tags', type: 'text', label: 'tags' }],
+  metrics: [{ name: 'count()', type: 'integer', label: 'count()', side: 'left' }],
+  series: [
+    {
+      aggregation: 'sum',
+      customLabel: 'delays',
+      label: 'FlightDelayMin',
+      name: 'FlightDelayMin',
+    },
+  ],
+};
+
+export const TEST_CONFIG_AVAILABILITY = {
+  data: {
+    appData: { fromApp: false },
+    defaultAxes: {},
+    indexFields: EXPLORER_FIELDS,
+    query: {
+      finalQuery:
+        'source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)',
+    },
+    rawVizData: EXPLORER_VISUALIZATIONS,
+    userConfigs: {
+      dataConfig: {
+        valueOptions: TEST_DATA,
+      },
+    },
+  },
+  vis: createBarTypeDefinition({}),
+};
+
+export const TEST_COLOR_THEME = {
+  data: {
+    appData: { fromApp: false },
+    defaultAxes: {
+      xaxis: [{ name: 'tags', type: 'text' }],
+      yaxis: [{ name: 'count()', type: 'integer' }],
+    },
+    indexFields: EXPLORER_FIELDS,
+    query: {
+      finalQuery:
+        'source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)',
+    },
+    rawVizData: EXPLORER_VISUALIZATIONS,
+    userConfigs: {
+      dataConfig: {
+        valueOptions: TEST_DATA,
+      },
+    },
+  },
+  vis: createHistogramVisDefinition({}),
 };
