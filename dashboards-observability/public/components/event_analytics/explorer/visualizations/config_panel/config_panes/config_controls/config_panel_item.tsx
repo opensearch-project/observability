@@ -16,12 +16,15 @@ export const PanelItem = ({
   isSingleSelection = false,
   isClearable = true,
 }: any) => {
-  const options = dropdownList.map((item) => {
-    return {
-      ...item,
-      label: item.name,
-    };
-  });
+  const options =
+    dropdownList !== undefined
+      ? dropdownList.map((item) => {
+          return {
+            ...item,
+            label: item.name,
+          };
+        })
+      : [];
 
   return (
     <>
