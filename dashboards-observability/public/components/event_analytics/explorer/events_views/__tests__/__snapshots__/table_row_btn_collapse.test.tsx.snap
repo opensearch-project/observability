@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocViewTableRowBtnCollapse component Renders DocViewTableRowBtnCollapse component collapsed 1`] = `
+<DocViewTableRowBtnCollapse
+  isCollapsed={false}
+  onClick={[MockFunction]}
+>
+  <EuiToolTip
+    content="Toggle field details"
+    delay="regular"
+    position="top"
+  >
+    <span
+      className="euiToolTipAnchor"
+      onKeyUp={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      <EuiButtonIcon
+        aria-expanded={true}
+        aria-label="Toggle field details"
+        data-test-subj="collapseBtn"
+        iconSize="s"
+        iconType="arrowDown"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+      >
+        <button
+          aria-expanded={true}
+          aria-label="Toggle field details"
+          className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall"
+          data-test-subj="collapseBtn"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          type="button"
+        >
+          <EuiIcon
+            aria-hidden="true"
+            className="euiButtonIcon__icon"
+            color="inherit"
+            size="s"
+            type="arrowDown"
+          >
+            <EuiIconEmpty
+              aria-hidden={true}
+              className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+              focusable="false"
+              role="img"
+              style={null}
+            >
+              <svg
+                aria-hidden={true}
+                className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                focusable="false"
+                height={16}
+                role="img"
+                style={null}
+                viewBox="0 0 16 16"
+                width={16}
+                xmlns="http://www.w3.org/2000/svg"
+              />
+            </EuiIconEmpty>
+          </EuiIcon>
+        </button>
+      </EuiButtonIcon>
+    </span>
+  </EuiToolTip>
+</DocViewTableRowBtnCollapse>
+`;

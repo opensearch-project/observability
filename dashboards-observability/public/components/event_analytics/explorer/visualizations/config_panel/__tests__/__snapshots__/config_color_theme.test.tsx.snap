@@ -195,6 +195,10 @@ exports[`ConfigColorTheme component Renders ConfigColorTheme component 1`] = `
                 "name": "tags",
                 "type": "text",
               },
+              Object {
+                "name": "timestamp",
+                "type": "timestamp",
+              },
             ],
             "size": 6,
             "status": 200,
@@ -971,6 +975,12 @@ exports[`ConfigColorTheme component Renders ConfigColorTheme component 1`] = `
                                           "name": "tags",
                                           "type": "text",
                                         },
+                                        Object {
+                                          "className": "color-theme-combo-box-option",
+                                          "label": "undefined(timestamp)",
+                                          "name": "timestamp",
+                                          "type": "timestamp",
+                                        },
                                       ]
                                     }
                                     placeholder="Select a field"
@@ -1742,6 +1752,12 @@ exports[`ConfigColorTheme component Renders ConfigColorTheme component 1`] = `
                                           "label": "undefined(tags)",
                                           "name": "tags",
                                           "type": "text",
+                                        },
+                                        Object {
+                                          "className": "color-theme-combo-box-option",
+                                          "label": "undefined(timestamp)",
+                                          "name": "timestamp",
+                                          "type": "timestamp",
                                         },
                                       ]
                                     }

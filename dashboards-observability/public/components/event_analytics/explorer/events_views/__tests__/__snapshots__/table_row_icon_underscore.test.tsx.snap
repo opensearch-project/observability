@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocViewTableRowIconUnderscore component Renders DocViewTableRowIconUnderscore component 1`] = `
+<DocViewTableRowIconUnderscore>
+  <EuiIconTip
+    aria-label="Warning"
+    color="warning"
+    content="Field names beginning with _ are not supported"
+    iconProps={
+      Object {
+        "className": "osdDocViewer__warning",
+        "data-test-subj": "underscoreWarning",
+      }
+    }
+    size="s"
+    type="alert"
+  >
+    <EuiToolTip
+      content="Field names beginning with _ are not supported"
+      delay="regular"
+      position="top"
+    >
+      <span
+        className="euiToolTipAnchor"
+        onKeyUp={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <EuiIcon
+          aria-label="Warning"
+          className="osdDocViewer__warning"
+          color="warning"
+          data-test-subj="underscoreWarning"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          size="s"
+          tabIndex={0}
+          type="alert"
+        >
+          <EuiIconEmpty
+            aria-hidden={true}
+            aria-label="Warning"
+            className="euiIcon euiIcon--small euiIcon--warning euiIcon-isLoading osdDocViewer__warning"
+            data-test-subj="underscoreWarning"
+            focusable="true"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            role="img"
+            style={null}
+            tabIndex={0}
+          >
+            <svg
+              aria-hidden={true}
+              aria-label="Warning"
+              className="euiIcon euiIcon--small euiIcon--warning euiIcon-isLoading osdDocViewer__warning"
+              data-test-subj="underscoreWarning"
+              focusable="true"
+              height={16}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              role="img"
+              style={null}
+              tabIndex={0}
+              viewBox="0 0 16 16"
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
+            />
+          </EuiIconEmpty>
+        </EuiIcon>
+      </span>
+    </EuiToolTip>
+  </EuiIconTip>
+</DocViewTableRowIconUnderscore>
+`;

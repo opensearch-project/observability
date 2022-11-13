@@ -180,6 +180,10 @@ exports[`ConfigAvailability component Renders configAvailability component with 
                 "name": "tags",
                 "type": "text",
               },
+              Object {
+                "name": "timestamp",
+                "type": "timestamp",
+              },
             ],
             "size": 6,
             "status": 200,

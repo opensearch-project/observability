@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ApplicationType } from '../common/types/application_analytics';
+
 export const panelBreadCrumbs = [
   { text: 'Operational panels', href: '#/operational_panels/' },
   { text: 'Observability', href: 'observability#/' },
@@ -205,4 +207,40 @@ export const sampleEmptyPanel = {
     timeRange: { to: 'now/y', from: 'now/y' },
     queryFilter: { query: "where host = 'www.opensearch.org'", language: 'ppl' },
   },
+};
+
+export const sampleAppAnalyticsPanel = {
+  createdTimeMs: 1667400079718,
+  lastUpdatedTimeMs: 1667400079718,
+  objectId: 'hA_KOIQB3_rWtxydGS5n',
+  operationalPanel: {
+    name: "Test's Panel",
+    visualizations: [
+      {
+        id: 'panel_viz_bae51802-b647-4c16-ac04-9cfa87aa0002',
+        savedVisualizationId: 'oiuccXwBYVazWqOO1e06',
+        x: 0,
+        y: 0,
+        w: 10,
+        h: 2,
+      },
+    ],
+    timeRange: { to: 'now', from: 'now-24h' },
+    queryFilter: { query: '', language: 'ppl' },
+    applicationId: 'gw_KOIQB3_rWtxydGC7x',
+  },
+  tenant: '',
+};
+
+export const sampleApplication: ApplicationType = {
+  availability: { availabilityVisId: '', color: '', name: '' },
+  baseQuery: 'source = opensearch_dashboards_sample_data_logs ',
+  dateCreated: '1667400079600',
+  dateModified: '1667400079756',
+  description: '',
+  id: 'gw_KOIQB3_rWtxydGC7x',
+  name: 'Test',
+  panelId: 'hA_KOIQB3_rWtxydGS5n',
+  servicesEntities: [],
+  traceGroups: [],
 };
