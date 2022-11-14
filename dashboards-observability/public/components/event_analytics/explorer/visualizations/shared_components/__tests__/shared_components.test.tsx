@@ -10,6 +10,8 @@ import { waitFor } from '@testing-library/react';
 import { EmptyPlaceholder } from '../empty_placeholder';
 import { LensIconChartBar } from '../../../../../visualizations/assets/chart_bar';
 import { ToolbarButton } from '../toolbar_button';
+import { PlotlyVizEditor } from '../plotly_viz_editor/plotly_viz_editor';
+import { PlotlyEditorActionsMenu } from '../plotly_viz_editor/plotly_actions';
 
 describe('Shared components', () => {
   configure({ adapter: new Adapter() });
@@ -33,6 +35,31 @@ describe('Shared components', () => {
         <WrappedComponent />
       </ToolbarButton>
     );
+
+    wrapper.update();
+
+    await waitFor(() => {
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+  it('Renders PlotlyVizEditor component', async () => {
+    const props = { spec: '', onVizConfigChange: jest.fn(), setToast: jest.fn() };
+    const wrapper = mount(<PlotlyVizEditor props={props} />);
+
+    wrapper.update();
+
+    await waitFor(() => {
+      expect(wrapper).toMatchSnapshot();
+      wrapper
+        .find('div[data-test-subj="vega-editor"]')
+        .simulate('change', { target: { value: 'spec' } });
+    });
+  });
+
+  it('Renders PlotlyEditorActionsMenu component', async () => {
+    const formatHJson = jest.fn();
+    const wrapper = mount(<PlotlyEditorActionsMenu formatHJson={formatHJson} />);
 
     wrapper.update();
 

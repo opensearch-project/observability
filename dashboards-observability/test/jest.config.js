@@ -20,6 +20,7 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/test/',
     '<rootDir>/public/requests/',
+    '<rootDir>/public/common/query_manager/',
   ],
   transformIgnorePatterns: ['<rootDir>/node_modules'],
   moduleNameMapper: {
