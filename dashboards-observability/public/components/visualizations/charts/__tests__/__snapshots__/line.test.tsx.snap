@@ -28,9 +28,9 @@ exports[`Line component Renders line component 1`] = `
         "defaultAxes": Object {
           "xaxis": Array [
             Object {
-              "label": "tags",
-              "name": "tags",
-              "type": "text",
+              "label": "span(timestamp,2h)",
+              "name": "span(timestamp,2h)",
+              "type": "timestamp",
             },
           ],
           "yaxis": Array [
@@ -40,11 +40,155 @@ exports[`Line component Renders line component 1`] = `
               "type": "long",
             },
             Object {
-              "label": "host",
-              "name": "host",
-              "type": "text",
+              "label": "avg(bytes)",
+              "name": "avg(bytes)",
+              "type": "double",
             },
           ],
+        },
+        "explorer": Object {
+          "explorerData": Object {
+            "jsonData": Array [
+              Object {
+                "avg(bytes)": 6219,
+                "max(bytes)": 6219,
+                "span(timestamp,2h)": "2022-04-10 00:00:00",
+              },
+              Object {
+                "avg(bytes)": 4221.166666666667,
+                "max(bytes)": 14113,
+                "span(timestamp,2h)": "2022-04-10 02:00:00",
+              },
+              Object {
+                "avg(bytes)": 6969.25,
+                "max(bytes)": 9920,
+                "span(timestamp,2h)": "2022-04-10 04:00:00",
+              },
+              Object {
+                "avg(bytes)": 6329.371428571429,
+                "max(bytes)": 15894,
+                "span(timestamp,2h)": "2022-04-10 06:00:00",
+              },
+              Object {
+                "avg(bytes)": 6245.709677419355,
+                "max(bytes)": 19561,
+                "span(timestamp,2h)": "2022-04-10 08:00:00",
+              },
+            ],
+            "jsonDataAll": Array [
+              Object {
+                "agent": "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1",
+                "bytes": 6219,
+                "clientip": "223.87.60.27",
+                "event": "{\\"dataset\\":\\"sample_web_logs\\"}",
+                "extension": "deb",
+                "geo": "{\\"srcdest\\":\\"IN:US\\",\\"src\\":\\"IN\\",\\"coordinates\\":{\\"lat\\":39.41042861,\\"lon\\":-88.8454325},\\"dest\\":\\"US\\"}",
+                "host": "artifacts.opensearch.org",
+                "index": "opensearch_dashboards_sample_data_logs",
+                "ip": "223.87.60.27",
+                "machine": "{\\"os\\":\\"win 8\\",\\"ram\\":8589934592}",
+                "memory": "null",
+                "message": "223.87.60.27 - - [2018-07-22T00:39:02.912Z] \\"GET /opensearch/opensearch-1.0.0.deb_1 HTTP/1.1\\" 200 6219 \\"-\\" \\"Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1\\"",
+                "phpmemory": "null",
+                "referer": "http://twitter.com/success/wendy-lawrence",
+                "request": "/opensearch/opensearch-1.0.0.deb",
+                "response": "200",
+                "tags": "success",
+                "timestamp": "2022-04-10 00:39:02.912",
+                "url": "https://artifacts.opensearch.org/downloads/opensearch/opensearch-1.0.0.deb_1",
+                "utc_time": "2022-04-10 00:39:02.912",
+              },
+              Object {
+                "agent": "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1",
+                "bytes": 6850,
+                "clientip": "130.246.123.197",
+                "event": "{\\"dataset\\":\\"sample_web_logs\\"}",
+                "extension": "",
+                "geo": "{\\"srcdest\\":\\"JP:IN\\",\\"src\\":\\"JP\\",\\"coordinates\\":{\\"lat\\":38.58338806,\\"lon\\":-86.46248778},\\"dest\\":\\"IN\\"}",
+                "host": "www.opensearch.org",
+                "index": "opensearch_dashboards_sample_data_logs",
+                "ip": "130.246.123.197",
+                "machine": "{\\"os\\":\\"win 8\\",\\"ram\\":3221225472}",
+                "memory": "null",
+                "message": "130.246.123.197 - - [2018-07-22T03:26:21.326Z] \\"GET /beats/metricbeat_1 HTTP/1.1\\" 200 6850 \\"-\\" \\"Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1\\"",
+                "phpmemory": "null",
+                "referer": "http://www.opensearch-opensearch-opensearch.com/success/james-mcdivitt",
+                "request": "/beats/metricbeat",
+                "response": "200",
+                "tags": "success",
+                "timestamp": "2022-04-10 03:26:21.326",
+                "url": "https://www.opensearch.org/downloads/beats/metricbeat_1",
+                "utc_time": "2022-04-10 03:26:21.326",
+              },
+              Object {
+                "agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24",
+                "bytes": 0,
+                "clientip": "120.49.143.213",
+                "event": "{\\"dataset\\":\\"sample_web_logs\\"}",
+                "extension": "css",
+                "geo": "{\\"srcdest\\":\\"CO:DE\\",\\"src\\":\\"CO\\",\\"coordinates\\":{\\"lat\\":36.96015,\\"lon\\":-78.18499861},\\"dest\\":\\"DE\\"}",
+                "host": "cdn.opensearch-opensearch-opensearch.org",
+                "index": "opensearch_dashboards_sample_data_logs",
+                "ip": "120.49.143.213",
+                "machine": "{\\"os\\":\\"ios\\",\\"ram\\":20401094656}",
+                "memory": "null",
+                "message": "120.49.143.213 - - [2018-07-22T03:30:25.131Z] \\"GET /styles/main.css_1 HTTP/1.1\\" 503 0 \\"-\\" \\"Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24\\"",
+                "phpmemory": "null",
+                "referer": "http://twitter.com/success/konstantin-feoktistov",
+                "request": "/styles/main.css",
+                "response": "503",
+                "tags": "success",
+                "timestamp": "2022-04-10 03:30:25.131",
+                "url": "https://cdn.opensearch-opensearch-opensearch.org/styles/main.css_1",
+                "utc_time": "2022-04-10 03:30:25.131",
+              },
+              Object {
+                "agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)",
+                "bytes": 14113,
+                "clientip": "99.74.118.237",
+                "event": "{\\"dataset\\":\\"sample_web_logs\\"}",
+                "extension": "deb",
+                "geo": "{\\"srcdest\\":\\"LK:IN\\",\\"src\\":\\"LK\\",\\"coordinates\\":{\\"lat\\":48.31140472,\\"lon\\":-114.2550694},\\"dest\\":\\"IN\\"}",
+                "host": "artifacts.opensearch.org",
+                "index": "opensearch_dashboards_sample_data_logs",
+                "ip": "99.74.118.237",
+                "machine": "{\\"os\\":\\"ios\\",\\"ram\\":11811160064}",
+                "memory": "null",
+                "message": "99.74.118.237 - - [2018-07-22T03:34:43.399Z] \\"GET /beats/metricbeat/metricbeat-6.3.2-amd64.deb_1 HTTP/1.1\\" 200 14113 \\"-\\" \\"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)\\"",
+                "phpmemory": "null",
+                "referer": "http://www.opensearch-opensearch-opensearch.com/success/charles-camarda",
+                "request": "/beats/metricbeat/metricbeat-6.3.2-amd64.deb",
+                "response": "200",
+                "tags": "success",
+                "timestamp": "2022-04-10 03:34:43.399",
+                "url": "https://artifacts.opensearch.org/downloads/beats/metricbeat/metricbeat-6.3.2-amd64.deb_1",
+                "utc_time": "2022-04-10 03:34:43.399",
+              },
+              Object {
+                "agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)",
+                "bytes": 2492,
+                "clientip": "177.111.217.54",
+                "event": "{\\"dataset\\":\\"sample_web_logs\\"}",
+                "extension": "",
+                "geo": "{\\"srcdest\\":\\"MZ:US\\",\\"src\\":\\"MZ\\",\\"coordinates\\":{\\"lat\\":46.77917333,\\"lon\\":-105.3047083},\\"dest\\":\\"US\\"}",
+                "host": "www.opensearch.org",
+                "index": "opensearch_dashboards_sample_data_logs",
+                "ip": "177.111.217.54",
+                "machine": "{\\"os\\":\\"win 7\\",\\"ram\\":9663676416}",
+                "memory": "null",
+                "message": "177.111.217.54 - - [2018-07-22T03:37:04.863Z] \\"GET /enterprise_1 HTTP/1.1\\" 200 2492 \\"-\\" \\"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)\\"",
+                "phpmemory": "null",
+                "referer": "http://twitter.com/success/gregory-harbaugh",
+                "request": "/enterprise",
+                "response": "200",
+                "tags": "success",
+                "timestamp": "2022-04-10 03:37:04.863",
+                "url": "https://www.opensearch.org/downloads/enterprise_1",
+                "utc_time": "2022-04-10 03:37:04.863",
+              },
+            ],
+          },
+          "query": Object {},
         },
         "indexFields": Object {
           "availableFields": Array [
@@ -161,93 +305,53 @@ exports[`Line component Renders line component 1`] = `
         "query": Object {},
         "rawVizData": Object {
           "data": Object {
-            "host": Array [
-              "artifacts.opensearch.org",
-              "artifacts.opensearch.org",
-              "artifacts.opensearch.org",
-              "artifacts.opensearch.org",
-              "artifacts.opensearch.org",
-              "artifacts.opensearch.org",
-              "cdn.opensearch-opensearch-opensearch.org",
-              "cdn.opensearch-opensearch-opensearch.org",
-              "cdn.opensearch-opensearch-opensearch.org",
-              "cdn.opensearch-opensearch-opensearch.org",
+            "avg(bytes)": Array [
+              6219,
+              4221.166666666667,
+              6969.25,
+              6329.371428571429,
+              6245.709677419355,
             ],
             "max(bytes)": Array [
-              19897,
-              19904,
-              19929,
-              19856,
-              19904,
-              19929,
-              9947,
-              9998,
-              9717,
-              9973,
+              6219,
+              14113,
+              9920,
+              15894,
+              19561,
             ],
-            "tags": Array [
-              "error",
-              "info",
-              "login",
-              "security",
-              "success",
-              "warning",
-              "error",
-              "info",
-              "login",
-              "security",
+            "span(timestamp,2h)": Array [
+              "2022-04-10 00:00:00",
+              "2022-04-10 02:00:00",
+              "2022-04-10 04:00:00",
+              "2022-04-10 06:00:00",
+              "2022-04-10 08:00:00",
             ],
           },
           "jsonData": Array [
             Object {
-              "host": "artifacts.opensearch.org",
-              "max(bytes)": 19897,
-              "tags": "error",
+              "avg(bytes)": 6219,
+              "max(bytes)": 6219,
+              "span(timestamp,2h)": "2022-04-10 00:00:00",
             },
             Object {
-              "host": "artifacts.opensearch.org",
-              "max(bytes)": 19904,
-              "tags": "info",
+              "avg(bytes)": 4221.166666666667,
+              "max(bytes)": 14113,
+              "span(timestamp,2h)": "2022-04-10 02:00:00",
             },
             Object {
-              "host": "artifacts.opensearch.org",
-              "max(bytes)": 19929,
-              "tags": "login",
+              "avg(bytes)": 6969.25,
+              "max(bytes)": 9920,
+              "span(timestamp,2h)": "2022-04-10 04:00:00",
             },
             Object {
-              "host": "artifacts.opensearch.org",
-              "max(bytes)": 19856,
-              "tags": "security",
+              "avg(bytes)": 6329.371428571429,
+              "max(bytes)": 15894,
+              "span(timestamp,2h)": "2022-04-10 06:00:00",
             },
             Object {
-              "host": "artifacts.opensearch.org",
-              "max(bytes)": 19904,
-              "tags": "success",
-            },
-            Object {
-              "host": "artifacts.opensearch.org",
-              "max(bytes)": 19929,
-              "tags": "warning",
-            },
-            Object {
-              "host": "cdn.opensearch-opensearch-opensearch.org",
-              "max(bytes)": 9947,
-              "tags": "error",
-            },
-            Object {
-              "host": "cdn.opensearch-opensearch-opensearch.org",
-              "max(bytes)": 9998,
-              "tags": "info",
-            },
-            Object {
-              "host": "cdn.opensearch-opensearch-opensearch.org",
-              "max(bytes)": 9717,
-              "tags": "login",
-            },
-            Object {
-              "host": "cdn.opensearch-opensearch-opensearch.org",
-              "max(bytes)": 9973,
-              "tags": "security",
+              "avg(bytes)": 6245.709677419355,
+              "max(bytes)": 19561,
+              "span(timestamp,2h)": "2022-04-10 08:00:00",
             },
           ],
           "metadata": Object {
@@ -257,32 +361,34 @@ exports[`Line component Renders line component 1`] = `
                 "type": "long",
               },
               Object {
-                "name": "host",
-                "type": "text",
+                "name": "avg(bytes)",
+                "type": "double",
               },
               Object {
-                "name": "tags",
-                "type": "text",
+                "name": "span(timestamp,2h)",
+                "type": "timestamp",
               },
             ],
           },
-          "size": 10,
+          "size": 5,
           "status": 200,
         },
         "userConfigs": Object {
           "dataConfig": Object {
-            "dimensions": Array [
-              Object {
-                "customLabel": "",
-                "label": "host",
-                "name": "host",
+            "chartStyles": Object {
+              "color": Object {
+                "color": "#6092C0",
+                "name": "singleColor",
               },
-              Object {
-                "customLabel": "",
-                "label": "tags",
-                "name": "tags",
-              },
-            ],
+              "fillOpacity": "71",
+              "interpolation": "linear",
+              "labelSize": "10",
+              "lineWidth": "4",
+              "pointSize": "12",
+              "rotateLabels": "36",
+              "style": "lines",
+            },
+            "dimensions": Array [],
             "series": Array [
               Object {
                 "aggregation": "max",
@@ -290,12 +396,34 @@ exports[`Line component Renders line component 1`] = `
                 "label": "bytes",
                 "name": "bytes",
               },
+              Object {
+                "aggregation": "avg",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
             ],
+            "span": Object {
+              "interval": "2",
+              "time_field": Array [
+                Object {
+                  "label": "timestamp",
+                  "name": "timestamp",
+                  "type": "timestamp",
+                },
+              ],
+              "unit": Array [
+                Object {
+                  "label": "Hour",
+                  "text": "Hour",
+                  "value": "h",
+                },
+              ],
+            },
           },
         },
       },
       "vis": Object {
-        "barwidth": 0.97,
         "category": "Visualizations",
         "categoryaxis": "xaxis",
         "component": [Function],
@@ -307,64 +435,6 @@ exports[`Line component Renders line component 1`] = `
               "mapTo": "dataConfig",
               "name": "Style",
               "sections": Array [
-                Object {
-                  "editor": [Function],
-                  "id": "tooltip_options",
-                  "mapTo": "tooltipOptions",
-                  "name": "Tooltip options",
-                  "schemas": Array [
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipMode",
-                      "name": "Tooltip mode",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "show",
-                            "name": "Show",
-                          },
-                          Object {
-                            "id": "hidden",
-                            "name": "Hidden",
-                          },
-                        ],
-                      },
-                    },
-                    Object {
-                      "component": null,
-                      "mapTo": "tooltipText",
-                      "name": "Tooltip text",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "all",
-                            "name": "All",
-                          },
-                          Object {
-                            "id": "x",
-                            "name": "Dimension",
-                          },
-                          Object {
-                            "id": "y",
-                            "name": "Series",
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
                 Object {
                   "editor": [Function],
                   "id": "legend",
@@ -428,6 +498,64 @@ exports[`Line component Renders line component 1`] = `
                 },
                 Object {
                   "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
                   "id": "chart_styles",
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
@@ -435,25 +563,91 @@ exports[`Line component Renders line component 1`] = `
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
-                      "mapTo": "mode",
+                      "mapTo": "style",
                       "name": "Mode",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "id": "group",
-                            "name": "Group",
+                            "id": "markers",
+                            "name": "Marker",
                           },
                         ],
                         "options": Array [
                           Object {
-                            "id": "group",
-                            "name": "Group",
+                            "id": "lines",
+                            "name": "Lines",
                           },
                           Object {
-                            "id": "stack",
-                            "name": "Stack",
+                            "id": "markers",
+                            "name": "Marker",
+                          },
+                          Object {
+                            "id": "lines+markers",
+                            "name": "Lines + Markers",
                           },
                         ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "interpolation",
+                      "name": "Interpolation",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "spline",
+                            "name": "Smooth",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "linear",
+                            "name": "Linear",
+                          },
+                          Object {
+                            "id": "spline",
+                            "name": "Smooth",
+                          },
+                          Object {
+                            "id": "hv",
+                            "name": "Step before",
+                          },
+                          Object {
+                            "id": "vh",
+                            "name": "Step after",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 5,
+                      "eleType": "slider",
+                      "mapTo": "pointSize",
+                      "name": "Point size",
+                      "props": Object {
+                        "max": 40,
                       },
                     },
                     Object {
@@ -461,13 +655,14 @@ exports[`Line component Renders line component 1`] = `
                       "eleType": "input",
                       "mapTo": "labelSize",
                       "name": "Label size",
+                      "title": "Label size",
                     },
                     Object {
                       "component": [Function],
                       "defaultState": 0,
                       "eleType": "slider",
-                      "mapTo": "rotateBarLabels",
-                      "name": "Rotate bar labels",
+                      "mapTo": "rotateLabels",
+                      "name": "Rotate labels",
                       "props": Object {
                         "max": 90,
                         "min": -90,
@@ -496,55 +691,28 @@ exports[`Line component Renders line component 1`] = `
                         ],
                       },
                     },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 0.7,
-                      "eleType": "slider",
-                      "mapTo": "groupWidth",
-                      "name": "Group width",
-                      "props": Object {
-                        "max": 1,
-                        "step": 0.01,
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 0.97,
-                      "eleType": "slider",
-                      "mapTo": "barWidth",
-                      "name": "Bar width",
-                      "props": Object {
-                        "max": 1,
-                        "step": 0.01,
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 2,
-                      "eleType": "slider",
-                      "mapTo": "lineWidth",
-                      "name": "Line width",
-                      "props": Object {
-                        "max": 10,
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "defaultState": 70,
-                      "eleType": "slider",
-                      "mapTo": "fillOpacity",
-                      "name": "Fill opacity",
-                      "props": Object {
-                        "max": 100,
-                      },
-                    },
                   ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "yaxis-side",
+                  "mapTo": "seriesPosition",
+                  "name": "Series label position",
+                  "schemas": Array [],
                 },
                 Object {
                   "editor": [Function],
                   "id": "color-theme",
                   "mapTo": "colorTheme",
                   "name": "Color theme",
+                  "schemas": Array [],
+                },
+                Object {
+                  "defaultState": Array [],
+                  "editor": [Function],
+                  "id": "thresholds",
+                  "mapTo": "thresholds",
+                  "name": "Thresholds",
                   "schemas": Array [],
                 },
               ],
@@ -557,32 +725,42 @@ exports[`Line component Renders line component 1`] = `
             },
           ],
         },
-        "fillopacity": 70,
-        "fulllabel": "Vertical bar",
-        "groupwidth": 0.7,
+        "fulllabel": "Scatter",
         "icon": [Function],
-        "icontype": "visBarVerticalStacked",
-        "id": "bar",
-        "label": "Vertical bar",
-        "labelangle": 0,
-        "legendposition": "v",
-        "linewidth": 2,
-        "mode": "group",
-        "name": "bar",
-        "orientation": "v",
+        "icontype": "visLine",
+        "id": undefined,
+        "label": "Scatter",
+        "name": undefined,
         "selection": Object {
           "dataLoss": "nothing",
         },
         "seriesaxis": "yaxis",
-        "showlegend": "show",
-        "type": "bar",
+        "type": undefined,
         "visconfig": Object {
           "config": Object {
+            "barmode": undefined,
             "displaylogo": false,
             "responsive": true,
+            "xaxis": Object {
+              "automargin": true,
+            },
+            "yaxis": Object {
+              "automargin": true,
+            },
           },
-          "isUniColor": false,
           "layout": Object {
+            "colorway": Array [
+              "#3CA1C7",
+              "#8C55A3",
+              "#DB748A",
+              "#F2BE4B",
+              "#68CCC2",
+              "#2A7866",
+              "#843769",
+              "#374FB8",
+              "#BD6F26",
+              "#4C636F",
+            ],
             "height": 1180,
             "legend": Object {
               "orientation": "v",
@@ -595,89 +773,324 @@ exports[`Line component Renders line component 1`] = `
               "r": 30,
               "t": 50,
             },
+            "paper_bgcolor": "rgba(0, 0, 0, 0)",
+            "plot_bgcolor": "rgba(0, 0, 0, 0)",
             "showlegend": true,
+            "xaxis": Object {
+              "fixedrange": true,
+              "showgrid": false,
+              "visible": true,
+            },
+            "yaxis": Object {
+              "fixedrange": true,
+              "showgrid": false,
+              "visible": true,
+            },
           },
         },
       },
     }
   }
 >
-  <EmptyPlaceholder
-    icon="visBarVerticalStacked"
+  <Plt
+    config={Object {}}
+    data={
+      Array [
+        Object {
+          "fill": "tozeroy",
+          "fillcolor": "rgba(60,161,199,0.355)",
+          "hoverinfo": "all",
+          "line": Object {
+            "color": "#3CA1C7",
+            "shape": "linear",
+            "width": "4",
+          },
+          "marker": Object {
+            "color": "rgba(60,161,199,0.355)",
+            "line": Object {
+              "color": "#3CA1C7",
+              "width": "4",
+            },
+            "size": "12",
+          },
+          "mode": "lines",
+          "name": "max(bytes)",
+          "type": "line",
+          "x": Array [
+            "2022-04-10 00:00:00",
+            "2022-04-10 02:00:00",
+            "2022-04-10 04:00:00",
+            "2022-04-10 06:00:00",
+            "2022-04-10 08:00:00",
+          ],
+          "y": Array [
+            6219,
+            14113,
+            9920,
+            15894,
+            19561,
+          ],
+        },
+        Object {
+          "fill": "tozeroy",
+          "fillcolor": "rgba(140,85,163,0.355)",
+          "hoverinfo": "all",
+          "line": Object {
+            "color": "#8C55A3",
+            "shape": "linear",
+            "width": "4",
+          },
+          "marker": Object {
+            "color": "rgba(140,85,163,0.355)",
+            "line": Object {
+              "color": "#8C55A3",
+              "width": "4",
+            },
+            "size": "12",
+          },
+          "mode": "lines",
+          "name": "avg(bytes)",
+          "type": "line",
+          "x": Array [
+            "2022-04-10 00:00:00",
+            "2022-04-10 02:00:00",
+            "2022-04-10 04:00:00",
+            "2022-04-10 06:00:00",
+            "2022-04-10 08:00:00",
+          ],
+          "y": Array [
+            6219,
+            4221.166666666667,
+            6969.25,
+            6329.371428571429,
+            6245.709677419355,
+          ],
+          "yaxis": "y2",
+        },
+        Object {
+          "mode": "text",
+          "showlegend": false,
+          "text": Array [],
+          "x": Array [],
+          "y": Array [],
+        },
+      ]
+    }
+    layout={
+      Object {
+        "autosize": true,
+        "colorway": Array [
+          "#8C55A3",
+        ],
+        "height": 220,
+        "legend": Object {
+          "orientation": "v",
+        },
+        "margin": Object {
+          "b": 30,
+          "l": 30,
+          "pad": 4,
+          "r": 5,
+          "t": 50,
+        },
+        "shapes": Array [],
+        "showlegend": true,
+        "title": "",
+        "xaxis": Object {
+          "automargin": true,
+          "tickangle": "36",
+          "tickfont": Object {
+            "size": "10",
+          },
+        },
+        "yaxis": Object {
+          "automargin": true,
+          "side": "left",
+          "tickfont": Object {
+            "color": "#3CA1C7",
+            "size": "10",
+          },
+          "titlefont": Object {
+            "color": "#3CA1C7",
+          },
+        },
+        "yaxis2": Object {
+          "automargin": true,
+          "overlaying": "y",
+          "side": "left",
+          "tickfont": Object {
+            "color": "#8C55A3",
+            "size": "10",
+          },
+          "titlefont": Object {
+            "color": "#8C55A3",
+          },
+        },
+      }
+    }
   >
-    <EuiText
-      className="lnsChart__empty"
-      color="subdued"
-      data-test-subj="vizWorkspace__noData"
-      size="xs"
-      textAlign="center"
+    <PlotlyComponent
+      config={
+        Object {
+          "displayModeBar": false,
+        }
+      }
+      data={
+        Array [
+          Object {
+            "fill": "tozeroy",
+            "fillcolor": "rgba(60,161,199,0.355)",
+            "hoverinfo": "all",
+            "line": Object {
+              "color": "#3CA1C7",
+              "shape": "linear",
+              "width": "4",
+            },
+            "marker": Object {
+              "color": "rgba(60,161,199,0.355)",
+              "line": Object {
+                "color": "#3CA1C7",
+                "width": "4",
+              },
+              "size": "12",
+            },
+            "mode": "lines",
+            "name": "max(bytes)",
+            "type": "line",
+            "x": Array [
+              "2022-04-10 00:00:00",
+              "2022-04-10 02:00:00",
+              "2022-04-10 04:00:00",
+              "2022-04-10 06:00:00",
+              "2022-04-10 08:00:00",
+            ],
+            "y": Array [
+              6219,
+              14113,
+              9920,
+              15894,
+              19561,
+            ],
+          },
+          Object {
+            "fill": "tozeroy",
+            "fillcolor": "rgba(140,85,163,0.355)",
+            "hoverinfo": "all",
+            "line": Object {
+              "color": "#8C55A3",
+              "shape": "linear",
+              "width": "4",
+            },
+            "marker": Object {
+              "color": "rgba(140,85,163,0.355)",
+              "line": Object {
+                "color": "#8C55A3",
+                "width": "4",
+              },
+              "size": "12",
+            },
+            "mode": "lines",
+            "name": "avg(bytes)",
+            "type": "line",
+            "x": Array [
+              "2022-04-10 00:00:00",
+              "2022-04-10 02:00:00",
+              "2022-04-10 04:00:00",
+              "2022-04-10 06:00:00",
+              "2022-04-10 08:00:00",
+            ],
+            "y": Array [
+              6219,
+              4221.166666666667,
+              6969.25,
+              6329.371428571429,
+              6245.709677419355,
+            ],
+            "yaxis": "y2",
+          },
+          Object {
+            "mode": "text",
+            "showlegend": false,
+            "text": Array [],
+            "x": Array [],
+            "y": Array [],
+          },
+        ]
+      }
+      debug={false}
+      divId="explorerPlotComponent"
+      layout={
+        Object {
+          "autosize": true,
+          "barmode": "stack",
+          "colorway": Array [
+            "#8C55A3",
+          ],
+          "height": 220,
+          "hovermode": "closest",
+          "legend": Object {
+            "orientation": "v",
+          },
+          "margin": Object {
+            "b": 30,
+            "l": 30,
+            "pad": 4,
+            "r": 5,
+            "t": 50,
+          },
+          "shapes": Array [],
+          "showlegend": true,
+          "title": "",
+          "xaxis": Object {
+            "automargin": true,
+            "tickangle": "36",
+            "tickfont": Object {
+              "size": "10",
+            },
+          },
+          "yaxis": Object {
+            "automargin": true,
+            "side": "left",
+            "tickfont": Object {
+              "color": "#3CA1C7",
+              "size": "10",
+            },
+            "titlefont": Object {
+              "color": "#3CA1C7",
+            },
+          },
+          "yaxis2": Object {
+            "automargin": true,
+            "overlaying": "y",
+            "side": "left",
+            "tickfont": Object {
+              "color": "#8C55A3",
+              "size": "10",
+            },
+            "titlefont": Object {
+              "color": "#8C55A3",
+            },
+          },
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      useResizeHandler={true}
     >
       <div
-        className="euiText euiText--extraSmall lnsChart__empty"
-        data-test-subj="vizWorkspace__noData"
-      >
-        <EuiTextAlign
-          textAlign="center"
-        >
-          <div
-            className="euiTextAlign euiTextAlign--center"
-          >
-            <EuiTextColor
-              color="subdued"
-              component="div"
-            >
-              <div
-                className="euiTextColor euiTextColor--subdued"
-              >
-                <EuiIcon
-                  color="subdued"
-                  size="xxl"
-                  type="visBarVerticalStacked"
-                >
-                  <EuiIconEmpty
-                    aria-hidden={true}
-                    className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                    focusable="false"
-                    role="img"
-                    style={null}
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                      focusable="false"
-                      height={16}
-                      role="img"
-                      style={null}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </EuiIconEmpty>
-                </EuiIcon>
-                <EuiSpacer
-                  size="l"
-                >
-                  <div
-                    className="euiSpacer euiSpacer--l"
-                  />
-                </EuiSpacer>
-                <p>
-                  <FormattedMessage
-                    defaultMessage="No results found"
-                    id="visualization_noData"
-                    values={Object {}}
-                  >
-                    <span>
-                      No results found
-                    </span>
-                  </FormattedMessage>
-                </p>
-              </div>
-            </EuiTextColor>
-          </div>
-        </EuiTextAlign>
-      </div>
-    </EuiText>
-  </EmptyPlaceholder>
+        id="explorerPlotComponent"
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </PlotlyComponent>
+  </Plt>
 </Line>
 `;

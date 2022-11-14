@@ -16,7 +16,6 @@ exports[`Field component Renders a sidebar field 1`] = `
   onToggleField={[MockFunction]}
   query="rawQuery"
   selected={true}
-  selectedPattern="selectedPatternField"
   selectedTimestamp="timestamp"
   showTimestampOverrideButton={true}
   showToggleButton={true}

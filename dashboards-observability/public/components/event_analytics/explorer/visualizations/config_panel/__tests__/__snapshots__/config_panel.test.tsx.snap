@@ -15446,22 +15446,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
               "rotateLabels": "36",
               "style": "lines",
             },
+            "dimensions": Array [
+              Object {
+                "customLabel": "",
+                "label": "host",
+                "name": "host",
+              },
+              Object {
+                "customLabel": "",
+                "label": "tags",
+                "name": "tags",
+              },
+            ],
+            "series": Array [
+              Object {
+                "aggregation": "max",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
+            ],
           },
-          "dimensions": Array [
-            Object {
-              "label": "tags",
-              "name": "tags",
-              "type": "text",
-            },
-          ],
-          "metrics": Array [
-            Object {
-              "label": "count()",
-              "name": "count()",
-              "side": "left",
-              "type": "integer",
-            },
-          ],
         },
       },
       "vis": Object {
@@ -20389,22 +20394,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                           "rotateLabels": "36",
                           "style": "lines",
                         },
+                        "dimensions": Array [
+                          Object {
+                            "customLabel": "",
+                            "label": "host",
+                            "name": "host",
+                          },
+                          Object {
+                            "customLabel": "",
+                            "label": "tags",
+                            "name": "tags",
+                          },
+                        ],
+                        "series": Array [
+                          Object {
+                            "aggregation": "max",
+                            "customLabel": "",
+                            "label": "bytes",
+                            "name": "bytes",
+                          },
+                        ],
                       },
-                      "dimensions": Array [
-                        Object {
-                          "label": "tags",
-                          "name": "tags",
-                          "type": "text",
-                        },
-                      ],
-                      "metrics": Array [
-                        Object {
-                          "label": "count()",
-                          "name": "count()",
-                          "side": "left",
-                          "type": "integer",
-                        },
-                      ],
                     },
                   },
                   "vis": Object {
@@ -20844,6 +20854,26 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                     "rotateLabels": "36",
                     "style": "lines",
                   },
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "host",
+                      "name": "host",
+                    },
+                    Object {
+                      "customLabel": "",
+                      "label": "tags",
+                      "name": "tags",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "max",
+                      "customLabel": "",
+                      "label": "bytes",
+                      "name": "bytes",
+                    },
+                  ],
                 }
               }
             />,
@@ -21507,22 +21537,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                             "rotateLabels": "36",
                             "style": "lines",
                           },
+                          "dimensions": Array [
+                            Object {
+                              "customLabel": "",
+                              "label": "host",
+                              "name": "host",
+                            },
+                            Object {
+                              "customLabel": "",
+                              "label": "tags",
+                              "name": "tags",
+                            },
+                          ],
+                          "series": Array [
+                            Object {
+                              "aggregation": "max",
+                              "customLabel": "",
+                              "label": "bytes",
+                              "name": "bytes",
+                            },
+                          ],
                         },
-                        "dimensions": Array [
-                          Object {
-                            "label": "tags",
-                            "name": "tags",
-                            "type": "text",
-                          },
-                        ],
-                        "metrics": Array [
-                          Object {
-                            "label": "count()",
-                            "name": "count()",
-                            "side": "left",
-                            "type": "integer",
-                          },
-                        ],
                       },
                     },
                     "vis": Object {
@@ -21962,6 +21997,26 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                       "rotateLabels": "36",
                       "style": "lines",
                     },
+                    "dimensions": Array [
+                      Object {
+                        "customLabel": "",
+                        "label": "host",
+                        "name": "host",
+                      },
+                      Object {
+                        "customLabel": "",
+                        "label": "tags",
+                        "name": "tags",
+                      },
+                    ],
+                    "series": Array [
+                      Object {
+                        "aggregation": "max",
+                        "customLabel": "",
+                        "label": "bytes",
+                        "name": "bytes",
+                      },
+                    ],
                   }
                 }
               />,
@@ -22666,22 +22721,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                           "rotateLabels": "36",
                           "style": "lines",
                         },
+                        "dimensions": Array [
+                          Object {
+                            "customLabel": "",
+                            "label": "host",
+                            "name": "host",
+                          },
+                          Object {
+                            "customLabel": "",
+                            "label": "tags",
+                            "name": "tags",
+                          },
+                        ],
+                        "series": Array [
+                          Object {
+                            "aggregation": "max",
+                            "customLabel": "",
+                            "label": "bytes",
+                            "name": "bytes",
+                          },
+                        ],
                       },
-                      "dimensions": Array [
-                        Object {
-                          "label": "tags",
-                          "name": "tags",
-                          "type": "text",
-                        },
-                      ],
-                      "metrics": Array [
-                        Object {
-                          "label": "count()",
-                          "name": "count()",
-                          "side": "left",
-                          "type": "integer",
-                        },
-                      ],
                     },
                   },
                   "vis": Object {
@@ -23121,6 +23181,26 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                     "rotateLabels": "36",
                     "style": "lines",
                   },
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "host",
+                      "name": "host",
+                    },
+                    Object {
+                      "customLabel": "",
+                      "label": "tags",
+                      "name": "tags",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "max",
+                      "customLabel": "",
+                      "label": "bytes",
+                      "name": "bytes",
+                    },
+                  ],
                 }
               }
             >
@@ -23425,22 +23505,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                                         "rotateLabels": "36",
                                         "style": "lines",
                                       },
+                                      "dimensions": Array [
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "host",
+                                          "name": "host",
+                                        },
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "tags",
+                                          "name": "tags",
+                                        },
+                                      ],
+                                      "series": Array [
+                                        Object {
+                                          "aggregation": "max",
+                                          "customLabel": "",
+                                          "label": "bytes",
+                                          "name": "bytes",
+                                        },
+                                      ],
                                     },
-                                    "dimensions": Array [
-                                      Object {
-                                        "label": "tags",
-                                        "name": "tags",
-                                        "type": "text",
-                                      },
-                                    ],
-                                    "metrics": Array [
-                                      Object {
-                                        "label": "count()",
-                                        "name": "count()",
-                                        "side": "left",
-                                        "type": "integer",
-                                      },
-                                    ],
                                   },
                                 },
                                 "vis": Object {
@@ -24452,22 +24537,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                                         "rotateLabels": "36",
                                         "style": "lines",
                                       },
+                                      "dimensions": Array [
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "host",
+                                          "name": "host",
+                                        },
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "tags",
+                                          "name": "tags",
+                                        },
+                                      ],
+                                      "series": Array [
+                                        Object {
+                                          "aggregation": "max",
+                                          "customLabel": "",
+                                          "label": "bytes",
+                                          "name": "bytes",
+                                        },
+                                      ],
                                     },
-                                    "dimensions": Array [
-                                      Object {
-                                        "label": "tags",
-                                        "name": "tags",
-                                        "type": "text",
-                                      },
-                                    ],
-                                    "metrics": Array [
-                                      Object {
-                                        "label": "count()",
-                                        "name": "count()",
-                                        "side": "left",
-                                        "type": "integer",
-                                      },
-                                    ],
                                   },
                                 },
                                 "vis": Object {
@@ -26038,22 +26128,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                                         "rotateLabels": "36",
                                         "style": "lines",
                                       },
+                                      "dimensions": Array [
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "host",
+                                          "name": "host",
+                                        },
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "tags",
+                                          "name": "tags",
+                                        },
+                                      ],
+                                      "series": Array [
+                                        Object {
+                                          "aggregation": "max",
+                                          "customLabel": "",
+                                          "label": "bytes",
+                                          "name": "bytes",
+                                        },
+                                      ],
                                     },
-                                    "dimensions": Array [
-                                      Object {
-                                        "label": "tags",
-                                        "name": "tags",
-                                        "type": "text",
-                                      },
-                                    ],
-                                    "metrics": Array [
-                                      Object {
-                                        "label": "count()",
-                                        "name": "count()",
-                                        "side": "left",
-                                        "type": "integer",
-                                      },
-                                    ],
                                   },
                                 },
                                 "vis": Object {
@@ -27396,22 +27491,27 @@ exports[`Config panel component Renders config panel with visualization data 2`]
                                         "rotateLabels": "36",
                                         "style": "lines",
                                       },
+                                      "dimensions": Array [
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "host",
+                                          "name": "host",
+                                        },
+                                        Object {
+                                          "customLabel": "",
+                                          "label": "tags",
+                                          "name": "tags",
+                                        },
+                                      ],
+                                      "series": Array [
+                                        Object {
+                                          "aggregation": "max",
+                                          "customLabel": "",
+                                          "label": "bytes",
+                                          "name": "bytes",
+                                        },
+                                      ],
                                     },
-                                    "dimensions": Array [
-                                      Object {
-                                        "label": "tags",
-                                        "name": "tags",
-                                        "type": "text",
-                                      },
-                                    ],
-                                    "metrics": Array [
-                                      Object {
-                                        "label": "count()",
-                                        "name": "count()",
-                                        "side": "left",
-                                        "type": "integer",
-                                      },
-                                    ],
                                   },
                                 },
                                 "vis": Object {

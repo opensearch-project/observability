@@ -8,13 +8,7 @@ import { take, merge, isEmpty } from 'lodash';
 import { Plt } from '../../plotly/plot';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
 
-export const Bubble = ({
-  visualizations,
-  figureConfig = {},
-  layoutConfig = {},
-  dispatch,
-  customVizData = {},
-}: any) => {
+export const Bubble = ({ visualizations, figureConfig = {}, layoutConfig = {} }: any) => {
   const {
     data,
     metadata: { fields },
@@ -46,27 +40,5 @@ export const Bubble = ({
   };
   const lineLayoutConfig = merge(config, layoutConfig);
 
-  return (
-    <Plt
-      data={lineValues}
-      layout={{
-        colorway: PLOTLY_COLOR,
-        plot_bgcolor: 'rgba(0, 0, 0, 0)',
-        paper_bgcolor: 'rgba(0, 0, 0, 0)',
-        xaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        yaxis: {
-          fixedrange: true,
-          showgrid: false,
-          visible: true,
-        },
-        ...lineLayoutConfig,
-      }}
-      config={figureConfig}
-      dispatch={dispatch}
-    />
-  );
+  return <Plt data={lineValues} layout={lineLayoutConfig} config={figureConfig} />;
 };

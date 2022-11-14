@@ -7,18 +7,22 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
-import { Line } from '../lines/line';
+import { Bubble } from '../bubble/bubble';
 import {
   LAYOUT_CONFIG,
-  LINE_TEST_VISUALIZATIONS_DATA,
+  TEST_VISUALIZATIONS_DATA,
 } from '../../../../../test/event_analytics_constants';
 
-describe('Line component', () => {
+describe('Bubble component', () => {
   configure({ adapter: new Adapter() });
 
-  it('Renders line component', async () => {
+  it('Renders Bubble component', async () => {
     const wrapper = mount(
-      <Line visualizations={LINE_TEST_VISUALIZATIONS_DATA} layout={LAYOUT_CONFIG} config={{}} />
+      <Bubble
+        visualizations={TEST_VISUALIZATIONS_DATA}
+        layoutConfig={LAYOUT_CONFIG}
+        figureConfig={true}
+      />
     );
 
     wrapper.update();
