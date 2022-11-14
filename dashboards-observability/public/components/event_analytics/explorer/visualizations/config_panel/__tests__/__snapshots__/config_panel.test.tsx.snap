@@ -15091,12 +15091,14 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                         className="euiAccordion__padding--s"
                                       >
                                         <EuiButton
+                                          data-test-subj="config-color-theme-accordion"
                                           fullWidth={true}
                                           onClick={[Function]}
                                           size="s"
                                         >
                                           <EuiButtonDisplay
                                             baseClassName="euiButton"
+                                            data-test-subj="config-color-theme-accordion"
                                             disabled={false}
                                             element="button"
                                             fullWidth={true}
@@ -15107,6 +15109,7 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                           >
                                             <button
                                               className="euiButton euiButton--primary euiButton--small euiButton--fullWidth"
+                                              data-test-subj="config-color-theme-accordion"
                                               disabled={false}
                                               onClick={[Function]}
                                               style={

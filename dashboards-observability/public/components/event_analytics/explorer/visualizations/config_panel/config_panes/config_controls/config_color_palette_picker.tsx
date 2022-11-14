@@ -81,7 +81,11 @@ export const ColorPalettePicker = ({
         {[SINGLE_COLOR_PALETTE, MULTI_COLOR_PALETTE].includes(selectedColor.name) && (
           <EuiFlexItem grow={1}>
             <EuiFormRow helpText={selectedColor.name === MULTI_COLOR_PALETTE && 'Child field'}>
-              <EuiColorPicker onChange={onChildColorChange} color={childColor} />
+              <EuiColorPicker
+                data-test-subj="config-color-palette-colorpicker"
+                onChange={onChildColorChange}
+                color={childColor}
+              />
             </EuiFormRow>
           </EuiFlexItem>
         )}
@@ -93,6 +97,7 @@ export const ColorPalettePicker = ({
               <EuiFlexItem grow={1} key={i}>
                 <EuiFormRow helpText={`Parent ${i + 1} field`}>
                   <EuiColorPicker
+                    data-test-subj={`config-color-palette-colorpicker-${i}`}
                     onChange={onParentColorChange(i)}
                     color={parentColors[i] ?? '#000000'}
                   />
@@ -101,6 +106,7 @@ export const ColorPalettePicker = ({
             ))}
         <EuiFlexItem grow={3}>
           <EuiColorPalettePicker
+            data-test-subj="config-color-palette-picker"
             palettes={colorPalettes}
             onChange={onPaletteChange}
             valueOfSelected={selectedColor.name}
