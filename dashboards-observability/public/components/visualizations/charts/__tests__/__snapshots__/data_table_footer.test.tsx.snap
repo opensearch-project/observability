@@ -1,0 +1,322 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test data table footer component Renders data table footer component 1`] = `
+<GridFooter
+  activePage={0}
+  goToPage={[Function]}
+  onPageSizeChanged={[Function]}
+  pageCount={2}
+  pageSize={10}
+>
+  <EuiFlexGroup
+    gutterSize="none"
+    justifyContent="spaceBetween"
+    responsive={true}
+    style={
+      Object {
+        "paddingTop": "10px",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="euiFlexGroup euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style={
+        Object {
+          "paddingTop": "10px",
+          "position": "relative",
+        }
+      }
+    >
+      <EuiFlexItem
+        grow={false}
+      >
+        <div
+          className="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <PageSizePopover
+            onPageSizeChanged={[Function]}
+            pageSize={10}
+          >
+            <EuiPopover
+              anchorPosition="downLeft"
+              button={
+                <EuiButtonEmpty
+                  aria-label="Next"
+                  color="text"
+                  iconSide="right"
+                  iconSize="s"
+                  iconType="arrowDown"
+                  onClick={[Function]}
+                  size="s"
+                >
+                  Rows per page: 
+                  10
+                </EuiButtonEmpty>
+              }
+              closePopover={[Function]}
+              display="inlineBlock"
+              hasArrow={true}
+              id="singlePanel"
+              isOpen={false}
+              ownFocus={true}
+              panelPaddingSize="none"
+            >
+              <div
+                className="euiPopover euiPopover--anchorDownLeft"
+                id="singlePanel"
+              >
+                <div
+                  className="euiPopover__anchor"
+                >
+                  <EuiButtonEmpty
+                    aria-label="Next"
+                    color="text"
+                    iconSide="right"
+                    iconSize="s"
+                    iconType="arrowDown"
+                    onClick={[Function]}
+                    size="s"
+                  >
+                    <button
+                      aria-label="Next"
+                      className="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small"
+                      disabled={false}
+                      iconSize="s"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <EuiButtonContent
+                        className="euiButtonEmpty__content"
+                        iconSide="right"
+                        iconSize="m"
+                        iconType="arrowDown"
+                        textProps={
+                          Object {
+                            "className": "euiButtonEmpty__text",
+                          }
+                        }
+                      >
+                        <span
+                          className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                        >
+                          <EuiIcon
+                            className="euiButtonContent__icon"
+                            color="inherit"
+                            size="m"
+                            type="arrowDown"
+                          >
+                            <EuiIconEmpty
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                              focusable="false"
+                              role="img"
+                              style={null}
+                            >
+                              <svg
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                focusable="false"
+                                height={16}
+                                role="img"
+                                style={null}
+                                viewBox="0 0 16 16"
+                                width={16}
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                            </EuiIconEmpty>
+                          </EuiIcon>
+                          <span
+                            className="euiButtonEmpty__text"
+                          >
+                            Rows per page: 
+                            10
+                          </span>
+                        </span>
+                      </EuiButtonContent>
+                    </button>
+                  </EuiButtonEmpty>
+                </div>
+              </div>
+            </EuiPopover>
+          </PageSizePopover>
+        </div>
+      </EuiFlexItem>
+      <EuiFlexItem
+        grow={false}
+      >
+        <div
+          className="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <PaginationBoxView
+            activeClassName="selected"
+            breakLabel="..."
+            containerClassName="custom-pagination-container"
+            disableInitialCallback={false}
+            disabledClassName="disabled"
+            eventListener="onClick"
+            forcePage={0}
+            hrefAllControls={false}
+            marginPagesDisplayed={3}
+            nextAriaLabel="Next page"
+            nextClassName="next"
+            nextLabel={
+              <EuiIcon
+                type="arrowRight"
+              />
+            }
+            nextPageRel="next"
+            nextRel="next"
+            onPageChange={[Function]}
+            pageCount={2}
+            pageLabelBuilder={[Function]}
+            pageRangeDisplayed={5}
+            prevPageRel="prev"
+            prevRel="prev"
+            previousAriaLabel="Previous page"
+            previousClassName="previous"
+            previousLabel={
+              <EuiIcon
+                type="arrowLeft"
+              />
+            }
+            renderOnZeroPageCount={null}
+            selectedPageRel="canonical"
+          >
+            <ul
+              className="custom-pagination-container"
+            >
+              <li
+                className="previous disabled"
+              >
+                <a
+                  aria-disabled="true"
+                  aria-label="Previous page"
+                  className=" "
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  rel="prev"
+                  role="button"
+                  tabIndex="-1"
+                >
+                  <EuiIcon
+                    type="arrowLeft"
+                  >
+                    <EuiIconEmpty
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      focusable="false"
+                      role="img"
+                      style={null}
+                    >
+                      <svg
+                        aria-hidden={true}
+                        className="euiIcon euiIcon--medium euiIcon-isLoading"
+                        focusable="false"
+                        height={16}
+                        role="img"
+                        style={null}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </EuiIconEmpty>
+                  </EuiIcon>
+                </a>
+              </li>
+              <l
+                activeClassName="selected"
+                getEventListener={[Function]}
+                key="0"
+                page={1}
+                pageLabelBuilder={[Function]}
+                pageSelectedHandler={[Function]}
+                rel="canonical"
+                selected={true}
+              >
+                <li
+                  className="selected"
+                >
+                  <a
+                    aria-current="page"
+                    aria-label="Page 1 is your current page"
+                    onClick={[Function]}
+                    onKeyPress={[Function]}
+                    rel="canonical"
+                    role="button"
+                    tabIndex="-1"
+                  >
+                    1
+                  </a>
+                </li>
+              </l>
+              <l
+                activeClassName="selected"
+                getEventListener={[Function]}
+                key="1"
+                page={2}
+                pageLabelBuilder={[Function]}
+                pageSelectedHandler={[Function]}
+                rel="next"
+                selected={false}
+              >
+                <li>
+                  <a
+                    aria-current={null}
+                    aria-label="Page 2"
+                    onClick={[Function]}
+                    onKeyPress={[Function]}
+                    rel="next"
+                    role="button"
+                    tabIndex="0"
+                  >
+                    2
+                  </a>
+                </li>
+              </l>
+              <li
+                className="next"
+              >
+                <a
+                  aria-disabled="false"
+                  aria-label="Next page"
+                  className=""
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  rel="next"
+                  role="button"
+                  tabIndex="0"
+                >
+                  <EuiIcon
+                    type="arrowRight"
+                  >
+                    <EuiIconEmpty
+                      aria-hidden={true}
+                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                      focusable="false"
+                      role="img"
+                      style={null}
+                    >
+                      <svg
+                        aria-hidden={true}
+                        className="euiIcon euiIcon--medium euiIcon-isLoading"
+                        focusable="false"
+                        height={16}
+                        role="img"
+                        style={null}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </EuiIconEmpty>
+                  </EuiIcon>
+                </a>
+              </li>
+            </ul>
+          </PaginationBoxView>
+        </div>
+      </EuiFlexItem>
+    </div>
+  </EuiFlexGroup>
+</GridFooter>
+`;
