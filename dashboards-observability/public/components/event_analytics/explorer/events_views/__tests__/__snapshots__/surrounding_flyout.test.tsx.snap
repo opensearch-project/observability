@@ -1,170 +1,393 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test surrounding flyout component Renders surrounding flyout component 1`] = `
-<FlyoutContainers
-  ariaLabel="testSurroundingFlyout"
-  closeFlyout={[Function]}
-  flyoutBody={<React.Fragment />}
-  flyoutFooter={<React.Fragment />}
-  flyoutHeader={<React.Fragment />}
+<SurroundingFlyout
+  detailsOpen={false}
+  doc={
+    Object {
+      "avg(machine.ram)": "13262979995.042253",
+      "span(timestamp,1d)": "2022-10-28 00:00:00",
+    }
+  }
+  explorerFields={
+    Object {
+      "availableFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+      "queriedFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+      "selectedFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+      "unselectedFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+    }
+  }
+  getTds={[Function]}
+  http={[MockFunction]}
+  memorizedTds={Array []}
+  openTraces={false}
+  pplService={
+    Object {
+      "fetch": [MockFunction],
+      "http": [MockFunction],
+    }
+  }
+  rawQuery=""
+  selectedCols={
+    Array [
+      Object {
+        "name": "avg(machine.ram)",
+        "type": "double",
+      },
+      Object {
+        "name": "span(timestamp,1d)",
+        "type": "timestamp",
+      },
+    ]
+  }
+  setDetailsOpen={[Function]}
+  setOpenTraces={[Function]}
+  setSurroundingEventsOpen={[Function]}
+  setToggleSize={[Function]}
+  timeStampField=""
+  toggleSize={true}
 >
-  <div>
-    <EuiFlyout
-      aria-labelledby="testSurroundingFlyout"
-      className="observability-flyout"
-      onClose={[Function]}
-      ownFocus={false}
-      size="m"
-    >
-      <OuiWindowEvent
-        event="keydown"
-        handler={[Function]}
-      />
-      <EuiPortal>
-        <Portal
-          containerInfo={
-            <div>
-              <div
-                aria-hidden="true"
-                data-aria-hidden="true"
-                data-focus-guard="true"
-                style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-                tabindex="0"
-              />
-              <div
-                data-focus-lock-disabled="false"
-              >
-                <div
-                  aria-labelledby="testSurroundingFlyout"
-                  class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
-                  role="dialog"
-                  tabindex="-1"
-                >
-                  <button
-                    aria-label="Close this dialog"
-                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
-                    data-test-subj="euiFlyoutCloseButton"
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
-                      focusable="false"
-                      height="16"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </button>
-                </div>
-              </div>
-              <div
-                aria-hidden="true"
-                data-aria-hidden="true"
-                data-focus-guard="true"
-                style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-                tabindex="0"
-              />
-            </div>
-          }
-        >
-          <EuiFocusTrap
-            clickOutsideDisables={true}
-            disabled={false}
-            noIsolation={true}
-            returnFocus={true}
-            scrollLock={false}
+  <FlyoutContainers
+    ariaLabel="surroundingFyout"
+    closeFlyout={[Function]}
+    flyoutBody={
+      <EuiFlyoutBody>
+        <EuiFlexGroup>
+          <EuiFlexItem
+            grow={false}
           >
-            <ForwardRef
-              enabled={true}
-              noIsolation={true}
-              onClickOutside={[Function]}
-              returnFocus={true}
-              scrollLock={false}
+            <EuiFormRow
+              describedByIds={Array []}
+              display="row"
+              fullWidth={false}
+              hasChildLabel={true}
+              hasEmptyLabelSpace={false}
+              labelType="label"
             >
-              <ForwardRef
-                enabled={true}
-                noIsolation={true}
-                onClickOutside={[Function]}
-                returnFocus={true}
-                scrollLock={false}
-                sideCar={[Function]}
+              <EuiButtonEmpty
+                iconSide="left"
+                iconType="arrowUp"
+                isLoading={false}
+                onClick={[Function]}
               >
-                <ForwardRef(FocusLockUI)
-                  as={
-                    Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "classNames": Object {
-                        "fullWidth": "width-before-scroll-bar",
-                        "zeroRight": "right-scroll-bar-position",
-                      },
-                      "defaultProps": Object {
-                        "enabled": true,
-                        "inert": false,
-                        "removeScrollBar": true,
-                      },
-                      "render": [Function],
-                    }
-                  }
-                  autoFocus={true}
-                  crossFrame={true}
-                  disabled={false}
-                  lockProps={
-                    Object {
-                      "allowPinchZoom": undefined,
-                      "as": undefined,
-                      "enabled": false,
-                      "inert": undefined,
-                      "onMouseDown": [Function],
-                      "onTouchStart": [Function],
-                      "shards": undefined,
-                      "sideCar": [Function],
-                      "style": undefined,
-                    }
-                  }
-                  noFocusGuards={false}
-                  onActivation={[Function]}
-                  onDeactivation={[Function]}
-                  persistentFocus={false}
-                  returnFocus={true}
-                  sideCar={[Function]}
+                Load
+              </EuiButtonEmpty>
+            </EuiFormRow>
+          </EuiFlexItem>
+          <EuiFlexItem
+            className="cnt-picker"
+            grow={false}
+          >
+            <EuiFormRow
+              describedByIds={Array []}
+              display="row"
+              fullWidth={false}
+              hasChildLabel={true}
+              hasEmptyLabelSpace={false}
+              labelType="label"
+            >
+              <EuiFieldNumber
+                aria-label="fetch newer events"
+                max={10000}
+                min={0}
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                value={5}
+              />
+            </EuiFormRow>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiFormRow
+              describedByIds={Array []}
+              display="center"
+              fullWidth={false}
+              hasChildLabel={true}
+              hasEmptyLabelSpace={false}
+              labelType="label"
+            >
+              <EuiText>
+                newer
+                 events
+              </EuiText>
+            </EuiFormRow>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+        <EuiSpacer
+          size="s"
+        />
+        <div>
+          <EuiCallOut
+            color="warning"
+            iconType="bolt"
+            title="Issue in building surrounding data query"
+          />
+        </div>
+        <React.Fragment>
+          <div
+            className="dscTable dscTableFixedScroll"
+          >
+            <table
+              className="osd-table table"
+              data-test-subj="docTable"
+            >
+              <thead>
+                <tr
+                  className="osdDocTableHeader"
+                >
+                  <th>
+                    
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <React.Fragment>
+                  <tr
+                    className="osdDocTable__row selected-event-row"
+                  />
+                </React.Fragment>
+              </tbody>
+            </table>
+            <table
+              className="osd-table table"
+              data-test-subj="docTable"
+            >
+              <thead>
+                <tr
+                  className="osdDocTableHeader"
+                >
+                  <th>
+                    
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <React.Fragment>
+                  <tr
+                    className="osdDocTable__row selected-event-row"
+                  />
+                </React.Fragment>
+              </tbody>
+            </table>
+          </div>
+        </React.Fragment>
+        <div>
+          <EuiCallOut
+            color="warning"
+            iconType="bolt"
+            title="Issue in building surrounding data query"
+          />
+        </div>
+        <EuiSpacer
+          size="s"
+        />
+        <EuiFlexGroup>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiFormRow
+              describedByIds={Array []}
+              display="row"
+              fullWidth={false}
+              hasChildLabel={true}
+              hasEmptyLabelSpace={false}
+              labelType="label"
+            >
+              <EuiButtonEmpty
+                iconSide="left"
+                iconType="arrowDown"
+                isLoading={false}
+                onClick={[Function]}
+              >
+                Load
+              </EuiButtonEmpty>
+            </EuiFormRow>
+          </EuiFlexItem>
+          <EuiFlexItem
+            className="cnt-picker"
+            grow={false}
+          >
+            <EuiFormRow
+              describedByIds={Array []}
+              display="row"
+              fullWidth={false}
+              hasChildLabel={true}
+              hasEmptyLabelSpace={false}
+              labelType="label"
+            >
+              <EuiFieldNumber
+                aria-label="fetch older events"
+                max={10000}
+                min={0}
+                onChange={[Function]}
+                onKeyDown={[Function]}
+                value={5}
+              />
+            </EuiFormRow>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiFormRow
+              describedByIds={Array []}
+              display="center"
+              fullWidth={false}
+              hasChildLabel={true}
+              hasEmptyLabelSpace={false}
+              labelType="label"
+            >
+              <EuiText>
+                older
+                 events
+              </EuiText>
+            </EuiFormRow>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiFlyoutBody>
+    }
+    flyoutFooter={<React.Fragment />}
+    flyoutHeader={
+      <EuiFlyoutHeader
+        hasBorder={true}
+      >
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <EuiTitle
+              size="s"
+            >
+              <h2
+                className="vertical-center"
+                id="surroundingFyout"
+              >
+                View surrounding events
+              </h2>
+            </EuiTitle>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButtonIcon
+              aria-label="Resize"
+              aria-pressed={true}
+              className="events-flyout-resize"
+              color="text"
+              iconType="menuLeft"
+              onClick={[Function]}
+              size="m"
+              title="Resize"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButton
+              className="header-button"
+              iconSide="right"
+              iconType="sortRight"
+              onClick={[Function]}
+            >
+              View event details
+            </EuiButton>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiFlyoutHeader>
+    }
+    size="m"
+  >
+    <div>
+      <EuiFlyout
+        aria-labelledby="surroundingFyout"
+        className="observability-flyout"
+        onClose={[Function]}
+        ownFocus={false}
+        size="m"
+      >
+        <OuiWindowEvent
+          event="keydown"
+          handler={[Function]}
+        />
+        <EuiPortal>
+          <Portal
+            containerInfo={
+              <div>
+                <div
+                  aria-hidden="true"
+                  data-aria-hidden="true"
+                  data-focus-guard="true"
+                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+                  tabindex="0"
+                />
+                <div
+                  data-focus-lock-disabled="false"
                 >
                   <div
-                    data-focus-guard={true}
-                    key="guard-first"
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={0}
-                  />
-                  <RequireSideCar
-                    autoFocus={true}
-                    crossFrame={true}
-                    disabled={false}
-                    id={Object {}}
-                    observed={
+                    aria-labelledby="surroundingFyout"
+                    class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
+                    role="dialog"
+                    tabindex="-1"
+                  >
+                    <button
+                      aria-label="Close this dialog"
+                      class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                      data-test-subj="euiFlyoutCloseButton"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                        focusable="false"
+                        height="16"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </button>
+                    <div
+                      class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                    >
                       <div
-                        data-focus-lock-disabled="false"
+                        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
                       >
                         <div
-                          aria-labelledby="testSurroundingFlyout"
-                          class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
-                          role="dialog"
-                          tabindex="-1"
+                          class="euiFlexItem"
+                        >
+                          <h2
+                            class="euiTitle euiTitle--small vertical-center"
+                            id="surroundingFyout"
+                          >
+                            View surrounding events
+                          </h2>
+                        </div>
+                        <div
+                          class="euiFlexItem euiFlexItem--flexGrowZero"
                         >
                           <button
-                            aria-label="Close this dialog"
-                            class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
-                            data-test-subj="euiFlyoutCloseButton"
+                            aria-label="Resize"
+                            aria-pressed="true"
+                            class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                            title="Resize"
                             type="button"
                           >
                             <svg
@@ -179,27 +402,417 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                             />
                           </button>
                         </div>
+                        <div
+                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <button
+                            class="euiButton euiButton--primary header-button"
+                            type="button"
+                          >
+                            <span
+                              class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                focusable="false"
+                                height="16"
+                                role="img"
+                                viewBox="0 0 16 16"
+                                width="16"
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                              <span
+                                class="euiButton__text"
+                              >
+                                View event details
+                              </span>
+                            </span>
+                          </button>
+                        </div>
                       </div>
+                    </div>
+                    <div
+                      class="euiFlyoutBody"
+                    >
+                      <div
+                        class="euiFlyoutBody__overflow"
+                        tabindex="0"
+                      >
+                        <div
+                          class="euiFlyoutBody__overflowContent"
+                        >
+                          <div
+                            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                          >
+                            <div
+                              class="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <div
+                                class="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  class="euiFormRow__fieldWrapper"
+                                >
+                                  <button
+                                    class="euiButtonEmpty euiButtonEmpty--primary"
+                                    id="random_html_id"
+                                    type="button"
+                                  >
+                                    <span
+                                      class="euiButtonContent euiButtonEmpty__content"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                      <span
+                                        class="euiButtonEmpty__text"
+                                      >
+                                        Load
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                            >
+                              <div
+                                class="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  class="euiFormRow__fieldWrapper"
+                                >
+                                  <div
+                                    class="euiFormControlLayout"
+                                  >
+                                    <div
+                                      class="euiFormControlLayout__childrenWrapper"
+                                    >
+                                      <input
+                                        aria-label="fetch newer events"
+                                        class="euiFieldNumber"
+                                        id="random_html_id"
+                                        max="10000"
+                                        min="0"
+                                        type="number"
+                                        value="5"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <div
+                                class="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                >
+                                  <div
+                                    class="euiText euiText--medium"
+                                    id="random_html_id"
+                                  >
+                                    newer
+                                     events
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="euiSpacer euiSpacer--s"
+                          />
+                          <div>
+                            <div
+                              class="euiCallOut euiCallOut--warning"
+                            >
+                              <div
+                                class="euiCallOutHeader"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                  focusable="false"
+                                  height="16"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  width="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                                <span
+                                  class="euiCallOutHeader__title"
+                                >
+                                  Issue in building surrounding data query
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="dscTable dscTableFixedScroll"
+                          >
+                            <table
+                              class="osd-table table"
+                              data-test-subj="docTable"
+                            >
+                              <thead>
+                                <tr
+                                  class="osdDocTableHeader"
+                                >
+                                  <th />
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  class="osdDocTable__row selected-event-row"
+                                />
+                              </tbody>
+                            </table>
+                            <table
+                              class="osd-table table"
+                              data-test-subj="docTable"
+                            >
+                              <thead>
+                                <tr
+                                  class="osdDocTableHeader"
+                                >
+                                  <th />
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  class="osdDocTable__row selected-event-row"
+                                />
+                              </tbody>
+                            </table>
+                          </div>
+                          <div>
+                            <div
+                              class="euiCallOut euiCallOut--warning"
+                            >
+                              <div
+                                class="euiCallOutHeader"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                  focusable="false"
+                                  height="16"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  width="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                                <span
+                                  class="euiCallOutHeader__title"
+                                >
+                                  Issue in building surrounding data query
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="euiSpacer euiSpacer--s"
+                          />
+                          <div
+                            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                          >
+                            <div
+                              class="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <div
+                                class="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  class="euiFormRow__fieldWrapper"
+                                >
+                                  <button
+                                    class="euiButtonEmpty euiButtonEmpty--primary"
+                                    id="random_html_id"
+                                    type="button"
+                                  >
+                                    <span
+                                      class="euiButtonContent euiButtonEmpty__content"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                      <span
+                                        class="euiButtonEmpty__text"
+                                      >
+                                        Load
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                            >
+                              <div
+                                class="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  class="euiFormRow__fieldWrapper"
+                                >
+                                  <div
+                                    class="euiFormControlLayout"
+                                  >
+                                    <div
+                                      class="euiFormControlLayout__childrenWrapper"
+                                    >
+                                      <input
+                                        aria-label="fetch older events"
+                                        class="euiFieldNumber"
+                                        id="random_html_id"
+                                        max="10000"
+                                        min="0"
+                                        type="number"
+                                        value="5"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="euiFlexItem euiFlexItem--flexGrowZero"
+                            >
+                              <div
+                                class="euiFormRow"
+                                id="random_html_id-row"
+                              >
+                                <div
+                                  class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                >
+                                  <div
+                                    class="euiText euiText--medium"
+                                    id="random_html_id"
+                                  >
+                                    older
+                                     events
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  aria-hidden="true"
+                  data-aria-hidden="true"
+                  data-focus-guard="true"
+                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+                  tabindex="0"
+                />
+              </div>
+            }
+          >
+            <EuiFocusTrap
+              clickOutsideDisables={true}
+              disabled={false}
+              noIsolation={true}
+              returnFocus={true}
+              scrollLock={false}
+            >
+              <ForwardRef
+                enabled={true}
+                noIsolation={true}
+                onClickOutside={[Function]}
+                returnFocus={true}
+                scrollLock={false}
+              >
+                <ForwardRef
+                  enabled={true}
+                  noIsolation={true}
+                  onClickOutside={[Function]}
+                  returnFocus={true}
+                  scrollLock={false}
+                  sideCar={[Function]}
+                >
+                  <ForwardRef(FocusLockUI)
+                    as={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "classNames": Object {
+                          "fullWidth": "width-before-scroll-bar",
+                          "zeroRight": "right-scroll-bar-position",
+                        },
+                        "defaultProps": Object {
+                          "enabled": true,
+                          "inert": false,
+                          "removeScrollBar": true,
+                        },
+                        "render": [Function],
+                      }
                     }
+                    autoFocus={true}
+                    crossFrame={true}
+                    disabled={false}
+                    lockProps={
+                      Object {
+                        "allowPinchZoom": undefined,
+                        "as": undefined,
+                        "enabled": false,
+                        "inert": undefined,
+                        "onMouseDown": [Function],
+                        "onTouchStart": [Function],
+                        "shards": undefined,
+                        "sideCar": [Function],
+                        "style": undefined,
+                      }
+                    }
+                    noFocusGuards={false}
                     onActivation={[Function]}
                     onDeactivation={[Function]}
                     persistentFocus={false}
-                    returnFocus={[Function]}
-                    shards={Array []}
-                    sideCar={
-                      Object {
-                        "assignMedium": [Function],
-                        "assignSyncMedium": [Function],
-                        "options": Object {
-                          "async": true,
-                          "ssr": false,
-                        },
-                        "read": [Function],
-                        "useMedium": [Function],
-                      }
-                    }
+                    returnFocus={true}
+                    sideCar={[Function]}
                   >
-                    <SideCar
+                    <div
+                      data-focus-guard={true}
+                      key="guard-first"
+                      style={
+                        Object {
+                          "height": "0px",
+                          "left": "1px",
+                          "overflow": "hidden",
+                          "padding": 0,
+                          "position": "fixed",
+                          "top": "1px",
+                          "width": "1px",
+                        }
+                      }
+                      tabIndex={0}
+                    />
+                    <RequireSideCar
                       autoFocus={true}
                       crossFrame={true}
                       disabled={false}
@@ -209,7 +822,7 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                           data-focus-lock-disabled="false"
                         >
                           <div
-                            aria-labelledby="testSurroundingFlyout"
+                            aria-labelledby="surroundingFyout"
                             class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
                             role="dialog"
                             tabindex="-1"
@@ -231,6 +844,365 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                                 xmlns="http://www.w3.org/2000/svg"
                               />
                             </button>
+                            <div
+                              class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                            >
+                              <div
+                                class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                              >
+                                <div
+                                  class="euiFlexItem"
+                                >
+                                  <h2
+                                    class="euiTitle euiTitle--small vertical-center"
+                                    id="surroundingFyout"
+                                  >
+                                    View surrounding events
+                                  </h2>
+                                </div>
+                                <div
+                                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                                >
+                                  <button
+                                    aria-label="Resize"
+                                    aria-pressed="true"
+                                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                    title="Resize"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                                >
+                                  <button
+                                    class="euiButton euiButton--primary header-button"
+                                    type="button"
+                                  >
+                                    <span
+                                      class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                      <span
+                                        class="euiButton__text"
+                                      >
+                                        View event details
+                                      </span>
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="euiFlyoutBody"
+                            >
+                              <div
+                                class="euiFlyoutBody__overflow"
+                                tabindex="0"
+                              >
+                                <div
+                                  class="euiFlyoutBody__overflowContent"
+                                >
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__fieldWrapper"
+                                        >
+                                          <button
+                                            class="euiButtonEmpty euiButtonEmpty--primary"
+                                            id="random_html_id"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButtonEmpty__content"
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                focusable="false"
+                                                height="16"
+                                                role="img"
+                                                viewBox="0 0 16 16"
+                                                width="16"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              />
+                                              <span
+                                                class="euiButtonEmpty__text"
+                                              >
+                                                Load
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__fieldWrapper"
+                                        >
+                                          <div
+                                            class="euiFormControlLayout"
+                                          >
+                                            <div
+                                              class="euiFormControlLayout__childrenWrapper"
+                                            >
+                                              <input
+                                                aria-label="fetch newer events"
+                                                class="euiFieldNumber"
+                                                id="random_html_id"
+                                                max="10000"
+                                                min="0"
+                                                type="number"
+                                                value="5"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                        >
+                                          <div
+                                            class="euiText euiText--medium"
+                                            id="random_html_id"
+                                          >
+                                            newer
+                                             events
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiSpacer euiSpacer--s"
+                                  />
+                                  <div>
+                                    <div
+                                      class="euiCallOut euiCallOut--warning"
+                                    >
+                                      <div
+                                        class="euiCallOutHeader"
+                                      >
+                                        <svg
+                                          aria-hidden="true"
+                                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                          focusable="false"
+                                          height="16"
+                                          role="img"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                        <span
+                                          class="euiCallOutHeader__title"
+                                        >
+                                          Issue in building surrounding data query
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="dscTable dscTableFixedScroll"
+                                  >
+                                    <table
+                                      class="osd-table table"
+                                      data-test-subj="docTable"
+                                    >
+                                      <thead>
+                                        <tr
+                                          class="osdDocTableHeader"
+                                        >
+                                          <th />
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr
+                                          class="osdDocTable__row selected-event-row"
+                                        />
+                                      </tbody>
+                                    </table>
+                                    <table
+                                      class="osd-table table"
+                                      data-test-subj="docTable"
+                                    >
+                                      <thead>
+                                        <tr
+                                          class="osdDocTableHeader"
+                                        >
+                                          <th />
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr
+                                          class="osdDocTable__row selected-event-row"
+                                        />
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div>
+                                    <div
+                                      class="euiCallOut euiCallOut--warning"
+                                    >
+                                      <div
+                                        class="euiCallOutHeader"
+                                      >
+                                        <svg
+                                          aria-hidden="true"
+                                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                          focusable="false"
+                                          height="16"
+                                          role="img"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                        <span
+                                          class="euiCallOutHeader__title"
+                                        >
+                                          Issue in building surrounding data query
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiSpacer euiSpacer--s"
+                                  />
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__fieldWrapper"
+                                        >
+                                          <button
+                                            class="euiButtonEmpty euiButtonEmpty--primary"
+                                            id="random_html_id"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButtonEmpty__content"
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                focusable="false"
+                                                height="16"
+                                                role="img"
+                                                viewBox="0 0 16 16"
+                                                width="16"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              />
+                                              <span
+                                                class="euiButtonEmpty__text"
+                                              >
+                                                Load
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__fieldWrapper"
+                                        >
+                                          <div
+                                            class="euiFormControlLayout"
+                                          >
+                                            <div
+                                              class="euiFormControlLayout__childrenWrapper"
+                                            >
+                                              <input
+                                                aria-label="fetch older events"
+                                                class="euiFieldNumber"
+                                                id="random_html_id"
+                                                max="10000"
+                                                min="0"
+                                                type="number"
+                                                value="5"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <div
+                                        class="euiFormRow"
+                                        id="random_html_id-row"
+                                      >
+                                        <div
+                                          class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                        >
+                                          <div
+                                            class="euiText euiText--medium"
+                                            id="random_html_id"
+                                          >
+                                            older
+                                             events
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       }
@@ -252,7 +1224,7 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                         }
                       }
                     >
-                      <SideEffect(FocusWatcher)
+                      <SideCar
                         autoFocus={true}
                         crossFrame={true}
                         disabled={false}
@@ -262,7 +1234,7 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                             data-focus-lock-disabled="false"
                           >
                             <div
-                              aria-labelledby="testSurroundingFlyout"
+                              aria-labelledby="surroundingFyout"
                               class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
                               role="dialog"
                               tabindex="-1"
@@ -284,6 +1256,365 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                                   xmlns="http://www.w3.org/2000/svg"
                                 />
                               </button>
+                              <div
+                                class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <div
+                                  class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                >
+                                  <div
+                                    class="euiFlexItem"
+                                  >
+                                    <h2
+                                      class="euiTitle euiTitle--small vertical-center"
+                                      id="surroundingFyout"
+                                    >
+                                      View surrounding events
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      aria-label="Resize"
+                                      aria-pressed="true"
+                                      class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                      title="Resize"
+                                      type="button"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      class="euiButton euiButton--primary header-button"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                      >
+                                        <svg
+                                          aria-hidden="true"
+                                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                          focusable="false"
+                                          height="16"
+                                          role="img"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          View event details
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="euiFlyoutBody"
+                              >
+                                <div
+                                  class="euiFlyoutBody__overflow"
+                                  tabindex="0"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div
+                                      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                    >
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__fieldWrapper"
+                                          >
+                                            <button
+                                              class="euiButtonEmpty euiButtonEmpty--primary"
+                                              id="random_html_id"
+                                              type="button"
+                                            >
+                                              <span
+                                                class="euiButtonContent euiButtonEmpty__content"
+                                              >
+                                                <svg
+                                                  aria-hidden="true"
+                                                  class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                  focusable="false"
+                                                  height="16"
+                                                  role="img"
+                                                  viewBox="0 0 16 16"
+                                                  width="16"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                                <span
+                                                  class="euiButtonEmpty__text"
+                                                >
+                                                  Load
+                                                </span>
+                                              </span>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__fieldWrapper"
+                                          >
+                                            <div
+                                              class="euiFormControlLayout"
+                                            >
+                                              <div
+                                                class="euiFormControlLayout__childrenWrapper"
+                                              >
+                                                <input
+                                                  aria-label="fetch newer events"
+                                                  class="euiFieldNumber"
+                                                  id="random_html_id"
+                                                  max="10000"
+                                                  min="0"
+                                                  type="number"
+                                                  value="5"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                          >
+                                            <div
+                                              class="euiText euiText--medium"
+                                              id="random_html_id"
+                                            >
+                                              newer
+                                               events
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiSpacer euiSpacer--s"
+                                    />
+                                    <div>
+                                      <div
+                                        class="euiCallOut euiCallOut--warning"
+                                      >
+                                        <div
+                                          class="euiCallOutHeader"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                            focusable="false"
+                                            height="16"
+                                            role="img"
+                                            viewBox="0 0 16 16"
+                                            width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                          <span
+                                            class="euiCallOutHeader__title"
+                                          >
+                                            Issue in building surrounding data query
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="dscTable dscTableFixedScroll"
+                                    >
+                                      <table
+                                        class="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            class="osdDocTableHeader"
+                                          >
+                                            <th />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            class="osdDocTable__row selected-event-row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                      <table
+                                        class="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            class="osdDocTableHeader"
+                                          >
+                                            <th />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            class="osdDocTable__row selected-event-row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <div>
+                                      <div
+                                        class="euiCallOut euiCallOut--warning"
+                                      >
+                                        <div
+                                          class="euiCallOutHeader"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                            focusable="false"
+                                            height="16"
+                                            role="img"
+                                            viewBox="0 0 16 16"
+                                            width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                          <span
+                                            class="euiCallOutHeader__title"
+                                          >
+                                            Issue in building surrounding data query
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="euiSpacer euiSpacer--s"
+                                    />
+                                    <div
+                                      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                    >
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__fieldWrapper"
+                                          >
+                                            <button
+                                              class="euiButtonEmpty euiButtonEmpty--primary"
+                                              id="random_html_id"
+                                              type="button"
+                                            >
+                                              <span
+                                                class="euiButtonContent euiButtonEmpty__content"
+                                              >
+                                                <svg
+                                                  aria-hidden="true"
+                                                  class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                  focusable="false"
+                                                  height="16"
+                                                  role="img"
+                                                  viewBox="0 0 16 16"
+                                                  width="16"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                                <span
+                                                  class="euiButtonEmpty__text"
+                                                >
+                                                  Load
+                                                </span>
+                                              </span>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__fieldWrapper"
+                                          >
+                                            <div
+                                              class="euiFormControlLayout"
+                                            >
+                                              <div
+                                                class="euiFormControlLayout__childrenWrapper"
+                                              >
+                                                <input
+                                                  aria-label="fetch older events"
+                                                  class="euiFieldNumber"
+                                                  id="random_html_id"
+                                                  max="10000"
+                                                  min="0"
+                                                  type="number"
+                                                  value="5"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <div
+                                          class="euiFormRow"
+                                          id="random_html_id-row"
+                                        >
+                                          <div
+                                            class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                          >
+                                            <div
+                                              class="euiText euiText--medium"
+                                              id="random_html_id"
+                                            >
+                                              older
+                                               events
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         }
@@ -292,8 +1623,20 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                         persistentFocus={false}
                         returnFocus={[Function]}
                         shards={Array []}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
                       >
-                        <FocusWatcher
+                        <SideEffect(FocusWatcher)
                           autoFocus={true}
                           crossFrame={true}
                           disabled={false}
@@ -303,7 +1646,7 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                               data-focus-lock-disabled="false"
                             >
                               <div
-                                aria-labelledby="testSurroundingFlyout"
+                                aria-labelledby="surroundingFyout"
                                 class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
                                 role="dialog"
                                 tabindex="-1"
@@ -325,6 +1668,365 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                                     xmlns="http://www.w3.org/2000/svg"
                                   />
                                 </button>
+                                <div
+                                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                >
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem"
+                                    >
+                                      <h2
+                                        class="euiTitle euiTitle--small vertical-center"
+                                        id="surroundingFyout"
+                                      >
+                                        View surrounding events
+                                      </h2>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        aria-label="Resize"
+                                        aria-pressed="true"
+                                        class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                        title="Resize"
+                                        type="button"
+                                      >
+                                        <svg
+                                          aria-hidden="true"
+                                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                          focusable="false"
+                                          height="16"
+                                          role="img"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        class="euiButton euiButton--primary header-button"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                            focusable="false"
+                                            height="16"
+                                            role="img"
+                                            viewBox="0 0 16 16"
+                                            width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            View event details
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="euiFlyoutBody"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__overflow"
+                                    tabindex="0"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__overflowContent"
+                                    >
+                                      <div
+                                        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                      >
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__fieldWrapper"
+                                            >
+                                              <button
+                                                class="euiButtonEmpty euiButtonEmpty--primary"
+                                                id="random_html_id"
+                                                type="button"
+                                              >
+                                                <span
+                                                  class="euiButtonContent euiButtonEmpty__content"
+                                                >
+                                                  <svg
+                                                    aria-hidden="true"
+                                                    class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                    focusable="false"
+                                                    height="16"
+                                                    role="img"
+                                                    viewBox="0 0 16 16"
+                                                    width="16"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  />
+                                                  <span
+                                                    class="euiButtonEmpty__text"
+                                                  >
+                                                    Load
+                                                  </span>
+                                                </span>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__fieldWrapper"
+                                            >
+                                              <div
+                                                class="euiFormControlLayout"
+                                              >
+                                                <div
+                                                  class="euiFormControlLayout__childrenWrapper"
+                                                >
+                                                  <input
+                                                    aria-label="fetch newer events"
+                                                    class="euiFieldNumber"
+                                                    id="random_html_id"
+                                                    max="10000"
+                                                    min="0"
+                                                    type="number"
+                                                    value="5"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                            >
+                                              <div
+                                                class="euiText euiText--medium"
+                                                id="random_html_id"
+                                              >
+                                                newer
+                                                 events
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiSpacer euiSpacer--s"
+                                      />
+                                      <div>
+                                        <div
+                                          class="euiCallOut euiCallOut--warning"
+                                        >
+                                          <div
+                                            class="euiCallOutHeader"
+                                          >
+                                            <svg
+                                              aria-hidden="true"
+                                              class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                              focusable="false"
+                                              height="16"
+                                              role="img"
+                                              viewBox="0 0 16 16"
+                                              width="16"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                            <span
+                                              class="euiCallOutHeader__title"
+                                            >
+                                              Issue in building surrounding data query
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="dscTable dscTableFixedScroll"
+                                      >
+                                        <table
+                                          class="osd-table table"
+                                          data-test-subj="docTable"
+                                        >
+                                          <thead>
+                                            <tr
+                                              class="osdDocTableHeader"
+                                            >
+                                              <th />
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr
+                                              class="osdDocTable__row selected-event-row"
+                                            />
+                                          </tbody>
+                                        </table>
+                                        <table
+                                          class="osd-table table"
+                                          data-test-subj="docTable"
+                                        >
+                                          <thead>
+                                            <tr
+                                              class="osdDocTableHeader"
+                                            >
+                                              <th />
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr
+                                              class="osdDocTable__row selected-event-row"
+                                            />
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                      <div>
+                                        <div
+                                          class="euiCallOut euiCallOut--warning"
+                                        >
+                                          <div
+                                            class="euiCallOutHeader"
+                                          >
+                                            <svg
+                                              aria-hidden="true"
+                                              class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                              focusable="false"
+                                              height="16"
+                                              role="img"
+                                              viewBox="0 0 16 16"
+                                              width="16"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                            <span
+                                              class="euiCallOutHeader__title"
+                                            >
+                                              Issue in building surrounding data query
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div
+                                        class="euiSpacer euiSpacer--s"
+                                      />
+                                      <div
+                                        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                      >
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__fieldWrapper"
+                                            >
+                                              <button
+                                                class="euiButtonEmpty euiButtonEmpty--primary"
+                                                id="random_html_id"
+                                                type="button"
+                                              >
+                                                <span
+                                                  class="euiButtonContent euiButtonEmpty__content"
+                                                >
+                                                  <svg
+                                                    aria-hidden="true"
+                                                    class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                    focusable="false"
+                                                    height="16"
+                                                    role="img"
+                                                    viewBox="0 0 16 16"
+                                                    width="16"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  />
+                                                  <span
+                                                    class="euiButtonEmpty__text"
+                                                  >
+                                                    Load
+                                                  </span>
+                                                </span>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__fieldWrapper"
+                                            >
+                                              <div
+                                                class="euiFormControlLayout"
+                                              >
+                                                <div
+                                                  class="euiFormControlLayout__childrenWrapper"
+                                                >
+                                                  <input
+                                                    aria-label="fetch older events"
+                                                    class="euiFieldNumber"
+                                                    id="random_html_id"
+                                                    max="10000"
+                                                    min="0"
+                                                    type="number"
+                                                    value="5"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                                        >
+                                          <div
+                                            class="euiFormRow"
+                                            id="random_html_id-row"
+                                          >
+                                            <div
+                                              class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                            >
+                                              <div
+                                                class="euiText euiText--medium"
+                                                id="random_html_id"
+                                              >
+                                                older
+                                                 events
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           }
@@ -333,134 +2035,1283 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                           persistentFocus={false}
                           returnFocus={[Function]}
                           shards={Array []}
-                        />
-                      </SideEffect(FocusWatcher)>
-                    </SideCar>
-                  </RequireSideCar>
-                  <ForwardRef
-                    data-focus-lock-disabled={false}
-                    enabled={false}
-                    inert={false}
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onTouchStart={[Function]}
-                    removeScrollBar={true}
-                    sideCar={[Function]}
-                  >
-                    <div
+                        >
+                          <FocusWatcher
+                            autoFocus={true}
+                            crossFrame={true}
+                            disabled={false}
+                            id={Object {}}
+                            observed={
+                              <div
+                                data-focus-lock-disabled="false"
+                              >
+                                <div
+                                  aria-labelledby="surroundingFyout"
+                                  class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
+                                  role="dialog"
+                                  tabindex="-1"
+                                >
+                                  <button
+                                    aria-label="Close this dialog"
+                                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                    data-test-subj="euiFlyoutCloseButton"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </button>
+                                  <div
+                                    class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                  >
+                                    <div
+                                      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                    >
+                                      <div
+                                        class="euiFlexItem"
+                                      >
+                                        <h2
+                                          class="euiTitle euiTitle--small vertical-center"
+                                          id="surroundingFyout"
+                                        >
+                                          View surrounding events
+                                        </h2>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          aria-label="Resize"
+                                          aria-pressed="true"
+                                          class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                          title="Resize"
+                                          type="button"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                            focusable="false"
+                                            height="16"
+                                            role="img"
+                                            viewBox="0 0 16 16"
+                                            width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </button>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          class="euiButton euiButton--primary header-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                          >
+                                            <svg
+                                              aria-hidden="true"
+                                              class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                              focusable="false"
+                                              height="16"
+                                              role="img"
+                                              viewBox="0 0 16 16"
+                                              width="16"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            />
+                                            <span
+                                              class="euiButton__text"
+                                            >
+                                              View event details
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutBody"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__overflow"
+                                      tabindex="0"
+                                    >
+                                      <div
+                                        class="euiFlyoutBody__overflowContent"
+                                      >
+                                        <div
+                                          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                        >
+                                          <div
+                                            class="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <div
+                                              class="euiFormRow"
+                                              id="random_html_id-row"
+                                            >
+                                              <div
+                                                class="euiFormRow__fieldWrapper"
+                                              >
+                                                <button
+                                                  class="euiButtonEmpty euiButtonEmpty--primary"
+                                                  id="random_html_id"
+                                                  type="button"
+                                                >
+                                                  <span
+                                                    class="euiButtonContent euiButtonEmpty__content"
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                      focusable="false"
+                                                      height="16"
+                                                      role="img"
+                                                      viewBox="0 0 16 16"
+                                                      width="16"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                    <span
+                                                      class="euiButtonEmpty__text"
+                                                    >
+                                                      Load
+                                                    </span>
+                                                  </span>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                          >
+                                            <div
+                                              class="euiFormRow"
+                                              id="random_html_id-row"
+                                            >
+                                              <div
+                                                class="euiFormRow__fieldWrapper"
+                                              >
+                                                <div
+                                                  class="euiFormControlLayout"
+                                                >
+                                                  <div
+                                                    class="euiFormControlLayout__childrenWrapper"
+                                                  >
+                                                    <input
+                                                      aria-label="fetch newer events"
+                                                      class="euiFieldNumber"
+                                                      id="random_html_id"
+                                                      max="10000"
+                                                      min="0"
+                                                      type="number"
+                                                      value="5"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <div
+                                              class="euiFormRow"
+                                              id="random_html_id-row"
+                                            >
+                                              <div
+                                                class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                              >
+                                                <div
+                                                  class="euiText euiText--medium"
+                                                  id="random_html_id"
+                                                >
+                                                  newer
+                                                   events
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiSpacer euiSpacer--s"
+                                        />
+                                        <div>
+                                          <div
+                                            class="euiCallOut euiCallOut--warning"
+                                          >
+                                            <div
+                                              class="euiCallOutHeader"
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                                focusable="false"
+                                                height="16"
+                                                role="img"
+                                                viewBox="0 0 16 16"
+                                                width="16"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              />
+                                              <span
+                                                class="euiCallOutHeader__title"
+                                              >
+                                                Issue in building surrounding data query
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="dscTable dscTableFixedScroll"
+                                        >
+                                          <table
+                                            class="osd-table table"
+                                            data-test-subj="docTable"
+                                          >
+                                            <thead>
+                                              <tr
+                                                class="osdDocTableHeader"
+                                              >
+                                                <th />
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr
+                                                class="osdDocTable__row selected-event-row"
+                                              />
+                                            </tbody>
+                                          </table>
+                                          <table
+                                            class="osd-table table"
+                                            data-test-subj="docTable"
+                                          >
+                                            <thead>
+                                              <tr
+                                                class="osdDocTableHeader"
+                                              >
+                                                <th />
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr
+                                                class="osdDocTable__row selected-event-row"
+                                              />
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                        <div>
+                                          <div
+                                            class="euiCallOut euiCallOut--warning"
+                                          >
+                                            <div
+                                              class="euiCallOutHeader"
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                                focusable="false"
+                                                height="16"
+                                                role="img"
+                                                viewBox="0 0 16 16"
+                                                width="16"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              />
+                                              <span
+                                                class="euiCallOutHeader__title"
+                                              >
+                                                Issue in building surrounding data query
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="euiSpacer euiSpacer--s"
+                                        />
+                                        <div
+                                          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                        >
+                                          <div
+                                            class="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <div
+                                              class="euiFormRow"
+                                              id="random_html_id-row"
+                                            >
+                                              <div
+                                                class="euiFormRow__fieldWrapper"
+                                              >
+                                                <button
+                                                  class="euiButtonEmpty euiButtonEmpty--primary"
+                                                  id="random_html_id"
+                                                  type="button"
+                                                >
+                                                  <span
+                                                    class="euiButtonContent euiButtonEmpty__content"
+                                                  >
+                                                    <svg
+                                                      aria-hidden="true"
+                                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                      focusable="false"
+                                                      height="16"
+                                                      role="img"
+                                                      viewBox="0 0 16 16"
+                                                      width="16"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    />
+                                                    <span
+                                                      class="euiButtonEmpty__text"
+                                                    >
+                                                      Load
+                                                    </span>
+                                                  </span>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                          >
+                                            <div
+                                              class="euiFormRow"
+                                              id="random_html_id-row"
+                                            >
+                                              <div
+                                                class="euiFormRow__fieldWrapper"
+                                              >
+                                                <div
+                                                  class="euiFormControlLayout"
+                                                >
+                                                  <div
+                                                    class="euiFormControlLayout__childrenWrapper"
+                                                  >
+                                                    <input
+                                                      aria-label="fetch older events"
+                                                      class="euiFieldNumber"
+                                                      id="random_html_id"
+                                                      max="10000"
+                                                      min="0"
+                                                      type="number"
+                                                      value="5"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <div
+                                              class="euiFormRow"
+                                              id="random_html_id-row"
+                                            >
+                                              <div
+                                                class="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                              >
+                                                <div
+                                                  class="euiText euiText--medium"
+                                                  id="random_html_id"
+                                                >
+                                                  older
+                                                   events
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                            onActivation={[Function]}
+                            onDeactivation={[Function]}
+                            persistentFocus={false}
+                            returnFocus={[Function]}
+                            shards={Array []}
+                          />
+                        </SideEffect(FocusWatcher)>
+                      </SideCar>
+                    </RequireSideCar>
+                    <ForwardRef
                       data-focus-lock-disabled={false}
+                      enabled={false}
+                      inert={false}
                       onBlur={[Function]}
                       onFocus={[Function]}
                       onMouseDown={[Function]}
-                      onScrollCapture={[Function]}
-                      onTouchMoveCapture={[Function]}
                       onTouchStart={[Function]}
-                      onWheelCapture={[Function]}
+                      removeScrollBar={true}
+                      sideCar={[Function]}
                     >
-                      <EuiOutsideClickDetector
-                        isDisabled={true}
-                        onOutsideClick={[Function]}
+                      <div
+                        data-focus-lock-disabled={false}
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onScrollCapture={[Function]}
+                        onTouchMoveCapture={[Function]}
+                        onTouchStart={[Function]}
+                        onWheelCapture={[Function]}
                       >
-                        <div
-                          aria-labelledby="testSurroundingFlyout"
-                          className="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
-                          onMouseDown={[Function]}
-                          onMouseUp={[Function]}
-                          onTouchEnd={[Function]}
-                          onTouchStart={[Function]}
-                          role="dialog"
-                          tabIndex={-1}
+                        <EuiOutsideClickDetector
+                          isDisabled={true}
+                          onOutsideClick={[Function]}
                         >
-                          <EuiI18n
-                            default="Close this dialog"
-                            token="euiFlyout.closeAriaLabel"
+                          <div
+                            aria-labelledby="surroundingFyout"
+                            className="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
+                            onMouseDown={[Function]}
+                            onMouseUp={[Function]}
+                            onTouchEnd={[Function]}
+                            onTouchStart={[Function]}
+                            role="dialog"
+                            tabIndex={-1}
                           >
-                            <EuiButtonIcon
-                              aria-label="Close this dialog"
-                              className="euiFlyout__closeButton euiFlyout__closeButton--inside"
-                              color="text"
-                              data-test-subj="euiFlyoutCloseButton"
-                              display="empty"
-                              iconType="cross"
-                              onClick={[Function]}
+                            <EuiI18n
+                              default="Close this dialog"
+                              token="euiFlyout.closeAriaLabel"
                             >
-                              <button
+                              <EuiButtonIcon
                                 aria-label="Close this dialog"
-                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                className="euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                color="text"
                                 data-test-subj="euiFlyoutCloseButton"
-                                disabled={false}
+                                display="empty"
+                                iconType="cross"
                                 onClick={[Function]}
-                                type="button"
                               >
-                                <EuiIcon
-                                  aria-hidden="true"
-                                  className="euiButtonIcon__icon"
-                                  color="inherit"
-                                  size="m"
-                                  type="cross"
+                                <button
+                                  aria-label="Close this dialog"
+                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                  data-test-subj="euiFlyoutCloseButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
                                 >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
+                                  <EuiIcon
+                                    aria-hidden="true"
+                                    className="euiButtonIcon__icon"
+                                    color="inherit"
+                                    size="m"
+                                    type="cross"
                                   >
-                                    <svg
+                                    <EuiIconEmpty
                                       aria-hidden={true}
                                       className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                       focusable="false"
-                                      height={16}
                                       role="img"
                                       style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                              </button>
-                            </EuiButtonIcon>
-                          </EuiI18n>
-                        </div>
-                      </EuiOutsideClickDetector>
-                    </div>
-                  </ForwardRef>
-                  <div
-                    data-focus-guard={true}
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </button>
+                              </EuiButtonIcon>
+                            </EuiI18n>
+                            <EuiFlyoutHeader
+                              hasBorder={true}
+                            >
+                              <div
+                                className="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <EuiFlexGroup>
+                                  <div
+                                    className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <EuiFlexItem>
+                                      <div
+                                        className="euiFlexItem"
+                                      >
+                                        <EuiTitle
+                                          size="s"
+                                        >
+                                          <h2
+                                            className="euiTitle euiTitle--small vertical-center"
+                                            id="surroundingFyout"
+                                          >
+                                            View surrounding events
+                                          </h2>
+                                        </EuiTitle>
+                                      </div>
+                                    </EuiFlexItem>
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButtonIcon
+                                          aria-label="Resize"
+                                          aria-pressed={true}
+                                          className="events-flyout-resize"
+                                          color="text"
+                                          iconType="menuLeft"
+                                          onClick={[Function]}
+                                          size="m"
+                                          title="Resize"
+                                        >
+                                          <button
+                                            aria-label="Resize"
+                                            aria-pressed={true}
+                                            className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                            disabled={false}
+                                            onClick={[Function]}
+                                            title="Resize"
+                                            type="button"
+                                          >
+                                            <EuiIcon
+                                              aria-hidden="true"
+                                              className="euiButtonIcon__icon"
+                                              color="inherit"
+                                              size="m"
+                                              type="menuLeft"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </button>
+                                        </EuiButtonIcon>
+                                      </div>
+                                    </EuiFlexItem>
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButton
+                                          className="header-button"
+                                          iconSide="right"
+                                          iconType="sortRight"
+                                          onClick={[Function]}
+                                        >
+                                          <EuiButtonDisplay
+                                            baseClassName="euiButton"
+                                            className="header-button"
+                                            disabled={false}
+                                            element="button"
+                                            iconSide="right"
+                                            iconType="sortRight"
+                                            isDisabled={false}
+                                            onClick={[Function]}
+                                            type="button"
+                                          >
+                                            <button
+                                              className="euiButton euiButton--primary header-button"
+                                              disabled={false}
+                                              onClick={[Function]}
+                                              style={
+                                                Object {
+                                                  "minWidth": undefined,
+                                                }
+                                              }
+                                              type="button"
+                                            >
+                                              <EuiButtonContent
+                                                className="euiButton__content"
+                                                iconSide="right"
+                                                iconType="sortRight"
+                                                textProps={
+                                                  Object {
+                                                    "className": "euiButton__text",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                                                >
+                                                  <EuiIcon
+                                                    className="euiButtonContent__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="sortRight"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                  <span
+                                                    className="euiButton__text"
+                                                  >
+                                                    View event details
+                                                  </span>
+                                                </span>
+                                              </EuiButtonContent>
+                                            </button>
+                                          </EuiButtonDisplay>
+                                        </EuiButton>
+                                      </div>
+                                    </EuiFlexItem>
+                                  </div>
+                                </EuiFlexGroup>
+                              </div>
+                            </EuiFlyoutHeader>
+                            <EuiFlyoutBody>
+                              <div
+                                className="euiFlyoutBody"
+                              >
+                                <div
+                                  className="euiFlyoutBody__overflow"
+                                  tabIndex={0}
+                                >
+                                  <div
+                                    className="euiFlyoutBody__overflowContent"
+                                  >
+                                    <EuiFlexGroup>
+                                      <div
+                                        className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                      >
+                                        <EuiFlexItem
+                                          grow={false}
+                                        >
+                                          <div
+                                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <EuiFormRow
+                                              describedByIds={Array []}
+                                              display="row"
+                                              fullWidth={false}
+                                              hasChildLabel={true}
+                                              hasEmptyLabelSpace={false}
+                                              labelType="label"
+                                            >
+                                              <div
+                                                className="euiFormRow"
+                                                id="random_html_id-row"
+                                              >
+                                                <div
+                                                  className="euiFormRow__fieldWrapper"
+                                                >
+                                                  <EuiButtonEmpty
+                                                    iconSide="left"
+                                                    iconType="arrowUp"
+                                                    id="random_html_id"
+                                                    isLoading={false}
+                                                    onBlur={[Function]}
+                                                    onClick={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    <button
+                                                      className="euiButtonEmpty euiButtonEmpty--primary"
+                                                      disabled={false}
+                                                      id="random_html_id"
+                                                      onBlur={[Function]}
+                                                      onClick={[Function]}
+                                                      onFocus={[Function]}
+                                                      type="button"
+                                                    >
+                                                      <EuiButtonContent
+                                                        className="euiButtonEmpty__content"
+                                                        iconSide="left"
+                                                        iconSize="m"
+                                                        iconType="arrowUp"
+                                                        isLoading={false}
+                                                        textProps={
+                                                          Object {
+                                                            "className": "euiButtonEmpty__text",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          className="euiButtonContent euiButtonEmpty__content"
+                                                        >
+                                                          <EuiIcon
+                                                            className="euiButtonContent__icon"
+                                                            color="inherit"
+                                                            size="m"
+                                                            type="arrowUp"
+                                                          >
+                                                            <EuiIconEmpty
+                                                              aria-hidden={true}
+                                                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                              focusable="false"
+                                                              role="img"
+                                                              style={null}
+                                                            >
+                                                              <svg
+                                                                aria-hidden={true}
+                                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                                focusable="false"
+                                                                height={16}
+                                                                role="img"
+                                                                style={null}
+                                                                viewBox="0 0 16 16"
+                                                                width={16}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              />
+                                                            </EuiIconEmpty>
+                                                          </EuiIcon>
+                                                          <span
+                                                            className="euiButtonEmpty__text"
+                                                          >
+                                                            Load
+                                                          </span>
+                                                        </span>
+                                                      </EuiButtonContent>
+                                                    </button>
+                                                  </EuiButtonEmpty>
+                                                </div>
+                                              </div>
+                                            </EuiFormRow>
+                                          </div>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem
+                                          className="cnt-picker"
+                                          grow={false}
+                                        >
+                                          <div
+                                            className="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                          >
+                                            <EuiFormRow
+                                              describedByIds={Array []}
+                                              display="row"
+                                              fullWidth={false}
+                                              hasChildLabel={true}
+                                              hasEmptyLabelSpace={false}
+                                              labelType="label"
+                                            >
+                                              <div
+                                                className="euiFormRow"
+                                                id="random_html_id-row"
+                                              >
+                                                <div
+                                                  className="euiFormRow__fieldWrapper"
+                                                >
+                                                  <EuiFieldNumber
+                                                    aria-label="fetch newer events"
+                                                    id="random_html_id"
+                                                    max={10000}
+                                                    min={0}
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onFocus={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    value={5}
+                                                  >
+                                                    <EuiFormControlLayout
+                                                      compressed={false}
+                                                      fullWidth={false}
+                                                      inputId="random_html_id"
+                                                      isLoading={false}
+                                                    >
+                                                      <div
+                                                        className="euiFormControlLayout"
+                                                      >
+                                                        <div
+                                                          className="euiFormControlLayout__childrenWrapper"
+                                                        >
+                                                          <EuiValidatableControl>
+                                                            <input
+                                                              aria-label="fetch newer events"
+                                                              className="euiFieldNumber"
+                                                              id="random_html_id"
+                                                              max={10000}
+                                                              min={0}
+                                                              onBlur={[Function]}
+                                                              onChange={[Function]}
+                                                              onFocus={[Function]}
+                                                              onKeyDown={[Function]}
+                                                              type="number"
+                                                              value={5}
+                                                            />
+                                                          </EuiValidatableControl>
+                                                          <EuiFormControlLayoutIcons
+                                                            compressed={false}
+                                                            isLoading={false}
+                                                          />
+                                                        </div>
+                                                      </div>
+                                                    </EuiFormControlLayout>
+                                                  </EuiFieldNumber>
+                                                </div>
+                                              </div>
+                                            </EuiFormRow>
+                                          </div>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem
+                                          grow={false}
+                                        >
+                                          <div
+                                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <EuiFormRow
+                                              describedByIds={Array []}
+                                              display="center"
+                                              fullWidth={false}
+                                              hasChildLabel={true}
+                                              hasEmptyLabelSpace={false}
+                                              labelType="label"
+                                            >
+                                              <div
+                                                className="euiFormRow"
+                                                id="random_html_id-row"
+                                              >
+                                                <div
+                                                  className="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                                >
+                                                  <EuiText
+                                                    id="random_html_id"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    <div
+                                                      className="euiText euiText--medium"
+                                                      id="random_html_id"
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                    >
+                                                      newer
+                                                       events
+                                                    </div>
+                                                  </EuiText>
+                                                </div>
+                                              </div>
+                                            </EuiFormRow>
+                                          </div>
+                                        </EuiFlexItem>
+                                      </div>
+                                    </EuiFlexGroup>
+                                    <EuiSpacer
+                                      size="s"
+                                    >
+                                      <div
+                                        className="euiSpacer euiSpacer--s"
+                                      />
+                                    </EuiSpacer>
+                                    <div>
+                                      <EuiCallOut
+                                        color="warning"
+                                        iconType="bolt"
+                                        title="Issue in building surrounding data query"
+                                      >
+                                        <div
+                                          className="euiCallOut euiCallOut--warning"
+                                        >
+                                          <div
+                                            className="euiCallOutHeader"
+                                          >
+                                            <EuiIcon
+                                              aria-hidden="true"
+                                              className="euiCallOutHeader__icon"
+                                              color="inherit"
+                                              size="m"
+                                              type="bolt"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiCallOutHeader__title"
+                                            >
+                                              Issue in building surrounding data query
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </EuiCallOut>
+                                    </div>
+                                    <div
+                                      className="dscTable dscTableFixedScroll"
+                                    >
+                                      <table
+                                        className="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            className="osdDocTableHeader"
+                                          >
+                                            <th
+                                              key="datagrid-header-4"
+                                            />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            className="osdDocTable__row selected-event-row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                      <table
+                                        className="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            className="osdDocTableHeader"
+                                          >
+                                            <th
+                                              key="datagrid-header-5"
+                                            />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            className="osdDocTable__row selected-event-row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <div>
+                                      <EuiCallOut
+                                        color="warning"
+                                        iconType="bolt"
+                                        title="Issue in building surrounding data query"
+                                      >
+                                        <div
+                                          className="euiCallOut euiCallOut--warning"
+                                        >
+                                          <div
+                                            className="euiCallOutHeader"
+                                          >
+                                            <EuiIcon
+                                              aria-hidden="true"
+                                              className="euiCallOutHeader__icon"
+                                              color="inherit"
+                                              size="m"
+                                              type="bolt"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                            <span
+                                              className="euiCallOutHeader__title"
+                                            >
+                                              Issue in building surrounding data query
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </EuiCallOut>
+                                    </div>
+                                    <EuiSpacer
+                                      size="s"
+                                    >
+                                      <div
+                                        className="euiSpacer euiSpacer--s"
+                                      />
+                                    </EuiSpacer>
+                                    <EuiFlexGroup>
+                                      <div
+                                        className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                      >
+                                        <EuiFlexItem
+                                          grow={false}
+                                        >
+                                          <div
+                                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <EuiFormRow
+                                              describedByIds={Array []}
+                                              display="row"
+                                              fullWidth={false}
+                                              hasChildLabel={true}
+                                              hasEmptyLabelSpace={false}
+                                              labelType="label"
+                                            >
+                                              <div
+                                                className="euiFormRow"
+                                                id="random_html_id-row"
+                                              >
+                                                <div
+                                                  className="euiFormRow__fieldWrapper"
+                                                >
+                                                  <EuiButtonEmpty
+                                                    iconSide="left"
+                                                    iconType="arrowDown"
+                                                    id="random_html_id"
+                                                    isLoading={false}
+                                                    onBlur={[Function]}
+                                                    onClick={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    <button
+                                                      className="euiButtonEmpty euiButtonEmpty--primary"
+                                                      disabled={false}
+                                                      id="random_html_id"
+                                                      onBlur={[Function]}
+                                                      onClick={[Function]}
+                                                      onFocus={[Function]}
+                                                      type="button"
+                                                    >
+                                                      <EuiButtonContent
+                                                        className="euiButtonEmpty__content"
+                                                        iconSide="left"
+                                                        iconSize="m"
+                                                        iconType="arrowDown"
+                                                        isLoading={false}
+                                                        textProps={
+                                                          Object {
+                                                            "className": "euiButtonEmpty__text",
+                                                          }
+                                                        }
+                                                      >
+                                                        <span
+                                                          className="euiButtonContent euiButtonEmpty__content"
+                                                        >
+                                                          <EuiIcon
+                                                            className="euiButtonContent__icon"
+                                                            color="inherit"
+                                                            size="m"
+                                                            type="arrowDown"
+                                                          >
+                                                            <EuiIconEmpty
+                                                              aria-hidden={true}
+                                                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                              focusable="false"
+                                                              role="img"
+                                                              style={null}
+                                                            >
+                                                              <svg
+                                                                aria-hidden={true}
+                                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                                                focusable="false"
+                                                                height={16}
+                                                                role="img"
+                                                                style={null}
+                                                                viewBox="0 0 16 16"
+                                                                width={16}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              />
+                                                            </EuiIconEmpty>
+                                                          </EuiIcon>
+                                                          <span
+                                                            className="euiButtonEmpty__text"
+                                                          >
+                                                            Load
+                                                          </span>
+                                                        </span>
+                                                      </EuiButtonContent>
+                                                    </button>
+                                                  </EuiButtonEmpty>
+                                                </div>
+                                              </div>
+                                            </EuiFormRow>
+                                          </div>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem
+                                          className="cnt-picker"
+                                          grow={false}
+                                        >
+                                          <div
+                                            className="euiFlexItem euiFlexItem--flexGrowZero cnt-picker"
+                                          >
+                                            <EuiFormRow
+                                              describedByIds={Array []}
+                                              display="row"
+                                              fullWidth={false}
+                                              hasChildLabel={true}
+                                              hasEmptyLabelSpace={false}
+                                              labelType="label"
+                                            >
+                                              <div
+                                                className="euiFormRow"
+                                                id="random_html_id-row"
+                                              >
+                                                <div
+                                                  className="euiFormRow__fieldWrapper"
+                                                >
+                                                  <EuiFieldNumber
+                                                    aria-label="fetch older events"
+                                                    id="random_html_id"
+                                                    max={10000}
+                                                    min={0}
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onFocus={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    value={5}
+                                                  >
+                                                    <EuiFormControlLayout
+                                                      compressed={false}
+                                                      fullWidth={false}
+                                                      inputId="random_html_id"
+                                                      isLoading={false}
+                                                    >
+                                                      <div
+                                                        className="euiFormControlLayout"
+                                                      >
+                                                        <div
+                                                          className="euiFormControlLayout__childrenWrapper"
+                                                        >
+                                                          <EuiValidatableControl>
+                                                            <input
+                                                              aria-label="fetch older events"
+                                                              className="euiFieldNumber"
+                                                              id="random_html_id"
+                                                              max={10000}
+                                                              min={0}
+                                                              onBlur={[Function]}
+                                                              onChange={[Function]}
+                                                              onFocus={[Function]}
+                                                              onKeyDown={[Function]}
+                                                              type="number"
+                                                              value={5}
+                                                            />
+                                                          </EuiValidatableControl>
+                                                          <EuiFormControlLayoutIcons
+                                                            compressed={false}
+                                                            isLoading={false}
+                                                          />
+                                                        </div>
+                                                      </div>
+                                                    </EuiFormControlLayout>
+                                                  </EuiFieldNumber>
+                                                </div>
+                                              </div>
+                                            </EuiFormRow>
+                                          </div>
+                                        </EuiFlexItem>
+                                        <EuiFlexItem
+                                          grow={false}
+                                        >
+                                          <div
+                                            className="euiFlexItem euiFlexItem--flexGrowZero"
+                                          >
+                                            <EuiFormRow
+                                              describedByIds={Array []}
+                                              display="center"
+                                              fullWidth={false}
+                                              hasChildLabel={true}
+                                              hasEmptyLabelSpace={false}
+                                              labelType="label"
+                                            >
+                                              <div
+                                                className="euiFormRow"
+                                                id="random_html_id-row"
+                                              >
+                                                <div
+                                                  className="euiFormRow__fieldWrapper euiFormRow__fieldWrapperDisplayOnly"
+                                                >
+                                                  <EuiText
+                                                    id="random_html_id"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                  >
+                                                    <div
+                                                      className="euiText euiText--medium"
+                                                      id="random_html_id"
+                                                      onBlur={[Function]}
+                                                      onFocus={[Function]}
+                                                    >
+                                                      older
+                                                       events
+                                                    </div>
+                                                  </EuiText>
+                                                </div>
+                                              </div>
+                                            </EuiFormRow>
+                                          </div>
+                                        </EuiFlexItem>
+                                      </div>
+                                    </EuiFlexGroup>
+                                  </div>
+                                </div>
+                              </div>
+                            </EuiFlyoutBody>
+                          </div>
+                        </EuiOutsideClickDetector>
+                      </div>
+                    </ForwardRef>
+                    <div
+                      data-focus-guard={true}
+                      style={
+                        Object {
+                          "height": "0px",
+                          "left": "1px",
+                          "overflow": "hidden",
+                          "padding": 0,
+                          "position": "fixed",
+                          "top": "1px",
+                          "width": "1px",
+                        }
                       }
-                    }
-                    tabIndex={0}
-                  />
-                </ForwardRef(FocusLockUI)>
-                <RequireSideCar
-                  noIsolation={true}
-                  onClickOutside={[Function]}
-                  setLockProps={[Function]}
-                  sideCar={
-                    Object {
-                      "assignMedium": [Function],
-                      "assignSyncMedium": [Function],
-                      "options": Object {
-                        "async": true,
-                        "ssr": false,
-                      },
-                      "read": [Function],
-                      "useMedium": [Function],
-                    }
-                  }
-                >
-                  <SideCar
+                      tabIndex={0}
+                    />
+                  </ForwardRef(FocusLockUI)>
+                  <RequireSideCar
                     noIsolation={true}
                     onClickOutside={[Function]}
                     setLockProps={[Function]}
@@ -477,29 +3328,47 @@ exports[`Test surrounding flyout component Renders surrounding flyout component 
                       }
                     }
                   >
-                    <Effect
+                    <SideCar
                       noIsolation={true}
                       onClickOutside={[Function]}
                       setLockProps={[Function]}
+                      sideCar={
+                        Object {
+                          "assignMedium": [Function],
+                          "assignSyncMedium": [Function],
+                          "options": Object {
+                            "async": true,
+                            "ssr": false,
+                          },
+                          "read": [Function],
+                          "useMedium": [Function],
+                        }
+                      }
                     >
-                      <Component>
-                        <Sheet
-                          styles="
+                      <Effect
+                        noIsolation={true}
+                        onClickOutside={[Function]}
+                        setLockProps={[Function]}
+                      >
+                        <Component>
+                          <Sheet
+                            styles="
  [data-focus-on-hidden] {
    pointer-events: none !important;
  }
 "
-                        />
-                      </Component>
-                    </Effect>
-                  </SideCar>
-                </RequireSideCar>
+                          />
+                        </Component>
+                      </Effect>
+                    </SideCar>
+                  </RequireSideCar>
+                </ForwardRef>
               </ForwardRef>
-            </ForwardRef>
-          </EuiFocusTrap>
-        </Portal>
-      </EuiPortal>
-    </EuiFlyout>
-  </div>
-</FlyoutContainers>
+            </EuiFocusTrap>
+          </Portal>
+        </EuiPortal>
+      </EuiFlyout>
+    </div>
+  </FlyoutContainers>
+</SurroundingFlyout>
 `;
