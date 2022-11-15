@@ -275,6 +275,26 @@ exports[`Heatmap component Renders heatmap component 1`] = `
         },
         "userConfigs": Object {
           "dataConfig": Object {
+            "chartStyles": Object {
+              "color": Object {
+                "color": "#6092C0",
+                "name": "singleColor",
+              },
+              "colorMode": Array [
+                Object {
+                  "label": "opacity",
+                  "name": "opacity",
+                  "value": "opacity",
+                },
+              ],
+              "fillOpacity": "71",
+              "interpolation": "linear",
+              "labelSize": "10",
+              "lineWidth": "4",
+              "pointSize": "12",
+              "rotateLabels": "36",
+              "style": "lines",
+            },
             "dimensions": Array [
               Object {
                 "customLabel": "",
@@ -719,7 +739,48 @@ exports[`Heatmap component Renders heatmap component 1`] = `
     data={
       Array [
         Object {
-          "colorscale": "Reds",
+          "colorscale": Array [
+            Array [
+              0,
+              "rgb(223,255,255)",
+            ],
+            Array [
+              0.1,
+              "rgb(209,242,248)",
+            ],
+            Array [
+              0.2,
+              "rgb(195,230,241)",
+            ],
+            Array [
+              0.3,
+              "rgb(182,217,234)",
+            ],
+            Array [
+              0.4,
+              "rgb(168,205,227)",
+            ],
+            Array [
+              0.5,
+              "rgb(154,193,220)",
+            ],
+            Array [
+              0.6,
+              "rgb(140,181,213)",
+            ],
+            Array [
+              0.7,
+              "rgb(126,169,206)",
+            ],
+            Array [
+              0.8,
+              "rgb(111,157,199)",
+            ],
+            Array [
+              1,
+              "rgb(96,146,192)",
+            ],
+          ],
           "hoverinfo": "all",
           "showscale": true,
           "type": "heatmap",
@@ -795,7 +856,48 @@ exports[`Heatmap component Renders heatmap component 1`] = `
       data={
         Array [
           Object {
-            "colorscale": "Reds",
+            "colorscale": Array [
+              Array [
+                0,
+                "rgb(223,255,255)",
+              ],
+              Array [
+                0.1,
+                "rgb(209,242,248)",
+              ],
+              Array [
+                0.2,
+                "rgb(195,230,241)",
+              ],
+              Array [
+                0.3,
+                "rgb(182,217,234)",
+              ],
+              Array [
+                0.4,
+                "rgb(168,205,227)",
+              ],
+              Array [
+                0.5,
+                "rgb(154,193,220)",
+              ],
+              Array [
+                0.6,
+                "rgb(140,181,213)",
+              ],
+              Array [
+                0.7,
+                "rgb(126,169,206)",
+              ],
+              Array [
+                0.8,
+                "rgb(111,157,199)",
+              ],
+              Array [
+                1,
+                "rgb(96,146,192)",
+              ],
+            ],
             "hoverinfo": "all",
             "showscale": true,
             "type": "heatmap",

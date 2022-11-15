@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Gauge component Renders gauge component 1`] = `
-<Gauge
-  config={true}
-  layout={
+exports[`Bubble component Renders Bubble component 1`] = `
+<Bubble
+  figureConfig={true}
+  layoutConfig={
     Object {
       "colorway": Array [
         "#8C55A3",
@@ -271,14 +271,6 @@ exports[`Gauge component Renders gauge component 1`] = `
         },
         "userConfigs": Object {
           "dataConfig": Object {
-            "chartStyles": Object {
-              "legendPlacement": "right",
-              "orientation": "v",
-              "showThresholdLabels": true,
-              "showThresholdMarkers": true,
-              "titleSize": "10",
-              "valueSize": "12",
-            },
             "dimensions": Array [
               Object {
                 "customLabel": "",
@@ -303,7 +295,9 @@ exports[`Gauge component Renders gauge component 1`] = `
         },
       },
       "vis": Object {
+        "barwidth": 0.97,
         "category": "Visualizations",
+        "categoryaxis": "xaxis",
         "component": [Function],
         "editorconfig": Object {
           "panelTabs": Array [
@@ -315,62 +309,149 @@ exports[`Gauge component Renders gauge component 1`] = `
               "sections": Array [
                 Object {
                   "editor": [Function],
-                  "id": "chart-styles",
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "position",
+                      "name": "Position",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Bottom",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
                   "mapTo": "chartStyles",
                   "name": "Chart styles",
                   "schemas": Array [
                     Object {
                       "component": [Function],
                       "eleType": "buttons",
-                      "mapTo": "orientation",
-                      "name": "Orientation",
+                      "mapTo": "mode",
+                      "name": "Mode",
                       "props": Object {
                         "defaultSelections": Array [
                           Object {
-                            "id": "auto",
-                            "name": "Auto",
+                            "id": "group",
+                            "name": "Group",
                           },
                         ],
                         "options": Array [
                           Object {
-                            "id": "auto",
-                            "name": "Auto",
+                            "id": "group",
+                            "name": "Group",
                           },
                           Object {
-                            "id": "v",
-                            "name": "Vertical",
-                          },
-                          Object {
-                            "id": "h",
-                            "name": "Horizontal",
-                          },
-                        ],
-                      },
-                    },
-                    Object {
-                      "component": [Function],
-                      "eleType": "buttons",
-                      "mapTo": "legendPlacement",
-                      "name": "Legend placement",
-                      "props": Object {
-                        "defaultSelections": Array [
-                          Object {
-                            "id": "center",
-                            "name": "Center",
-                          },
-                        ],
-                        "options": Array [
-                          Object {
-                            "id": "center",
-                            "name": "Center",
-                          },
-                          Object {
-                            "id": "right",
-                            "name": "Right",
-                          },
-                          Object {
-                            "id": "left",
-                            "name": "Left",
+                            "id": "stack",
+                            "name": "Stack",
                           },
                         ],
                       },
@@ -378,73 +459,129 @@ exports[`Gauge component Renders gauge component 1`] = `
                     Object {
                       "component": [Function],
                       "eleType": "input",
-                      "mapTo": "titleSize",
-                      "name": "Title size",
-                      "title": "Title size",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
                     },
                     Object {
                       "component": [Function],
-                      "eleType": "input",
-                      "mapTo": "valueSize",
-                      "name": "Value size",
-                      "title": "Value size",
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
                     },
                     Object {
                       "component": [Function],
-                      "currentValue": false,
-                      "eleType": "switchButton",
-                      "mapTo": "showThresholdLabels",
-                      "name": "Show threshold labels",
-                      "title": "Show threshold labels",
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
                     },
                     Object {
                       "component": [Function],
-                      "currentValue": true,
-                      "eleType": "switchButton",
-                      "mapTo": "showThresholdMarkers",
-                      "name": "Show threshold markers",
-                      "title": "Show threshold markers",
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
                     },
                   ],
                 },
                 Object {
-                  "defaultState": Array [],
                   "editor": [Function],
-                  "id": "thresholds",
-                  "mapTo": "thresholds",
-                  "name": "Thresholds",
-                  "props": Object {
-                    "maxLimit": 1,
-                  },
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
                   "schemas": Array [],
                 },
               ],
             },
             Object {
-              "content": Array [],
               "editor": [Function],
-              "id": "style-panel",
-              "mapTo": "layoutConfig",
-              "name": "Layout",
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
             },
           ],
         },
-        "fulllabel": "Gauge",
+        "fillopacity": 70,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
         "icon": [Function],
-        "icontype": "visGauge",
-        "id": "gauge",
-        "label": "Gauge",
-        "name": "Gauge",
+        "icontype": "visBarVerticalStacked",
+        "id": "bar",
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 2,
+        "mode": "group",
+        "name": "bar",
+        "orientation": "v",
         "selection": Object {
           "dataLoss": "nothing",
         },
-        "type": "indicator",
-        "valueseries": "yaxis",
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
+        "type": "bar",
         "visconfig": Object {
           "config": Object {
             "displaylogo": false,
             "responsive": true,
           },
+          "isUniColor": false,
           "layout": Object {
             "height": 1180,
             "legend": Object {
@@ -466,30 +603,64 @@ exports[`Gauge component Renders gauge component 1`] = `
   }
 >
   <Plt
-    config={Object {}}
+    config={true}
     data={
       Array [
         Object {
-          "domain": Object {
-            "column": 0,
-            "row": 0,
-          },
-          "gauge": Object {},
-          "mode": "gauge+number+delta",
-          "number": Object {
-            "font": Object {
-              "size": "12",
-            },
-          },
-          "title": Object {
-            "align": "right",
-            "font": Object {
-              "size": "10",
-            },
-            "text": "artifacts.opensearch.org, error, max(bytes)",
-          },
-          "type": "indicator",
-          "value": 19897,
+          "mode": "markers",
+          "name": "max(bytes)",
+          "x": Array [
+            19897,
+            19904,
+            19929,
+            19856,
+            19904,
+            19929,
+            9947,
+            9998,
+            9717,
+            9973,
+          ],
+          "y": Array [
+            "error",
+            "info",
+            "login",
+            "security",
+            "success",
+            "warning",
+            "error",
+            "info",
+            "login",
+            "security",
+          ],
+        },
+        Object {
+          "mode": "markers",
+          "name": "host",
+          "x": Array [
+            "artifacts.opensearch.org",
+            "artifacts.opensearch.org",
+            "artifacts.opensearch.org",
+            "artifacts.opensearch.org",
+            "artifacts.opensearch.org",
+            "artifacts.opensearch.org",
+            "cdn.opensearch-opensearch-opensearch.org",
+            "cdn.opensearch-opensearch-opensearch.org",
+            "cdn.opensearch-opensearch-opensearch.org",
+            "cdn.opensearch-opensearch-opensearch.org",
+          ],
+          "y": Array [
+            "error",
+            "info",
+            "login",
+            "security",
+            "success",
+            "warning",
+            "error",
+            "info",
+            "login",
+            "security",
+          ],
         },
       ]
     }
@@ -498,21 +669,21 @@ exports[`Gauge component Renders gauge component 1`] = `
         "colorway": Array [
           "#8C55A3",
         ],
-        "grid": Object {
-          "columns": 1,
-          "pattern": "independent",
-          "rows": 1,
-        },
         "height": 220,
         "margin": Object {
-          "b": 30,
-          "l": 30,
-          "pad": 4,
-          "r": 5,
-          "t": 100,
+          "b": 15,
+          "l": 60,
+          "pad": 0,
+          "r": 10,
+          "t": 30,
         },
         "showlegend": true,
-        "title": "",
+        "xaxis": Object {
+          "automargin": true,
+        },
+        "yaxis": Object {
+          "automargin": true,
+        },
       }
     }
   >
@@ -525,26 +696,60 @@ exports[`Gauge component Renders gauge component 1`] = `
       data={
         Array [
           Object {
-            "domain": Object {
-              "column": 0,
-              "row": 0,
-            },
-            "gauge": Object {},
-            "mode": "gauge+number+delta",
-            "number": Object {
-              "font": Object {
-                "size": "12",
-              },
-            },
-            "title": Object {
-              "align": "right",
-              "font": Object {
-                "size": "10",
-              },
-              "text": "artifacts.opensearch.org, error, max(bytes)",
-            },
-            "type": "indicator",
-            "value": 19897,
+            "mode": "markers",
+            "name": "max(bytes)",
+            "x": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
+            ],
+            "y": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+              "error",
+              "info",
+              "login",
+              "security",
+            ],
+          },
+          Object {
+            "mode": "markers",
+            "name": "host",
+            "x": Array [
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+            ],
+            "y": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+              "error",
+              "info",
+              "login",
+              "security",
+            ],
           },
         ]
       }
@@ -557,11 +762,6 @@ exports[`Gauge component Renders gauge component 1`] = `
           "colorway": Array [
             "#8C55A3",
           ],
-          "grid": Object {
-            "columns": 1,
-            "pattern": "independent",
-            "rows": 1,
-          },
           "height": 220,
           "hovermode": "closest",
           "legend": Object {
@@ -569,24 +769,18 @@ exports[`Gauge component Renders gauge component 1`] = `
             "traceorder": "normal",
           },
           "margin": Object {
-            "b": 30,
-            "l": 30,
-            "pad": 4,
-            "r": 5,
-            "t": 100,
+            "b": 15,
+            "l": 60,
+            "pad": 0,
+            "r": 10,
+            "t": 30,
           },
           "showlegend": true,
-          "title": "",
           "xaxis": Object {
             "automargin": true,
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
           },
           "yaxis": Object {
-            "rangemode": "normal",
-            "showgrid": true,
-            "zeroline": false,
+            "automargin": true,
           },
         }
       }
@@ -609,5 +803,5 @@ exports[`Gauge component Renders gauge component 1`] = `
       />
     </PlotlyComponent>
   </Plt>
-</Gauge>
+</Bubble>
 `;

@@ -8,10 +8,13 @@ exports[`Field component Renders a sidebar field 1`] = `
       "type": "string",
     }
   }
+  handleOverridePattern={[MockFunction]}
   handleOverrideTimestamp={[MockFunction]}
   isFieldToggleButtonDisabled={false}
+  isOverridingPattern={false}
   isOverridingTimestamp={false}
   onToggleField={[MockFunction]}
+  query="rawQuery"
   selected={true}
   selectedTimestamp="timestamp"
   showTimestampOverrideButton={true}

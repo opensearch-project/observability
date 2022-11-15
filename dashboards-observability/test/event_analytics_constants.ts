@@ -7,13 +7,14 @@ import { LONG_CHART_COLOR, VIS_CHART_TYPES } from '../common/constants/shared';
 import { createBarTypeDefinition } from '../public/components/visualizations/charts/bar/bar_type';
 import { createGaugeTypeDefinition } from '../public/components/visualizations/charts/financial/gauge/gauge_type';
 import { createMetricsTypeDefinition } from '../public/components/visualizations/charts/metrics/metrics_type';
-import { createMapsVisDefinition } from '../public/components/visualizations/charts/maps/heatmap_type';
 import {
   SELECTED_FIELDS,
   AVAILABLE_FIELDS as AVAILABLE_FIELDS_NAME,
   UNSELECTED_FIELDS,
   QUERIED_FIELDS,
 } from '../common/constants/explorer';
+import { createHistogramVisDefinition } from '../public/components/visualizations/charts/histogram/histogram_type';
+import { createMapsVisDefinition } from '../public/components/visualizations/charts/maps/heatmap_type';
 import { createLineTypeDefinition } from '../public/components/visualizations/charts/lines/line_type';
 
 export const AVAILABLE_FIELDS = [
@@ -619,8 +620,26 @@ export const EXPLORER_VISUALIZATIONS_FOR_HEATMAP = {
 };
 
 export const VALUE_OPTIONS = {
-  dimensions: [{ name: 'tags', type: 'text', label: 'tags' }],
-  metrics: [{ name: 'count()', type: 'integer', label: 'count()', side: 'left' }],
+  series: [
+    {
+      label: 'bytes',
+      name: 'bytes',
+      aggregation: 'max',
+      customLabel: '',
+    },
+  ],
+  dimensions: [
+    {
+      label: 'host',
+      name: 'host',
+      customLabel: '',
+    },
+    {
+      label: 'tags',
+      name: 'tags',
+      customLabel: '',
+    },
+  ],
 };
 
 export const TEST_VISUALIZATIONS_DATA = {
@@ -677,6 +696,316 @@ export const TEST_VISUALIZATIONS_DATA = {
   },
   vis: createBarTypeDefinition({}),
 };
+export const TEST_VISUALIZATIONS_DATA_LINE = {
+  data: {
+    appData: {
+      fromApp: false,
+    },
+    rawVizData: {
+      data: {
+        'max(bytes)': [6219, 14113, 9920, 15894, 19561],
+        'avg(bytes)': [6219, 4221.166666666667, 6969.25, 6329.371428571429, 6245.709677419355],
+        'span(timestamp,2h)': [
+          '2022-04-10 00:00:00',
+          '2022-04-10 02:00:00',
+          '2022-04-10 04:00:00',
+          '2022-04-10 06:00:00',
+          '2022-04-10 08:00:00',
+        ],
+      },
+      metadata: {
+        fields: [
+          {
+            name: 'max(bytes)',
+            type: 'long',
+          },
+          {
+            name: 'avg(bytes)',
+            type: 'double',
+          },
+          {
+            name: 'span(timestamp,2h)',
+            type: 'timestamp',
+          },
+        ],
+      },
+      size: 5,
+      status: 200,
+      jsonData: [
+        {
+          'max(bytes)': 6219,
+          'avg(bytes)': 6219,
+          'span(timestamp,2h)': '2022-04-10 00:00:00',
+        },
+        {
+          'max(bytes)': 14113,
+          'avg(bytes)': 4221.166666666667,
+          'span(timestamp,2h)': '2022-04-10 02:00:00',
+        },
+        {
+          'max(bytes)': 9920,
+          'avg(bytes)': 6969.25,
+          'span(timestamp,2h)': '2022-04-10 04:00:00',
+        },
+        {
+          'max(bytes)': 15894,
+          'avg(bytes)': 6329.371428571429,
+          'span(timestamp,2h)': '2022-04-10 06:00:00',
+        },
+        {
+          'max(bytes)': 19561,
+          'avg(bytes)': 6245.709677419355,
+          'span(timestamp,2h)': '2022-04-10 08:00:00',
+        },
+      ],
+    },
+    // query: {
+    //   rawQuery:
+    //     'source = opensearch_dashboards_sample_data_logs | stats max(bytes), avg(bytes) by span(timestamp, 2h)',
+    //   finalQuery:
+    //     "source=opensearch_dashboards_sample_data_logs | where timestamp >= '2022-01-01 00:00:00' and timestamp <= '2022-11-14 07:44:27' | stats max(bytes), avg(bytes) by span(timestamp, 2h)",
+    //   index: '',
+    //   selectedTimestamp: 'timestamp',
+    //   selectedDateRange: ['now/y', 'now'],
+    //   tabCreatedType: 'redirect_tab',
+    //   savedObjectId: 'B5XA5oMBb6AtoCMJkDJu',
+    //   objectType: 'savedVisualization',
+    //   isLoaded: true,
+    // },
+    query: {},
+    indexFields: EXPLORER_FIELDS,
+    userConfigs: {
+      dataConfig: {
+        series: [
+          {
+            label: 'bytes',
+            name: 'bytes',
+            aggregation: 'max',
+            customLabel: '',
+          },
+          {
+            label: 'bytes',
+            name: 'bytes',
+            aggregation: 'avg',
+            customLabel: '',
+          },
+        ],
+        dimensions: [],
+        span: {
+          time_field: [
+            {
+              name: 'timestamp',
+              type: 'timestamp',
+              label: 'timestamp',
+            },
+          ],
+          interval: '2',
+          unit: [
+            {
+              text: 'Hour',
+              value: 'h',
+              label: 'Hour',
+            },
+          ],
+        },
+      },
+    },
+    defaultAxes: {
+      xaxis: [
+        {
+          name: 'span(timestamp,2h)',
+          type: 'timestamp',
+          label: 'span(timestamp,2h)',
+        },
+      ],
+      yaxis: [
+        {
+          name: 'max(bytes)',
+          type: 'long',
+          label: 'max(bytes)',
+        },
+        {
+          name: 'avg(bytes)',
+          type: 'double',
+          label: 'avg(bytes)',
+        },
+      ],
+    },
+    explorer: {
+      explorerData: {
+        jsonData: [
+          {
+            'max(bytes)': 6219,
+            'avg(bytes)': 6219,
+            'span(timestamp,2h)': '2022-04-10 00:00:00',
+          },
+          {
+            'max(bytes)': 14113,
+            'avg(bytes)': 4221.166666666667,
+            'span(timestamp,2h)': '2022-04-10 02:00:00',
+          },
+          {
+            'max(bytes)': 9920,
+            'avg(bytes)': 6969.25,
+            'span(timestamp,2h)': '2022-04-10 04:00:00',
+          },
+          {
+            'max(bytes)': 15894,
+            'avg(bytes)': 6329.371428571429,
+            'span(timestamp,2h)': '2022-04-10 06:00:00',
+          },
+          {
+            'max(bytes)': 19561,
+            'avg(bytes)': 6245.709677419355,
+            'span(timestamp,2h)': '2022-04-10 08:00:00',
+          },
+        ],
+        jsonDataAll: [
+          {
+            referer: 'http://twitter.com/success/wendy-lawrence',
+            request: '/opensearch/opensearch-1.0.0.deb',
+            agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1',
+            extension: 'deb',
+            memory: 'null',
+            geo:
+              '{"srcdest":"IN:US","src":"IN","coordinates":{"lat":39.41042861,"lon":-88.8454325},"dest":"US"}',
+            utc_time: '2022-04-10 00:39:02.912',
+            clientip: '223.87.60.27',
+            host: 'artifacts.opensearch.org',
+            event: '{"dataset":"sample_web_logs"}',
+            phpmemory: 'null',
+            timestamp: '2022-04-10 00:39:02.912',
+            ip: '223.87.60.27',
+            index: 'opensearch_dashboards_sample_data_logs',
+            message:
+              '223.87.60.27 - - [2018-07-22T00:39:02.912Z] "GET /opensearch/opensearch-1.0.0.deb_1 HTTP/1.1" 200 6219 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1"',
+            url: 'https://artifacts.opensearch.org/downloads/opensearch/opensearch-1.0.0.deb_1',
+            tags: 'success',
+            bytes: 6219,
+            machine: '{"os":"win 8","ram":8589934592}',
+            response: '200',
+          },
+          {
+            referer: 'http://www.opensearch-opensearch-opensearch.com/success/james-mcdivitt',
+            request: '/beats/metricbeat',
+            agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1',
+            extension: '',
+            memory: 'null',
+            geo:
+              '{"srcdest":"JP:IN","src":"JP","coordinates":{"lat":38.58338806,"lon":-86.46248778},"dest":"IN"}',
+            utc_time: '2022-04-10 03:26:21.326',
+            clientip: '130.246.123.197',
+            host: 'www.opensearch.org',
+            event: '{"dataset":"sample_web_logs"}',
+            phpmemory: 'null',
+            timestamp: '2022-04-10 03:26:21.326',
+            ip: '130.246.123.197',
+            index: 'opensearch_dashboards_sample_data_logs',
+            message:
+              '130.246.123.197 - - [2018-07-22T03:26:21.326Z] "GET /beats/metricbeat_1 HTTP/1.1" 200 6850 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:6.0a1) Gecko/20110421 Firefox/6.0a1"',
+            url: 'https://www.opensearch.org/downloads/beats/metricbeat_1',
+            tags: 'success',
+            bytes: 6850,
+            machine: '{"os":"win 8","ram":3221225472}',
+            response: '200',
+          },
+          {
+            referer: 'http://twitter.com/success/konstantin-feoktistov',
+            request: '/styles/main.css',
+            agent:
+              'Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24',
+            extension: 'css',
+            memory: 'null',
+            geo:
+              '{"srcdest":"CO:DE","src":"CO","coordinates":{"lat":36.96015,"lon":-78.18499861},"dest":"DE"}',
+            utc_time: '2022-04-10 03:30:25.131',
+            clientip: '120.49.143.213',
+            host: 'cdn.opensearch-opensearch-opensearch.org',
+            event: '{"dataset":"sample_web_logs"}',
+            phpmemory: 'null',
+            timestamp: '2022-04-10 03:30:25.131',
+            ip: '120.49.143.213',
+            index: 'opensearch_dashboards_sample_data_logs',
+            message:
+              '120.49.143.213 - - [2018-07-22T03:30:25.131Z] "GET /styles/main.css_1 HTTP/1.1" 503 0 "-" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24"',
+            url: 'https://cdn.opensearch-opensearch-opensearch.org/styles/main.css_1',
+            tags: 'success',
+            bytes: 0,
+            machine: '{"os":"ios","ram":20401094656}',
+            response: '503',
+          },
+          {
+            referer: 'http://www.opensearch-opensearch-opensearch.com/success/charles-camarda',
+            request: '/beats/metricbeat/metricbeat-6.3.2-amd64.deb',
+            agent: 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)',
+            extension: 'deb',
+            memory: 'null',
+            geo:
+              '{"srcdest":"LK:IN","src":"LK","coordinates":{"lat":48.31140472,"lon":-114.2550694},"dest":"IN"}',
+            utc_time: '2022-04-10 03:34:43.399',
+            clientip: '99.74.118.237',
+            host: 'artifacts.opensearch.org',
+            event: '{"dataset":"sample_web_logs"}',
+            phpmemory: 'null',
+            timestamp: '2022-04-10 03:34:43.399',
+            ip: '99.74.118.237',
+            index: 'opensearch_dashboards_sample_data_logs',
+            message:
+              '99.74.118.237 - - [2018-07-22T03:34:43.399Z] "GET /beats/metricbeat/metricbeat-6.3.2-amd64.deb_1 HTTP/1.1" 200 14113 "-" "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)"',
+            url:
+              'https://artifacts.opensearch.org/downloads/beats/metricbeat/metricbeat-6.3.2-amd64.deb_1',
+            tags: 'success',
+            bytes: 14113,
+            machine: '{"os":"ios","ram":11811160064}',
+            response: '200',
+          },
+          {
+            referer: 'http://twitter.com/success/gregory-harbaugh',
+            request: '/enterprise',
+            agent: 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)',
+            extension: '',
+            memory: 'null',
+            geo:
+              '{"srcdest":"MZ:US","src":"MZ","coordinates":{"lat":46.77917333,"lon":-105.3047083},"dest":"US"}',
+            utc_time: '2022-04-10 03:37:04.863',
+            clientip: '177.111.217.54',
+            host: 'www.opensearch.org',
+            event: '{"dataset":"sample_web_logs"}',
+            phpmemory: 'null',
+            timestamp: '2022-04-10 03:37:04.863',
+            ip: '177.111.217.54',
+            index: 'opensearch_dashboards_sample_data_logs',
+            message:
+              '177.111.217.54 - - [2018-07-22T03:37:04.863Z] "GET /enterprise_1 HTTP/1.1" 200 2492 "-" "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)"',
+            url: 'https://www.opensearch.org/downloads/enterprise_1',
+            tags: 'success',
+            bytes: 2492,
+            machine: '{"os":"win 7","ram":9663676416}',
+            response: '200',
+          },
+        ],
+      },
+      query: {},
+      // http: {
+      //   basePath: {
+      //     basePath: '/jva',
+      //     serverBasePath: '/jva',
+      //   },
+      //   anonymousPaths: {},
+      // },
+      // pplService: {
+      //   http: {
+      //     basePath: {
+      //       basePath: '/jva',
+      //       serverBasePath: '/jva',
+      //     },
+      //     anonymousPaths: {},
+      //   },
+      // },
+    },
+  },
+  vis: createBarTypeDefinition({}),
+};
 
 export const PIE_TEST_VISUALIZATIONS_DATA = {
   data: {
@@ -695,8 +1024,8 @@ export const GAUGE_TEST_VISUALIZATIONS_DATA = {
   data: {
     ...TEST_VISUALIZATIONS_DATA.data,
     userConfigs: {
-      ...VALUE_OPTIONS,
       dataConfig: {
+        ...TEST_VISUALIZATIONS_DATA.data.userConfigs.dataConfig,
         chartStyles: {
           showThresholdLabels: true,
           showThresholdMarkers: true,
@@ -722,12 +1051,65 @@ export const HORIZONTAL_BAR_TEST_VISUALIZATIONS_DATA = {
   }),
 };
 
+export const TEST_DATA = {
+  dimensions: [{ name: 'tags', type: 'text', label: 'tags' }],
+  metrics: [{ name: 'count()', type: 'integer', label: 'count()', side: 'left' }],
+  series: [
+    {
+      aggregation: 'sum',
+      customLabel: 'delays',
+      label: 'FlightDelayMin',
+      name: 'FlightDelayMin',
+    },
+  ],
+};
+
+export const TEST_CONFIG_AVAILABILITY = {
+  data: {
+    appData: { fromApp: false },
+    defaultAxes: {},
+    indexFields: EXPLORER_FIELDS,
+    query: {
+      finalQuery:
+        'source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)',
+    },
+    rawVizData: EXPLORER_VISUALIZATIONS,
+    userConfigs: {
+      dataConfig: {
+        valueOptions: TEST_DATA,
+      },
+    },
+  },
+  vis: createBarTypeDefinition({}),
+};
+
+export const TEST_COLOR_THEME = {
+  data: {
+    appData: { fromApp: false },
+    defaultAxes: {
+      xaxis: [{ name: 'tags', type: 'text' }],
+      yaxis: [{ name: 'count()', type: 'integer' }],
+    },
+    indexFields: EXPLORER_FIELDS,
+    query: {
+      finalQuery:
+        'source = opensearch_dashboards_sample_data_logs | stats avg(bytes) by span(timestamp,1d)',
+    },
+    rawVizData: EXPLORER_VISUALIZATIONS,
+    userConfigs: {
+      dataConfig: {
+        valueOptions: TEST_DATA,
+      },
+    },
+  },
+  vis: createHistogramVisDefinition({}),
+};
 export const HEATMAP_TEST_VISUALIZATIONS_DATA = {
   data: {
     ...TEST_VISUALIZATIONS_DATA.data,
     userConfigs: {
-      ...VALUE_OPTIONS,
       dataConfig: {
+        ...TEST_VISUALIZATIONS_DATA.data.userConfigs.dataConfig,
         chartStyles: {
           style: 'lines',
           interpolation: 'linear',
@@ -756,10 +1138,10 @@ export const HEATMAP_TEST_VISUALIZATIONS_DATA = {
 
 export const LINE_TEST_VISUALIZATIONS_DATA = {
   data: {
-    ...TEST_VISUALIZATIONS_DATA.data,
+    ...TEST_VISUALIZATIONS_DATA_LINE.data,
     userConfigs: {
-      ...VALUE_OPTIONS,
       dataConfig: {
+        ...TEST_VISUALIZATIONS_DATA_LINE.data.userConfigs.dataConfig,
         chartStyles: {
           style: 'lines',
           interpolation: 'linear',

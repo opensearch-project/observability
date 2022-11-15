@@ -1,170 +1,245 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test doc flyout component Renders doc flyout component 1`] = `
-<FlyoutContainers
-  ariaLabel="testDocFlyout"
-  closeFlyout={[Function]}
-  flyoutBody={<React.Fragment />}
-  flyoutFooter={<React.Fragment />}
-  flyoutHeader={<React.Fragment />}
+<DocFlyout
+  detailsOpen={false}
+  doc={
+    Object {
+      "avg(machine.ram)": "13262979995.042253",
+      "span(timestamp,1d)": "2022-10-28 00:00:00",
+    }
+  }
+  explorerFields={
+    Object {
+      "availableFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+      "queriedFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+      "selectedFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+      "unselectedFields": Array [
+        Object {
+          "name": "",
+          "type": "",
+        },
+      ],
+    }
+  }
+  http={[MockFunction]}
+  memorizedTds={Array []}
+  openTraces={false}
+  rawQuery=""
+  setDetailsOpen={[Function]}
+  setOpenTraces={[Function]}
+  setSurroundingEventsOpen={[Function]}
+  setToggleSize={[Function]}
+  timeStampField=""
+  toggleSize={true}
 >
-  <div>
-    <EuiFlyout
-      aria-labelledby="testDocFlyout"
-      className="observability-flyout"
-      onClose={[Function]}
-      ownFocus={false}
-      size="m"
-    >
-      <EuiWindowEvent
-        event="keydown"
-        handler={[Function]}
-      />
-      <EuiPortal>
-        <Portal
-          containerInfo={
-            <div>
-              <div
-                aria-hidden="true"
-                data-aria-hidden="true"
-                data-focus-guard="true"
-                style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-                tabindex="0"
-              />
-              <div
-                data-focus-lock-disabled="false"
-              >
-                <div
-                  aria-labelledby="testDocFlyout"
-                  class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
-                  role="dialog"
-                  tabindex="-1"
-                >
-                  <button
-                    aria-label="Close this dialog"
-                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
-                    data-test-subj="euiFlyoutCloseButton"
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
-                      focusable="false"
-                      height="16"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    />
-                  </button>
-                </div>
-              </div>
-              <div
-                aria-hidden="true"
-                data-aria-hidden="true"
-                data-focus-guard="true"
-                style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
-                tabindex="0"
-              />
-            </div>
-          }
-        >
-          <EuiFocusTrap
-            clickOutsideDisables={true}
-            disabled={false}
-            noIsolation={true}
-            returnFocus={true}
-            scrollLock={false}
+  <FlyoutContainers
+    ariaLabel="eventsDocFyout"
+    closeFlyout={[Function]}
+    flyoutBody={
+      <EuiFlyoutBody>
+        <React.Fragment>
+          <div
+            className="dscTable dscTableFixedScroll"
           >
-            <ForwardRef
-              enabled={true}
-              noIsolation={true}
-              onClickOutside={[Function]}
-              returnFocus={true}
-              scrollLock={false}
+            <table
+              className="osd-table table"
+              data-test-subj="docTable"
             >
-              <ForwardRef
-                enabled={true}
-                noIsolation={true}
-                onClickOutside={[Function]}
-                returnFocus={true}
-                scrollLock={false}
-                sideCar={[Function]}
+              <thead>
+                <tr
+                  className="osdDocTableHeader"
+                >
+                  <th>
+                    
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  className="osdDocTable__row"
+                />
+              </tbody>
+            </table>
+            <table
+              className="osd-table table"
+              data-test-subj="docTable"
+            >
+              <thead>
+                <tr
+                  className="osdDocTableHeader"
+                >
+                  <th>
+                    
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  className="osdDocTable__row"
+                />
+              </tbody>
+            </table>
+          </div>
+        </React.Fragment>
+        <DocViewer
+          hit={
+            Object {
+              "avg(machine.ram)": "13262979995.042253",
+              "span(timestamp,1d)": "2022-10-28 00:00:00",
+            }
+          }
+          http={[MockFunction]}
+          openTraces={false}
+        />
+      </EuiFlyoutBody>
+    }
+    flyoutFooter={<React.Fragment />}
+    flyoutHeader={
+      <EuiFlyoutHeader
+        hasBorder={true}
+      >
+        <EuiFlexGroup>
+          <EuiFlexItem>
+            <EuiTitle
+              size="s"
+            >
+              <h2
+                className="vertical-center"
+                id="eventsDocFyout"
               >
-                <ForwardRef(FocusLockUI)
-                  as={
-                    Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "classNames": Object {
-                        "fullWidth": "width-before-scroll-bar",
-                        "zeroRight": "right-scroll-bar-position",
-                      },
-                      "defaultProps": Object {
-                        "enabled": true,
-                        "inert": false,
-                        "removeScrollBar": true,
-                      },
-                      "render": [Function],
-                    }
-                  }
-                  autoFocus={true}
-                  crossFrame={true}
-                  disabled={false}
-                  lockProps={
-                    Object {
-                      "allowPinchZoom": undefined,
-                      "as": undefined,
-                      "enabled": false,
-                      "inert": undefined,
-                      "onMouseDown": [Function],
-                      "onTouchStart": [Function],
-                      "shards": undefined,
-                      "sideCar": [Function],
-                      "style": undefined,
-                    }
-                  }
-                  noFocusGuards={false}
-                  onActivation={[Function]}
-                  onDeactivation={[Function]}
-                  persistentFocus={false}
-                  returnFocus={true}
-                  sideCar={[Function]}
+                Event Details
+              </h2>
+            </EuiTitle>
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiButtonIcon
+              aria-label="Resize"
+              aria-pressed={true}
+              className="events-flyout-resize"
+              color="text"
+              iconType="menuLeft"
+              onClick={[Function]}
+              size="m"
+              title="Resize"
+            />
+          </EuiFlexItem>
+          <EuiFlexItem
+            grow={false}
+          >
+            <EuiToolTip
+              content={
+                <p>
+                  Cannot view surrounding events without time field in query response
+                </p>
+              }
+              delay="regular"
+              position="bottom"
+            >
+              <EuiButton
+                className="header-button"
+                isDisabled={true}
+                onClick={[Function]}
+              >
+                View surrounding events
+              </EuiButton>
+            </EuiToolTip>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiFlyoutHeader>
+    }
+    size="m"
+  >
+    <div>
+      <EuiFlyout
+        aria-labelledby="eventsDocFyout"
+        className="observability-flyout"
+        onClose={[Function]}
+        ownFocus={false}
+        size="m"
+      >
+        <OuiWindowEvent
+          event="keydown"
+          handler={[Function]}
+        />
+        <EuiPortal>
+          <Portal
+            containerInfo={
+              <div>
+                <div
+                  aria-hidden="true"
+                  data-aria-hidden="true"
+                  data-focus-guard="true"
+                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+                  tabindex="0"
+                />
+                <div
+                  data-focus-lock-disabled="false"
                 >
                   <div
-                    data-focus-guard={true}
-                    key="guard-first"
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
-                      }
-                    }
-                    tabIndex={0}
-                  />
-                  <RequireSideCar
-                    autoFocus={true}
-                    crossFrame={true}
-                    disabled={false}
-                    id={Object {}}
-                    observed={
+                    aria-labelledby="eventsDocFyout"
+                    class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
+                    role="dialog"
+                    tabindex="-1"
+                  >
+                    <button
+                      aria-label="Close this dialog"
+                      class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                      data-test-subj="euiFlyoutCloseButton"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                        focusable="false"
+                        height="16"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                    </button>
+                    <div
+                      class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                    >
                       <div
-                        data-focus-lock-disabled="false"
+                        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
                       >
                         <div
-                          aria-labelledby="testDocFlyout"
-                          class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
-                          role="dialog"
-                          tabindex="-1"
+                          class="euiFlexItem"
+                        >
+                          <h2
+                            class="euiTitle euiTitle--small vertical-center"
+                            id="eventsDocFyout"
+                          >
+                            Event Details
+                          </h2>
+                        </div>
+                        <div
+                          class="euiFlexItem euiFlexItem--flexGrowZero"
                         >
                           <button
-                            aria-label="Close this dialog"
-                            class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
-                            data-test-subj="euiFlyoutCloseButton"
+                            aria-label="Resize"
+                            aria-pressed="true"
+                            class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                            title="Resize"
                             type="button"
                           >
                             <svg
@@ -179,27 +254,314 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                             />
                           </button>
                         </div>
+                        <div
+                          class="euiFlexItem euiFlexItem--flexGrowZero"
+                        >
+                          <span
+                            class="euiToolTipAnchor"
+                          >
+                            <button
+                              class="euiButton euiButton--primary euiButton-isDisabled header-button"
+                              disabled=""
+                              type="button"
+                            >
+                              <span
+                                class="euiButtonContent euiButton__content"
+                              >
+                                <span
+                                  class="euiButton__text"
+                                >
+                                  View surrounding events
+                                </span>
+                              </span>
+                            </button>
+                          </span>
+                        </div>
                       </div>
+                    </div>
+                    <div
+                      class="euiFlyoutBody"
+                    >
+                      <div
+                        class="euiFlyoutBody__overflow"
+                        tabindex="0"
+                      >
+                        <div
+                          class="euiFlyoutBody__overflowContent"
+                        >
+                          <div
+                            class="dscTable dscTableFixedScroll"
+                          >
+                            <table
+                              class="osd-table table"
+                              data-test-subj="docTable"
+                            >
+                              <thead>
+                                <tr
+                                  class="osdDocTableHeader"
+                                >
+                                  <th />
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  class="osdDocTable__row"
+                                />
+                              </tbody>
+                            </table>
+                            <table
+                              class="osd-table table"
+                              data-test-subj="docTable"
+                            >
+                              <thead>
+                                <tr
+                                  class="osdDocTableHeader"
+                                >
+                                  <th />
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  class="osdDocTable__row"
+                                />
+                              </tbody>
+                            </table>
+                          </div>
+                          <div
+                            class="osdDocViewer"
+                          >
+                            <div>
+                              <div
+                                class="euiTabs"
+                                role="tablist"
+                              >
+                                <button
+                                  aria-controls="random_html_id"
+                                  aria-selected="true"
+                                  class="euiTab euiTab-isSelected"
+                                  id="doc_viewer_tab_4"
+                                  role="tab"
+                                  type="button"
+                                >
+                                  <span
+                                    class="euiTab__content"
+                                  >
+                                    Table
+                                  </span>
+                                </button>
+                                <button
+                                  aria-controls="random_html_id"
+                                  aria-selected="false"
+                                  class="euiTab"
+                                  id="doc_viewer_tab_5"
+                                  role="tab"
+                                  type="button"
+                                >
+                                  <span
+                                    class="euiTab__content"
+                                  >
+                                    JSON
+                                  </span>
+                                </button>
+                                <button
+                                  aria-controls="random_html_id"
+                                  aria-selected="false"
+                                  class="euiTab"
+                                  id="doc_viewer_tab_6"
+                                  role="tab"
+                                  type="button"
+                                >
+                                  <span
+                                    class="euiTab__content"
+                                  >
+                                    <span>
+                                      Traces
+                                    </span>
+                                  </span>
+                                </button>
+                              </div>
+                              <div
+                                aria-labelledby="doc_viewer_tab_4"
+                                id="random_html_id"
+                                role="tabpanel"
+                              >
+                                <div
+                                  class="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                                >
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem"
+                                    >
+                                      <table
+                                        class="table table-condensed osdDocViewerTable"
+                                      >
+                                        <tbody>
+                                          <tr
+                                            data-test-subj="tableDocViewRow-avg(machine.ram)"
+                                          >
+                                            <td
+                                              class="osdDocViewer__field"
+                                            >
+                                              <div
+                                                class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                              >
+                                                <div
+                                                  class="euiFlexItem eui-textTruncate"
+                                                >
+                                                  <span
+                                                    class="euiToolTipAnchor eui-textTruncate"
+                                                  >
+                                                    <span>
+                                                      avg(machine.ram)
+                                                    </span>
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <div
+                                                class="osdDocViewer__value"
+                                                data-test-subj="tableDocViewRow-avg(machine.ram)-value"
+                                              >
+                                                13262979995.042253
+                                              </div>
+                                            </td>
+                                          </tr>
+                                          <tr
+                                            data-test-subj="tableDocViewRow-span(timestamp,1d)"
+                                          >
+                                            <td
+                                              class="osdDocViewer__field"
+                                            >
+                                              <div
+                                                class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                              >
+                                                <div
+                                                  class="euiFlexItem eui-textTruncate"
+                                                >
+                                                  <span
+                                                    class="euiToolTipAnchor eui-textTruncate"
+                                                  >
+                                                    <span>
+                                                      span(timestamp,1d)
+                                                    </span>
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <div
+                                                class="osdDocViewer__value"
+                                                data-test-subj="tableDocViewRow-span(timestamp,1d)-value"
+                                              >
+                                                2022-10-28 00:00:00
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                       
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  aria-hidden="true"
+                  data-aria-hidden="true"
+                  data-focus-guard="true"
+                  style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+                  tabindex="0"
+                />
+              </div>
+            }
+          >
+            <EuiFocusTrap
+              clickOutsideDisables={true}
+              disabled={false}
+              noIsolation={true}
+              returnFocus={true}
+              scrollLock={false}
+            >
+              <ForwardRef
+                enabled={true}
+                noIsolation={true}
+                onClickOutside={[Function]}
+                returnFocus={true}
+                scrollLock={false}
+              >
+                <ForwardRef
+                  enabled={true}
+                  noIsolation={true}
+                  onClickOutside={[Function]}
+                  returnFocus={true}
+                  scrollLock={false}
+                  sideCar={[Function]}
+                >
+                  <ForwardRef(FocusLockUI)
+                    as={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "classNames": Object {
+                          "fullWidth": "width-before-scroll-bar",
+                          "zeroRight": "right-scroll-bar-position",
+                        },
+                        "defaultProps": Object {
+                          "enabled": true,
+                          "inert": false,
+                          "removeScrollBar": true,
+                        },
+                        "render": [Function],
+                      }
                     }
+                    autoFocus={true}
+                    crossFrame={true}
+                    disabled={false}
+                    lockProps={
+                      Object {
+                        "allowPinchZoom": undefined,
+                        "as": undefined,
+                        "enabled": false,
+                        "inert": undefined,
+                        "onMouseDown": [Function],
+                        "onTouchStart": [Function],
+                        "shards": undefined,
+                        "sideCar": [Function],
+                        "style": undefined,
+                      }
+                    }
+                    noFocusGuards={false}
                     onActivation={[Function]}
                     onDeactivation={[Function]}
                     persistentFocus={false}
-                    returnFocus={[Function]}
-                    shards={Array []}
-                    sideCar={
-                      Object {
-                        "assignMedium": [Function],
-                        "assignSyncMedium": [Function],
-                        "options": Object {
-                          "async": true,
-                          "ssr": false,
-                        },
-                        "read": [Function],
-                        "useMedium": [Function],
-                      }
-                    }
+                    returnFocus={true}
+                    sideCar={[Function]}
                   >
-                    <SideCar
+                    <div
+                      data-focus-guard={true}
+                      key="guard-first"
+                      style={
+                        Object {
+                          "height": "0px",
+                          "left": "1px",
+                          "overflow": "hidden",
+                          "padding": 0,
+                          "position": "fixed",
+                          "top": "1px",
+                          "width": "1px",
+                        }
+                      }
+                      tabIndex={0}
+                    />
+                    <RequireSideCar
                       autoFocus={true}
                       crossFrame={true}
                       disabled={false}
@@ -209,7 +571,7 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                           data-focus-lock-disabled="false"
                         >
                           <div
-                            aria-labelledby="testDocFlyout"
+                            aria-labelledby="eventsDocFyout"
                             class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
                             role="dialog"
                             tabindex="-1"
@@ -231,6 +593,262 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                                 xmlns="http://www.w3.org/2000/svg"
                               />
                             </button>
+                            <div
+                              class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                            >
+                              <div
+                                class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                              >
+                                <div
+                                  class="euiFlexItem"
+                                >
+                                  <h2
+                                    class="euiTitle euiTitle--small vertical-center"
+                                    id="eventsDocFyout"
+                                  >
+                                    Event Details
+                                  </h2>
+                                </div>
+                                <div
+                                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                                >
+                                  <button
+                                    aria-label="Resize"
+                                    aria-pressed="true"
+                                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                    title="Resize"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </button>
+                                </div>
+                                <div
+                                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                                >
+                                  <span
+                                    class="euiToolTipAnchor"
+                                  >
+                                    <button
+                                      class="euiButton euiButton--primary euiButton-isDisabled header-button"
+                                      disabled=""
+                                      type="button"
+                                    >
+                                      <span
+                                        class="euiButtonContent euiButton__content"
+                                      >
+                                        <span
+                                          class="euiButton__text"
+                                        >
+                                          View surrounding events
+                                        </span>
+                                      </span>
+                                    </button>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="euiFlyoutBody"
+                            >
+                              <div
+                                class="euiFlyoutBody__overflow"
+                                tabindex="0"
+                              >
+                                <div
+                                  class="euiFlyoutBody__overflowContent"
+                                >
+                                  <div
+                                    class="dscTable dscTableFixedScroll"
+                                  >
+                                    <table
+                                      class="osd-table table"
+                                      data-test-subj="docTable"
+                                    >
+                                      <thead>
+                                        <tr
+                                          class="osdDocTableHeader"
+                                        >
+                                          <th />
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr
+                                          class="osdDocTable__row"
+                                        />
+                                      </tbody>
+                                    </table>
+                                    <table
+                                      class="osd-table table"
+                                      data-test-subj="docTable"
+                                    >
+                                      <thead>
+                                        <tr
+                                          class="osdDocTableHeader"
+                                        >
+                                          <th />
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr
+                                          class="osdDocTable__row"
+                                        />
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div
+                                    class="osdDocViewer"
+                                  >
+                                    <div>
+                                      <div
+                                        class="euiTabs"
+                                        role="tablist"
+                                      >
+                                        <button
+                                          aria-controls="random_html_id"
+                                          aria-selected="true"
+                                          class="euiTab euiTab-isSelected"
+                                          id="doc_viewer_tab_4"
+                                          role="tab"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiTab__content"
+                                          >
+                                            Table
+                                          </span>
+                                        </button>
+                                        <button
+                                          aria-controls="random_html_id"
+                                          aria-selected="false"
+                                          class="euiTab"
+                                          id="doc_viewer_tab_5"
+                                          role="tab"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiTab__content"
+                                          >
+                                            JSON
+                                          </span>
+                                        </button>
+                                        <button
+                                          aria-controls="random_html_id"
+                                          aria-selected="false"
+                                          class="euiTab"
+                                          id="doc_viewer_tab_6"
+                                          role="tab"
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiTab__content"
+                                          >
+                                            <span>
+                                              Traces
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </div>
+                                      <div
+                                        aria-labelledby="doc_viewer_tab_4"
+                                        id="random_html_id"
+                                        role="tabpanel"
+                                      >
+                                        <div
+                                          class="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                                        >
+                                          <div
+                                            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                          >
+                                            <div
+                                              class="euiFlexItem"
+                                            >
+                                              <table
+                                                class="table table-condensed osdDocViewerTable"
+                                              >
+                                                <tbody>
+                                                  <tr
+                                                    data-test-subj="tableDocViewRow-avg(machine.ram)"
+                                                  >
+                                                    <td
+                                                      class="osdDocViewer__field"
+                                                    >
+                                                      <div
+                                                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                      >
+                                                        <div
+                                                          class="euiFlexItem eui-textTruncate"
+                                                        >
+                                                          <span
+                                                            class="euiToolTipAnchor eui-textTruncate"
+                                                          >
+                                                            <span>
+                                                              avg(machine.ram)
+                                                            </span>
+                                                          </span>
+                                                        </div>
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <div
+                                                        class="osdDocViewer__value"
+                                                        data-test-subj="tableDocViewRow-avg(machine.ram)-value"
+                                                      >
+                                                        13262979995.042253
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+                                                  <tr
+                                                    data-test-subj="tableDocViewRow-span(timestamp,1d)"
+                                                  >
+                                                    <td
+                                                      class="osdDocViewer__field"
+                                                    >
+                                                      <div
+                                                        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                      >
+                                                        <div
+                                                          class="euiFlexItem eui-textTruncate"
+                                                        >
+                                                          <span
+                                                            class="euiToolTipAnchor eui-textTruncate"
+                                                          >
+                                                            <span>
+                                                              span(timestamp,1d)
+                                                            </span>
+                                                          </span>
+                                                        </div>
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <div
+                                                        class="osdDocViewer__value"
+                                                        data-test-subj="tableDocViewRow-span(timestamp,1d)-value"
+                                                      >
+                                                        2022-10-28 00:00:00
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                               
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       }
@@ -252,7 +870,7 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                         }
                       }
                     >
-                      <SideEffect(FocusWatcher)
+                      <SideCar
                         autoFocus={true}
                         crossFrame={true}
                         disabled={false}
@@ -262,7 +880,7 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                             data-focus-lock-disabled="false"
                           >
                             <div
-                              aria-labelledby="testDocFlyout"
+                              aria-labelledby="eventsDocFyout"
                               class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
                               role="dialog"
                               tabindex="-1"
@@ -284,6 +902,262 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                                   xmlns="http://www.w3.org/2000/svg"
                                 />
                               </button>
+                              <div
+                                class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <div
+                                  class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                >
+                                  <div
+                                    class="euiFlexItem"
+                                  >
+                                    <h2
+                                      class="euiTitle euiTitle--small vertical-center"
+                                      id="eventsDocFyout"
+                                    >
+                                      Event Details
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <button
+                                      aria-label="Resize"
+                                      aria-pressed="true"
+                                      class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                      title="Resize"
+                                      type="button"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                        focusable="false"
+                                        height="16"
+                                        role="img"
+                                        viewBox="0 0 16 16"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="euiFlexItem euiFlexItem--flexGrowZero"
+                                  >
+                                    <span
+                                      class="euiToolTipAnchor"
+                                    >
+                                      <button
+                                        class="euiButton euiButton--primary euiButton-isDisabled header-button"
+                                        disabled=""
+                                        type="button"
+                                      >
+                                        <span
+                                          class="euiButtonContent euiButton__content"
+                                        >
+                                          <span
+                                            class="euiButton__text"
+                                          >
+                                            View surrounding events
+                                          </span>
+                                        </span>
+                                      </button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="euiFlyoutBody"
+                              >
+                                <div
+                                  class="euiFlyoutBody__overflow"
+                                  tabindex="0"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div
+                                      class="dscTable dscTableFixedScroll"
+                                    >
+                                      <table
+                                        class="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            class="osdDocTableHeader"
+                                          >
+                                            <th />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            class="osdDocTable__row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                      <table
+                                        class="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            class="osdDocTableHeader"
+                                          >
+                                            <th />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            class="osdDocTable__row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <div
+                                      class="osdDocViewer"
+                                    >
+                                      <div>
+                                        <div
+                                          class="euiTabs"
+                                          role="tablist"
+                                        >
+                                          <button
+                                            aria-controls="random_html_id"
+                                            aria-selected="true"
+                                            class="euiTab euiTab-isSelected"
+                                            id="doc_viewer_tab_4"
+                                            role="tab"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiTab__content"
+                                            >
+                                              Table
+                                            </span>
+                                          </button>
+                                          <button
+                                            aria-controls="random_html_id"
+                                            aria-selected="false"
+                                            class="euiTab"
+                                            id="doc_viewer_tab_5"
+                                            role="tab"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiTab__content"
+                                            >
+                                              JSON
+                                            </span>
+                                          </button>
+                                          <button
+                                            aria-controls="random_html_id"
+                                            aria-selected="false"
+                                            class="euiTab"
+                                            id="doc_viewer_tab_6"
+                                            role="tab"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiTab__content"
+                                            >
+                                              <span>
+                                                Traces
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </div>
+                                        <div
+                                          aria-labelledby="doc_viewer_tab_4"
+                                          id="random_html_id"
+                                          role="tabpanel"
+                                        >
+                                          <div
+                                            class="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                                          >
+                                            <div
+                                              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                            >
+                                              <div
+                                                class="euiFlexItem"
+                                              >
+                                                <table
+                                                  class="table table-condensed osdDocViewerTable"
+                                                >
+                                                  <tbody>
+                                                    <tr
+                                                      data-test-subj="tableDocViewRow-avg(machine.ram)"
+                                                    >
+                                                      <td
+                                                        class="osdDocViewer__field"
+                                                      >
+                                                        <div
+                                                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                        >
+                                                          <div
+                                                            class="euiFlexItem eui-textTruncate"
+                                                          >
+                                                            <span
+                                                              class="euiToolTipAnchor eui-textTruncate"
+                                                            >
+                                                              <span>
+                                                                avg(machine.ram)
+                                                              </span>
+                                                            </span>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <div
+                                                          class="osdDocViewer__value"
+                                                          data-test-subj="tableDocViewRow-avg(machine.ram)-value"
+                                                        >
+                                                          13262979995.042253
+                                                        </div>
+                                                      </td>
+                                                    </tr>
+                                                    <tr
+                                                      data-test-subj="tableDocViewRow-span(timestamp,1d)"
+                                                    >
+                                                      <td
+                                                        class="osdDocViewer__field"
+                                                      >
+                                                        <div
+                                                          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                        >
+                                                          <div
+                                                            class="euiFlexItem eui-textTruncate"
+                                                          >
+                                                            <span
+                                                              class="euiToolTipAnchor eui-textTruncate"
+                                                            >
+                                                              <span>
+                                                                span(timestamp,1d)
+                                                              </span>
+                                                            </span>
+                                                          </div>
+                                                        </div>
+                                                      </td>
+                                                      <td>
+                                                        <div
+                                                          class="osdDocViewer__value"
+                                                          data-test-subj="tableDocViewRow-span(timestamp,1d)-value"
+                                                        >
+                                                          2022-10-28 00:00:00
+                                                        </div>
+                                                      </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                                 
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         }
@@ -292,8 +1166,20 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                         persistentFocus={false}
                         returnFocus={[Function]}
                         shards={Array []}
+                        sideCar={
+                          Object {
+                            "assignMedium": [Function],
+                            "assignSyncMedium": [Function],
+                            "options": Object {
+                              "async": true,
+                              "ssr": false,
+                            },
+                            "read": [Function],
+                            "useMedium": [Function],
+                          }
+                        }
                       >
-                        <FocusWatcher
+                        <SideEffect(FocusWatcher)
                           autoFocus={true}
                           crossFrame={true}
                           disabled={false}
@@ -303,7 +1189,7 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                               data-focus-lock-disabled="false"
                             >
                               <div
-                                aria-labelledby="testDocFlyout"
+                                aria-labelledby="eventsDocFyout"
                                 class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
                                 role="dialog"
                                 tabindex="-1"
@@ -325,6 +1211,262 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                                     xmlns="http://www.w3.org/2000/svg"
                                   />
                                 </button>
+                                <div
+                                  class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                >
+                                  <div
+                                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <div
+                                      class="euiFlexItem"
+                                    >
+                                      <h2
+                                        class="euiTitle euiTitle--small vertical-center"
+                                        id="eventsDocFyout"
+                                      >
+                                        Event Details
+                                      </h2>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <button
+                                        aria-label="Resize"
+                                        aria-pressed="true"
+                                        class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                        title="Resize"
+                                        type="button"
+                                      >
+                                        <svg
+                                          aria-hidden="true"
+                                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                          focusable="false"
+                                          height="16"
+                                          role="img"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                      </button>
+                                    </div>
+                                    <div
+                                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                                    >
+                                      <span
+                                        class="euiToolTipAnchor"
+                                      >
+                                        <button
+                                          class="euiButton euiButton--primary euiButton-isDisabled header-button"
+                                          disabled=""
+                                          type="button"
+                                        >
+                                          <span
+                                            class="euiButtonContent euiButton__content"
+                                          >
+                                            <span
+                                              class="euiButton__text"
+                                            >
+                                              View surrounding events
+                                            </span>
+                                          </span>
+                                        </button>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="euiFlyoutBody"
+                                >
+                                  <div
+                                    class="euiFlyoutBody__overflow"
+                                    tabindex="0"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__overflowContent"
+                                    >
+                                      <div
+                                        class="dscTable dscTableFixedScroll"
+                                      >
+                                        <table
+                                          class="osd-table table"
+                                          data-test-subj="docTable"
+                                        >
+                                          <thead>
+                                            <tr
+                                              class="osdDocTableHeader"
+                                            >
+                                              <th />
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr
+                                              class="osdDocTable__row"
+                                            />
+                                          </tbody>
+                                        </table>
+                                        <table
+                                          class="osd-table table"
+                                          data-test-subj="docTable"
+                                        >
+                                          <thead>
+                                            <tr
+                                              class="osdDocTableHeader"
+                                            >
+                                              <th />
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr
+                                              class="osdDocTable__row"
+                                            />
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                      <div
+                                        class="osdDocViewer"
+                                      >
+                                        <div>
+                                          <div
+                                            class="euiTabs"
+                                            role="tablist"
+                                          >
+                                            <button
+                                              aria-controls="random_html_id"
+                                              aria-selected="true"
+                                              class="euiTab euiTab-isSelected"
+                                              id="doc_viewer_tab_4"
+                                              role="tab"
+                                              type="button"
+                                            >
+                                              <span
+                                                class="euiTab__content"
+                                              >
+                                                Table
+                                              </span>
+                                            </button>
+                                            <button
+                                              aria-controls="random_html_id"
+                                              aria-selected="false"
+                                              class="euiTab"
+                                              id="doc_viewer_tab_5"
+                                              role="tab"
+                                              type="button"
+                                            >
+                                              <span
+                                                class="euiTab__content"
+                                              >
+                                                JSON
+                                              </span>
+                                            </button>
+                                            <button
+                                              aria-controls="random_html_id"
+                                              aria-selected="false"
+                                              class="euiTab"
+                                              id="doc_viewer_tab_6"
+                                              role="tab"
+                                              type="button"
+                                            >
+                                              <span
+                                                class="euiTab__content"
+                                              >
+                                                <span>
+                                                  Traces
+                                                </span>
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <div
+                                            aria-labelledby="doc_viewer_tab_4"
+                                            id="random_html_id"
+                                            role="tabpanel"
+                                          >
+                                            <div
+                                              class="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                                            >
+                                              <div
+                                                class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                              >
+                                                <div
+                                                  class="euiFlexItem"
+                                                >
+                                                  <table
+                                                    class="table table-condensed osdDocViewerTable"
+                                                  >
+                                                    <tbody>
+                                                      <tr
+                                                        data-test-subj="tableDocViewRow-avg(machine.ram)"
+                                                      >
+                                                        <td
+                                                          class="osdDocViewer__field"
+                                                        >
+                                                          <div
+                                                            class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                          >
+                                                            <div
+                                                              class="euiFlexItem eui-textTruncate"
+                                                            >
+                                                              <span
+                                                                class="euiToolTipAnchor eui-textTruncate"
+                                                              >
+                                                                <span>
+                                                                  avg(machine.ram)
+                                                                </span>
+                                                              </span>
+                                                            </div>
+                                                          </div>
+                                                        </td>
+                                                        <td>
+                                                          <div
+                                                            class="osdDocViewer__value"
+                                                            data-test-subj="tableDocViewRow-avg(machine.ram)-value"
+                                                          >
+                                                            13262979995.042253
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                      <tr
+                                                        data-test-subj="tableDocViewRow-span(timestamp,1d)"
+                                                      >
+                                                        <td
+                                                          class="osdDocViewer__field"
+                                                        >
+                                                          <div
+                                                            class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                          >
+                                                            <div
+                                                              class="euiFlexItem eui-textTruncate"
+                                                            >
+                                                              <span
+                                                                class="euiToolTipAnchor eui-textTruncate"
+                                                              >
+                                                                <span>
+                                                                  span(timestamp,1d)
+                                                                </span>
+                                                              </span>
+                                                            </div>
+                                                          </div>
+                                                        </td>
+                                                        <td>
+                                                          <div
+                                                            class="osdDocViewer__value"
+                                                            data-test-subj="tableDocViewRow-span(timestamp,1d)-value"
+                                                          >
+                                                            2022-10-28 00:00:00
+                                                          </div>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                   
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           }
@@ -333,134 +1475,1054 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                           persistentFocus={false}
                           returnFocus={[Function]}
                           shards={Array []}
-                        />
-                      </SideEffect(FocusWatcher)>
-                    </SideCar>
-                  </RequireSideCar>
-                  <ForwardRef
-                    data-focus-lock-disabled={false}
-                    enabled={false}
-                    inert={false}
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onTouchStart={[Function]}
-                    removeScrollBar={true}
-                    sideCar={[Function]}
-                  >
-                    <div
+                        >
+                          <FocusWatcher
+                            autoFocus={true}
+                            crossFrame={true}
+                            disabled={false}
+                            id={Object {}}
+                            observed={
+                              <div
+                                data-focus-lock-disabled="false"
+                              >
+                                <div
+                                  aria-labelledby="eventsDocFyout"
+                                  class="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
+                                  role="dialog"
+                                  tabindex="-1"
+                                >
+                                  <button
+                                    aria-label="Close this dialog"
+                                    class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                    data-test-subj="euiFlyoutCloseButton"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                      focusable="false"
+                                      height="16"
+                                      role="img"
+                                      viewBox="0 0 16 16"
+                                      width="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </button>
+                                  <div
+                                    class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                                  >
+                                    <div
+                                      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                    >
+                                      <div
+                                        class="euiFlexItem"
+                                      >
+                                        <h2
+                                          class="euiTitle euiTitle--small vertical-center"
+                                          id="eventsDocFyout"
+                                        >
+                                          Event Details
+                                        </h2>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <button
+                                          aria-label="Resize"
+                                          aria-pressed="true"
+                                          class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                          title="Resize"
+                                          type="button"
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                            focusable="false"
+                                            height="16"
+                                            role="img"
+                                            viewBox="0 0 16 16"
+                                            width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          />
+                                        </button>
+                                      </div>
+                                      <div
+                                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <span
+                                          class="euiToolTipAnchor"
+                                        >
+                                          <button
+                                            class="euiButton euiButton--primary euiButton-isDisabled header-button"
+                                            disabled=""
+                                            type="button"
+                                          >
+                                            <span
+                                              class="euiButtonContent euiButton__content"
+                                            >
+                                              <span
+                                                class="euiButton__text"
+                                              >
+                                                View surrounding events
+                                              </span>
+                                            </span>
+                                          </button>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="euiFlyoutBody"
+                                  >
+                                    <div
+                                      class="euiFlyoutBody__overflow"
+                                      tabindex="0"
+                                    >
+                                      <div
+                                        class="euiFlyoutBody__overflowContent"
+                                      >
+                                        <div
+                                          class="dscTable dscTableFixedScroll"
+                                        >
+                                          <table
+                                            class="osd-table table"
+                                            data-test-subj="docTable"
+                                          >
+                                            <thead>
+                                              <tr
+                                                class="osdDocTableHeader"
+                                              >
+                                                <th />
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr
+                                                class="osdDocTable__row"
+                                              />
+                                            </tbody>
+                                          </table>
+                                          <table
+                                            class="osd-table table"
+                                            data-test-subj="docTable"
+                                          >
+                                            <thead>
+                                              <tr
+                                                class="osdDocTableHeader"
+                                              >
+                                                <th />
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr
+                                                class="osdDocTable__row"
+                                              />
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                        <div
+                                          class="osdDocViewer"
+                                        >
+                                          <div>
+                                            <div
+                                              class="euiTabs"
+                                              role="tablist"
+                                            >
+                                              <button
+                                                aria-controls="random_html_id"
+                                                aria-selected="true"
+                                                class="euiTab euiTab-isSelected"
+                                                id="doc_viewer_tab_4"
+                                                role="tab"
+                                                type="button"
+                                              >
+                                                <span
+                                                  class="euiTab__content"
+                                                >
+                                                  Table
+                                                </span>
+                                              </button>
+                                              <button
+                                                aria-controls="random_html_id"
+                                                aria-selected="false"
+                                                class="euiTab"
+                                                id="doc_viewer_tab_5"
+                                                role="tab"
+                                                type="button"
+                                              >
+                                                <span
+                                                  class="euiTab__content"
+                                                >
+                                                  JSON
+                                                </span>
+                                              </button>
+                                              <button
+                                                aria-controls="random_html_id"
+                                                aria-selected="false"
+                                                class="euiTab"
+                                                id="doc_viewer_tab_6"
+                                                role="tab"
+                                                type="button"
+                                              >
+                                                <span
+                                                  class="euiTab__content"
+                                                >
+                                                  <span>
+                                                    Traces
+                                                  </span>
+                                                </span>
+                                              </button>
+                                            </div>
+                                            <div
+                                              aria-labelledby="doc_viewer_tab_4"
+                                              id="random_html_id"
+                                              role="tabpanel"
+                                            >
+                                              <div
+                                                class="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                                              >
+                                                <div
+                                                  class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                                >
+                                                  <div
+                                                    class="euiFlexItem"
+                                                  >
+                                                    <table
+                                                      class="table table-condensed osdDocViewerTable"
+                                                    >
+                                                      <tbody>
+                                                        <tr
+                                                          data-test-subj="tableDocViewRow-avg(machine.ram)"
+                                                        >
+                                                          <td
+                                                            class="osdDocViewer__field"
+                                                          >
+                                                            <div
+                                                              class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                            >
+                                                              <div
+                                                                class="euiFlexItem eui-textTruncate"
+                                                              >
+                                                                <span
+                                                                  class="euiToolTipAnchor eui-textTruncate"
+                                                                >
+                                                                  <span>
+                                                                    avg(machine.ram)
+                                                                  </span>
+                                                                </span>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td>
+                                                            <div
+                                                              class="osdDocViewer__value"
+                                                              data-test-subj="tableDocViewRow-avg(machine.ram)-value"
+                                                            >
+                                                              13262979995.042253
+                                                            </div>
+                                                          </td>
+                                                        </tr>
+                                                        <tr
+                                                          data-test-subj="tableDocViewRow-span(timestamp,1d)"
+                                                        >
+                                                          <td
+                                                            class="osdDocViewer__field"
+                                                          >
+                                                            <div
+                                                              class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                            >
+                                                              <div
+                                                                class="euiFlexItem eui-textTruncate"
+                                                              >
+                                                                <span
+                                                                  class="euiToolTipAnchor eui-textTruncate"
+                                                                >
+                                                                  <span>
+                                                                    span(timestamp,1d)
+                                                                  </span>
+                                                                </span>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td>
+                                                            <div
+                                                              class="osdDocViewer__value"
+                                                              data-test-subj="tableDocViewRow-span(timestamp,1d)-value"
+                                                            >
+                                                              2022-10-28 00:00:00
+                                                            </div>
+                                                          </td>
+                                                        </tr>
+                                                      </tbody>
+                                                    </table>
+                                                     
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                            onActivation={[Function]}
+                            onDeactivation={[Function]}
+                            persistentFocus={false}
+                            returnFocus={[Function]}
+                            shards={Array []}
+                          />
+                        </SideEffect(FocusWatcher)>
+                      </SideCar>
+                    </RequireSideCar>
+                    <ForwardRef
                       data-focus-lock-disabled={false}
+                      enabled={false}
+                      inert={false}
                       onBlur={[Function]}
                       onFocus={[Function]}
                       onMouseDown={[Function]}
-                      onScrollCapture={[Function]}
-                      onTouchMoveCapture={[Function]}
                       onTouchStart={[Function]}
-                      onWheelCapture={[Function]}
+                      removeScrollBar={true}
+                      sideCar={[Function]}
                     >
-                      <EuiOutsideClickDetector
-                        isDisabled={true}
-                        onOutsideClick={[Function]}
+                      <div
+                        data-focus-lock-disabled={false}
+                        onBlur={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onScrollCapture={[Function]}
+                        onTouchMoveCapture={[Function]}
+                        onTouchStart={[Function]}
+                        onWheelCapture={[Function]}
                       >
-                        <div
-                          aria-labelledby="testDocFlyout"
-                          className="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
-                          onMouseDown={[Function]}
-                          onMouseUp={[Function]}
-                          onTouchEnd={[Function]}
-                          onTouchStart={[Function]}
-                          role="dialog"
-                          tabIndex={-1}
+                        <EuiOutsideClickDetector
+                          isDisabled={true}
+                          onOutsideClick={[Function]}
                         >
-                          <EuiI18n
-                            default="Close this dialog"
-                            token="euiFlyout.closeAriaLabel"
+                          <div
+                            aria-labelledby="eventsDocFyout"
+                            className="euiFlyout euiFlyout--medium euiFlyout--paddingLarge observability-flyout"
+                            onMouseDown={[Function]}
+                            onMouseUp={[Function]}
+                            onTouchEnd={[Function]}
+                            onTouchStart={[Function]}
+                            role="dialog"
+                            tabIndex={-1}
                           >
-                            <EuiButtonIcon
-                              aria-label="Close this dialog"
-                              className="euiFlyout__closeButton euiFlyout__closeButton--inside"
-                              color="text"
-                              data-test-subj="euiFlyoutCloseButton"
-                              display="empty"
-                              iconType="cross"
-                              onClick={[Function]}
+                            <EuiI18n
+                              default="Close this dialog"
+                              token="euiFlyout.closeAriaLabel"
                             >
-                              <button
+                              <EuiButtonIcon
                                 aria-label="Close this dialog"
-                                className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                className="euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                color="text"
                                 data-test-subj="euiFlyoutCloseButton"
-                                disabled={false}
+                                display="empty"
+                                iconType="cross"
                                 onClick={[Function]}
-                                type="button"
                               >
-                                <EuiIcon
-                                  aria-hidden="true"
-                                  className="euiButtonIcon__icon"
-                                  color="inherit"
-                                  size="m"
-                                  type="cross"
+                                <button
+                                  aria-label="Close this dialog"
+                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--xSmall euiFlyout__closeButton euiFlyout__closeButton--inside"
+                                  data-test-subj="euiFlyoutCloseButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  type="button"
                                 >
-                                  <EuiIconEmpty
-                                    aria-hidden={true}
-                                    className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
-                                    focusable="false"
-                                    role="img"
-                                    style={null}
+                                  <EuiIcon
+                                    aria-hidden="true"
+                                    className="euiButtonIcon__icon"
+                                    color="inherit"
+                                    size="m"
+                                    type="cross"
                                   >
-                                    <svg
+                                    <EuiIconEmpty
                                       aria-hidden={true}
                                       className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
                                       focusable="false"
-                                      height={16}
                                       role="img"
                                       style={null}
-                                      viewBox="0 0 16 16"
-                                      width={16}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                  </EuiIconEmpty>
-                                </EuiIcon>
-                              </button>
-                            </EuiButtonIcon>
-                          </EuiI18n>
-                        </div>
-                      </EuiOutsideClickDetector>
-                    </div>
-                  </ForwardRef>
-                  <div
-                    data-focus-guard={true}
-                    style={
-                      Object {
-                        "height": "0px",
-                        "left": "1px",
-                        "overflow": "hidden",
-                        "padding": 0,
-                        "position": "fixed",
-                        "top": "1px",
-                        "width": "1px",
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </button>
+                              </EuiButtonIcon>
+                            </EuiI18n>
+                            <EuiFlyoutHeader
+                              hasBorder={true}
+                            >
+                              <div
+                                className="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+                              >
+                                <EuiFlexGroup>
+                                  <div
+                                    className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                  >
+                                    <EuiFlexItem>
+                                      <div
+                                        className="euiFlexItem"
+                                      >
+                                        <EuiTitle
+                                          size="s"
+                                        >
+                                          <h2
+                                            className="euiTitle euiTitle--small vertical-center"
+                                            id="eventsDocFyout"
+                                          >
+                                            Event Details
+                                          </h2>
+                                        </EuiTitle>
+                                      </div>
+                                    </EuiFlexItem>
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiButtonIcon
+                                          aria-label="Resize"
+                                          aria-pressed={true}
+                                          className="events-flyout-resize"
+                                          color="text"
+                                          iconType="menuLeft"
+                                          onClick={[Function]}
+                                          size="m"
+                                          title="Resize"
+                                        >
+                                          <button
+                                            aria-label="Resize"
+                                            aria-pressed={true}
+                                            className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--medium events-flyout-resize"
+                                            disabled={false}
+                                            onClick={[Function]}
+                                            title="Resize"
+                                            type="button"
+                                          >
+                                            <EuiIcon
+                                              aria-hidden="true"
+                                              className="euiButtonIcon__icon"
+                                              color="inherit"
+                                              size="m"
+                                              type="menuLeft"
+                                            >
+                                              <EuiIconEmpty
+                                                aria-hidden={true}
+                                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                focusable="false"
+                                                role="img"
+                                                style={null}
+                                              >
+                                                <svg
+                                                  aria-hidden={true}
+                                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                  focusable="false"
+                                                  height={16}
+                                                  role="img"
+                                                  style={null}
+                                                  viewBox="0 0 16 16"
+                                                  width={16}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                />
+                                              </EuiIconEmpty>
+                                            </EuiIcon>
+                                          </button>
+                                        </EuiButtonIcon>
+                                      </div>
+                                    </EuiFlexItem>
+                                    <EuiFlexItem
+                                      grow={false}
+                                    >
+                                      <div
+                                        className="euiFlexItem euiFlexItem--flexGrowZero"
+                                      >
+                                        <EuiToolTip
+                                          content={
+                                            <p>
+                                              Cannot view surrounding events without time field in query response
+                                            </p>
+                                          }
+                                          delay="regular"
+                                          position="bottom"
+                                        >
+                                          <span
+                                            className="euiToolTipAnchor"
+                                            onKeyUp={[Function]}
+                                            onMouseOut={[Function]}
+                                            onMouseOver={[Function]}
+                                          >
+                                            <EuiButton
+                                              className="header-button"
+                                              isDisabled={true}
+                                              onBlur={[Function]}
+                                              onClick={[Function]}
+                                              onFocus={[Function]}
+                                            >
+                                              <EuiButtonDisplay
+                                                baseClassName="euiButton"
+                                                className="header-button"
+                                                disabled={true}
+                                                element="button"
+                                                isDisabled={true}
+                                                onBlur={[Function]}
+                                                onClick={[Function]}
+                                                onFocus={[Function]}
+                                                type="button"
+                                              >
+                                                <button
+                                                  className="euiButton euiButton--primary euiButton-isDisabled header-button"
+                                                  disabled={true}
+                                                  onBlur={[Function]}
+                                                  onClick={[Function]}
+                                                  onFocus={[Function]}
+                                                  style={
+                                                    Object {
+                                                      "minWidth": undefined,
+                                                    }
+                                                  }
+                                                  type="button"
+                                                >
+                                                  <EuiButtonContent
+                                                    className="euiButton__content"
+                                                    iconSide="left"
+                                                    textProps={
+                                                      Object {
+                                                        "className": "euiButton__text",
+                                                      }
+                                                    }
+                                                  >
+                                                    <span
+                                                      className="euiButtonContent euiButton__content"
+                                                    >
+                                                      <span
+                                                        className="euiButton__text"
+                                                      >
+                                                        View surrounding events
+                                                      </span>
+                                                    </span>
+                                                  </EuiButtonContent>
+                                                </button>
+                                              </EuiButtonDisplay>
+                                            </EuiButton>
+                                          </span>
+                                        </EuiToolTip>
+                                      </div>
+                                    </EuiFlexItem>
+                                  </div>
+                                </EuiFlexGroup>
+                              </div>
+                            </EuiFlyoutHeader>
+                            <EuiFlyoutBody>
+                              <div
+                                className="euiFlyoutBody"
+                              >
+                                <div
+                                  className="euiFlyoutBody__overflow"
+                                  tabIndex={0}
+                                >
+                                  <div
+                                    className="euiFlyoutBody__overflowContent"
+                                  >
+                                    <div
+                                      className="dscTable dscTableFixedScroll"
+                                    >
+                                      <table
+                                        className="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            className="osdDocTableHeader"
+                                          >
+                                            <th
+                                              key="datagrid-header-2"
+                                            />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            className="osdDocTable__row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                      <table
+                                        className="osd-table table"
+                                        data-test-subj="docTable"
+                                      >
+                                        <thead>
+                                          <tr
+                                            className="osdDocTableHeader"
+                                          >
+                                            <th
+                                              key="datagrid-header-3"
+                                            />
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr
+                                            className="osdDocTable__row"
+                                          />
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <DocViewer
+                                      hit={
+                                        Object {
+                                          "avg(machine.ram)": "13262979995.042253",
+                                          "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                        }
+                                      }
+                                      http={[MockFunction]}
+                                      openTraces={false}
+                                    >
+                                      <div
+                                        className="osdDocViewer"
+                                      >
+                                        <EuiTabbedContent
+                                          autoFocus="initial"
+                                          onTabClick={[Function]}
+                                          selectedTab={
+                                            Object {
+                                              "content": <EuiPanel
+                                                paddingSize="s"
+                                              >
+                                                <EuiFlexGroup>
+                                                  <EuiFlexItem>
+                                                    <component
+                                                      hit={
+                                                        Object {
+                                                          "avg(machine.ram)": "13262979995.042253",
+                                                          "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                                        }
+                                                      }
+                                                      logTraceId=""
+                                                    />
+                                                     
+                                                  </EuiFlexItem>
+                                                </EuiFlexGroup>
+                                              </EuiPanel>,
+                                              "id": "doc_viewer_tab_4",
+                                              "name": "Table",
+                                            }
+                                          }
+                                          tabs={
+                                            Array [
+                                              Object {
+                                                "content": <EuiPanel
+                                                  paddingSize="s"
+                                                >
+                                                  <EuiFlexGroup>
+                                                    <EuiFlexItem>
+                                                      <component
+                                                        hit={
+                                                          Object {
+                                                            "avg(machine.ram)": "13262979995.042253",
+                                                            "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                                          }
+                                                        }
+                                                        logTraceId=""
+                                                      />
+                                                       
+                                                    </EuiFlexItem>
+                                                  </EuiFlexGroup>
+                                                </EuiPanel>,
+                                                "id": "doc_viewer_tab_4",
+                                                "name": "Table",
+                                              },
+                                              Object {
+                                                "content": <EuiPanel
+                                                  paddingSize="s"
+                                                >
+                                                  <EuiFlexGroup>
+                                                    <EuiFlexItem>
+                                                      <component
+                                                        hit={
+                                                          Object {
+                                                            "avg(machine.ram)": "13262979995.042253",
+                                                            "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                                          }
+                                                        }
+                                                        logTraceId=""
+                                                      />
+                                                       
+                                                    </EuiFlexItem>
+                                                  </EuiFlexGroup>
+                                                </EuiPanel>,
+                                                "id": "doc_viewer_tab_5",
+                                                "name": "JSON",
+                                              },
+                                              Object {
+                                                "content": <EuiPanel
+                                                  paddingSize="s"
+                                                >
+                                                  <EuiFlexGroup>
+                                                    <EuiFlexItem>
+                                                      <component
+                                                        hit={
+                                                          Object {
+                                                            "avg(machine.ram)": "13262979995.042253",
+                                                            "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                                          }
+                                                        }
+                                                        logTraceId=""
+                                                      />
+                                                       
+                                                    </EuiFlexItem>
+                                                  </EuiFlexGroup>
+                                                </EuiPanel>,
+                                                "id": "doc_viewer_tab_6",
+                                                "name": <React.Fragment>
+                                                  <span>
+                                                    Traces
+                                                  </span>
+                                                  <React.Fragment />
+                                                </React.Fragment>,
+                                              },
+                                            ]
+                                          }
+                                        >
+                                          <div>
+                                            <EuiTabs
+                                              onFocus={[Function]}
+                                            >
+                                              <div
+                                                className="euiTabs"
+                                                onFocus={[Function]}
+                                                role="tablist"
+                                              >
+                                                <EuiTab
+                                                  aria-controls="random_html_id"
+                                                  id="doc_viewer_tab_4"
+                                                  isSelected={true}
+                                                  key="doc_viewer_tab_4"
+                                                  onClick={[Function]}
+                                                >
+                                                  <button
+                                                    aria-controls="random_html_id"
+                                                    aria-selected={true}
+                                                    className="euiTab euiTab-isSelected"
+                                                    disabled={false}
+                                                    id="doc_viewer_tab_4"
+                                                    onClick={[Function]}
+                                                    role="tab"
+                                                    type="button"
+                                                  >
+                                                    <span
+                                                      className="euiTab__content"
+                                                    >
+                                                      Table
+                                                    </span>
+                                                  </button>
+                                                </EuiTab>
+                                                <EuiTab
+                                                  aria-controls="random_html_id"
+                                                  id="doc_viewer_tab_5"
+                                                  isSelected={false}
+                                                  key="doc_viewer_tab_5"
+                                                  onClick={[Function]}
+                                                >
+                                                  <button
+                                                    aria-controls="random_html_id"
+                                                    aria-selected={false}
+                                                    className="euiTab"
+                                                    disabled={false}
+                                                    id="doc_viewer_tab_5"
+                                                    onClick={[Function]}
+                                                    role="tab"
+                                                    type="button"
+                                                  >
+                                                    <span
+                                                      className="euiTab__content"
+                                                    >
+                                                      JSON
+                                                    </span>
+                                                  </button>
+                                                </EuiTab>
+                                                <EuiTab
+                                                  aria-controls="random_html_id"
+                                                  id="doc_viewer_tab_6"
+                                                  isSelected={false}
+                                                  key="doc_viewer_tab_6"
+                                                  onClick={[Function]}
+                                                >
+                                                  <button
+                                                    aria-controls="random_html_id"
+                                                    aria-selected={false}
+                                                    className="euiTab"
+                                                    disabled={false}
+                                                    id="doc_viewer_tab_6"
+                                                    onClick={[Function]}
+                                                    role="tab"
+                                                    type="button"
+                                                  >
+                                                    <span
+                                                      className="euiTab__content"
+                                                    >
+                                                      <span>
+                                                        Traces
+                                                      </span>
+                                                    </span>
+                                                  </button>
+                                                </EuiTab>
+                                              </div>
+                                            </EuiTabs>
+                                            <div
+                                              aria-labelledby="doc_viewer_tab_4"
+                                              id="random_html_id"
+                                              role="tabpanel"
+                                            >
+                                              <EuiPanel
+                                                paddingSize="s"
+                                              >
+                                                <div
+                                                  className="euiPanel euiPanel--paddingSmall euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+                                                >
+                                                  <EuiFlexGroup>
+                                                    <div
+                                                      className="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+                                                    >
+                                                      <EuiFlexItem>
+                                                        <div
+                                                          className="euiFlexItem"
+                                                        >
+                                                          <component
+                                                            hit={
+                                                              Object {
+                                                                "avg(machine.ram)": "13262979995.042253",
+                                                                "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                                              }
+                                                            }
+                                                            logTraceId=""
+                                                          >
+                                                            <DocViewTable
+                                                              filter={[Function]}
+                                                              hit={
+                                                                Object {
+                                                                  "avg(machine.ram)": "13262979995.042253",
+                                                                  "span(timestamp,1d)": "2022-10-28 00:00:00",
+                                                                }
+                                                              }
+                                                              logTraceId=""
+                                                              onAddColumn={[Function]}
+                                                              onRemoveColumn={[Function]}
+                                                            >
+                                                              <table
+                                                                className="table table-condensed osdDocViewerTable"
+                                                              >
+                                                                <tbody>
+                                                                  <DocViewTableRow
+                                                                    displayNoMappingWarning={false}
+                                                                    displayUnderscoreWarning={false}
+                                                                    field="avg(machine.ram)"
+                                                                    fieldType="string"
+                                                                    isCollapsed={false}
+                                                                    isCollapsible={false}
+                                                                    isColumnActive={false}
+                                                                    key="avg(machine.ram)"
+                                                                    onFilter={[Function]}
+                                                                    onToggleCollapse={[Function]}
+                                                                    value="13262979995.042253"
+                                                                    valueRaw="13262979995.042253"
+                                                                  >
+                                                                    <tr
+                                                                      data-test-subj="tableDocViewRow-avg(machine.ram)"
+                                                                      key="avg(machine.ram)"
+                                                                    >
+                                                                      <td
+                                                                        className="osdDocViewer__field"
+                                                                      >
+                                                                        <FieldName
+                                                                          fieldName="avg(machine.ram)"
+                                                                          fieldType="string"
+                                                                          scripted={false}
+                                                                        >
+                                                                          <EuiFlexGroup
+                                                                            alignItems="center"
+                                                                            gutterSize="s"
+                                                                            responsive={false}
+                                                                          >
+                                                                            <div
+                                                                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                                            >
+                                                                              <EuiFlexItem
+                                                                                className="eui-textTruncate"
+                                                                              >
+                                                                                <div
+                                                                                  className="euiFlexItem eui-textTruncate"
+                                                                                >
+                                                                                  <EuiToolTip
+                                                                                    anchorClassName="eui-textTruncate"
+                                                                                    content="avg(machine.ram)"
+                                                                                    delay="long"
+                                                                                    position="top"
+                                                                                  >
+                                                                                    <span
+                                                                                      className="euiToolTipAnchor eui-textTruncate"
+                                                                                      onKeyUp={[Function]}
+                                                                                      onMouseOut={[Function]}
+                                                                                      onMouseOver={[Function]}
+                                                                                    >
+                                                                                      <span
+                                                                                        onBlur={[Function]}
+                                                                                        onFocus={[Function]}
+                                                                                      >
+                                                                                        avg(machine.ram)
+                                                                                      </span>
+                                                                                    </span>
+                                                                                  </EuiToolTip>
+                                                                                </div>
+                                                                              </EuiFlexItem>
+                                                                            </div>
+                                                                          </EuiFlexGroup>
+                                                                        </FieldName>
+                                                                      </td>
+                                                                      <td>
+                                                                        <div
+                                                                          className="osdDocViewer__value"
+                                                                          dangerouslySetInnerHTML={
+                                                                            Object {
+                                                                              "__html": "13262979995.042253",
+                                                                            }
+                                                                          }
+                                                                          data-test-subj="tableDocViewRow-avg(machine.ram)-value"
+                                                                        />
+                                                                      </td>
+                                                                    </tr>
+                                                                  </DocViewTableRow>
+                                                                  <DocViewTableRow
+                                                                    displayNoMappingWarning={false}
+                                                                    displayUnderscoreWarning={false}
+                                                                    field="span(timestamp,1d)"
+                                                                    fieldType="string"
+                                                                    isCollapsed={false}
+                                                                    isCollapsible={false}
+                                                                    isColumnActive={false}
+                                                                    key="span(timestamp,1d)"
+                                                                    onFilter={[Function]}
+                                                                    onToggleCollapse={[Function]}
+                                                                    value="2022-10-28 00:00:00"
+                                                                    valueRaw="2022-10-28 00:00:00"
+                                                                  >
+                                                                    <tr
+                                                                      data-test-subj="tableDocViewRow-span(timestamp,1d)"
+                                                                      key="span(timestamp,1d)"
+                                                                    >
+                                                                      <td
+                                                                        className="osdDocViewer__field"
+                                                                      >
+                                                                        <FieldName
+                                                                          fieldName="span(timestamp,1d)"
+                                                                          fieldType="string"
+                                                                          scripted={false}
+                                                                        >
+                                                                          <EuiFlexGroup
+                                                                            alignItems="center"
+                                                                            gutterSize="s"
+                                                                            responsive={false}
+                                                                          >
+                                                                            <div
+                                                                              className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
+                                                                            >
+                                                                              <EuiFlexItem
+                                                                                className="eui-textTruncate"
+                                                                              >
+                                                                                <div
+                                                                                  className="euiFlexItem eui-textTruncate"
+                                                                                >
+                                                                                  <EuiToolTip
+                                                                                    anchorClassName="eui-textTruncate"
+                                                                                    content="span(timestamp,1d)"
+                                                                                    delay="long"
+                                                                                    position="top"
+                                                                                  >
+                                                                                    <span
+                                                                                      className="euiToolTipAnchor eui-textTruncate"
+                                                                                      onKeyUp={[Function]}
+                                                                                      onMouseOut={[Function]}
+                                                                                      onMouseOver={[Function]}
+                                                                                    >
+                                                                                      <span
+                                                                                        onBlur={[Function]}
+                                                                                        onFocus={[Function]}
+                                                                                      >
+                                                                                        span(timestamp,1d)
+                                                                                      </span>
+                                                                                    </span>
+                                                                                  </EuiToolTip>
+                                                                                </div>
+                                                                              </EuiFlexItem>
+                                                                            </div>
+                                                                          </EuiFlexGroup>
+                                                                        </FieldName>
+                                                                      </td>
+                                                                      <td>
+                                                                        <div
+                                                                          className="osdDocViewer__value"
+                                                                          dangerouslySetInnerHTML={
+                                                                            Object {
+                                                                              "__html": "2022-10-28 00:00:00",
+                                                                            }
+                                                                          }
+                                                                          data-test-subj="tableDocViewRow-span(timestamp,1d)-value"
+                                                                        />
+                                                                      </td>
+                                                                    </tr>
+                                                                  </DocViewTableRow>
+                                                                </tbody>
+                                                              </table>
+                                                            </DocViewTable>
+                                                          </component>
+                                                           
+                                                        </div>
+                                                      </EuiFlexItem>
+                                                    </div>
+                                                  </EuiFlexGroup>
+                                                </div>
+                                              </EuiPanel>
+                                            </div>
+                                          </div>
+                                        </EuiTabbedContent>
+                                      </div>
+                                    </DocViewer>
+                                  </div>
+                                </div>
+                              </div>
+                            </EuiFlyoutBody>
+                          </div>
+                        </EuiOutsideClickDetector>
+                      </div>
+                    </ForwardRef>
+                    <div
+                      data-focus-guard={true}
+                      style={
+                        Object {
+                          "height": "0px",
+                          "left": "1px",
+                          "overflow": "hidden",
+                          "padding": 0,
+                          "position": "fixed",
+                          "top": "1px",
+                          "width": "1px",
+                        }
                       }
-                    }
-                    tabIndex={0}
-                  />
-                </ForwardRef(FocusLockUI)>
-                <RequireSideCar
-                  noIsolation={true}
-                  onClickOutside={[Function]}
-                  setLockProps={[Function]}
-                  sideCar={
-                    Object {
-                      "assignMedium": [Function],
-                      "assignSyncMedium": [Function],
-                      "options": Object {
-                        "async": true,
-                        "ssr": false,
-                      },
-                      "read": [Function],
-                      "useMedium": [Function],
-                    }
-                  }
-                >
-                  <SideCar
+                      tabIndex={0}
+                    />
+                  </ForwardRef(FocusLockUI)>
+                  <RequireSideCar
                     noIsolation={true}
                     onClickOutside={[Function]}
                     setLockProps={[Function]}
@@ -477,29 +2539,47 @@ exports[`Test doc flyout component Renders doc flyout component 1`] = `
                       }
                     }
                   >
-                    <Effect
+                    <SideCar
                       noIsolation={true}
                       onClickOutside={[Function]}
                       setLockProps={[Function]}
+                      sideCar={
+                        Object {
+                          "assignMedium": [Function],
+                          "assignSyncMedium": [Function],
+                          "options": Object {
+                            "async": true,
+                            "ssr": false,
+                          },
+                          "read": [Function],
+                          "useMedium": [Function],
+                        }
+                      }
                     >
-                      <Component>
-                        <Sheet
-                          styles="
+                      <Effect
+                        noIsolation={true}
+                        onClickOutside={[Function]}
+                        setLockProps={[Function]}
+                      >
+                        <Component>
+                          <Sheet
+                            styles="
  [data-focus-on-hidden] {
    pointer-events: none !important;
  }
 "
-                        />
-                      </Component>
-                    </Effect>
-                  </SideCar>
-                </RequireSideCar>
+                          />
+                        </Component>
+                      </Effect>
+                    </SideCar>
+                  </RequireSideCar>
+                </ForwardRef>
               </ForwardRef>
-            </ForwardRef>
-          </EuiFocusTrap>
-        </Portal>
-      </EuiPortal>
-    </EuiFlyout>
-  </div>
-</FlyoutContainers>
+            </EuiFocusTrap>
+          </Portal>
+        </EuiPortal>
+      </EuiFlyout>
+    </div>
+  </FlyoutContainers>
+</DocFlyout>
 `;
