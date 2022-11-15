@@ -13,6 +13,8 @@ import {
   isValidTraceId,
   rangeNumDocs,
   getHeaders,
+  findAutoInterval,
+  getTooltipHoverInfo,
 } from '../utils';
 
 describe('Utils event analytics helper functions', () => {
@@ -47,6 +49,26 @@ describe('Utils event analytics helper functions', () => {
     expect(rangeNumDocs(11000)).toBe(10000);
     expect(rangeNumDocs(-200)).toBe(0);
     expect(rangeNumDocs(2000)).toBe(2000);
+  });
+
+  it('validates findAutoInterval function', () => {
+    expect(findAutoInterval('60', '180')).toStrictEqual([
+      'ms',
+      [
+        { text: 'Auto', value: 'auto_ms' },
+        { text: 'Minute', value: 'm' },
+        { text: 'Hour', value: 'h' },
+        { text: 'Day', value: 'd' },
+        { text: 'Week', value: 'w' },
+        { text: 'Month', value: 'M' },
+        { text: 'Year', value: 'y' },
+      ],
+    ]);
+  });
+
+  it('validates getTooltipHoverInfo function', () => {
+    expect(getTooltipHoverInfo({ tooltipMode: 'visible', tooltipText: 'Test' })).toBe('Test');
+    expect(getTooltipHoverInfo({ tooltipMode: 'hidden', tooltipText: 'Test' })).toBe('none');
   });
 
   it('validates getHeaders function', () => {
