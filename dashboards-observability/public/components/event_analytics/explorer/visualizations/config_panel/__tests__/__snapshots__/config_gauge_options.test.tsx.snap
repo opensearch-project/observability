@@ -1,0 +1,849 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Config panel component Renders Gauge config panel with visualization data 1`] = `
+<ConfigGaugeValueOptions
+  handleConfigChange={[MockFunction]}
+  schemas={
+    Array [
+      Object {
+        "component": "",
+        "mapTo": "series",
+        "name": "",
+      },
+    ]
+  }
+  sectionName=""
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {
+          "xaxis": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "yaxis": Array [
+            Object {
+              "label": "max(bytes)",
+              "name": "max(bytes)",
+              "type": "long",
+            },
+            Object {
+              "label": "host",
+              "name": "host",
+              "type": "text",
+            },
+          ],
+        },
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "host": Array [
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+            ],
+            "max(bytes)": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+              "error",
+              "info",
+              "login",
+              "security",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19897,
+              "tags": "error",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "info",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "login",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19856,
+              "tags": "security",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "success",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "warning",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9947,
+              "tags": "error",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9998,
+              "tags": "info",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9717,
+              "tags": "login",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9973,
+              "tags": "security",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "max(bytes)",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+          },
+          "size": 10,
+          "status": 200,
+        },
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "chartStyles": Object {
+              "legendPlacement": "right",
+              "orientation": "v",
+              "showThresholdLabels": true,
+              "showThresholdMarkers": true,
+              "titleSize": "10",
+              "valueSize": "12",
+            },
+            "dimensions": Array [
+              Object {
+                "customLabel": "",
+                "label": "host",
+                "name": "host",
+              },
+              Object {
+                "customLabel": "",
+                "label": "tags",
+                "name": "tags",
+              },
+            ],
+            "series": Array [
+              Object {
+                "aggregation": "max",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
+            ],
+          },
+        },
+      },
+      "vis": Object {
+        "category": "Visualizations",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "chart-styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "orientation",
+                      "name": "Orientation",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "auto",
+                            "name": "Auto",
+                          },
+                          Object {
+                            "id": "v",
+                            "name": "Vertical",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Horizontal",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "legendPlacement",
+                      "name": "Legend placement",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "center",
+                            "name": "Center",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "center",
+                            "name": "Center",
+                          },
+                          Object {
+                            "id": "right",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "left",
+                            "name": "Left",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "titleSize",
+                      "name": "Title size",
+                      "title": "Title size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "valueSize",
+                      "name": "Value size",
+                      "title": "Value size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "currentValue": false,
+                      "eleType": "switchButton",
+                      "mapTo": "showThresholdLabels",
+                      "name": "Show threshold labels",
+                      "title": "Show threshold labels",
+                    },
+                    Object {
+                      "component": [Function],
+                      "currentValue": true,
+                      "eleType": "switchButton",
+                      "mapTo": "showThresholdMarkers",
+                      "name": "Show threshold markers",
+                      "title": "Show threshold markers",
+                    },
+                  ],
+                },
+                Object {
+                  "defaultState": Array [],
+                  "editor": [Function],
+                  "id": "thresholds",
+                  "mapTo": "thresholds",
+                  "name": "Thresholds",
+                  "props": Object {
+                    "maxLimit": 1,
+                  },
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "content": Array [],
+              "editor": [Function],
+              "id": "style-panel",
+              "mapTo": "layoutConfig",
+              "name": "Layout",
+            },
+          ],
+        },
+        "fulllabel": "Gauge",
+        "icon": [Function],
+        "icontype": "visGauge",
+        "id": "gauge",
+        "label": "Gauge",
+        "name": "Gauge",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "type": "indicator",
+        "valueseries": "yaxis",
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "layout": Object {
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+  vizState={
+    Array [
+      Object {
+        "series": Array [
+          Object {
+            "name": "count()",
+            "type": "integer",
+          },
+          Object {
+            "name": "tags",
+            "type": "text",
+          },
+          Object {
+            "name": "timesfield",
+            "type": "timestamp",
+          },
+        ],
+      },
+    ]
+  }
+>
+  <EuiAccordion
+    arrowDisplay="left"
+    buttonContent=""
+    id="configPanel__"
+    initialIsOpen={true}
+    isLoading={false}
+    isLoadingMessage={false}
+    paddingSize="s"
+  >
+    <div
+      className="euiAccordion euiAccordion-isOpen"
+    >
+      <div
+        className="euiAccordion__triggerWrapper"
+      >
+        <button
+          aria-controls="configPanel__"
+          aria-expanded={true}
+          className="euiAccordion__button"
+          id="random_html_id"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="euiAccordion__iconWrapper"
+          >
+            <EuiIcon
+              className="euiAccordion__icon euiAccordion__icon-isOpen"
+              size="m"
+              type="arrowRight"
+            >
+              <EuiIconEmpty
+                aria-hidden={true}
+                className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                focusable="false"
+                role="img"
+                style={null}
+              >
+                <svg
+                  aria-hidden={true}
+                  className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                  focusable="false"
+                  height={16}
+                  role="img"
+                  style={null}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                />
+              </EuiIconEmpty>
+            </EuiIcon>
+          </span>
+          <span
+            className="euiIEFlexWrapFix"
+          />
+        </button>
+      </div>
+      <div
+        aria-labelledby="random_html_id"
+        className="euiAccordion__childWrapper"
+        id="configPanel__"
+        role="region"
+        tabIndex={-1}
+      >
+        <EuiResizeObserver
+          onResize={[Function]}
+        >
+          <div>
+            <div
+              className="euiAccordion__padding--s"
+            >
+              <PanelItem
+                advancedTitle="advancedTitle"
+                dropdownList={
+                  Array [
+                    Object {
+                      "name": "max(bytes)",
+                      "type": "long",
+                    },
+                    Object {
+                      "name": "host",
+                      "type": "text",
+                    },
+                    Object {
+                      "name": "tags",
+                      "type": "text",
+                    },
+                  ]
+                }
+                onSelectChange={[Function]}
+                paddingTitle=""
+                vizState={
+                  Array [
+                    Object {
+                      "series": Array [
+                        Object {
+                          "name": "count()",
+                          "type": "integer",
+                        },
+                        Object {
+                          "name": "tags",
+                          "type": "text",
+                        },
+                        Object {
+                          "name": "timesfield",
+                          "type": "timestamp",
+                        },
+                      ],
+                    },
+                  ]
+                }
+              >
+                <EuiTitle
+                  size="xxs"
+                >
+                  <h3
+                    className="euiTitle euiTitle--xxsmall"
+                  />
+                </EuiTitle>
+                <EuiSpacer
+                  size="s"
+                >
+                  <div
+                    className="euiSpacer euiSpacer--s"
+                  />
+                </EuiSpacer>
+                <EuiComboBox
+                  aria-label="Use aria labels when no actual label is in use"
+                  async={false}
+                  compressed={false}
+                  fullWidth={false}
+                  id="axis-select-2"
+                  isClearable={true}
+                  isInvalid={true}
+                  onChange={[Function]}
+                  options={
+                    Array [
+                      Object {
+                        "label": "max(bytes)",
+                        "name": "max(bytes)",
+                        "type": "long",
+                      },
+                      Object {
+                        "label": "host",
+                        "name": "host",
+                        "type": "text",
+                      },
+                      Object {
+                        "label": "tags",
+                        "name": "tags",
+                        "type": "text",
+                      },
+                    ]
+                  }
+                  placeholder="Select a field"
+                  selectedOptions={Array []}
+                  singleSelection={false}
+                  sortMatchesBy="none"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup="listbox"
+                    aria-label="Use aria labels when no actual label is in use"
+                    className="euiComboBox euiComboBox-isInvalid"
+                    onKeyDown={[Function]}
+                    role="combobox"
+                  >
+                    <EuiComboBoxInput
+                      autoSizeInputRef={[Function]}
+                      compressed={false}
+                      fullWidth={false}
+                      hasSelectedOptions={false}
+                      id="axis-select-2"
+                      inputRef={[Function]}
+                      isListOpen={false}
+                      noIcon={false}
+                      onChange={[Function]}
+                      onClear={[Function]}
+                      onClick={[Function]}
+                      onCloseListClick={[Function]}
+                      onFocus={[Function]}
+                      onOpenListClick={[Function]}
+                      onRemoveOption={[Function]}
+                      placeholder="Select a field"
+                      rootId={[Function]}
+                      searchValue=""
+                      selectedOptions={Array []}
+                      singleSelection={false}
+                      toggleButtonRef={[Function]}
+                      updatePosition={[Function]}
+                      value=""
+                    >
+                      <EuiFormControlLayout
+                        compressed={false}
+                        fullWidth={false}
+                        icon={
+                          Object {
+                            "aria-label": "Open list of options",
+                            "data-test-subj": "comboBoxToggleListButton",
+                            "disabled": undefined,
+                            "onClick": [Function],
+                            "ref": [Function],
+                            "side": "right",
+                            "type": "arrowDown",
+                          }
+                        }
+                      >
+                        <div
+                          className="euiFormControlLayout"
+                        >
+                          <div
+                            className="euiFormControlLayout__childrenWrapper"
+                          >
+                            <div
+                              className="euiComboBox__inputWrap euiComboBox__inputWrap-isClearable"
+                              data-test-subj="comboBoxInput"
+                              onClick={[Function]}
+                              tabIndex={-1}
+                            >
+                              <p
+                                className="euiComboBoxPlaceholder"
+                              >
+                                Select a field
+                              </p>
+                              <AutosizeInput
+                                aria-controls=""
+                                className="euiComboBox__input"
+                                data-test-subj="comboBoxSearchInput"
+                                id="axis-select-2"
+                                injectStyles={true}
+                                inputRef={[Function]}
+                                minWidth={1}
+                                onBlur={[Function]}
+                                onChange={[Function]}
+                                onFocus={[Function]}
+                                role="textbox"
+                                style={
+                                  Object {
+                                    "fontSize": 14,
+                                  }
+                                }
+                                value=""
+                              >
+                                <div
+                                  className="euiComboBox__input"
+                                  style={
+                                    Object {
+                                      "display": "inline-block",
+                                      "fontSize": 14,
+                                    }
+                                  }
+                                >
+                                  <input
+                                    aria-controls=""
+                                    data-test-subj="comboBoxSearchInput"
+                                    id="axis-select-2"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    role="textbox"
+                                    style={
+                                      Object {
+                                        "boxSizing": "content-box",
+                                        "width": "2px",
+                                      }
+                                    }
+                                    value=""
+                                  />
+                                  <div
+                                    style={
+                                      Object {
+                                        "height": 0,
+                                        "left": 0,
+                                        "overflow": "scroll",
+                                        "position": "absolute",
+                                        "top": 0,
+                                        "visibility": "hidden",
+                                        "whiteSpace": "pre",
+                                      }
+                                    }
+                                  />
+                                </div>
+                              </AutosizeInput>
+                            </div>
+                            <EuiFormControlLayoutIcons
+                              compressed={false}
+                              icon={
+                                Object {
+                                  "aria-label": "Open list of options",
+                                  "data-test-subj": "comboBoxToggleListButton",
+                                  "disabled": undefined,
+                                  "onClick": [Function],
+                                  "ref": [Function],
+                                  "side": "right",
+                                  "type": "arrowDown",
+                                }
+                              }
+                            >
+                              <div
+                                className="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                              >
+                                <EuiFormControlLayoutCustomIcon
+                                  aria-label="Open list of options"
+                                  data-test-subj="comboBoxToggleListButton"
+                                  iconRef={[Function]}
+                                  onClick={[Function]}
+                                  size="m"
+                                  type="arrowDown"
+                                >
+                                  <button
+                                    aria-label="Open list of options"
+                                    className="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                                    data-test-subj="comboBoxToggleListButton"
+                                    onClick={[Function]}
+                                    type="button"
+                                  >
+                                    <EuiIcon
+                                      aria-hidden="true"
+                                      className="euiFormControlLayoutCustomIcon__icon"
+                                      size="m"
+                                      type="arrowDown"
+                                    >
+                                      <EuiIconEmpty
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                        focusable="false"
+                                        role="img"
+                                        style={null}
+                                      >
+                                        <svg
+                                          aria-hidden={true}
+                                          className="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                          focusable="false"
+                                          height={16}
+                                          role="img"
+                                          style={null}
+                                          viewBox="0 0 16 16"
+                                          width={16}
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        />
+                                      </EuiIconEmpty>
+                                    </EuiIcon>
+                                  </button>
+                                </EuiFormControlLayoutCustomIcon>
+                              </div>
+                            </EuiFormControlLayoutIcons>
+                          </div>
+                        </div>
+                      </EuiFormControlLayout>
+                    </EuiComboBoxInput>
+                  </div>
+                </EuiComboBox>
+              </PanelItem>
+              <EuiSpacer
+                size="s"
+              >
+                <div
+                  className="euiSpacer euiSpacer--s"
+                />
+              </EuiSpacer>
+            </div>
+          </div>
+        </EuiResizeObserver>
+      </div>
+    </div>
+  </EuiAccordion>
+</ConfigGaugeValueOptions>
+`;

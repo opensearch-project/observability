@@ -1,0 +1,696 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Config panel component Renders config panel with Gauge Option 1`] = `
+<ConfigPanelOptionGauge
+  handleConfigChange={[MockFunction]}
+  panelOptionsValues={
+    Object {
+      "description": "",
+      "numberOfGauges": 1,
+      "title": "",
+    }
+  }
+  visualizations={
+    Object {
+      "data": Object {
+        "appData": Object {
+          "fromApp": false,
+        },
+        "defaultAxes": Object {
+          "xaxis": Array [
+            Object {
+              "label": "tags",
+              "name": "tags",
+              "type": "text",
+            },
+          ],
+          "yaxis": Array [
+            Object {
+              "label": "max(bytes)",
+              "name": "max(bytes)",
+              "type": "long",
+            },
+            Object {
+              "label": "host",
+              "name": "host",
+              "type": "text",
+            },
+          ],
+        },
+        "indexFields": Object {
+          "availableFields": Array [
+            Object {
+              "name": "agent",
+              "type": "string",
+            },
+            Object {
+              "name": "bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "clientip",
+              "type": "ip",
+            },
+            Object {
+              "name": "event",
+              "type": "struct",
+            },
+            Object {
+              "name": "extension",
+              "type": "string",
+            },
+            Object {
+              "name": "geo",
+              "type": "struct",
+            },
+            Object {
+              "name": "host",
+              "type": "string",
+            },
+            Object {
+              "name": "index",
+              "type": "string",
+            },
+            Object {
+              "name": "ip",
+              "type": "ip",
+            },
+            Object {
+              "name": "machine",
+              "type": "struct",
+            },
+            Object {
+              "name": "memory",
+              "type": "double",
+            },
+            Object {
+              "name": "message",
+              "type": "string",
+            },
+            Object {
+              "name": "phpmemory",
+              "type": "long",
+            },
+            Object {
+              "name": "referer",
+              "type": "string",
+            },
+            Object {
+              "name": "request",
+              "type": "string",
+            },
+            Object {
+              "name": "response",
+              "type": "string",
+            },
+            Object {
+              "name": "tags",
+              "type": "string",
+            },
+            Object {
+              "name": "timestamp",
+              "type": "timestamp",
+            },
+            Object {
+              "name": "url",
+              "type": "string",
+            },
+            Object {
+              "name": "utc_time",
+              "type": "timestamp",
+            },
+          ],
+          "queriedFields": Array [
+            Object {
+              "name": "double_per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "host",
+              "type": "text",
+            },
+            Object {
+              "name": "ip_count",
+              "type": "integer",
+            },
+            Object {
+              "name": "per_ip_bytes",
+              "type": "long",
+            },
+            Object {
+              "name": "resp_code",
+              "type": "text",
+            },
+            Object {
+              "name": "sum_bytes",
+              "type": "long",
+            },
+          ],
+          "selectedFields": Array [],
+          "unselectedFields": Array [],
+        },
+        "query": Object {},
+        "rawVizData": Object {
+          "data": Object {
+            "host": Array [
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "artifacts.opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+              "cdn.opensearch-opensearch-opensearch.org",
+            ],
+            "max(bytes)": Array [
+              19897,
+              19904,
+              19929,
+              19856,
+              19904,
+              19929,
+              9947,
+              9998,
+              9717,
+              9973,
+            ],
+            "tags": Array [
+              "error",
+              "info",
+              "login",
+              "security",
+              "success",
+              "warning",
+              "error",
+              "info",
+              "login",
+              "security",
+            ],
+          },
+          "jsonData": Array [
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19897,
+              "tags": "error",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "info",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "login",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19856,
+              "tags": "security",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19904,
+              "tags": "success",
+            },
+            Object {
+              "host": "artifacts.opensearch.org",
+              "max(bytes)": 19929,
+              "tags": "warning",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9947,
+              "tags": "error",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9998,
+              "tags": "info",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9717,
+              "tags": "login",
+            },
+            Object {
+              "host": "cdn.opensearch-opensearch-opensearch.org",
+              "max(bytes)": 9973,
+              "tags": "security",
+            },
+          ],
+          "metadata": Object {
+            "fields": Array [
+              Object {
+                "name": "max(bytes)",
+                "type": "long",
+              },
+              Object {
+                "name": "host",
+                "type": "text",
+              },
+              Object {
+                "name": "tags",
+                "type": "text",
+              },
+            ],
+          },
+          "size": 10,
+          "status": 200,
+        },
+        "userConfigs": Object {
+          "dataConfig": Object {
+            "dimensions": Array [
+              Object {
+                "customLabel": "",
+                "label": "host",
+                "name": "host",
+              },
+              Object {
+                "customLabel": "",
+                "label": "tags",
+                "name": "tags",
+              },
+            ],
+            "series": Array [
+              Object {
+                "aggregation": "max",
+                "customLabel": "",
+                "label": "bytes",
+                "name": "bytes",
+              },
+            ],
+          },
+        },
+      },
+      "vis": Object {
+        "barwidth": 0.97,
+        "category": "Visualizations",
+        "categoryaxis": "xaxis",
+        "component": [Function],
+        "editorconfig": Object {
+          "panelTabs": Array [
+            Object {
+              "editor": [Function],
+              "id": "data-panel",
+              "mapTo": "dataConfig",
+              "name": "Style",
+              "sections": Array [
+                Object {
+                  "editor": [Function],
+                  "id": "tooltip_options",
+                  "mapTo": "tooltipOptions",
+                  "name": "Tooltip options",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipMode",
+                      "name": "Tooltip mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "tooltipText",
+                      "name": "Tooltip text",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "all",
+                            "name": "All",
+                          },
+                          Object {
+                            "id": "x",
+                            "name": "Dimension",
+                          },
+                          Object {
+                            "id": "y",
+                            "name": "Series",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "legend",
+                  "mapTo": "legend",
+                  "name": "Legend",
+                  "schemas": Array [
+                    Object {
+                      "component": null,
+                      "mapTo": "showLegend",
+                      "name": "Show legend",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "show",
+                            "name": "Show",
+                          },
+                          Object {
+                            "id": "hidden",
+                            "name": "Hidden",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": null,
+                      "mapTo": "position",
+                      "name": "Position",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "v",
+                            "name": "Right",
+                          },
+                          Object {
+                            "id": "h",
+                            "name": "Bottom",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "legendSize",
+                      "name": "Legend size",
+                      "title": "Legend size",
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "chart_styles",
+                  "mapTo": "chartStyles",
+                  "name": "Chart styles",
+                  "schemas": Array [
+                    Object {
+                      "component": [Function],
+                      "eleType": "buttons",
+                      "mapTo": "mode",
+                      "name": "Mode",
+                      "props": Object {
+                        "defaultSelections": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                        ],
+                        "options": Array [
+                          Object {
+                            "id": "group",
+                            "name": "Group",
+                          },
+                          Object {
+                            "id": "stack",
+                            "name": "Stack",
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "eleType": "input",
+                      "mapTo": "labelSize",
+                      "name": "Label size",
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0,
+                      "eleType": "slider",
+                      "mapTo": "rotateBarLabels",
+                      "name": "Rotate bar labels",
+                      "props": Object {
+                        "max": 90,
+                        "min": -90,
+                        "showTicks": true,
+                        "ticks": Array [
+                          Object {
+                            "label": "-90°",
+                            "value": -90,
+                          },
+                          Object {
+                            "label": "-45°",
+                            "value": -45,
+                          },
+                          Object {
+                            "label": "0°",
+                            "value": 0,
+                          },
+                          Object {
+                            "label": "45°",
+                            "value": 45,
+                          },
+                          Object {
+                            "label": "90°",
+                            "value": 90,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.7,
+                      "eleType": "slider",
+                      "mapTo": "groupWidth",
+                      "name": "Group width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 0.97,
+                      "eleType": "slider",
+                      "mapTo": "barWidth",
+                      "name": "Bar width",
+                      "props": Object {
+                        "max": 1,
+                        "step": 0.01,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 2,
+                      "eleType": "slider",
+                      "mapTo": "lineWidth",
+                      "name": "Line width",
+                      "props": Object {
+                        "max": 10,
+                      },
+                    },
+                    Object {
+                      "component": [Function],
+                      "defaultState": 70,
+                      "eleType": "slider",
+                      "mapTo": "fillOpacity",
+                      "name": "Fill opacity",
+                      "props": Object {
+                        "max": 100,
+                      },
+                    },
+                  ],
+                },
+                Object {
+                  "editor": [Function],
+                  "id": "color-theme",
+                  "mapTo": "colorTheme",
+                  "name": "Color theme",
+                  "schemas": Array [],
+                },
+              ],
+            },
+            Object {
+              "editor": [Function],
+              "id": "availability-panel",
+              "mapTo": "availabilityConfig",
+              "name": "Availability",
+            },
+          ],
+        },
+        "fillopacity": 70,
+        "fulllabel": "Vertical bar",
+        "groupwidth": 0.7,
+        "icon": [Function],
+        "icontype": "visBarVerticalStacked",
+        "id": "bar",
+        "label": "Vertical bar",
+        "labelangle": 0,
+        "legendposition": "v",
+        "linewidth": 2,
+        "mode": "group",
+        "name": "bar",
+        "orientation": "v",
+        "selection": Object {
+          "dataLoss": "nothing",
+        },
+        "seriesaxis": "yaxis",
+        "showlegend": "show",
+        "type": "bar",
+        "visconfig": Object {
+          "config": Object {
+            "displaylogo": false,
+            "responsive": true,
+          },
+          "isUniColor": false,
+          "layout": Object {
+            "height": 1180,
+            "legend": Object {
+              "orientation": "v",
+              "traceorder": "normal",
+            },
+            "margin": Object {
+              "b": 30,
+              "l": 60,
+              "pad": 0,
+              "r": 30,
+              "t": 50,
+            },
+            "showlegend": true,
+          },
+        },
+      },
+    }
+  }
+  vizState=""
+>
+  <EuiFormRow
+    describedByIds={Array []}
+    display="row"
+    fullWidth={true}
+    hasChildLabel={true}
+    hasEmptyLabelSpace={false}
+    helpText="Limit number of gauges."
+    label="Number of gauges"
+    labelType="label"
+  >
+    <div
+      className="euiFormRow euiFormRow--fullWidth"
+      id="random_html_id-row"
+    >
+      <div
+        className="euiFormRow__labelWrapper"
+      >
+        <EuiFormLabel
+          className="euiFormRow__label"
+          htmlFor="random_html_id"
+          isFocused={false}
+          type="label"
+        >
+          <label
+            className="euiFormLabel euiFormRow__label"
+            htmlFor="random_html_id"
+          >
+            Number of gauges
+          </label>
+        </EuiFormLabel>
+      </div>
+      <div
+        className="euiFormRow__fieldWrapper"
+      >
+        <EuiFieldNumber
+          aria-describedby="random_html_id-help-0"
+          id="random_html_id"
+          min={1}
+          name="numberOfGauges"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Number of gauges"
+          readOnly={false}
+          value={1}
+        >
+          <EuiFormControlLayout
+            compressed={false}
+            fullWidth={false}
+            inputId="random_html_id"
+            isLoading={false}
+            readOnly={false}
+          >
+            <div
+              className="euiFormControlLayout"
+            >
+              <div
+                className="euiFormControlLayout__childrenWrapper"
+              >
+                <EuiValidatableControl>
+                  <input
+                    aria-describedby="random_html_id-help-0"
+                    className="euiFieldNumber"
+                    id="random_html_id"
+                    min={1}
+                    name="numberOfGauges"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder="Number of gauges"
+                    readOnly={false}
+                    type="number"
+                    value={1}
+                  />
+                </EuiValidatableControl>
+                <EuiFormControlLayoutIcons
+                  compressed={false}
+                  isLoading={false}
+                />
+              </div>
+            </div>
+          </EuiFormControlLayout>
+        </EuiFieldNumber>
+        <EuiFormHelpText
+          className="euiFormRow__text"
+          id="random_html_id-help-0"
+          key="Limit number of gauges."
+        >
+          <div
+            className="euiFormHelpText euiFormRow__text"
+            id="random_html_id-help-0"
+          >
+            Limit number of gauges.
+          </div>
+        </EuiFormHelpText>
+      </div>
+    </div>
+  </EuiFormRow>
+</ConfigPanelOptionGauge>
+`;
