@@ -78,3 +78,45 @@
     margin-right: $euiSizeXS;
   }
 }
+
+.shard__fieldSelectorField {
+  &:hover,
+  &:focus-within,
+  &[class*='-isActive'] {
+    .dscSidebarItem__action {
+      opacity: 1;
+    }
+  }
+
+  & > .osdFieldButton__button {
+    padding: 0;
+  }
+
+  & .osdFieldButton__name {
+    padding: $euiSizeS $euiSizeS $euiSizeS 0;
+  }
+
+  & > button {
+    align-items: stretch;
+  }
+
+  & .osdFieldIcon {
+    box-shadow: none;
+    height: 100%;
+    flex-shrink: 0;
+    line-height: 0;
+  }
+
+  & .osdFieldButton__fieldIcon {
+    box-shadow: none;
+    margin-right: 8px;
+  }
+}
+
+#vis__mainContent .explorer__fieldSelectorField {
+  @include euiBottomShadowSmall;
+
+  background-color: $euiColorEmptyShade;
+  border: $euiBorderThin;
+  margin-top: $euiSizeS;
+}

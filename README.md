@@ -126,7 +126,7 @@ See [developer guide](DEVELOPER_GUIDE.md) and [how to contribute to this project
 
 If you find a bug, or have a feature request, please don't hesitate to open an issue in this repository.
 
-For more information, see [project website](https://opensearch.org/) and [documentation](https://opensearch.org/docs). If you need help and are unsure where to open an issue, try [forums](https://discuss.opendistrocommunity.dev/).
+For more information, see [project website](https://opensearch.org/) and [documentation](https://opensearch.org/docs). If you need help and are unsure where to open an issue, try the [Forum](https://forum.opensearch.org/c/plugins/observability/49).
 
 ## Code of Conduct
 

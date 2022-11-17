@@ -9,54 +9,102 @@ import { LensIconChartLine } from '../../../assets/chart_line';
 import { VizDataPanel } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { ConfigEditor } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/json_editor';
 import {
-  ConfigValueOptions,
   ConfigThresholds,
-  ConfigGaugeValueOptions,
+  InputFieldItem,
+  SwitchButton,
+  ConfigChartOptions,
+  ButtonGroupItem,
 } from '../../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import { DEFAULT_GAUGE_CHART_PARAMETERS } from '../../../../../../common/constants/explorer';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
+const { ThresholdsMaxLimit } = DEFAULT_GAUGE_CHART_PARAMETERS;
 
 export const createGaugeTypeDefinition = (params: any = {}) => ({
   name: 'Gauge',
   type: 'indicator',
   id: 'gauge',
   label: 'Gauge',
-  fullLabel: 'Gauge',
-  iconType: 'visGauge',
+  fulllabel: 'Gauge',
+  icontype: 'visGauge',
   category: VIS_CATEGORY.BASICS,
   selection: {
     dataLoss: 'nothing',
   },
   icon: LensIconChartLine,
-  valueSeries: 'yaxis',
-  editorConfig: {
+  valueseries: 'yaxis',
+  editorconfig: {
     panelTabs: [
       {
         id: 'data-panel',
-        name: 'Data',
+        name: 'Style',
         mapTo: 'dataConfig',
         editor: VizDataPanel,
         sections: [
           {
-            id: 'value_options',
-            name: 'Value options',
-            editor: ConfigGaugeValueOptions,
-            mapTo: 'valueOptions',
+            id: 'chart-styles',
+            name: 'Chart styles',
+            editor: ConfigChartOptions,
+            mapTo: 'chartStyles',
             schemas: [
               {
-                name: 'Series',
-                isSingleSelection: true,
-                onChangeHandler: 'setXaxisSelections',
-                component: null,
-                mapTo: 'series',
+                name: 'Orientation',
+                component: ButtonGroupItem,
+                mapTo: 'orientation',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Auto', id: 'auto' },
+                    { name: 'Vertical', id: 'v' },
+                    { name: 'Horizontal', id: 'h' },
+                  ],
+                  defaultSelections: [{ name: 'Auto', id: 'auto' }],
+                },
               },
               {
-                name: 'Value',
-                isSingleSelection: false,
-                onChangeHandler: 'setYaxisSelections',
-                component: null,
-                mapTo: 'value',
+                name: 'Legend placement',
+                component: ButtonGroupItem,
+                mapTo: 'legendPlacement',
+                eleType: 'buttons',
+                props: {
+                  options: [
+                    { name: 'Center', id: 'center' },
+                    { name: 'Right', id: 'right' },
+                    { name: 'Left', id: 'left' },
+                  ],
+                  defaultSelections: [{ name: 'Center', id: 'center' }],
+                },
+              },
+              {
+                title: 'Title size',
+                name: 'Title size',
+                component: InputFieldItem,
+                mapTo: 'titleSize',
+                eleType: 'input',
+              },
+              {
+                title: 'Value size',
+                name: 'Value size',
+                component: InputFieldItem,
+                mapTo: 'valueSize',
+                eleType: 'input',
+              },
+              {
+                title: 'Show threshold labels',
+                name: 'Show threshold labels',
+                component: SwitchButton,
+                mapTo: 'showThresholdLabels',
+                eleType: 'switchButton',
+                currentValue: false,
+              },
+              {
+                title: 'Show threshold markers',
+                name: 'Show threshold markers',
+                component: SwitchButton,
+                mapTo: 'showThresholdMarkers',
+                eleType: 'switchButton',
+                currentValue: true,
               },
             ],
           },
@@ -67,6 +115,9 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
             mapTo: 'thresholds',
             defaultState: [],
             schemas: [],
+            props: {
+              maxLimit: ThresholdsMaxLimit,
+            },
           },
         ],
       },
@@ -79,7 +130,7 @@ export const createGaugeTypeDefinition = (params: any = {}) => ({
       },
     ],
   },
-  visConfig: {
+  visconfig: {
     layout: {
       ...sharedConfigs.layout,
     },

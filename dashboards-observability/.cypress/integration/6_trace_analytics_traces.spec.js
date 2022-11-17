@@ -113,3 +113,43 @@ describe('Testing trace view', () => {
     cy.contains('Spans (1)').should('exist');
   });
 });
+
+describe('Testing traces table', () => {
+  beforeEach(() => {
+    cy.visit('app/observability-dashboards#/trace_analytics/traces', {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+      },
+    });
+    setTimeFilter();
+  });
+
+  it('Renders the traces table and verify Table Column, Pagination and Rows Data ', () => {
+    cy.get('.euiTableCellContent__text').contains('Trace ID').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Trace group').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Latency (ms)').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Percentile in trace group').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Errors').should('exist');
+    cy.get('.euiTableCellContent__text').contains('Last updated').should('exist');
+    cy.get('[data-test-subj="pagination-button-next"]').click();
+    cy.contains('client_pay_order').should('exist');
+    cy.get('[data-test-subj="pagination-button-previous"]').click();
+    cy.contains('224.99').should('exist');
+    cy.get('.euiButtonEmpty').contains('5').click();
+    cy.contains('690d3c7af1a78cf89c43e...').should('exist');
+    cy.contains('5be8370207cbb002a165d...').click();
+    cy.contains('client_create_order').should('exist');
+    cy.get('path[style*="rgb(116, 146, 231)"]').should('exist');
+    cy.go('back');
+    cy.wait(delay);
+    cy.get('.euiButtonEmpty__text').contains('Rows per page').click();
+    cy.get('.euiContextMenuItem__text').contains('15 rows').click();
+    let expected_row_count=15;
+    cy.get('.euiTable--auto')
+    .find("tr")
+    .then((row) => {
+      let total=row.length-1;
+      expect(total).to.equal(expected_row_count);
+    });
+  });
+});
