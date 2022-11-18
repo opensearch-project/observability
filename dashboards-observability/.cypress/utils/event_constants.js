@@ -82,6 +82,7 @@ export const querySearch = (query, rangeSelected) => {
   cy.wait(delay);
   cy.get(rangeSelected).click();
   cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
+  cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
 };
 
 export const landOnEventHome = () => {
