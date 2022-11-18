@@ -288,8 +288,6 @@ export interface PatternTableData {
   count: number;
   pattern: string;
   sampleLog: string;
-<<<<<<< HEAD
-=======
   anomalyCount?: number;
 };
 
@@ -385,5 +383,4 @@ export interface VisualizationState {
   visData: any;
   visConfMetadata: ConfigList;
   visMeta: VisMeta;
->>>>>>> 2.4
 }
