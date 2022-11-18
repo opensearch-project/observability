@@ -55,7 +55,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
   useEffect(() => {
     setLoading(true);
     const timeFilterDSL = filtersToDsl([], '', startTime, endTime);
-    const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
+    const latencyTrendStartTime = dateMath.parse(endTime, { roundUp: true })?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(filters, query, latencyTrendStartTime, endTime);
     handleDashboardRequest(
       http,

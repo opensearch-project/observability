@@ -32,7 +32,7 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
       },
     ]
   }
-  stateInterval="auto"
+  stateInterval="w"
 >
   <I18nProvider>
     <IntlProvider
@@ -203,7 +203,7 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
                       },
                     ]
                   }
-                  value="m"
+                  value="w"
                 >
                   <EuiFormControlLayout
                     compressed={true}
@@ -231,7 +231,7 @@ exports[`Time chart header component Renders Time chart header component 1`] = `
                             id="dscResultsIntervalSelector"
                             onChange={[Function]}
                             onMouseUp={[Function]}
-                            value="m"
+                            value="w"
                           >
                             <option
                               key="0"

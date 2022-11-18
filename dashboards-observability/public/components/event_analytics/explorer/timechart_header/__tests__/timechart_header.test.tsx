@@ -21,7 +21,7 @@ describe('Time chart header component', () => {
         dateFormat={'MMM D, YYYY @ HH:mm:ss.SSS'}
         onChangeInterval={onChangeInterval}
         options={TIME_INTERVAL_OPTIONS}
-        stateInterval="auto"
+        stateInterval="w"
       />
     );
 

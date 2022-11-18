@@ -4,13 +4,18 @@ on: [pull_request, push]
 
 jobs:
   build:
+    env:
+      BUILD_ARGS: ${{ matrix.os_build_args }}
     strategy:
       matrix:
-        java:
-          - 11
-          - 17
-
-    runs-on: ubuntu-latest
+        java: [11, 17]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            os_build_args: -x integTest -x jacocoTestReport
+          - os: macos-latest
+            os_build_args: -x integTest -x jacocoTestReport
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v1
@@ -21,6 +26,8 @@ jobs:
           java-version: ${{ matrix.java }}
     
       - name: Run Backwards Compatibility Tests
+        # Temporarily only do this for linux
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           cd opensearch-observability
           echo "Running backwards compatibility tests ..."
@@ -29,9 +36,10 @@ jobs:
       - name: Build with Gradle
         run: |
           cd opensearch-observability
-          ./gradlew build
+          ./gradlew build ${{ env.BUILD_ARGS }}
 
       - name: Upload coverage
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v1
         with:
           flags: opensearch-observability
@@ -46,5 +54,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: opensearch-observability
+          name: opensearch-observability-${{ matrix.os }}
           path: opensearch-observability-builds

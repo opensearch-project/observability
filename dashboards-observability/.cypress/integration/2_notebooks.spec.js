@@ -12,6 +12,8 @@ import {
   SAMPLE_URL,
   SQL_QUERY_TEXT,
   PPL_QUERY_TEXT,
+  NOTEBOOK_TEXT,
+  OPENSEARCH_URL,
 } from '../utils/constants';
 
 import { SAMPLE_PANEL } from '../utils/panel_constants';
@@ -61,6 +63,13 @@ describe('Adding sample data and visualization', () => {
 describe('Testing notebooks table', () => {
   beforeEach(() => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/notebooks`);
+  });
+
+  it('Notebooks table empty state', () => {
+    cy.get('#notebookArea').contains('Notebooks (0)').should('exist');
+    cy.get('.euiTextAlign.euiTextAlign--center').contains('No notebooks');
+    cy.get('.euiButton__text').eq(2).contains('Create notebook');
+    cy.get('.euiButton__text').eq(3).contains('Add samples');
   });
 
   it('Displays error toast for invalid notebook name', () => {
@@ -123,6 +132,21 @@ describe('Testing notebooks table', () => {
     cy.get('a.euiLink')
       .contains(TEST_NOTEBOOK + ' (copy) (rename)')
       .should('exist');
+  });
+
+  it('Notebooks table columns headers and pagination', () => {
+    cy.get('.euiTitle.euiTitle--small').contains('Notebooks').should('exist');
+    cy.get('.euiTableCellContent__text[title="Name"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Last updated"]').should('exist');
+    cy.get('.euiTableCellContent__text[title="Created"]').should('exist');
+    cy.get('[data-test-subj="tablePaginationPopoverButton"]').should('exist');
+  });
+
+  it('"Learn more" link under Notebooks header', () => {
+    cy.get('.euiTitle.euiTitle--small').contains('Notebooks');
+    cy.get('.euiTextColor.euiTextColor--subdued').contains(NOTEBOOK_TEXT);
+    cy.get('a.euiLink.euiLink--primary').contains('Learn more').click();
+    cy.get(`a[href="${OPENSEARCH_URL}"]`).should('exist');
   });
 
   it('Deletes notebooks', () => {
@@ -229,6 +253,16 @@ describe('Testing paragraphs', () => {
     cy.get('.euiBreadcrumb').contains('Observability').click();
     cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
+  });
+
+  it('Paragraph actions layout', () => {
+    cy.get('button[data-test-subj="notebook-paragraph-actions-button"]').should('exist').click();
+    cy.get('.euiContextMenuPanelTitle').contains('Actions');
+    cy.get('.euiContextMenuItem__text').eq(0).contains('Add paragraph to top');
+    cy.get('.euiContextMenuItem__text').eq(1).contains('Add paragraph to bottom');
+    cy.get('.euiContextMenuItem__text').eq(2).contains('Run all paragraphs');
+    cy.get('.euiContextMenuItem__text').eq(3).contains('Clear all outputs');
+    cy.get('.euiContextMenuItem__text').eq(4).contains('Delete all paragraphs');
   });
 
   it('Renders markdown', () => {
