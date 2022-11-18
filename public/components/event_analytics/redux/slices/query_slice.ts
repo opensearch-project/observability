@@ -4,23 +4,28 @@
  */
 
 import { createSlice } from '@reduxjs/toolkit';
-import { initialTabId } from '../../../../framework/redux/store/shared_state';
 import {
-  RAW_QUERY,
-  FINAL_QUERY,
-  SELECTED_DATE_RANGE,
-  REDUX_EXPL_SLICE_QUERIES,
-  INDEX,
-  SELECTED_TIMESTAMP,
   APP_ANALYTICS_TAB_ID_REGEX,
-  SELECTED_PATTERN,
+  FILTERED_PATTERN,
+  FINAL_QUERY,
+  INDEX,
+  PATTERN_REGEX,
+  PPL_DEFAULT_PATTERN_REGEX_FILETER,
+  RAW_QUERY,
+  REDUX_EXPL_SLICE_QUERIES,
+  SELECTED_DATE_RANGE,
+  SELECTED_PATTERN_FIELD,
+  SELECTED_TIMESTAMP,
 } from '../../../../../common/constants/explorer';
+import { initialTabId } from '../../../../framework/redux/store/shared_state';
 
 const initialQueryState = {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
-  [SELECTED_PATTERN]: '',
+  [SELECTED_PATTERN_FIELD]: '',
+  [PATTERN_REGEX]: PPL_DEFAULT_PATTERN_REGEX_FILETER,
+  [FILTERED_PATTERN]: '',
   [SELECTED_TIMESTAMP]: '',
   [SELECTED_DATE_RANGE]: ['now-15m', 'now'],
 };
@@ -29,7 +34,9 @@ const appBaseQueryState = {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
-  [SELECTED_PATTERN]: '',
+  [SELECTED_PATTERN_FIELD]: '',
+  [PATTERN_REGEX]: PPL_DEFAULT_PATTERN_REGEX_FILETER,
+  [FILTERED_PATTERN]: '',
   [SELECTED_TIMESTAMP]: '',
   [SELECTED_DATE_RANGE]: ['now-24h', 'now'],
 };

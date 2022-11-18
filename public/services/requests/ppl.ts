@@ -24,8 +24,9 @@ export default class PPLService {
         body: JSON.stringify(params),
       })
       .catch((error) => {
-        console.error(error);
+        console.error('fetch error: ', error.body);
         if (errorHandler) errorHandler(error);
+        throw error;
       });
   };
 }

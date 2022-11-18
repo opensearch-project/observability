@@ -16,8 +16,8 @@ import {
   EuiBadge,
   EuiContextMenuPanel,
   EuiToolTip,
+  EuiCallOut
 } from '@elastic/eui';
-import _ from 'lodash';
 import { DatePicker } from './date_picker';
 import '@algolia/autocomplete-theme-classic';
 import { Autocomplete } from './autocomplete';
@@ -82,10 +82,17 @@ export const Search = (props: any) => {
     stopLive,
     setIsLiveTailPopoverOpen,
     liveTailName,
+    searchError = null,
+    curVisId,
+    spanValue,
+    setSubType,
+    metricMeasure,
+    setMetricMeasure,
+    setMetricLabel,
+    metricChecked,
   } = props;
-
+  
   const appLogEvents = tabId.match(APP_ANALYTICS_TAB_ID_REGEX);
-
   const [isSavePanelOpen, setIsSavePanelOpen] = useState(false);
   const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
 
@@ -214,7 +221,15 @@ export const Search = (props: any) => {
                   showOptionList={
                     showSavePanelOptionsList &&
                     searchBarConfigs[selectedSubTabId]?.showSavePanelOptionsList
+                    
                   }
+                  curVisId={curVisId}
+                  spanValue={spanValue}
+                  setSubType={setSubType}
+                  metricMeasure={metricMeasure}
+                  setMetricMeasure={setMetricMeasure}
+                  setMetricLabel={setMetricLabel}
+                  metricChecked={metricChecked}
                 />
                 <EuiPopoverFooter>
                   <EuiFlexGroup justifyContent="flexEnd">
@@ -247,6 +262,17 @@ export const Search = (props: any) => {
           </>
         )}
       </EuiFlexGroup>
+      { searchError && searchError.error && (
+        <EuiFlexGroup gutterSize="s" justifyContent="flexStart" alignItems="flexStart">
+          <EuiFlexItem>
+            <EuiCallOut title={JSON.parse(searchError.message).error.reason} color="danger" iconType="alert">
+              <p>
+                {JSON.parse(searchError.message).error.details}
+              </p>
+            </EuiCallOut>
+          </EuiFlexItem>
+        </EuiFlexGroup>)
+      }
       {flyout}
     </div>
   );

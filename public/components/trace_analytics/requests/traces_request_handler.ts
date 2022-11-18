@@ -4,6 +4,7 @@
  */
 /* eslint-disable no-console */
 
+import { BarOrientation } from '../../../../common/constants/shared';
 import _ from 'lodash';
 import moment from 'moment';
 import { v1 as uuid } from 'uuid';
@@ -242,7 +243,7 @@ const hitsToSpanDetailData = async (hits: any, colorMap: any) => {
         },
         width: 0.4,
         type: 'bar',
-        orientation: 'h',
+        orientation: BarOrientation.horizontal,
         hoverinfo: 'none',
         showlegend: false,
         spanId: hit._source.spanId,
@@ -258,7 +259,7 @@ const hitsToSpanDetailData = async (hits: any, colorMap: any) => {
         },
         width: 0.4,
         type: 'bar',
-        orientation: 'h',
+        orientation: BarOrientation.horizontal,
         hovertemplate: '%{x}<extra></extra>',
         spanId: hit._source.spanId,
       }

@@ -10,11 +10,8 @@ import {
   EuiPopover,
   EuiButtonIcon,
   EuiToolTip,
-  EuiButton,
   EuiMark,
   EuiLoadingSpinner,
-  EuiPopoverTitle,
-  EuiPanel,
   EuiFlexGroup,
   EuiFlexItem,
   EuiTitle,
@@ -182,8 +179,8 @@ export const Field = (props: IFieldProps) => {
       panelClassName="dscSidebarItem__fieldPopoverPanel"
       button={
         <FieldButton
-          size="s"
-          className="dscSidebarItem"
+          size="m"
+          className="shard__fieldSelectorField explorer__fieldSelectorField"
           isActive={isFieldDetailsOpen}
           dataTestSubj={`field-${field.name}-showDetails`}
           fieldIcon={<FieldIcon type={isEqual(field.type, 'timestamp') ? 'date' : field.type} />}
