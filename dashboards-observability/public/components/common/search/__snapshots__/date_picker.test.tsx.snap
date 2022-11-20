@@ -1,0 +1,521 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panels Table Component renders empty panel table container 1`] = `
+<DatePicker
+  endTime="now"
+  handleTimePickerChange={[MockFunction]}
+  handleTimeRangePickerRefresh={[MockFunction]}
+  setEndTime={[MockFunction]}
+  setIsOutputStale={[MockFunction]}
+  setStartTime={[MockFunction]}
+  setTimeRange={[MockFunction]}
+  startTime="now/y"
+>
+  <EuiSuperDatePicker
+    className="osdQueryBar__datePicker"
+    commonlyUsedRanges={
+      Array [
+        Object {
+          "end": "now/d",
+          "label": "Today",
+          "start": "now/d",
+        },
+        Object {
+          "end": "now/w",
+          "label": "This week",
+          "start": "now/w",
+        },
+        Object {
+          "end": "now/M",
+          "label": "This month",
+          "start": "now/M",
+        },
+        Object {
+          "end": "now/y",
+          "label": "This year",
+          "start": "now/y",
+        },
+        Object {
+          "end": "now-1d/d",
+          "label": "Yesterday",
+          "start": "now-1d/d",
+        },
+        Object {
+          "end": "now",
+          "label": "Week to date",
+          "start": "now/w",
+        },
+        Object {
+          "end": "now",
+          "label": "Month to date",
+          "start": "now/M",
+        },
+        Object {
+          "end": "now",
+          "label": "Year to date",
+          "start": "now/y",
+        },
+      ]
+    }
+    data-test-subj="pplSearchDatePicker"
+    dateFormat=""
+    end="now"
+    isAutoRefreshOnly={false}
+    isDisabled={false}
+    isPaused={true}
+    onRefresh={[MockFunction]}
+    onTimeChange={[Function]}
+    recentlyUsedRanges={Array []}
+    refreshInterval={0}
+    showUpdateButton={true}
+    start="now/y"
+    timeFormat="HH:mm"
+  >
+    <EuiFlexGroup
+      className="euiSuperDatePicker__flexWrapper"
+      gutterSize="s"
+      responsive={false}
+    >
+      <div
+        className="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiSuperDatePicker__flexWrapper"
+      >
+        <EuiFlexItem>
+          <div
+            className="euiFlexItem"
+          >
+            <EuiFormControlLayout
+              className="euiSuperDatePicker"
+              isDisabled={false}
+              prepend={
+                <EuiQuickSelectPopover
+                  applyTime={[Function]}
+                  commonlyUsedRanges={
+                    Array [
+                      Object {
+                        "end": "now/d",
+                        "label": "Today",
+                        "start": "now/d",
+                      },
+                      Object {
+                        "end": "now/w",
+                        "label": "This week",
+                        "start": "now/w",
+                      },
+                      Object {
+                        "end": "now/M",
+                        "label": "This month",
+                        "start": "now/M",
+                      },
+                      Object {
+                        "end": "now/y",
+                        "label": "This year",
+                        "start": "now/y",
+                      },
+                      Object {
+                        "end": "now-1d/d",
+                        "label": "Yesterday",
+                        "start": "now-1d/d",
+                      },
+                      Object {
+                        "end": "now",
+                        "label": "Week to date",
+                        "start": "now/w",
+                      },
+                      Object {
+                        "end": "now",
+                        "label": "Month to date",
+                        "start": "now/M",
+                      },
+                      Object {
+                        "end": "now",
+                        "label": "Year to date",
+                        "start": "now/y",
+                      },
+                    ]
+                  }
+                  dateFormat=""
+                  end="now"
+                  isAutoRefreshOnly={false}
+                  isDisabled={false}
+                  isPaused={true}
+                  recentlyUsedRanges={Array []}
+                  refreshInterval={0}
+                  start="now/y"
+                />
+              }
+            >
+              <div
+                className="euiFormControlLayout euiFormControlLayout--group euiSuperDatePicker"
+              >
+                <EuiQuickSelectPopover
+                  applyTime={[Function]}
+                  className="euiFormControlLayout__prepend"
+                  commonlyUsedRanges={
+                    Array [
+                      Object {
+                        "end": "now/d",
+                        "label": "Today",
+                        "start": "now/d",
+                      },
+                      Object {
+                        "end": "now/w",
+                        "label": "This week",
+                        "start": "now/w",
+                      },
+                      Object {
+                        "end": "now/M",
+                        "label": "This month",
+                        "start": "now/M",
+                      },
+                      Object {
+                        "end": "now/y",
+                        "label": "This year",
+                        "start": "now/y",
+                      },
+                      Object {
+                        "end": "now-1d/d",
+                        "label": "Yesterday",
+                        "start": "now-1d/d",
+                      },
+                      Object {
+                        "end": "now",
+                        "label": "Week to date",
+                        "start": "now/w",
+                      },
+                      Object {
+                        "end": "now",
+                        "label": "Month to date",
+                        "start": "now/M",
+                      },
+                      Object {
+                        "end": "now",
+                        "label": "Year to date",
+                        "start": "now/y",
+                      },
+                    ]
+                  }
+                  dateFormat=""
+                  end="now"
+                  isAutoRefreshOnly={false}
+                  isDisabled={false}
+                  isPaused={true}
+                  key="0/.0"
+                  recentlyUsedRanges={Array []}
+                  refreshInterval={0}
+                  start="now/y"
+                >
+                  <EuiPopover
+                    anchorClassName="euiQuickSelectPopover__anchor"
+                    anchorPosition="downLeft"
+                    button={
+                      <EuiButtonEmpty
+                        aria-label="Date quick select"
+                        className="euiFormControlLayout__prepend"
+                        data-test-subj="superDatePickerToggleQuickMenuButton"
+                        iconSide="right"
+                        iconType="arrowDown"
+                        isDisabled={false}
+                        onClick={[Function]}
+                        size="xs"
+                        textProps={
+                          Object {
+                            "className": "euiQuickSelectPopover__buttonText",
+                          }
+                        }
+                      >
+                        <EuiIcon
+                          type="calendar"
+                        />
+                      </EuiButtonEmpty>
+                    }
+                    closePopover={[Function]}
+                    display="inlineBlock"
+                    hasArrow={true}
+                    isOpen={false}
+                    ownFocus={true}
+                    panelPaddingSize="m"
+                  >
+                    <div
+                      className="euiPopover euiPopover--anchorDownLeft"
+                    >
+                      <div
+                        className="euiPopover__anchor euiQuickSelectPopover__anchor"
+                      >
+                        <EuiButtonEmpty
+                          aria-label="Date quick select"
+                          className="euiFormControlLayout__prepend"
+                          data-test-subj="superDatePickerToggleQuickMenuButton"
+                          iconSide="right"
+                          iconType="arrowDown"
+                          isDisabled={false}
+                          onClick={[Function]}
+                          size="xs"
+                          textProps={
+                            Object {
+                              "className": "euiQuickSelectPopover__buttonText",
+                            }
+                          }
+                        >
+                          <button
+                            aria-label="Date quick select"
+                            className="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                            data-test-subj="superDatePickerToggleQuickMenuButton"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <EuiButtonContent
+                              className="euiButtonEmpty__content"
+                              iconSide="right"
+                              iconSize="s"
+                              iconType="arrowDown"
+                              textProps={
+                                Object {
+                                  "className": "euiButtonEmpty__text euiQuickSelectPopover__buttonText",
+                                }
+                              }
+                            >
+                              <span
+                                className="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                              >
+                                <EuiIcon
+                                  className="euiButtonContent__icon"
+                                  color="inherit"
+                                  size="s"
+                                  type="arrowDown"
+                                >
+                                  <EuiIconEmpty
+                                    aria-hidden={true}
+                                    className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                    focusable="false"
+                                    role="img"
+                                    style={null}
+                                  >
+                                    <svg
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                      focusable="false"
+                                      height={16}
+                                      role="img"
+                                      style={null}
+                                      viewBox="0 0 16 16"
+                                      width={16}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    />
+                                  </EuiIconEmpty>
+                                </EuiIcon>
+                                <span
+                                  className="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                                >
+                                  <EuiIcon
+                                    type="calendar"
+                                  >
+                                    <EuiIconEmpty
+                                      aria-hidden={true}
+                                      className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                      focusable="false"
+                                      role="img"
+                                      style={null}
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="euiIcon euiIcon--medium euiIcon-isLoading"
+                                        focusable="false"
+                                        height={16}
+                                        role="img"
+                                        style={null}
+                                        viewBox="0 0 16 16"
+                                        width={16}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      />
+                                    </EuiIconEmpty>
+                                  </EuiIcon>
+                                </span>
+                              </span>
+                            </EuiButtonContent>
+                          </button>
+                        </EuiButtonEmpty>
+                      </div>
+                    </div>
+                  </EuiPopover>
+                </EuiQuickSelectPopover>
+                <div
+                  className="euiFormControlLayout__childrenWrapper"
+                >
+                  <EuiDatePickerRange
+                    className="euiDatePickerRange--inGroup"
+                    endDateControl={<div />}
+                    iconType={false}
+                    isCustom={true}
+                    startDateControl={<div />}
+                  >
+                    <div
+                      className="euiDatePickerRange euiDatePickerRange--inGroup"
+                    >
+                      <button
+                        className="euiSuperDatePicker__prettyFormat"
+                        data-test-subj="superDatePickerShowDatesButton"
+                        disabled={false}
+                        onClick={[Function]}
+                      >
+                        Year to date
+                        <span
+                          className="euiSuperDatePicker__prettyFormatLink"
+                        >
+                          <EuiI18n
+                            default="Show dates"
+                            token="euiSuperDatePicker.showDatesButtonLabel"
+                          >
+                            Show dates
+                          </EuiI18n>
+                        </span>
+                      </button>
+                    </div>
+                  </EuiDatePickerRange>
+                  <EuiFormControlLayoutIcons />
+                </div>
+              </div>
+            </EuiFormControlLayout>
+          </div>
+        </EuiFlexItem>
+        <EuiFlexItem
+          grow={false}
+        >
+          <div
+            className="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <EuiSuperUpdateButton
+              data-test-subj="superDatePickerApplyTimeButton"
+              isDisabled={false}
+              isLoading={false}
+              needsUpdate={false}
+              onClick={[Function]}
+              showTooltip={true}
+            >
+              <EuiToolTip
+                delay="regular"
+                position="bottom"
+              >
+                <span
+                  className="euiToolTipAnchor"
+                  onKeyUp={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  <EuiButton
+                    className="euiSuperUpdateButton"
+                    color="primary"
+                    data-test-subj="superDatePickerApplyTimeButton"
+                    fill={true}
+                    iconType="refresh"
+                    isDisabled={false}
+                    isLoading={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    textProps={
+                      Object {
+                        "className": "euiSuperUpdateButton__text",
+                      }
+                    }
+                  >
+                    <EuiButtonDisplay
+                      baseClassName="euiButton"
+                      className="euiSuperUpdateButton"
+                      color="primary"
+                      data-test-subj="superDatePickerApplyTimeButton"
+                      disabled={false}
+                      element="button"
+                      fill={true}
+                      iconType="refresh"
+                      isDisabled={false}
+                      isLoading={false}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      textProps={
+                        Object {
+                          "className": "euiSuperUpdateButton__text",
+                        }
+                      }
+                      type="button"
+                    >
+                      <button
+                        className="euiButton euiButton--primary euiButton--fill euiSuperUpdateButton"
+                        data-test-subj="superDatePickerApplyTimeButton"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        style={
+                          Object {
+                            "minWidth": undefined,
+                          }
+                        }
+                        type="button"
+                      >
+                        <EuiButtonContent
+                          className="euiButton__content"
+                          iconSide="left"
+                          iconType="refresh"
+                          isLoading={false}
+                          textProps={
+                            Object {
+                              "className": "euiButton__text euiSuperUpdateButton__text",
+                            }
+                          }
+                        >
+                          <span
+                            className="euiButtonContent euiButton__content"
+                          >
+                            <EuiIcon
+                              className="euiButtonContent__icon"
+                              color="inherit"
+                              size="m"
+                              type="refresh"
+                            >
+                              <EuiIconEmpty
+                                aria-hidden={true}
+                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                focusable="false"
+                                role="img"
+                                style={null}
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                                  focusable="false"
+                                  height={16}
+                                  role="img"
+                                  style={null}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </EuiIconEmpty>
+                            </EuiIcon>
+                            <span
+                              className="euiButton__text euiSuperUpdateButton__text"
+                            >
+                              <EuiI18n
+                                default="Refresh"
+                                token="euiSuperUpdateButton.refreshButtonLabel"
+                              >
+                                Refresh
+                              </EuiI18n>
+                            </span>
+                          </span>
+                        </EuiButtonContent>
+                      </button>
+                    </EuiButtonDisplay>
+                  </EuiButton>
+                </span>
+              </EuiToolTip>
+            </EuiSuperUpdateButton>
+          </div>
+        </EuiFlexItem>
+      </div>
+    </EuiFlexGroup>
+  </EuiSuperDatePicker>
+</DatePicker>
+`;

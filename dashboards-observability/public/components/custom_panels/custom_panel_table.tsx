@@ -29,7 +29,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import { ChromeBreadcrumb } from '../../../../../src/core/public';
@@ -72,7 +72,7 @@ interface Props {
   addSamplePanels: () => void;
 }
 
-export const CustomPanelTable = ({
+export const CustomPanelTable: FunctionComponent<Props> = ({
   loading,
   fetchCustomPanels,
   customPanels,
@@ -211,6 +211,7 @@ export const CustomPanelTable = ({
 
   const popoverItems: ReactElement[] = [
     <EuiContextMenuItem
+      data-test-subj="renameContextMenuItem"
       key="rename"
       disabled={customPanels.length === 0 || selectedCustomPanels.length !== 1}
       onClick={() => {
@@ -221,6 +222,7 @@ export const CustomPanelTable = ({
       Rename
     </EuiContextMenuItem>,
     <EuiContextMenuItem
+      data-test-subj="duplicateContextMenuItem"
       key="duplicate"
       disabled={customPanels.length === 0 || selectedCustomPanels.length !== 1}
       onClick={() => {
@@ -312,6 +314,7 @@ export const CustomPanelTable = ({
                 <EuiFlexGroup gutterSize="s">
                   <EuiFlexItem>
                     <EuiPopover
+                      data-test-subj="customPanels__popOver"
                       panelPaddingSize="none"
                       button={popoverButton}
                       isOpen={isActionsPopoverOpen}
@@ -396,7 +399,11 @@ export const CustomPanelTable = ({
                     </EuiButton>
                   </EuiFlexItem>
                   <EuiFlexItem grow={false}>
-                    <EuiButton fullWidth={false} onClick={() => addSampledata()}>
+                    <EuiButton
+                      data-test-subj="customPanels__addSamples"
+                      fullWidth={false}
+                      onClick={() => addSampledata()}
+                    >
                       Add samples
                     </EuiButton>
                   </EuiFlexItem>

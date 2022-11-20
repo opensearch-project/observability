@@ -23,9 +23,7 @@ describe('ConfigAvailability component', () => {
       expression: '≥',
     },
   ];
-  const onConfigChange = (configs: any) => {
-    // console.log('configs', configs);
-  };
+  const onConfigChange = jest.fn();
   const wrapper = mount(
     <ConfigAvailability
       visualizations={TEST_CONFIG_AVAILABILITY}

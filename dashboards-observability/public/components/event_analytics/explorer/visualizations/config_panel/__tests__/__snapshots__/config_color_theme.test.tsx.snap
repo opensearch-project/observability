@@ -2,7 +2,7 @@
 
 exports[`ConfigColorTheme component Renders ConfigColorTheme component 1`] = `
 <ConfigColorTheme
-  handleConfigChange={[Function]}
+  handleConfigChange={[MockFunction]}
   schemas={Object {}}
   sectionName="Color theme"
   visualizations={
