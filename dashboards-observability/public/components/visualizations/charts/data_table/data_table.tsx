@@ -30,17 +30,12 @@ const doubleValueGetter = (params) => {
 export const DataTable = ({ visualizations, layout, config }: any) => {
   const {
     data: {
-      defaultAxes,
-      indexFields,
-      query,
       rawVizData: {
-        data: queriedVizData,
-        jsonData,
-        metadata: { fields = [] },
-      },
+        jsonData = [],
+        metadata: { fields = [] } = {},
+      } = {},
       userConfigs: { dataConfig: { chartStyles = {} } = {} } = {},
-    } = {},
-    vis: visMetaData,
+    } = {}
   }: IVisualizationContainerProps = visualizations;
 
   const enablePagination =

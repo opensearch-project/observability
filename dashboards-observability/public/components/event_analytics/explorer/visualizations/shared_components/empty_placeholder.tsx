@@ -20,7 +20,7 @@ export const EmptyPlaceholder = (props: { icon: string }) => (
       <EuiIcon type={props.icon} color="subdued" size="xxl" />
       <EuiSpacer size="l" />
       <p>
-        <FormattedMessage id="visualization_noData" defaultMessage="No results found" />
+        <FormattedMessage id="visualization_noData" defaultMessage="No data found" />
       </p>
     </EuiText>
   </>

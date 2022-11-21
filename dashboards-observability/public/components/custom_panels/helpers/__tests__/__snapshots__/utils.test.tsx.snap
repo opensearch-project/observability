@@ -135,7 +135,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "Carrier",
+                  "name": "Carrier",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "sum",
+                  "customLabel": "delays",
+                  "label": "FlightDelayMin",
+                  "name": "FlightDelayMin",
+                },
+              ],
+              "span": undefined,
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -578,7 +597,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "Carrier",
+                    "name": "Carrier",
+                  },
+                ],
+                "series": Array [
+                  Object {
+                    "aggregation": "sum",
+                    "customLabel": "delays",
+                    "label": "FlightDelayMin",
+                    "name": "FlightDelayMin",
+                  },
+                ],
+                "span": undefined,
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -1028,7 +1066,26 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "Carrier",
+                      "name": "Carrier",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "sum",
+                      "customLabel": "delays",
+                      "label": "FlightDelayMin",
+                      "name": "FlightDelayMin",
+                    },
+                  ],
+                  "span": undefined,
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -1345,7 +1402,39 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "responsive": true,
             }
           }
+<<<<<<< HEAD
           data={Array []}
+=======
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                },
+                "name": "delays",
+                "orientation": "v",
+                "type": "bar",
+                "x": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "y": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+              },
+            ]
+          }
+>>>>>>> 2.x
           layout={
             Object {
               "bargap": 0.30000000000000004,
@@ -1400,7 +1489,39 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "responsive": true,
               }
             }
+<<<<<<< HEAD
             data={Array []}
+=======
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                  },
+                  "name": "delays",
+                  "orientation": "v",
+                  "type": "bar",
+                  "x": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                },
+              ]
+            }
+>>>>>>> 2.x
             debug={false}
             divId="explorerPlotComponent"
             layout={
@@ -1613,7 +1734,36 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": Object {
+                "interval": "1",
+                "time_field": Array [
+                  Object {
+                    "label": "timestamp",
+                    "name": "timestamp",
+                    "type": "timestamp",
+                  },
+                ],
+                "unit": Array [
+                  Object {
+                    "label": "Day",
+                    "text": "Day",
+                    "value": "d",
+                  },
+                ],
+              },
+            },
+          },
         },
         "vis": Object {
           "category": "Visualizations",
@@ -1698,6 +1848,13 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         "component": null,
                         "mapTo": "tooltipMode",
                         "name": "Tooltip mode",
+<<<<<<< HEAD
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "show",
+                              "name": "Show",
+=======
                         "props": Object {
                           "defaultSelections": Array [
                             Object {
@@ -1740,6 +1897,182 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             Object {
                               "id": "y",
                               "name": "Series",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                  Object {
+                    "editor": [Function],
+                    "id": "chart_styles",
+                    "mapTo": "chartStyles",
+                    "name": "Chart styles",
+                    "schemas": Array [
+                      Object {
+                        "component": [Function],
+                        "eleType": "buttons",
+                        "mapTo": "style",
+                        "name": "Mode",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "lines",
+                              "name": "Lines",
+>>>>>>> 2.x
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+<<<<<<< HEAD
+                              "id": "show",
+                              "name": "Show",
+                            },
+                            Object {
+                              "id": "hidden",
+                              "name": "Hidden",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": null,
+                        "mapTo": "tooltipText",
+                        "name": "Tooltip text",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "all",
+                              "name": "All",
+                            },
+                            Object {
+                              "id": "x",
+                              "name": "Dimension",
+                            },
+                            Object {
+                              "id": "y",
+                              "name": "Series",
+=======
+                              "id": "lines",
+                              "name": "Lines",
+                            },
+                            Object {
+                              "id": "markers",
+                              "name": "Marker",
+                            },
+                            Object {
+                              "id": "lines+markers",
+                              "name": "Lines + Markers",
+>>>>>>> 2.x
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "eleType": "buttons",
+                        "mapTo": "interpolation",
+                        "name": "Interpolation",
+                        "props": Object {
+                          "defaultSelections": Array [
+                            Object {
+                              "id": "spline",
+                              "name": "Smooth",
+                            },
+                          ],
+                          "options": Array [
+                            Object {
+                              "id": "linear",
+                              "name": "Linear",
+                            },
+                            Object {
+                              "id": "spline",
+                              "name": "Smooth",
+                            },
+                            Object {
+                              "id": "hv",
+                              "name": "Step before",
+                            },
+                            Object {
+                              "id": "vh",
+                              "name": "Step after",
+                            },
+                          ],
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 2,
+                        "eleType": "slider",
+                        "mapTo": "lineWidth",
+                        "name": "Line width",
+                        "props": Object {
+                          "max": 10,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 70,
+                        "eleType": "slider",
+                        "mapTo": "fillOpacity",
+                        "name": "Fill opacity",
+                        "props": Object {
+                          "max": 100,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 5,
+                        "eleType": "slider",
+                        "mapTo": "pointSize",
+                        "name": "Point size",
+                        "props": Object {
+                          "max": 40,
+                        },
+                      },
+                      Object {
+                        "component": [Function],
+                        "eleType": "input",
+                        "mapTo": "labelSize",
+                        "name": "Label size",
+                        "title": "Label size",
+                      },
+                      Object {
+                        "component": [Function],
+                        "defaultState": 0,
+                        "eleType": "slider",
+                        "mapTo": "rotateLabels",
+                        "name": "Rotate labels",
+                        "props": Object {
+                          "max": 90,
+                          "min": -90,
+                          "showTicks": true,
+                          "ticks": Array [
+                            Object {
+                              "label": "-90°",
+                              "value": -90,
+                            },
+                            Object {
+                              "label": "-45°",
+                              "value": -45,
+                            },
+                            Object {
+                              "label": "0°",
+                              "value": 0,
+                            },
+                            Object {
+                              "label": "45°",
+                              "value": 45,
+                            },
+                            Object {
+                              "label": "90°",
+                              "value": 90,
                             },
                           ],
                         },
@@ -2121,7 +2454,36 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": Object {
+                  "interval": "1",
+                  "time_field": Array [
+                    Object {
+                      "label": "timestamp",
+                      "name": "timestamp",
+                      "type": "timestamp",
+                    },
+                  ],
+                  "unit": Array [
+                    Object {
+                      "label": "Day",
+                      "text": "Day",
+                      "value": "d",
+                    },
+                  ],
+                },
+              },
+            },
           },
           "vis": Object {
             "category": "Visualizations",
@@ -2206,6 +2568,13 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                           "component": null,
                           "mapTo": "tooltipMode",
                           "name": "Tooltip mode",
+<<<<<<< HEAD
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "show",
+                                "name": "Show",
+=======
                           "props": Object {
                             "defaultSelections": Array [
                               Object {
@@ -2248,6 +2617,182 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                               Object {
                                 "id": "y",
                                 "name": "Series",
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    Object {
+                      "editor": [Function],
+                      "id": "chart_styles",
+                      "mapTo": "chartStyles",
+                      "name": "Chart styles",
+                      "schemas": Array [
+                        Object {
+                          "component": [Function],
+                          "eleType": "buttons",
+                          "mapTo": "style",
+                          "name": "Mode",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "lines",
+                                "name": "Lines",
+>>>>>>> 2.x
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+<<<<<<< HEAD
+                                "id": "show",
+                                "name": "Show",
+                              },
+                              Object {
+                                "id": "hidden",
+                                "name": "Hidden",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": null,
+                          "mapTo": "tooltipText",
+                          "name": "Tooltip text",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "all",
+                                "name": "All",
+                              },
+                              Object {
+                                "id": "x",
+                                "name": "Dimension",
+                              },
+                              Object {
+                                "id": "y",
+                                "name": "Series",
+=======
+                                "id": "lines",
+                                "name": "Lines",
+                              },
+                              Object {
+                                "id": "markers",
+                                "name": "Marker",
+                              },
+                              Object {
+                                "id": "lines+markers",
+                                "name": "Lines + Markers",
+>>>>>>> 2.x
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "buttons",
+                          "mapTo": "interpolation",
+                          "name": "Interpolation",
+                          "props": Object {
+                            "defaultSelections": Array [
+                              Object {
+                                "id": "spline",
+                                "name": "Smooth",
+                              },
+                            ],
+                            "options": Array [
+                              Object {
+                                "id": "linear",
+                                "name": "Linear",
+                              },
+                              Object {
+                                "id": "spline",
+                                "name": "Smooth",
+                              },
+                              Object {
+                                "id": "hv",
+                                "name": "Step before",
+                              },
+                              Object {
+                                "id": "vh",
+                                "name": "Step after",
+                              },
+                            ],
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 2,
+                          "eleType": "slider",
+                          "mapTo": "lineWidth",
+                          "name": "Line width",
+                          "props": Object {
+                            "max": 10,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 70,
+                          "eleType": "slider",
+                          "mapTo": "fillOpacity",
+                          "name": "Fill opacity",
+                          "props": Object {
+                            "max": 100,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 5,
+                          "eleType": "slider",
+                          "mapTo": "pointSize",
+                          "name": "Point size",
+                          "props": Object {
+                            "max": 40,
+                          },
+                        },
+                        Object {
+                          "component": [Function],
+                          "eleType": "input",
+                          "mapTo": "labelSize",
+                          "name": "Label size",
+                          "title": "Label size",
+                        },
+                        Object {
+                          "component": [Function],
+                          "defaultState": 0,
+                          "eleType": "slider",
+                          "mapTo": "rotateLabels",
+                          "name": "Rotate labels",
+                          "props": Object {
+                            "max": 90,
+                            "min": -90,
+                            "showTicks": true,
+                            "ticks": Array [
+                              Object {
+                                "label": "-90°",
+                                "value": -90,
+                              },
+                              Object {
+                                "label": "-45°",
+                                "value": -45,
+                              },
+                              Object {
+                                "label": "0°",
+                                "value": 0,
+                              },
+                              Object {
+                                "label": "45°",
+                                "value": 45,
+                              },
+                              Object {
+                                "label": "90°",
+                                "value": 90,
                               },
                             ],
                           },
@@ -2643,7 +3188,36 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": Object {
+                    "interval": "1",
+                    "time_field": Array [
+                      Object {
+                        "label": "timestamp",
+                        "name": "timestamp",
+                        "type": "timestamp",
+                      },
+                    ],
+                    "unit": Array [
+                      Object {
+                        "label": "Day",
+                        "text": "Day",
+                        "value": "d",
+                      },
+                    ],
+                  },
+                },
+              },
             },
             "vis": Object {
               "category": "Visualizations",
@@ -2728,6 +3302,13 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                             "component": null,
                             "mapTo": "tooltipMode",
                             "name": "Tooltip mode",
+<<<<<<< HEAD
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "show",
+                                  "name": "Show",
+=======
                             "props": Object {
                               "defaultSelections": Array [
                                 Object {
@@ -2770,6 +3351,182 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                                 Object {
                                   "id": "y",
                                   "name": "Series",
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                      Object {
+                        "editor": [Function],
+                        "id": "chart_styles",
+                        "mapTo": "chartStyles",
+                        "name": "Chart styles",
+                        "schemas": Array [
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "style",
+                            "name": "Mode",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "lines",
+                                  "name": "Lines",
+>>>>>>> 2.x
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+<<<<<<< HEAD
+                                  "id": "show",
+                                  "name": "Show",
+                                },
+                                Object {
+                                  "id": "hidden",
+                                  "name": "Hidden",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": null,
+                            "mapTo": "tooltipText",
+                            "name": "Tooltip text",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "all",
+                                  "name": "All",
+                                },
+                                Object {
+                                  "id": "x",
+                                  "name": "Dimension",
+                                },
+                                Object {
+                                  "id": "y",
+                                  "name": "Series",
+=======
+                                  "id": "lines",
+                                  "name": "Lines",
+                                },
+                                Object {
+                                  "id": "markers",
+                                  "name": "Marker",
+                                },
+                                Object {
+                                  "id": "lines+markers",
+                                  "name": "Lines + Markers",
+>>>>>>> 2.x
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "buttons",
+                            "mapTo": "interpolation",
+                            "name": "Interpolation",
+                            "props": Object {
+                              "defaultSelections": Array [
+                                Object {
+                                  "id": "spline",
+                                  "name": "Smooth",
+                                },
+                              ],
+                              "options": Array [
+                                Object {
+                                  "id": "linear",
+                                  "name": "Linear",
+                                },
+                                Object {
+                                  "id": "spline",
+                                  "name": "Smooth",
+                                },
+                                Object {
+                                  "id": "hv",
+                                  "name": "Step before",
+                                },
+                                Object {
+                                  "id": "vh",
+                                  "name": "Step after",
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 2,
+                            "eleType": "slider",
+                            "mapTo": "lineWidth",
+                            "name": "Line width",
+                            "props": Object {
+                              "max": 10,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 70,
+                            "eleType": "slider",
+                            "mapTo": "fillOpacity",
+                            "name": "Fill opacity",
+                            "props": Object {
+                              "max": 100,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 5,
+                            "eleType": "slider",
+                            "mapTo": "pointSize",
+                            "name": "Point size",
+                            "props": Object {
+                              "max": 40,
+                            },
+                          },
+                          Object {
+                            "component": [Function],
+                            "eleType": "input",
+                            "mapTo": "labelSize",
+                            "name": "Label size",
+                            "title": "Label size",
+                          },
+                          Object {
+                            "component": [Function],
+                            "defaultState": 0,
+                            "eleType": "slider",
+                            "mapTo": "rotateLabels",
+                            "name": "Rotate labels",
+                            "props": Object {
+                              "max": 90,
+                              "min": -90,
+                              "showTicks": true,
+                              "ticks": Array [
+                                Object {
+                                  "label": "-90°",
+                                  "value": -90,
+                                },
+                                Object {
+                                  "label": "-45°",
+                                  "value": -45,
+                                },
+                                Object {
+                                  "label": "0°",
+                                  "value": 0,
+                                },
+                                Object {
+                                  "label": "45°",
+                                  "value": 45,
+                                },
+                                Object {
+                                  "label": "90°",
+                                  "value": 90,
                                 },
                               ],
                             },
@@ -3014,6 +3771,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           }
         }
       >
+<<<<<<< HEAD
         <EmptyPlaceholder
           icon="visLine"
         >
@@ -3091,6 +3849,203 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             </div>
           </EuiText>
         </EmptyPlaceholder>
+=======
+        <Plt
+          config={
+            Object {
+              "barmode": "line",
+              "displaylogo": false,
+              "responsive": true,
+              "xaxis": Object {
+                "automargin": true,
+              },
+              "yaxis": Object {
+                "automargin": true,
+              },
+            }
+          }
+          data={
+            Array [
+              Object {
+                "fill": "tozeroy",
+                "fillcolor": "rgba(60,161,199,0.35)",
+                "hoverinfo": "all",
+                "line": Object {
+                  "color": "#3CA1C7",
+                  "shape": "spline",
+                  "width": 2,
+                },
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                  "size": 5,
+                },
+                "mode": "lines",
+                "name": "avg(machine.ram)",
+                "type": "line",
+                "x": Array [
+                  "",
+                  "",
+                  "",
+                  "",
+                ],
+                "y": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+              },
+              Object {
+                "mode": "text",
+                "showlegend": false,
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
+            ]
+          }
+          layout={
+            Object {
+              "autosize": true,
+              "legend": Object {
+                "orientation": "v",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 30,
+                "pad": 4,
+                "r": 5,
+                "t": 50,
+              },
+              "shapes": Array [],
+              "showlegend": true,
+              "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickangle": 0,
+                "tickfont": Object {},
+              },
+              "yaxis": Object {
+                "automargin": true,
+                "tickfont": Object {},
+              },
+            }
+          }
+        >
+          <PlotlyComponent
+            config={
+              Object {
+                "barmode": "line",
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+                "xaxis": Object {
+                  "automargin": true,
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                },
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "fill": "tozeroy",
+                  "fillcolor": "rgba(60,161,199,0.35)",
+                  "hoverinfo": "all",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "shape": "spline",
+                    "width": 2,
+                  },
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                    "size": 5,
+                  },
+                  "mode": "lines",
+                  "name": "avg(machine.ram)",
+                  "type": "line",
+                  "x": Array [
+                    "",
+                    "",
+                    "",
+                    "",
+                  ],
+                  "y": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                },
+                Object {
+                  "mode": "text",
+                  "showlegend": false,
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "barmode": "stack",
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 30,
+                  "pad": 4,
+                  "r": 5,
+                  "t": 50,
+                },
+                "shapes": Array [],
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "tickangle": 0,
+                  "tickfont": Object {},
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                  "tickfont": Object {},
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
+          >
+            <div
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
+>>>>>>> 2.x
       </Line>
     </VisualizationChart>
   </Visualization>
@@ -3232,7 +4187,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "dataConfig": Object {
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "machine.os",
+                  "name": "machine.os",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": undefined,
+            },
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -3675,7 +4649,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "dataConfig": Object {
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "machine.os",
+                    "name": "machine.os",
+                  },
+                ],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": undefined,
+              },
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -4125,7 +5118,26 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "dataConfig": Object {
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "machine.os",
+                      "name": "machine.os",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": undefined,
+                },
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -4442,7 +5454,39 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "responsive": true,
             }
           }
+<<<<<<< HEAD
           data={Array []}
+=======
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                },
+                "name": "avg(machine.ram)",
+                "orientation": "h",
+                "type": "bar",
+                "x": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+                "y": Array [
+                  "",
+                  "",
+                  "",
+                  "",
+                ],
+              },
+            ]
+          }
+>>>>>>> 2.x
           layout={
             Object {
               "bargap": 0.30000000000000004,
@@ -4497,7 +5541,39 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "responsive": true,
               }
             }
+<<<<<<< HEAD
             data={Array []}
+=======
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                  },
+                  "name": "avg(machine.ram)",
+                  "orientation": "h",
+                  "type": "bar",
+                  "x": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                  "y": Array [
+                    "",
+                    "",
+                    "",
+                    "",
+                  ],
+                },
+              ]
+            }
+>>>>>>> 2.x
             debug={false}
             divId="explorerPlotComponent"
             layout={

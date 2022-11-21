@@ -5,11 +5,17 @@
  */
 
 import dateMath from '@elastic/datemath';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { HttpStart } from '../../../../../../src/core/public';
-import { CUSTOM_LABEL, TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
+import {
+  CUSTOM_LABEL,
+  TIME_INTERVAL_OPTIONS,
+  GROUPBY,
+  AGGREGATIONS,
+  BREAKDOWNS,
+} from '../../../../common/constants/explorer';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import {
   ConfigListEntry,
@@ -20,6 +26,12 @@ import {
 import PPLService from '../../../services/requests/ppl';
 import { DocViewRow, IDocType } from '../explorer/events_views';
 import { ConfigTooltip } from '../explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  GroupByChunk,
+  GroupField,
+  StatsAggregationChunk,
+  statsChunk,
+} from '../../../../common/query_manager/ast/types';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -267,30 +279,155 @@ export const formatError = (name: string, message: string, details: string) => {
   };
 };
 
-export const findAutoInterval = (start: string = '', end: string = '') => {
-  let minInterval = 'y';
-  if (start?.length === 0 || end?.length === 0 || start === end)
-    return ['d', [...TIME_INTERVAL_OPTIONS]];
-  const momentStart = dateMath.parse(start)!;
-  const momentEnd = dateMath.parse(end)!;
-  const diffSeconds = momentEnd.unix() - momentStart.unix();
+export const hexToRgb = (
+  hex: string = '#3CA1C7',
+  opacity: number = 1,
+  colorWithOpacity: boolean = true
+) => {
+  // default color PLOTLY_COLOR[0]: '#3CA1C7'
+  const defaultColor = [hex, '60', '161', '199'];
+  const rgbElements = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) || defaultColor;
+  const [, r, g, b] = rgbElements.map((color) => parseInt(color, 16));
+  const rgbaFormat = colorWithOpacity ? `rgba(${r},${g},${b},${opacity})` : `rgb(${r},${g},${b})`;
+  return rgbaFormat;
+};
 
-  // less than 1 second
-  if (diffSeconds <= 1) minInterval = 'ms';
-  // less than 2 minutes
-  else if (diffSeconds <= 60 * 2) minInterval = 's';
-  // less than 2 hours
-  else if (diffSeconds <= 3600 * 2) minInterval = 'm';
-  // less than 2 days
-  else if (diffSeconds <= 86400 * 2) minInterval = 'h';
-  // less than 1 month
-  else if (diffSeconds <= 86400 * 31) minInterval = 'd';
-  // less than 3 months
-  else if (diffSeconds <= 86400 * 93) minInterval = 'w';
-  // less than 1 year
-  else if (diffSeconds <= 86400 * 366) minInterval = 'M';
+export const lightenColor = (color: string, percent: number) => {
+  const num = parseInt(color.replace('#', ''), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const B = ((num >> 8) & 0x00ff) + amt;
+  const G = (num & 0x0000ff) + amt;
+  return (
+    '#' +
+    (
+      0x1000000 +
+      (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+      (B < 255 ? (B < 1 ? 0 : B) : 255) * 0x100 +
+      (G < 255 ? (G < 1 ? 0 : G) : 255)
+    )
+      .toString(16)
+      .slice(1)
+  );
+};
 
-  return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
+// Get config objects according to specific editor
+export const fetchConfigObject = (editor: string, propsOptions: any) => {
+  switch (editor) {
+    case 'Tooltip':
+      return {
+        id: 'tooltip_options',
+        name: 'Tooltip options',
+        editor: ConfigTooltip,
+        mapTo: 'tooltipOptions',
+        schemas: [
+          {
+            name: 'Tooltip mode',
+            component: null,
+            mapTo: 'tooltipMode',
+            props: {
+              options: [
+                { name: 'Show', id: 'show' },
+                { name: 'Hidden', id: 'hidden' },
+              ],
+              defaultSelections: [{ name: 'Show', id: 'show' }],
+            },
+          },
+          {
+            name: 'Tooltip text',
+            component: null,
+            mapTo: 'tooltipText',
+            props: propsOptions,
+          },
+        ],
+      };
+    default:
+      return null;
+  }
+};
+
+export const getTooltipHoverInfo = ({ tooltipMode, tooltipText }: GetTooltipHoverInfoType) => {
+  if (tooltipMode === 'hidden') {
+    return 'none';
+  }
+  if (tooltipText === undefined) {
+    return 'all';
+  }
+  return tooltipText;
+};
+
+export const filterDataConfigParameter = (parameter: ConfigListEntry[]) =>
+  parameter.filter((configItem: ConfigListEntry) => configItem.label);
+
+export const getRoundOf = (value: number, places: number) => value.toFixed(places);
+
+export const getPropName = (queriedVizObj: {
+  customLabel?: string;
+  aggregation: string;
+  name: string;
+  label: string;
+}) => {
+  if (queriedVizObj) {
+    if (queriedVizObj[CUSTOM_LABEL] === '' || queriedVizObj[CUSTOM_LABEL] === undefined) {
+      return `${queriedVizObj.aggregation}(${queriedVizObj.name})`;
+    }
+    return queriedVizObj[CUSTOM_LABEL];
+  } else {
+    return '';
+  }
+};
+
+export const getDefaultVisConfig = (statsToken: statsChunk) => {
+  if (statsToken === null) {
+    return {
+      [GROUPBY]: [],
+      [AGGREGATIONS]: [],
+      [BREAKDOWNS]: [],
+    };
+  }
+
+  const groupByToken = statsToken.groupby;
+  // const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+  const span = getSpanValue(groupByToken);
+  return {
+    [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+      label: agg.function?.value_expression,
+      name: agg.function?.value_expression,
+      aggregation: agg.function?.name,
+      [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
+    })),
+    [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+      label: agg.name ?? '',
+      name: agg.name ?? '',
+      [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
+    })),
+    span,
+  };
+};
+
+const getSpanValue = (groupByToken: GroupByChunk) => {
+  const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+    (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+  )?.text;
+  return !isEmpty(groupByToken?.span)
+    ? {
+        time_field: [
+          {
+            name: groupByToken?.span?.span_expression?.field,
+            type: 'timestamp',
+            label: groupByToken?.span?.span_expression?.field,
+          },
+        ],
+        unit: [
+          {
+            text: timeUnitValue,
+            value: groupByToken?.span?.span_expression?.time_unit,
+            label: timeUnitValue,
+          },
+        ],
+        interval: groupByToken?.span?.span_expression?.literal_value,
+      }
+    : undefined;
 };
 
 export const hexToRgb = (

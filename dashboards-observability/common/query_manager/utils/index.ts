@@ -5,6 +5,7 @@
 
 import { CUSTOM_LABEL } from '../../../common/constants/explorer';
 import { AggregationConfigurations, PreviouslyParsedStaleStats } from '../ast/types';
+import { removeBacktick } from '../../../common/utils';
 
 export const composeAggregations = (
   aggConfig: AggregationConfigurations,
@@ -23,7 +24,7 @@ export const composeAggregations = (
       group_fields: [
         ...(aggConfig.dimensions || []),
         ...(aggConfig.breakdowns || []),
-      ].map((dimension) => ({ name: dimension.name })),
+      ].map((dimension) => ({ name: `\`${removeBacktick(dimension.name)}\`` })),
       ...(aggConfig.span &&
         JSON.stringify(aggConfig?.span) !== '{}' && { span: composeSpan(aggConfig.span) }),
     },

@@ -4,13 +4,20 @@
  */
 
 import {
+  EuiButton,
   EuiButtonIcon,
+  EuiCodeBlock,
   EuiContextMenuItem,
   EuiContextMenuPanel,
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
   EuiLoadingChart,
+  EuiModal,
+  EuiModalBody,
+  EuiModalFooter,
+  EuiModalHeader,
+  EuiModalHeaderTitle,
   EuiPanel,
   EuiPopover,
   EuiSpacer,
@@ -20,7 +27,11 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
-import { displayVisualization, renderSavedVisualization } from '../../helpers/utils';
+import {
+  displayVisualization,
+  renderCatalogVisualization,
+  renderSavedVisualization,
+} from '../../helpers/utils';
 import './visualization_container.scss';
 
 /*
@@ -40,6 +51,8 @@ import './visualization_container.scss';
  * pplFilterValue: string with panel PPL filter value
  * showFlyout: function to show the flyout
  * removeVisualization: function to remove all the visualizations
+ * catalogVisualization: boolean pointing if the container is used for catalog metrics
+ * spanParam: Override the span(timestamp, 1h) in visualization to span(timestamp, spanParam)
  */
 
 interface Props {
@@ -57,6 +70,8 @@ interface Props {
   cloneVisualization?: (visualzationTitle: string, savedVisualizationId: string) => void;
   showFlyout?: (isReplacement?: boolean | undefined, replaceVizId?: string | undefined) => void;
   removeVisualization?: (visualizationId: string) => void;
+  catalogVisualization?: boolean;
+  spanParam?: string;
 }
 
 export const VisualizationContainer = ({
@@ -74,6 +89,8 @@ export const VisualizationContainer = ({
   cloneVisualization,
   showFlyout,
   removeVisualization,
+  catalogVisualization,
+  spanParam,
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
@@ -85,6 +102,39 @@ export const VisualizationContainer = ({
   const [isError, setIsError] = useState('');
   const onActionsMenuClick = () => setIsPopoverOpen((currPopoverOpen) => !currPopoverOpen);
   const closeActionsMenu = () => setIsPopoverOpen(false);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const closeModal = () => setIsModalVisible(false);
+  const showModal = () => setIsModalVisible(true);
+
+  let modal;
+
+  if (isModalVisible) {
+    modal = (
+      <EuiModal onClose={closeModal}>
+        <EuiModalHeader>
+          <EuiModalHeaderTitle>
+            <h1>{visualizationMetaData.name}</h1>
+          </EuiModalHeaderTitle>
+        </EuiModalHeader>
+
+        <EuiModalBody>
+          This PPL Query is generated in runtime from selected data source
+          <EuiSpacer />
+          <EuiCodeBlock language="html" isCopyable>
+            {visualizationMetaData.query}
+          </EuiCodeBlock>
+        </EuiModalBody>
+
+        <EuiModalFooter>
+          <EuiButton onClick={closeModal} fill>
+            Close
+          </EuiButton>
+        </EuiModalFooter>
+      </EuiModal>
+    );
+  }
 
   let popoverPanel = [
     <EuiContextMenuItem
@@ -120,25 +170,57 @@ export const VisualizationContainer = ({
     </EuiContextMenuItem>,
   ];
 
+  let showModelPanel = [
+    <EuiContextMenuItem
+      data-test-subj="showCatalogPPLQuery"
+      key="view_query"
+      disabled={disablePopover}
+      onClick={() => {
+        closeActionsMenu();
+        showModal();
+      }}
+    >
+      View query
+    </EuiContextMenuItem>,
+  ];
+
   if (usedInNotebooks) {
-    popoverPanel = [popoverPanel[0]];
+    popoverPanel = catalogVisualization ? [showModelPanel] : [popoverPanel[0]];
   }
 
   const loadVisaulization = async () => {
-    await renderSavedVisualization(
-      http,
-      pplService,
-      savedVisualizationId,
-      fromTime,
-      toTime,
-      pplFilterValue,
-      setVisualizationTitle,
-      setVisualizationType,
-      setVisualizationData,
-      setVisualizationMetaData,
-      setIsLoading,
-      setIsError
-    );
+    if (catalogVisualization)
+      await renderCatalogVisualization(
+        http,
+        pplService,
+        savedVisualizationId,
+        fromTime,
+        toTime,
+        pplFilterValue,
+        spanParam,
+        setVisualizationTitle,
+        setVisualizationType,
+        setVisualizationData,
+        setVisualizationMetaData,
+        setIsLoading,
+        setIsError
+      );
+    else
+      await renderSavedVisualization(
+        http,
+        pplService,
+        savedVisualizationId,
+        fromTime,
+        toTime,
+        pplFilterValue,
+        spanParam,
+        setVisualizationTitle,
+        setVisualizationType,
+        setVisualizationData,
+        setVisualizationMetaData,
+        setIsLoading,
+        setIsError
+      );
   };
 
   const memoisedVisualizationBox = useMemo(
@@ -171,52 +253,55 @@ export const VisualizationContainer = ({
   }, [editMode]);
 
   return (
-    <EuiPanel
-      data-test-subj={`${visualizationTitle}VisualizationPanel`}
-      className="panel-full-width"
-      grow={false}
-    >
-      <div className={editMode ? 'mouseGrabber' : ''}>
-        <EuiFlexGroup justifyContent="spaceBetween">
-          <EuiFlexItem
-            style={{
-              width: '35%',
-            }}
-          >
-            <EuiText grow={false} className="panels-title-text">
-              <EuiToolTip delay="long" position="top" content={visualizationTitle}>
-                <h5>{visualizationTitle}</h5>
-              </EuiToolTip>
-            </EuiText>
-          </EuiFlexItem>
-          <EuiFlexItem grow={false} className="visualization-action-button">
-            {disablePopover ? (
-              <EuiIcon
-                type="crossInACircleFilled"
-                onClick={() => {
-                  removeVisualization(visualizationId);
-                }}
-              />
-            ) : (
-              <EuiPopover
-                button={
-                  <EuiButtonIcon
-                    aria-label="actionMenuButton"
-                    iconType="boxesHorizontal"
-                    onClick={onActionsMenuClick}
-                  />
-                }
-                isOpen={isPopoverOpen}
-                closePopover={closeActionsMenu}
-                anchorPosition="downLeft"
-              >
-                <EuiContextMenuPanel items={popoverPanel} />
-              </EuiPopover>
-            )}
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </div>
-      {memoisedVisualizationBox}
-    </EuiPanel>
+    <>
+      <EuiPanel
+        data-test-subj={`${visualizationTitle}VisualizationPanel`}
+        className="panel-full-width"
+        grow={false}
+      >
+        <div className={editMode ? 'mouseGrabber' : ''}>
+          <EuiFlexGroup justifyContent="spaceBetween">
+            <EuiFlexItem
+              style={{
+                width: '35%',
+              }}
+            >
+              <EuiText grow={false} className="panels-title-text">
+                <EuiToolTip delay="long" position="top" content={visualizationTitle}>
+                  <h5>{visualizationTitle}</h5>
+                </EuiToolTip>
+              </EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false} className="visualization-action-button">
+              {disablePopover ? (
+                <EuiIcon
+                  type="crossInACircleFilled"
+                  onClick={() => {
+                    removeVisualization(visualizationId);
+                  }}
+                />
+              ) : (
+                <EuiPopover
+                  button={
+                    <EuiButtonIcon
+                      aria-label="actionMenuButton"
+                      iconType="boxesHorizontal"
+                      onClick={onActionsMenuClick}
+                    />
+                  }
+                  isOpen={isPopoverOpen}
+                  closePopover={closeActionsMenu}
+                  anchorPosition="downLeft"
+                >
+                  <EuiContextMenuPanel items={popoverPanel} />
+                </EuiPopover>
+              )}
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </div>
+        {memoisedVisualizationBox}
+      </EuiPanel>
+      {modal}
+    </>
   );
 };

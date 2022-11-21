@@ -139,7 +139,7 @@ export interface IExplorerProps {
   appBaseQuery?: string;
   callback?: any;
   callbackInApp?: any;
-  queryManager: QueryManager;
+  queryManager?: QueryManager;
 }
 
 export interface SavedQuery {
@@ -147,8 +147,8 @@ export interface SavedQuery {
   name: string;
   query: string;
   selected_date_range: { start: string; end: string; text: string };
-  selected_fields: { text: string; tokens: [{ name: string; type: string }] };
-  selected_timestamp: { name: string; type: string };
+  selected_fields: { text: string; tokens: IField[] };
+  selected_timestamp: IField;
 }
 
 export interface SavedVisualization {
@@ -157,7 +157,7 @@ export interface SavedVisualization {
   query: string;
   selected_date_range: { start: string; end: string; text: string };
   selected_fields: { text: string; tokens: [] };
-  selected_timestamp: { name: string; type: string };
+  selected_timestamp: IField;
   type: string;
   application_id?: string;
 }
@@ -283,6 +283,13 @@ export interface LiveTailProps {
   isLiveTailPopoverOpen: boolean;
   dataTestSubj: string;
 }
+
+export interface PatternTableData {
+  count: number;
+  pattern: string;
+  sampleLog: string;
+  anomalyCount?: number;
+};
 
 export interface ConfigListEntry {
   label: string;
