@@ -78,7 +78,12 @@ export const DataConfigPanelFields = ({
     </EuiToolTip>
   );
 
-  const getPanelItem = (isTimeStamp: boolean, index: number, title: string, icon: JSX.Element) => (
+  const getPanelItem = (
+    index: number,
+    title: string,
+    icon: JSX.Element,
+    isTimeStamp: boolean = false
+  ) => (
     <>
       <EuiPanel paddingSize="s" className="panelItem_button">
         <EuiText size="s" className="field_text">
@@ -129,16 +134,15 @@ export const DataConfigPanelFields = ({
         dimensionSpan &&
         !isEmpty(time_field) &&
         getPanelItem(
-          true,
           !isEmpty(time_field) ? list.length + 1 : list.length,
           `${time_field[0]?.type}`,
-          crossIcon(-1, SPAN)
+          crossIcon(-1, SPAN),
+          true
         )}
       {isArray(list) &&
         list.map((obj: ConfigListEntry, index: number) => (
           <Fragment key={index}>
             {getPanelItem(
-              false,
               index,
               obj[CUSTOM_LABEL] || `${isAggregation ? obj.aggregation : ''} ${obj.label}`,
               isAggregation
