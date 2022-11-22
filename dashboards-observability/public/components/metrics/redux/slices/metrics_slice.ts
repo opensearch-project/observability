@@ -21,6 +21,7 @@ const initialState = {
   pplService: PPLService,
   metrics: [],
   selected: [],
+  searched: [],
   metricsLayout: [],
 };
 
@@ -120,6 +121,14 @@ export const metricSlice = createSlice({
       updateLayoutByDeSelection(state, payload);
       state.selected = state.selected.filter((id) => id !== payload.id);
     },
+    searchMetric: (state, { payload }) => {
+      state.searched = state.metrics.filter(
+        (metric: any) => metric.name.includes(payload.id) && !state.selected.includes(payload.id)
+      );
+    },
+    clearSearchedMetrics: (state, { payload }) => {
+      state.searched = [];
+    },
     updateMetricsLayout: (state, { payload }) => {
       state.metricsLayout = payload;
     },
@@ -127,12 +136,19 @@ export const metricSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loadMetrics.fulfilled, (state, { payload }) => {
       state.metrics = payload;
+      state.searched = [];
       filterDeletedLayoutIds(state, payload);
     });
   },
 });
 
-export const { deSelectMetric, selectMetric, updateMetricsLayout } = metricSlice.actions;
+export const {
+  deSelectMetric,
+  selectMetric,
+  updateMetricsLayout,
+  searchMetric,
+  clearSearchedMetrics,
+} = metricSlice.actions;
 
 export const metricsStateSelector = (state) => state.metrics;
 
@@ -148,6 +164,9 @@ export const recentlyCreatedMetricsSelector = (state) =>
   state.metrics.metrics.filter(
     (metric) => !state.metrics.selected.includes(metric.id) && metric.recentlyCreated
   );
+
+export const searchedMetricsSelector = (state) =>
+  state.metrics.searched.filter((metric) => !state.metrics.selected.includes(metric.id));
 
 export const allAvailableMetricsSelector = (state) =>
   state.metrics.metrics.filter((metric) => !state.metrics.selected.includes(metric.id));

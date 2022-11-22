@@ -1,3 +1,8 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   EuiPageHeader,
   EuiPageHeaderSection,
@@ -52,6 +57,7 @@ interface TopMenuProps {
   resolutionSelectId: string;
   savedObjects: SavedObjects;
   setToast: (title: string, color?: string, text?: any, side?: string) => void;
+  setSearch: any;
 }
 
 export const TopMenu = ({
@@ -73,6 +79,7 @@ export const TopMenu = ({
   resolutionSelectId,
   savedObjects,
   setToast,
+  setSearch,
 }: TopMenuProps) => {
   // Redux tools
   const dispatch = useDispatch();
@@ -209,10 +216,7 @@ export const TopMenu = ({
         <EuiPageHeaderSection>
           <EuiFlexGroup className="search-bar-top-menu">
             <EuiFlexItem>
-              <SearchBar
-                allAvailableMetrics={allAvailableMetrics}
-                handleAddMetric={handleAddMetric}
-              />
+              <SearchBar setSearch={setSearch} />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiPageHeaderSection>

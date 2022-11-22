@@ -67,6 +67,7 @@ export const Home = ({
   const resolutionSelectId = htmlIdGenerator('resolutionSelect')();
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
+  const [search, setSearch] = useState<boolean>(false);
 
   // Side bar constants
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
@@ -170,13 +171,16 @@ export const Home = ({
                   resolutionSelectId={resolutionSelectId}
                   savedObjects={savedObjects}
                   setToast={setToast}
+                  setSearch={setSearch}
                 />
                 <div className="dscAppContainer">
                   <div
                     className={`col-md-2 dscSidebar__container dscCollapsibleSidebar ${sidebarClassName}`}
                   >
                     <div className="">
-                      {!isSidebarClosed && <Sidebar http={http} pplService={pplService} />}
+                      {!isSidebarClosed && (
+                        <Sidebar http={http} pplService={pplService} search={search} />
+                      )}
                       <EuiButtonIcon
                         iconType={isSidebarClosed ? 'menuRight' : 'menuLeft'}
                         iconSize="m"
