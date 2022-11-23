@@ -42,9 +42,9 @@ export const Gauge = ({ visualizations, layout, config }: any) => {
           thresholds = [],
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
-        },
+        } = {},
         layoutConfig = {},
-      },
+      } = {},
     },
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
