@@ -84,12 +84,15 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                   <div
                     className="euiFlexItem"
                   >
-                    <SearchBar
-                      allAvailableMetrics={Array []}
-                      handleAddMetric={[Function]}
-                    >
+                    <SearchBar>
                       <div>
                         <EuiSearchBar
+                          box={
+                            Object {
+                              "incremental": true,
+                              "placeholder": "Search for metrics",
+                            }
+                          }
                           defaultQuery=""
                           onChange={[Function]}
                         >
@@ -109,24 +112,24 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                                   className="euiFlexItem euiSearchBar__searchHolder"
                                 >
                                   <EuiSearchBox
-                                    incremental={false}
+                                    incremental={true}
                                     isInvalid={false}
                                     onSearch={[Function]}
-                                    placeholder="Search..."
+                                    placeholder="Search for metrics"
                                     query=""
                                   >
                                     <EuiFieldSearch
-                                      aria-label="This is a search bar. After typing your query, hit enter to filter the results lower in the page."
+                                      aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
                                       compressed={false}
                                       defaultValue=""
                                       fullWidth={true}
-                                      incremental={false}
+                                      incremental={true}
                                       inputRef={[Function]}
                                       isClearable={true}
                                       isInvalid={false}
                                       isLoading={false}
                                       onSearch={[Function]}
-                                      placeholder="Search..."
+                                      placeholder="Search for metrics"
                                     >
                                       <EuiFormControlLayout
                                         compressed={false}
@@ -144,11 +147,11 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                                               isInvalid={false}
                                             >
                                               <input
-                                                aria-label="This is a search bar. After typing your query, hit enter to filter the results lower in the page."
+                                                aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
                                                 className="euiFieldSearch euiFieldSearch--fullWidth"
                                                 defaultValue=""
                                                 onKeyUp={[Function]}
-                                                placeholder="Search..."
+                                                placeholder="Search for metrics"
                                                 type="search"
                                               />
                                             </EuiValidatableControl>
@@ -211,18 +214,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled in 
                             </div>
                           </EuiFlexGroup>
                         </EuiSearchBar>
-                        <EuiGlobalToastList
-                          dismissToast={[Function]}
-                          side="right"
-                          toastLifeTimeMs={6000}
-                          toasts={Array []}
-                        >
-                          <div
-                            aria-live="polite"
-                            className="euiGlobalToastList euiGlobalToastList--right"
-                            role="region"
-                          />
-                        </EuiGlobalToastList>
                       </div>
                     </SearchBar>
                   </div>
@@ -1405,12 +1396,15 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                   <div
                     className="euiFlexItem"
                   >
-                    <SearchBar
-                      allAvailableMetrics={Array []}
-                      handleAddMetric={[Function]}
-                    >
+                    <SearchBar>
                       <div>
                         <EuiSearchBar
+                          box={
+                            Object {
+                              "incremental": true,
+                              "placeholder": "Search for metrics",
+                            }
+                          }
                           defaultQuery=""
                           onChange={[Function]}
                         >
@@ -1430,24 +1424,24 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                                   className="euiFlexItem euiSearchBar__searchHolder"
                                 >
                                   <EuiSearchBox
-                                    incremental={false}
+                                    incremental={true}
                                     isInvalid={false}
                                     onSearch={[Function]}
-                                    placeholder="Search..."
+                                    placeholder="Search for metrics"
                                     query=""
                                   >
                                     <EuiFieldSearch
-                                      aria-label="This is a search bar. After typing your query, hit enter to filter the results lower in the page."
+                                      aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
                                       compressed={false}
                                       defaultValue=""
                                       fullWidth={true}
-                                      incremental={false}
+                                      incremental={true}
                                       inputRef={[Function]}
                                       isClearable={true}
                                       isInvalid={false}
                                       isLoading={false}
                                       onSearch={[Function]}
-                                      placeholder="Search..."
+                                      placeholder="Search for metrics"
                                     >
                                       <EuiFormControlLayout
                                         compressed={false}
@@ -1465,11 +1459,11 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                                               isInvalid={false}
                                             >
                                               <input
-                                                aria-label="This is a search bar. After typing your query, hit enter to filter the results lower in the page."
+                                                aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
                                                 className="euiFieldSearch euiFieldSearch--fullWidth"
                                                 defaultValue=""
                                                 onKeyUp={[Function]}
-                                                placeholder="Search..."
+                                                placeholder="Search for metrics"
                                                 type="search"
                                               />
                                             </EuiValidatableControl>
@@ -1532,18 +1526,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when disabled wit
                             </div>
                           </EuiFlexGroup>
                         </EuiSearchBar>
-                        <EuiGlobalToastList
-                          dismissToast={[Function]}
-                          side="right"
-                          toastLifeTimeMs={6000}
-                          toasts={Array []}
-                        >
-                          <div
-                            aria-live="polite"
-                            className="euiGlobalToastList euiGlobalToastList--right"
-                            role="region"
-                          />
-                        </EuiGlobalToastList>
                       </div>
                     </SearchBar>
                   </div>
@@ -2676,12 +2658,15 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                   <div
                     className="euiFlexItem"
                   >
-                    <SearchBar
-                      allAvailableMetrics={Array []}
-                      handleAddMetric={[Function]}
-                    >
+                    <SearchBar>
                       <div>
                         <EuiSearchBar
+                          box={
+                            Object {
+                              "incremental": true,
+                              "placeholder": "Search for metrics",
+                            }
+                          }
                           defaultQuery=""
                           onChange={[Function]}
                         >
@@ -2701,24 +2686,24 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                                   className="euiFlexItem euiSearchBar__searchHolder"
                                 >
                                   <EuiSearchBox
-                                    incremental={false}
+                                    incremental={true}
                                     isInvalid={false}
                                     onSearch={[Function]}
-                                    placeholder="Search..."
+                                    placeholder="Search for metrics"
                                     query=""
                                   >
                                     <EuiFieldSearch
-                                      aria-label="This is a search bar. After typing your query, hit enter to filter the results lower in the page."
+                                      aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
                                       compressed={false}
                                       defaultValue=""
                                       fullWidth={true}
-                                      incremental={false}
+                                      incremental={true}
                                       inputRef={[Function]}
                                       isClearable={true}
                                       isInvalid={false}
                                       isLoading={false}
                                       onSearch={[Function]}
-                                      placeholder="Search..."
+                                      placeholder="Search for metrics"
                                     >
                                       <EuiFormControlLayout
                                         compressed={false}
@@ -2736,11 +2721,11 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                                               isInvalid={false}
                                             >
                                               <input
-                                                aria-label="This is a search bar. After typing your query, hit enter to filter the results lower in the page."
+                                                aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
                                                 className="euiFieldSearch euiFieldSearch--fullWidth"
                                                 defaultValue=""
                                                 onKeyUp={[Function]}
-                                                placeholder="Search..."
+                                                placeholder="Search for metrics"
                                                 type="search"
                                               />
                                             </EuiValidatableControl>
@@ -2799,18 +2784,6 @@ exports[`Metrics Top Menu Component renders Top Menu Component when enabled 1`] 
                             </div>
                           </EuiFlexGroup>
                         </EuiSearchBar>
-                        <EuiGlobalToastList
-                          dismissToast={[Function]}
-                          side="right"
-                          toastLifeTimeMs={6000}
-                          toasts={Array []}
-                        >
-                          <div
-                            aria-live="polite"
-                            className="euiGlobalToastList euiGlobalToastList--right"
-                            role="region"
-                          />
-                        </EuiGlobalToastList>
                       </div>
                     </SearchBar>
                   </div>

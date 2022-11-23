@@ -20,6 +20,7 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
         "http": [MockFunction],
       }
     }
+    search={false}
   >
     <I18nProvider>
       <IntlProvider
@@ -110,104 +111,110 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
           <section
             className="sidebarHeight"
           >
-            <EuiAccordion
-              arrowDisplay="left"
-              buttonContent={
-                <EuiTitle
-                  size="xxxs"
-                >
-                  <span>
-                    Recently Created Metrics
-                  </span>
-                </EuiTitle>
-              }
-              id="recentlyCreatedMetricsSelector"
-              initialIsOpen={true}
-              isLoading={false}
-              isLoadingMessage={false}
-              paddingSize="none"
+            <MetricsAccordion
+              handleClick={[Function]}
+              headerName="Recently Created Metrics"
+              metricsList={Array []}
             >
-              <div
-                className="euiAccordion euiAccordion-isOpen"
+              <EuiAccordion
+                arrowDisplay="left"
+                buttonContent={
+                  <EuiTitle
+                    size="xxxs"
+                  >
+                    <span>
+                      Recently Created Metrics
+                    </span>
+                  </EuiTitle>
+                }
+                id="Recently Created MetricsSelector"
+                initialIsOpen={true}
+                isLoading={false}
+                isLoadingMessage={false}
+                paddingSize="none"
               >
                 <div
-                  className="euiAccordion__triggerWrapper"
+                  className="euiAccordion euiAccordion-isOpen"
                 >
-                  <button
-                    aria-controls="recentlyCreatedMetricsSelector"
-                    aria-expanded={true}
-                    className="euiAccordion__button"
-                    id="random_html_id"
-                    onClick={[Function]}
-                    type="button"
+                  <div
+                    className="euiAccordion__triggerWrapper"
                   >
-                    <span
-                      className="euiAccordion__iconWrapper"
+                    <button
+                      aria-controls="Recently Created MetricsSelector"
+                      aria-expanded={true}
+                      className="euiAccordion__button"
+                      id="random_html_id"
+                      onClick={[Function]}
+                      type="button"
                     >
-                      <EuiIcon
-                        className="euiAccordion__icon euiAccordion__icon-isOpen"
-                        size="m"
-                        type="arrowRight"
+                      <span
+                        className="euiAccordion__iconWrapper"
                       >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                          focusable="false"
-                          role="img"
-                          style={null}
+                        <EuiIcon
+                          className="euiAccordion__icon euiAccordion__icon-isOpen"
+                          size="m"
+                          type="arrowRight"
                         >
-                          <svg
+                          <EuiIconEmpty
                             aria-hidden={true}
                             className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
                             focusable="false"
-                            height={16}
                             role="img"
                             style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                    </span>
-                    <span
-                      className="euiIEFlexWrapFix"
-                    >
-                      <EuiTitle
-                        size="xxxs"
+                          >
+                            <svg
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                              focusable="false"
+                              height={16}
+                              role="img"
+                              style={null}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                      </span>
+                      <span
+                        className="euiIEFlexWrapFix"
                       >
-                        <span
-                          className="euiTitle euiTitle--xxxsmall"
+                        <EuiTitle
+                          size="xxxs"
                         >
-                          Recently Created Metrics
-                        </span>
-                      </EuiTitle>
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-labelledby="random_html_id"
-                  className="euiAccordion__childWrapper"
-                  id="recentlyCreatedMetricsSelector"
-                  role="region"
-                  tabIndex={-1}
-                >
-                  <EuiResizeObserver
-                    onResize={[Function]}
+                          <span
+                            className="euiTitle euiTitle--xxxsmall"
+                          >
+                            Recently Created Metrics
+                          </span>
+                        </EuiTitle>
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    aria-labelledby="random_html_id"
+                    className="euiAccordion__childWrapper"
+                    id="Recently Created MetricsSelector"
+                    role="region"
+                    tabIndex={-1}
                   >
-                    <div>
-                      <div
-                        className=""
-                      >
-                        <ul
-                          className="metricsList"
-                        />
+                    <EuiResizeObserver
+                      onResize={[Function]}
+                    >
+                      <div>
+                        <div
+                          className=""
+                        >
+                          <ul
+                            className="metricsList"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </EuiResizeObserver>
+                    </EuiResizeObserver>
+                  </div>
                 </div>
-              </div>
-            </EuiAccordion>
+              </EuiAccordion>
+            </MetricsAccordion>
             <EuiSpacer
               size="s"
             >
@@ -215,104 +222,110 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
                 className="euiSpacer euiSpacer--s"
               />
             </EuiSpacer>
-            <EuiAccordion
-              arrowDisplay="left"
-              buttonContent={
-                <EuiTitle
-                  size="xxxs"
-                >
-                  <span>
-                    Selected Metrics
-                  </span>
-                </EuiTitle>
-              }
-              id="selectedMetricsSelector"
-              initialIsOpen={true}
-              isLoading={false}
-              isLoadingMessage={false}
-              paddingSize="none"
+            <MetricsAccordion
+              handleClick={[Function]}
+              headerName="Selected Metrics"
+              metricsList={Array []}
             >
-              <div
-                className="euiAccordion euiAccordion-isOpen"
+              <EuiAccordion
+                arrowDisplay="left"
+                buttonContent={
+                  <EuiTitle
+                    size="xxxs"
+                  >
+                    <span>
+                      Selected Metrics
+                    </span>
+                  </EuiTitle>
+                }
+                id="Selected MetricsSelector"
+                initialIsOpen={true}
+                isLoading={false}
+                isLoadingMessage={false}
+                paddingSize="none"
               >
                 <div
-                  className="euiAccordion__triggerWrapper"
+                  className="euiAccordion euiAccordion-isOpen"
                 >
-                  <button
-                    aria-controls="selectedMetricsSelector"
-                    aria-expanded={true}
-                    className="euiAccordion__button"
-                    id="random_html_id"
-                    onClick={[Function]}
-                    type="button"
+                  <div
+                    className="euiAccordion__triggerWrapper"
                   >
-                    <span
-                      className="euiAccordion__iconWrapper"
+                    <button
+                      aria-controls="Selected MetricsSelector"
+                      aria-expanded={true}
+                      className="euiAccordion__button"
+                      id="random_html_id"
+                      onClick={[Function]}
+                      type="button"
                     >
-                      <EuiIcon
-                        className="euiAccordion__icon euiAccordion__icon-isOpen"
-                        size="m"
-                        type="arrowRight"
+                      <span
+                        className="euiAccordion__iconWrapper"
                       >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                          focusable="false"
-                          role="img"
-                          style={null}
+                        <EuiIcon
+                          className="euiAccordion__icon euiAccordion__icon-isOpen"
+                          size="m"
+                          type="arrowRight"
                         >
-                          <svg
+                          <EuiIconEmpty
                             aria-hidden={true}
                             className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
                             focusable="false"
-                            height={16}
                             role="img"
                             style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                    </span>
-                    <span
-                      className="euiIEFlexWrapFix"
-                    >
-                      <EuiTitle
-                        size="xxxs"
+                          >
+                            <svg
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                              focusable="false"
+                              height={16}
+                              role="img"
+                              style={null}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                      </span>
+                      <span
+                        className="euiIEFlexWrapFix"
                       >
-                        <span
-                          className="euiTitle euiTitle--xxxsmall"
+                        <EuiTitle
+                          size="xxxs"
                         >
-                          Selected Metrics
-                        </span>
-                      </EuiTitle>
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-labelledby="random_html_id"
-                  className="euiAccordion__childWrapper"
-                  id="selectedMetricsSelector"
-                  role="region"
-                  tabIndex={-1}
-                >
-                  <EuiResizeObserver
-                    onResize={[Function]}
+                          <span
+                            className="euiTitle euiTitle--xxxsmall"
+                          >
+                            Selected Metrics
+                          </span>
+                        </EuiTitle>
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    aria-labelledby="random_html_id"
+                    className="euiAccordion__childWrapper"
+                    id="Selected MetricsSelector"
+                    role="region"
+                    tabIndex={-1}
                   >
-                    <div>
-                      <div
-                        className=""
-                      >
-                        <ul
-                          className="metricsList"
-                        />
+                    <EuiResizeObserver
+                      onResize={[Function]}
+                    >
+                      <div>
+                        <div
+                          className=""
+                        >
+                          <ul
+                            className="metricsList"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </EuiResizeObserver>
+                    </EuiResizeObserver>
+                  </div>
                 </div>
-              </div>
-            </EuiAccordion>
+              </EuiAccordion>
+            </MetricsAccordion>
             <EuiSpacer
               size="s"
             >
@@ -320,104 +333,110 @@ exports[`Side Bar Component renders Side Bar Component 1`] = `
                 className="euiSpacer euiSpacer--s"
               />
             </EuiSpacer>
-            <EuiAccordion
-              arrowDisplay="left"
-              buttonContent={
-                <EuiTitle
-                  size="xxxs"
-                >
-                  <span>
-                    Available Metrics
-                  </span>
-                </EuiTitle>
-              }
-              id="availableMetricsSelector"
-              initialIsOpen={true}
-              isLoading={false}
-              isLoadingMessage={false}
-              paddingSize="none"
+            <MetricsAccordion
+              handleClick={[Function]}
+              headerName="Available Metrics"
+              metricsList={Array []}
             >
-              <div
-                className="euiAccordion euiAccordion-isOpen"
+              <EuiAccordion
+                arrowDisplay="left"
+                buttonContent={
+                  <EuiTitle
+                    size="xxxs"
+                  >
+                    <span>
+                      Available Metrics
+                    </span>
+                  </EuiTitle>
+                }
+                id="Available MetricsSelector"
+                initialIsOpen={true}
+                isLoading={false}
+                isLoadingMessage={false}
+                paddingSize="none"
               >
                 <div
-                  className="euiAccordion__triggerWrapper"
+                  className="euiAccordion euiAccordion-isOpen"
                 >
-                  <button
-                    aria-controls="availableMetricsSelector"
-                    aria-expanded={true}
-                    className="euiAccordion__button"
-                    id="random_html_id"
-                    onClick={[Function]}
-                    type="button"
+                  <div
+                    className="euiAccordion__triggerWrapper"
                   >
-                    <span
-                      className="euiAccordion__iconWrapper"
+                    <button
+                      aria-controls="Available MetricsSelector"
+                      aria-expanded={true}
+                      className="euiAccordion__button"
+                      id="random_html_id"
+                      onClick={[Function]}
+                      type="button"
                     >
-                      <EuiIcon
-                        className="euiAccordion__icon euiAccordion__icon-isOpen"
-                        size="m"
-                        type="arrowRight"
+                      <span
+                        className="euiAccordion__iconWrapper"
                       >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
-                          focusable="false"
-                          role="img"
-                          style={null}
+                        <EuiIcon
+                          className="euiAccordion__icon euiAccordion__icon-isOpen"
+                          size="m"
+                          type="arrowRight"
                         >
-                          <svg
+                          <EuiIconEmpty
                             aria-hidden={true}
                             className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
                             focusable="false"
-                            height={16}
                             role="img"
                             style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                    </span>
-                    <span
-                      className="euiIEFlexWrapFix"
-                    >
-                      <EuiTitle
-                        size="xxxs"
+                          >
+                            <svg
+                              aria-hidden={true}
+                              className="euiIcon euiIcon--medium euiIcon-isLoading euiAccordion__icon euiAccordion__icon-isOpen"
+                              focusable="false"
+                              height={16}
+                              role="img"
+                              style={null}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </EuiIconEmpty>
+                        </EuiIcon>
+                      </span>
+                      <span
+                        className="euiIEFlexWrapFix"
                       >
-                        <span
-                          className="euiTitle euiTitle--xxxsmall"
+                        <EuiTitle
+                          size="xxxs"
                         >
-                          Available Metrics
-                        </span>
-                      </EuiTitle>
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-labelledby="random_html_id"
-                  className="euiAccordion__childWrapper"
-                  id="availableMetricsSelector"
-                  role="region"
-                  tabIndex={-1}
-                >
-                  <EuiResizeObserver
-                    onResize={[Function]}
+                          <span
+                            className="euiTitle euiTitle--xxxsmall"
+                          >
+                            Available Metrics
+                          </span>
+                        </EuiTitle>
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    aria-labelledby="random_html_id"
+                    className="euiAccordion__childWrapper"
+                    id="Available MetricsSelector"
+                    role="region"
+                    tabIndex={-1}
                   >
-                    <div>
-                      <div
-                        className=""
-                      >
-                        <ul
-                          className="metricsList"
-                        />
+                    <EuiResizeObserver
+                      onResize={[Function]}
+                    >
+                      <div>
+                        <div
+                          className=""
+                        >
+                          <ul
+                            className="metricsList"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </EuiResizeObserver>
+                    </EuiResizeObserver>
+                  </div>
                 </div>
-              </div>
-            </EuiAccordion>
+              </EuiAccordion>
+            </MetricsAccordion>
           </section>
         </PseudoLocaleWrapper>
       </IntlProvider>

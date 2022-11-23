@@ -138,7 +138,6 @@
 }
 
 .sidebarHeight {
-  // @include euiYScrollWithShadows;
   line-height:normal;
   overflow:auto;
   max-height:100vh;
@@ -146,14 +145,13 @@
 
 .metricsList {
   line-height:normal;
-  margin-top:5px;
 }
 
 .metricsListContainer {
-  margin-left:25px;
+  margin-left:15px;
   margin-right:5px;
 }
 
-.metricName {
-  margin-bottom:10px;
+.tokenMargin {
+  vertical-align:middle;
 }

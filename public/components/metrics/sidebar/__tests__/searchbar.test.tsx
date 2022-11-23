@@ -8,17 +8,22 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
 import { SearchBar } from '../search_bar';
-import { sampleAllAvailableMetrics } from '../../../../../test/metrics_contants';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from '../../../../framework/redux/reducers';
 
 describe('Search Bar Component', () => {
   configure({ adapter: new Adapter() });
+  const store = createStore(rootReducer, applyMiddleware(thunk));
 
   it('Search Side Bar Component with no available metrics', async () => {
-    const allAvailableMetrics: any = [];
-    const handleAddMetric = jest.fn();
+    const setSearch = jest.fn();
 
     const wrapper = mount(
-      <SearchBar allAvailableMetrics={allAvailableMetrics} handleAddMetric={handleAddMetric} />
+      <Provider store={store}>
+        <SearchBar setSearch={setSearch} />
+      </Provider>
     );
 
     wrapper.update();
@@ -29,11 +34,12 @@ describe('Search Bar Component', () => {
   });
 
   it('Search Side Bar Component with available metrics', async () => {
-    const allAvailableMetrics = sampleAllAvailableMetrics;
-    const handleAddMetric = jest.fn();
+    const setSearch = jest.fn();
 
     const wrapper = mount(
-      <SearchBar allAvailableMetrics={allAvailableMetrics} handleAddMetric={handleAddMetric} />
+      <Provider store={store}>
+        <SearchBar setSearch={setSearch} />
+      </Provider>
     );
 
     wrapper.update();
