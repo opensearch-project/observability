@@ -410,16 +410,36 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
   if (metaData === undefined || _.isEmpty(metaData)) {
     return <></>;
   }
-  const userVisConfig =
-    !_.isEmpty(metaData.user_configs) && !_.isEmpty(metaData.user_configs.series)
-      ? metaData.user_configs
-      : {
-          dataConfig: {
-            ...getDefaultVisConfig(
-              new QueryManager().queryParser().parse(metaData.query).getStats()
-            ),
-          },
-        };
+  const dataConfig = { ...metaData.user_configs?.dataConfig } || {};
+  const hasBreakdowns = !_.isEmpty(dataConfig.breakdowns);
+  const realTimeParsedStats = {
+    ...getDefaultVisConfig(new QueryManager().queryParser().parse(metaData.query).getStats()),
+  };
+  let finalDimensions = [];
+  let breakdowns = [...(dataConfig.breakdowns || [])];
+
+  // span shows up in UI as dimensions but in dataConfig, it's not in dimension
+  const hasDimensions = !_.isEmpty(dataConfig.dimensions);
+  if (hasBreakdowns && hasDimensions) {
+    const dimensions = [...realTimeParsedStats.dimensions];
+    finalDimensions = _.differenceBy(dimensions, breakdowns, 'name');
+  }
+
+  const finalDataConfig = {
+    ...(!_.isEmpty(dataConfig) ? dataConfig : {}),
+    ...realTimeParsedStats,
+    dimensions: finalDimensions,
+    breakdowns,
+  };
+
+  const mixedUserConfigs = {
+    dataConfig: {
+      ...finalDataConfig,
+    },
+    layoutConfig: {
+      ...(metaData?.user_configs?.layoutConfig && {}),
+    },
+  };
 
   return (
     <Visualization
@@ -428,7 +448,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
         rawVizData: data,
         query: { rawQuery: metaData.query },
         indexFields: {},
-        userConfigs: userVisConfig,
+        userConfigs: mixedUserConfigs,
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
       })}
     />

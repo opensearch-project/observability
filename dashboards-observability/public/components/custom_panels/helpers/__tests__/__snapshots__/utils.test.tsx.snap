@@ -137,13 +137,8 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
           },
           "userConfigs": Object {
             "dataConfig": Object {
-              "dimensions": Array [
-                Object {
-                  "customLabel": "",
-                  "label": "Carrier",
-                  "name": "Carrier",
-                },
-              ],
+              "breakdowns": Array [],
+              "dimensions": Array [],
               "series": Array [
                 Object {
                   "aggregation": "sum",
@@ -154,6 +149,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ],
               "span": undefined,
             },
+            "layoutConfig": Object {},
           },
         },
         "vis": Object {
@@ -592,13 +588,8 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             },
             "userConfigs": Object {
               "dataConfig": Object {
-                "dimensions": Array [
-                  Object {
-                    "customLabel": "",
-                    "label": "Carrier",
-                    "name": "Carrier",
-                  },
-                ],
+                "breakdowns": Array [],
+                "dimensions": Array [],
                 "series": Array [
                   Object {
                     "aggregation": "sum",
@@ -609,6 +600,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 ],
                 "span": undefined,
               },
+              "layoutConfig": Object {},
             },
           },
           "vis": Object {
@@ -1054,13 +1046,8 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               },
               "userConfigs": Object {
                 "dataConfig": Object {
-                  "dimensions": Array [
-                    Object {
-                      "customLabel": "",
-                      "label": "Carrier",
-                      "name": "Carrier",
-                    },
-                  ],
+                  "breakdowns": Array [],
+                  "dimensions": Array [],
                   "series": Array [
                     Object {
                       "aggregation": "sum",
@@ -1071,6 +1058,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   ],
                   "span": undefined,
                 },
+                "layoutConfig": Object {},
               },
             },
             "vis": Object {
@@ -1396,10 +1384,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "orientation": "v",
                 "type": "bar",
                 "x": Array [
-                  "BeatsWest",
-                  "Logstash Airways",
-                  "OpenSearch Dashboards Airlines",
-                  "OpenSearch-Air",
+                  "",
+                  "",
+                  "",
+                  "",
                 ],
                 "y": Array [
                   undefined,
@@ -1479,10 +1467,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "orientation": "v",
                   "type": "bar",
                   "x": Array [
-                    "BeatsWest",
-                    "Logstash Airways",
-                    "OpenSearch Dashboards Airlines",
-                    "OpenSearch-Air",
+                    "",
+                    "",
+                    "",
+                    "",
                   ],
                   "y": Array [
                     undefined,
@@ -1707,6 +1695,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           },
           "userConfigs": Object {
             "dataConfig": Object {
+              "breakdowns": Array [],
               "dimensions": Array [],
               "series": Array [
                 Object {
@@ -1734,6 +1723,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 ],
               },
             },
+            "layoutConfig": Object {},
           },
         },
         "vis": Object {
@@ -2230,6 +2220,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             },
             "userConfigs": Object {
               "dataConfig": Object {
+                "breakdowns": Array [],
                 "dimensions": Array [],
                 "series": Array [
                   Object {
@@ -2257,6 +2248,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   ],
                 },
               },
+              "layoutConfig": Object {},
             },
           },
           "vis": Object {
@@ -2767,6 +2759,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               },
               "userConfigs": Object {
                 "dataConfig": Object {
+                  "breakdowns": Array [],
                   "dimensions": Array [],
                   "series": Array [
                     Object {
@@ -2794,6 +2787,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     ],
                   },
                 },
+                "layoutConfig": Object {},
               },
             },
             "vis": Object {
@@ -3489,13 +3483,8 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
           },
           "userConfigs": Object {
             "dataConfig": Object {
-              "dimensions": Array [
-                Object {
-                  "customLabel": "",
-                  "label": "machine.os",
-                  "name": "machine.os",
-                },
-              ],
+              "breakdowns": Array [],
+              "dimensions": Array [],
               "series": Array [
                 Object {
                   "aggregation": "avg",
@@ -3506,6 +3495,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               ],
               "span": undefined,
             },
+            "layoutConfig": Object {},
           },
         },
         "vis": Object {
@@ -3944,13 +3934,8 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             },
             "userConfigs": Object {
               "dataConfig": Object {
-                "dimensions": Array [
-                  Object {
-                    "customLabel": "",
-                    "label": "machine.os",
-                    "name": "machine.os",
-                  },
-                ],
+                "breakdowns": Array [],
+                "dimensions": Array [],
                 "series": Array [
                   Object {
                     "aggregation": "avg",
@@ -3961,6 +3946,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 ],
                 "span": undefined,
               },
+              "layoutConfig": Object {},
             },
           },
           "vis": Object {
@@ -4406,13 +4392,8 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               },
               "userConfigs": Object {
                 "dataConfig": Object {
-                  "dimensions": Array [
-                    Object {
-                      "customLabel": "",
-                      "label": "machine.os",
-                      "name": "machine.os",
-                    },
-                  ],
+                  "breakdowns": Array [],
+                  "dimensions": Array [],
                   "series": Array [
                     Object {
                       "aggregation": "avg",
@@ -4423,6 +4404,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   ],
                   "span": undefined,
                 },
+                "layoutConfig": Object {},
               },
             },
             "vis": Object {

@@ -66,6 +66,7 @@ import { ServiceDetailFlyout } from './flyout_components/service_detail_flyout';
 import { SpanDetailFlyout } from '../../../../public/components/trace_analytics/components/traces/span_detail_flyout';
 import { TraceDetailFlyout } from './flyout_components/trace_detail_flyout';
 import { fetchAppById, initializeTabData } from '../helpers/utils';
+import { QueryManager } from '../../../../common/query_manager/ppl_query_manager';
 
 const searchBarConfigs = {
   [TAB_EVENT_ID]: {
@@ -86,6 +87,7 @@ interface AppDetailProps extends AppAnalyticsComponentDeps {
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
   notifications: NotificationsStart;
+  queryManager: QueryManager;
   updateApp: (appId: string, updateAppData: Partial<ApplicationRequestType>, type: string) => void;
   setToasts: (title: string, color?: string, text?: ReactChild) => void;
   callback: (childfunction: () => void) => void;
@@ -110,6 +112,7 @@ export function Application(props: AppDetailProps) {
     setToasts,
     setFilters,
     callback,
+    queryManager,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     id: '',
@@ -374,9 +377,10 @@ export function Application(props: AppDetailProps) {
         endTime={appEndTime}
         setStartTime={setStartTimeForApp}
         setEndTime={setEndTimeForApp}
-        appBaseQuery={application.baseQuery}
+        appBaseQuery={application.baseQuery.trim()}
         callback={callback}
         callbackInApp={callbackInApp}
+        queryManager={queryManager}
         curSelectedTabId={selectedTabId}
       />
     );

@@ -208,11 +208,11 @@ export const Explorer = ({
   liveTailTabIdRef.current = liveTailTabId;
   liveTailNameRef.current = liveTailName;
 
+  let minInterval = 'y';
   const findAutoInterval = (start: string = '', end: string = '') => {
     const momentStart = dateMath.parse(start)!;
     const momentEnd = dateMath.parse(end, { roundUp: true })!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
-    let minInterval = 'y'
 
     // less than 1 second
     if (diffSeconds <= 1) minInterval = 'ms';
@@ -233,7 +233,7 @@ export const Explorer = ({
       { text: 'Auto', value: 'auto_' + minInterval },
       ...TIME_INTERVAL_OPTIONS,
     ]);
-    selectedIntervalRef.current = ({ text: 'Auto', value: 'auto_' + minInterval })
+    selectedIntervalRef.current = { text: 'Auto', value: 'auto_' + minInterval };
   };
 
   useEffect(() => {
@@ -267,9 +267,7 @@ export const Explorer = ({
         const savedType = isSavedQuery ? SAVED_QUERY : SAVED_VISUALIZATION;
         const objectData = isSavedQuery ? savedData.savedQuery : savedData.savedVisualization;
         const isSavedVisualization = savedData.savedVisualization;
-        const currQuery = appLogEvents
-          ? objectData?.query.replace(appBaseQuery + '| ', '')
-          : objectData?.query || '';
+        const currQuery = objectData?.query || '';
 
         if (appLogEvents) {
           if (objectData?.selected_date_range?.start && objectData?.selected_date_range?.end) {
@@ -333,7 +331,7 @@ export const Explorer = ({
         setSelectedPanelName(objectData?.name || '');
         setCurVisId(objectData?.type || 'bar');
         setTempQuery((staleTempQuery: string) => {
-          return appLogEvents ? currQuery : objectData?.query || staleTempQuery;
+          return objectData?.query || staleTempQuery;
         });
         if (isSavedVisualization?.sub_type) {
           if (isSavedVisualization?.sub_type === 'metric') {
@@ -361,7 +359,9 @@ export const Explorer = ({
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
-    const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
+    const rawQueryStr = (curQuery![RAW_QUERY] as string).includes(appBaseQuery)
+      ? curQuery![RAW_QUERY]
+      : buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
 
     if (isEmpty(rawQueryStr)) return;
@@ -420,6 +420,7 @@ export const Explorer = ({
         tabId,
         query: {
           finalQuery,
+          [RAW_QUERY]: rawQueryStr,
           [SELECTED_TIMESTAMP]: curTimestamp,
         },
       })
@@ -453,7 +454,7 @@ export const Explorer = ({
       // to fetch patterns data on current query
       if (!finalQuery.match(PATTERNS_REGEX)) {
         getPatterns(selectedIntervalRef.current!.value.replace(/^auto_/, ''));
-      }  
+      }
     }
 
     // for comparing usage if for the same tab, user changed index from one to another
@@ -482,8 +483,8 @@ export const Explorer = ({
   const prepareAvailability = async () => {
     setSelectedContentTab(TAB_CHART_ID);
     setTriggerAvailability(true);
-    await setTempQuery(DEFAULT_AVAILABILITY_QUERY);
-    await updateQueryInStore(DEFAULT_AVAILABILITY_QUERY);
+    await setTempQuery(buildQuery(appBaseQuery, DEFAULT_AVAILABILITY_QUERY));
+    await updateQueryInStore(buildQuery(appBaseQuery, DEFAULT_AVAILABILITY_QUERY));
     await handleTimeRangePickerRefresh(true);
   };
 
@@ -747,10 +748,13 @@ export const Explorer = ({
                             dateFormat={'MMM D, YYYY @ HH:mm:ss.SSS'}
                             options={timeIntervalOptions}
                             onChangeInterval={(selectedIntrv) => {
-                              const intervalOptionsIndex = timeIntervalOptions.findIndex(item => item.value === selectedIntrv)
-                              const intrv = selectedIntrv.replace(/^auto_/, '')
+                              const intervalOptionsIndex = timeIntervalOptions.findIndex(
+                                (item) => item.value === selectedIntrv
+                              );
+                              const intrv = selectedIntrv.replace(/^auto_/, '');
                               getCountVisualizations(intrv);
-                              selectedIntervalRef.current = timeIntervalOptions[intervalOptionsIndex]
+                              selectedIntervalRef.current =
+                                timeIntervalOptions[intervalOptionsIndex];
                               getPatterns(intrv, getErrorHandler('Error fetching patterns'));
                             }}
                             stateInterval={selectedIntervalRef.current?.value}
@@ -962,7 +966,7 @@ export const Explorer = ({
                         rowsAll={explorerData.jsonDataAll}
                         explorerFields={explorerFields}
                         timeStampField={queryRef.current![SELECTED_TIMESTAMP]}
-                        rawQuery={queryRef.current![RAW_QUERY]}
+                        rawQuery={appBasedRef.current || queryRef.current![RAW_QUERY]}
                       />
                       <a tabIndex={0} id="discoverBottomMarker">
                         &#8203;
@@ -1008,7 +1012,11 @@ export const Explorer = ({
       rawVizData: explorerVisualizations,
       query,
       indexFields: explorerFields,
-      userConfigs: { ...userVizConfigs[curVisId] } || {},
+      userConfigs: !isEmpty(userVizConfigs[curVisId])
+        ? { ...userVizConfigs[curVisId] }
+        : {
+            dataConfig: getDefaultVisConfig(queryManager.queryParser().parse(tempQuery).getStats()),
+          },
       appData: { fromApp: appLogEvents },
       explorer: { explorerData, explorerFields, query, http, pplService },
     });
@@ -1361,7 +1369,9 @@ export const Explorer = ({
     setIsLiveTailOn(true);
     setToast('Live tail On', 'success');
     setIsLiveTailPopoverOpen(false);
-    setLiveTimestamp(dateMath.parse(endingTime, { roundUp: true })?.utc().format(DATE_PICKER_FORMAT) || '');
+    setLiveTimestamp(
+      dateMath.parse(endingTime, { roundUp: true })?.utc().format(DATE_PICKER_FORMAT) || ''
+    );
     setLiveHits(0);
     await sleep(2000);
     const curLiveTailname = liveTailNameRef.current;
@@ -1430,6 +1440,17 @@ export const Explorer = ({
     [tempQuery]
   );
 
+  const generateViewQuery = (query: string) => {
+    if (query.includes(appBaseQuery)) {
+      if (query.includes('|')) {
+        // Some scenarios have ' | ' after base query and some have '| '
+        return query.replace(' | ', '| ').replace(appBaseQuery + '| ', '');
+      }
+      return '';
+    }
+    return query;
+  };
+
   useEffect(() => {
     if (isEqual(selectedContentTabId, TAB_CHART_ID)) {
       const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
@@ -1461,7 +1482,7 @@ export const Explorer = ({
       <div className="dscAppContainer">
         <Search
           key="search-component"
-          query={appLogEvents ? tempQuery : query[RAW_QUERY]}
+          query={appLogEvents ? generateViewQuery(tempQuery) : query[RAW_QUERY]}
           tempQuery={tempQuery}
           handleQueryChange={handleQueryChange}
           handleQuerySearch={handleQuerySearch}

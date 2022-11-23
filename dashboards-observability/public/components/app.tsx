@@ -93,6 +93,7 @@ export const App = ({
                       dslService={dslService}
                       savedObjects={savedObjects}
                       timestampUtils={timestampUtils}
+                      queryManager={queryManager}
                     />
                   );
                 }}

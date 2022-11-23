@@ -20,7 +20,7 @@ export class PPLSyntaxParser {
     return this.createParser(this.createLexer(query));
   }
 
-  createLexer(query: string) {
+  createLexer(query: string = '') {
     return new OpenSearchPPLLexer(new CaseInsensitiveCharStream(CharStreams.fromString(query)));
   }
 
