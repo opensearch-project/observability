@@ -24,10 +24,11 @@ describe('Side Bar Component', () => {
 
     const http = httpClientMock;
     const pplService = new PPLService(httpClientMock);
+    const search = false;
 
     const wrapper = mount(
       <Provider store={store}>
-        <Sidebar http={http} pplService={pplService} />
+        <Sidebar http={http} pplService={pplService} search={search} />
       </Provider>
     );
 
