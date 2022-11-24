@@ -37,9 +37,9 @@ export const TreeMap = ({ visualizations, layout, config }: any) => {
           treemapOptions = {},
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
-        },
+        } = {},
         layoutConfig = {},
-      },
+      } = {},
     },
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
