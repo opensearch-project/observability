@@ -202,18 +202,14 @@ export const Line = ({ visualizations, layout, config }: any) => {
 
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
       return list.map((thr: ThresholdUnitType) => {
-        thresholdTraces.x.push(
-          queriedVizData[
-            !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.name : fields[lastIndex].name
-          ][0]
-        );
+        thresholdTraces.x.push(lines[0]?.x[0] || '');
         thresholdTraces.y.push(thr.value * (1 + 0.06));
         thresholdTraces.text.push(thr.name);
         return {
           type: 'line',
-          x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name][0],
+          x0: lines[0]?.x[0] || 0,
           y0: thr.value,
-          x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.name : fields[lastIndex].name]),
+          x1: last(last(lines)?.x) || 1,
           y1: thr.value,
           name: thr.name || '',
           opacity: 0.7,

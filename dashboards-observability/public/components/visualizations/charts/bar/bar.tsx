@@ -44,6 +44,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           legend = {},
           panelOptions = {},
           tooltipOptions = {},
+          thresholds = [],
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
           [BREAKDOWNS]: breakdowns = [],
@@ -185,7 +186,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     };
   }, [visualizations, layout, panelOptions, showLegend, chartStyles]);
 
-  if (availabilityConfig.level) {
+  if (thresholds || availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
       y: [],
@@ -195,18 +196,14 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
       return list.map((thr: ThresholdUnitType) => {
-        thresholdTraces.x.push(
-          queriedVizData[
-            !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name
-          ][0]
-        );
+        thresholdTraces.x.push(bars[0]?.x[0] || '');
         thresholdTraces.y.push(thr.value * (1 + 0.06));
         thresholdTraces.text.push(thr.name);
         return {
           type: 'line',
-          x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+          x0: bars[0]?.x[0] || 0,
           y0: thr.value,
-          x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+          x1: last(last(bars)?.x) || 1,
           y1: thr.value,
           name: thr.name || '',
           opacity: THRESHOLD_LINE_OPACITY,
