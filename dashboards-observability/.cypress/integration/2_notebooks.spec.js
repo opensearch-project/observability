@@ -16,7 +16,7 @@ import {
   OPENSEARCH_URL,
 } from '../utils/constants';
 
-import { SAMPLE_PANEL } from '../utils/panel_constants';
+import { SAMPLE_NOTE, SAMPLE_PANEL } from '../utils/panel_constants';
 
 import { skipOn } from '@cypress/skip-test';
 
@@ -53,10 +53,8 @@ describe('Adding sample data and visualization', () => {
     cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
     cy.wait(100 * 5);
     cy.route2('POST', '/addSamplePanels').as('addSamples');
-    cy.wait('@addSamples').then(() => {
-      cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
-    });
-    cy.wait(100);
+    cy.wait(100 * 5)
+    cy.get('.euiTableCellContent').should('exist');
   });
 });
 
