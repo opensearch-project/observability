@@ -1,4 +1,5 @@
 import { waitFor } from '@testing-library/react';
+import { SINGLE_COLOR_PALETTE } from '../../../../../../../common/constants/colors';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
@@ -23,7 +24,7 @@ describe('ColorPalettePicker component', () => {
       type: 'text',
     },
   ];
-  const onConfigChange = jest.fn();
+  const onSelectChange = jest.fn();
 
   const wrapper = mount(
     <ColorPalettePicker
@@ -35,7 +36,21 @@ describe('ColorPalettePicker component', () => {
       }}
       numberOfParents={0}
       colorPalettes={palettes}
-      onSelectChange={onConfigChange}
+      onSelectChange={onSelectChange}
+    />
+  );
+
+  const wrapperComp = mount(
+    <ColorPalettePicker
+      title={'Color theme'}
+      selectedColor={{
+        name: 'multicolor',
+        childColor: '#5D826F',
+        parentColors: ['#68917C'],
+      }}
+      numberOfParents={1}
+      colorPalettes={palettes}
+      onSelectChange={onSelectChange}
     />
   );
 
@@ -47,29 +62,22 @@ describe('ColorPalettePicker component', () => {
   });
 
   it('Renders ColorPalettePicker component with data selected color as MULTI_COLOR_PALETTE', async () => {
-    const wrapperComp = mount(
-      <ColorPalettePicker
-        title={'Color theme'}
-        selectedColor={{
-          name: 'multicolor',
-          childColor: '#5D826F',
-          parentColors: ['#68917C'],
-        }}
-        numberOfParents={1}
-        colorPalettes={palettes}
-        onSelectChange={onConfigChange}
-      />
-    );
     wrapperComp.update();
     await waitFor(() => {
       expect(wrapperComp).toMatchSnapshot();
     });
   });
 
+  it('Renders ColorPalettePicker component with data selected color as MULTI_COLOR_PALETTE to simulate color picker', async () => {
+    wrapperComp
+      .find('input[data-test-subj="euiColorPickerAnchor config-color-palette-colorpicker-0"]')
+      .simulate('change');
+  });
+
   it('Renders ColorPalettePicker component to simulate color picker', async () => {
     wrapper
       .find('input[data-test-subj="euiColorPickerAnchor config-color-palette-colorpicker"]')
-      .simulate('click', { value: '#FFFFFF' });
+      .simulate('change');
     wrapper.update();
     await waitFor(() => {
       expect(wrapper).toMatchSnapshot();
@@ -77,7 +85,7 @@ describe('ColorPalettePicker component', () => {
   });
 
   it('Renders ColorPalettePicker component to simulate color palette picker', async () => {
-    wrapper.find('button[data-test-subj="config-color-palette-picker"]').simulate('click');
+    wrapper.find('button[data-test-subj="config-color-palette-picker"]').simulate('change');
     wrapper.update();
     await waitFor(() => {
       expect(wrapper).toMatchSnapshot();

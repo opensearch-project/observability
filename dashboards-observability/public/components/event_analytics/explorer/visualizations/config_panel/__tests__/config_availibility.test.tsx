@@ -32,6 +32,14 @@ describe('ConfigAvailability component', () => {
     />
   );
 
+  const wrapperComp = mount(
+    <ConfigAvailability
+      visualizations={TEST_CONFIG_AVAILABILITY}
+      onConfigChange={onConfigChange}
+      vizState={{ level: [] }}
+    />
+  );
+
   it('Renders configAvailability component with visualization and viztypes data', async () => {
     wrapper.update();
     await waitFor(() => {
@@ -40,29 +48,29 @@ describe('ConfigAvailability component', () => {
   });
 
   it('Renders configAvailability component to simulate accordion button', async () => {
-    wrapper.find('button[data-test-subj="config-availibility-accordion"]').simulate('click');
+    wrapperComp.find('button[data-test-subj="config-availibility-accordion"]').simulate('click');
   });
 
   it('Renders configAvailability component to simulate color picker', async () => {
     wrapper
       .find('input[data-test-subj="euiColorPickerAnchor config-availibility-colorpicker-AA12BB44"]')
-      .simulate('click');
+      .simulate('change');
   });
 
   it('Renders configAvailability component to simulate field text', async () => {
     wrapper
       .find('input[data-test-subj="config-availibility-fieldtext-AA12BB44"]')
-      .simulate('click');
+      .simulate('change');
   });
 
   it('Renders configAvailability component to simulate select availability dropdown', async () => {
-    wrapper.find('select[data-test-subj="config-availibility-select-AA12BB44"]').simulate('click');
+    wrapper.find('select[data-test-subj="config-availibility-select-AA12BB44"]').simulate('change');
   });
 
   it('Renders configAvailability component to simulate field number', async () => {
     wrapper
       .find('input[data-test-subj="config-availibility-fieldnumber-AA12BB44"]')
-      .simulate('click');
+      .simulate('change');
   });
 
   it('Renders configAvailability component to simulate trash icon', async () => {
