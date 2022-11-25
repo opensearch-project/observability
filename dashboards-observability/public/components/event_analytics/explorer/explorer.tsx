@@ -63,7 +63,6 @@ import {
   PPL_PATTERNS_DOCUMENTATION_URL,
   PPL_STATS_REGEX,
 } from '../../../../common/constants/shared';
-import { GroupByChunk } from '../../../../common/query_manager/ast/types';
 import {
   IDefaultTimestampState,
   IExplorerProps,
@@ -154,7 +153,8 @@ export const Explorer = ({
     requestParams,
   });
   const appLogEvents = tabId.startsWith('application-analytics-tab');
-  const query = useSelector(selectQueries)[tabId];
+  const queryFromURL = new URLSearchParams(history.location.search);
+  const query = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!) : useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
@@ -360,14 +360,7 @@ export const Explorer = ({
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
-    let curQuery = queryRef.current;
-    const queryFromURL = new URLSearchParams(history.location.search);
-    if (queryFromURL.get("query") !== null) {
-      curQuery = JSON.parse(queryFromURL.get("query")!);
-    }
-    // if (queryFromURL.get("query") !== null) {
-    //   curQuery = JSON.parse(queryFromURL.get("query")!)
-    // }
+    const curQuery = queryRef.current;
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
 
@@ -422,10 +415,6 @@ export const Explorer = ({
       curQuery![FILTERED_PATTERN]
     );
 
-    const queryParamsString = `query=${JSON.stringify(curQuery)}`;
-
-    history.replace({ search:  queryParamsString } );
-
     await dispatch(
       changeQuery({
         tabId,
@@ -435,6 +424,9 @@ export const Explorer = ({
         },
       })
     );
+
+    const queryParamsString = `q=${JSON.stringify(curQuery)}`;
+    history.replace({ search:  queryParamsString } );
 
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
@@ -551,6 +543,9 @@ export const Explorer = ({
         },
       })
     );
+
+    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    history.replace({ search:  queryParamsString } );
   };
 
   const showPermissionErrorToast = () => {
@@ -639,6 +634,9 @@ export const Explorer = ({
         },
       })
     );
+
+    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    history.replace({ search:  queryParamsString } );
 
     setIsOverridingTimestamp(false);
     handleQuerySearch();
@@ -1098,6 +1096,9 @@ export const Explorer = ({
         },
       })
     );
+
+    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    history.replace({ search:  queryParamsString } );
   };
 
   const updateCurrentTimeStamp = async (timestamp: string) => {
@@ -1109,6 +1110,9 @@ export const Explorer = ({
         },
       })
     );
+
+    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    history.replace({ search:  queryParamsString } );
   };
 
   const handleQuerySearch = useCallback(
