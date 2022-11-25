@@ -3,13 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './explorer.scss';
-import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
-import { useLocation } from 'react-router-dom';
-import { batch, useDispatch, useSelector } from 'react-redux';
-import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
-import { FormattedMessage } from '@osd/i18n/react';
-import { EuiLoadingSpinner, EuiSpacer } from '@elastic/eui';
 import dateMath from '@elastic/datemath';
 import {
   EuiButton,
