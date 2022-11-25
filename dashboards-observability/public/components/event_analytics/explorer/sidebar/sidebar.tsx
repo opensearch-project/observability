@@ -7,10 +7,8 @@ import './sidebar.scss';
 
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { EuiTitle, EuiSpacer, EuiButtonIcon, EuiFieldSearch } from '@elastic/eui';
-import { i18n } from '@osd/i18n';
-import { FormattedMessage, I18nProvider } from '@osd/i18n/react';
-import { cssNumber } from 'jquery';
+import { EuiTitle, EuiSpacer, EuiFieldSearch, EuiAccordion } from '@elastic/eui';
+import { I18nProvider } from '@osd/i18n/react';
 import { Field } from './field';
 import { IExplorerFields, IField } from '../../../../../common/types/explorer';
 
@@ -18,10 +16,13 @@ interface ISidebarProps {
   query: string;
   explorerFields: IExplorerFields;
   explorerData: any;
+  selectedPattern: string;
+  isOverridingPattern: boolean;
   selectedTimestamp: string;
   isOverridingTimestamp: boolean;
   isFieldToggleButtonDisabled: boolean;
-  handleOverrideTimestamp: (timestamp: { name: string; type: string }) => void;
+  handleOverridePattern: (pattern: IField) => void;
+  handleOverrideTimestamp: (timestamp: IField) => void;
   handleAddField: (field: IField) => void;
   handleRemoveField: (field: IField) => void;
 }
@@ -31,9 +32,12 @@ export const Sidebar = (props: ISidebarProps) => {
     query,
     explorerFields,
     explorerData,
+    selectedPattern,
+    isOverridingPattern,
     selectedTimestamp,
     isOverridingTimestamp,
     isFieldToggleButtonDisabled,
+    handleOverridePattern,
     handleOverrideTimestamp,
     handleAddField,
     handleRemoveField,
@@ -45,7 +49,6 @@ export const Sidebar = (props: ISidebarProps) => {
   return (
     <I18nProvider>
       <section className="sidebar-list">
-        <EuiSpacer size="m" />
         <div className="dscSidebar__item">
           <EuiFieldSearch
             compressed
@@ -64,19 +67,19 @@ export const Sidebar = (props: ISidebarProps) => {
             !isEmpty(explorerFields.availableFields)) && (
             <>
               {explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
-                <>
-                  <EuiTitle size="xxxs" id="selected_fields">
-                    <h3>
-                      <FormattedMessage
-                        id="discover.fieldChooser.filter.selectedFieldsTitle"
-                        defaultMessage="Query fields"
-                      />
-                    </h3>
-                  </EuiTitle>
-                  <EuiSpacer size="xs" />
+                <EuiAccordion
+                  initialIsOpen
+                  id="fieldSelector__queriedFields"
+                  buttonContent={
+                    <EuiTitle size="xxxs">
+                      <span>Query fields</span>
+                    </EuiTitle>
+                  }
+                  paddingSize="xs"
+                >
                   <ul
                     className="dscSidebarList dscFieldList--selected"
-                    aria-labelledby="selected_fields"
+                    aria-labelledby="queried_fields"
                     data-test-subj={`fieldList-selected`}
                   >
                     {explorerFields.queriedFields &&
@@ -90,6 +93,10 @@ export const Sidebar = (props: ISidebarProps) => {
                             <Field
                               query={query}
                               field={field}
+                              selectedPattern={selectedPattern}
+                              isOverridingPattern={isOverridingPattern}
+                              handleOverridePattern={handleOverridePattern}
+                              isOverridingTimestamp={isOverridingTimestamp}
                               selectedTimestamp={selectedTimestamp}
                               handleOverrideTimestamp={handleOverrideTimestamp}
                               selected={true}
@@ -101,90 +108,28 @@ export const Sidebar = (props: ISidebarProps) => {
                         );
                       })}
                   </ul>
-                </>
+                </EuiAccordion>
               )}
-              <EuiTitle size="xxxs" id="selected_fields">
-                <h3>
-                  <FormattedMessage
-                    id="discover.fieldChooser.filter.selectedFieldsTitle"
-                    defaultMessage="Selected Fields"
-                  />
-                </h3>
-              </EuiTitle>
-              <EuiSpacer size="xs" />
-              <ul
-                className="dscSidebarList dscFieldList--selected"
-                aria-labelledby="selected_fields"
-                data-test-subj={`fieldList-selected`}
+              <EuiSpacer size="s" />
+              <EuiAccordion
+                initialIsOpen
+                id="fieldSelector__selectedFields"
+                buttonContent={
+                  <EuiTitle size="xxxs">
+                    <span>Selected Fields</span>
+                  </EuiTitle>
+                }
+                paddingSize="xs"
               >
-                {explorerData &&
-                  !isEmpty(explorerData.jsonData) &&
-                  explorerFields.selectedFields &&
-                  explorerFields.selectedFields.map((field) => {
-                    return (
-                      <li
-                        key={`field${field.name}`}
-                        data-attr-field={field.name}
-                        className="dscSidebar__item"
-                      >
-                        <Field
-                          query={query}
-                          field={field}
-                          selectedTimestamp={selectedTimestamp}
-                          isOverridingTimestamp={isOverridingTimestamp}
-                          handleOverrideTimestamp={handleOverrideTimestamp}
-                          selected={true}
-                          isFieldToggleButtonDisabled={isFieldToggleButtonDisabled}
-                          showTimestampOverrideButton={true}
-                          onToggleField={handleRemoveField}
-                        />
-                      </li>
-                    );
-                  })}
-              </ul>
-              <div className="euiFlexGroup euiFlexGroup--gutterMedium">
-                <EuiTitle size="xxxs" id="available_fields" className="euiFlexItem">
-                  <h3>
-                    <FormattedMessage
-                      id="discover.fieldChooser.filter.availableFieldsTitle"
-                      defaultMessage="Available Fields"
-                    />
-                  </h3>
-                </EuiTitle>
-                <div className="euiFlexItem euiFlexItem--flexGrowZero">
-                  <EuiButtonIcon
-                    className={'visible-xs visible-sm dscFieldChooser__toggle'}
-                    iconType={showFields ? 'arrowDown' : 'arrowRight'}
-                    onClick={() => setShowFields(!showFields)}
-                    aria-label={
-                      showFields
-                        ? i18n.translate(
-                            'discover.fieldChooser.filter.indexAndFieldsSectionHideAriaLabel',
-                            {
-                              defaultMessage: 'Hide fields',
-                            }
-                          )
-                        : i18n.translate(
-                            'discover.fieldChooser.filter.indexAndFieldsSectionShowAriaLabel',
-                            {
-                              defaultMessage: 'Show fields',
-                            }
-                          )
-                    }
-                  />
-                </div>
-              </div>
-              <ul
-                className={`dscFieldList dscFieldList--unpopular ${
-                  !showFields ? 'hidden-sm hidden-xs' : ''
-                }`}
-                aria-labelledby="available_fields"
-                data-test-subj={`fieldList-unpopular`}
-              >
-                {explorerFields.availableFields &&
-                  explorerFields.availableFields
-                    .filter((field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)
-                    .map((field) => {
+                <ul
+                  className="dscSidebarList dscFieldList--selected"
+                  aria-labelledby="selected_fields"
+                  data-test-subj={`fieldList-selected`}
+                >
+                  {explorerData &&
+                    !isEmpty(explorerData.jsonData) &&
+                    explorerFields.selectedFields &&
+                    explorerFields.selectedFields.map((field) => {
                       return (
                         <li
                           key={`field${field.name}`}
@@ -194,18 +139,69 @@ export const Sidebar = (props: ISidebarProps) => {
                           <Field
                             query={query}
                             field={field}
+                            selectedPattern={selectedPattern}
+                            isOverridingPattern={isOverridingPattern}
+                            handleOverridePattern={handleOverridePattern}
                             selectedTimestamp={selectedTimestamp}
                             isOverridingTimestamp={isOverridingTimestamp}
                             handleOverrideTimestamp={handleOverrideTimestamp}
-                            onToggleField={handleAddField}
-                            selected={false}
+                            selected={true}
                             isFieldToggleButtonDisabled={isFieldToggleButtonDisabled}
                             showTimestampOverrideButton={true}
+                            onToggleField={handleRemoveField}
                           />
                         </li>
                       );
                     })}
-              </ul>
+                </ul>
+              </EuiAccordion>
+              <EuiSpacer size="s" />
+              <EuiAccordion
+                initialIsOpen
+                id="fieldSelector__availableFields"
+                buttonContent={
+                  <EuiTitle size="xxxs">
+                    <span>Available Fields</span>
+                  </EuiTitle>
+                }
+                paddingSize="xs"
+              >
+                <ul
+                  className={`dscFieldList dscFieldList--unpopular ${
+                    !showFields ? 'hidden-sm hidden-xs' : ''
+                  }`}
+                  aria-labelledby="available_fields"
+                  data-test-subj={`fieldList-unpopular`}
+                >
+                  {explorerFields.availableFields &&
+                    explorerFields.availableFields
+                      .filter((field) => searchTerm === '' || field.name.indexOf(searchTerm) !== -1)
+                      .map((field) => {
+                        return (
+                          <li
+                            key={`field${field.name}`}
+                            data-attr-field={field.name}
+                            className="dscSidebar__item"
+                          >
+                            <Field
+                              query={query}
+                              field={field}
+                              selectedPattern={selectedPattern}
+                              isOverridingPattern={isOverridingPattern}
+                              handleOverridePattern={handleOverridePattern}
+                              selectedTimestamp={selectedTimestamp}
+                              isOverridingTimestamp={isOverridingTimestamp}
+                              handleOverrideTimestamp={handleOverrideTimestamp}
+                              onToggleField={handleAddField}
+                              selected={false}
+                              isFieldToggleButtonDisabled={isFieldToggleButtonDisabled}
+                              showTimestampOverrideButton={true}
+                            />
+                          </li>
+                        );
+                      })}
+                </ul>
+              </EuiAccordion>
             </>
           )}
         </div>

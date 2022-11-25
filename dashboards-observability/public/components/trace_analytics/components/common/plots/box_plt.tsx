@@ -4,6 +4,7 @@
  */
 
 import { EuiFlexGrid, EuiFlexItem, EuiText, EuiToolTip } from '@elastic/eui';
+import { BarOrientation } from '../../../../../../common/constants/shared';
 import React, { useMemo, useState } from 'react';
 import { Plt } from '../../../../visualizations/plotly/plot';
 
@@ -53,7 +54,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         x: [plotParams.left],
         y: [0],
         type: 'bar',
-        orientation: 'h',
+        orientation: BarOrientation.horizontal,
         width: 1,
         marker: { color: 'rgba(0, 0, 0, 0)' },
         hoverinfo: 'none',
@@ -63,7 +64,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         x: [plotParams.mid - plotParams.left],
         y: [0],
         type: 'bar',
-        orientation: 'h',
+        orientation: BarOrientation.horizontal,
         width: 1,
         marker: {
           color: plotParams.currPercentileFilter === '< 95th' ? '#fcfcfc' : '#ffffff',
@@ -82,7 +83,7 @@ export function BoxPlt({ plotParams }: { plotParams: PlotParamsType }) {
         x: [plotParams.right - plotParams.mid],
         y: [0],
         type: 'bar',
-        orientation: 'h',
+        orientation: BarOrientation.horizontal,
         width: 1,
         marker: {
           color: plotParams.currPercentileFilter === '>= 95th' ? '#aea4d1' : '#957ac9',

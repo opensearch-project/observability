@@ -32,25 +32,6 @@ export const DefaultEditorControls = ({
             Reset
           </EuiButtonEmpty>
         </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          {isInvalid ? (
-            <EuiToolTip content={'Errors in the highlighted fields need to be resolved.'}>
-              <EuiButton color="danger" iconType="alert" size="s" disabled>
-                Preview
-              </EuiButton>
-            </EuiToolTip>
-          ) : (
-            <EuiButton
-              data-test-subj="visualizeEditorRenderButton"
-              disabled={!isDirty}
-              iconType="play"
-              onClick={onConfigUpdate}
-              size="s"
-            >
-              Preview
-            </EuiButton>
-          )}
-        </EuiFlexItem>
       </EuiFlexGroup>
     </div>
   );

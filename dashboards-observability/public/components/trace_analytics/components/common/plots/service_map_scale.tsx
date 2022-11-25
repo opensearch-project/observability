@@ -4,6 +4,7 @@
  */
 
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiText } from '@elastic/eui';
+import { BarOrientation } from '../../../../../../common/constants/shared';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Plt } from '../../../../visualizations/plotly/plot';
@@ -56,7 +57,7 @@ export function ServiceMapScale(props: {
       {
         x: Array.from({ length: result.data.y.length }, () => 0),
         type: 'bar',
-        orientation: 'v',
+        orientation: BarOrientation.vertical,
         width: 0.4,
         hoverinfo: 'none',
         showlegend: false,

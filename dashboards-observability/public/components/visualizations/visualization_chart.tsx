@@ -4,31 +4,27 @@
  */
 
 import React, { useMemo } from 'react';
-import { take, merge, isEmpty } from 'lodash';
 
 interface IVisualizationChart {}
 
 export const VisualizationChart = ({ visualizations }: IVisualizationChart) => {
-  const { data, vis } = visualizations;
-  const {
-    metadata: { fields },
-  } = visualizations?.data?.rawVizData;
+  const { vis } = visualizations;
   const { layout = {}, config = {} } = visualizations?.data?.userConfigs;
   const Visualization = visualizations?.vis?.component;
 
   const finalFigureConfig = useMemo(() => {
     return {
-      ...vis.visConfig?.config,
+      ...vis.visconfig?.config,
       ...config,
     };
   }, [config, vis]);
 
-  const finalFigureLayout = useMemo(() => {
+  const finalFigureLayout = () => {
     return {
-      ...vis.visConfig?.layout,
+      ...vis.visconfig?.layout,
       ...layout,
     };
-  }, [layout, vis]);
+  };
 
   return (
     <Visualization
