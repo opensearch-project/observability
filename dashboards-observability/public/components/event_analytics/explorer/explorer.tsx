@@ -6,6 +6,7 @@
 
 import './explorer.scss';
 import React, { useState, useMemo, useEffect, useRef, useCallback, ReactElement } from 'react';
+import { useLocation } from 'react-router-dom';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { isEmpty, cloneDeep, isEqual, has, reduce } from 'lodash';
 import { FormattedMessage } from '@osd/i18n/react';
@@ -303,7 +304,14 @@ export const Explorer = ({
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
-    const curQuery = queryRef.current;
+    let curQuery = queryRef.current;
+    const queryFromURL = new URLSearchParams(history.location.search);
+    if (queryFromURL.get("query") !== null) {
+      curQuery = JSON.parse(queryFromURL.get("query")!);
+    }
+    // if (queryFromURL.get("query") !== null) {
+    //   curQuery = JSON.parse(queryFromURL.get("query")!)
+    // }
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
     if (isEmpty(rawQueryStr)) return;
@@ -340,6 +348,10 @@ export const Explorer = ({
       curTimestamp,
       isLiveTailOnRef.current
     );
+
+    const queryParamsString = `query=${JSON.stringify(curQuery)}`;
+
+    history.replace({ search:  queryParamsString } );
 
     await dispatch(
       changeQuery({
