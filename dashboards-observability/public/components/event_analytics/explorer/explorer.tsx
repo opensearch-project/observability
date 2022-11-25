@@ -1252,7 +1252,7 @@ export const Explorer = ({
       if (!isEmpty(currQuery![SAVED_OBJECT_ID]) && isTabMatchingSavedType) {
         savingVisRes = await savedObjects
           .updateSavedVisualizationById({
-            query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
+            query: buildQuery('', currQuery![RAW_QUERY]),
             fields: currFields![SELECTED_FIELDS],
             dateRange: currQuery![SELECTED_DATE_RANGE],
             name: selectedPanelNameRef.current,
@@ -1287,7 +1287,7 @@ export const Explorer = ({
         // create new saved visualization
         savingVisRes = await savedObjects
           .createSavedVisualization({
-            query: buildQuery(appBaseQuery, currQuery![RAW_QUERY]),
+            query: buildQuery('', currQuery![RAW_QUERY]),
             fields: currFields![SELECTED_FIELDS],
             dateRange: currQuery![SELECTED_DATE_RANGE],
             type: curVisId,

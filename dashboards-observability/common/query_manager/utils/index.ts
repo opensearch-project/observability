@@ -35,7 +35,7 @@ export const composeAggregations = (
   };
 };
 
-const composeSpan = (spanConfig) => {
+export const composeSpan = (spanConfig) => {
   return {
     [CUSTOM_LABEL]: spanConfig[CUSTOM_LABEL] ?? '',
     span_expression: {
