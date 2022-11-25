@@ -2,7 +2,7 @@
 
 exports[`ConfigAvailability component Renders configAvailability component with visualization and viztypes data 1`] = `
 <ConfigAvailability
-  onConfigChange={[Function]}
+  onConfigChange={[MockFunction]}
   visualizations={
     Object {
       "data": Object {
