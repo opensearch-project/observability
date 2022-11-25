@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpSetup } from "../../../../src/core/public";
+import { HttpSetup } from '../../../../src/core/public';
 
 const httpClientMock = jest.fn() as any;
 
@@ -22,6 +22,7 @@ httpClientMock.post = jest.fn(() => ({
   then: jest.fn(() => ({
     catch: jest.fn(),
   })),
+  catch: jest.fn(() => ({})),
 }));
 httpClientMock.put = jest.fn(() => ({
   then: jest.fn(() => ({
