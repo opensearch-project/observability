@@ -114,9 +114,44 @@ describe('Explorer component', () => {
     toasts: ({ addError: jest.fn() } as unknown) as IToasts,
   };
 
-  it('Renders Explorer component', async () => {
+  it('Renders Explorer component to run fetchData', async () => {
     const wrapper = mount(
       <Provider store={store}>
+        <Explorer
+          pplService={pplService}
+          dslService={dslService}
+          history={history}
+          savedObjectId={tabId}
+          setToast={setToast}
+          tabId={tabId}
+          http={core.http}
+          savedObjects={new SavedObjects(core.http)}
+          timestampUtils={new TimestampUtils(dslService)}
+          notifications={notificationObj1}
+          curSelectedTabId={curSelectedTabId}
+          queryManager={new QueryManager()}
+        />
+      </Provider>
+    );
+    wrapper.update();
+    await waitFor(() => {
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
+  it('Renders Explorer component to run updateTabData', async () => {
+    const updatedReduxState = {
+      ...initialState,
+      queries: {
+        ...initialState.queries,
+        pomjQYQBg4Jf5lv0c5Ke: {
+          ...initialState.queries.pomjQYQBg4Jf5lv0c5Ke,
+          savedObjectId: 'pomjQYQBg4Jf5lv0c5Ke',
+        },
+      },
+    };
+    const updatedStore = mockStore(updatedReduxState);
+    const wrapper = mount(
+      <Provider store={updatedStore}>
         <Explorer
           pplService={pplService}
           dslService={dslService}

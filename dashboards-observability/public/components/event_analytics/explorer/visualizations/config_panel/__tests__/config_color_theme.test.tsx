@@ -19,9 +19,7 @@ describe('ConfigColorTheme component', () => {
       color: '#000000',
     },
   ];
-  const onConfigChange = (configs: any) => {
-    // console.log('configs', configs);
-  };
+  const onConfigChange = jest.fn();
   const wrapper = mount(
     <ConfigColorTheme
       visualizations={TEST_COLOR_THEME}
