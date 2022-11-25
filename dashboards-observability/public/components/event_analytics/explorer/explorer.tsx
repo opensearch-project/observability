@@ -153,6 +153,7 @@ export const Explorer = ({
     requestParams,
   });
   const appLogEvents = tabId.startsWith('application-analytics-tab');
+  // const query = useSelector(selectQueries)[tabId];
   const queryFromURL = new URLSearchParams(history.location.search);
   const query = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!) : useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
@@ -361,6 +362,10 @@ export const Explorer = ({
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
+    // const queryFromURL = new URLSearchParams(history.location.search);
+    // if (queryFromURL.get("q") !== null) { 
+    //   curQuery = JSON.parse(queryFromURL.get("q")!);
+    // }
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
 
@@ -572,7 +577,7 @@ export const Explorer = ({
       await updateQueryInStore(patternSelectQuery);
       // Passing in empty string will remove pattern query
       const patternErrorHandler = getErrorHandler('Error fetching patterns');
-      getPatterns(minInterval, patternErrorHandler);
+      getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', patternErrorHandler);
     }
   };
 
@@ -650,7 +655,7 @@ export const Explorer = ({
       getErrorHandler('Error overriding default pattern')
     );
     setIsOverridingPattern(false);
-    await getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
+    await getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', getErrorHandler('Error fetching patterns'));
   };
 
   const totalHits: number = useMemo(() => {
@@ -852,7 +857,7 @@ export const Explorer = ({
                                               })
                                             );
                                             await getPatterns(
-                                              minInterval,
+                                              selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y',
                                               getErrorHandler('Error fetching patterns')
                                             );
                                           }}
