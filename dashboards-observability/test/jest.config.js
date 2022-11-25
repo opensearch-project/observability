@@ -22,6 +22,9 @@ module.exports = {
     '<rootDir>/public/requests/',
     '<rootDir>/public/components/trace_analytics/',
     '<rootDir>/common/query_manager/',
+    '<rootDir>/public/components/notebooks/components',
+    '<rootDir>/public/services/requests',
+    '<rootDir>/public/services/timestamp',
   ],
   transformIgnorePatterns: ['<rootDir>/node_modules'],
   moduleNameMapper: {
