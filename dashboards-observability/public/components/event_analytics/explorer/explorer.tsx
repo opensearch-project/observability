@@ -153,9 +153,9 @@ export const Explorer = ({
     requestParams,
   });
   const appLogEvents = tabId.startsWith('application-analytics-tab');
-  // const query = useSelector(selectQueries)[tabId];
   const queryFromURL = new URLSearchParams(history.location.search);
-  const query = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!) : useSelector(selectQueries)[tabId];
+  const queryFromRedux =  useSelector(selectQueries)[tabId];
+  const query = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!) : queryFromRedux
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
@@ -394,6 +394,8 @@ export const Explorer = ({
     if (isEmpty(curPattern)) {
       const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
       await setDefaultPatternsField(curIndex, '', patternErrorHandler);
+      const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+      history.replace({ search:  queryParamsString } );
       const newQuery = queryRef.current;
       curPattern = newQuery![SELECTED_PATTERN_FIELD];
       if (isEmpty(curPattern)) {
@@ -430,9 +432,6 @@ export const Explorer = ({
       })
     );
 
-    const queryParamsString = `q=${JSON.stringify(curQuery)}`;
-    history.replace({ search:  queryParamsString } );
-
     // search
     if (finalQuery.match(PPL_STATS_REGEX)) {
       const cusVisIds = userVizConfigs ? Object.keys(userVizConfigs) : [];
@@ -463,6 +462,9 @@ export const Explorer = ({
         getPatterns(selectedIntervalRef.current!.value.replace(/^auto_/, ''));
       }  
     }
+
+    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    history.replace({ search:  queryParamsString } );
 
     // for comparing usage if for the same tab, user changed index from one to another
     if (!isLiveTailOnRef.current) {
@@ -656,6 +658,8 @@ export const Explorer = ({
     );
     setIsOverridingPattern(false);
     await getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', getErrorHandler('Error fetching patterns'));
+    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    history.replace({ search:  queryParamsString } );
   };
 
   const totalHits: number = useMemo(() => {
@@ -766,6 +770,8 @@ export const Explorer = ({
                               getCountVisualizations(intrv);
                               selectedIntervalRef.current = timeIntervalOptions[intervalOptionsIndex]
                               getPatterns(intrv, getErrorHandler('Error fetching patterns'));
+                              const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+                              history.replace({ search:  queryParamsString } );
                             }}
                             stateInterval={selectedIntervalRef.current?.value}
                           />
@@ -860,6 +866,8 @@ export const Explorer = ({
                                               selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y',
                                               getErrorHandler('Error fetching patterns')
                                             );
+                                            const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+                                            history.replace({ search:  queryParamsString } );
                                           }}
                                         >
                                           Apply
@@ -1134,6 +1142,8 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
+      const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+      history.replace({ search:  queryParamsString } );
       await fetchData();
 
       if (selectedContentTabId === TAB_CHART_ID) {
@@ -1457,6 +1467,10 @@ export const Explorer = ({
       setSpanValue(!isEqual(typeof updatedDataConfig.span, 'undefined'));
     }
   }, [tempQuery, selectedContentTabId, curVisId]);
+
+  // const queryFromURL = new URLSearchParams(history.location.search);
+  // const baseQuery = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!)[RAW_QUERY] : query[RAW_QUERY];
+  // const dates = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!).selectedDateRange : dateRange;
 
   return (
     <TabContext.Provider
