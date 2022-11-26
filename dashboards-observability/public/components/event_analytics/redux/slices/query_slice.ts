@@ -19,7 +19,10 @@ import {
 } from '../../../../../common/constants/explorer';
 import { initialTabId } from '../../../../framework/redux/store/shared_state';
 
-const initialQueryState = {
+
+const queryFromURL = window.location.hash.split('?');
+
+const initialQueryState = queryFromURL.length > 1 ? JSON.parse(queryFromURL[1].substring(2).replaceAll("%22", "\"")) : {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
