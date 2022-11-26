@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import _ from 'lodash';
 import dateMath from '@elastic/datemath';
 import {
   EuiButton,
@@ -360,12 +361,14 @@ export const Explorer = ({
     indexPattern: string
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
+  const updateURL = (field: string, value: any) => {
+    const finalQuery : any = _.clone(query);
+    finalQuery[field] = value;
+    return finalQuery;
+  }
+
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
-    // const queryFromURL = new URLSearchParams(history.location.search);
-    // if (queryFromURL.get("q") !== null) { 
-    //   curQuery = JSON.parse(queryFromURL.get("q")!);
-    // }
     const rawQueryStr = buildQuery(appBasedRef.current, curQuery![RAW_QUERY]);
     const curIndex = getIndexPatternFromRawQuery(rawQueryStr);
 
@@ -393,8 +396,8 @@ export const Explorer = ({
 
     if (isEmpty(curPattern)) {
       const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
-      await setDefaultPatternsField(curIndex, '', patternErrorHandler);
-      const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+      const patternField = await setDefaultPatternsField(curIndex, '', patternErrorHandler);
+      const queryParamsString = `q=${JSON.stringify(updateURL(SELECTED_PATTERN_FIELD, patternField))}`;
       history.replace({ search:  queryParamsString } );
       const newQuery = queryRef.current;
       curPattern = newQuery![SELECTED_PATTERN_FIELD];
@@ -462,9 +465,6 @@ export const Explorer = ({
         getPatterns(selectedIntervalRef.current!.value.replace(/^auto_/, ''));
       }  
     }
-
-    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-    history.replace({ search:  queryParamsString } );
 
     // for comparing usage if for the same tab, user changed index from one to another
     if (!isLiveTailOnRef.current) {
@@ -551,7 +551,16 @@ export const Explorer = ({
       })
     );
 
-    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [SELECTED_DATE_RANGE]: timeRange,
+        },
+      })
+    );
+
+    const queryParamsString = `q=${JSON.stringify(updateURL(SELECTED_DATE_RANGE, timeRange))}`;
     history.replace({ search:  queryParamsString } );
   };
 
@@ -642,9 +651,6 @@ export const Explorer = ({
       })
     );
 
-    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-    history.replace({ search:  queryParamsString } );
-
     setIsOverridingTimestamp(false);
     handleQuerySearch();
   };
@@ -658,8 +664,6 @@ export const Explorer = ({
     );
     setIsOverridingPattern(false);
     await getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', getErrorHandler('Error fetching patterns'));
-    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-    history.replace({ search:  queryParamsString } );
   };
 
   const totalHits: number = useMemo(() => {
@@ -770,8 +774,6 @@ export const Explorer = ({
                               getCountVisualizations(intrv);
                               selectedIntervalRef.current = timeIntervalOptions[intervalOptionsIndex]
                               getPatterns(intrv, getErrorHandler('Error fetching patterns'));
-                              const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-                              history.replace({ search:  queryParamsString } );
                             }}
                             stateInterval={selectedIntervalRef.current?.value}
                           />
@@ -866,8 +868,6 @@ export const Explorer = ({
                                               selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y',
                                               getErrorHandler('Error fetching patterns')
                                             );
-                                            const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-                                            history.replace({ search:  queryParamsString } );
                                           }}
                                         >
                                           Apply
@@ -1110,7 +1110,7 @@ export const Explorer = ({
       })
     );
 
-    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
+    const queryParamsString = `q=${JSON.stringify(updateURL(RAW_QUERY, updateQuery.replaceAll(PPL_NEWLINE_REGEX, '')))}`;
     history.replace({ search:  queryParamsString } );
   };
 
@@ -1123,9 +1123,6 @@ export const Explorer = ({
         },
       })
     );
-
-    const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-    history.replace({ search:  queryParamsString } );
   };
 
   const handleQuerySearch = useCallback(
@@ -1142,8 +1139,6 @@ export const Explorer = ({
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
       }
-      const queryParamsString = `q=${JSON.stringify(queryRef.current)}`;
-      history.replace({ search:  queryParamsString } );
       await fetchData();
 
       if (selectedContentTabId === TAB_CHART_ID) {
