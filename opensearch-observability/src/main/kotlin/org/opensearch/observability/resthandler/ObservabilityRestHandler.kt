@@ -18,6 +18,7 @@ import org.opensearch.observability.action.ObservabilityActions
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectRequest
 import org.opensearch.observability.index.ObservabilityQueryHelper
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
 import org.opensearch.observability.model.RestTag.MAX_ITEMS_FIELD
@@ -93,7 +94,7 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
              * Response body: Ref [org.opensearch.observability.model.DeleteObservabilityObjectResponse]
              */
             Route(DELETE, "$OBSERVABILITY_URL/{$OBJECT_ID_FIELD}"),
-            Route(DELETE, "$OBSERVABILITY_URL")
+            Route(DELETE, OBSERVABILITY_URL)
         )
     }
 
@@ -199,6 +200,8 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
      * {@inheritDoc}
      */
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
+        Metrics.REQUEST_TOTAL.counter.increment()
+        Metrics.REQUEST_INTERVAL_COUNT.counter.increment()
         return when (request.method()) {
             POST -> executePostRequest(request, client)
             PUT -> executePutRequest(request, client)
