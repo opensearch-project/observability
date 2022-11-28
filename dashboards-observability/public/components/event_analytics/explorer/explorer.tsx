@@ -362,7 +362,7 @@ export const Explorer = ({
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
   const updateURL = (args: Map<string, any>) => {
-    const finalQuery : any = _.cloneDeep(queryRef.current);
+    const finalQuery : any = _.clone(queryRef.current);
     for (let entry of args.entries()) {
       finalQuery[entry[0]] = entry[1];
     }
