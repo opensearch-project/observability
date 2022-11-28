@@ -182,8 +182,14 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
     implementation "${group}:common-utils:${common_utils_version}"
     implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
-    implementation "org.json:json:20180813"
-    implementation group: 'com.github.wnameless', name: 'json-flattener', version: '0.1.0'
+    implementation 'org.json:json:20220924'
+    implementation group: 'com.github.wnameless.json', name: 'json-flattener', version: '0.15.1'
+    // json-base, jackson-databind, jackson-annotations are only used by json-flattener
+    // and are included in its pom.xml, but json-flattener returns ClassNotFoundException
+    // for them if not declared explicitly
+    implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.13.4"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.13.4"
     compileOnly "${group}:opensearch-job-scheduler-spi:${job_scheduler_version}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
