@@ -361,9 +361,11 @@ export const Explorer = ({
     indexPattern: string
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
-  const updateURL = (field: string, value: any) => {
-    const finalQuery : any = _.clone(query);
-    finalQuery[field] = value;
+  const updateURL = (args: Map<string, any>) => {
+    const finalQuery : any = _.clone(queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!) : queryFromRedux);
+    for (let entry of args.entries()) {
+      finalQuery[entry[0]] = entry[1];
+    }
     return finalQuery;
   }
 
@@ -397,7 +399,9 @@ export const Explorer = ({
     if (isEmpty(curPattern)) {
       const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
       const patternField = await setDefaultPatternsField(curIndex, '', patternErrorHandler);
-      const queryParamsString = `q=${JSON.stringify(updateURL(SELECTED_PATTERN_FIELD, patternField))}`;
+      const queryParamsString = `q=${JSON.stringify(updateURL(new Map<string, any>([
+        [SELECTED_PATTERN_FIELD, patternField]
+      ])))}`;
       history.replace({ search:  queryParamsString } );
       const newQuery = queryRef.current;
       curPattern = newQuery![SELECTED_PATTERN_FIELD];
@@ -420,7 +424,7 @@ export const Explorer = ({
       curTimestamp,
       isLiveTailOnRef.current,
       appBasedRef.current,
-      curQuery![SELECTED_PATTERN_FIELD],
+      curPattern,
       curQuery![PATTERN_REGEX],
       curQuery![FILTERED_PATTERN]
     );
@@ -560,7 +564,9 @@ export const Explorer = ({
       })
     );
 
-    const queryParamsString = `q=${JSON.stringify(updateURL(SELECTED_DATE_RANGE, timeRange))}`;
+    const queryParamsString = `q=${JSON.stringify(updateURL((new Map<string, any>([
+      [SELECTED_DATE_RANGE, timeRange]
+    ]))))}`;
     history.replace({ search:  queryParamsString } );
   };
 
@@ -664,6 +670,11 @@ export const Explorer = ({
     );
     setIsOverridingPattern(false);
     await getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', getErrorHandler('Error fetching patterns'));
+    const queryParamsString = `q=${JSON.stringify(updateURL((new Map<string, any>([
+      [SELECTED_PATTERN_FIELD, pattern.name],
+      // [SELECTED_PATTERN_FIELD, '']
+    ]))))}`;
+    history.replace({ search:  queryParamsString } );
   };
 
   const totalHits: number = useMemo(() => {
@@ -693,6 +704,12 @@ export const Explorer = ({
         },
       })
     );
+
+    const queryParamsString = `q=${JSON.stringify(updateURL((new Map<string, any>([
+      [FILTERED_PATTERN, pattern],
+      // [SELECTED_PATTERN_FIELD, '']
+    ]))))}`;
+    history.replace({ search:  queryParamsString } );
     // workaround to refresh callback and trigger fetch data
     await setTempQuery(queryRef.current![RAW_QUERY]);
     await handleTimeRangePickerRefresh(true);
@@ -1110,7 +1127,10 @@ export const Explorer = ({
       })
     );
 
-    const queryParamsString = `q=${JSON.stringify(updateURL(RAW_QUERY, updateQuery.replaceAll(PPL_NEWLINE_REGEX, '')))}`;
+    const queryParamsString = `q=${JSON.stringify(updateURL((new Map<string, any>([
+      [RAW_QUERY, updateQuery.replaceAll(PPL_NEWLINE_REGEX, '')],
+      // [SELECTED_PATTERN_FIELD, '']
+    ]))))}`;
     history.replace({ search:  queryParamsString } );
   };
 
@@ -1123,6 +1143,11 @@ export const Explorer = ({
         },
       })
     );
+    const queryParamsString = `q=${JSON.stringify(updateURL((new Map<string, any>([
+      [SELECTED_TIMESTAMP, timestamp],
+      // [SELECTED_PATTERN_FIELD, '']
+    ]))))}`;
+    history.replace({ search:  queryParamsString } );
   };
 
   const handleQuerySearch = useCallback(
@@ -1135,6 +1160,11 @@ export const Explorer = ({
       ) {
         await updateCurrentTimeStamp('');
         await setDefaultPatternsField('', '');
+        const queryParamsString = `q=${JSON.stringify(updateURL((new Map<string, any>([
+          // [SELECTED_TIMESTAMP, timestamp],
+          [SELECTED_PATTERN_FIELD, '']
+        ]))))}`;
+        history.replace({ search:  queryParamsString } );
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);
