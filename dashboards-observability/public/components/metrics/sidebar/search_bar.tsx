@@ -3,57 +3,40 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiGlobalToastList, EuiSearchBar, EuiToast } from '@elastic/eui';
-import React, { useEffect, useState } from 'react';
-import { pplServiceRequestor } from '../helpers/utils';
+import { EuiSearchBar } from '@elastic/eui';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clearSearchedMetrics, searchMetric } from '../redux/slices/metrics_slice';
 
 interface ISearchBarProps {
-  allAvailableMetrics: any;
-  handleAddMetric: any;
+  setSearch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SearchBar = (props: ISearchBarProps) => {
-  const { allAvailableMetrics, handleAddMetric } = props;
+  const { setSearch } = props;
 
-  const [query, setQuery] = useState('');
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
-  const [toasts, setToasts] = useState([]);
-  const addToast = (res: string) => {
-    if (res === 'success') {
-      const toast = {
-        id: 'success',
-        title: 'Metric successfully added!!',
-        color: 'success',
-      };
-      setToasts(toasts.concat(toast));
+  const onChange = ({ query }: { query: any }) => {
+    if (query.text !== '') {
+      setSearch(true);
+      dispatch(searchMetric({ id: query.text }));
     } else {
-      const toast = {
-        id: 'fail',
-        title: 'Metric not found.',
-        color: 'danger',
-      };
-      setToasts(toasts.concat(toast));
-    }
-  };
-  const removeToast = (removedToast: any) => {
-    setToasts(toasts.filter((toast: any) => toast.id !== removedToast.id));
-  };
-
-  const onChange = ({ query }) => {
-    const metric = allAvailableMetrics.find((row: any) => row.name.includes(query.text));
-    if (metric) {
-      handleAddMetric(metric);
-      addToast('success');
-    } else {
-      addToast('fail');
+      setSearch(false);
+      dispatch(clearSearchedMetrics({}));
     }
   };
 
   return (
     <div>
-      <EuiSearchBar defaultQuery={''} onChange={onChange} />
-      <EuiGlobalToastList toasts={toasts} dismissToast={removeToast} toastLifeTimeMs={6000} />
+      <EuiSearchBar
+        box={{
+          placeholder: 'Search for metrics',
+          incremental: true,
+        }}
+        defaultQuery={''}
+        onChange={onChange}
+      />
     </div>
   );
 };

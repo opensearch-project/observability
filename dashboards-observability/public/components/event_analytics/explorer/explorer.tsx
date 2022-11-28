@@ -63,7 +63,6 @@ import {
   PPL_PATTERNS_DOCUMENTATION_URL,
   PPL_STATS_REGEX,
 } from '../../../../common/constants/shared';
-import { GroupByChunk } from '../../../../common/query_manager/ast/types';
 import {
   IDefaultTimestampState,
   IExplorerProps,
@@ -566,7 +565,7 @@ export const Explorer = ({
       await updateQueryInStore(patternSelectQuery);
       // Passing in empty string will remove pattern query
       const patternErrorHandler = getErrorHandler('Error fetching patterns');
-      getPatterns(minInterval, patternErrorHandler);
+      getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', patternErrorHandler);
     }
   };
 
@@ -641,7 +640,7 @@ export const Explorer = ({
       getErrorHandler('Error overriding default pattern')
     );
     setIsOverridingPattern(false);
-    await getPatterns(minInterval, getErrorHandler('Error fetching patterns'));
+    await getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', getErrorHandler('Error fetching patterns'));
   };
 
   const totalHits: number = useMemo(() => {
@@ -843,7 +842,7 @@ export const Explorer = ({
                                               })
                                             );
                                             await getPatterns(
-                                              minInterval,
+                                              selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y',
                                               getErrorHandler('Error fetching patterns')
                                             );
                                           }}
