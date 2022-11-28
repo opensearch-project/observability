@@ -20,6 +20,7 @@ export const pipeCommands = [
   { label: 'stats' },
   { label: 'top' },
   { label: 'where' },
+  { label: 'patterns' },
 ];
 
 export const statsCommands = [
