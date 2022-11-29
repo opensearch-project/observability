@@ -18,7 +18,6 @@ import org.opensearch.observability.action.ObservabilityActions
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectRequest
 import org.opensearch.observability.index.ObservabilityQueryHelper
-import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
 import org.opensearch.observability.model.RestTag.MAX_ITEMS_FIELD

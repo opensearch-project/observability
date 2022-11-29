@@ -13,7 +13,7 @@ internal class BasicCounterTests {
     @Test
     fun increment() {
         val counter = BasicCounter()
-        for (i in 0..4) {
+        for (@Suppress("unused") i in 0..4) {
             counter.increment()
         }
         assertThat(counter.value, Matchers.equalTo(5L))

@@ -50,12 +50,12 @@ internal class RollingCounter(
 
     private fun trim() {
         if (timeToCountMap.size > capacity) {
-            timeToCountMap.headMap(getKey(clock.millis() - window * 1000)).clear()
+            timeToCountMap.headMap(getKey(clock.millis() - window * MILLIS_MULTIPLIER)).clear()
         }
     }
 
     private fun getKey(millis: Long): Long {
-        return millis / 1000 / interval
+        return millis / MILLIS_MULTIPLIER / interval
     }
 
     private fun getPreKey(millis: Long): Long {
@@ -79,5 +79,6 @@ internal class RollingCounter(
     companion object {
         private const val METRICS_ROLLING_WINDOW_VALUE = 3600L
         private const val METRICS_ROLLING_INTERVAL_VALUE = 60L
+        private const val MILLIS_MULTIPLIER = 1000
     }
 }
