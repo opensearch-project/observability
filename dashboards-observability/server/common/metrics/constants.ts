@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentType, CounterNameType, CounterType } from './types';
+import { ComponentType, CounterType } from './types';
 
 export const WINDOW = 3600;
 export const INTERVAL = 60;
@@ -26,7 +26,6 @@ export const GLOBAL_BASIC_COUNTER: CounterType = (() => {
     counter[component] = {} as CounterType[ComponentType];
     REQUESTS.forEach((request) => {
       counter[component][request] = {
-        count: 0,
         total: 0,
       };
     });

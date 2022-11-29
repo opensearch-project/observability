@@ -11,7 +11,7 @@ export type CounterNameType = 'count' | 'system_error' | 'user_error' | 'total';
 
 // counter to track user click actions
 type ClickCounterType = {
-  [action: string]: {
+  [element: string]: {
     [counter in CounterNameType]?: number;
   };
 };
