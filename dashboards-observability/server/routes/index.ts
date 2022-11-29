@@ -19,6 +19,7 @@ import QueryService from '../services/queryService';
 import { registerSqlRoute } from './notebooks/sqlRouter';
 import { registerEventAnalyticsRouter } from './event_analytics/event_analytics_router';
 import { registerAppAnalyticsRouter } from './application_analytics/app_analytics_router';
+import { registerMetricsRoute } from './metrics/metrics_rounter';
 
 
 export function setupRoutes({ router, client }: { router: IRouter; client: ILegacyClusterClient }) {
@@ -38,4 +39,6 @@ export function setupRoutes({ router, client }: { router: IRouter; client: ILega
   registerVizRoute(router);
   const queryService = new QueryService(client);
   registerSqlRoute(router, queryService);
+
+  registerMetricsRoute(router);
 };
