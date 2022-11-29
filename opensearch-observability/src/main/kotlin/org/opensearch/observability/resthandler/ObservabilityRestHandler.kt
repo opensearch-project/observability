@@ -200,8 +200,6 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
      * {@inheritDoc}
      */
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        Metrics.REQUEST_TOTAL.counter.increment()
-        Metrics.REQUEST_INTERVAL_COUNT.counter.increment()
         return when (request.method()) {
             POST -> executePostRequest(request, client)
             PUT -> executePutRequest(request, client)
