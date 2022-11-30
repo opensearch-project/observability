@@ -5,6 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiSpacer, PropertySort } from '@elastic/eui';
+import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import React, { useEffect, useState } from 'react';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
@@ -54,8 +55,8 @@ export function TracesContent(props: TracesProps) {
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime), processTimeStamp(endTime), page);
+    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page);
     await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
     setLoading(false);
   };

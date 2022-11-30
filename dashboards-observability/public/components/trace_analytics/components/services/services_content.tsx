@@ -5,6 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiSpacer } from '@elastic/eui';
+import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
@@ -74,7 +75,7 @@ export function ServicesContent(props: ServicesProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query,processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
+    const DSL = filtersToDsl(filters, query,processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
     // service map should not be filtered by service name
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(

@@ -18,6 +18,7 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
+import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { TraceAnalyticsComponentDeps } from '../../home';
@@ -46,7 +47,7 @@ export function ServiceView(props: ServiceViewProps) {
   const [redirect, setRedirect] = useState(false);
 
   const refresh = () => {
-    const DSL = filtersToDsl(props.filters, props.query,processTimeStamp(props.startTime), processTimeStamp(props.endTime));
+    const DSL = filtersToDsl(props.filters, props.query,processTimeStamp(props.startTime, USE_JAEGER), processTimeStamp(props.endTime, USE_JAEGER));
     handleServiceViewRequest(props.serviceName, props.http, DSL, setFields);
     handleServiceMapRequest(props.http, DSL, setServiceMap, props.serviceName);
   };
@@ -227,7 +228,7 @@ export function ServiceView(props: ServiceViewProps) {
   };
 
   useEffect(() => {
-    const spanDSL = filtersToDsl(props.filters, props.query, processTimeStamp(props.startTime), processTimeStamp(props.endTime));
+    const spanDSL = filtersToDsl(props.filters, props.query, processTimeStamp(props.startTime, USE_JAEGER), processTimeStamp(props.endTime, USE_JAEGER));
     spanDSL.query.bool.must.push({
       term: {
         "process.serviceName": props.serviceName,

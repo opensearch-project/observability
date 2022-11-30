@@ -6,6 +6,7 @@
 
 import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer } from '@elastic/eui';
+import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
@@ -87,8 +88,8 @@ export function DashboardContent(props: DashboardProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime), processTimeStamp(endTime), page, appConfigs);
+    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
       filters,

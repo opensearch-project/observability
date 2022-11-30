@@ -25,6 +25,7 @@ import { ServiceObject } from '../../../../../public/components/trace_analytics/
 import { SpanDetailTable } from '../../../../../public/components/trace_analytics/components/traces/span_detail_table';
 import { TraceAnalyticsComponentDeps } from '../../../../../public/components/trace_analytics/home';
 import { getListItem } from '../../helpers/utils';
+import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 
 interface ServiceFlyoutProps extends TraceAnalyticsComponentDeps {
   serviceName: string;
@@ -116,7 +117,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
   }, [serviceName, fields, serviceMap, DSL, serviceMapIdSelected]);
 
   useEffect(() => {
-    const serviceDSL = filtersToDsl(filters, query, processTimeStamp(startTime), processTimeStamp(endTime), 'app', appConfigs);
+    const serviceDSL = filtersToDsl(filters, query, processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), 'app', appConfigs);
     handleServiceViewRequest(serviceName, http, serviceDSL, setFields);
     handleServiceMapRequest(http, serviceDSL, setServiceMap, serviceName);
     const spanDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);

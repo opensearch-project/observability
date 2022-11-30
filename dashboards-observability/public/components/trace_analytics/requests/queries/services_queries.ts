@@ -5,8 +5,10 @@
 
 import {
   DATA_PREPPER_SERVICE_INDEX_NAME,
+  JAEGER_SERVICE_INDEX_NAME,
   SERVICE_MAP_MAX_EDGES,
   SERVICE_MAP_MAX_NODES,
+  USE_JAEGER,
 } from '../../../../../common/constants/trace_analytics';
 import { getServiceMapTargetResources } from '../../components/common/helper_functions';
 import { ServiceObject } from '../../components/common/plots/service_map';
@@ -109,7 +111,7 @@ export const getRelatedServicesQuery = (serviceName: string) => {
 
 export const getServiceNodesQuery = () => {
   return {
-    index: DATA_PREPPER_SERVICE_INDEX_NAME,
+    index: USE_JAEGER ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
     query: {
       bool: {
@@ -148,7 +150,7 @@ export const getServiceNodesQuery = () => {
 
 export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   return {
-    index: DATA_PREPPER_SERVICE_INDEX_NAME,
+    index: USE_JAEGER ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
     query: {
       bool: {
