@@ -306,7 +306,7 @@ export function NoteTable(props: NoteTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill onClick={() => createNote()}>
+                    <EuiButton fill href="#/notebooks/create">
                       Create notebook
                     </EuiButton>
                   </EuiFlexItem>

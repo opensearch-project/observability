@@ -20,6 +20,8 @@ import {
 import { ObservabilitySideBar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
+import { HeaderFilterCellComp } from 'ag-grid-community';
+import { CreateNotebook } from './create';
 
 /*
  * "Main" component renders the whole Notebooks as a single page application
@@ -308,6 +310,19 @@ export class Main extends React.Component<MainProps, MainState> {
           />
           <Switch>
             <Route
+              exact
+              path={['/notebooks/create', '/notebooks/edit/:id+']}
+              render={(routerProps) => 
+                (
+                <CreateNotebook/>
+                )
+                
+              
+
+              }
+            />
+            <Route
+              exact
               path="/notebooks/:id"
               render={(props) => (
                 <Notebook
@@ -327,6 +342,7 @@ export class Main extends React.Component<MainProps, MainState> {
               )}
             />
             <Route
+              exact
               path="/notebooks"
               render={(props) => (
                 <ObservabilitySideBar>
