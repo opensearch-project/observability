@@ -72,8 +72,7 @@ export function addRequestToMetric(
 }
 
 export const getMetrics = () => {
-  // const preTimeKey = getPreKey(Date.now());
-  const preTimeKey = getKey(Date.now());
+  const preTimeKey = getPreKey(Date.now());
   const rollingCounters = time2CountWin.get(preTimeKey);
   return buildMetrics(rollingCounters);
 };

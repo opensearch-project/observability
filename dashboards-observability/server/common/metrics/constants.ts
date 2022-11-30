@@ -42,7 +42,6 @@ export const DEFAULT_ROLLING_COUNTER: CounterType = (() => {
         count: 0,
         system_error: 0,
         user_error: 0,
-        total: 0,
       };
     });
   });
