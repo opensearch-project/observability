@@ -314,7 +314,12 @@ export class Main extends React.Component<MainProps, MainState> {
               path={['/notebooks/create', '/notebooks/edit/:id+']}
               render={(routerProps) => 
                 (
-                <CreateNotebook/>
+                <CreateNotebook
+                existingNotebookId={decodeURIComponent(routerProps.match.params.id) || ''}
+                parentBreadcrumb={this.props.parentBreadcrumb}
+                setBreadcrumbs={this.props.setBreadcrumbs}
+                
+                />
                 )
                 
               

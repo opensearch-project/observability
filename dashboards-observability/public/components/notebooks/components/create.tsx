@@ -33,18 +33,23 @@ import {
     ApplicationRequestType,
   } from '../../../../common/types/application_analytics';
   import { fetchAppById } from '../helpers/utils';
-  
-  interface CreateAppProps extends AppAnalyticsComponentDeps {
-    dslService: DSLService;
-    pplService: PPLService;
-    setToasts: (title: string, color?: string, text?: ReactChild) => void;
-    createApp: (app: ApplicationRequestType, type: string) => void;
-    updateApp: (appId: string, updateAppData: Partial<ApplicationRequestType>, type: string) => void;
-    clearStorage: () => void;
-    existingAppId: string;
+  import "../../../../public/components/application_analytics/app_analytics.scss"
+import { ChromeBreadcrumb } from '../../../../../../src/core/public';
+
+  interface CreateNotebookProps {
+    // dslService: DSLService;
+    // pplService: PPLService;
+    existingNotebookId: string;
+    parentBreadcrumb: ChromeBreadcrumb;
+    setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
   }
   
-  export const CreateNotebook = (props) => {
+  export const CreateNotebook = (props: CreateNotebookProps) => {
+    const {
+        existingNotebookId,
+        parentBreadcrumb,
+        setBreadcrumbs,
+    } = props;
     // const {
     //   parentBreadcrumbs,
     //   chrome,
@@ -67,7 +72,7 @@ import {
     // const [selectedServices, setSelectedServices] = useState<OptionType[]>([]);
     // const [selectedTraces, setSelectedTraces] = useState<OptionType[]>([]);
   
-    // const editMode = existingAppId !== 'undefined';
+    const editMode = existingNotebookId !== 'undefined';
     // const [existingApp, setExistingApp] = useState<ApplicationType>({
     //   id: existingAppId,
     //   dateCreated: '',
@@ -81,22 +86,22 @@ import {
     //   availability: { name: '', color: '', availabilityVisId: '' },
     // });
   
-    // useEffect(() => {
-    //   chrome.setBreadcrumbs([
-    //     ...parentBreadcrumbs,
-    //     {
-    //       text: 'Application analytics',
-    //       href: '#/application_analytics',
-    //     },
-    //     {
-    //       text: editMode ? 'Edit' : 'Create',
-    //       href: `#/application_analytics/${editMode ? 'edit' : 'create'}`,
-    //     },
-    //   ]);
-    // }, []);
+    useEffect(() => {
+      setBreadcrumbs([
+        parentBreadcrumb,
+        {
+          text: 'Notebooks',
+          href: '#/notebooks',
+        },
+        {
+          text: editMode ? 'Edit' : 'Create',
+          href: `#/notebooks/${editMode ? 'edit' : 'create'}`,
+        },
+      ]);
+    }, []);
   
     // useEffect(() => {
-    //   if (editMode && existingAppId) {
+    //   if (editMode && existingNotebookId) {
     //     fetchAppById(
     //       http,
     //       pplService,
@@ -107,7 +112,7 @@ import {
     //       setToasts
     //     );
     //   }
-    // }, [existingAppId]);
+    // }, [existingNotebookId]);
   
     // useEffect(() => {
     //   if (editMode) {
@@ -172,44 +177,39 @@ import {
   
     return (
       <div style={{ maxWidth: '1130px' }}>
-        <div>HELLO</div>
-        <EuiPage>
+        <EuiPage /*style={{flexDirection: 'column'}}*/>
           <EuiPageBody component="div">
             <EuiPageHeader>
               <EuiPageHeaderSection>
                 <EuiTitle data-test-subj="createPageTitle" size="l">
-                  <h1>Create Notebook</h1>
+                    <h1>{editMode ? 'Edit' : 'Create'} Notebook</h1>
                 </EuiTitle>
               </EuiPageHeaderSection>
             </EuiPageHeader>
-            </EuiPageBody>
-            {/* <EuiPageContent id="appInfo">
+            
+            
+            <EuiPageContent id="notebookInfo">
               <EuiPageContentHeader>
                 <EuiPageContentHeaderSection>
                   <EuiTitle size="m">
-                    <h2>Application information</h2>
+                    <h2>Notebook information</h2>
                   </EuiTitle>
                 </EuiPageContentHeaderSection>
               </EuiPageContentHeader>
               <EuiHorizontalRule />
-              <EuiForm component="form">
+               <EuiForm component="form">
                 <EuiFormRow label="Name" data-test-subj="nameFormRow">
                   <EuiFieldText
                     name="name"
-                    value={name}
-                    onChange={(e) => setNameWithStorage(e.target.value)}
-                  />
-                </EuiFormRow>
-                <EuiFormRow label="Description" data-test-subj="descriptionFormRow">
-                  <EuiFieldText
-                    name="description"
-                    value={description}
-                    onChange={(e) => setDescriptionWithStorage(e.target.value)}
+                    value={"RANDOM FOR NOW"}
+                    // onChange={(e) => setNameWithStorage(e.target.value)}
                   />
                 </EuiFormRow>
               </EuiForm>
             </EuiPageContent>
-            <EuiSpacer />
+            </EuiPageBody>
+            {/* </div> */}
+            {/* <EuiSpacer />
             <EuiPageContent id="composition">
               <EuiPageContentHeader>
                 <EuiPageContentHeaderSection>
@@ -265,10 +265,10 @@ import {
                     </EuiButton>
                   </EuiToolTip>
                 </EuiFlexItem>
-              )}
-            </EuiFlexGroup>
-          </EuiPageBody>
-              */}</EuiPage>
+              )} */} 
+            {/* </EuiFlexGroup>
+          </EuiPageBody> */}
+              </EuiPage>
       </div>
     );
   };
