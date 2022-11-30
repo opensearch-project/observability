@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export const USE_JAEGER = true;
+export const JAEGER_INDEX_NAME = '*jaeger-span-*';
+export const JAEGER_SERVICE_INDEX_NAME = '*jaeger-service*';
 export const DATA_PREPPER_INDEX_NAME = '*jaeger-span-*';
 export const DATA_PREPPER_SERVICE_INDEX_NAME = '*jaeger-service*';
 export const TRACE_ANALYTICS_DATE_FORMAT = 'MM/DD/YYYY HH:mm:ss';
