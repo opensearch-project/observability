@@ -12,22 +12,19 @@ interface MetricsListenerProps {
 }
 
 export const MetricsListener: React.FC<MetricsListenerProps> = (props) => {
-  const incrementCountMetric = (element: string) => {
+  const incrementCountMetric = (element?: string | null) => {
+    if (!element) return;
     props.http.post(`${OBSERVABILITY_BASE}/stats`, {
       body: JSON.stringify({ element }),
     });
   };
 
   const onClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    let current = e.target as HTMLElement | null;
-    while (current) {
-      const element = current?.getAttribute('click-metric-element');
-      if (element) {
-        incrementCountMetric(element);
-        break;
-      }
-      current = current?.parentElement;
-    }
+    incrementCountMetric(
+      (e.target as HTMLElement | null)
+        ?.closest('[data-click-metric-element]')
+        ?.getAttribute('data-click-metric-element')
+    );
   };
 
   return <div onClick={onClick}>{props.children}</div>;

@@ -81,7 +81,7 @@ export function SearchBar(props: SearchBarOwnProps) {
         <EuiFlexItem grow={false}>
           <EuiButton
             data-test-subj="superDatePickerApplyTimeButton"
-            click-metric-element="trace_analytics.refresh_button"
+            data-click-metric-element="trace_analytics.refresh_button"
             iconType="refresh"
             onClick={props.refresh}
           >

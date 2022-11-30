@@ -692,14 +692,14 @@ exports[`Services component renders empty services page 1`] = `
               className="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <EuiButton
-                click-metric-element="trace_analytics.refresh_button"
+                data-click-metric-element="trace_analytics.refresh_button"
                 data-test-subj="superDatePickerApplyTimeButton"
                 iconType="refresh"
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
                   baseClassName="euiButton"
-                  click-metric-element="trace_analytics.refresh_button"
+                  data-click-metric-element="trace_analytics.refresh_button"
                   data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
@@ -710,7 +710,7 @@ exports[`Services component renders empty services page 1`] = `
                 >
                   <button
                     className="euiButton euiButton--primary"
-                    click-metric-element="trace_analytics.refresh_button"
+                    data-click-metric-element="trace_analytics.refresh_button"
                     data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
@@ -2441,14 +2441,14 @@ exports[`Services component renders services page 1`] = `
               className="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <EuiButton
-                click-metric-element="trace_analytics.refresh_button"
+                data-click-metric-element="trace_analytics.refresh_button"
                 data-test-subj="superDatePickerApplyTimeButton"
                 iconType="refresh"
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
                   baseClassName="euiButton"
-                  click-metric-element="trace_analytics.refresh_button"
+                  data-click-metric-element="trace_analytics.refresh_button"
                   data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
@@ -2459,7 +2459,7 @@ exports[`Services component renders services page 1`] = `
                 >
                   <button
                     className="euiButton euiButton--primary"
-                    click-metric-element="trace_analytics.refresh_button"
+                    data-click-metric-element="trace_analytics.refresh_button"
                     data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}

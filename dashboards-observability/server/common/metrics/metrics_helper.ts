@@ -23,14 +23,15 @@ export function addClickToMetric(element: string, counter: CounterNameType = 'co
 
   const timeKey = getKey(Date.now());
   const rollingCounter = time2CountWin.get(timeKey) || _.cloneDeep(DEFAULT_ROLLING_COUNTER);
-  const path = `${element}.${counter}`;
+  const key = `click.${element}.${counter}`;
 
-  _.set(rollingCounter, path, (_.get(rollingCounter, path, 0) as number) + 1);
+  _.set(rollingCounter, key, (_.get(rollingCounter, key, 0) as number) + 1);
   if (counter === 'count') {
+    const basicCounterKey = `click.${element}.total`;
     _.set(
       GLOBAL_BASIC_COUNTER,
-      `${element}.total`,
-      (_.get(GLOBAL_BASIC_COUNTER, `${element}.total`, 0) as number) + 1
+      basicCounterKey,
+      (_.get(GLOBAL_BASIC_COUNTER, basicCounterKey, 0) as number) + 1
     );
   }
 
