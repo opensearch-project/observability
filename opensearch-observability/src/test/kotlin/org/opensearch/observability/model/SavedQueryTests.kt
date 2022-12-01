@@ -46,7 +46,12 @@ internal class SavedQueryTests {
     @Test
     fun `SavedQuery should deserialize json object using parser`() {
         val jsonString =
-            "{\"name\":\"test-saved-query\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]}}"
+            "{\"name\":\"test-saved-query\",\"description\":\"test description\",\"query\":\"source=index | " +
+                "where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"," +
+                "\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > " +
+                "timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"}," +
+                "\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":" +
+                "\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]}}"
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedQuery.parse(it) }
         assertEquals(sampleSavedQuery, recreatedObject)
     }
@@ -62,7 +67,12 @@ internal class SavedQueryTests {
     @Test
     fun `SavedQuery should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"name\":\"test-saved-query\",\"description\":\"test description\",\"query\":\"source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\",\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"another\":\"field\"}"
+            "{\"name\":\"test-saved-query\",\"description\":\"test description\",\"query\":\"source=index | where" +
+                " utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"," +
+                "\"selected_date_range\":{\"start\":\"now/15m\",\"end\":\"now\",\"text\":\"utc_time > timestamp" +
+                "('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')\"},\"selected_timestamp\"" +
+                ":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"| fields clientip, " +
+                "bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]},\"another\":\"field\"}"
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedQuery.parse(it) }
         assertEquals(sampleSavedQuery, recreatedObject)
     }
