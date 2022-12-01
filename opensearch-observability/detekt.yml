@@ -15,3 +15,8 @@ style:
   ReturnCount:
     active: true
     max: 10
+complexity:
+  LongMethod:
+    threshold: 120
+  NestedBlockDepth:
+    threshold: 5
