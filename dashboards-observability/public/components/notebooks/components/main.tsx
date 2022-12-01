@@ -310,7 +310,7 @@ export class Main extends React.Component<MainProps, MainState> {
           <Switch>
             <Route
               exact
-              path={['/notebooks/create', '/notebooks/edit/:id+', '/notebooks/clone/:id+']}
+              path={['/notebooks/create', '/notebooks/edit/:id+']}
               render={(routerProps) => (
                 <CreateNotebook
                   existingNotebookId={decodeURIComponent(routerProps.match.params.id) || ''}
@@ -318,7 +318,6 @@ export class Main extends React.Component<MainProps, MainState> {
                   setBreadcrumbs={this.props.setBreadcrumbs}
                   createNotebook={this.createNotebook}
                   renameNotebook={this.renameNotebook}
-                  cloneNotebook={this.cloneNotebook}
                 />
               )}
             />
