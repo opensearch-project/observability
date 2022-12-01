@@ -93,6 +93,17 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
     const [name, setName] = useState(sessionStorage.getItem('NotebooksName') || '');
     const isDisabled = !name;
 
+    const onCreate = (name: string) => {
+      createNotebook(name);
+      setName("");
+      sessionStorage.setItem('NotebooksName', '');
+    }
+
+    const onUpdate = (name: string, id: string) => {
+      renameNotebook(name, id);
+      window.location.assign(`${parentBreadcrumb!.href}notebooks/${id}`);
+    }
+
     const onCancel = () => {
       setName("");
       sessionStorage.setItem('NotebooksName', '');
@@ -243,14 +254,13 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
                   <EuiButton
                     data-test-subj="createButton"
                     isDisabled={isDisabled}
-                    onClick={editMode ? () => renameNotebook(name, existingNotebookId) : () => createNotebook(name)}
+                    onClick={editMode ? () => onUpdate(name, existingNotebookId) : () => onCreate(name)}
                     fill={editMode ? true : false}
                   >
                     {editMode ? 'Save' : 'Create'}
                   </EuiButton>
                 </EuiToolTip>
               </EuiFlexItem>
-       
             </EuiFlexGroup>
             </EuiPageBody>
           </EuiPage>

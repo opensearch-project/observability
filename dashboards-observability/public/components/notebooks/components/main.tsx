@@ -20,7 +20,6 @@ import {
 import { ObservabilitySideBar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
-import { HeaderFilterCellComp } from 'ag-grid-community';
 import { CreateNotebook } from './create';
 
 /*
