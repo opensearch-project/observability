@@ -132,9 +132,10 @@ exports[`<NoteTable /> spec renders the component 1`] = `
               <div
                 class="euiFlexItem"
               >
-                <button
+                <a
                   class="euiButton euiButton--primary euiButton--fill"
-                  type="button"
+                  href="#/notebooks/create"
+                  rel="noreferrer"
                 >
                   <span
                     class="euiButtonContent euiButton__content"
@@ -145,7 +146,7 @@ exports[`<NoteTable /> spec renders the component 1`] = `
                       Create notebook
                     </span>
                   </span>
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -1022,9 +1023,10 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
               <div
                 class="euiFlexItem"
               >
-                <button
+                <a
                   class="euiButton euiButton--primary euiButton--fill"
-                  type="button"
+                  href="#/notebooks/create"
+                  rel="noreferrer"
                 >
                   <span
                     class="euiButtonContent euiButton__content"
@@ -1035,7 +1037,7 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
                       Create notebook
                     </span>
                   </span>
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -1080,10 +1082,11 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
           <div
             class="euiFlexItem euiFlexItem--flexGrowZero"
           >
-            <button
-              class="euiButton euiButton--primary"
+            <a
+              class="euiButton euiButton--primary euiButton--fill"
               data-test-subj="note-table-empty-state-create-notebook-button"
-              type="button"
+              href="#/notebooks/create"
+              rel="noreferrer"
             >
               <span
                 class="euiButtonContent euiButton__content"
@@ -1094,7 +1097,7 @@ exports[`<NoteTable /> spec renders the empty component 1`] = `
                   Create notebook
                 </span>
               </span>
-            </button>
+            </a>
           </div>
           <div
             class="euiFlexItem euiFlexItem--flexGrowZero"
