@@ -42,6 +42,8 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
     existingNotebookId: string;
     parentBreadcrumb: ChromeBreadcrumb;
     setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
+    createNotebook: (name: string) => void;
+    renameNotebook: (name: string, id: string) => void
   }
   
   export const CreateNotebook = (props: CreateNotebookProps) => {
@@ -49,6 +51,8 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
         existingNotebookId,
         parentBreadcrumb,
         setBreadcrumbs,
+        createNotebook,
+        renameNotebook,
     } = props;
     // const {
     //   parentBreadcrumbs,
@@ -85,6 +89,26 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
     //   panelId: '',
     //   availability: { name: '', color: '', availabilityVisId: '' },
     // });
+
+    const [name, setName] = useState(sessionStorage.getItem('NotebooksName') || '');
+    const isDisabled = !name;
+
+    const onCancel = () => {
+      setName("");
+      sessionStorage.setItem('NotebooksName', '');
+      window.location.assign(`${parentBreadcrumb!.href}notebooks`);
+    };
+
+    const updateName = (name: string) => {
+      setName(name);
+      sessionStorage.setItem("NotebooksName", name);
+    }
+
+    const generateToolTipText = () => {
+      if (!name) {
+        return <p>{'Name is required.'}</p>;
+      }
+    };
   
     useEffect(() => {
       setBreadcrumbs([
@@ -201,37 +225,11 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
                 <EuiFormRow label="Name" data-test-subj="nameFormRow">
                   <EuiFieldText
                     name="name"
-                    value={"RANDOM FOR NOW"}
-                    // onChange={(e) => setNameWithStorage(e.target.value)}
+                    value={name}
+                    onChange={(e) => updateName(e.target.value)}
                   />
                 </EuiFormRow>
               </EuiForm>
-            </EuiPageContent>
-            </EuiPageBody>
-            {/* </div> */}
-            {/* <EuiSpacer />
-            <EuiPageContent id="composition">
-              <EuiPageContentHeader>
-                <EuiPageContentHeaderSection>
-                  <EuiTitle size="m">
-                    <h2>Composition</h2>
-                  </EuiTitle>
-                </EuiPageContentHeaderSection>
-              </EuiPageContentHeader>
-              <EuiHorizontalRule />
-              <LogConfig editMode={editMode} setIsFlyoutVisible={setIsFlyoutVisible} {...props} />
-              <EuiHorizontalRule />
-              <ServiceConfig
-                selectedServices={selectedServices}
-                setSelectedServices={setSelectedServices}
-                {...props}
-              />
-              <EuiHorizontalRule />
-              <TraceConfig
-                selectedTraces={selectedTraces}
-                setSelectedTraces={setSelectedTraces}
-                {...props}
-              />
             </EuiPageContent>
             <EuiSpacer />
             <EuiFlexGroup>
@@ -241,34 +239,21 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
                 </EuiButton>
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
-                <EuiToolTip position="top" content={missingField(false)}>
+                <EuiToolTip position="top" content={generateToolTipText()}>
                   <EuiButton
                     data-test-subj="createButton"
                     isDisabled={isDisabled}
-                    onClick={editMode ? onUpdate : () => onCreate('create')}
+                    onClick={editMode ? () => renameNotebook(name, existingNotebookId) : () => createNotebook(name)}
                     fill={editMode ? true : false}
                   >
                     {editMode ? 'Save' : 'Create'}
                   </EuiButton>
                 </EuiToolTip>
               </EuiFlexItem>
-              {editMode || (
-                <EuiFlexItem grow={false}>
-                  <EuiToolTip position="top" content={missingField(true)}>
-                    <EuiButton
-                      data-test-subj="createAndSetButton"
-                      fill
-                      isDisabled={isDisabled || !query}
-                      onClick={() => onCreate('createSetAvailability')}
-                    >
-                      Create and Set Availability
-                    </EuiButton>
-                  </EuiToolTip>
-                </EuiFlexItem>
-              )} */} 
-            {/* </EuiFlexGroup>
-          </EuiPageBody> */}
-              </EuiPage>
+       
+            </EuiFlexGroup>
+            </EuiPageBody>
+          </EuiPage>
       </div>
     );
   };

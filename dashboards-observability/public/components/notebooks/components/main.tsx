@@ -318,7 +318,8 @@ export class Main extends React.Component<MainProps, MainState> {
                 existingNotebookId={decodeURIComponent(routerProps.match.params.id) || ''}
                 parentBreadcrumb={this.props.parentBreadcrumb}
                 setBreadcrumbs={this.props.setBreadcrumbs}
-                
+                createNotebook={this.createNotebook}
+                renameNotebook={this.renameNotebook}
                 />
                 )
                 
