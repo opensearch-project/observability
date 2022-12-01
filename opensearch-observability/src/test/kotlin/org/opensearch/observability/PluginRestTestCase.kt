@@ -99,6 +99,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
     }
 
     @Throws(IOException::class)
+    @Suppress("Detekt.TooGenericExceptionThrown")
     protected open fun configureHttpsClient(builder: RestClientBuilder, settings: Settings) {
         val headers = ThreadContext.buildDefaultHeaders(settings)
         val defaultHeaders = arrayOfNulls<Header>(headers.size)
