@@ -32,6 +32,7 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
     setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
     createNotebook: (name: string) => void;
     renameNotebook: (name: string, id: string) => void
+    cloneNotebook: (name: string, id: string) => void
   }
   
   export const CreateNotebook = (props: CreateNotebookProps) => {
@@ -41,6 +42,7 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
         setBreadcrumbs,
         createNotebook,
         renameNotebook,
+        cloneNotebook,
     } = props;
   
     const editMode = existingNotebookId !== 'undefined';
@@ -50,12 +52,12 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
 
     const onCreate = (name: string) => {
       createNotebook(name);
-      setName("");
       sessionStorage.setItem('NotebooksName', '');
     }
 
     const onUpdate = (name: string, id: string) => {
       renameNotebook(name, id);
+      sessionStorage.setItem('NotebooksName', '');
       window.location.assign(`${parentBreadcrumb!.href}notebooks/${id}`);
     }
 
