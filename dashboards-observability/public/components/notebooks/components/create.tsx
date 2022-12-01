@@ -32,7 +32,6 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
     setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
     createNotebook: (name: string) => void;
     renameNotebook: (name: string, id: string) => void
-    cloneNotebook: (name: string, id: string) => void
   }
   
   export const CreateNotebook = (props: CreateNotebookProps) => {
@@ -42,7 +41,6 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
         setBreadcrumbs,
         createNotebook,
         renameNotebook,
-        cloneNotebook,
     } = props;
   
     const editMode = existingNotebookId !== 'undefined';
