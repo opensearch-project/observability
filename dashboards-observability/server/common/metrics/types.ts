@@ -16,7 +16,7 @@ type ClickCounterType = {
   };
 };
 
-// counter to tract requests to OpenSearch
+// counter to track requests to OpenSearch
 type RequestCounterType = {
   [component in ComponentType]: {
     [request in RequestType]: {
