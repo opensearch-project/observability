@@ -54,6 +54,7 @@ internal object ObservabilityIndex {
     private const val NOTEBOOKS_INDEX_NAME = ".opensearch-notebooks"
     private const val OBSERVABILITY_MAPPING_FILE_NAME = "observability-mapping.yml"
     private const val OBSERVABILITY_SETTINGS_FILE_NAME = "observability-settings.yml"
+    private const val MAPPING_TYPE = "_doc"
 
     private var mappingsUpdated: Boolean = false
     private lateinit var client: Client

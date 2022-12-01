@@ -81,7 +81,6 @@ configurations.all {
         force "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
         force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.13.4"
-        force "org.mockito:mockito-core:4.6.1"
         force "org.yaml:snakeyaml:1.32"
     }
 }
