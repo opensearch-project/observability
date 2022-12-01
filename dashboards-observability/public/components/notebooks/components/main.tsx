@@ -20,7 +20,6 @@ import {
 import { ObservabilitySideBar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
-import { HeaderFilterCellComp } from 'ag-grid-community';
 import { CreateNotebook } from './create';
 
 /*
@@ -311,21 +310,17 @@ export class Main extends React.Component<MainProps, MainState> {
           <Switch>
             <Route
               exact
-              path={['/notebooks/create', '/notebooks/edit/:id+']}
-              render={(routerProps) => 
-                (
+              path={['/notebooks/create', '/notebooks/edit/:id+', '/notebooks/clone/:id+']}
+              render={(routerProps) => (
                 <CreateNotebook
-                existingNotebookId={decodeURIComponent(routerProps.match.params.id) || ''}
-                parentBreadcrumb={this.props.parentBreadcrumb}
-                setBreadcrumbs={this.props.setBreadcrumbs}
-                createNotebook={this.createNotebook}
-                renameNotebook={this.renameNotebook}
+                  existingNotebookId={decodeURIComponent(routerProps.match.params.id) || ''}
+                  parentBreadcrumb={this.props.parentBreadcrumb}
+                  setBreadcrumbs={this.props.setBreadcrumbs}
+                  createNotebook={this.createNotebook}
+                  renameNotebook={this.renameNotebook}
+                  cloneNotebook={this.cloneNotebook}
                 />
-                )
-                
-              
-
-              }
+              )}
             />
             <Route
               exact

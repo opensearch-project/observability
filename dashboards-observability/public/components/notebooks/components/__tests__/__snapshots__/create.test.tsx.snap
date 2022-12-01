@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CreateNotebook /> spec renders the create notebook component 1`] = `
+<div
+  style="max-width: 1130px;"
+>
+  <div
+    class="euiPage euiPage--paddingMedium euiPage--grow"
+  >
+    <div
+      class="euiPageBody euiPageBody--borderRadiusNone"
+    >
+      <header
+        class="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
+      >
+        <div
+          class="euiPageHeaderSection"
+        >
+          <h1
+            class="euiTitle euiTitle--large"
+            data-test-subj="createPageTitle"
+          >
+            Edit
+             Notebook
+          </h1>
+        </div>
+      </header>
+      <div
+        class="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
+        id="notebookInfo"
+        role="main"
+      >
+        <div
+          class="euiPageContentHeader euiPageContentHeader--responsive"
+        >
+          <div
+            class="euiPageContentHeaderSection"
+          >
+            <h2
+              class="euiTitle euiTitle--medium"
+            >
+              Notebook information
+            </h2>
+          </div>
+        </div>
+        <hr
+          class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginLarge"
+        />
+        <form
+          class="euiForm"
+        >
+          <div
+            class="euiFormRow"
+            data-test-subj="nameFormRow"
+            id="random_html_id-row"
+          >
+            <div
+              class="euiFormRow__labelWrapper"
+            >
+              <label
+                class="euiFormLabel euiFormRow__label"
+                for="random_html_id"
+              >
+                Name
+              </label>
+            </div>
+            <div
+              class="euiFormRow__fieldWrapper"
+            >
+              <div
+                class="euiFormControlLayout"
+              >
+                <div
+                  class="euiFormControlLayout__childrenWrapper"
+                >
+                  <input
+                    class="euiFieldText"
+                    id="random_html_id"
+                    name="name"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="euiSpacer euiSpacer--l"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <button
+            class="euiButton euiButton--primary"
+            data-test-subj="cancelCreateButton"
+            type="button"
+          >
+            <span
+              class="euiButtonContent euiButton__content"
+            >
+              <span
+                class="euiButton__text"
+              >
+                Cancel
+              </span>
+            </span>
+          </button>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <span
+            class="euiToolTipAnchor"
+          >
+            <button
+              class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+              data-test-subj="createButton"
+              disabled=""
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButton__content"
+              >
+                <span
+                  class="euiButton__text"
+                >
+                  Save
+                </span>
+              </span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CreateNotebook /> spec renders the edit notebook component 1`] = `
+<div
+  style="max-width: 1130px;"
+>
+  <div
+    class="euiPage euiPage--paddingMedium euiPage--grow"
+  >
+    <div
+      class="euiPageBody euiPageBody--borderRadiusNone"
+    >
+      <header
+        class="euiPageHeader euiPageHeader--responsive euiPageHeader--center"
+      >
+        <div
+          class="euiPageHeaderSection"
+        >
+          <h1
+            class="euiTitle euiTitle--large"
+            data-test-subj="createPageTitle"
+          >
+            Edit
+             Notebook
+          </h1>
+        </div>
+      </header>
+      <div
+        class="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPageContent"
+        id="notebookInfo"
+        role="main"
+      >
+        <div
+          class="euiPageContentHeader euiPageContentHeader--responsive"
+        >
+          <div
+            class="euiPageContentHeaderSection"
+          >
+            <h2
+              class="euiTitle euiTitle--medium"
+            >
+              Notebook information
+            </h2>
+          </div>
+        </div>
+        <hr
+          class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginLarge"
+        />
+        <form
+          class="euiForm"
+        >
+          <div
+            class="euiFormRow"
+            data-test-subj="nameFormRow"
+            id="random_html_id-row"
+          >
+            <div
+              class="euiFormRow__labelWrapper"
+            >
+              <label
+                class="euiFormLabel euiFormRow__label"
+                for="random_html_id"
+              >
+                Name
+              </label>
+            </div>
+            <div
+              class="euiFormRow__fieldWrapper"
+            >
+              <div
+                class="euiFormControlLayout"
+              >
+                <div
+                  class="euiFormControlLayout__childrenWrapper"
+                >
+                  <input
+                    class="euiFieldText"
+                    id="random_html_id"
+                    name="name"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="euiSpacer euiSpacer--l"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <button
+            class="euiButton euiButton--primary"
+            data-test-subj="cancelCreateButton"
+            type="button"
+          >
+            <span
+              class="euiButtonContent euiButton__content"
+            >
+              <span
+                class="euiButton__text"
+              >
+                Cancel
+              </span>
+            </span>
+          </button>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <span
+            class="euiToolTipAnchor"
+          >
+            <button
+              class="euiButton euiButton--primary euiButton--fill euiButton-isDisabled"
+              data-test-subj="createButton"
+              disabled=""
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButton__content"
+              >
+                <span
+                  class="euiButton__text"
+                >
+                  Save
+                </span>
+              </span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
