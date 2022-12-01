@@ -19,6 +19,7 @@ import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.commons.utils.logger
 import org.opensearch.commons.utils.stringList
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.RestTag.OBJECT_ID_FIELD
 import org.opensearch.observability.model.RestTag.OBJECT_ID_LIST_FIELD
 import java.io.IOException
@@ -63,7 +64,10 @@ internal class DeleteObservabilityObjectRequest : ActionRequest, ToXContentObjec
                     }
                 }
             }
-            objectIds ?: throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
+            objectIds ?: run {
+                Metrics.OBSERVABILITY_DELETE_USER_ERROR.counter.increment()
+                throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
+            }
             return DeleteObservabilityObjectRequest(objectIds)
         }
     }
