@@ -20,7 +20,7 @@ enum class Metrics(val metricName: String, val counter: Counter<*>) {
 
     /**
      * Exceptions from:
-     * @see org.opensearch.reportsscheduler.action.PluginBaseAction
+     * @see org.opensearch.observability.action.PluginBaseAction
      */
     OBSERVABILITY_EXCEPTIONS_OPENSEARCH_STATUS_EXCEPTION("exception.opensearch_status", RollingCounter()),
     OBSERVABILITY_EXCEPTIONS_OPENSEARCH_SECURITY_EXCEPTION("exception.opensearch_security", RollingCounter()),
