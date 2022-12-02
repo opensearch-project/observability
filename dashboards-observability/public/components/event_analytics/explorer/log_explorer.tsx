@@ -86,7 +86,7 @@ export const LogExplorer = ({
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
     history.replace(
-      `/event_analytics/explorer/${queryRef.current![selectedTab.id][URL_SEARCH]}`
+      `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}?=${queryRef.current![selectedTab.id][URL_SEARCH]}`
     );
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
