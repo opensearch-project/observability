@@ -14,6 +14,7 @@ export const OPEN_TELEMETRY_LOG_CORRELATION_LINK =
 export const RAW_QUERY = 'rawQuery';
 export const FINAL_QUERY = 'finalQuery';
 export const SELECTED_DATE_RANGE = 'selectedDateRange';
+export const URL_SEARCH = 'url';
 export const INDEX = 'index';
 export const SELECTED_PATTERN_FIELD = 'selectedPatternField';
 export const PATTERN_REGEX = 'patternRegex';

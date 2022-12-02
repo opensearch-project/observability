@@ -368,6 +368,12 @@ export const Explorer = ({
     }
     const queryParamsString = `q=${JSON.stringify(finalQuery)}`;
     history.replace({ search:  queryParamsString } );
+    dispatch(changeQuery({
+      tabId,
+      query: {
+        url: queryParamsString
+      },
+    }))
   }
 
   const fetchData = async (startingTime?: string, endingTime?: string) => {
