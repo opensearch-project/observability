@@ -12,6 +12,7 @@ import {
 } from '../../../../../src/core/server';
 import { NOTEBOOKS_API_PREFIX, wreckOptions } from '../../../common/constants/notebooks';
 import BACKEND from '../../adaptors/notebooks';
+import { addRequestToMetric } from '../../common/metrics/metrics_helper';
 
 export function registerNoteRoute(router: IRouter) {
   // Fetch all the notebooks available
@@ -25,6 +26,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'get', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -37,6 +39,7 @@ export function registerNoteRoute(router: IRouter) {
           },
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'get', error);
         console.log('Notebook:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -61,6 +64,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'get', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -74,6 +78,7 @@ export function registerNoteRoute(router: IRouter) {
           body: notebookinfo,
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'get', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -97,6 +102,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'create', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -110,6 +116,7 @@ export function registerNoteRoute(router: IRouter) {
           body: addResponse.message.objectId,
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'create', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -134,6 +141,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'update', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -147,6 +155,7 @@ export function registerNoteRoute(router: IRouter) {
           body: renameResponse,
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'update', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -171,6 +180,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'create', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -184,6 +194,7 @@ export function registerNoteRoute(router: IRouter) {
           body: cloneResponse,
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'create', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -207,6 +218,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'delete', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -220,6 +232,7 @@ export function registerNoteRoute(router: IRouter) {
           body: delResponse,
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'delete', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,
@@ -243,6 +256,7 @@ export function registerNoteRoute(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('notebooks', 'add_samples', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -256,6 +270,7 @@ export function registerNoteRoute(router: IRouter) {
           body: addSampleNotesResponse,
         });
       } catch (error) {
+        addRequestToMetric('notebooks', 'add_samples', error);
         return response.custom({
           statusCode: error.statusCode || 500,
           body: error.message,

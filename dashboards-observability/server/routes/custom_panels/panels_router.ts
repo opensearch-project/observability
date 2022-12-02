@@ -12,6 +12,7 @@ import {
   ILegacyScopedClusterClient,
 } from '../../../../../src/core/server';
 import { CUSTOM_PANELS_API_PREFIX as API_PREFIX } from '../../../common/constants/custom_panels';
+import { addRequestToMetric } from '../../common/metrics/metrics_helper';
 
 export function PanelsRouter(router: IRouter) {
   const customPanelBackend = new CustomPanelsAdaptor();
@@ -26,6 +27,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'get', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -38,6 +40,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'get', error);
         console.error('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -62,6 +65,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'get', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -75,6 +79,7 @@ export function PanelsRouter(router: IRouter) {
           body: panelObject,
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'get', error);
         console.error('Issue in fetching panel:', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -100,6 +105,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'create', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -116,6 +122,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'create', error);
         console.error('Issue in creating new panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -141,6 +148,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'update', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -157,6 +165,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'update', error);
         console.error('Issue in renaming panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -183,6 +192,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'create', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -202,6 +212,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'create', error);
         console.error('Issue in cloning panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -226,6 +237,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'delete', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -241,6 +253,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'delete', error);
         console.error('Issue in deleting panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -265,6 +278,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'delete', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -280,6 +294,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'delete', error);
         console.error('Issue in deleting panel', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -308,6 +323,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'update', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -327,6 +343,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'update', error);
         console.error('Issue in adding query filter', error);
         return response.custom({
           statusCode: error.statusCode || 500,
@@ -351,6 +368,7 @@ export function PanelsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('operational_panels', 'add_samples', 'count');
       const opensearchNotebooksClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -366,6 +384,7 @@ export function PanelsRouter(router: IRouter) {
           },
         });
       } catch (error: any) {
+        addRequestToMetric('operational_panels', 'add_samples', error);
         console.error('Issue in fetching panel list:', error);
         return response.custom({
           statusCode: error.statusCode || 500,

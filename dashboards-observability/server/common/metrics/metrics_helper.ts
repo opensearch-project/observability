@@ -38,19 +38,19 @@ export function addClickToMetric(element: string, counter: CounterNameType = 'co
   time2CountWin.set(timeKey, rollingCounter);
 }
 
-export function addRequestToMetric(
-  component: ComponentType,
-  request: RequestType,
+export function addRequestToMetric<T extends ComponentType>(
+  component: T,
+  request: RequestType<T>,
   error: { statusCode: number }
 ): void;
-export function addRequestToMetric(
-  component: ComponentType,
-  request: RequestType,
+export function addRequestToMetric<T extends ComponentType>(
+  component: T,
+  request: RequestType<T>,
   counter: CounterNameType
 ): void;
-export function addRequestToMetric(
-  component: ComponentType,
-  request: RequestType,
+export function addRequestToMetric<T extends ComponentType>(
+  component: T,
+  request: RequestType<T>,
   counterNameOrError: CounterNameType | { statusCode: number }
 ) {
   const counter =
@@ -64,8 +64,10 @@ export function addRequestToMetric(
   const timeKey = getKey(Date.now());
   const rollingCounter = time2CountWin.get(timeKey) || _.cloneDeep(DEFAULT_ROLLING_COUNTER);
 
+  // @ts-ignore not sure why 'request' can't be indexed
   rollingCounter[component][request][counter]!++;
   if (counter === 'count') {
+    // @ts-ignore
     GLOBAL_BASIC_COUNTER[component][request]['total']!++;
   }
 
@@ -106,7 +108,7 @@ const getPreKey = (milliseconds: number) => {
 };
 
 const isComponent = (arg: string): arg is ComponentType => {
-  return COMPONENTS.includes(arg as ComponentType);
+  return Object.keys(COMPONENTS).includes(arg);
 };
 
 const buildMetrics = (rollingCounters?: CounterType) => {
