@@ -690,12 +690,14 @@ exports[`Traces component renders empty traces page 1`] = `
               className="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <EuiButton
+                data-click-metric-element="trace_analytics.refresh_button"
                 data-test-subj="superDatePickerApplyTimeButton"
                 iconType="refresh"
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
                   baseClassName="euiButton"
+                  data-click-metric-element="trace_analytics.refresh_button"
                   data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
@@ -706,6 +708,7 @@ exports[`Traces component renders empty traces page 1`] = `
                 >
                   <button
                     className="euiButton euiButton--primary"
+                    data-click-metric-element="trace_analytics.refresh_button"
                     data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
@@ -1902,12 +1905,14 @@ exports[`Traces component renders traces page 1`] = `
               className="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <EuiButton
+                data-click-metric-element="trace_analytics.refresh_button"
                 data-test-subj="superDatePickerApplyTimeButton"
                 iconType="refresh"
                 onClick={[Function]}
               >
                 <EuiButtonDisplay
                   baseClassName="euiButton"
+                  data-click-metric-element="trace_analytics.refresh_button"
                   data-test-subj="superDatePickerApplyTimeButton"
                   disabled={false}
                   element="button"
@@ -1918,6 +1923,7 @@ exports[`Traces component renders traces page 1`] = `
                 >
                   <button
                     className="euiButton euiButton--primary"
+                    data-click-metric-element="trace_analytics.refresh_button"
                     data-test-subj="superDatePickerApplyTimeButton"
                     disabled={false}
                     onClick={[Function]}
