@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { configure, mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
@@ -82,7 +82,7 @@ describe('<NoteTable /> spec', () => {
     utils.getByText('Rename').click();
   });
 
-  it('create notebook', () => {
+  it('create notebook', async () => {
     const fetchNotebooks = jest.fn();
     const addSampleNotebooks = jest.fn();
     const createNotebook = jest.fn();
@@ -112,8 +112,9 @@ describe('<NoteTable /> spec', () => {
         setToast={setToast}
       />
     );
-    expect(utils.container.firstChild).toMatchSnapshot();
     utils.getByText('Create notebook').click();
-    expect(utils.container.firstChild).toMatchSnapshot();
+    await waitFor(() => {
+      expect(global.window.location.href).toContain('/create')
+    });
   });
 });
