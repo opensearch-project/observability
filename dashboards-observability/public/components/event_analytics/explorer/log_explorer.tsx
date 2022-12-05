@@ -86,16 +86,13 @@ export const LogExplorer = ({
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
     // Saved object
-    if (queryRef.current![selectedTab.id][SAVED_OBJECT_ID]) {
-      history.replace(
-        `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}?=${queryRef.current![selectedTab.id][URL_SEARCH]}`
-      );
-    } else {
-      // No saved object
-      history.replace(
-        `/event_analytics/explorer?=${queryRef.current![selectedTab.id][URL_SEARCH]}`
-      );
-    }
+    history.replace(
+      {
+        pathname: `/event_analytics/explorer${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] ? '/' + queryRef.current![selectedTab.id][SAVED_OBJECT_ID] : ''}`,
+        search: `${queryRef.current![selectedTab.id][URL_SEARCH]}`
+      }
+    );
+  
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
 
