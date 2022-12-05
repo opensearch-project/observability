@@ -163,6 +163,7 @@ export const Search = (props: any) => {
             className={`ppl-link ${
               uiSettingsService.get('theme:darkMode') ? 'ppl-link-dark' : 'ppl-link-light'
             }`}
+            data-click-metric-element="common.search.ppl_reference"
             color="hollow"
             onClick={() => showFlyout()}
             onClickAriaLabel={'pplLinkShowFlyout'}

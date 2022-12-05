@@ -414,11 +414,13 @@ exports[`Datagrid component Renders data grid component 1`] = `
             >
               <EuiButtonIcon
                 className="euiButtonIcon euiButtonIcon--text"
+                data-click-metric-element="event_analytics.events_view.toggle_details"
                 iconType="arrowRight"
                 onClick={[Function]}
               >
                 <button
                   className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall euiButtonIcon euiButtonIcon--text"
+                  data-click-metric-element="event_analytics.events_view.toggle_details"
                   disabled={false}
                   onClick={[Function]}
                   type="button"
@@ -642,11 +644,13 @@ exports[`Datagrid component Renders data grid component 1`] = `
             >
               <EuiButtonIcon
                 className="euiButtonIcon euiButtonIcon--text"
+                data-click-metric-element="event_analytics.events_view.toggle_details"
                 iconType="arrowRight"
                 onClick={[Function]}
               >
                 <button
                   className="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--xSmall euiButtonIcon euiButtonIcon--text"
+                  data-click-metric-element="event_analytics.events_view.toggle_details"
                   disabled={false}
                   onClick={[Function]}
                   type="button"

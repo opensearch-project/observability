@@ -123,6 +123,7 @@ export const DocViewRow = forwardRef((props: IDocViewRowProps, ref) => {
       <td className="osdDocTableCell__toggleDetails" key={uniqueId('grid-td-')}>
         <EuiButtonIcon
           className="euiButtonIcon euiButtonIcon--text"
+          data-click-metric-element="event_analytics.events_view.toggle_details"
           onClick={() => {
             toggleDetailOpen();
           }}
