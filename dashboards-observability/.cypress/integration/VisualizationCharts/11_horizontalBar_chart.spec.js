@@ -9,7 +9,7 @@ import {
     TEST_QUERIES,
     querySearch,
     landOnEventVisualizations,
-  } from '../../utils/event_constants';
+  } from '../../utils/event_analytics/constants';
   
   const numberOfWindow = 4;
   const labelSize = 20;
