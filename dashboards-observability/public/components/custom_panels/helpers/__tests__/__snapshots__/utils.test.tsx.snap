@@ -136,9 +136,16 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "status": 200,
           },
           "userConfigs": Object {
+            "availabilityConfig": Object {},
             "dataConfig": Object {
               "breakdowns": Array [],
-              "dimensions": Array [],
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "Carrier",
+                  "name": "Carrier",
+                },
+              ],
               "series": Array [
                 Object {
                   "aggregation": "sum",
@@ -587,9 +594,16 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "status": 200,
             },
             "userConfigs": Object {
+              "availabilityConfig": Object {},
               "dataConfig": Object {
                 "breakdowns": Array [],
-                "dimensions": Array [],
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "Carrier",
+                    "name": "Carrier",
+                  },
+                ],
                 "series": Array [
                   Object {
                     "aggregation": "sum",
@@ -1045,9 +1059,16 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "status": 200,
               },
               "userConfigs": Object {
+                "availabilityConfig": Object {},
                 "dataConfig": Object {
                   "breakdowns": Array [],
-                  "dimensions": Array [],
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "Carrier",
+                      "name": "Carrier",
+                    },
+                  ],
                   "series": Array [
                     Object {
                       "aggregation": "sum",
@@ -1384,10 +1405,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "orientation": "v",
                 "type": "bar",
                 "x": Array [
-                  "",
-                  "",
-                  "",
-                  "",
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
                 ],
                 "y": Array [
                   undefined,
@@ -1395,6 +1416,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   undefined,
                   undefined,
                 ],
+              },
+              Object {
+                "mode": "text",
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
               },
             ]
           }
@@ -1426,6 +1453,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "r": 5,
                 "t": 50,
               },
+              "shapes": Array [],
               "showlegend": "show",
               "title": "",
               "xaxis": Object {
@@ -1467,10 +1495,10 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "orientation": "v",
                   "type": "bar",
                   "x": Array [
-                    "",
-                    "",
-                    "",
-                    "",
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
                   ],
                   "y": Array [
                     undefined,
@@ -1478,6 +1506,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     undefined,
                     undefined,
                   ],
+                },
+                Object {
+                  "mode": "text",
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
                 },
               ]
             }
@@ -1512,6 +1546,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "r": 5,
                   "t": 50,
                 },
+                "shapes": Array [],
                 "showlegend": "show",
                 "title": "",
                 "xaxis": Object {
@@ -1694,6 +1729,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "status": 200,
           },
           "userConfigs": Object {
+            "availabilityConfig": Object {},
             "dataConfig": Object {
               "breakdowns": Array [],
               "dimensions": Array [],
@@ -2219,6 +2255,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "status": 200,
             },
             "userConfigs": Object {
+              "availabilityConfig": Object {},
               "dataConfig": Object {
                 "breakdowns": Array [],
                 "dimensions": Array [],
@@ -2758,6 +2795,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "status": 200,
               },
               "userConfigs": Object {
+                "availabilityConfig": Object {},
                 "dataConfig": Object {
                   "breakdowns": Array [],
                   "dimensions": Array [],
@@ -3482,9 +3520,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "status": 200,
           },
           "userConfigs": Object {
+            "availabilityConfig": Object {},
             "dataConfig": Object {
               "breakdowns": Array [],
-              "dimensions": Array [],
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "machine.os",
+                  "name": "machine.os",
+                },
+              ],
               "series": Array [
                 Object {
                   "aggregation": "avg",
@@ -3933,9 +3978,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "status": 200,
             },
             "userConfigs": Object {
+              "availabilityConfig": Object {},
               "dataConfig": Object {
                 "breakdowns": Array [],
-                "dimensions": Array [],
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "machine.os",
+                    "name": "machine.os",
+                  },
+                ],
                 "series": Array [
                   Object {
                     "aggregation": "avg",
@@ -4391,9 +4443,16 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "status": 200,
               },
               "userConfigs": Object {
+                "availabilityConfig": Object {},
                 "dataConfig": Object {
                   "breakdowns": Array [],
-                  "dimensions": Array [],
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "machine.os",
+                      "name": "machine.os",
+                    },
+                  ],
                   "series": Array [
                     Object {
                       "aggregation": "avg",
@@ -4742,6 +4801,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "",
                 ],
               },
+              Object {
+                "mode": "text",
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
             ]
           }
           layout={
@@ -4772,6 +4837,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "r": 5,
                 "t": 50,
               },
+              "shapes": Array [],
               "showlegend": "show",
               "title": "",
               "xaxis": Object {
@@ -4825,6 +4891,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "",
                   ],
                 },
+                Object {
+                  "mode": "text",
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
               ]
             }
             debug={false}
@@ -4858,6 +4930,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "r": 5,
                   "t": 50,
                 },
+                "shapes": Array [],
                 "showlegend": "show",
                 "title": "",
                 "xaxis": Object {
