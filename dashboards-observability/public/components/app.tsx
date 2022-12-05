@@ -4,20 +4,21 @@
  */
 
 import { I18nProvider } from '@osd/i18n/react';
+import { QueryManager } from 'common/query_manager';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { QueryManager } from 'common/query_manager';
 import { CoreStart } from '../../../../src/core/public';
 import { observabilityID, observabilityTitle } from '../../common/constants/shared';
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
+import { MetricsListener } from './common/metrics_listener';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './event_analytics';
+import { Home as MetricsHome } from './metrics/index';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
-import { Home as MetricsHome } from './metrics/index';
 
 interface ObservabilityAppDeps {
   CoreStartProp: CoreStart;
@@ -58,7 +59,7 @@ export const App = ({
     <Provider store={store}>
       <HashRouter>
         <I18nProvider>
-          <>
+          <MetricsListener http={http}>
             <Switch>
               <Route
                 path="/metrics_analytics/"
@@ -161,7 +162,7 @@ export const App = ({
                 }}
               />
             </Switch>
-          </>
+          </MetricsListener>
         </I18nProvider>
       </HashRouter>
     </Provider>
