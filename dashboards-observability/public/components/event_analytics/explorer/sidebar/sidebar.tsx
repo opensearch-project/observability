@@ -63,10 +63,10 @@ export const Sidebar = (props: ISidebarProps) => {
         </div>
         <EuiSpacer size="s" />
         <div className="sidebar-list">
-          {((explorerData && !isEmpty(explorerData.jsonData) && !isEmpty(explorerFields)) ||
-            !isEmpty(explorerFields.availableFields)) && (
+          {((explorerData && !isEmpty(explorerData?.jsonData) && !isEmpty(explorerFields)) ||
+            !isEmpty(explorerFields?.availableFields)) && (
             <>
-              {explorerFields?.queriedFields && explorerFields.queriedFields?.length > 0 && (
+              {explorerFields?.queriedFields && explorerFields?.queriedFields?.length > 0 && (
                 <EuiAccordion
                   initialIsOpen
                   id="fieldSelector__queriedFields"

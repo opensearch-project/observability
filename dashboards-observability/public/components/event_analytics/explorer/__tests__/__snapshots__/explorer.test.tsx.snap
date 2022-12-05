@@ -1,0 +1,912 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Page renders with one trace selected 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="dscAppContainer"
+      >
+        <div
+          class="globalQueryBar"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <div
+              class="euiFlexItem search-area"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="autocomplete-0-label"
+                class="aa-Autocomplete"
+                id="autocomplete-root"
+                role="combobox"
+              >
+                <textarea
+                  aria-autocomplete="both"
+                  aria-labelledby="autocomplete-0-label"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class="euiTextArea euiTextArea--resizeVertical"
+                  data-test-subj="searchAutocompleteTextArea"
+                  enterkeyhint="search"
+                  id="autocomplete-textarea"
+                  maxlength="512"
+                  placeholder="Enter PPL query"
+                  rows="6"
+                  spellcheck="false"
+                  type="search"
+                >
+                  source = opensearch_dashboards_sample_data_logs 
+                </textarea>
+              </div>
+              <button
+                aria-label="pplLinkShowFlyout"
+                class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+                title="PPL"
+              >
+                <span
+                  class="euiBadge__content"
+                >
+                  <span
+                    class="euiBadge__text"
+                  >
+                    PPL
+                  </span>
+                </span>
+              </button>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            />
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero euiFlexItem--flexGrowZero event-date-picker"
+            >
+              <div
+                class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiSuperDatePicker__flexWrapper"
+              >
+                <div
+                  class="euiFlexItem"
+                >
+                  <div
+                    class="euiFormControlLayout euiFormControlLayout--group euiSuperDatePicker"
+                  >
+                    <div
+                      class="euiPopover euiPopover--anchorDownLeft"
+                    >
+                      <div
+                        class="euiPopover__anchor euiQuickSelectPopover__anchor"
+                      >
+                        <button
+                          aria-label="Date quick select"
+                          class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                          data-test-subj="superDatePickerToggleQuickMenuButton"
+                          type="button"
+                        >
+                          <span
+                            class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                              focusable="false"
+                              height="16"
+                              role="img"
+                              viewBox="0 0 16 16"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                            <span
+                              class="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="euiIcon euiIcon--medium euiIcon-isLoading"
+                                focusable="false"
+                                height="16"
+                                role="img"
+                                viewBox="0 0 16 16"
+                                width="16"
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="euiFormControlLayout__childrenWrapper"
+                    >
+                      <div
+                        class="euiDatePickerRange euiDatePickerRange--inGroup"
+                      >
+                        <button
+                          class="euiSuperDatePicker__prettyFormat"
+                          data-test-subj="superDatePickerShowDatesButton"
+                        >
+                          Last 24 hours
+                          <span
+                            class="euiSuperDatePicker__prettyFormatLink"
+                          >
+                            Show dates
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <span
+                    class="euiToolTipAnchor"
+                  >
+                    <button
+                      class="euiButton euiButton--primary euiButton--fill euiSuperUpdateButton"
+                      data-test-subj="superDatePickerApplyTimeButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiButtonContent euiButton__content"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        />
+                        <span
+                          class="euiButton__text euiSuperUpdateButton__text"
+                        >
+                          Refresh
+                        </span>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero live-tail"
+            >
+              <div
+                class="euiPopover euiPopover--anchorDownCenter"
+              >
+                <div
+                  class="euiPopover__anchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary"
+                    data-test-subj="eventLiveTail"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                        focusable="false"
+                        height="16"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                      <span
+                        class="euiButton__text"
+                      >
+                        Live
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mainContentTabs"
+        >
+          <div
+            class="euiTabs"
+            role="tablist"
+          >
+            <button
+              aria-controls="random_html_id"
+              aria-selected="true"
+              class="euiTab euiTab-isSelected"
+              id="main-content-events"
+              role="tab"
+              type="button"
+            >
+              <span
+                class="euiTab__content"
+              >
+                <div
+                  class="euiText euiText--small"
+                  data-test-subj="main-content-eventsTab"
+                >
+                  <div
+                    class="euiTextAlign euiTextAlign--left"
+                  >
+                    <div
+                      class="euiTextColor euiTextColor--default"
+                    >
+                      <span
+                        class="tab-title"
+                      >
+                        Events
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </span>
+            </button>
+            <button
+              aria-controls="random_html_id"
+              aria-selected="false"
+              class="euiTab"
+              id="main-content-vis"
+              role="tab"
+              type="button"
+            >
+              <span
+                class="euiTab__content"
+              >
+                <div
+                  class="euiText euiText--small"
+                  data-test-subj="main-content-visTab"
+                >
+                  <div
+                    class="euiTextAlign euiTextAlign--left"
+                  >
+                    <div
+                      class="euiTextColor euiTextColor--default"
+                    >
+                      <span
+                        class="tab-title"
+                      >
+                        Visualizations
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </span>
+            </button>
+          </div>
+          <div
+            aria-labelledby="main-content-events"
+            id="random_html_id"
+            role="tabpanel"
+          >
+            <main
+              class="container-fluid"
+            >
+              <div
+                class="row"
+              >
+                <div
+                  class="col-md-2 dscSidebar__container dscCollapsibleSidebar "
+                  data-test-subj="eventExplorer__sidebar"
+                  id="discover-sidebar"
+                >
+                  <div
+                    class="explorerFieldSelector"
+                  >
+                    <section
+                      class="sidebar-list"
+                    >
+                      <div
+                        class="dscSidebar__item"
+                      >
+                        <div
+                          class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+                        >
+                          <div
+                            class="euiFormControlLayout__childrenWrapper"
+                          >
+                            <input
+                              class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
+                              data-test-subj="eventExplorer__sidebarSearch"
+                              placeholder="Search field names"
+                              type="search"
+                              value=""
+                            />
+                            <div
+                              class="euiFormControlLayoutIcons"
+                            >
+                              <span
+                                class="euiFormControlLayoutCustomIcon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                  focusable="false"
+                                  height="16"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  width="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="euiSpacer euiSpacer--s"
+                      />
+                      <div
+                        class="sidebar-list"
+                      />
+                    </section>
+                  </div>
+                  <button
+                    aria-controls="discover-sidebar"
+                    aria-expanded="true"
+                    aria-label="Toggle sidebar"
+                    class="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--small dscCollapsibleSidebar__collapseButton"
+                    data-test-subj="collapseSideBarButton"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                      focusable="false"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="dscWrapper col-md-10"
+                >
+                  <div
+                    class="euiSpacer euiSpacer--xl"
+                  />
+                  <div
+                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                  >
+                    <div
+                      class="euiFlexItem euiFlexItem--flexGrowZero dscNoResults"
+                    >
+                      <div
+                        class="euiCallOut euiCallOut--warning"
+                        data-test-subj="discoverNoResults"
+                      >
+                        <div
+                          class="euiCallOutHeader"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                            focusable="false"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                          <span
+                            class="euiCallOutHeader__title"
+                          >
+                            No results match your search criteria
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="euiSpacer euiSpacer--xl"
+                      />
+                      <div
+                        class="euiText euiText--medium"
+                      >
+                        <h2
+                          data-test-subj="discoverNoResultsTimefilter"
+                        >
+                          Expand your time range or modify your query
+                        </h2>
+                        <p>
+                          Your query may not match anything in the current time range, or there may not be any data at all in the currently selected time range. Try change time range, query filters or choose different time fields
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="dscAppContainer"
+    >
+      <div
+        class="globalQueryBar"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem search-area"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="autocomplete-0-label"
+              class="aa-Autocomplete"
+              id="autocomplete-root"
+              role="combobox"
+            >
+              <textarea
+                aria-autocomplete="both"
+                aria-labelledby="autocomplete-0-label"
+                autocapitalize="off"
+                autocomplete="off"
+                autocorrect="off"
+                class="euiTextArea euiTextArea--resizeVertical"
+                data-test-subj="searchAutocompleteTextArea"
+                enterkeyhint="search"
+                id="autocomplete-textarea"
+                maxlength="512"
+                placeholder="Enter PPL query"
+                rows="6"
+                spellcheck="false"
+                type="search"
+              >
+                source = opensearch_dashboards_sample_data_logs 
+              </textarea>
+            </div>
+            <button
+              aria-label="pplLinkShowFlyout"
+              class="euiBadge euiBadge-isClickable euiBadge--hollow euiBadge--iconLeft ppl-link ppl-link-light"
+              title="PPL"
+            >
+              <span
+                class="euiBadge__content"
+              >
+                <span
+                  class="euiBadge__text"
+                >
+                  PPL
+                </span>
+              </span>
+            </button>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero"
+          />
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero euiFlexItem--flexGrowZero event-date-picker"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiSuperDatePicker__flexWrapper"
+            >
+              <div
+                class="euiFlexItem"
+              >
+                <div
+                  class="euiFormControlLayout euiFormControlLayout--group euiSuperDatePicker"
+                >
+                  <div
+                    class="euiPopover euiPopover--anchorDownLeft"
+                  >
+                    <div
+                      class="euiPopover__anchor euiQuickSelectPopover__anchor"
+                    >
+                      <button
+                        aria-label="Date quick select"
+                        class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiFormControlLayout__prepend"
+                        data-test-subj="superDatePickerToggleQuickMenuButton"
+                        type="button"
+                      >
+                        <span
+                          class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="euiIcon euiIcon--small euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                            focusable="false"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          />
+                          <span
+                            class="euiButtonEmpty__text euiQuickSelectPopover__buttonText"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="euiIcon euiIcon--medium euiIcon-isLoading"
+                              focusable="false"
+                              height="16"
+                              role="img"
+                              viewBox="0 0 16 16"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            />
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="euiFormControlLayout__childrenWrapper"
+                  >
+                    <div
+                      class="euiDatePickerRange euiDatePickerRange--inGroup"
+                    >
+                      <button
+                        class="euiSuperDatePicker__prettyFormat"
+                        data-test-subj="superDatePickerShowDatesButton"
+                      >
+                        Last 24 hours
+                        <span
+                          class="euiSuperDatePicker__prettyFormatLink"
+                        >
+                          Show dates
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <span
+                  class="euiToolTipAnchor"
+                >
+                  <button
+                    class="euiButton euiButton--primary euiButton--fill euiSuperUpdateButton"
+                    data-test-subj="superDatePickerApplyTimeButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiButtonContent euiButton__content"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                        focusable="false"
+                        height="16"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      />
+                      <span
+                        class="euiButton__text euiSuperUpdateButton__text"
+                      >
+                        Refresh
+                      </span>
+                    </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero live-tail"
+          >
+            <div
+              class="euiPopover euiPopover--anchorDownCenter"
+            >
+              <div
+                class="euiPopover__anchor"
+              >
+                <button
+                  class="euiButton euiButton--primary"
+                  data-test-subj="eventLiveTail"
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButton__content"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
+                      focusable="false"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    />
+                    <span
+                      class="euiButton__text"
+                    >
+                      Live
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mainContentTabs"
+      >
+        <div
+          class="euiTabs"
+          role="tablist"
+        >
+          <button
+            aria-controls="random_html_id"
+            aria-selected="true"
+            class="euiTab euiTab-isSelected"
+            id="main-content-events"
+            role="tab"
+            type="button"
+          >
+            <span
+              class="euiTab__content"
+            >
+              <div
+                class="euiText euiText--small"
+                data-test-subj="main-content-eventsTab"
+              >
+                <div
+                  class="euiTextAlign euiTextAlign--left"
+                >
+                  <div
+                    class="euiTextColor euiTextColor--default"
+                  >
+                    <span
+                      class="tab-title"
+                    >
+                      Events
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </button>
+          <button
+            aria-controls="random_html_id"
+            aria-selected="false"
+            class="euiTab"
+            id="main-content-vis"
+            role="tab"
+            type="button"
+          >
+            <span
+              class="euiTab__content"
+            >
+              <div
+                class="euiText euiText--small"
+                data-test-subj="main-content-visTab"
+              >
+                <div
+                  class="euiTextAlign euiTextAlign--left"
+                >
+                  <div
+                    class="euiTextColor euiTextColor--default"
+                  >
+                    <span
+                      class="tab-title"
+                    >
+                      Visualizations
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </button>
+        </div>
+        <div
+          aria-labelledby="main-content-events"
+          id="random_html_id"
+          role="tabpanel"
+        >
+          <main
+            class="container-fluid"
+          >
+            <div
+              class="row"
+            >
+              <div
+                class="col-md-2 dscSidebar__container dscCollapsibleSidebar "
+                data-test-subj="eventExplorer__sidebar"
+                id="discover-sidebar"
+              >
+                <div
+                  class="explorerFieldSelector"
+                >
+                  <section
+                    class="sidebar-list"
+                  >
+                    <div
+                      class="dscSidebar__item"
+                    >
+                      <div
+                        class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+                      >
+                        <div
+                          class="euiFormControlLayout__childrenWrapper"
+                        >
+                          <input
+                            class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
+                            data-test-subj="eventExplorer__sidebarSearch"
+                            placeholder="Search field names"
+                            type="search"
+                            value=""
+                          />
+                          <div
+                            class="euiFormControlLayoutIcons"
+                          >
+                            <span
+                              class="euiFormControlLayoutCustomIcon"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                                focusable="false"
+                                height="16"
+                                role="img"
+                                viewBox="0 0 16 16"
+                                width="16"
+                                xmlns="http://www.w3.org/2000/svg"
+                              />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="euiSpacer euiSpacer--s"
+                    />
+                    <div
+                      class="sidebar-list"
+                    />
+                  </section>
+                </div>
+                <button
+                  aria-controls="discover-sidebar"
+                  aria-expanded="true"
+                  aria-label="Toggle sidebar"
+                  class="euiButtonIcon euiButtonIcon--primary euiButtonIcon--empty euiButtonIcon--small dscCollapsibleSidebar__collapseButton"
+                  data-test-subj="collapseSideBarButton"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                    focusable="false"
+                    height="16"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  />
+                </button>
+              </div>
+              <div
+                class="dscWrapper col-md-10"
+              >
+                <div
+                  class="euiSpacer euiSpacer--xl"
+                />
+                <div
+                  class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+                >
+                  <div
+                    class="euiFlexItem euiFlexItem--flexGrowZero dscNoResults"
+                  >
+                    <div
+                      class="euiCallOut euiCallOut--warning"
+                      data-test-subj="discoverNoResults"
+                    >
+                      <div
+                        class="euiCallOutHeader"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiCallOutHeader__icon"
+                          focusable="false"
+                          height="16"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        />
+                        <span
+                          class="euiCallOutHeader__title"
+                        >
+                          No results match your search criteria
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="euiSpacer euiSpacer--xl"
+                    />
+                    <div
+                      class="euiText euiText--medium"
+                    >
+                      <h2
+                        data-test-subj="discoverNoResultsTimefilter"
+                      >
+                        Expand your time range or modify your query
+                      </h2>
+                      <p>
+                        Your query may not match anything in the current time range, or there may not be any data at all in the currently selected time range. Try change time range, query filters or choose different time fields
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

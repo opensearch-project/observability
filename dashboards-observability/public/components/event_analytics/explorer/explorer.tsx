@@ -740,7 +740,7 @@ export const Explorer = ({
                   isOverridingTimestamp={isOverridingTimestamp}
                   isOverridingPattern={isOverridingPattern}
                   isFieldToggleButtonDisabled={
-                    isEmpty(explorerData.jsonData) ||
+                    isEmpty(explorerData?.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))
                   }
                 />
