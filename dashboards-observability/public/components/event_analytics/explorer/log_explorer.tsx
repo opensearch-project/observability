@@ -85,9 +85,17 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
-    history.replace(
-      `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}?=${queryRef.current![selectedTab.id][URL_SEARCH]}`
-    );
+    // Saved object
+    if (queryRef.current![selectedTab.id][SAVED_OBJECT_ID]) {
+      history.replace(
+        `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}?=${queryRef.current![selectedTab.id][URL_SEARCH]}`
+      );
+    } else {
+      // No saved object
+      history.replace(
+        `/event_analytics/explorer?=${queryRef.current![selectedTab.id][URL_SEARCH]}`
+      );
+    }
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
 
