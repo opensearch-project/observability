@@ -41,7 +41,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd opensearch-observability
-          ./gradlew build -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} ${{ env.BUILD_ARGS }}
+          ./gradlew build ${{ env.BUILD_ARGS }}
 
       - name: Upload coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
