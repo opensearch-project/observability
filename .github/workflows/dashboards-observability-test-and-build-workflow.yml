@@ -49,6 +49,12 @@ jobs:
       - name: Move Observability to Plugins Dir
         run: mv dashboards-observability OpenSearch-Dashboards/plugins/dashboards-observability
 
+      - name: Fix node for mac
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          sudo rm -rf  /Library/Developer/CommandLineTools
+          xcode-select --install
+
       - name: Plugin Bootstrap
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-observability
