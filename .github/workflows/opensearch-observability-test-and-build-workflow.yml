@@ -13,7 +13,7 @@ jobs:
       BUILD_ARGS: ${{ matrix.os_build_args }}
     strategy:
       matrix:
-        java: [8, 11, 17]
+        java: [8, 11]
         os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: windows-latest
