@@ -207,11 +207,11 @@ export const Explorer = ({
   liveTailTabIdRef.current = liveTailTabId;
   liveTailNameRef.current = liveTailName;
 
-  let minInterval = 'y';
   const findAutoInterval = (start: string = '', end: string = '') => {
     const momentStart = dateMath.parse(start)!;
     const momentEnd = dateMath.parse(end, { roundUp: true })!;
     const diffSeconds = momentEnd.unix() - momentStart.unix();
+    let minInterval = 'y';
 
     // less than 1 second
     if (diffSeconds <= 1) minInterval = 'ms';
