@@ -181,17 +181,17 @@ export class StatsAstBuilder
   visitStatsFunction(ctx: StatsFunctionContext): PPLNode {
     let funcName = '';
     let valueExpr = '';
-
-    if (typeof ctx.valueExpression === 'function') {
+    
+    if (isFunction(ctx.valueExpression)) {
       valueExpr = this.visitValueExpression(ctx.valueExpression());
-      if (typeof ctx.statsFunctionName === 'function') {
+      if (isFunction(ctx.statsFunctionName)) {
         funcName = this.visitStatsFunctionName(ctx.statsFunctionName());
       } else {
         funcName = ctx.DISTINCT_COUNT() ? ctx.DISTINCT_COUNT().text : ctx.DC().text;
       }
-    } else if (typeof ctx.percentileAggFunction === 'function') {
+    } else if (isFunction(ctx.percentileAggFunction)) {
       // for now just return plain text
-    } else {
+    } else if (isFunction(ctx.COUNT)) {
       funcName = ctx.COUNT().text;
     }
 
@@ -200,7 +200,7 @@ export class StatsAstBuilder
       [] as Array<PPLNode>,
       funcName,
       valueExpr,
-      typeof ctx.percentileAggFunction === 'function' ? ctx.text : ''
+      isFunction(ctx.percentileAggFunction) ? ctx.text : ''
     );
   }
 

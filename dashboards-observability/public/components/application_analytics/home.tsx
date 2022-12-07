@@ -38,6 +38,7 @@ import {
   CUSTOM_PANELS_API_PREFIX,
   CUSTOM_PANELS_DOCUMENTATION_URL,
 } from '../../../common/constants/custom_panels';
+import { QueryManager } from '../../../common/query_manager/ppl_query_manager';
 
 export type AppAnalyticsCoreDeps = TraceAnalyticsCoreDeps;
 
@@ -47,6 +48,7 @@ interface HomeProps extends RouteComponentProps, AppAnalyticsCoreDeps {
   savedObjects: SavedObjects;
   timestampUtils: TimestampUtils;
   notifications: NotificationsStart;
+  queryManager: QueryManager;
 }
 
 export interface AppAnalyticsComponentDeps extends TraceAnalyticsComponentDeps {
@@ -69,6 +71,7 @@ export const Home = (props: HomeProps) => {
     http,
     chrome,
     notifications,
+    queryManager,
   } = props;
   const [triggerSwitchToEvent, setTriggerSwitchToEvent] = useState(0);
   const dispatch = useDispatch();
@@ -435,6 +438,7 @@ export const Home = (props: HomeProps) => {
               setToasts={setToast}
               updateApp={updateApp}
               callback={callback}
+              queryManager={queryManager}
               {...commonProps}
             />
           )}

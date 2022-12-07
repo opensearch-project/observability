@@ -20,6 +20,7 @@ import { Visualization } from '../../visualizations/visualization';
 import { getVizContainerProps } from '../../../components/visualizations/charts/helpers';
 import { QueryManager } from '../../../../common/query_manager';
 import { getDefaultVisConfig } from '../../event_analytics/utils';
+import { removeBacktick } from '../../../../common/utils';
 
 /*
  * "Utils" This file contains different reused functions in operational panels
@@ -410,16 +411,39 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
   if (metaData === undefined || _.isEmpty(metaData)) {
     return <></>;
   }
-  const userVisConfig =
-    !_.isEmpty(metaData.user_configs) && !_.isEmpty(metaData.user_configs.series)
-      ? metaData.user_configs
-      : {
-          dataConfig: {
-            ...getDefaultVisConfig(
-              new QueryManager().queryParser().parse(metaData.query).getStats()
-            ),
-          },
-        };
+  const dataConfig = { ...(metaData.user_configs?.dataConfig || {}) };
+  const hasBreakdowns = !_.isEmpty(dataConfig.breakdowns);
+  const realTimeParsedStats = {
+    ...getDefaultVisConfig(new QueryManager().queryParser().parse(metaData.query).getStats()),
+  };
+  let finalDimensions = [...(realTimeParsedStats.dimensions || [])];
+  let breakdowns = [...(dataConfig.breakdowns || [])];
+
+  // filter out breakdowns from dimnesions
+  if (hasBreakdowns) {
+    finalDimensions = _.differenceWith(finalDimensions, breakdowns, (dimn, brkdwn) =>
+      _.isEqual(removeBacktick(dimn.name), removeBacktick(brkdwn.name))
+    );
+  }
+
+  const finalDataConfig = {
+    ...dataConfig,
+    ...realTimeParsedStats,
+    dimensions: finalDimensions,
+    breakdowns,
+  };
+
+  const mixedUserConfigs = {
+    availabilityConfig: {
+      ...(metaData.user_configs?.availabilityConfig || {})
+    },
+    dataConfig: {
+      ...finalDataConfig,
+    },
+    layoutConfig: {
+      ...(metaData.user_configs?.layoutConfig || {}),
+    },
+  };
 
   return (
     <Visualization
@@ -428,7 +452,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
         rawVizData: data,
         query: { rawQuery: metaData.query },
         indexFields: {},
-        userConfigs: userVisConfig,
+        userConfigs: mixedUserConfigs,
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
       })}
     />
