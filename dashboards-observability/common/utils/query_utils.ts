@@ -5,7 +5,10 @@
 
 import datemath from '@elastic/datemath';
 import { isEmpty } from 'lodash';
-import { DATE_PICKER_FORMAT, PPL_DEFAULT_PATTERN_REGEX_FILETER } from '../../common/constants/explorer';
+import {
+  DATE_PICKER_FORMAT,
+  PPL_DEFAULT_PATTERN_REGEX_FILETER,
+} from '../../common/constants/explorer';
 import {
   PPL_INDEX_INSERT_POINT_REGEX,
   PPL_INDEX_REGEX,
@@ -19,7 +22,7 @@ import {
  */
 const escapeQuotes = (literal: string) => {
   return literal.replaceAll("'", "''");
-}
+};
 
 export const getIndexPatternFromRawQuery = (query: string): string => {
   const matches = query.match(PPL_INDEX_REGEX);
@@ -70,12 +73,22 @@ export const preprocessQuery = ({
 
   // if a pattern is selected as filter, build it into finalQuery
   if (selectedPatternField && filteredPattern)
-    finalQuery = buildPatternsQuery(finalQuery, selectedPatternField, patternRegex, filteredPattern);
+    finalQuery = buildPatternsQuery(
+      finalQuery,
+      selectedPatternField,
+      patternRegex,
+      filteredPattern
+    );
 
   return finalQuery;
 };
 
-export const buildPatternsQuery = (baseQuery: string, selectedPatternField?: string, patternRegex?: string, filteredPattern?: string) => {
+export const buildPatternsQuery = (
+  baseQuery: string,
+  selectedPatternField?: string,
+  patternRegex?: string,
+  filteredPattern?: string
+) => {
   let finalQuery = baseQuery;
   if (selectedPatternField) {
     finalQuery += ` | patterns `;
@@ -88,7 +101,7 @@ export const buildPatternsQuery = (baseQuery: string, selectedPatternField?: str
     }
   }
   return finalQuery;
-}
+};
 
 export const buildQuery = (baseQuery: string, currQuery: string) => {
   let fullQuery: string;
@@ -112,9 +125,9 @@ export const composeFinalQuery = (
   appBaseQuery: string,
   selectedPatternField?: string,
   patternRegex?: string,
-  filteredPattern?: string,
+  filteredPattern?: string
 ) => {
-  const fullQuery = buildQuery(appBaseQuery, curQuery);
+  const fullQuery = curQuery.includes(appBaseQuery) ? curQuery : buildQuery(appBaseQuery, curQuery);
   if (isEmpty(fullQuery)) return '';
   return preprocessQuery({
     rawQuery: fullQuery,
@@ -124,7 +137,7 @@ export const composeFinalQuery = (
     isLiveQuery,
     selectedPatternField,
     patternRegex,
-    filteredPattern
+    filteredPattern,
   });
 };
 

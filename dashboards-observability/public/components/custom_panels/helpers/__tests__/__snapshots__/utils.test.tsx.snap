@@ -136,7 +136,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "status": 200,
           },
           "userConfigs": Object {
+            "availabilityConfig": Object {},
             "dataConfig": Object {
+              "breakdowns": Array [],
               "dimensions": Array [
                 Object {
                   "customLabel": "",
@@ -154,6 +156,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               ],
               "span": undefined,
             },
+            "layoutConfig": Object {},
           },
         },
         "vis": Object {
@@ -598,7 +601,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "status": 200,
             },
             "userConfigs": Object {
+              "availabilityConfig": Object {},
               "dataConfig": Object {
+                "breakdowns": Array [],
                 "dimensions": Array [
                   Object {
                     "customLabel": "",
@@ -616,6 +621,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 ],
                 "span": undefined,
               },
+              "layoutConfig": Object {},
             },
           },
           "vis": Object {
@@ -1067,7 +1073,9 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "status": 200,
               },
               "userConfigs": Object {
+                "availabilityConfig": Object {},
                 "dataConfig": Object {
+                  "breakdowns": Array [],
                   "dimensions": Array [
                     Object {
                       "customLabel": "",
@@ -1085,6 +1093,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   ],
                   "span": undefined,
                 },
+                "layoutConfig": Object {},
               },
             },
             "vis": Object {
@@ -1429,6 +1438,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   undefined,
                 ],
               },
+              Object {
+                "mode": "text",
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
             ]
           }
           layout={
@@ -1459,6 +1474,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "r": 5,
                 "t": 50,
               },
+              "shapes": Array [],
               "showlegend": "show",
               "title": "",
               "xaxis": Object {
@@ -1512,6 +1528,12 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                     undefined,
                   ],
                 },
+                Object {
+                  "mode": "text",
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
               ]
             }
             debug={false}
@@ -1545,6 +1567,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "r": 5,
                   "t": 50,
                 },
+                "shapes": Array [],
                 "showlegend": "show",
                 "title": "",
                 "xaxis": Object {
@@ -1727,7 +1750,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "status": 200,
           },
           "userConfigs": Object {
+            "availabilityConfig": Object {},
             "dataConfig": Object {
+              "breakdowns": Array [],
               "dimensions": Array [],
               "series": Array [
                 Object {
@@ -1755,6 +1780,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 ],
               },
             },
+            "layoutConfig": Object {},
           },
         },
         "vis": Object {
@@ -2250,7 +2276,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "status": 200,
             },
             "userConfigs": Object {
+              "availabilityConfig": Object {},
               "dataConfig": Object {
+                "breakdowns": Array [],
                 "dimensions": Array [],
                 "series": Array [
                   Object {
@@ -2278,6 +2306,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                   ],
                 },
               },
+              "layoutConfig": Object {},
             },
           },
           "vis": Object {
@@ -2787,7 +2816,9 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "status": 200,
               },
               "userConfigs": Object {
+                "availabilityConfig": Object {},
                 "dataConfig": Object {
+                  "breakdowns": Array [],
                   "dimensions": Array [],
                   "series": Array [
                     Object {
@@ -2815,6 +2846,7 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     ],
                   },
                 },
+                "layoutConfig": Object {},
               },
             },
             "vis": Object {
@@ -3509,7 +3541,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "status": 200,
           },
           "userConfigs": Object {
+            "availabilityConfig": Object {},
             "dataConfig": Object {
+              "breakdowns": Array [],
               "dimensions": Array [
                 Object {
                   "customLabel": "",
@@ -3527,6 +3561,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               ],
               "span": undefined,
             },
+            "layoutConfig": Object {},
           },
         },
         "vis": Object {
@@ -3971,7 +4006,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "status": 200,
             },
             "userConfigs": Object {
+              "availabilityConfig": Object {},
               "dataConfig": Object {
+                "breakdowns": Array [],
                 "dimensions": Array [
                   Object {
                     "customLabel": "",
@@ -3989,6 +4026,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 ],
                 "span": undefined,
               },
+              "layoutConfig": Object {},
             },
           },
           "vis": Object {
@@ -4440,7 +4478,9 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "status": 200,
               },
               "userConfigs": Object {
+                "availabilityConfig": Object {},
                 "dataConfig": Object {
+                  "breakdowns": Array [],
                   "dimensions": Array [
                     Object {
                       "customLabel": "",
@@ -4458,6 +4498,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   ],
                   "span": undefined,
                 },
+                "layoutConfig": Object {},
               },
             },
             "vis": Object {
@@ -4802,6 +4843,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "",
                 ],
               },
+              Object {
+                "mode": "text",
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
             ]
           }
           layout={
@@ -4832,6 +4879,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "r": 5,
                 "t": 50,
               },
+              "shapes": Array [],
               "showlegend": "show",
               "title": "",
               "xaxis": Object {
@@ -4885,6 +4933,12 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                     "",
                   ],
                 },
+                Object {
+                  "mode": "text",
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
               ]
             }
             debug={false}
@@ -4918,6 +4972,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "r": 5,
                   "t": 50,
                 },
+                "shapes": Array [],
                 "showlegend": "show",
                 "title": "",
                 "xaxis": Object {

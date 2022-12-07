@@ -76,7 +76,6 @@ export function PatternsTable(props: PatternsTableProps) {
       field: 'count',
       direction: SortDirection.DESC,
     },
-    allowNeutralSort: true,
     enableAllColumns: true,
   };
 
@@ -127,6 +126,7 @@ export function PatternsTable(props: PatternsTableProps) {
       rowProps={getRowProps}
       isSelectable={true}
       tableLayout="auto"
+      allowNeutralSort={false}
     />
   );
 }

@@ -12,7 +12,7 @@ import {
     renderDataConfig,
     saveVisualizationAndVerify,
     deleteVisualization,
-  } from '../../utils/event_constants';
+  } from '../../utils/event_analytics/constants';
   
   const renderPieChart = () => {
     landOnEventVisualizations();
