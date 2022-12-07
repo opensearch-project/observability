@@ -90,7 +90,7 @@ export function DashboardContent(props: DashboardProps) {
     setLoading(true);
     const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
     const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
-    const latencyTrendStartTime = dateMath.parse(endTime)?.subtract(24, 'hours').toISOString()!;
+    const latencyTrendStartTime = dateMath.parse(endTime, { roundUp: true })?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
       filters,
       query,

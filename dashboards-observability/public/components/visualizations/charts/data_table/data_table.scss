@@ -1,0 +1,63 @@
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.custom-pagination-container {
+  display: inline-flex;
+  padding: 10px 5px;
+}
+
+.custom-pagination-container li {
+  font-size: 14px;
+  padding: 0 5px;
+  display: flex;
+  align-items: flex-end;
+  font-weight: 600;
+}
+
+.custom-pagination-container .euiIcon:focus {
+  background: transparent !important;
+}
+.custom-pagination-container a:focus {
+  animation: none !important;
+}
+.custom-pagination-container a {
+  cursor: pointer;
+}
+
+.custom-pagination-container .disabled {
+  cursor: default;
+}
+.custom-pagination-container a {
+  color: #343741;
+}
+.dark-theme a {
+  color: #dfe5ef;
+}
+.custom-pagination-container .selected a {
+  color: #1ba9f5;
+  text-decoration: underline;
+  cursor: default;
+}
+
+.custom-overlay {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999 !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.custom-overlay-light {
+  background-color: #fff;
+}
+
+.custom-overlay-dark {
+  background-color: #16171c;
+}

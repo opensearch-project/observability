@@ -43,7 +43,8 @@ internal class CreateObservabilityObjectRequestTests {
     @Test
     fun `Create object should deserialize json object using parser`() {
         val jsonString =
-            "{\"timestamp\":{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\"}}"
+            "{\"timestamp\":{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\"," +
+                "\"type\":\"timestamp\",\"dsl_type\":\"date\"}}"
         val recreatedObject = createObjectFromJsonString(jsonString) { CreateObservabilityObjectRequest.parse(it) }
         assertEquals(sampleTimestamp, recreatedObject.objectData)
     }
@@ -59,7 +60,8 @@ internal class CreateObservabilityObjectRequestTests {
     @Test
     fun `Create object should safely ignore extra field in json object`() {
         val jsonString =
-            "{\"timestamp\":{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\",\"type\":\"timestamp\",\"dsl_type\":\"date\",\"another\":\"field\"}}"
+            "{\"timestamp\":{\"name\":\"test-timestamp\",\"index\":\"opensearch_dashboards_sample_data_logs\"," +
+                "\"type\":\"timestamp\",\"dsl_type\":\"date\",\"another\":\"field\"}}"
         val recreatedObject = createObjectFromJsonString(jsonString) { CreateObservabilityObjectRequest.parse(it) }
         assertEquals(sampleTimestamp, recreatedObject.objectData)
     }

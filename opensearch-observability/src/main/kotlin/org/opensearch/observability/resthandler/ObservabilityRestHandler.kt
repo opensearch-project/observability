@@ -93,7 +93,7 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
              * Response body: Ref [org.opensearch.observability.model.DeleteObservabilityObjectResponse]
              */
             Route(DELETE, "$OBSERVABILITY_URL/{$OBJECT_ID_FIELD}"),
-            Route(DELETE, "$OBSERVABILITY_URL")
+            Route(DELETE, OBSERVABILITY_URL)
         )
     }
 

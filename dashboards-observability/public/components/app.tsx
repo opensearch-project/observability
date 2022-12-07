@@ -4,6 +4,7 @@
  */
 
 import { I18nProvider } from '@osd/i18n/react';
+import { QueryManager } from 'common/query_manager';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Route, Switch } from 'react-router-dom';
@@ -12,8 +13,10 @@ import { observabilityID, observabilityTitle } from '../../common/constants/shar
 import store from '../framework/redux/store';
 import { AppPluginStartDependencies } from '../types';
 import { Home as ApplicationAnalyticsHome } from './application_analytics/home';
+import { MetricsListener } from './common/metrics_listener';
 import { Home as CustomPanelsHome } from './custom_panels/home';
 import { EventAnalytics } from './event_analytics';
+import { Home as MetricsHome } from './metrics/index';
 import { Main as NotebooksHome } from './notebooks/components/main';
 import { Home as TraceAnalyticsHome } from './trace_analytics/home';
 
@@ -24,6 +27,7 @@ interface ObservabilityAppDeps {
   dslService: any;
   savedObjects: any;
   timestampUtils: any;
+  queryManager: QueryManager;
 }
 
 // for cypress to test redux store
@@ -38,6 +42,7 @@ export const App = ({
   dslService,
   savedObjects,
   timestampUtils,
+  queryManager,
 }: ObservabilityAppDeps) => {
   const { chrome, http, notifications } = CoreStartProp;
   const parentBreadcrumb = {
@@ -54,8 +59,27 @@ export const App = ({
     <Provider store={store}>
       <HashRouter>
         <I18nProvider>
-          <>
+          <MetricsListener http={http}>
             <Switch>
+              <Route
+                path="/metrics_analytics/"
+                render={(props) => {
+                  chrome.setBreadcrumbs([
+                    parentBreadcrumb,
+                    { text: 'Metrics analytics', href: '#/metrics_analytics/' },
+                  ]);
+                  return (
+                    <MetricsHome
+                      http={http}
+                      chrome={chrome}
+                      parentBreadcrumb={parentBreadcrumb}
+                      renderProps={props}
+                      pplService={pplService}
+                      savedObjects={savedObjects}
+                    />
+                  );
+                }}
+              />
               <Route
                 path={'/application_analytics'}
                 render={(props) => {
@@ -70,6 +94,7 @@ export const App = ({
                       dslService={dslService}
                       savedObjects={savedObjects}
                       timestampUtils={timestampUtils}
+                      queryManager={queryManager}
                     />
                   );
                 }}
@@ -130,13 +155,14 @@ export const App = ({
                       timestampUtils={timestampUtils}
                       http={http}
                       notifications={notifications}
+                      queryManager={queryManager}
                       {...props}
                     />
                   );
                 }}
               />
             </Switch>
-          </>
+          </MetricsListener>
         </I18nProvider>
       </HashRouter>
     </Provider>
