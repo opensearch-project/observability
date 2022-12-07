@@ -34,6 +34,7 @@ import TimestampUtils from '../../public/services/timestamp/timestamp';
 import PPLService from '../../public/services/requests/ppl';
 import DSLService from '../../public/services/requests/dsl';
 import { SavedObjectsStart } from '../../../../src/core/public/saved_objects';
+
 export interface IQueryTab {
   id: string;
   name: React.ReactNode | string;
