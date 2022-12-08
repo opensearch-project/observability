@@ -129,14 +129,16 @@ export function ServicesContent(props: ServicesProps) {
         traceColumnAction={traceColumnAction}
       />
       <EuiSpacer size="m" />
-      <ServiceMap
-        addFilter={addFilter}
-        serviceMap={serviceMap}
-        idSelected={serviceMapIdSelected}
-        setIdSelected={setServiceMapIdSelected}
-        currService={filteredService}
-        page={page}
-      />
+      { mode === TraceAnalyticsMode.Data_Prepper ? 
+        <ServiceMap
+          addFilter={addFilter}
+          serviceMap={serviceMap}
+          idSelected={serviceMapIdSelected}
+          setIdSelected={setServiceMapIdSelected}
+          currService={filteredService}
+          page={page}
+        /> : (<div/>)
+      }
     </>
   );
 }

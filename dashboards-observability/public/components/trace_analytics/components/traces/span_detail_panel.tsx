@@ -17,6 +17,7 @@ import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { Plt } from '../../../visualizations/plotly/plot';
+import { TraceAnalyticsMode } from '../../home';
 import { handleSpansGanttRequest } from '../../requests/traces_request_handler';
 import { PanelTitle } from '../common/helper_functions';
 import { SpanDetailFlyout } from './span_detail_flyout';
@@ -26,11 +27,13 @@ export function SpanDetailPanel(props: {
   http: HttpSetup;
   traceId: string;
   colorMap: any;
+  mode: TraceAnalyticsMode
   page?: string;
   openSpanFlyout?: any;
   data?: { gantt: any[]; table: any[]; ganttMaxX: number };
   setData?: (data: { gantt: any[]; table: any[]; ganttMaxX: number }) => void;
 }) {
+  const { mode } = props;
   const storedFilters = sessionStorage.getItem('TraceAnalyticsSpanFilters');
   const fromApp = props.page === 'app';
   const [spanFilters, setSpanFilters] = useState<Array<{ field: string; value: any }>>(
@@ -78,7 +81,7 @@ export function SpanDetailPanel(props: {
     if (_.isEmpty(props.colorMap)) return;
     const refreshDSL = spanFiltersToDSL();
     setDSL(refreshDSL);
-    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL);
+    handleSpansGanttRequest(props.traceId, props.http, setData, props.colorMap, refreshDSL, mode);
   }, 150);
 
   const spanFiltersToDSL = () => {
@@ -206,6 +209,7 @@ export function SpanDetailPanel(props: {
         http={props.http}
         hiddenColumns={['traceID', 'traceGroup']}
         DSL={DSL}
+        mode={mode}
         openFlyout={(spanId: string) => {
           if (fromApp) {
             props.openSpanFlyout(spanId);

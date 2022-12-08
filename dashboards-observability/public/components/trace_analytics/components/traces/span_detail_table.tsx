@@ -10,6 +10,7 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
+import { TraceAnalyticsMode } from '../../home';
 import { handleSpansRequest } from '../../requests/traces_request_handler';
 import { microToMilliSec, nanoToMilliSec, NoMatchMessage } from '../common/helper_functions';
 
@@ -17,6 +18,7 @@ interface SpanDetailTableProps {
   http: HttpSetup;
   hiddenColumns: string[];
   openFlyout: (spanId: string) => void;
+  mode: TraceAnalyticsMode
   DSL?: any;
   setTotal?: (total: number) => void;
 }
@@ -38,6 +40,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       direction: 'asc' | 'desc';
     }>,
   });
+  const { mode } = props;
   const [items, setItems] = useState<any>([]);
   const [total, setTotal] = useState(0);
 
@@ -47,7 +50,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       size: tableParams.size,
       sortingColumns: tableParams.sortingColumns.map(({ id, direction }) => ({ [id]: direction })),
     };
-    handleSpansRequest(props.http, setItems, setTotal, spanSearchParams, props.DSL);
+    handleSpansRequest(props.http, setItems, setTotal, spanSearchParams, props.DSL, mode);
   }, [tableParams, props.DSL]);
 
   useEffect(() => {

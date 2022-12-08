@@ -20,7 +20,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { TraceAnalyticsCoreDeps } from '../../home';
+import { TraceAnalyticsCoreDeps, TraceAnalyticsMode } from '../../home';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import {
   handlePayloadRequest,
@@ -36,6 +36,7 @@ interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
   startTime: string;
   endTime: string;
+  mode: TraceAnalyticsMode;
 }
 
 export function TraceView(props: TraceViewProps) {
@@ -151,8 +152,8 @@ export function TraceView(props: TraceViewProps) {
   const refresh = async () => {
     const DSL = filtersToDsl([], '', processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode), page);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields, mode);
-    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
-    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
+    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData, mode);
+    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap, mode);
     handleServiceMapRequest(props.http, DSL, mode, setServiceMap);
   };
 
@@ -227,6 +228,7 @@ export function TraceView(props: TraceViewProps) {
                 traceId={props.traceId}
                 http={props.http}
                 colorMap={colorMap}
+                mode={mode}
                 data={ganttData}
                 setData={setGanttData}
               />
@@ -248,14 +250,15 @@ export function TraceView(props: TraceViewProps) {
             ) : null}
           </EuiPanel>
           <EuiSpacer />
-
-          <ServiceMap
-            addFilter={undefined}
-            serviceMap={traceFilteredServiceMap}
-            idSelected={serviceMapIdSelected}
-            setIdSelected={setServiceMapIdSelected}
-            page={page}
-          />
+          { mode === TraceAnalyticsMode.Data_Prepper ? 
+            <ServiceMap
+              addFilter={undefined}
+              serviceMap={traceFilteredServiceMap}
+              idSelected={serviceMapIdSelected}
+              setIdSelected={setServiceMapIdSelected}
+              page={page}
+            /> : (<div/>)
+          }
         </EuiPageBody>
       </EuiPage>
     </>

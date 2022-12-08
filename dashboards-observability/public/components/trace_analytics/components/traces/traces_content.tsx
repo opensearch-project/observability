@@ -57,7 +57,7 @@ export function TracesContent(props: TracesProps) {
     setLoading(true);
     const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page);
-    await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort, mode);
+    await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, mode, sort);
     setLoading(false);
   };
 
