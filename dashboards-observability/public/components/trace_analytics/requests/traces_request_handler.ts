@@ -74,18 +74,18 @@ export const handleTracesRequest = async (
       return Promise.all(
         response.aggregations.traces.buckets.map((bucket: any) => {
           if (mode === TraceAnalyticsMode.Data_Prepper) { 
-          return {
-            trace_id: bucket.key,
-            trace_group: bucket.trace_group.buckets[0]?.key,
-            latency: bucket.latency.value,
-            last_updated: moment(bucket.last_updated.value).format(TRACE_ANALYTICS_DATE_FORMAT),
-            error_count: bucket.error_count.doc_count,
-            percentile_in_trace_group: binarySearch(
-              percentileRanges[bucket.trace_group.buckets[0]?.key],
-              bucket.latency.value
-            ),
-            actions: '#',
-          };
+            return {
+              trace_id: bucket.key,
+              trace_group: bucket.trace_group.buckets[0]?.key,
+              latency: bucket.latency.value,
+              last_updated: moment(bucket.last_updated.value).format(TRACE_ANALYTICS_DATE_FORMAT),
+              error_count: bucket.error_count.doc_count,
+              percentile_in_trace_group: binarySearch(
+                percentileRanges[bucket.trace_group.buckets[0]?.key],
+                bucket.latency.value
+              ),
+              actions: '#',
+            };
         }
         return {
           trace_id: bucket.key,

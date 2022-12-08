@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { TraceAnalyticsMode } from "../../home";
+
 export const getDashboardQuery = () => {
   const query = {
     size: 0,
@@ -255,8 +257,8 @@ export const getErrorRatePltQuery = (fixedInterval) => {
   return query;
 };
 
-export const getDashboardThroughputPltQuery = (fixedInterval) => {
-  const query: any = {
+export const getDashboardThroughputPltQuery = (mode: TraceAnalyticsMode, fixedInterval) => {
+  return {
     size: 0,
     query: {
       bool: {
@@ -275,12 +277,11 @@ export const getDashboardThroughputPltQuery = (fixedInterval) => {
         aggs: {
           trace_count: {
             cardinality: {
-              field: 'traceID',
+              field: mode === TraceAnalyticsMode.Jaeger ? 'traceID': 'traceId',
             },
           },
         },
       },
     },
   };
-  return query;
 };

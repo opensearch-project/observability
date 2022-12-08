@@ -16,8 +16,8 @@ export const getTraceGroupPercentilesQuery = () => {
         must: [
           {
             term: {
-              references: {
-                value: [],
+              parentSpanId: {
+                value: '',
               },
             },
           },

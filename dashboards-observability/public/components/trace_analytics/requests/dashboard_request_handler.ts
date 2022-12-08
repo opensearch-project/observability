@@ -23,13 +23,15 @@ export const handleDashboardRequest = async (
   latencyTrendDSL,
   items,
   setItems,
+  mode,
   setPercentileMap?
 ) => {
   // latency_variance should only be affected by timefilter
   const latencyVariances = await handleDslRequest(
     http,
     timeFilterDSL,
-    getDashboardTraceGroupPercentiles()
+    getDashboardTraceGroupPercentiles(),
+    mode
   )
     .then((response) => {
       const map: any = {};
@@ -120,8 +122,8 @@ export const handleDashboardRequest = async (
     .catch((error) => console.error(error));
 };
 
-export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems) => {
-  return handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
+export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems, mode) => {
+  return handleDslRequest(http, DSL, getDashboardThroughputPltQuery(mode, fixedInterval), mode)
     .then((response) => {
       const buckets = response.aggregations.throughput.buckets;
       const texts = buckets.map(
@@ -153,8 +155,8 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
     .catch((error) => console.error(error));
 };
 
-export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems) => {
-  return handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
+export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems, mode) => {
+  return handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval), mode)
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;
       const texts = buckets.map(

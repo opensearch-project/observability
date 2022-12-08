@@ -108,21 +108,24 @@ export function DashboardContent(props: DashboardProps) {
       latencyTrendDSL,
       tableItems,
       setTableItems,
-      setPercentileMap
+      mode,
+      setPercentileMap,
     ).then(() => setLoading(false));
     handleDashboardThroughputPltRequest(
       http,
       DSL,
       fixedInterval,
       throughputPltItems,
-      setThroughputPltItems
+      setThroughputPltItems,
+      mode
     );
     handleDashboardErrorRatePltRequest(
       http,
       DSL,
       fixedInterval,
       errorRatePltItems,
-      setErrorRatePltItems
+      setErrorRatePltItems,
+      mode
     );
     // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
     const serviceMapDSL = _.cloneDeep(DSL);
