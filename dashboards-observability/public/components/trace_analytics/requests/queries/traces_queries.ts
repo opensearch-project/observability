@@ -293,7 +293,7 @@ export const getSpanDetailQuery = (mode: TraceAnalyticsMode, traceId: string, si
             },
             {
               exists: {
-                field: mode === TraceAnalyticsMode.Jaeger ? 'process.serviceName' : 'serviceName',
+                field: 'process.serviceName',
               },
             },
           ],

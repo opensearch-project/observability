@@ -39,7 +39,7 @@ export interface TraceAnalyticsComponentDeps extends TraceAnalyticsCoreDeps, Sea
 export const Home = (props: HomeProps) => {
   const [dataPrepperIndicesExist, setDataPrepperIndicesExist] = useState(true);
   const [jaegerIndicesExist, setJaegerIndicesExist] = useState(true);
-  const [mode, setMode] = useState<TraceAnalyticsMode>(TraceAnalyticsMode.Data_Prepper)
+  const [mode, setMode] = useState<TraceAnalyticsMode>(TraceAnalyticsMode.Jaeger)
   const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
