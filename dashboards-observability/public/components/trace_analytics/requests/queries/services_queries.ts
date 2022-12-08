@@ -230,7 +230,7 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
           )
         )
       : [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)));
-  const query: any = {
+  const jaegerQuery: any = {
     size: 0,
     query: {
       bool: {
@@ -339,6 +339,119 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
       },
     },
   };
-  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
-  return query;
+
+  const dataPrepperQuery: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        should: [],
+        must_not: [],
+        filter: [
+          {
+            terms: {
+              serviceName: serviceNames,
+            },
+          },
+          {
+            bool: {
+              should: [
+                {
+                  bool: {
+                    filter: [
+                      {
+                        bool: {
+                          must_not: {
+                            term: {
+                              parentSpanId: {
+                                value: '',
+                              },
+                            },
+                          },
+                        },
+                      },
+                      {
+                        terms: {
+                          name: targetResource,
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  bool: {
+                    must: {
+                      term: {
+                        parentSpanId: {
+                          value: '',
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+              adjust_pure_negative: true,
+              boost: 1,
+            },
+          },
+        ],
+      },
+    },
+    aggregations: {
+      service_name: {
+        terms: {
+          field: 'serviceName',
+          size: SERVICE_MAP_MAX_NODES,
+          min_doc_count: 1,
+          shard_min_doc_count: 0,
+          show_term_doc_count_error: false,
+          order: [
+            {
+              _count: 'desc',
+            },
+            {
+              _key: 'asc',
+            },
+          ],
+        },
+        aggregations: {
+          average_latency_nanos: {
+            avg: {
+              field: 'durationInNanos',
+            },
+          },
+          average_latency: {
+            bucket_script: {
+              buckets_path: {
+                count: '_count',
+                latency: 'average_latency_nanos.value',
+              },
+              script: 'Math.round(params.latency / 10000) / 100.0',
+            },
+          },
+          error_count: {
+            filter: {
+              term: {
+                'status.code': '2',
+              },
+            },
+          },
+          error_rate: {
+            bucket_script: {
+              buckets_path: {
+                total: '_count',
+                errors: 'error_count._count',
+              },
+              script: 'params.errors / params.total * 100',
+            },
+          },
+        },
+      },
+    },
+  };
+  if (DSL.custom?.timeFilter.length > 0) {
+    jaegerQuery.query.bool.must.push(...DSL.custom.timeFilter);
+    dataPrepperQuery.query.bool.must.push(...DSL.custom.timeFilter);
+  }
+  return mode === TraceAnalyticsMode.Jaeger ? jaegerQuery : dataPrepperQuery;
 };

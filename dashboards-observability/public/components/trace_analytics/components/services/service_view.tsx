@@ -20,7 +20,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
-import { TraceAnalyticsComponentDeps } from '../../home';
+import { TraceAnalyticsComponentDeps, TraceAnalyticsMode } from '../../home';
 import {
   handleServiceMapRequest,
   handleServiceViewRequest,
@@ -111,30 +111,34 @@ export function ServiceView(props: ServiceViewProps) {
                   {props.serviceName || '-'}
                 </EuiText>
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiText className="overview-title">Number of connected services</EuiText>
-                <EuiText size="s" className="overview-content">
-                  {fields.number_of_connected_services !== undefined
-                    ? fields.number_of_connected_services
-                    : 0}
-                </EuiText>
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiText className="overview-title">Connected services</EuiText>
-                <EuiText size="s" className="overview-content">
-                  {fields.connected_services && fields.connected_services.length
-                    ? fields.connected_services
-                        .map((service: string) => (
-                          <EuiLink href={`#/trace_analytics/services/${service}`} key={service}>
-                            {service}
-                          </EuiLink>
-                        ))
-                        .reduce((prev: React.ReactNode, curr: React.ReactNode) => {
-                          return [prev, ', ', curr];
-                        })
-                    : '-'}
-                </EuiText>
-              </EuiFlexItem>
+              { mode === TraceAnalyticsMode.Data_Prepper ? 
+                <EuiFlexItem grow={false}>
+                  <EuiText className="overview-title">Number of connected services</EuiText>
+                  <EuiText size="s" className="overview-content">
+                    {fields.number_of_connected_services !== undefined
+                      ? fields.number_of_connected_services
+                      : 0}
+                  </EuiText>
+                </EuiFlexItem> : <EuiFlexItem/>
+              }
+              { mode === TraceAnalyticsMode.Data_Prepper ? 
+                <EuiFlexItem grow={false}>
+                  <EuiText className="overview-title">Connected services</EuiText>
+                  <EuiText size="s" className="overview-content">
+                    {fields.connected_services && fields.connected_services.length
+                      ? fields.connected_services
+                          .map((service: string) => (
+                            <EuiLink href={`#/trace_analytics/services/${service}`} key={service}>
+                              {service}
+                            </EuiLink>
+                          ))
+                          .reduce((prev: React.ReactNode, curr: React.ReactNode) => {
+                            return [prev, ', ', curr];
+                          })
+                      : '-'}
+                  </EuiText>
+                </EuiFlexItem> : <EuiFlexItem/>
+              }
             </EuiFlexGroup>
           </EuiFlexItem>
           <EuiFlexItem>
@@ -310,13 +314,15 @@ export function ServiceView(props: ServiceViewProps) {
           <EuiSpacer size="xl" />
           {overview}
           <EuiSpacer />
-          <ServiceMap
-            serviceMap={serviceMap}
-            idSelected={serviceMapIdSelected}
-            setIdSelected={setServiceMapIdSelected}
-            currService={props.serviceName}
-            page="serviceView"
-          />
+          { mode === TraceAnalyticsMode.Data_Prepper ? 
+            <ServiceMap
+              serviceMap={serviceMap}
+              idSelected={serviceMapIdSelected}
+              setIdSelected={setServiceMapIdSelected}
+              currService={props.serviceName}
+              page="serviceView"
+            /> : <div/>
+          }   
           <EuiSpacer />
           <EuiPanel>
             <PanelTitle title="Spans" totalItems={total} />
