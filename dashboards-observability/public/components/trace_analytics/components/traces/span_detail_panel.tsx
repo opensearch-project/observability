@@ -85,13 +85,28 @@ export function SpanDetailPanel(props: {
   }, 150);
 
   const spanFiltersToDSL = () => {
-    const spanDSL: any = {
+    const spanDSL: any = mode === TraceAnalyticsMode.Jaeger ? {
       query: {
         bool: {
           must: [
             {
               term: {
                 traceID: props.traceId,
+              },
+            },
+          ],
+          filter: [],
+          should: [],
+          must_not: [],
+        },
+      },
+    } : {
+      query: {
+        bool: {
+          must: [
+            {
+              term: {
+                traceId: props.traceId,
               },
             },
           ],

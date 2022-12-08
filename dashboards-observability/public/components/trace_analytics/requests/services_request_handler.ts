@@ -92,7 +92,7 @@ export const handleServiceMapRequest = async (
     .catch((error) => console.error(error));
 
   const targets = {};
-  await handleDslRequest(http, null, getServiceEdgesQuery('target'), mode)
+  await handleDslRequest(http, null, getServiceEdgesQuery('target', mode), mode)
     .then((response) =>
       response.aggregations.service_name.buckets.map((bucket: any) => {
         bucket.resource.buckets.map((resource: any) => {
@@ -103,7 +103,7 @@ export const handleServiceMapRequest = async (
       })
     )
     .catch((error) => console.error(error));
-  await handleDslRequest(http, null, getServiceEdgesQuery('destination'), mode)
+  await handleDslRequest(http, null, getServiceEdgesQuery('destination', mode), mode)
     .then((response) =>
       Promise.all(
         response.aggregations.service_name.buckets.map((bucket: any) => {
@@ -127,7 +127,7 @@ export const handleServiceMapRequest = async (
   const latencies = await handleDslRequest(
     http,
     DSL,
-    getServiceMetricsQuery(DSL, Object.keys(map), map), 
+    getServiceMetricsQuery(DSL, Object.keys(map), map, mode), 
     mode,
   );
   latencies.aggregations.service_name.buckets.map((bucket: any) => {

@@ -30,13 +30,13 @@ export const getTraceGroupPercentilesQuery = () => {
     aggs: {
       trace_group_name: {
         terms: {
-          field: 'operationName',
+          field: 'name',
           size: 10000,
         },
         aggs: {
           percentiles: {
             percentiles: {
-              field: 'duration',
+              field: 'durationInNanos',
               percents: Array.from({ length: 101 }, (v, i) => i),
             },
           },
@@ -185,15 +185,15 @@ export const getTracesQuery = (mode: TraceAnalyticsMode, traceId: string = '', s
   return mode === TraceAnalyticsMode.Jaeger ? jaegerQuery : dataPrepperQuery;
 };
 
-export const getServiceBreakdownQuery = (traceID: string) => {
-  const query = {
+export const getServiceBreakdownQuery = (traceId: string, mode: TraceAnalyticsMode) => {
+  const jaegerQuery = {
     size: 0,
     query: {
       bool: {
         must: [
           {
             term: {
-              traceID,
+              "traceID": traceId,
             },
           },
         ],
@@ -231,23 +231,110 @@ export const getServiceBreakdownQuery = (traceID: string) => {
       },
     },
   };
-  return query;
+  const dataPrepperQuery = {
+    size: 0,
+    query: {
+      bool: {
+        must: [
+          {
+            term: {
+              traceId,
+            },
+          },
+        ],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      service_type: {
+        terms: {
+          field: 'serviceName',
+          order: [
+            {
+              total_latency_nanos: 'desc',
+            },
+          ],
+        },
+        aggs: {
+          total_latency_nanos: {
+            sum: {
+              field: 'durationInNanos',
+            },
+          },
+          total_latency: {
+            bucket_script: {
+              buckets_path: {
+                count: '_count',
+                latency: 'total_latency_nanos.value',
+              },
+              script: 'Math.round(params.latency / 10000) / 100.0',
+            },
+          },
+        },
+      },
+    },
+  };
+  return mode === TraceAnalyticsMode.Jaeger? jaegerQuery : dataPrepperQuery;
 };
 
-export const getSpanDetailQuery = (traceID: string, size = 3000) => {
-  const query = {
+export const getSpanDetailQuery = (mode: TraceAnalyticsMode, traceId: string, size = 3000) => {
+  if (mode === TraceAnalyticsMode.Jaeger) {
+    return {
+      size,
+      query: {
+        bool: {
+          must: [
+            {
+              term: {
+                "traceID": traceId,
+              },
+            },
+            {
+              exists: {
+                field: mode === TraceAnalyticsMode.Jaeger ? 'process.serviceName' : 'serviceName',
+              },
+            },
+          ],
+          filter: [],
+          should: [],
+          must_not: [],
+        },
+      },
+      sort: [
+        {
+          startTime: {
+            order: 'desc',
+          },
+        },
+      ],
+      _source: {
+        includes: [
+          'process.serviceName',
+          'operationName',
+          'startTime',
+          'endTime',
+          'spanID',
+          'tag',
+          'duration',
+        ]
+      },
+    };
+  } 
+  return {
     size,
     query: {
       bool: {
         must: [
           {
             term: {
-              traceID,
+              traceId,
             },
           },
           {
             exists: {
-              field: 'process.serviceName',
+              field: 'serviceName',
             },
           },
         ],
@@ -265,20 +352,38 @@ export const getSpanDetailQuery = (traceID: string, size = 3000) => {
     ],
     _source: {
       includes: [
-        'process.serviceName',
-        'operationName',
+        'serviceName',
+        'name',
         'startTime',
         'endTime',
-        'spanID',
-        'tag',
-        'duration',
+        'spanId',
+        'status.code',
+        'durationInNanos',
       ],
     },
   };
-  return query;
 };
 
-export const getPayloadQuery = (traceID: string, size = 1000) => {
+export const getPayloadQuery = (mode: TraceAnalyticsMode, traceId: string, size = 1000) => {
+  if (mode === TraceAnalyticsMode.Jaeger) {
+    return {
+      size,
+      query: {
+        bool: {
+          must: [
+            {
+              term: {
+                "traceID": traceId,
+              },
+            },
+          ],
+          filter: [],
+          should: [],
+          must_not: [],
+        },
+      },
+    };
+  }
   return {
     size,
     query: {
@@ -286,7 +391,7 @@ export const getPayloadQuery = (traceID: string, size = 1000) => {
         must: [
           {
             term: {
-              traceID,
+              traceId,
             },
           },
         ],
@@ -298,7 +403,26 @@ export const getPayloadQuery = (traceID: string, size = 1000) => {
   };
 };
 
-export const getSpanFlyoutQuery = (spanID?: string, size = 1000) => {
+export const getSpanFlyoutQuery = (mode: TraceAnalyticsMode, spanId?: string, size = 1000) => {
+  if (mode === TraceAnalyticsMode.Jaeger) {
+    return {
+      size,
+      query: {
+        bool: {
+          must: [
+            {
+              term: {
+                "spanID": spanId,
+              },
+            },
+          ],
+          filter: [],
+          should: [],
+          must_not: [],
+        },
+      },
+    };
+  }
   return {
     size,
     query: {
@@ -306,7 +430,7 @@ export const getSpanFlyoutQuery = (spanID?: string, size = 1000) => {
         must: [
           {
             term: {
-              spanID,
+              spanId,
             },
           },
         ],

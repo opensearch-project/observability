@@ -211,7 +211,7 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target', mode: Tra
   };
 };
 
-export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject) => {
+export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject, mode: TraceAnalyticsMode) => {
   const traceGroupFilter = new Set(
     DSL?.query?.bool.must
       .filter((must: any) => must.term?.['traceGroup'])
@@ -268,17 +268,17 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
                     ],
                   },
                 },
-                // {
-                //   bool: {
-                //     must: {
-                //       term: {
-                //         parentSpanId: {
-                //           value: '',
-                //         },
-                //       },
-                //     },
-                //   },
-                // },
+                {
+                  bool: {
+                    must: {
+                      term: {
+                        references: {
+                          value: [],
+                        },
+                      },
+                    },
+                  },
+                },
               ],
               adjust_pure_negative: true,
               boost: 1,

@@ -156,7 +156,7 @@ export const handleServicesPieChartRequest = async (
   ];
   const colorMap: any = {};
   let index = 0;
-  await handleDslRequest(http, null, getServiceBreakdownQuery(traceId), mode)
+  await handleDslRequest(http, null, getServiceBreakdownQuery(traceId, mode), mode)
     .then((response) =>
       Promise.all(
         response.aggregations.service_type.buckets.map((bucket: any) => {
@@ -203,7 +203,7 @@ export const handleSpansGanttRequest = (
   spanFiltersDSL: any,
   mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, spanFiltersDSL, getSpanDetailQuery(traceId), mode)
+  handleDslRequest(http, spanFiltersDSL, getSpanDetailQuery(mode, traceId), mode)
     .then((response) => hitsToSpanDetailData(response.hits.hits, colorMap))
     .then((newItems) => setSpanDetailData(newItems))
     .catch((error) => console.error(error));
@@ -215,7 +215,7 @@ export const handleSpansFlyoutRequest = (
   setItems: (items: any) => void,
   mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, null, getSpanFlyoutQuery(spanId), mode)
+  handleDslRequest(http, null, getSpanFlyoutQuery(mode, spanId), mode)
     .then((response) => {
       setItems(response?.hits.hits?.[0]?._source);
     })
@@ -294,7 +294,7 @@ export const handlePayloadRequest = (
   setPayloadData: (payloadData: any) => void,
   mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, null, getPayloadQuery(traceId), mode)
+  handleDslRequest(http, null, getPayloadQuery(mode, traceId), mode)
     .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
     .catch((error) => console.error(error));
 };

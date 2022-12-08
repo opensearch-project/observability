@@ -202,49 +202,55 @@ export function DashboardContent(props: DashboardProps) {
       />
       <EuiSpacer size="m" />
       {mode !== TraceAnalyticsMode.None ? (
-        <>
-          <DashboardTable
-            items={tableItems}
-            filters={filters}
-            addFilter={addFilter}
-            addPercentileFilter={addPercentileFilter}
-            setRedirect={setRedirect}
-            loading={loading}
-            page={page}
-          />
-          <EuiSpacer />
-          <EuiFlexGroup alignItems="baseline">
-            <EuiFlexItem grow={4}>
-              <ServiceMap
-                addFilter={addFilter}
-                serviceMap={serviceMap}
-                idSelected={serviceMapIdSelected}
-                setIdSelected={setServiceMapIdSelected}
-                currService={filteredService}
-                page={page}
-              />
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiFlexGroup direction="column">
-                <EuiFlexItem>
-                  <ErrorRatePlt
-                    items={errorRatePltItems}
-                    setStartTime={setStartTime}
-                    setEndTime={setEndTime}
-                  />
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <ThroughputPlt
-                    items={throughputPltItems}
-                    setStartTime={setStartTime}
-                    setEndTime={setEndTime}
-                  />
-                </EuiFlexItem>
-              </EuiFlexGroup>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </>
-      ) : (
+        <div>
+          { mode === TraceAnalyticsMode.Data_Prepper ? (
+          <>
+            <DashboardTable
+              items={tableItems}
+              filters={filters}
+              addFilter={addFilter}
+              addPercentileFilter={addPercentileFilter}
+              setRedirect={setRedirect}
+              loading={loading}
+              page={page}
+            />
+            <EuiSpacer />
+            <EuiFlexGroup alignItems="baseline">
+              <EuiFlexItem grow={4}>
+                <ServiceMap
+                  addFilter={addFilter}
+                  serviceMap={serviceMap}
+                  idSelected={serviceMapIdSelected}
+                  setIdSelected={setServiceMapIdSelected}
+                  currService={filteredService}
+                  page={page}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <EuiFlexGroup direction="column">
+                  <EuiFlexItem>
+                    <ErrorRatePlt
+                      items={errorRatePltItems}
+                      setStartTime={setStartTime}
+                      setEndTime={setEndTime}
+                    />
+                  </EuiFlexItem>
+                  <EuiFlexItem>
+                    <ThroughputPlt
+                      items={throughputPltItems}
+                      setStartTime={setStartTime}
+                      setEndTime={setEndTime}
+                    />
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </> ) : ( 
+            <div>You are looking at raw jaeger data, so some features may not be available. Click on the traces or services subpage to start exploring your data!</div>
+          )
+          }
+        </div>
+        ) : (
         <MissingConfigurationMessage />
       )}
     </>
