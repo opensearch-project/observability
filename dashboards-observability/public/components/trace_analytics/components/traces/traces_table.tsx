@@ -21,6 +21,7 @@ import {
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { TRACES_MAX_NUM } from '../../../../../common/constants/trace_analytics';
+import { TraceAnalyticsMode } from '../../home';
 import {
   MissingConfigurationMessage,
   NoMatchMessage,
@@ -30,13 +31,13 @@ import {
 interface TracesTableProps {
   items: any[];
   refresh: (sort?: PropertySort) => void;
-  indicesExist: boolean;
+  mode: TraceAnalyticsMode;
   loading: boolean;
   traceIdColumnAction: any;
 }
 
 export function TracesTable(props: TracesTableProps) {
-  const { items, refresh, indicesExist, loading, traceIdColumnAction } = props;
+  const { items, refresh, mode, loading, traceIdColumnAction } = props;
   const renderTitleBar = (totalItems?: number) => {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
@@ -207,7 +208,7 @@ export function TracesTable(props: TracesTableProps) {
             onTableChange={onTableChange}
             loading={loading}
           />
-        ) : indicesExist ? (
+        ) : mode !== TraceAnalyticsMode.None ? (
           <NoMatchMessage size="xl" />
         ) : (
           <MissingConfigurationMessage />

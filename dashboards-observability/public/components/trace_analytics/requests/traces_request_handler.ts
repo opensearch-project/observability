@@ -23,6 +23,7 @@ import {
   getValidTraceIdsQuery,
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
+import { TraceAnalyticsMode } from '../home';
 
 export const handleValidTraceIds = (http: HttpSetup, DSL: any) => {
   return handleDslRequest(http, {}, getValidTraceIdsQuery(DSL))
@@ -36,7 +37,8 @@ export const handleTracesRequest = async (
   timeFilterDSL: any,
   items: any,
   setItems: (items: any) => void,
-  sort?: any
+  sort?: any,
+  mode: TraceAnalyticsMode,
 ) => {
   const binarySearch = (arr: number[], target: number) => {
     if (!arr) return Number.NaN;
@@ -55,7 +57,8 @@ export const handleTracesRequest = async (
   const percentileRanges = await handleDslRequest(
     http,
     timeFilterDSL,
-    getTraceGroupPercentilesQuery()
+    getTraceGroupPercentilesQuery(),
+    mode
   ).then((response) => {
     const map: any = {};
     response.aggregations.trace_group_name.buckets.forEach((traceGroup: any) => {
@@ -66,7 +69,7 @@ export const handleTracesRequest = async (
     return map;
   });
 
-  return handleDslRequest(http, DSL, getTracesQuery(undefined, sort))
+  return handleDslRequest(http, DSL, getTracesQuery(undefined, sort), mode)
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets.map((bucket: any) => {
@@ -95,9 +98,10 @@ export const handleTraceViewRequest = (
   traceId: string,
   http: HttpSetup,
   fields: {},
-  setFields: (fields: any) => void
+  setFields: (fields: any) => void,
+  mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, null, getTracesQuery(traceId))
+  handleDslRequest(http, null, getTracesQuery(traceId), mode)
     .then(async (response) => {
       const bucket = response.aggregations.traces.buckets[0];
       return {

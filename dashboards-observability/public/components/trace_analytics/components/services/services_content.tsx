@@ -5,7 +5,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiSpacer } from '@elastic/eui';
-import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
@@ -19,6 +18,7 @@ import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { SearchBar } from '../common/search_bar';
 import { ServicesProps } from './services';
 import { ServicesTable } from './services_table';
+import { TraceAnalyticsMode } from '../../home';
 
 export function ServicesContent(props: ServicesProps) {
   const {
@@ -29,7 +29,7 @@ export function ServicesContent(props: ServicesProps) {
     query,
     startTime,
     endTime,
-    indicesExist,
+    mode,
     appConfigs = [],
     childBreadcrumbs,
     parentBreadcrumbs,
@@ -70,20 +70,20 @@ export function ServicesContent(props: ServicesProps) {
       }
     }
     setFilteredService(newFilteredService);
-    if (!redirect && indicesExist) refresh(newFilteredService);
+    if (!redirect && mode !== TraceAnalyticsMode.None) refresh(newFilteredService);
   }, [filters, appConfigs]);
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query,processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
+    const DSL = filtersToDsl(filters, query,processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     // service map should not be filtered by service name
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
       (must: any) => must?.term?.serviceName == null
     );
     await Promise.all([
-      handleServicesRequest(http, DSL, setTableItems),
-      handleServiceMapRequest(http, serviceMapDSL, setServiceMap, currService || filteredService),
+      handleServicesRequest(http, DSL, setTableItems, mode),
+      handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService),
     ]);
     setLoading(false);
   };
@@ -123,7 +123,7 @@ export function ServicesContent(props: ServicesProps) {
         items={tableItems}
         addFilter={addFilter}
         setRedirect={setRedirect}
-        indicesExist={indicesExist}
+        mode={mode}
         loading={loading}
         nameColumnAction={nameColumnAction}
         traceColumnAction={traceColumnAction}

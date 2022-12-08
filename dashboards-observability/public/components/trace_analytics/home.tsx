@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiLink } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
 import {
   ChromeBreadcrumb,
   ChromeStart,
-  CoreStart,
   HttpStart,
 } from '../../../../../src/core/public';
 import { ObservabilitySideBar } from '../common/side_nav';
@@ -18,7 +16,7 @@ import { SearchBarProps } from './components/common/search_bar';
 import { Dashboard } from './components/dashboard';
 import { Services, ServiceView } from './components/services';
 import { Traces, TraceView } from './components/traces';
-import { handleIndicesExistRequest } from './requests/request_handler';
+import { handleDataPrepperIndicesExistRequest, handleJaegerIndicesExistRequest } from './requests/request_handler';
 
 export interface TraceAnalyticsCoreDeps {
   parentBreadcrumbs: ChromeBreadcrumb[];
@@ -28,12 +26,20 @@ export interface TraceAnalyticsCoreDeps {
 
 interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {}
 
+export enum TraceAnalyticsMode { 
+  Jaeger,
+  Data_Prepper,
+  None
+}
+
 export interface TraceAnalyticsComponentDeps extends TraceAnalyticsCoreDeps, SearchBarProps {
-  indicesExist: boolean;
+  mode: TraceAnalyticsMode;
 }
 
 export const Home = (props: HomeProps) => {
-  const [indicesExist, setIndicesExist] = useState(true);
+  const [dataPrepperIndicesExist, setDataPrepperIndicesExist] = useState(true);
+  const [jaegerIndicesExist, setJaegerIndicesExist] = useState(true);
+  const [mode, setMode] = useState<TraceAnalyticsMode>(TraceAnalyticsMode.None)
   const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
@@ -64,8 +70,19 @@ export const Home = (props: HomeProps) => {
   };
 
   useEffect(() => {
-    handleIndicesExistRequest(props.http, setIndicesExist);
+    handleDataPrepperIndicesExistRequest(props.http, setDataPrepperIndicesExist)
+    handleJaegerIndicesExistRequest(props.http, setJaegerIndicesExist);
   }, []);
+
+  useEffect(() => {
+    if (dataPrepperIndicesExist) {
+      setMode(TraceAnalyticsMode.Data_Prepper);
+    } else if (jaegerIndicesExist) {
+      setMode(TraceAnalyticsMode.Jaeger);
+    } else {
+      setMode(TraceAnalyticsMode.None);
+    }
+  }, [jaegerIndicesExist, dataPrepperIndicesExist]);
 
   const dashboardBreadcrumbs = [
     {
@@ -121,7 +138,7 @@ export const Home = (props: HomeProps) => {
     setStartTime: setStartTimeWithStorage,
     endTime,
     setEndTime: setEndTimeWithStorage,
-    indicesExist,
+    mode,
   };
 
   return (

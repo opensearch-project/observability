@@ -5,7 +5,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { EuiSpacer, PropertySort } from '@elastic/eui';
-import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import React, { useEffect, useState } from 'react';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
@@ -13,6 +12,7 @@ import { filtersToDsl, processTimeStamp } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { TracesProps } from './traces';
 import { TracesTable } from './traces_table';
+import { TraceAnalyticsMode } from '../../home';
 
 export function TracesContent(props: TracesProps) {
   const {
@@ -24,7 +24,7 @@ export function TracesContent(props: TracesProps) {
     appConfigs,
     startTime,
     endTime,
-    indicesExist,
+    mode,
     parentBreadcrumbs,
     childBreadcrumbs,
     traceIdColumnAction,
@@ -50,14 +50,14 @@ export function TracesContent(props: TracesProps) {
   }, []);
 
   useEffect(() => {
-    if (!redirect && indicesExist) refresh();
+    if (!redirect && mode !== TraceAnalyticsMode.None) refresh();
   }, [filters, appConfigs]);
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page);
-    await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
+    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page);
+    await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort, mode);
     setLoading(false);
   };
 
@@ -80,7 +80,7 @@ export function TracesContent(props: TracesProps) {
       <TracesTable
         items={tableItems}
         refresh={refresh}
-        indicesExist={indicesExist}
+        mode={mode}
         loading={loading}
         traceIdColumnAction={traceIdColumnAction}
       />

@@ -6,7 +6,6 @@
 
 import dateMath from '@elastic/datemath';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer } from '@elastic/eui';
-import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
@@ -31,6 +30,7 @@ import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { SearchBar } from '../common/search_bar';
 import { DashboardProps } from './dashboard';
 import { DashboardTable } from './dashboard_table';
+import { TraceAnalyticsMode } from '../../home';
 
 export function DashboardContent(props: DashboardProps) {
   const {
@@ -44,7 +44,7 @@ export function DashboardContent(props: DashboardProps) {
     childBreadcrumbs,
     parentBreadcrumbs,
     filters,
-    indicesExist,
+    mode,
     setStartTime,
     setEndTime,
     setQuery,
@@ -83,13 +83,13 @@ export function DashboardContent(props: DashboardProps) {
       }
     }
     setFilteredService(newFilteredService);
-    if (!redirect && indicesExist) refresh(newFilteredService);
+    if (!redirect && mode !== TraceAnalyticsMode.None) refresh(newFilteredService);
   }, [filters, startTime, endTime, appConfigs]);
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime, USE_JAEGER), processTimeStamp(endTime, USE_JAEGER), page, appConfigs);
+    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime, { roundUp: true })?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
       filters,
@@ -201,7 +201,7 @@ export function DashboardContent(props: DashboardProps) {
         page={page}
       />
       <EuiSpacer size="m" />
-      {indicesExist ? (
+      {mode !== TraceAnalyticsMode.None ? (
         <>
           <DashboardTable
             items={tableItems}

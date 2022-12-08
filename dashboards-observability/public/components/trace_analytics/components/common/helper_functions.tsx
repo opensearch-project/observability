@@ -10,7 +10,6 @@ import { SpacerSize } from '@elastic/eui/src/components/spacer/spacer';
 import { isEmpty, round } from 'lodash';
 import React from 'react';
 import {
-  USE_JAEGER,
   DATA_PREPPER_INDEX_NAME,
   DATA_PREPPER_SERVICE_INDEX_NAME,
   TRACE_ANALYTICS_DOCUMENTATION_LINK,
@@ -18,6 +17,7 @@ import {
   JAEGER_SERVICE_INDEX_NAME,
 } from '../../../../../common/constants/trace_analytics';
 import { uiSettingsService } from '../../../../../common/utils';
+import { TraceAnalyticsMode } from '../../home';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -58,7 +58,7 @@ export function MissingConfigurationMessage() {
         title={<h2>Trace Analytics not set up</h2>}
         body={
           <EuiText>
-            {`The indices required for trace analytics (${USE_JAEGER ? JAEGER_INDEX_NAME : DATA_PREPPER_INDEX_NAME} and ${USE_JAEGER ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME}) do not exist or you do not have permission to access them.`}
+            {`The indices required for trace analytics (${JAEGER_INDEX_NAME} and ${JAEGER_SERVICE_INDEX_NAME} or ${DATA_PREPPER_INDEX_NAME} and ${DATA_PREPPER_SERVICE_INDEX_NAME}) do not exist or you do not have permission to access them.`}
           </EuiText>
         }
         actions={
@@ -76,8 +76,8 @@ export function MissingConfigurationMessage() {
   );
 }
 
-export function processTimeStamp(time: string, jaeger: boolean) {
-  if (jaeger) {
+export function processTimeStamp(time: string, mode: TraceAnalyticsMode) {
+  if (mode === TraceAnalyticsMode.Jaeger) {
     const timeMoment = dateMath.parse(time)!;
     return timeMoment.unix() * 1000000;
   }

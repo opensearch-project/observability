@@ -18,7 +18,6 @@ import {
   EuiText,
   EuiTitle,
 } from '@elastic/eui';
-import { USE_JAEGER } from '../../../../../common/constants/trace_analytics';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { TraceAnalyticsCoreDeps } from '../../home';
@@ -40,6 +39,7 @@ interface TraceViewProps extends TraceAnalyticsCoreDeps {
 }
 
 export function TraceView(props: TraceViewProps) {
+  const { mode } = props;
   const page = 'traceView';
   const renderTitle = (traceId: string) => {
     return (
@@ -149,11 +149,11 @@ export function TraceView(props: TraceViewProps) {
   >('latency');
 
   const refresh = async () => {
-    const DSL = filtersToDsl([], '', processTimeStamp(props.startTime, USE_JAEGER), processTimeStamp(props.endTime, USE_JAEGER), page);
-    handleTraceViewRequest(props.traceId, props.http, fields, setFields);
+    const DSL = filtersToDsl([], '', processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode), page);
+    handleTraceViewRequest(props.traceId, props.http, fields, setFields, mode);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
     handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
-    handleServiceMapRequest(props.http, DSL, setServiceMap);
+    handleServiceMapRequest(props.http, DSL, mode, setServiceMap);
   };
 
   useEffect(() => {

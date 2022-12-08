@@ -18,6 +18,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo } from 'react';
+import { TraceAnalyticsMode } from '../../home';
 import { FilterType } from '../common/filters/filters';
 import {
   MissingConfigurationMessage,
@@ -27,7 +28,7 @@ import {
 
 interface ServicesTableProps {
   items: any[];
-  indicesExist: boolean;
+  mode: TraceAnalyticsMode;
   loading: boolean;
   nameColumnAction: (item: any) => any;
   traceColumnAction: any;
@@ -38,7 +39,7 @@ interface ServicesTableProps {
 export function ServicesTable(props: ServicesTableProps) {
   const {
     items,
-    indicesExist,
+    mode,
     loading,
     nameColumnAction,
     traceColumnAction,
@@ -169,7 +170,7 @@ export function ServicesTable(props: ServicesTableProps) {
             }}
             loading={loading}
           />
-        ) : indicesExist ? (
+        ) : mode !== TraceAnalyticsMode.None ? (
           <NoMatchMessage size="xl" />
         ) : (
           <MissingConfigurationMessage />
