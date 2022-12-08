@@ -14,6 +14,7 @@ import {
 import { APP_ANALYTICS_API_PREFIX as API_PREFIX } from '../../../common/constants/application_analytics';
 import { ApplicationType } from '../../../common/types/application_analytics';
 import { AppAnalyticsAdaptor } from '../../../server/adaptors/application_analytics/app_analytics_adaptor';
+import { addRequestToMetric } from '../../common/metrics/metrics_helper';
 
 export function registerAppAnalyticsRouter(router: IRouter) {
   const appAnalyticsBackend = new AppAnalyticsAdaptor();
@@ -29,6 +30,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('application_analytics', 'get', 'count');
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -41,6 +43,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           },
         });
       } catch (err: any) {
+        addRequestToMetric('application_analytics', 'get', err);
         console.error('Error occurred while fetching applications', err);
         return response.custom({
           statusCode: err.statusCode || 500,
@@ -65,6 +68,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('application_analytics', 'get', 'count');
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -77,6 +81,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           body: appObject,
         });
       } catch (err: any) {
+        addRequestToMetric('application_analytics', 'get', err);
         console.error('Error occurred while fetching application', err);
         return response.custom({
           statusCode: err.statusCode || 500,
@@ -106,6 +111,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('application_analytics', 'create', 'count');
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -119,6 +125,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           },
         });
       } catch (err: any) {
+        addRequestToMetric('application_analytics', 'get', err);
         console.error('Error occurred while creating a new application', err);
         return response.custom({
           statusCode: err.statusCode || 500,
@@ -144,6 +151,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('application_analytics', 'update', 'count');
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -160,6 +168,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           },
         });
       } catch (err: any) {
+        addRequestToMetric('application_analytics', 'update', err);
         console.error('Error occurred while renaming an existing application', err);
         return response.custom({
           statusCode: err.statusCode || 500,
@@ -192,6 +201,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('application_analytics', 'update', 'count');
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -209,6 +219,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           },
         });
       } catch (err: any) {
+        addRequestToMetric('application_analytics', 'update', err);
         console.error('Error occurred while updating an existing application', err);
         return response.custom({
           statusCode: err.statusCode || 500,
@@ -233,6 +244,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
       request,
       response
     ): Promise<IOpenSearchDashboardsResponse<any | ResponseError>> => {
+      addRequestToMetric('application_analytics', 'delete', 'count');
       const opensearchClient: ILegacyScopedClusterClient = context.observability_plugin.observabilityClient.asScoped(
         request
       );
@@ -245,6 +257,7 @@ export function registerAppAnalyticsRouter(router: IRouter) {
           body: delResponse,
         });
       } catch (err: any) {
+        addRequestToMetric('application_analytics', 'delete', err);
         return response.custom({
           statusCode: err.statusCode || 500,
           body: err.message,

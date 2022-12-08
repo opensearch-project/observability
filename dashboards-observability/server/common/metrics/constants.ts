@@ -3,31 +3,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentType, CounterType } from './types';
+import _ from 'lodash';
+import { CounterType } from './types';
 
 export const WINDOW = 3600;
 export const INTERVAL = 60;
 export const CAPACITY = (WINDOW / INTERVAL) * 2;
 export const MILLIS_MULTIPLIER = 1000;
 
-export const COMPONENTS = [
-  'application_analytics',
-  'operational_panels',
-  'event_analytics',
-  'notebooks',
-  'trace_analytics',
-  'metrics_analytics',
-] as const;
-export const REQUESTS = ['create', 'get', 'update', 'delete'] as const;
+const commonRequests = ['create', 'get', 'update', 'delete', 'add_samples'] as const;
+
+// object of each component and its specific requests
+export const COMPONENTS = {
+  application_analytics: commonRequests,
+  operational_panels: [...commonRequests, 'fetch_visualization'],
+  event_analytics: commonRequests,
+  notebooks: [...commonRequests, 'run_sql_query', 'run_ppl_query', 'fetch_visualization'],
+  trace_analytics: commonRequests,
+  metrics_analytics: commonRequests,
+} as const;
 
 export const GLOBAL_BASIC_COUNTER: CounterType = (() => {
   const counter = {} as CounterType;
-  COMPONENTS.forEach((component) => {
-    counter[component] = {} as CounterType[ComponentType];
-    REQUESTS.forEach((request) => {
-      counter[component][request] = {
-        total: 0,
-      };
+  Object.entries(COMPONENTS).forEach(([component, requests]) => {
+    requests.forEach((request) => {
+      _.set(counter, [component, request, 'total'], 0);
     });
   });
   return counter;
@@ -35,14 +35,11 @@ export const GLOBAL_BASIC_COUNTER: CounterType = (() => {
 
 export const DEFAULT_ROLLING_COUNTER: CounterType = (() => {
   const counter = {} as CounterType;
-  COMPONENTS.forEach((component) => {
-    counter[component] = {} as CounterType[ComponentType];
-    REQUESTS.forEach((request) => {
-      counter[component][request] = {
-        count: 0,
-        system_error: 0,
-        user_error: 0,
-      };
+  Object.entries(COMPONENTS).forEach(([component, requests]) => {
+    requests.forEach((request) => {
+      _.set(counter, [component, request, 'count'], 0);
+      _.set(counter, [component, request, 'system_error'], 0);
+      _.set(counter, [component, request, 'user_error'], 0);
     });
   });
   return counter;
