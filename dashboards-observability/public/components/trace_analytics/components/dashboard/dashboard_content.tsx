@@ -94,8 +94,8 @@ export function DashboardContent(props: DashboardProps) {
     const latencyTrendDSL = filtersToDsl(
       filters,
       query,
-      0,
-      166638045873223500,
+      processTimeStamp(latencyTrendStartTime, mode),
+      processTimeStamp(endTime, mode),
       page,
       appConfigs
     );
@@ -129,7 +129,7 @@ export function DashboardContent(props: DashboardProps) {
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
       (must: any) => must?.term?.serviceName == null
     );
-    handleServiceMapRequest(http, serviceMapDSL, setServiceMap, currService || filteredService);
+    handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService);
   };
 
   const addFilter = (filter: FilterType) => {

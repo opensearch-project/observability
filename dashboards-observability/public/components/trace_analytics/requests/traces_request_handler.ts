@@ -69,10 +69,11 @@ export const handleTracesRequest = async (
     return map;
   });
 
-  return handleDslRequest(http, DSL, getTracesQuery(undefined, sort), mode)
+  return handleDslRequest(http, DSL, getTracesQuery(mode, undefined, sort), mode)
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets.map((bucket: any) => {
+          if (mode === TraceAnalyticsMode.Data_Prepper) { 
           return {
             trace_id: bucket.key,
             trace_group: bucket.trace_group.buckets[0]?.key,
@@ -85,6 +86,15 @@ export const handleTracesRequest = async (
             ),
             actions: '#',
           };
+        }
+        return {
+          trace_id: bucket.key,
+          latency: bucket.latency.value,
+          last_updated: moment(bucket.last_updated.value).format(TRACE_ANALYTICS_DATE_FORMAT),
+          error_count: bucket.error_count.doc_count,
+          actions: '#',
+        };
+      
         })
       );
     })
@@ -101,7 +111,7 @@ export const handleTraceViewRequest = (
   setFields: (fields: any) => void,
   mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, null, getTracesQuery(traceId), mode)
+  handleDslRequest(http, null, getTracesQuery(mode, traceId), mode)
     .then(async (response) => {
       const bucket = response.aggregations.traces.buckets[0];
       return {

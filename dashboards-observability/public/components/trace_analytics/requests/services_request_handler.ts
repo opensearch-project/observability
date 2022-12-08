@@ -27,7 +27,7 @@ export const handleServicesRequest = async (
   setServiceMap?: any,
   serviceNameFilter?: string,
 ) => {
-  return handleDslRequest(http, DSL, getServicesQuery(serviceNameFilter, DSL), mode)
+  return handleDslRequest(http, DSL, getServicesQuery(mode, serviceNameFilter, DSL), mode)
     .then(async (response) => {
       const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL, mode, setServiceMap);
       return Promise.all(
@@ -166,7 +166,7 @@ export const handleServiceViewRequest = (
   setFields: any,
   mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, DSL, getServicesQuery(serviceName), mode)
+  handleDslRequest(http, DSL, getServicesQuery(mode, serviceName), mode)
     .then(async (response) => {
       const bucket = response.aggregations.service.buckets[0];
       if (!bucket) return {};

@@ -6,6 +6,7 @@
 import { PropertySort } from '@elastic/eui';
 import { TRACES_MAX_NUM } from '../../../../../common/constants/trace_analytics';
 import { SpanSearchParams } from '../../components/traces/span_detail_table';
+import { TraceAnalyticsMode } from '../../home';
 
 export const getTraceGroupPercentilesQuery = () => {
   const query: any = {
@@ -46,10 +47,10 @@ export const getTraceGroupPercentilesQuery = () => {
   return query;
 };
 
-export const getTracesQuery = (traceID: string = '', sort?: PropertySort) => {
+export const getTracesQuery = (mode: TraceAnalyticsMode, traceId: string = '', sort?: PropertySort) => {
   const field = sort?.field || '_key';
   const direction = sort?.direction || 'asc';
-  const query: any = {
+  const jaegerQuery: any = {
     size: 0,
     query: {
       bool: {
@@ -92,7 +93,7 @@ export const getTracesQuery = (traceID: string = '', sort?: PropertySort) => {
           error_count: {
             filter: {
               term: {
-                'traceGroupFields.statusCode': '2',
+                'tag.error': true,
               },
             },
           },
@@ -114,14 +115,74 @@ export const getTracesQuery = (traceID: string = '', sort?: PropertySort) => {
       },
     },
   };
-  if (traceID) {
-    query.query.bool.must.push({
+  const dataPrepperQuery: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      traces: {
+        terms: {
+          field: 'traceId',
+          size: TRACES_MAX_NUM,
+          order: {
+            [field]: direction,
+          },
+        },
+        aggs: {
+          latency: {
+            max: {
+              script: {
+                source: `
+                if (doc.containsKey('traceGroupFields.durationInNanos') && !doc['traceGroupFields.durationInNanos'].empty) {
+                  return Math.round(doc['traceGroupFields.durationInNanos'].value / 10000) / 100.0
+                }
+                return 0
+                `,
+                lang: 'painless',
+              },
+            },
+          },
+          trace_group: {
+            terms: {
+              field: 'traceGroup',
+              size: 1,
+            },
+          },
+          error_count: {
+            filter: {
+              term: {
+                'traceGroupFields.statusCode': '2',
+              },
+            },
+          },
+          last_updated: {
+            max: {
+              field: 'traceGroupFields.endTime',
+            },
+          },
+        },
+      },
+    },
+  };
+  if (traceId) {
+    jaegerQuery.query.bool.must.push({
       term: {
-        traceID,
+        "traceID": traceId,
+      },
+    });
+    dataPrepperQuery.query.bool.must.push({
+      term: {
+        traceId,
       },
     });
   }
-  return query;
+  return mode === TraceAnalyticsMode.Jaeger ? jaegerQuery : dataPrepperQuery;
 };
 
 export const getServiceBreakdownQuery = (traceID: string) => {

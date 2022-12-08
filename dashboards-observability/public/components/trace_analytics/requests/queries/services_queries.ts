@@ -13,7 +13,7 @@ import { getServiceMapTargetResources } from '../../components/common/helper_fun
 import { ServiceObject } from '../../components/common/plots/service_map';
 import { TraceAnalyticsMode } from '../../home';
 
-export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => {
+export const getServicesQuery = (mode: TraceAnalyticsMode, serviceName: string | undefined, DSL?: any) => {
   const query = {
     size: 0,
     query: {
@@ -27,40 +27,64 @@ export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => 
     aggs: {
       service: {
         terms: {
-          field: 'process.serviceName',
+          field: mode === TraceAnalyticsMode.Jaeger ? 'process.serviceName' : 'serviceName',
           size: 10000,
         },
         aggs: {
           trace_count: {
             cardinality: {
-              field: 'traceID',
+              field: mode === TraceAnalyticsMode.Jaeger? 'traceID': 'traceId',
             },
           },
         },
       },
     },
   };
-  if (serviceName) {
-    query.query.bool.must.push({
-      term: {
-        "process.serviceName": serviceName,
-      },
+  if (mode === TraceAnalyticsMode.Jaeger) {
+    if (serviceName) {
+      query.query.bool.must.push({
+        term: {
+          "process.serviceName": serviceName,
+        },
+      });
+    }
+    DSL?.custom?.serviceNames?.map((service: string) => {
+      query.query.bool.must.push({
+        term: {
+          "process.serviceName": service,
+        },
+      });
+    });
+    DSL?.custom?.serviceNamesExclude?.map((service: string) => {
+      query.query.bool.must_not.push({
+        term: {
+          "process.serviceName": service,
+        },
+      });
+    });
+  } else {
+    if (serviceName) {
+      query.query.bool.must.push({
+        term: {
+          "serviceName": serviceName,
+        },
+      });
+    }
+    DSL?.custom?.serviceNames?.map((service: string) => {
+      query.query.bool.must.push({
+        term: {
+          "serviceName": service,
+        },
+      });
+    });
+    DSL?.custom?.serviceNamesExclude?.map((service: string) => {
+      query.query.bool.must_not.push({
+        term: {
+          "serviceName": service,
+        },
+      });
     });
   }
-  DSL?.custom?.serviceNames?.map((service: string) => {
-    query.query.bool.must.push({
-      term: {
-        "process.serviceName": service,
-      },
-    });
-  });
-  DSL?.custom?.serviceNamesExclude?.map((service: string) => {
-    query.query.bool.must_not.push({
-      term: {
-        "process.serviceName": service,
-      },
-    });
-  });
   return query;
 };
 
@@ -78,13 +102,13 @@ export const getRelatedServicesQuery = (serviceName: string) => {
     aggs: {
       traces: {
         terms: {
-          field: 'traceID',
+          field: 'traceId',
           size: 10000,
         },
         aggs: {
           all_services: {
             terms: {
-              field: 'process.serviceName',
+              field: 'serviceName',
               size: 10000,
             },
           },
@@ -94,7 +118,7 @@ export const getRelatedServicesQuery = (serviceName: string) => {
                 must: [
                   {
                     term: {
-                      "process.serviceName": serviceName,
+                      "serviceName": serviceName,
                     },
                   },
                 ],

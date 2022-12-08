@@ -74,15 +74,15 @@ export const Home = (props: HomeProps) => {
     handleJaegerIndicesExistRequest(props.http, setJaegerIndicesExist);
   }, []);
 
-  useEffect(() => {
-    if (dataPrepperIndicesExist) {
-      setMode(TraceAnalyticsMode.Data_Prepper);
-    } else if (jaegerIndicesExist) {
-      setMode(TraceAnalyticsMode.Jaeger);
-    } else {
-      setMode(TraceAnalyticsMode.None);
-    }
-  }, [jaegerIndicesExist, dataPrepperIndicesExist]);
+  // useEffect(() => {
+  //   if (dataPrepperIndicesExist) {
+  //     setMode(TraceAnalyticsMode.Data_Prepper);
+  //   } else if (jaegerIndicesExist) {
+  //     setMode(TraceAnalyticsMode.Jaeger);
+  //   } else {
+  //     setMode(TraceAnalyticsMode.None);
+  //   }
+  // }, [jaegerIndicesExist, dataPrepperIndicesExist]);
 
   const dashboardBreadcrumbs = [
     {
