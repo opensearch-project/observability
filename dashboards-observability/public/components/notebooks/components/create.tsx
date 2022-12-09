@@ -26,7 +26,7 @@ import React, { useEffect, useState } from 'react';
 import "../../../../public/components/application_analytics/app_analytics.scss"
 import { ChromeBreadcrumb } from '../../../../../../src/core/public';
 
-  interface CreateNotebookProps {
+  interface CreateNotebookPageProps {
     existingNotebookId: string;
     parentBreadcrumb: ChromeBreadcrumb;
     setBreadcrumbs: (newBreadcrumbs: ChromeBreadcrumb[]) => void;
@@ -34,7 +34,7 @@ import { ChromeBreadcrumb } from '../../../../../../src/core/public';
     renameNotebook: (name: string, id: string) => void
   }
   
-  export const CreateNotebook = (props: CreateNotebookProps) => {
+  export const CreateNotebookPage = (props: CreateNotebookPageProps) => {
     const {
         existingNotebookId,
         parentBreadcrumb,

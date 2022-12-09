@@ -49,7 +49,7 @@ describe('Adding sample data and visualization', () => {
     cy.get('.euiModalHeader__title[data-test-subj="confirmModalTitleText"]')
       .contains('Add samples')
       .should('exist');
-    cy.wait(100);
+    cy.wait(100 * 5);
     cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
     cy.wait(100);
     cy.route2('POST', '/addSamplePanels').as('addSamples');

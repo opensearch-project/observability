@@ -20,7 +20,7 @@ import {
 import { ObservabilitySideBar } from '../../common/side_nav';
 import { Notebook } from './notebook';
 import { NoteTable } from './note_table';
-import { CreateNotebook } from './create';
+import { CreateNotebookPage } from './create';
 
 /*
  * "Main" component renders the whole Notebooks as a single page application
@@ -312,7 +312,7 @@ export class Main extends React.Component<MainProps, MainState> {
               exact
               path={['/notebooks/create', '/notebooks/edit/:id+']}
               render={(routerProps) => (
-                <CreateNotebook
+                <CreateNotebookPage
                   existingNotebookId={decodeURIComponent(routerProps.match.params.id) || ''}
                   parentBreadcrumb={this.props.parentBreadcrumb}
                   setBreadcrumbs={this.props.setBreadcrumbs}
