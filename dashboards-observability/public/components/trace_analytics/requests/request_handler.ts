@@ -27,7 +27,6 @@ export function handleDslRequest(http: CoreStart['http'], DSL: any, bodyQuery: a
   if (!bodyQuery.index) {
     body = {...bodyQuery, index: ((mode === TraceAnalyticsMode.Jaeger ? JAEGER_INDEX_NAME : DATA_PREPPER_INDEX_NAME)) }
   }
-  console.log(body)
   return http
     .post(TRACE_ANALYTICS_DSL_ROUTE, {
       body: JSON.stringify(body),

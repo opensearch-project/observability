@@ -93,7 +93,7 @@ export function ServicesTable(props: ServicesTableProps) {
           truncateText: true,
           render: (item: any) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
         },
-        {
+        ... mode === TraceAnalyticsMode.Data_Prepper ? [{
           field: 'number_of_connected_services',
           name: 'No. of connected services',
           align: 'right',
@@ -101,8 +101,8 @@ export function ServicesTable(props: ServicesTableProps) {
           truncateText: true,
           width: '80px',
           render: (item: any) => (item === 0 || item ? item : '-'),
-        },
-        {
+        }] : [],
+        ... mode === TraceAnalyticsMode.Data_Prepper ? [{
           field: 'connected_services',
           name: 'Connected services',
           align: 'left',
@@ -110,7 +110,7 @@ export function ServicesTable(props: ServicesTableProps) {
           truncateText: true,
           render: (item: any) =>
             item ? <EuiText size="s">{_.truncate(item.join(', '), { length: 50 })}</EuiText> : '-',
-        },
+        }] : [],
         {
           field: 'traces',
           name: 'Traces',

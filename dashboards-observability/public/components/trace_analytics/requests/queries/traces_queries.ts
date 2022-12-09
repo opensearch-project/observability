@@ -318,6 +318,7 @@ export const getSpanDetailQuery = (mode: TraceAnalyticsMode, traceId: string, si
           'spanID',
           'tag',
           'duration',
+          'references'
         ]
       },
     };

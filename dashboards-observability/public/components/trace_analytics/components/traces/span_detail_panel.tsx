@@ -222,7 +222,7 @@ export function SpanDetailPanel(props: {
     () => (
       <SpanDetailTable
         http={props.http}
-        hiddenColumns={['traceID', 'traceGroup']}
+        hiddenColumns={mode === TraceAnalyticsMode.Jaeger ? ['traceID', 'traceGroup'] : ['traceId', 'traceGroup']}
         DSL={DSL}
         mode={mode}
         openFlyout={(spanId: string) => {

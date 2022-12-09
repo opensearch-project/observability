@@ -58,34 +58,52 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
   }, [total]);
 
   const columns: EuiDataGridColumn[] = [
-    {
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'spanID',
       display: 'Span ID',
-    },
-    {
+    }] : [{
+      id: 'spanId',
+      display: 'Span ID',
+    }],
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'parentSpanId',
       display: 'Parent span ID',
-    },
-    {
+    }] : [{
+      id: 'references',
+      display: 'Parent span ID',
+    }],
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'traceID',
       display: 'Trace ID',
-    },
-    {
+    }] : [{
+      id: 'traceId',
+      display: 'Trace ID',
+    }],
+    ... mode === TraceAnalyticsMode.Jaeger ? [] : [{
       id: 'traceGroup',
       display: 'Trace group',
-    },
-    {
+    }],
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'process',
       display: 'Service',
-    },
-    {
+    }] : [{
+      id: 'serviceName',
+      display: 'Service',
+    }],
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'operationName',
       display: 'Operation',
-    },
-    {
+    }] : [{
+      id: 'name',
+      display: 'Operation',
+    }],
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'duration',
       display: 'Duration',
-    },
+    }] : [{
+      id: 'durationInNanos',
+      display: 'Duration',
+    }],
     {
       id: 'startTime',
       display: 'Start time',
@@ -94,10 +112,13 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       id: 'startTime',
       display: 'End time',
     },
-    {
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
+      id: 'tag',
+      display: 'Errors',
+    }] : [{
       id: 'status.code',
       display: 'Errors',
-    },
+    }],
   ];
 
   const [visibleColumns, setVisibleColumns] = useState(() =>
@@ -113,8 +134,20 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       const value = items[adjustedRowIndex][columnId];
       if (value == null || value === '') return '-';
       switch (columnId) {
+        case 'tag':
+          return (value["error"] !== undefined  && value["error"] === true) ? (
+            <EuiText color="danger" size="s">
+              Yes
+            </EuiText>
+          ) : (
+            'No'
+          );;
+        case 'references':
+          return value["spanID"];
         case 'process':
-          return value["serviceName"]
+          return value["serviceName"];
+        case 'spanId':
+          return <EuiLink onClick={() => props.openFlyout(value)}>{value}</EuiLink>;
         case 'spanID':
           return <EuiLink onClick={() => props.openFlyout(value)}>{value}</EuiLink>;
         case 'durationInNanos':
@@ -122,9 +155,9 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
         case 'duration':
           return `${_.round(microToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
-          return moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
+          return mode === TraceAnalyticsMode.Jaeger ? moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'endTime':
-          return moment(_.round(microToMilliSec(Math.max(0, value + items[adjustedRowIndex["duration"]])), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
+          return mode === TraceAnalyticsMode.Jaeger ? moment(_.round(microToMilliSec(Math.max(0, value + items[adjustedRowIndex["duration"]])), 2)).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'status.code':
           return value === 2 ? (
             <EuiText color="danger" size="s">
