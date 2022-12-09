@@ -66,10 +66,10 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       display: 'Span ID',
     }],
     ... mode === TraceAnalyticsMode.Jaeger ? [{
-      id: 'parentSpanId',
+      id: 'references',
       display: 'Parent span ID',
     }] : [{
-      id: 'references',
+      id: 'parentSpanId',
       display: 'Parent span ID',
     }],
     ... mode === TraceAnalyticsMode.Jaeger ? [{
@@ -108,10 +108,13 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       id: 'startTime',
       display: 'Start time',
     },
-    {
-      id: 'startTime',
+    ... mode === TraceAnalyticsMode.Jaeger ? [{
+      id: 'jaegerEndTime',
       display: 'End time',
-    },
+    }] : [{
+      id: 'endTime',
+      display: 'End time',
+    }],
     ... mode === TraceAnalyticsMode.Jaeger ? [{
       id: 'tag',
       display: 'Errors',
@@ -132,10 +135,10 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       const adjustedRowIndex = rowIndex - tableParams.page * tableParams.size;
       if (!items.hasOwnProperty(adjustedRowIndex)) return '-';
       const value = items[adjustedRowIndex][columnId];
-      if (value == null || value === '') return '-';
+      if ((value == null || value === '') && columnId !== 'jaegerEndTime') return '-';
       switch (columnId) {
         case 'tag':
-          return (value["error"] !== undefined  && value["error"] === true) ? (
+          return (value["error"] === true) ? (
             <EuiText color="danger" size="s">
               Yes
             </EuiText>
@@ -143,7 +146,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
             'No'
           );;
         case 'references':
-          return value["spanID"];
+          return value.length > 0 ? value[0]["spanID"] : '';
         case 'process':
           return value["serviceName"];
         case 'spanId':
@@ -156,8 +159,10 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
           return `${_.round(microToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
           return mode === TraceAnalyticsMode.Jaeger ? moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
+        case 'jaegerEndTime':
+          return moment(_.round(microToMilliSec(Math.max(0, items[adjustedRowIndex]["startTime"] + items[adjustedRowIndex]["duration"])), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'endTime':
-          return mode === TraceAnalyticsMode.Jaeger ? moment(_.round(microToMilliSec(Math.max(0, value + items[adjustedRowIndex["duration"]])), 2)).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
+          return moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'status.code':
           return value === 2 ? (
             <EuiText color="danger" size="s">
@@ -200,7 +205,8 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
         columnVisibility={{ visibleColumns, setVisibleColumns }}
         rowCount={total}
         renderCellValue={renderCellValue}
-        sorting={{ columns: tableParams.sortingColumns, onSort }}
+        sorting={mode === TraceAnalyticsMode.Jaeger ? undefined : { columns: tableParams.sortingColumns, onSort }}
+        toolbarVisibility={mode === TraceAnalyticsMode.Jaeger ? false : true}
         pagination={{
           pageIndex: tableParams.page,
           pageSize: tableParams.size,
