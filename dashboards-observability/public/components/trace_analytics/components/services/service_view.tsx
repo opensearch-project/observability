@@ -38,7 +38,7 @@ interface ServiceViewProps extends TraceAnalyticsComponentDeps {
 }
 
 export function ServiceView(props: ServiceViewProps) {
-  const { mode } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<

@@ -36,11 +36,11 @@ interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
   startTime: string;
   endTime: string;
-  mode: TraceAnalyticsMode;
+  mode?: TraceAnalyticsMode;
 }
 
 export function TraceView(props: TraceViewProps) {
-  const { mode } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
   const page = 'traceView';
   const renderTitle = (traceId: string) => {
     return (

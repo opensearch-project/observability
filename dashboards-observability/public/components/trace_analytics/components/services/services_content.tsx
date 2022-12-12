@@ -29,7 +29,6 @@ export function ServicesContent(props: ServicesProps) {
     query,
     startTime,
     endTime,
-    mode,
     appConfigs = [],
     childBreadcrumbs,
     parentBreadcrumbs,
@@ -40,6 +39,7 @@ export function ServicesContent(props: ServicesProps) {
     setStartTime,
     setEndTime,
   } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
   const [tableItems, setTableItems] = useState([]);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<

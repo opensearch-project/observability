@@ -24,7 +24,6 @@ export function TracesContent(props: TracesProps) {
     appConfigs,
     startTime,
     endTime,
-    mode,
     parentBreadcrumbs,
     childBreadcrumbs,
     traceIdColumnAction,
@@ -33,6 +32,7 @@ export function TracesContent(props: TracesProps) {
     setStartTime,
     setEndTime,
   } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);

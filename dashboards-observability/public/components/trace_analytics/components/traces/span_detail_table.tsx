@@ -18,7 +18,7 @@ interface SpanDetailTableProps {
   http: HttpSetup;
   hiddenColumns: string[];
   openFlyout: (spanId: string) => void;
-  mode: TraceAnalyticsMode
+  mode?: TraceAnalyticsMode
   DSL?: any;
   setTotal?: (total: number) => void;
 }
@@ -40,7 +40,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       direction: 'asc' | 'desc';
     }>,
   });
-  const { mode } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
   const [items, setItems] = useState<any>([]);
   const [total, setTotal] = useState(0);
 

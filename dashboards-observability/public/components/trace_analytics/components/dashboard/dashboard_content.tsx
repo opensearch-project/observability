@@ -44,12 +44,12 @@ export function DashboardContent(props: DashboardProps) {
     childBreadcrumbs,
     parentBreadcrumbs,
     filters,
-    mode,
     setStartTime,
     setEndTime,
     setQuery,
     setFilters,
   } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
