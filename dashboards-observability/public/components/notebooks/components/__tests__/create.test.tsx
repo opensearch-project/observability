@@ -1,9 +1,8 @@
-import { fireEvent, render } from '@testing-library/react';
-import { configure, mount, shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import { CreateNotebook } from '../create';
-import { NoteTable } from '../note_table';
+import { CreateNotebookPage } from '../create';
 
 describe('<CreateNotebook /> spec', () => {
   configure({ adapter: new Adapter() });
@@ -13,7 +12,7 @@ describe('<CreateNotebook /> spec', () => {
     const renameNotebook = jest.fn();
     const setBreadcrumbs = jest.fn();
     const utils = render(
-      <CreateNotebook
+      <CreateNotebookPage
         existingNotebookId={decodeURIComponent("random")}
         parentBreadcrumb={{ href: 'parent-href', text: 'parent-text' }}
         setBreadcrumbs={setBreadcrumbs}
@@ -29,7 +28,7 @@ describe('<CreateNotebook /> spec', () => {
     const renameNotebook = jest.fn();
     const setBreadcrumbs = jest.fn();
     const utils = render(
-      <CreateNotebook
+      <CreateNotebookPage
         existingNotebookId={encodeURIComponent('')}
         parentBreadcrumb={{ href: 'parent-href', text: 'parent-text' }}
         setBreadcrumbs={setBreadcrumbs}
