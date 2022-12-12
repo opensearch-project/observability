@@ -294,6 +294,7 @@ export function ServiceView(props: ServiceViewProps) {
         DSL={DSL}
         openFlyout={(spanId: string) => setCurrentSpan(spanId)}
         setTotal={setTotal}
+        mode={mode}
       />
     ),
     [DSL, setCurrentSpan]
@@ -344,6 +345,7 @@ export function ServiceView(props: ServiceViewProps) {
               isFlyoutVisible={!!currentSpan}
               closeFlyout={() => setCurrentSpan('')}
               addSpanFilter={addSpanFilter}
+              mode={mode}
             />
           )}
         </EuiPageBody>

@@ -283,6 +283,7 @@ export function SpanDetailPanel(props: {
           isFlyoutVisible={!!currentSpan}
           closeFlyout={() => setCurrentSpan('')}
           addSpanFilter={addSpanFilter}
+          mode={mode}
         />
       )}
     </>
