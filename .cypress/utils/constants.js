@@ -4,6 +4,7 @@
  */
 
 export const delay = 1500;
+export const COMMAND_TIMEOUT_LONG = 10000;
 
 // trace analytics
 export const TRACE_ID = '8832ed6abbb2a83516461960c89af49d';

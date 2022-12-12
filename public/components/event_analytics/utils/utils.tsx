@@ -5,11 +5,17 @@
  */
 
 import dateMath from '@elastic/datemath';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { HttpStart } from '../../../../../../src/core/public';
-import { CUSTOM_LABEL, TIME_INTERVAL_OPTIONS } from '../../../../common/constants/explorer';
+import {
+  CUSTOM_LABEL,
+  TIME_INTERVAL_OPTIONS,
+  GROUPBY,
+  AGGREGATIONS,
+  BREAKDOWNS,
+} from '../../../../common/constants/explorer';
 import { PPL_DATE_FORMAT, PPL_INDEX_REGEX } from '../../../../common/constants/shared';
 import {
   ConfigListEntry,
@@ -20,6 +26,12 @@ import {
 import PPLService from '../../../services/requests/ppl';
 import { DocViewRow, IDocType } from '../explorer/events_views';
 import { ConfigTooltip } from '../explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  GroupByChunk,
+  GroupField,
+  StatsAggregationChunk,
+  statsChunk,
+} from '../../../../common/query_manager/ast/types';
 
 // Create Individual table rows for events datagrid and flyouts
 export const getTrs = (
@@ -267,32 +279,6 @@ export const formatError = (name: string, message: string, details: string) => {
   };
 };
 
-export const findAutoInterval = (start: string = '', end: string = '') => {
-  let minInterval = 'y';
-  if (start?.length === 0 || end?.length === 0 || start === end)
-    return ['d', [...TIME_INTERVAL_OPTIONS]];
-  const momentStart = dateMath.parse(start)!;
-  const momentEnd = dateMath.parse(end)!;
-  const diffSeconds = momentEnd.unix() - momentStart.unix();
-
-  // less than 1 second
-  if (diffSeconds <= 1) minInterval = 'ms';
-  // less than 2 minutes
-  else if (diffSeconds <= 60 * 2) minInterval = 's';
-  // less than 2 hours
-  else if (diffSeconds <= 3600 * 2) minInterval = 'm';
-  // less than 2 days
-  else if (diffSeconds <= 86400 * 2) minInterval = 'h';
-  // less than 1 month
-  else if (diffSeconds <= 86400 * 31) minInterval = 'd';
-  // less than 3 months
-  else if (diffSeconds <= 86400 * 93) minInterval = 'w';
-  // less than 1 year
-  else if (diffSeconds <= 86400 * 366) minInterval = 'M';
-
-  return [minInterval, [{ text: 'Auto', value: 'auto_' + minInterval }, ...TIME_INTERVAL_OPTIONS]];
-};
-
 export const hexToRgb = (
   hex: string = '#3CA1C7',
   opacity: number = 1,
@@ -389,4 +375,57 @@ export const getPropName = (queriedVizObj: {
   } else {
     return '';
   }
+};
+
+export const getDefaultVisConfig = (statsToken: statsChunk) => {
+  if (statsToken === null) {
+    return {
+      [GROUPBY]: [],
+      [AGGREGATIONS]: [],
+      [BREAKDOWNS]: [],
+    };
+  }
+
+  const groupByToken = statsToken.groupby;
+  // const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
+  const span = getSpanValue(groupByToken);
+  return {
+    [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+      label: agg.function?.value_expression,
+      name: agg.function?.value_expression,
+      aggregation: agg.function?.name,
+      [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
+    })),
+    [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+      label: agg.name ?? '',
+      name: agg.name ?? '',
+      [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
+    })),
+    span,
+  };
+};
+
+const getSpanValue = (groupByToken: GroupByChunk) => {
+  const timeUnitValue = TIME_INTERVAL_OPTIONS.find(
+    (time_unit) => time_unit.value === groupByToken?.span?.span_expression.time_unit
+  )?.text;
+  return !isEmpty(groupByToken?.span)
+    ? {
+        time_field: [
+          {
+            name: groupByToken?.span?.span_expression?.field,
+            type: 'timestamp',
+            label: groupByToken?.span?.span_expression?.field,
+          },
+        ],
+        unit: [
+          {
+            text: timeUnitValue,
+            value: groupByToken?.span?.span_expression?.time_unit,
+            label: timeUnitValue,
+          },
+        ],
+        interval: groupByToken?.span?.span_expression?.literal_value,
+      }
+    : undefined;
 };

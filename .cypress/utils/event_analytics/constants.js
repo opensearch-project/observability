@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { supressResizeObserverIssue } from './constants';
+import { COMMAND_TIMEOUT_LONG, supressResizeObserverIssue, TIMEOUT_DELAY } from '../constants';
 
 export const delay = 1000;
 export const YEAR_TO_DATE_DOM_ID = '[data-test-subj="superDatePickerCommonlyUsed_Year_to date"]';
@@ -72,10 +72,13 @@ export const aggregationValues = [
 ];
 
 export const querySearch = (query, rangeSelected) => {
-  cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(query);
+  cy.get('[data-test-subj="searchAutocompleteTextArea"]', { timeout: COMMAND_TIMEOUT_LONG })
+    .clear()
+    .focus()
+    .type(query, { delay: 50 });
   cy.get('[data-test-subj="superDatePickerToggleQuickMenuButton"]').click();
-  cy.wait(delay);
   cy.get(rangeSelected).click();
+  cy.wait(delay * 2);
   cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
 };
 
@@ -88,6 +91,7 @@ export const landOnEventExplorer = () => {
   cy.visit(
     `${Cypress.env('opensearchDashboards')}/app/observability-dashboards#/event_analytics/explorer`
   );
+  supressResizeObserverIssue();
   cy.wait(delay);
 };
 

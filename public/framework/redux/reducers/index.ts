@@ -12,6 +12,8 @@ import FieldsReducer from '../../../components/event_analytics/redux/slices/fiel
 import countDistributionReducer from '../../../components/event_analytics/redux/slices/count_distribution_slice';
 import explorerVisualizationReducer from '../../../components/event_analytics/redux/slices/visualization_slice';
 import explorerVisualizationConfigReducer from '../../../components/event_analytics/redux/slices/viualization_config_slice';
+import patternsReducer from '../../../components/event_analytics/redux/slices/patterns_slice';
+import metricsReducers from '../../../components/metrics/redux/slices/metrics_slice';
 
 const rootReducer = combineReducers({
   // explorer reducers
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
   countDistribution: countDistributionReducer,
   explorerVisualization: explorerVisualizationReducer,
   explorerVisualizationConfig: explorerVisualizationConfigReducer,
+  patterns: patternsReducer,
+  metrics: metricsReducers,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

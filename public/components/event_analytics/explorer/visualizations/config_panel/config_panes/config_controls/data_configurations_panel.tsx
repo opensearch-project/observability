@@ -19,7 +19,7 @@ import {
   EuiTitle,
   htmlIdGenerator,
 } from '@elastic/eui';
-import { filter, isEmpty } from 'lodash';
+import { filter, isEmpty, isEqual } from 'lodash';
 import {
   AGGREGATIONS,
   AGGREGATION_OPTIONS,
@@ -283,7 +283,6 @@ export const DataConfigPanelItem = ({
         ...configList,
       },
     });
-
     handleQueryChange(newQueryString);
     getVisualizations({
       query: nextQueryState[FINAL_QUERY],
@@ -306,10 +305,22 @@ export const DataConfigPanelItem = ({
     fillVisDataInStore({ visData: visData, query, visConfMetadata, visMeta });
   };
 
+  const isPositionButtonVisible = (sectionName: string) =>
+    sectionName === AGGREGATIONS &&
+    (visualizations.vis.name === VIS_CHART_TYPES.Line ||
+      visualizations.vis.name === VIS_CHART_TYPES.Scatter);
+
   const getTimeStampFilteredFields = (options: IField[]) =>
     filter(options, (i: IField) => i.type !== TIMESTAMP);
 
   const getOptionsAvailable = (sectionName: string) => {
+    if (
+      (visualizations.vis.name === VIS_CHART_TYPES.Line ||
+        visualizations.vis.name === VIS_CHART_TYPES.Scatter) &&
+      isEqual(sectionName, GROUPBY)
+    )
+      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
+    
     if (
       sectionName === AGGREGATIONS ||
       sectionName === BREAKDOWNS ||
@@ -317,11 +328,6 @@ export const DataConfigPanelItem = ({
       isTimeStampSelected
     )
       return fieldOptionList;
-    if (
-      visualizations.vis.name === VIS_CHART_TYPES.Line ||
-      visualizations.vis.name === VIS_CHART_TYPES.Scatter
-    )
-      return filter(fieldOptionList, (i) => i.type === TIMESTAMP);
     return getTimeStampFilteredFields(fieldOptionList);
   };
 
@@ -376,6 +382,19 @@ export const DataConfigPanelItem = ({
               )}
               {/* Show input fields for dimensions */}
               {!isAggregations && getCommonDimensionsField(selectedObj, name)}
+              {isPositionButtonVisible(name) && (
+                <EuiFormRow label="Side">
+                  <ButtonGroupItem
+                    legend="Side"
+                    groupOptions={[
+                      { id: 'left', label: 'Left' },
+                      { id: 'right', label: 'Right' },
+                    ]}
+                    idSelected={selectedObj.side || 'right'}
+                    handleButtonChange={(id: string) => updateList(id, 'side')}
+                  />
+                </EuiFormRow>
+              )}
             </EuiPanel>
             <EuiSpacer size="s" />
           </div>
@@ -417,7 +436,6 @@ export const DataConfigPanelItem = ({
             aria-label="input field"
             placeholder="Select a field"
             singleSelection={{ asPlainText: true }}
-            isClearable={false}
             options={getOptionsAvailable(name)}
             selectedOptions={
               isTimeStampSelected
@@ -491,8 +509,7 @@ export const DataConfigPanelItem = ({
                 <EuiComboBox
                   aria-label="date unit"
                   placeholder="Select fields"
-                  singleSelection={{ asPlainText: true }}
-                  isClearable={false}
+                  singleSelection
                   options={TIME_INTERVAL_OPTIONS.map((option) => {
                     return {
                       ...option,
@@ -564,6 +581,7 @@ export const DataConfigPanelItem = ({
           iconType="play"
           onClick={() => updateChart()}
           size="s"
+          isDisabled={isEmpty(configList[AGGREGATIONS])}
         >
           Update chart
         </EuiButton>

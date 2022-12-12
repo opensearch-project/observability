@@ -529,8 +529,9 @@ exports[`Heatmap component Renders heatmap component 1`] = `
     }
   }
 >
-  <EmptyPlaceholder
+  <VisCanvassPlaceholder
     icon="visBarVerticalStacked"
+    message="Invalid data, heatmap can only have exact 2 dimensions and 1 series"
   >
     <EuiText
       className="lnsChart__empty"
@@ -589,15 +590,7 @@ exports[`Heatmap component Renders heatmap component 1`] = `
                   />
                 </EuiSpacer>
                 <p>
-                  <FormattedMessage
-                    defaultMessage="No results found"
-                    id="visualization_noData"
-                    values={Object {}}
-                  >
-                    <span>
-                      No results found
-                    </span>
-                  </FormattedMessage>
+                  Invalid data, heatmap can only have exact 2 dimensions and 1 series
                 </p>
               </div>
             </EuiTextColor>
@@ -605,6 +598,6 @@ exports[`Heatmap component Renders heatmap component 1`] = `
         </EuiTextAlign>
       </div>
     </EuiText>
-  </EmptyPlaceholder>
+  </VisCanvassPlaceholder>
 </HeatMap>
 `;

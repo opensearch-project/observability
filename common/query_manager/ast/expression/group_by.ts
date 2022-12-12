@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isEmpty } from 'lodash';
 import { PPLNode } from '../node';
 import { Field } from './field';
 
@@ -24,8 +25,11 @@ export class GroupBy extends PPLNode {
   }
 
   toString(): string {
-    return `by ${this.span ? `${this.span.toString()}${this.fields.length > 0 ? ', ' : ''}` : ''}${this.fields
-      .map((field) => field.toString())
-      .join(', ')}`;
+    return (
+      `${!isEmpty(this.fields) || !isEmpty(this.span) ? 'by ' : ''}` +
+      `${
+        !isEmpty(this.span) ? `${this.span.toString()}${this.fields.length > 0 ? ', ' : ''}` : ''
+      }${this.fields.map((field) => field.toString()).join(', ')}`
+    );
   }
 }

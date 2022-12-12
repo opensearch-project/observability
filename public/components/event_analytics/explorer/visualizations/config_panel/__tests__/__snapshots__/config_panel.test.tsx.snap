@@ -1411,20 +1411,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                         ],
                       },
                       Object {
-                        "editor": [Function],
-                        "id": "yaxis-side",
-                        "mapTo": "seriesPosition",
-                        "name": "Series label position",
-                        "schemas": Array [],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
-                      Object {
                         "defaultState": Array [],
                         "editor": [Function],
                         "id": "thresholds",
@@ -1676,28 +1662,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                             "eleType": "input",
                             "mapTo": "labelSize",
                             "name": "Label size",
-                          },
-                          Object {
-                            "component": [Function],
-                            "defaultState": Object {
-                              "name": "default",
-                            },
-                            "eleType": "colorpicker",
-                            "isSingleSelection": true,
-                            "mapTo": "colorTheme",
-                            "name": "Color theme",
-                            "options": Array [
-                              Object {
-                                "title": "Default",
-                                "type": "text",
-                                "value": "default",
-                              },
-                              Object {
-                                "title": "Single Color",
-                                "type": "text",
-                                "value": "singleColor",
-                              },
-                            ],
                           },
                         ],
                       },

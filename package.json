@@ -47,6 +47,8 @@
     "lodash": "^4.17.21",
     "glob-parent": "^6.0.1",
     "ansi-regex": "^5.0.1",
-    "json-schema": "^0.4.0"
+    "json-schema": "^0.4.0",
+    "qs": "~6.5.3",
+    "minimatch": "^3.0.5"
   }
 }
