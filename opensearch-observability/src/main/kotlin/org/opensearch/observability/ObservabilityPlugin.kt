@@ -28,6 +28,7 @@ import org.opensearch.observability.action.GetObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.index.ObservabilityIndex
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
+import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
 import org.opensearch.observability.resthandler.SchedulerRestHandler
 import org.opensearch.observability.scheduler.ObservabilityJobParser
 import org.opensearch.observability.scheduler.ObservabilityJobRunner
@@ -97,6 +98,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
     ): List<RestHandler> {
         return listOf(
             ObservabilityRestHandler(),
+            ObservabilityStatsRestHandler(),
             SchedulerRestHandler() // TODO: tmp rest handler only for POC purpose
         )
     }

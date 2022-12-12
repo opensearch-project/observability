@@ -11,7 +11,7 @@ import {
   landOnEventVisualizations,
   saveVisualizationAndVerify,
   deleteVisualization,
-} from '../../utils/event_constants';
+} from '../../utils/event_analytics/constants';
 
 const renderLogsView = () => {
   landOnEventVisualizations();

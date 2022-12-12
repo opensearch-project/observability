@@ -26,6 +26,7 @@ export default class PPLService {
       .catch((error) => {
         console.error('fetch error: ', error.body);
         if (errorHandler) errorHandler(error);
+        throw error;
       });
   };
 }

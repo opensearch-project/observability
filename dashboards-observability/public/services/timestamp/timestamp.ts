@@ -6,10 +6,11 @@
 import { isEmpty, isEqual, values, keys } from 'lodash';
 import DSLService from '../requests/dsl';
 import { IDefaultTimestampState } from '../../../common/types/explorer';
+import PPLService from '../requests/ppl';
 
 // eslint-disable-next-line import/no-default-export
 export default class TimestampUtils {
-  constructor(private dslService: DSLService) {}
+  constructor(private dslService: DSLService, private pplService: PPLService) {}
 
   isTimeField(type: string) {
     return ['date', 'date_nanos'].some((dateTimeType) => isEqual(type, dateTimeType));
@@ -60,6 +61,55 @@ export default class TimestampUtils {
   }
 
   async getIndexMappings(index: string) {
+    const myArray = [...index.matchAll(/[^.`]+|`[^`]*`/g)];
+    if (myArray.length > 1) {
+      const catalog: string = myArray[0][0].replace(/`/g, '');
+      if (await this.isPrometheusCatalog(catalog)) {
+        const mappings = await this.pplService.fetch({
+          query: 'describe ' + index + ' | fields COLUMN_NAME, DATA_TYPE',
+          format: 'jdbc',
+        });
+        return this.convertToMappings(index, mappings);
+      }
+    }
     return await this.dslService.fetchFields(index);
+  }
+
+  async isPrometheusCatalog(catalog: string) {
+    const catalogs = await this.pplService.fetch({
+      query: "show datasources | where CONNECTOR_TYPE='PROMETHEUS' | fields DATASOURCE_NAME",
+      format: 'viz',
+    });
+    if (
+      catalogs.data &&
+      catalogs.data.DATASOURCE_NAME &&
+      catalogs.data.DATASOURCE_NAME.includes(catalog)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private convertToMappings(index: string, { datarows }: object) {
+    const result = {};
+    result[index] = {
+      mappings: {
+        properties: {},
+      },
+    };
+    if (datarows) {
+      for (const s of datarows) {
+        const key = s[0];
+        let datatype = s[1];
+        if (datatype === 'timestamp') {
+          datatype = 'date';
+        }
+        result[index].mappings.properties[key] = {
+          type: datatype,
+        };
+      }
+    }
+    return result;
   }
 }

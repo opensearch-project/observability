@@ -23,7 +23,7 @@ import {
 import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
 import { AvailabilityUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_availability';
 import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls/config_thresholds';
-import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
+import { VisCanvassPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components';
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { Plt } from '../../plotly/plot';
 import { transformPreprocessedDataToTraces, preprocessJsonData } from '../shared/common';
@@ -44,6 +44,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
           legend = {},
           panelOptions = {},
           tooltipOptions = {},
+          thresholds = [],
           [GROUPBY]: dimensions = [],
           [AGGREGATIONS]: series = [],
           [BREAKDOWNS]: breakdowns = [],
@@ -97,13 +98,8 @@ export const Bar = ({ visualizations, layout, config }: any) => {
   const plotlyColorway =
     queriedVizData[fields[lastIndex].name].length < 16 ? PLOTLY_COLOR : [LONG_CHART_COLOR];
 
-  if (
-    isEmpty(queriedVizData) ||
-    !Array.isArray(dimensions) ||
-    !Array.isArray(series) ||
-    (breakdowns && !Array.isArray(breakdowns))
-  )
-    return <EmptyPlaceholder icon={icontype} />;
+  if (isEmpty(series))
+    return <VisCanvassPlaceholder message="Missing aggregations" icon={icontype} />;
 
   const addStylesToTraces = (traces, traceStyles) => {
     const { barOrientation, fillOpacity, tooltipMode, tooltipText, lineWidth } = traceStyles;
@@ -190,7 +186,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     };
   }, [visualizations, layout, panelOptions, showLegend, chartStyles]);
 
-  if (availabilityConfig.level) {
+  if (thresholds || availabilityConfig.level) {
     const thresholdTraces = {
       x: [],
       y: [],
@@ -200,18 +196,14 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     const levels = availabilityConfig.level ? availabilityConfig.level : [];
     const mapToLine = (list: ThresholdUnitType[] | AvailabilityUnitType[], lineStyle: any) => {
       return list.map((thr: ThresholdUnitType) => {
-        thresholdTraces.x.push(
-          queriedVizData[
-            !isEmpty(xaxis) ? xaxis[xaxis.length - 1]?.label : fields[lastIndex].name
-          ][0]
-        );
+        thresholdTraces.x.push(bars[0]?.x[0] || '');
         thresholdTraces.y.push(thr.value * (1 + 0.06));
         thresholdTraces.text.push(thr.name);
         return {
           type: 'line',
-          x0: queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name][0],
+          x0: bars[0]?.x[0] || 0,
           y0: thr.value,
-          x1: last(queriedVizData[!isEmpty(xaxis) ? xaxis[0]?.label : fields[lastIndex].name]),
+          x1: last(last(bars)?.x) || 1,
           y1: thr.value,
           name: thr.name || '',
           opacity: THRESHOLD_LINE_OPACITY,
@@ -224,7 +216,7 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       });
     };
 
-    mergedLayout.shapes = mapToLine(levels, {});
+    mergedLayout.shapes = [...mapToLine(thresholds, { dash: 'dashdot' }), ...mapToLine(levels, {})];
     bars = [...bars, thresholdTraces];
   }
 

@@ -18,33 +18,36 @@ import {
   landOnEventExplorer,
   landOnEventVisualizations,
   landOnPanels,
-  renderTreeMapchart,
   renderPieChart,
   renderLineChartForDataConfig,
   renderDataConfig,
   aggregationValues,
   DataConfigLineChart,
-  renderAddParent,
   renderGaugeChart,
-  renderAddParent
-} from '../utils/event_constants';
-import { supressResizeObserverIssue } from '../utils/constants';
+} from '../utils/event_analytics/constants';
+import { supressResizeObserverIssue, COMMAND_TIMEOUT_LONG } from '../utils/constants';
+import { clearQuerySearchBoxText } from '../utils/event_analytics/helpers';
 
 const renderHistogramChart = () => {
   querySearch(TEST_QUERIES[5].query, TEST_QUERIES[5].dateRangeDOM);
-  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]').type('Histogram').type('{enter}');
+  cy.get('[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]')
+    .type('Histogram')
+    .type('{enter}');
   cy.wait(delay);
-    cy.get('g.draglayer.cursor-crosshair').should('exist');
-    cy.get('#configPanel__panelOptions .euiFieldText').click().type('Histogram chart');
-    cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]').click().type('This is the description for Histogram chart');
-    cy.get('.euiIEFlexWrapFix').eq(1).contains('Chart Styles').should('exist');
-    cy.get('.euiFormLabel.euiFormRow__label').eq(2).contains('Bucket Size');
-    cy.get('.euiFieldNumber').eq(0).type('4');
-    cy.get('.euiFormLabel.euiFormRow__label').eq(3).contains('Bucket Offset');
-    cy.get('.euiFieldNumber').eq(0).type('6');
+  cy.get('g.draglayer.cursor-crosshair').should('exist');
+  cy.get('#configPanel__panelOptions .euiFieldText').click().type('Histogram chart');
+  cy.get('.euiFlexItem .euiFormRow [placeholder="Description"]')
+    .click()
+    .type('This is the description for Histogram chart');
+  cy.get('.euiIEFlexWrapFix').eq(1).contains('Chart Styles').should('exist');
+  cy.get('.euiFormLabel.euiFormRow__label').eq(2).contains('Bucket Size');
+  cy.get('.euiFieldNumber').eq(0).type('4');
+  cy.get('.euiFormLabel.euiFormRow__label').eq(3).contains('Bucket Offset');
+  cy.get('.euiFieldNumber').eq(0).type('6');
 };
 
 const vis_name_sub_string = Math.floor(Math.random() * 100);
+
 const saveVisualizationAndVerify = () => {
   cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
   cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').click();
@@ -66,6 +69,7 @@ const saveVisualizationAndVerify = () => {
     .type('{enter}');
   cy.get('.euiBasicTable .euiTableCellContent button').eq(0).click();
 };
+
 const deleteVisualization = () => {
   cy.get('a[href = "#/event_analytics"]').click();
   cy.get('.euiFlexGroup .euiFormControlLayout__childrenWrapper input')
@@ -79,6 +83,7 @@ const deleteVisualization = () => {
   cy.get('button[data-test-subj = "popoverModal__deleteButton"]').click();
   cy.get('.euiToastHeader').should('exist');
 };
+
 describe('Adding sample data and visualization', () => {
   it('Adds sample flights data for event analytics', () => {
     cy.visit(`${Cypress.env('opensearchDashboards')}/app/home#/tutorial_directory/sampleData`);
@@ -92,15 +97,11 @@ describe('Adding sample data and visualization', () => {
 describe('Has working breadcrumbs', () => {
   it('Redirect to correct page on breadcrumb click', () => {
     landOnEventExplorer();
-    cy.wait(delay * 3);
     cy.get('.euiBreadcrumb[href="#/event_analytics/explorer"]').contains('Explorer').click();
-    cy.wait(delay);
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').should('exist');
     cy.get('.euiBreadcrumb[href="#/event_analytics"]').contains('Event analytics').click();
-    cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
     cy.get('.euiBreadcrumb[href="observability-dashboards#/"]').contains('Observability').click();
-    cy.wait(delay);
     cy.get('.euiTitle').contains('Event analytics').should('exist');
   });
 });
@@ -121,7 +122,6 @@ describe('Search a query on event home', () => {
         expect(Object.values(state.queries)[0]['selectedDateRange'][0]).equal('now/y');
         expect(Object.values(state.queries)[0]['selectedDateRange'][1]).equal('now');
       });
-    cy.wait(delay);
 
     cy.url().should('contain', '#/event_analytics/explorer');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').contains(TEST_QUERIES[0].query);
@@ -129,30 +129,31 @@ describe('Search a query on event home', () => {
 });
 
 describe('Open flyout for a data row to see details', () => {
-  beforeEach(() => {
+  before(() => {
     landOnEventExplorer();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
     querySearch(TEST_QUERIES[0].query, TEST_QUERIES[0].dateRangeDOM);
   });
 
   it('Should be able to open flyout and see data, json and traces', () => {
     cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
+    supressResizeObserverIssue();
     cy.get('.observability-flyout').should('exist');
     cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
+      .contains('Table')
+      .should('be.visible');
+    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
       .contains('JSON')
-      .click();
+      .should('be.visible');
     cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
       .contains('Traces')
-      .click();
-    cy.get('.observability-flyout .osdDocViewer .euiTabs span.euiTab__content')
-      .contains('Table')
-      .click();
+      .should('be.visible');
   });
 
   it('Should be able to see srrounding docs', () => {
-    cy.get('[data-test-subj="docTable"] tbody tr button.euiButtonIcon').first().click();
-    cy.get('.observability-flyout').should('exist');
     cy.get('.observability-flyout span.euiButton__text')
       .contains('View surrounding events')
+      .should('be.visible')
       .click();
     cy.get('.observability-flyout #surroundingFyout')
       .contains('View surrounding events')
@@ -161,7 +162,7 @@ describe('Open flyout for a data row to see details', () => {
 });
 
 describe('Add/delete/switch explorer top level tabs', () => {
-  beforeEach(() => {
+  before(() => {
     landOnEventExplorer();
   });
 
@@ -184,7 +185,7 @@ describe('Add/delete/switch explorer top level tabs', () => {
       .first()
       .click();
     cy.wait(delay);
-
+    supressResizeObserverIssue();
     cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
       .find('button.euiTab')
       .first()
@@ -237,32 +238,6 @@ describe('Add/delete/switch explorer top level tabs', () => {
   });
 });
 
-describe('Load a saved query from event home', () => {
-  it('Click on a saved query and redirect to explorer', () => {
-    landOnEventExplorer();
-    querySearch(TEST_QUERIES[0].query, TEST_QUERIES[0].dateRangeDOM);
-
-    cy.get('.tab-title').contains('Events').click();
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY4);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    cy.wait(delay * 2);
-
-    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
-
-    landOnEventHome();
-
-    cy.get('[data-test-subj="eventHome__savedQueryTableName"]')
-      .first()
-      .contains(SAVE_QUERY4)
-      .click();
-    cy.wait(delay);
-
-    cy.url().should('contain', '#/event_analytics/explorer');
-    cy.get('[data-test-subj="searchAutocompleteTextArea"]').contains(TEST_QUERIES[0].query);
-  });
-});
-
 describe('Click actions', () => {
   beforeEach(() => {
     landOnEventHome();
@@ -296,40 +271,18 @@ describe('Click actions', () => {
 });
 
 describe('Saves a query on explorer page', () => {
-  it('Saves a query on event tab of explorer page', () => {
-    landOnEventExplorer();
-    querySearch(TEST_QUERIES[0].query, TEST_QUERIES[0].dateRangeDOM);
-    cy.wait(delay);
-
-    cy.get('.tab-title').contains('Events').click();
-    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay);
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY1);
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
-    cy.wait(delay * 2);
-
-    cy.get('.euiToastHeader__title').contains('successfully').should('exist');
-
-    landOnEventHome();
-
-    cy.get('[data-test-subj="eventHome__savedQueryTableName"]').first().contains(SAVE_QUERY1);
-  });
-
   it('Saves a visualization on visualization tab of explorer page', () => {
     landOnEventExplorer();
     querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
-    cy.wait(delay);
     supressResizeObserverIssue();
     cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay * 2);
-    cy.get(
-      '[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]'
-    ).click();
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY2);
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]')
+      .focus()
+      .type(SAVE_QUERY2, { force: true });
+
     cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
     cy.wait(delay * 2);
-
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
 
     landOnEventHome();
@@ -346,35 +299,73 @@ describe('Saves a query on explorer page', () => {
       .contains(/^Create$/)
       .click();
     cy.wait(delay);
-
     landOnEventExplorer();
     querySearch(TEST_QUERIES[1].query, TEST_QUERIES[1].dateRangeDOM);
-    cy.wait(delay);
-
     supressResizeObserverIssue();
-    cy.get('button[id="main-content-vis"]').contains('Visualizations').click();
+    cy.get('button[id="main-content-vis"]', { timeout: COMMAND_TIMEOUT_LONG })
+      .contains('Visualizations')
+      .click();
     cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
-    cy.wait(delay * 2);
-    cy.get(
-      '[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]'
-    ).click();
-    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY3);
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]')
+      .focus()
+      .type(SAVE_QUERY3, { force: true });
     cy.get('[data-test-subj="eventExplorer__querySaveComboBox"]').type(TESTING_PANEL);
     cy.get(`input[value="${TESTING_PANEL}"]`).click();
-    cy.get(
-      '[data-test-subj="eventExplorer__querySaveComboBox"] [data-test-subj="comboBoxToggleListButton"]'
-    ).click();
-    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click({ force: true });
     cy.wait(delay);
-
     cy.get('.euiToastHeader__title').contains('successfully').should('exist');
+  });
+
+  it('Saves a query on event tab of explorer page', () => {
+    landOnEventExplorer();
+    querySearch(TEST_QUERIES[0].query, TEST_QUERIES[0].dateRangeDOM);
+
+    cy.get('.tab-title').contains('Events').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY1);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.wait(delay * 2);
+
+    cy.get('.euiToastHeader__title', { timeout: COMMAND_TIMEOUT_LONG })
+      .contains('successfully')
+      .should('exist');
+
+    landOnEventHome();
+
+    cy.get('[data-test-subj="eventHome__savedQueryTableName"]').first().contains(SAVE_QUERY1);
+  });
+
+  it('Click on a saved query from event analytics home', () => {
+    landOnEventExplorer();
+    querySearch(TEST_QUERIES[0].query, TEST_QUERIES[0].dateRangeDOM);
+
+    cy.get('.tab-title').contains('Events').click();
+    cy.get('[data-test-subj="eventExplorer__saveManagementPopover"]').click();
+    cy.get('[data-test-subj="eventExplorer__querySaveName"]').type(SAVE_QUERY4);
+    cy.get('[data-test-subj="eventExplorer__querySaveConfirm"]').click();
+    cy.wait(delay * 2);
+    cy.get('.euiToastHeader__title', { timeout: COMMAND_TIMEOUT_LONG })
+      .contains('successfully')
+      .should('exist');
+
+    landOnEventHome();
+
+    cy.get('[data-test-subj="eventHome__savedQueryTableName"]')
+      .first()
+      .contains(SAVE_QUERY4)
+      .click();
+
+    cy.url().should('contain', '#/event_analytics/explorer');
+    cy.get('[data-test-subj="searchAutocompleteTextArea"]', {
+      timeout: COMMAND_TIMEOUT_LONG,
+    }).contains(TEST_QUERIES[0].query);
   });
 });
 
 describe('Override timestamp for an index', () => {
   it('Click override button to override default timestamp', () => {
     landOnEventExplorer();
-
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[2].query);
     cy.get('[data-test-subj="superDatePickerApplyTimeButton"]').contains('Refresh').click();
     cy.get('.tab-title').contains('Events').click();
@@ -394,8 +385,6 @@ describe('Toggle sidebar fields', () => {
   it('Toggle fields between available and selected section', () => {
     landOnEventExplorer();
     querySearch(TEST_QUERIES[0].query, YEAR_TO_DATE_DOM_ID);
-    cy.wait(delay);
-
     cy.get('[data-test-subj="fieldToggle-AvgTicketPrice"]').click();
     cy.get('[data-test-subj="field-AvgTicketPrice"]').should('exist');
     cy.get('[data-test-subj="docTable"]').find('th').contains('_source').should('not.exist');
@@ -409,8 +398,6 @@ describe('Search fields in sidebar', () => {
   it('Search a field', () => {
     landOnEventExplorer();
     querySearch(TEST_QUERIES[0].query, YEAR_TO_DATE_DOM_ID);
-    cy.wait(delay);
-
     cy.get('[data-test-subj="eventExplorer__sidebarSearch"]').type('A');
     cy.get('[data-test-subj="field-Cancelled"]').should('not.exist');
     cy.get('[data-test-subj="field-AvgTicketPrice"]').should('exist');
@@ -425,18 +412,12 @@ describe('Delete saved objects', () => {
     cy.get('[data-test-subj="tablePaginationPopoverButton"]').click();
     cy.get('.euiContextMenuItem__text').contains('50 rows').click();
     cy.get('.euiCheckbox__input[data-test-subj="checkboxSelectAll"]').click();
-    cy.wait(delay);
     cy.get('.euiButton__text').contains('Actions').click();
-    cy.wait(delay);
     cy.get('.euiContextMenuItem__text').contains('Delete').click();
-    cy.wait(delay);
-
     cy.get('button.euiButton--danger').should('be.disabled');
-
     cy.get('input.euiFieldText[placeholder="delete"]').type('delete');
     cy.get('button.euiButton--danger').should('not.be.disabled');
     cy.get('.euiButton__text').contains('Delete').click();
-    cy.wait(delay * 4);
     cy.get('.euiTextAlign').contains('No Queries or Visualizations').should('exist');
   });
 });
@@ -507,13 +488,10 @@ describe('Switch on and off livetail', () => {
 describe('Live tail stop automatically', () => {
   it('Moving to other tab should stop live tail automatically', () => {
     landOnEventExplorer();
-    cy.wait(delay);
-
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
     cy.get('[data-test-subj="searchAutocompleteTextArea"]').type(TEST_QUERIES[1].query);
-
     cy.get('[data-test-subj=eventLiveTail]').click();
     cy.get('[data-test-subj=eventLiveTail__delay10s]').click();
-    cy.wait(delay * 2);
     cy.get('.euiToastHeader__title').contains('On').should('exist');
   });
 
@@ -530,12 +508,14 @@ describe('Live tail stop automatically', () => {
   });
 
   it('Click to switch to another tab', () => {
-    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
-    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]', {
+      timeout: COMMAND_TIMEOUT_LONG,
+    }).click();
+    cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]', { timeout: COMMAND_TIMEOUT_LONG })
       .find('button.euiTab')
       .first()
       .click();
-    cy.wait(delay);
+    supressResizeObserverIssue();
 
     cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
       .find('button.euiTab')
@@ -544,14 +524,19 @@ describe('Live tail stop automatically', () => {
   });
 
   it('Close current selected tab', () => {
-    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
-    cy.get('[data-test-subj="eventExplorer__addNewTab"]').click();
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]', {
+      timeout: COMMAND_TIMEOUT_LONG,
+    }).click();
+    cy.get('[data-test-subj="eventExplorer__addNewTab"]', {
+      timeout: COMMAND_TIMEOUT_LONG,
+    }).click();
     cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
       .find('button.euiTab')
       .then((lists) => {
         const initialLength = Cypress.$(lists).length;
         cy.get('[data-test-subj="eventExplorer__topLevelTabbing"] button.euiTab').eq(1).click();
         cy.get('button.euiTab-isSelected [data-test-subj="eventExplorer__tabClose"]').click();
+        supressResizeObserverIssue();
         cy.get('[data-test-subj="eventExplorer__topLevelTabbing"]')
           .find('button.euiTab')
           .should('have.length', initialLength - 1);
@@ -563,21 +548,10 @@ describe('Live tail stop automatically', () => {
   });
 });
 
-describe('Renders noresult chart', () => {
+describe.skip('Renders bar charts', () => {
   beforeEach(() => {
     landOnEventVisualizations();
-  });
-
-  it('It should render no result when there is no data', () => {
-    cy.get('[data-test-subj="vizWorkspace__noData"] p')
-      .contains('No results found')
-      .should('exist');
-  });
-});
-
-describe('Renders bar charts', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
   });
 
   it('Renders vertical bar chart', () => {
@@ -633,7 +607,7 @@ describe('Renders bar charts', () => {
   });
 });
 
-describe('Renders line charts', () => {
+describe.skip('Renders line charts', () => {
   beforeEach(() => {
     landOnEventVisualizations();
   });
@@ -662,9 +636,10 @@ describe('Renders line charts', () => {
   });
 });
 
-describe('Renders pie charts', () => {
+describe.skip('Renders pie charts', () => {
   beforeEach(() => {
     landOnEventVisualizations();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
   });
 
   it('Renders pie chart', () => {
@@ -678,9 +653,10 @@ describe('Renders pie charts', () => {
   });
 });
 
-describe('Renders heatmap chart', () => {
+describe.skip('Renders heatmap chart', () => {
   beforeEach(() => {
     landOnEventVisualizations();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
   });
 
   it('Renders heatmap chart with different z-axes', () => {
@@ -704,12 +680,10 @@ describe('Renders heatmap chart', () => {
   });
 });
 
-describe('Renders markdown chart', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
-  });
-
+describe.skip('Renders markdown chart', () => {
   it('Renders markdown chart with test title', () => {
+    landOnEventVisualizations();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
     cy.get(
       '[data-test-subj="configPane__vizTypeSelector"] [data-test-subj="comboBoxInput"]'
@@ -725,12 +699,10 @@ describe('Renders markdown chart', () => {
   });
 });
 
-describe('Renders data view', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
-  });
-
+describe.skip('Renders data view', () => {
   it('Switch views between data table and visualization workspace', () => {
+    landOnEventVisualizations();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
     cy.get('[data-test-subj="workspace__dataTableViewSwitch"]').click();
     cy.get('[data-test-subj="workspace__dataTable"]').should('exist');
@@ -739,7 +711,7 @@ describe('Renders data view', () => {
   });
 });
 
-describe('Renders chart and verify Toast message if X-axis and Y-axis values are empty', () => {
+describe.skip('Renders chart and verify Toast message if X-axis and Y-axis values are empty', () => {
   beforeEach(() => {
     landOnEventVisualizations();
   });
@@ -806,9 +778,10 @@ describe('Renders chart and verify Toast message if X-axis and Y-axis values are
   });
 });
 
-describe('Render Table View', () => {
-  beforeEach(() => {
+describe.skip('Render Table View', () => {
+  before(() => {
     landOnEventVisualizations();
+    clearQuerySearchBoxText('searchAutocompleteTextArea');
     querySearch(TEST_QUERIES[3].query, TEST_QUERIES[3].dateRangeDOM);
     cy.get('[data-test-subj="workspace__dataTableViewSwitch"]').click();
   });
@@ -864,20 +837,21 @@ describe('Render Table View', () => {
     cy.get('[aria-label="Page 4"]').contains('4').click();
     cy.get('.ag-cell-value').contains('Edmonton').should('exist');
   });
+
   it('Switch visualization for table view and rows per page data', () => {
     cy.get('.euiButtonEmpty__text').eq('6').click();
     cy.get('.euiContextMenuItem__text').eq(1).click();
   });
 });
 
-describe('Render Time series chart/Line chart and verify Data configurations UI ', () => {
+describe.skip('Render Time series chart/Line chart and verify Data configurations UI ', () => {
   it('Render line chart and verify Data Configuration Panel', () => {
     renderLineChartForDataConfig();
     DataConfigLineChart();
   });
 });
 
-describe('Renders Data Configurations section for Pie chart', () => {
+describe.skip('Renders Data Configurations section for Pie chart', () => {
   beforeEach(() => {
     landOnEventVisualizations();
   });
@@ -906,7 +880,7 @@ describe('Renders Data Configurations section for Pie chart', () => {
     cy.get('.euiTitle.euiTitle--xxsmall').eq(1).contains('Dimensions').should('exist');
     cy.get('.first-division .euiFormLabel.euiFormRow__label').eq(0).contains('Aggregation');
     cy.get('[data-test-subj="comboBoxSearchInput"]').eq(0).click();
-    aggregationValues.forEach(function (value){
+    aggregationValues.forEach(function (value) {
       cy.get('.euiComboBoxOption__content').contains(value);
     });
   });
@@ -917,28 +891,32 @@ describe('Renders Data Configurations section for Pie chart', () => {
     cy.get('.euiResizableButton.euiResizableButton--horizontal').eq(1).click();
     cy.get('[data-test-subj="panel-1-toggle"]').click();
     cy.get('[class*="euiResizableToggleButton-isCollapsed"]').eq(1).should('exist');
-describe('Renders Histogram chart', () => {
-  beforeEach(() => {
-    landOnEventVisualizations();
+  });
 });
 
-it('Renders Histogram chart and save visualization', () => {
-  renderHistogramChart();
+describe.skip('Renders Histogram chart', () => {
+  beforeEach(() => {
+    landOnEventVisualizations();
+  });
+
+  it('Renders Histogram chart and save visualization', () => {
+    renderHistogramChart();
     cy.get('.euiFlexItem.euiFlexItem--flexGrowZero .euiButton__text').eq(2).click();
     cy.wait(delay);
     saveVisualizationAndVerify();
   });
 
- it('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () =>{
-  deleteVisualization();
- })
+  it('Delete Visualization for Histogram chart from list of saved Visualizations on Event analytics page', () => {
+    deleteVisualization();
+  });
 
- it('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
-  renderHistogramChart();
+  it('Renders Histogram chart, add value parameters and verify Reset button click is working', () => {
+    renderHistogramChart();
     cy.get('[data-test-subj="visualizeEditorResetButton"]').click();
   });
 });
-describe('Render Gauge Chart and verify if data gets render', () => {
+
+describe.skip('Render Gauge Chart and verify if data gets render', () => {
   it('Render gauge chart and verify by default no data gets render', () => {
     renderGaugeChart();
     cy.get('.main-svg').contains('BeatsWest').should('not.exist');
@@ -951,7 +929,7 @@ describe('Render Gauge Chart and verify if data gets render', () => {
   });
 });
 
-describe('Render Gauge Chart and work with chart styles', () => {
+describe.skip('Render Gauge Chart and work with chart styles', () => {
   it('Render gauge chart and change orientation to vertical', () => {
     renderGaugeChart();
     cy.get('.euiButton__text').contains('Update chart').click();
@@ -966,7 +944,7 @@ describe('Render Gauge Chart and work with chart styles', () => {
     cy.get('[data-test-subj="valueFieldNumber"]').eq(0).type('30');
     cy.get('.euiButton__text').contains('Preview').click();
   });
-  
+
   it('Render gauge chart and change value size then verify the update on chart', () => {
     renderGaugeChart();
     cy.get('.euiButton__text').contains('Update chart').click();
@@ -976,7 +954,7 @@ describe('Render Gauge Chart and work with chart styles', () => {
   });
 });
 
-describe('Render Gauge Chart and work with threshold', () => {
+describe.skip('Render Gauge Chart and work with threshold', () => {
   it('Render gauge chart and add threshold then verify by default the threshold is not seen', () => {
     renderGaugeChart();
     cy.get('.euiButton__text').contains('Update chart').click();
@@ -1007,11 +985,11 @@ describe('Render Gauge Chart and work with threshold', () => {
     cy.get('.euiSwitch__label').contains('Show threshold markers').click();
     cy.get('.euiButton__text').contains('Preview').click();
     cy.get('path[style*="rgb(252, 5, 5)"]').eq(1).should('exist');
-    cy.get('.bg-arc').find('path[style*="rgb(252, 5, 5)"]').should('have.length',4);
+    cy.get('.bg-arc').find('path[style*="rgb(252, 5, 5)"]').should('have.length', 4);
   });
 });
 
-describe('Render gauge chart and verify if reset works properly', () => {
+describe.skip('Render gauge chart and verify if reset works properly', () => {
   it('Render gauge chart with all feild data then click on reset and verify reset works properly', () => {
     renderGaugeChart();
     cy.get('.euiButton__text').contains('Update chart').click();
@@ -1029,10 +1007,15 @@ describe('Render gauge chart and verify if reset works properly', () => {
     cy.get('.euiSwitch__label').contains('Show threshold markers').click();
     cy.get('.euiButton__text').contains('Preview').click();
     cy.get('.euiButtonEmpty__text').contains('Reset').click();
-    cy.get('input[placeholder="Title"]').should('not.have.value','Gauge Chart');
-    cy.get('textarea[placeholder="Description"]').should('not.have.value','Description For Gauge Chart')
-    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).should('have.value','');
-    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).should('have.value','');
-    cy.get('button.euiSwitch__button[aria-checked="false"]').should('exist').should('have.length',3);
+    cy.get('input[placeholder="Title"]').should('not.have.value', 'Gauge Chart');
+    cy.get('textarea[placeholder="Description"]').should(
+      'not.have.value',
+      'Description For Gauge Chart'
+    );
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(0).should('have.value', '');
+    cy.get('[data-test-subj="valueFieldNumber"]').eq(1).should('have.value', '');
+    cy.get('button.euiSwitch__button[aria-checked="false"]')
+      .should('exist')
+      .should('have.length', 3);
   });
 });

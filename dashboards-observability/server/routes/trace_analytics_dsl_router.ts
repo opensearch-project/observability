@@ -3,10 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RequestParams } from '@elastic/elasticsearch';
+import { RequestParams } from '@opensearch-project/opensearch';
 import { schema } from '@osd/config-schema';
 import { IRouter } from '../../../../src/core/server';
-import { TRACE_ANALYTICS_DSL_ROUTE, TRACE_ANALYTICS_INDICES_ROUTE, DATA_PREPPER_INDEX_NAME, DATA_PREPPER_SERVICE_INDEX_NAME } from '../../common/constants/trace_analytics';
+import {
+  DATA_PREPPER_INDEX_NAME,
+  DATA_PREPPER_SERVICE_INDEX_NAME,
+  TRACE_ANALYTICS_DSL_ROUTE,
+  TRACE_ANALYTICS_INDICES_ROUTE,
+} from '../../common/constants/trace_analytics';
+import { addRequestToMetric } from '../common/metrics/metrics_helper';
 
 export function registerTraceAnalyticsDslRouter(router: IRouter) {
   router.post(
@@ -70,6 +76,7 @@ export function registerTraceAnalyticsDslRouter(router: IRouter) {
       },
     },
     async (context, request, response) => {
+      addRequestToMetric('trace_analytics', 'get', 'count');
       const { index, size, ...rest } = request.body;
       const params: RequestParams.Search = {
         index: index || DATA_PREPPER_INDEX_NAME,
@@ -85,6 +92,7 @@ export function registerTraceAnalyticsDslRouter(router: IRouter) {
           body: resp,
         });
       } catch (error) {
+        addRequestToMetric('trace_analytics', 'get', error);
         if (error.statusCode !== 404) console.error(error);
         return response.custom({
           statusCode: error.statusCode || 500,

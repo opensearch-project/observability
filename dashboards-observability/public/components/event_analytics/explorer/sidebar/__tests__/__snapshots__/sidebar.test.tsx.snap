@@ -770,6 +770,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                               }
                               handleOverrideTimestamp={[MockFunction]}
                               isFieldToggleButtonDisabled={true}
+                              isOverridingTimestamp={false}
                               onToggleField={[MockFunction]}
                               selected={true}
                               selectedTimestamp="timestamp"
@@ -783,6 +784,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     dataTestSubj="field-double_per_ip_bytes-showDetails"
                                     fieldAction={
                                       <React.Fragment>
+                                        <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
                                         <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
@@ -848,6 +857,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-double_per_ip_bytes-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -967,6 +984,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -1059,6 +1089,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                               }
                               handleOverrideTimestamp={[MockFunction]}
                               isFieldToggleButtonDisabled={true}
+                              isOverridingTimestamp={false}
                               onToggleField={[MockFunction]}
                               selected={true}
                               selectedTimestamp="timestamp"
@@ -1072,6 +1103,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     dataTestSubj="field-host-showDetails"
                                     fieldAction={
                                       <React.Fragment>
+                                        <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
                                         <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
@@ -1137,6 +1176,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-host-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -1256,6 +1303,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -1348,6 +1408,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                               }
                               handleOverrideTimestamp={[MockFunction]}
                               isFieldToggleButtonDisabled={true}
+                              isOverridingTimestamp={false}
                               onToggleField={[MockFunction]}
                               selected={true}
                               selectedTimestamp="timestamp"
@@ -1361,6 +1422,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     dataTestSubj="field-ip_count-showDetails"
                                     fieldAction={
                                       <React.Fragment>
+                                        <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
                                         <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
@@ -1426,6 +1495,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-ip_count-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -1545,6 +1622,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -1637,6 +1727,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                               }
                               handleOverrideTimestamp={[MockFunction]}
                               isFieldToggleButtonDisabled={true}
+                              isOverridingTimestamp={false}
                               onToggleField={[MockFunction]}
                               selected={true}
                               selectedTimestamp="timestamp"
@@ -1650,6 +1741,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     dataTestSubj="field-per_ip_bytes-showDetails"
                                     fieldAction={
                                       <React.Fragment>
+                                        <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
                                         <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
@@ -1715,6 +1814,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-per_ip_bytes-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -1834,6 +1941,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -1926,6 +2046,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                               }
                               handleOverrideTimestamp={[MockFunction]}
                               isFieldToggleButtonDisabled={true}
+                              isOverridingTimestamp={false}
                               onToggleField={[MockFunction]}
                               selected={true}
                               selectedTimestamp="timestamp"
@@ -1939,6 +2060,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     dataTestSubj="field-resp_code-showDetails"
                                     fieldAction={
                                       <React.Fragment>
+                                        <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
                                         <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
@@ -2004,6 +2133,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-resp_code-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -2123,6 +2260,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -2215,6 +2365,7 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                               }
                               handleOverrideTimestamp={[MockFunction]}
                               isFieldToggleButtonDisabled={true}
+                              isOverridingTimestamp={false}
                               onToggleField={[MockFunction]}
                               selected={true}
                               selectedTimestamp="timestamp"
@@ -2228,6 +2379,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     dataTestSubj="field-sum_bytes-showDetails"
                                     fieldAction={
                                       <React.Fragment>
+                                        <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
                                         <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
@@ -2293,6 +2452,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-sum_bytes-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -2411,6 +2578,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                         <div
                                           className="osdFieldButton__fieldAction"
                                         >
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -2734,6 +2914,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -2797,6 +2997,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-agent-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -2915,6 +3135,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -3022,6 +3302,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -3085,6 +3373,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-bytes-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -3203,6 +3499,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -3310,6 +3619,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -3373,6 +3690,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-clientip-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -3491,6 +3816,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -3598,6 +3936,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -3661,6 +4007,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-event-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -3779,6 +4133,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -3886,6 +4253,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -3949,6 +4336,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-extension-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -4067,6 +4474,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -4174,6 +4641,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -4237,6 +4712,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-geo-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -4355,6 +4838,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -4462,6 +4958,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -4525,6 +5041,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-host-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -4643,6 +5179,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -4750,6 +5346,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -4813,6 +5429,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-index-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -4931,6 +5567,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -5038,6 +5734,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -5101,6 +5805,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-ip-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -5219,6 +5931,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -5326,6 +6051,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -5389,6 +6122,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-machine-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -5507,6 +6248,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -5614,6 +6368,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -5677,6 +6439,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-memory-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -5795,6 +6565,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -5902,6 +6685,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -5965,6 +6768,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-message-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -6083,6 +6906,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -6190,6 +7073,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -6253,6 +7144,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-phpmemory-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -6371,6 +7270,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -6478,6 +7390,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -6541,6 +7473,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-referer-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -6659,6 +7611,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -6766,6 +7778,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -6829,6 +7861,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-request-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -6947,6 +7999,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -7054,6 +8166,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -7117,6 +8249,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-response-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -7235,6 +8387,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -7342,6 +8554,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -7405,6 +8637,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-tags-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -7523,6 +8775,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -7630,6 +8942,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -7699,6 +9019,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-timestamp-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -7823,6 +9151,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -7941,6 +9282,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment>
+                                            <EuiButtonIcon
+                                              aria-labelledby="override_pattern"
+                                              className="dscSidebarItem__action"
+                                              color="text"
+                                              data-test-subj="eventExplorer__overrideDefaultPattern"
+                                              iconType="inputOutput"
+                                              onClick={[Function]}
+                                              size="s"
+                                            >
+                                              Override
+                                            </EuiButtonIcon>
+                                          </React.Fragment>
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -8004,6 +9365,26 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-url-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment>
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                Override
+                                              </EuiButtonIcon>
+                                            </React.Fragment>
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -8122,6 +9503,66 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                           className="osdFieldButton__fieldAction"
                                         >
                                           <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            >
+                                              <EuiButtonIcon
+                                                aria-labelledby="override_pattern"
+                                                className="dscSidebarItem__action"
+                                                color="text"
+                                                data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                iconType="inputOutput"
+                                                onClick={[Function]}
+                                                size="s"
+                                              >
+                                                <button
+                                                  aria-labelledby="override_pattern"
+                                                  className="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small dscSidebarItem__action"
+                                                  data-test-subj="eventExplorer__overrideDefaultPattern"
+                                                  disabled={false}
+                                                  onClick={[Function]}
+                                                  type="button"
+                                                >
+                                                  <EuiIcon
+                                                    aria-hidden="true"
+                                                    className="euiButtonIcon__icon"
+                                                    color="inherit"
+                                                    size="m"
+                                                    type="inputOutput"
+                                                  >
+                                                    <EuiIconEmpty
+                                                      aria-hidden={true}
+                                                      className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                      focusable="false"
+                                                      role="img"
+                                                      style={null}
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonIcon__icon"
+                                                        focusable="false"
+                                                        height={16}
+                                                        role="img"
+                                                        style={null}
+                                                        viewBox="0 0 16 16"
+                                                        width={16}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                      />
+                                                    </EuiIconEmpty>
+                                                  </EuiIcon>
+                                                </button>
+                                              </EuiButtonIcon>
+                                            </span>
+                                          </EuiToolTip>
+                                          <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
                                             id="override-timestamp"
@@ -8229,6 +9670,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                     fieldAction={
                                       <React.Fragment>
                                         <EuiToolTip
+                                          content="Override default pattern"
+                                          delay="long"
+                                          id="override-pattern"
+                                          position="top"
+                                        >
+                                          <React.Fragment />
+                                        </EuiToolTip>
+                                        <EuiToolTip
                                           content="Override default timestamp"
                                           delay="long"
                                           id="override-timestamp"
@@ -8304,6 +9753,14 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                       dataTestSubj="field-utc_time-showDetails"
                                       fieldAction={
                                         <React.Fragment>
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <React.Fragment />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"
@@ -8433,6 +9890,19 @@ exports[`Siderbar component Renders sidebar component 1`] = `
                                         <div
                                           className="osdFieldButton__fieldAction"
                                         >
+                                          <EuiToolTip
+                                            content="Override default pattern"
+                                            delay="long"
+                                            id="override-pattern"
+                                            position="top"
+                                          >
+                                            <span
+                                              className="euiToolTipAnchor"
+                                              onKeyUp={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                            />
+                                          </EuiToolTip>
                                           <EuiToolTip
                                             content="Override default timestamp"
                                             delay="long"

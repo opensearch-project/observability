@@ -135,7 +135,29 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "availabilityConfig": Object {},
+            "dataConfig": Object {
+              "breakdowns": Array [],
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "Carrier",
+                  "name": "Carrier",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "sum",
+                  "customLabel": "delays",
+                  "label": "FlightDelayMin",
+                  "name": "FlightDelayMin",
+                },
+              ],
+              "span": undefined,
+            },
+            "layoutConfig": Object {},
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -578,7 +600,29 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "availabilityConfig": Object {},
+              "dataConfig": Object {
+                "breakdowns": Array [],
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "Carrier",
+                    "name": "Carrier",
+                  },
+                ],
+                "series": Array [
+                  Object {
+                    "aggregation": "sum",
+                    "customLabel": "delays",
+                    "label": "FlightDelayMin",
+                    "name": "FlightDelayMin",
+                  },
+                ],
+                "span": undefined,
+              },
+              "layoutConfig": Object {},
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -1028,7 +1072,29 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "availabilityConfig": Object {},
+                "dataConfig": Object {
+                  "breakdowns": Array [],
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "Carrier",
+                      "name": "Carrier",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "sum",
+                      "customLabel": "delays",
+                      "label": "FlightDelayMin",
+                      "name": "FlightDelayMin",
+                    },
+                  ],
+                  "span": undefined,
+                },
+                "layoutConfig": Object {},
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -1345,7 +1411,41 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
               "responsive": true,
             }
           }
-          data={Array []}
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                },
+                "name": "delays",
+                "orientation": "v",
+                "type": "bar",
+                "x": Array [
+                  "BeatsWest",
+                  "Logstash Airways",
+                  "OpenSearch Dashboards Airlines",
+                  "OpenSearch-Air",
+                ],
+                "y": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+              },
+              Object {
+                "mode": "text",
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
+            ]
+          }
           layout={
             Object {
               "bargap": 0.30000000000000004,
@@ -1374,6 +1474,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "r": 5,
                 "t": 50,
               },
+              "shapes": Array [],
               "showlegend": "show",
               "title": "",
               "xaxis": Object {
@@ -1400,7 +1501,41 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                 "responsive": true,
               }
             }
-            data={Array []}
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                  },
+                  "name": "delays",
+                  "orientation": "v",
+                  "type": "bar",
+                  "x": Array [
+                    "BeatsWest",
+                    "Logstash Airways",
+                    "OpenSearch Dashboards Airlines",
+                    "OpenSearch-Air",
+                  ],
+                  "y": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                },
+                Object {
+                  "mode": "text",
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
+              ]
+            }
             debug={false}
             divId="explorerPlotComponent"
             layout={
@@ -1432,6 +1567,7 @@ exports[`Utils helper functions renders displayVisualization function 1`] = `
                   "r": 5,
                   "t": 50,
                 },
+                "shapes": Array [],
                 "showlegend": "show",
                 "title": "",
                 "xaxis": Object {
@@ -1613,7 +1749,39 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "availabilityConfig": Object {},
+            "dataConfig": Object {
+              "breakdowns": Array [],
+              "dimensions": Array [],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": Object {
+                "interval": "1",
+                "time_field": Array [
+                  Object {
+                    "label": "timestamp",
+                    "name": "timestamp",
+                    "type": "timestamp",
+                  },
+                ],
+                "unit": Array [
+                  Object {
+                    "label": "Day",
+                    "text": "Day",
+                    "value": "d",
+                  },
+                ],
+              },
+            },
+            "layoutConfig": Object {},
+          },
         },
         "vis": Object {
           "category": "Visualizations",
@@ -1886,20 +2054,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                     ],
                   },
                   Object {
-                    "editor": [Function],
-                    "id": "yaxis-side",
-                    "mapTo": "seriesPosition",
-                    "name": "Series label position",
-                    "schemas": Array [],
-                  },
-                  Object {
-                    "editor": [Function],
-                    "id": "color-theme",
-                    "mapTo": "colorTheme",
-                    "name": "Color theme",
-                    "schemas": Array [],
-                  },
-                  Object {
                     "defaultState": Array [],
                     "editor": [Function],
                     "id": "thresholds",
@@ -2121,7 +2275,39 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "availabilityConfig": Object {},
+              "dataConfig": Object {
+                "breakdowns": Array [],
+                "dimensions": Array [],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": Object {
+                  "interval": "1",
+                  "time_field": Array [
+                    Object {
+                      "label": "timestamp",
+                      "name": "timestamp",
+                      "type": "timestamp",
+                    },
+                  ],
+                  "unit": Array [
+                    Object {
+                      "label": "Day",
+                      "text": "Day",
+                      "value": "d",
+                    },
+                  ],
+                },
+              },
+              "layoutConfig": Object {},
+            },
           },
           "vis": Object {
             "category": "Visualizations",
@@ -2394,20 +2580,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                       ],
                     },
                     Object {
-                      "editor": [Function],
-                      "id": "yaxis-side",
-                      "mapTo": "seriesPosition",
-                      "name": "Series label position",
-                      "schemas": Array [],
-                    },
-                    Object {
-                      "editor": [Function],
-                      "id": "color-theme",
-                      "mapTo": "colorTheme",
-                      "name": "Color theme",
-                      "schemas": Array [],
-                    },
-                    Object {
                       "defaultState": Array [],
                       "editor": [Function],
                       "id": "thresholds",
@@ -2643,7 +2815,39 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "availabilityConfig": Object {},
+                "dataConfig": Object {
+                  "breakdowns": Array [],
+                  "dimensions": Array [],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": Object {
+                    "interval": "1",
+                    "time_field": Array [
+                      Object {
+                        "label": "timestamp",
+                        "name": "timestamp",
+                        "type": "timestamp",
+                      },
+                    ],
+                    "unit": Array [
+                      Object {
+                        "label": "Day",
+                        "text": "Day",
+                        "value": "d",
+                      },
+                    ],
+                  },
+                },
+                "layoutConfig": Object {},
+              },
             },
             "vis": Object {
               "category": "Visualizations",
@@ -2916,20 +3120,6 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
                         ],
                       },
                       Object {
-                        "editor": [Function],
-                        "id": "yaxis-side",
-                        "mapTo": "seriesPosition",
-                        "name": "Series label position",
-                        "schemas": Array [],
-                      },
-                      Object {
-                        "editor": [Function],
-                        "id": "color-theme",
-                        "mapTo": "colorTheme",
-                        "name": "Color theme",
-                        "schemas": Array [],
-                      },
-                      Object {
                         "defaultState": Array [],
                         "editor": [Function],
                         "id": "thresholds",
@@ -3014,83 +3204,201 @@ exports[`Utils helper functions renders displayVisualization function 2`] = `
           }
         }
       >
-        <EmptyPlaceholder
-          icon="visLine"
+        <Plt
+          config={
+            Object {
+              "barmode": "line",
+              "displaylogo": false,
+              "responsive": true,
+              "xaxis": Object {
+                "automargin": true,
+              },
+              "yaxis": Object {
+                "automargin": true,
+              },
+            }
+          }
+          data={
+            Array [
+              Object {
+                "fill": "tozeroy",
+                "fillcolor": "rgba(60,161,199,0.35)",
+                "hoverinfo": "all",
+                "line": Object {
+                  "color": "#3CA1C7",
+                  "shape": "spline",
+                  "width": 2,
+                },
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                  "size": 5,
+                },
+                "mode": "lines",
+                "name": "avg(machine.ram)",
+                "type": "line",
+                "x": Array [
+                  "",
+                  "",
+                  "",
+                  "",
+                ],
+                "y": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+              },
+              Object {
+                "mode": "text",
+                "showlegend": false,
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
+            ]
+          }
+          layout={
+            Object {
+              "autosize": true,
+              "legend": Object {
+                "orientation": "v",
+              },
+              "margin": Object {
+                "b": 30,
+                "l": 30,
+                "pad": 4,
+                "r": 5,
+                "t": 50,
+              },
+              "shapes": Array [],
+              "showlegend": true,
+              "title": "",
+              "xaxis": Object {
+                "automargin": true,
+                "tickangle": 0,
+                "tickfont": Object {},
+              },
+              "yaxis": Object {
+                "automargin": true,
+                "tickfont": Object {},
+              },
+            }
+          }
         >
-          <EuiText
-            className="lnsChart__empty"
-            color="subdued"
-            data-test-subj="vizWorkspace__noData"
-            size="xs"
-            textAlign="center"
+          <PlotlyComponent
+            config={
+              Object {
+                "barmode": "line",
+                "displayModeBar": false,
+                "displaylogo": false,
+                "responsive": true,
+                "xaxis": Object {
+                  "automargin": true,
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                },
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "fill": "tozeroy",
+                  "fillcolor": "rgba(60,161,199,0.35)",
+                  "hoverinfo": "all",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "shape": "spline",
+                    "width": 2,
+                  },
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                    "size": 5,
+                  },
+                  "mode": "lines",
+                  "name": "avg(machine.ram)",
+                  "type": "line",
+                  "x": Array [
+                    "",
+                    "",
+                    "",
+                    "",
+                  ],
+                  "y": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                },
+                Object {
+                  "mode": "text",
+                  "showlegend": false,
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
+              ]
+            }
+            debug={false}
+            divId="explorerPlotComponent"
+            layout={
+              Object {
+                "autosize": true,
+                "barmode": "stack",
+                "hovermode": "closest",
+                "legend": Object {
+                  "orientation": "v",
+                },
+                "margin": Object {
+                  "b": 30,
+                  "l": 30,
+                  "pad": 4,
+                  "r": 5,
+                  "t": 50,
+                },
+                "shapes": Array [],
+                "showlegend": true,
+                "title": "",
+                "xaxis": Object {
+                  "automargin": true,
+                  "tickangle": 0,
+                  "tickfont": Object {},
+                },
+                "yaxis": Object {
+                  "automargin": true,
+                  "tickfont": Object {},
+                },
+              }
+            }
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+            useResizeHandler={true}
           >
             <div
-              className="euiText euiText--extraSmall lnsChart__empty"
-              data-test-subj="vizWorkspace__noData"
-            >
-              <EuiTextAlign
-                textAlign="center"
-              >
-                <div
-                  className="euiTextAlign euiTextAlign--center"
-                >
-                  <EuiTextColor
-                    color="subdued"
-                    component="div"
-                  >
-                    <div
-                      className="euiTextColor euiTextColor--subdued"
-                    >
-                      <EuiIcon
-                        color="subdued"
-                        size="xxl"
-                        type="visLine"
-                      >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--xxLarge euiIcon--subdued euiIcon-isLoading"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                      <EuiSpacer
-                        size="l"
-                      >
-                        <div
-                          className="euiSpacer euiSpacer--l"
-                        />
-                      </EuiSpacer>
-                      <p>
-                        <FormattedMessage
-                          defaultMessage="No results found"
-                          id="visualization_noData"
-                          values={Object {}}
-                        >
-                          <span>
-                            No results found
-                          </span>
-                        </FormattedMessage>
-                      </p>
-                    </div>
-                  </EuiTextColor>
-                </div>
-              </EuiTextAlign>
-            </div>
-          </EuiText>
-        </EmptyPlaceholder>
+              id="explorerPlotComponent"
+              style={
+                Object {
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </PlotlyComponent>
+        </Plt>
       </Line>
     </VisualizationChart>
   </Visualization>
@@ -3232,7 +3540,29 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
             "size": 4,
             "status": 200,
           },
-          "userConfigs": Object {},
+          "userConfigs": Object {
+            "availabilityConfig": Object {},
+            "dataConfig": Object {
+              "breakdowns": Array [],
+              "dimensions": Array [
+                Object {
+                  "customLabel": "",
+                  "label": "machine.os",
+                  "name": "machine.os",
+                },
+              ],
+              "series": Array [
+                Object {
+                  "aggregation": "avg",
+                  "customLabel": "",
+                  "label": "machine.ram",
+                  "name": "machine.ram",
+                },
+              ],
+              "span": undefined,
+            },
+            "layoutConfig": Object {},
+          },
         },
         "vis": Object {
           "barwidth": 0.97,
@@ -3675,7 +4005,29 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "size": 4,
               "status": 200,
             },
-            "userConfigs": Object {},
+            "userConfigs": Object {
+              "availabilityConfig": Object {},
+              "dataConfig": Object {
+                "breakdowns": Array [],
+                "dimensions": Array [
+                  Object {
+                    "customLabel": "",
+                    "label": "machine.os",
+                    "name": "machine.os",
+                  },
+                ],
+                "series": Array [
+                  Object {
+                    "aggregation": "avg",
+                    "customLabel": "",
+                    "label": "machine.ram",
+                    "name": "machine.ram",
+                  },
+                ],
+                "span": undefined,
+              },
+              "layoutConfig": Object {},
+            },
           },
           "vis": Object {
             "barwidth": 0.97,
@@ -4125,7 +4477,29 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "size": 4,
                 "status": 200,
               },
-              "userConfigs": Object {},
+              "userConfigs": Object {
+                "availabilityConfig": Object {},
+                "dataConfig": Object {
+                  "breakdowns": Array [],
+                  "dimensions": Array [
+                    Object {
+                      "customLabel": "",
+                      "label": "machine.os",
+                      "name": "machine.os",
+                    },
+                  ],
+                  "series": Array [
+                    Object {
+                      "aggregation": "avg",
+                      "customLabel": "",
+                      "label": "machine.ram",
+                      "name": "machine.ram",
+                    },
+                  ],
+                  "span": undefined,
+                },
+                "layoutConfig": Object {},
+              },
             },
             "vis": Object {
               "barwidth": 0.97,
@@ -4442,7 +4816,41 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
               "responsive": true,
             }
           }
-          data={Array []}
+          data={
+            Array [
+              Object {
+                "hoverinfo": "all",
+                "marker": Object {
+                  "color": "rgba(60,161,199,0.35)",
+                  "line": Object {
+                    "color": "#3CA1C7",
+                    "width": 2,
+                  },
+                },
+                "name": "avg(machine.ram)",
+                "orientation": "h",
+                "type": "bar",
+                "x": Array [
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                ],
+                "y": Array [
+                  "",
+                  "",
+                  "",
+                  "",
+                ],
+              },
+              Object {
+                "mode": "text",
+                "text": Array [],
+                "x": Array [],
+                "y": Array [],
+              },
+            ]
+          }
           layout={
             Object {
               "bargap": 0.30000000000000004,
@@ -4471,6 +4879,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "r": 5,
                 "t": 50,
               },
+              "shapes": Array [],
               "showlegend": "show",
               "title": "",
               "xaxis": Object {
@@ -4497,7 +4906,41 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                 "responsive": true,
               }
             }
-            data={Array []}
+            data={
+              Array [
+                Object {
+                  "hoverinfo": "all",
+                  "marker": Object {
+                    "color": "rgba(60,161,199,0.35)",
+                    "line": Object {
+                      "color": "#3CA1C7",
+                      "width": 2,
+                    },
+                  },
+                  "name": "avg(machine.ram)",
+                  "orientation": "h",
+                  "type": "bar",
+                  "x": Array [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                  ],
+                  "y": Array [
+                    "",
+                    "",
+                    "",
+                    "",
+                  ],
+                },
+                Object {
+                  "mode": "text",
+                  "text": Array [],
+                  "x": Array [],
+                  "y": Array [],
+                },
+              ]
+            }
             debug={false}
             divId="explorerPlotComponent"
             layout={
@@ -4529,6 +4972,7 @@ exports[`Utils helper functions renders displayVisualization function 3`] = `
                   "r": 5,
                   "t": 50,
                 },
+                "shapes": Array [],
                 "showlegend": "show",
                 "title": "",
                 "xaxis": Object {

@@ -23,6 +23,7 @@ import org.opensearch.index.IndexNotFoundException
 import org.opensearch.index.engine.VersionConflictEngineException
 import org.opensearch.indices.InvalidIndexNameException
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.util.logger
 import org.opensearch.rest.RestStatus
 import org.opensearch.tasks.Task
@@ -56,9 +57,11 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
             try {
                 listener.onResponse(executeRequest(request, user))
             } catch (exception: OpenSearchStatusException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_OPENSEARCH_STATUS_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:OpenSearchStatusException: message:${exception.message}")
                 listener.onFailure(exception)
             } catch (exception: OpenSearchSecurityException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_OPENSEARCH_SECURITY_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:OpenSearchSecurityException:", exception)
                 listener.onFailure(
                     OpenSearchStatusException(
@@ -67,24 +70,31 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
                     )
                 )
             } catch (exception: VersionConflictEngineException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_VERSION_CONFLICT_ENGINE_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:VersionConflictEngineException:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.CONFLICT))
             } catch (exception: IndexNotFoundException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_INDEX_NOT_FOUND_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:IndexNotFoundException:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.NOT_FOUND))
             } catch (exception: InvalidIndexNameException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_INVALID_INDEX_NAME_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:InvalidIndexNameException:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.BAD_REQUEST))
             } catch (exception: IllegalArgumentException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_ILLEGAL_ARGUMENT_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:IllegalArgumentException:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.BAD_REQUEST))
             } catch (exception: IllegalStateException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_ILLEGAL_STATE_EXCEPTION.counter.increment()
                 log.warn("$LOG_PREFIX:IllegalStateException:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.SERVICE_UNAVAILABLE))
             } catch (exception: IOException) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_IO_EXCEPTION.counter.increment()
                 log.error("$LOG_PREFIX:Uncaught IOException:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.FAILED_DEPENDENCY))
             } catch (exception: Exception) {
+                Metrics.OBSERVABILITY_EXCEPTIONS_INTERNAL_SERVER_ERROR.counter.increment()
                 log.error("$LOG_PREFIX:Uncaught Exception:", exception)
                 listener.onFailure(OpenSearchStatusException(exception.message, RestStatus.INTERNAL_SERVER_ERROR))
             }
