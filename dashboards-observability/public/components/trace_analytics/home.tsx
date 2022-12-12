@@ -33,7 +33,7 @@ export enum TraceAnalyticsMode {
 }
 
 export interface TraceAnalyticsComponentDeps extends TraceAnalyticsCoreDeps, SearchBarProps {
-  mode: TraceAnalyticsMode;
+  mode?: TraceAnalyticsMode;
 }
 
 export const Home = (props: HomeProps) => {
