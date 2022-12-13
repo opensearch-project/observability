@@ -165,6 +165,7 @@ export const useFetchPatterns = ({ pplService, requestParams }: IFetchPatternsPa
         },
       })
     );
+    return patternField
   };
 
   return {

@@ -21,6 +21,7 @@ import {
   TAB_EVENT_ID,
   TAB_CHART_ID,
   APP_ANALYTICS_TAB_ID_REGEX,
+  URL_SEARCH,
 } from '../../../../common/constants/explorer';
 import { selectQueryTabs, setSelectedQueryTab } from '../redux/slices/query_tab_slice';
 import { selectQueries } from '../redux/slices/query_slice';
@@ -84,9 +85,14 @@ export const LogExplorer = ({
   }, [tabIds]);
 
   const handleTabClick = (selectedTab: EuiTabbedContentTab) => {
+    // Saved object
     history.replace(
-      `/event_analytics/explorer/${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] || ''}`
+      {
+        pathname: `/event_analytics/explorer${queryRef.current![selectedTab.id][SAVED_OBJECT_ID] ? '/' + queryRef.current![selectedTab.id][SAVED_OBJECT_ID] : ''}`,
+        search: `${queryRef.current![selectedTab.id][URL_SEARCH]}`
+      }
     );
+  
     dispatch(setSelectedQueryTab({ tabId: selectedTab.id }));
   };
 
@@ -112,6 +118,11 @@ export const LogExplorer = ({
   const addNewTab = async (where: string) => {
     // get a new tabId
     const tabId = uniqueId(TAB_ID_TXT_PFX);
+
+    // reset url
+    history.replace(
+      `/event_analytics/explorer`
+    );
 
     // create a new tab
     await initializeTabData(dispatch, tabId, where);

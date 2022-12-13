@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import _ from 'lodash';
 import dateMath from '@elastic/datemath';
 import {
   EuiButton,
@@ -153,7 +154,9 @@ export const Explorer = ({
     requestParams,
   });
   const appLogEvents = tabId.startsWith('application-analytics-tab');
-  const query = useSelector(selectQueries)[tabId];
+  const queryFromURL = new URLSearchParams(history.location.search);
+  const queryFromRedux =  useSelector(selectQueries)[tabId];
+  const query = queryFromURL.get("q") !== null ? JSON.parse(queryFromURL.get("q")!) : queryFromRedux
   const explorerData = useSelector(selectQueryResult)[tabId];
   const explorerFields = useSelector(selectFields)[tabId];
   const countDistribution = useSelector(selectCountDistribution)[tabId];
@@ -356,6 +359,21 @@ export const Explorer = ({
     indexPattern: string
   ): Promise<IDefaultTimestampState> => await timestampUtils.getTimestamp(indexPattern);
 
+  const updateURL = (args: Map<string, any>) => {
+    const finalQuery : any = _.clone(queryRef.current);
+    for (let entry of args.entries()) {
+      finalQuery[entry[0]] = entry[1];
+    }
+    const queryParamsString = `q=${JSON.stringify(finalQuery)}`;
+    history.replace({ search:  queryParamsString } );
+    dispatch(changeQuery({
+      tabId,
+      query: {
+        url: queryParamsString
+      },
+    }))
+  }
+
   const fetchData = async (startingTime?: string, endingTime?: string) => {
     const curQuery = queryRef.current;
     const rawQueryStr = (curQuery![RAW_QUERY] as string).includes(appBaseQuery)
@@ -387,7 +405,10 @@ export const Explorer = ({
 
     if (isEmpty(curPattern)) {
       const patternErrorHandler = getErrorHandler('Error fetching default pattern field');
-      await setDefaultPatternsField(curIndex, '', patternErrorHandler);
+      const patternField = await setDefaultPatternsField(curIndex, '', patternErrorHandler);
+      updateURL(new Map<string, any>([
+        [SELECTED_PATTERN_FIELD, patternField]
+      ]));
       const newQuery = queryRef.current;
       curPattern = newQuery![SELECTED_PATTERN_FIELD];
       if (isEmpty(curPattern)) {
@@ -409,7 +430,7 @@ export const Explorer = ({
       curTimestamp,
       isLiveTailOnRef.current,
       appBasedRef.current,
-      curQuery![SELECTED_PATTERN_FIELD],
+      curPattern,
       curQuery![PATTERN_REGEX],
       curQuery![FILTERED_PATTERN]
     );
@@ -540,6 +561,19 @@ export const Explorer = ({
         },
       })
     );
+
+    await dispatch(
+      changeQuery({
+        tabId,
+        query: {
+          [SELECTED_DATE_RANGE]: timeRange,
+        },
+      })
+    );
+
+    updateURL((new Map<string, any>([
+      [SELECTED_DATE_RANGE, timeRange]
+    ])));
   };
 
   const showPermissionErrorToast = () => {
@@ -642,6 +676,9 @@ export const Explorer = ({
     );
     setIsOverridingPattern(false);
     await getPatterns(selectedIntervalRef.current?.value.replace(/^auto_/, '') || 'y', getErrorHandler('Error fetching patterns'));
+    updateURL((new Map<string, any>([
+      [SELECTED_PATTERN_FIELD, pattern.name],
+    ])));
   };
 
   const totalHits: number = useMemo(() => {
@@ -671,6 +708,10 @@ export const Explorer = ({
         },
       })
     );
+
+    updateURL((new Map<string, any>([
+      [FILTERED_PATTERN, pattern],
+    ])));
     // workaround to refresh callback and trigger fetch data
     await setTempQuery(queryRef.current![RAW_QUERY]);
     await handleTimeRangePickerRefresh(true);
@@ -700,7 +741,7 @@ export const Explorer = ({
                   isOverridingTimestamp={isOverridingTimestamp}
                   isOverridingPattern={isOverridingPattern}
                   isFieldToggleButtonDisabled={
-                    isEmpty(explorerData.jsonData) ||
+                    isEmpty(explorerData?.jsonData) ||
                     !isEmpty(queryRef.current![RAW_QUERY].match(PPL_STATS_REGEX))
                   }
                 />
@@ -1094,6 +1135,10 @@ export const Explorer = ({
         },
       })
     );
+
+    updateURL((new Map<string, any>([
+      [RAW_QUERY, updateQuery.replaceAll(PPL_NEWLINE_REGEX, '')],
+    ])));
   };
 
   const updateCurrentTimeStamp = async (timestamp: string) => {
@@ -1105,6 +1150,9 @@ export const Explorer = ({
         },
       })
     );
+    updateURL((new Map<string, any>([
+      [SELECTED_TIMESTAMP, timestamp],
+    ])));
   };
 
   const handleQuerySearch = useCallback(
@@ -1117,6 +1165,9 @@ export const Explorer = ({
       ) {
         await updateCurrentTimeStamp('');
         await setDefaultPatternsField('', '');
+        updateURL((new Map<string, any>([
+          [SELECTED_PATTERN_FIELD, '']
+        ])));
       }
       if (availability !== true) {
         await updateQueryInStore(tempQuery);

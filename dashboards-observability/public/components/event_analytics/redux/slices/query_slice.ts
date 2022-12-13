@@ -16,10 +16,14 @@ import {
   SELECTED_DATE_RANGE,
   SELECTED_PATTERN_FIELD,
   SELECTED_TIMESTAMP,
+  URL_SEARCH,
 } from '../../../../../common/constants/explorer';
 import { initialTabId } from '../../../../framework/redux/store/shared_state';
 
-const initialQueryState = {
+
+const queryFromURL = window.location.hash.split('?');
+
+const initialQueryState = queryFromURL.length > 1 ? JSON.parse(queryFromURL[1].substring(2).replaceAll("%22", "\"")) : {
   [RAW_QUERY]: '',
   [FINAL_QUERY]: '',
   [INDEX]: '',
@@ -28,6 +32,7 @@ const initialQueryState = {
   [FILTERED_PATTERN]: '',
   [SELECTED_TIMESTAMP]: '',
   [SELECTED_DATE_RANGE]: ['now-15m', 'now'],
+  [URL_SEARCH]: ''
 };
 
 const appBaseQueryState = {
