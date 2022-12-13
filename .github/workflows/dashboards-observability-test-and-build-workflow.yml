@@ -20,6 +20,11 @@ jobs:
       - name: Checkout Plugin
         uses: actions/checkout@v1
 
+      # Enable longer filenames for windows
+      - name: Enable longer filenames
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: git config --system core.longpaths true
+
       - name: Checkout OpenSearch Dashboards
         uses: actions/checkout@v2
         with:
