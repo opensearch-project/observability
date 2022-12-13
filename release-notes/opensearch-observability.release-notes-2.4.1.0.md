@@ -4,7 +4,7 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 2.4.1
 
 ### Bug Fixes
 
-- QS vulnerability fix to 2.4 ([#1334](https://github.com/opensearch-project/dashboards-observability/pull/1334))
+- QS upgraded to 6.5.3 ([#1334](https://github.com/opensearch-project/dashboards-observability/pull/1334))
 
 ### Maintenance
 
