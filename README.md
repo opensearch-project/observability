@@ -104,7 +104,7 @@ Additionally the fields can be sorted and filtered.
 
 ### Event Analytics
 
-Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://opensearch.org/docs/latest/observability-plugins/ppl/index/). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access.
+Event Analytics allows user to monitor, correlate, analyze and visualize machine generated data through [Piped Processing Language](https://github.com/opensearch-project/sql/blob/main/docs/user/ppl/index.rst). It also enables the user to turn data-driven events into visualizations and save frequently used ones for quick access.
 
 ### Operational Panels
 
