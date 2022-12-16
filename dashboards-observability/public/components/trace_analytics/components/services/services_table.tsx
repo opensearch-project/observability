@@ -18,7 +18,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo } from 'react';
-import { TraceAnalyticsMode } from '../../home';
+import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
 import { FilterType } from '../common/filters/filters';
 import {
   MissingConfigurationMessage,
@@ -28,12 +28,12 @@ import {
 
 interface ServicesTableProps {
   items: any[];
-  mode: TraceAnalyticsMode;
   loading: boolean;
   nameColumnAction: (item: any) => any;
   traceColumnAction: any;
   addFilter: (filter: FilterType) => void;
   setRedirect: (redirect: boolean) => void;
+  mode?: TraceAnalyticsModeType;
 }
 
 export function ServicesTable(props: ServicesTableProps) {

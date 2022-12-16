@@ -48,7 +48,6 @@ describe('Dashboard component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={false}
         page="dashboard"
       />
     );
@@ -91,7 +90,6 @@ describe('Dashboard component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true}
         page="dashboard"
       />
     );

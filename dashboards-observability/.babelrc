@@ -10,6 +10,7 @@
     "@babel/preset-typescript"
   ],
   "plugins": [
+    "@babel/plugin-syntax-flow",
     "@babel/plugin-transform-modules-commonjs",
     ["@babel/plugin-transform-runtime", { "regenerator": true }],
     "@babel/plugin-proposal-class-properties",

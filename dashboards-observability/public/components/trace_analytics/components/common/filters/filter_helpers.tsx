@@ -15,10 +15,10 @@ import React from 'react';
 
 const getFields = (page: 'dashboard' | 'traces' | 'services' | 'app') =>
   ({
-    dashboard: ['traceGroup', 'process.serviceName', 'error', 'status.message', 'latency'],
-    traces: ['traceId', 'traceGroup', 'process.serviceName', 'error', 'status.message', 'latency'],
-    services: ['traceGroup', 'process.serviceName', 'error', 'status.message', 'latency'],
-    app: ['traceId', 'traceGroup', 'process.serviceName'],
+    dashboard: ['traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
+    traces: ['traceId', 'traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
+    services: ['traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
+    app: ['traceId', 'traceGroup', 'serviceName'],
   }[page]);
 // filters will take effect and can be manually added
 export const getFilterFields = (page: 'dashboard' | 'traces' | 'services' | 'app') => getFields(page);

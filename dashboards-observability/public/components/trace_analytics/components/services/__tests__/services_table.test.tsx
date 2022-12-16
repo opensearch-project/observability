@@ -24,7 +24,6 @@ describe('Services table component', () => {
         traceColumnAction={traceColumnAction}
         addFilter={addFilter}
         setRedirect={setRedirect}
-        indicesExist={true}
         loading={false}
       />
     );
@@ -56,7 +55,6 @@ describe('Services table component', () => {
         traceColumnAction={traceColumnAction}
         addFilter={addFilter}
         setRedirect={setRedirect}
-        indicesExist={true}
         loading={false}
       />
     );

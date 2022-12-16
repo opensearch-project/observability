@@ -22,7 +22,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
-import { TraceAnalyticsMode } from '../../home';
+import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
 import { handleSpansFlyoutRequest } from '../../requests/traces_request_handler';
 import { microToMilliSec, nanoToMilliSec } from '../common/helper_functions';
 import { FlyoutListItem } from './flyout_list_item';
@@ -33,7 +33,7 @@ export function SpanDetailFlyout(props: {
   isFlyoutVisible: boolean;
   closeFlyout: () => void;
   addSpanFilter: (field: string, value: any) => void;
-  mode?: TraceAnalyticsMode;
+  mode?: TraceAnalyticsModeType;
 }) {
   const mode = props.mode !== undefined ? props.mode: TraceAnalyticsMode.Data_Prepper;
   const [span, setSpan] = useState<any>({});

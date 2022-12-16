@@ -34,7 +34,6 @@ describe('Service view component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={false}
         addFilter={addFilter}
       />
     );
