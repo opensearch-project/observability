@@ -23,9 +23,9 @@ import {
   getValidTraceIdsQuery,
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
-import { TraceAnalyticsMode } from '../home';
+import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../home';
 
-export const handleValidTraceIds = (http: HttpSetup, DSL: any, mode: TraceAnalyticsMode,) => {
+export const handleValidTraceIds = (http: HttpSetup, DSL: any, mode: TraceAnalyticsModeType) => {
   return handleDslRequest(http, {}, getValidTraceIdsQuery(DSL), mode)
     .then((response) => response.aggregations.traces.buckets.map((bucket: any) => bucket.key))
     .catch((error) => console.error(error));
@@ -37,7 +37,7 @@ export const handleTracesRequest = async (
   timeFilterDSL: any,
   items: any,
   setItems: (items: any) => void,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
   sort?: any,
 ) => {
   const binarySearch = (arr: number[], target: number) => {
@@ -109,7 +109,7 @@ export const handleTraceViewRequest = (
   http: HttpSetup,
   fields: {},
   setFields: (fields: any) => void,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
 ) => {
   handleDslRequest(http, null, getTracesQuery(mode, traceId), mode)
     .then(async (response) => {
@@ -138,7 +138,7 @@ export const handleServicesPieChartRequest = async (
   http: HttpSetup,
   setServiceBreakdownData: (serviceBreakdownData: any) => void,
   setColorMap: (colorMap: any) => void,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
 ) => {
   const colors = [
     '#7492e7',
@@ -201,7 +201,7 @@ export const handleSpansGanttRequest = (
   setSpanDetailData: (spanDetailData: any) => void,
   colorMap: any,
   spanFiltersDSL: any,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
 ) => {
   handleDslRequest(http, spanFiltersDSL, getSpanDetailQuery(mode, traceId), mode)
     .then((response) => hitsToSpanDetailData(response.hits.hits, colorMap, mode))
@@ -213,7 +213,7 @@ export const handleSpansFlyoutRequest = (
   http: HttpSetup,
   spanId: string,
   setItems: (items: any) => void,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
 ) => {
   handleDslRequest(http, null, getSpanFlyoutQuery(mode, spanId), mode)
     .then((response) => {
@@ -222,7 +222,7 @@ export const handleSpansFlyoutRequest = (
     .catch((error) => console.error(error));
 };
 
-const hitsToSpanDetailData = async (hits: any, colorMap: any, mode: TraceAnalyticsMode) => {
+const hitsToSpanDetailData = async (hits: any, colorMap: any, mode: TraceAnalyticsModeType) => {
   const data: { gantt: any[]; table: any[]; ganttMaxX: number } = {
     gantt: [],
     table: [],
@@ -292,7 +292,7 @@ export const handlePayloadRequest = (
   http: HttpSetup,
   payloadData: any,
   setPayloadData: (payloadData: any) => void,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
 ) => {
   handleDslRequest(http, null, getPayloadQuery(mode, traceId), mode)
     .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
@@ -305,7 +305,7 @@ export const handleSpansRequest = (
   setTotal: (total: number) => void,
   spanSearchParams: SpanSearchParams,
   DSL: any,
-  mode: TraceAnalyticsMode,
+  mode: TraceAnalyticsModeType,
 ) => {
   handleDslRequest(http, DSL, getSpansQuery(spanSearchParams), mode)
     .then((response) => {

@@ -45,7 +45,7 @@ export const handleDashboardRequest = async (
     .catch((error) => console.error(error));
   if (setPercentileMap) setPercentileMap(latencyVariances);
 
-  const latencyTrends = await handleDslRequest(http, latencyTrendDSL, getLatencyTrendQuery())
+  const latencyTrends = await handleDslRequest(http, latencyTrendDSL, getLatencyTrendQuery(), mode)
     .then((response) => {
       const map: any = {};
       response.aggregations.trace_group_name.buckets.map((bucket) => {
@@ -100,7 +100,7 @@ export const handleDashboardRequest = async (
     })
     .catch((error) => console.error(error));
 
-  await handleDslRequest(http, DSL, getDashboardQuery())
+  await handleDslRequest(http, DSL, getDashboardQuery(), mode)
     .then((response) => {
       return Promise.all(
         response.aggregations.trace_group_name.buckets.map((bucket) => {

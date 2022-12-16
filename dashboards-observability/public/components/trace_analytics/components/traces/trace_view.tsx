@@ -20,7 +20,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { TraceAnalyticsCoreDeps, TraceAnalyticsMode } from '../../home';
+import { TraceAnalyticsCoreDeps, TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import {
   handlePayloadRequest,
@@ -34,9 +34,7 @@ import { SpanDetailPanel } from './span_detail_panel';
 
 interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
-  startTime: string;
-  endTime: string;
-  mode?: TraceAnalyticsMode;
+  mode?: TraceAnalyticsModeType;
 }
 
 export function TraceView(props: TraceViewProps) {
@@ -152,7 +150,7 @@ export function TraceView(props: TraceViewProps) {
   >('latency');
 
   const refresh = async () => {
-    const DSL = filtersToDsl([], '', processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode), page);
+    const DSL = filtersToDsl([], '', processTimeStamp('now', mode), processTimeStamp('now', mode), page);
     handleTraceViewRequest(props.traceId, props.http, fields, setFields, mode);
     handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData, mode);
     handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap, mode);

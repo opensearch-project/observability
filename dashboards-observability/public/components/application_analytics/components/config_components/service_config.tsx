@@ -24,6 +24,7 @@ import { handleServiceMapRequest } from '../../../trace_analytics/requests/servi
 import { AppAnalyticsComponentDeps } from '../../home';
 import { OptionType } from '../../../../../common/types/application_analytics';
 import { getClearModal } from '../../helpers/modal_containers';
+import { TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -40,6 +41,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
     selectedServices,
     setSelectedServices,
   } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -49,7 +51,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
   const [modalLayout, setModalLayout] = useState(<EuiOverlayMask />);
 
   useEffect(() => {
-    handleServiceMapRequest(http, dslService, setServiceMap);
+    handleServiceMapRequest(http, dslService, mode, setServiceMap);
   }, []);
 
   useEffect(() => {

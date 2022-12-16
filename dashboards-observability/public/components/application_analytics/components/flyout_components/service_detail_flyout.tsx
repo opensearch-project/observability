@@ -23,7 +23,7 @@ import { filtersToDsl, processTimeStamp } from '../../../../../public/components
 import { ServiceMap } from '../../../../../public/components/trace_analytics/components/services';
 import { ServiceObject } from '../../../../../public/components/trace_analytics/components/common/plots/service_map';
 import { SpanDetailTable } from '../../../../../public/components/trace_analytics/components/traces/span_detail_table';
-import { TraceAnalyticsComponentDeps } from '../../../../../public/components/trace_analytics/home';
+import { TraceAnalyticsComponentDeps, TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 import { getListItem } from '../../helpers/utils';
 
 interface ServiceFlyoutProps extends TraceAnalyticsComponentDeps {
@@ -44,8 +44,8 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
     query,
     closeServiceFlyout,
     openSpanFlyout,
-    mode,
   } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [total, setTotal] = useState(0);

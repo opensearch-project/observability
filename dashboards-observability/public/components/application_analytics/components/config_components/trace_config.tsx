@@ -17,13 +17,14 @@ import {
 } from '@elastic/eui';
 import DSLService from 'public/services/requests/dsl';
 import React, { useEffect, useState } from 'react';
-import { FilterType } from 'public/components/trace_analytics/components/common/filters/filters';
+import { FilterType } from '../../../../../public/components/trace_analytics/components/common/filters/filters';
 import { OptionType } from '../../../../../common/types/application_analytics';
 import { filtersToDsl } from '../../../trace_analytics/components/common/helper_functions';
 import { handleDashboardRequest } from '../../../trace_analytics/requests/dashboard_request_handler';
 import { AppAnalyticsComponentDeps } from '../../home';
 import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
 import { getClearModal } from '../../helpers/modal_containers';
+import { TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -43,6 +44,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
     selectedTraces,
     setSelectedTraces,
   } = props;
+  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);
@@ -64,6 +66,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
       latencyTrendDSL,
       traceItems,
       setTraceItems,
+      mode,
       setPercentileMap
     ).then(() => setLoading(false));
     setRedirect(false);

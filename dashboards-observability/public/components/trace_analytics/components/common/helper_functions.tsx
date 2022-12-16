@@ -17,7 +17,7 @@ import {
   JAEGER_SERVICE_INDEX_NAME,
 } from '../../../../../common/constants/trace_analytics';
 import { uiSettingsService } from '../../../../../common/utils';
-import { TraceAnalyticsMode } from '../../home';
+import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -76,7 +76,7 @@ export function MissingConfigurationMessage() {
   );
 }
 
-export function processTimeStamp(time: string, mode: TraceAnalyticsMode) {
+export function processTimeStamp(time: string, mode: TraceAnalyticsModeType) {
   if (mode === TraceAnalyticsMode.Jaeger) {
     const timeMoment = dateMath.parse(time)!;
     return timeMoment.unix() * 1000000;

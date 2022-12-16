@@ -12,9 +12,9 @@ import {
   JAEGER_INDEX_NAME,
   DATA_PREPPER_INDEX_NAME
 } from '../../../../common/constants/trace_analytics';
-import { TraceAnalyticsMode } from '../home';
+import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../home';
 
-export function handleDslRequest(http: CoreStart['http'], DSL: any, bodyQuery: any, mode: TraceAnalyticsMode) {
+export function handleDslRequest(http: CoreStart['http'], DSL: any, bodyQuery: any, mode: TraceAnalyticsModeType) {
   if (DSL?.query) {
     bodyQuery.query.bool.must.push(...DSL.query.bool.must);
     bodyQuery.query.bool.filter.push(...DSL.query.bool.filter);

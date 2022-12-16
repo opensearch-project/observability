@@ -11,9 +11,9 @@ import {
 } from '../../../../../common/constants/trace_analytics';
 import { getServiceMapTargetResources } from '../../components/common/helper_functions';
 import { ServiceObject } from '../../components/common/plots/service_map';
-import { TraceAnalyticsMode } from '../../home';
+import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
 
-export const getServicesQuery = (mode: TraceAnalyticsMode, serviceName: string | undefined, DSL?: any) => {
+export const getServicesQuery = (mode: TraceAnalyticsModeType, serviceName: string | undefined, DSL?: any) => {
   const query = {
     size: 0,
     query: {
@@ -133,7 +133,7 @@ export const getRelatedServicesQuery = (serviceName: string) => {
   return query;
 };
 
-export const getServiceNodesQuery = (mode: TraceAnalyticsMode) => {
+export const getServiceNodesQuery = (mode: TraceAnalyticsModeType) => {
   return {
     index: mode === TraceAnalyticsMode.Jaeger ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
@@ -172,7 +172,7 @@ export const getServiceNodesQuery = (mode: TraceAnalyticsMode) => {
   };
 };
 
-export const getServiceEdgesQuery = (source: 'destination' | 'target', mode: TraceAnalyticsMode) => {
+export const getServiceEdgesQuery = (source: 'destination' | 'target', mode: TraceAnalyticsModeType) => {
   return {
     index: mode === TraceAnalyticsMode.Jaeger ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
@@ -211,7 +211,7 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target', mode: Tra
   };
 };
 
-export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject, mode: TraceAnalyticsMode) => {
+export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject, mode: TraceAnalyticsModeType) => {
   const traceGroupFilter = new Set(
     DSL?.query?.bool.must
       .filter((must: any) => must.term?.['traceGroup'])
