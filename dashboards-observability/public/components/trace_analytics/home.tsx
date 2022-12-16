@@ -26,22 +26,16 @@ export interface TraceAnalyticsCoreDeps {
 
 interface HomeProps extends RouteComponentProps, TraceAnalyticsCoreDeps {}
 
-export const TraceAnalyticsMode = { 
-  Jaeger : 'jaeger',
-  Data_Prepper : 'data_prepper',
-  None : 'none'
-} as const;
-
-export type TraceAnalyticsModeType = typeof TraceAnalyticsMode[keyof typeof TraceAnalyticsMode];
+export type TraceAnalyticsMode = 'jaeger' | 'data_prepper' | 'none'
 
 export interface TraceAnalyticsComponentDeps extends TraceAnalyticsCoreDeps, SearchBarProps {
-  mode?: TraceAnalyticsModeType;
+  mode: TraceAnalyticsMode;
 }
 
 export const Home = (props: HomeProps) => {
   const [dataPrepperIndicesExist, setDataPrepperIndicesExist] = useState(true);
   const [jaegerIndicesExist, setJaegerIndicesExist] = useState(true);
-  const [mode, setMode] = useState<TraceAnalyticsModeType>(TraceAnalyticsMode.Jaeger)
+  const [mode, setMode] = useState<TraceAnalyticsMode>('jaeger')
   const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
@@ -78,9 +72,9 @@ export const Home = (props: HomeProps) => {
 
   // useEffect(() => {
   //   if (dataPrepperIndicesExist) {
-  //     setMode(TraceAnalyticsMode.Data_Prepper);
+  //     setMode('data_prepper');
   //   } else if (jaegerIndicesExist) {
-  //     setMode(TraceAnalyticsMode.Jaeger);
+  //     setMode('jaeger');
   //   } else {
   //     setMode(TraceAnalyticsMode.None);
   //   }

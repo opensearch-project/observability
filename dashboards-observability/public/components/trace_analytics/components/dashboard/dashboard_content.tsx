@@ -49,7 +49,7 @@ export function DashboardContent(props: DashboardProps) {
     setQuery,
     setFilters,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
+  const mode = props.mode !== undefined ? props.mode : 'data_prepper'
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
@@ -206,7 +206,7 @@ export function DashboardContent(props: DashboardProps) {
       <EuiSpacer size="m" />
       {mode !== TraceAnalyticsMode.None ? (
         <div>
-          { mode === TraceAnalyticsMode.Data_Prepper ? (
+          { mode === 'data_prepper' ? (
           <>
             <DashboardTable
               items={tableItems}

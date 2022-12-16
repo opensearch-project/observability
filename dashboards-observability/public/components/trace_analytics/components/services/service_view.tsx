@@ -38,7 +38,7 @@ interface ServiceViewProps extends TraceAnalyticsComponentDeps {
 }
 
 export function ServiceView(props: ServiceViewProps) {
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
+  const mode = props.mode !== undefined ? props.mode : 'data_prepper'
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -111,7 +111,7 @@ export function ServiceView(props: ServiceViewProps) {
                   {props.serviceName || '-'}
                 </EuiText>
               </EuiFlexItem>
-              { mode === TraceAnalyticsMode.Data_Prepper ? 
+              { mode === 'data_prepper' ? 
                 <EuiFlexItem grow={false}>
                   <EuiText className="overview-title">Number of connected services</EuiText>
                   <EuiText size="s" className="overview-content">
@@ -121,7 +121,7 @@ export function ServiceView(props: ServiceViewProps) {
                   </EuiText>
                 </EuiFlexItem> : <EuiFlexItem/>
               }
-              { mode === TraceAnalyticsMode.Data_Prepper ? 
+              { mode === 'data_prepper' ? 
                 <EuiFlexItem grow={false}>
                   <EuiText className="overview-title">Connected services</EuiText>
                   <EuiText size="s" className="overview-content">
@@ -315,7 +315,7 @@ export function ServiceView(props: ServiceViewProps) {
           <EuiSpacer size="xl" />
           {overview}
           <EuiSpacer />
-          { mode === TraceAnalyticsMode.Data_Prepper ? 
+          { mode === 'data_prepper' ? 
             <ServiceMap
               serviceMap={serviceMap}
               idSelected={serviceMapIdSelected}

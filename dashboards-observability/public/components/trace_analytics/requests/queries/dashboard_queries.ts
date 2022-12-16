@@ -277,7 +277,7 @@ export const getDashboardThroughputPltQuery = (mode: TraceAnalyticsMode, fixedIn
         aggs: {
           trace_count: {
             cardinality: {
-              field: mode === TraceAnalyticsMode.Jaeger ? 'traceID': 'traceId',
+              field: mode === 'jaeger' ? 'traceID': 'traceId',
             },
           },
         },

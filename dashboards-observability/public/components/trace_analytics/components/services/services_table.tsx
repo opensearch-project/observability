@@ -18,7 +18,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useMemo } from 'react';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
+import { TraceAnalyticsMode } from '../../home';
 import { FilterType } from '../common/filters/filters';
 import {
   MissingConfigurationMessage,
@@ -33,7 +33,7 @@ interface ServicesTableProps {
   traceColumnAction: any;
   addFilter: (filter: FilterType) => void;
   setRedirect: (redirect: boolean) => void;
-  mode?: TraceAnalyticsModeType;
+  mode?: TraceAnalyticsMode;
 }
 
 export function ServicesTable(props: ServicesTableProps) {
@@ -93,7 +93,7 @@ export function ServicesTable(props: ServicesTableProps) {
           truncateText: true,
           render: (item: any) => (item === 0 || item ? <EuiI18nNumber value={item} /> : '-'),
         },
-        ... mode === TraceAnalyticsMode.Data_Prepper ? [{
+        ... mode === 'data_prepper' ? [{
           field: 'number_of_connected_services',
           name: 'No. of connected services',
           align: 'right',
@@ -102,7 +102,7 @@ export function ServicesTable(props: ServicesTableProps) {
           width: '80px',
           render: (item: any) => (item === 0 || item ? item : '-'),
         }] : [],
-        ... mode === TraceAnalyticsMode.Data_Prepper ? [{
+        ... mode === 'data_prepper' ? [{
           field: 'connected_services',
           name: 'Connected services',
           align: 'left',

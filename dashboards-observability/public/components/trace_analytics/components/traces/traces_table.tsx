@@ -21,7 +21,7 @@ import {
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { TRACES_MAX_NUM } from '../../../../../common/constants/trace_analytics';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
+import { TraceAnalyticsMode } from '../../home';
 import {
   MissingConfigurationMessage,
   NoMatchMessage,
@@ -31,7 +31,7 @@ import {
 interface TracesTableProps {
   items: any[];
   refresh: (sort?: PropertySort) => void;
-  mode: TraceAnalyticsModeType;
+  mode: TraceAnalyticsMode;
   loading: boolean;
   traceIdColumnAction: any;
 }
@@ -50,7 +50,7 @@ export function TracesTable(props: TracesTableProps) {
 
   const columns = useMemo(
     () => {
-      if (mode === TraceAnalyticsMode.Data_Prepper) {
+      if (mode === 'data_prepper') {
         return(
       [
         {

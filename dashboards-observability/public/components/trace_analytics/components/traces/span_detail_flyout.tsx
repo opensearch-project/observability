@@ -22,7 +22,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
+import { TraceAnalyticsMode } from '../../home';
 import { handleSpansFlyoutRequest } from '../../requests/traces_request_handler';
 import { microToMilliSec, nanoToMilliSec } from '../common/helper_functions';
 import { FlyoutListItem } from './flyout_list_item';
@@ -33,9 +33,9 @@ export function SpanDetailFlyout(props: {
   isFlyoutVisible: boolean;
   closeFlyout: () => void;
   addSpanFilter: (field: string, value: any) => void;
-  mode?: TraceAnalyticsModeType;
+  mode?: TraceAnalyticsMode;
 }) {
-  const mode = props.mode !== undefined ? props.mode: TraceAnalyticsMode.Data_Prepper;
+  const mode = props.mode !== undefined ? props.mode: 'data_prepper';
   const [span, setSpan] = useState<any>({});
 
   useEffect(() => {
@@ -67,16 +67,16 @@ export function SpanDetailFlyout(props: {
       getListItem(
         'spanId',
         'Span ID',
-        (mode === TraceAnalyticsMode.Data_Prepper ? span.spanId : span.spanID) ? (
+        (mode === 'data_prepper' ? span.spanId : span.spanID) ? (
           <EuiFlexGroup gutterSize="xs" style={{ marginTop: -4, marginBottom: -4 }}>
             <EuiFlexItem grow={false}>
-              <EuiCopy textToCopy={mode === TraceAnalyticsMode.Data_Prepper ? span.spanId : span.spanID}>
+              <EuiCopy textToCopy={mode === 'data_prepper' ? span.spanId : span.spanID}>
                 {(copy) => (
                   <EuiButtonIcon aria-label="copy-button" onClick={copy} iconType="copyClipboard" />
                 )}
               </EuiCopy>
             </EuiFlexItem>
-            <EuiFlexItem>{mode === TraceAnalyticsMode.Data_Prepper ? span.spanId : span.spanID}</EuiFlexItem>
+            <EuiFlexItem>{mode === 'data_prepper' ? span.spanId : span.spanID}</EuiFlexItem>
           </EuiFlexGroup>
         ) : (
           '-'
@@ -85,38 +85,38 @@ export function SpanDetailFlyout(props: {
       getListItem(
         'parentSpanId',
         'Parent span ID',
-        (mode === TraceAnalyticsMode.Data_Prepper ? span.parentSpanId : span.references.length) ? (
+        (mode === 'data_prepper' ? span.parentSpanId : span.references.length) ? (
           <EuiFlexGroup gutterSize="xs" style={{ marginTop: -4, marginBottom: -4 }}>
             <EuiFlexItem grow={false}>
-              <EuiCopy textToCopy={mode === TraceAnalyticsMode.Data_Prepper ? span.parentSpanId : span.references[0].spanID}>
+              <EuiCopy textToCopy={mode === 'data_prepper' ? span.parentSpanId : span.references[0].spanID}>
                 {(copy) => (
                   <EuiButtonIcon aria-label="copy-button" onClick={copy} iconType="copyClipboard" />
                 )}
               </EuiCopy>
             </EuiFlexItem>
-            <EuiFlexItem>{mode === TraceAnalyticsMode.Data_Prepper ? span.parentSpanId : span.references[0].spanID}</EuiFlexItem>
+            <EuiFlexItem>{mode === 'data_prepper' ? span.parentSpanId : span.references[0].spanID}</EuiFlexItem>
           </EuiFlexGroup>
         ) : (
           '-'
         )
       ),
-      getListItem('serviceName', 'Service', (mode === TraceAnalyticsMode.Data_Prepper ? span.serviceName : span.process['serviceName']) || '-'),
-      getListItem('name', 'Operation', (mode === TraceAnalyticsMode.Data_Prepper ? span.name : span.operationName) || '-'),
+      getListItem('serviceName', 'Service', (mode === 'data_prepper' ? span.serviceName : span.process['serviceName']) || '-'),
+      getListItem('name', 'Operation', (mode === 'data_prepper' ? span.name : span.operationName) || '-'),
       getListItem(
         'durationInNanos',
         'Duration',
-        `${(mode === TraceAnalyticsMode.Data_Prepper ? _.round(nanoToMilliSec(Math.max(0, span.durationInNanos)), 2) : _.round(microToMilliSec(Math.max(0, span.duration)), 2))} ms`
+        `${(mode === 'data_prepper' ? _.round(nanoToMilliSec(Math.max(0, span.durationInNanos)), 2) : _.round(microToMilliSec(Math.max(0, span.duration)), 2))} ms`
       ),
       getListItem(
         'startTime',
         'Start time',
-        mode === TraceAnalyticsMode.Data_Prepper ? moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(_.round(microToMilliSec(Math.max(0, span.startTime)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT)
+        mode === 'data_prepper' ? moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(_.round(microToMilliSec(Math.max(0, span.startTime)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT)
       ),
-      getListItem('endTime', 'End time',  mode === TraceAnalyticsMode.Data_Prepper ? moment(span.endTime).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(_.round(microToMilliSec(Math.max(0, span.startTime + span.duration)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT)),
+      getListItem('endTime', 'End time',  mode === 'data_prepper' ? moment(span.endTime).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(_.round(microToMilliSec(Math.max(0, span.startTime + span.duration)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT)),
       getListItem(
         'status.code',
         'Errors',
-        (mode === TraceAnalyticsMode.Data_Prepper ? span['status.code'] === 2 : span.tag['error']) ? (
+        (mode === 'data_prepper' ? span['status.code'] === 2 : span.tag['error']) ? (
           <EuiText color="danger" size="s" style={{fontWeight: 700}}>
             Yes
           </EuiText>

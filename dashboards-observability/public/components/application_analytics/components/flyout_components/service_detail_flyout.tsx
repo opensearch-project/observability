@@ -45,7 +45,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
     closeServiceFlyout,
     openSpanFlyout,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
+  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [total, setTotal] = useState(0);

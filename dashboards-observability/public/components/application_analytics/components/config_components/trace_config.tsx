@@ -44,7 +44,7 @@ export const TraceConfig = (props: TraceConfigProps) => {
     selectedTraces,
     setSelectedTraces,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
+  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);

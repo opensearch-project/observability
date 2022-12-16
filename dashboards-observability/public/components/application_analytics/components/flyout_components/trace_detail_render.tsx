@@ -14,17 +14,17 @@ import {
 } from '../../../trace_analytics/requests/traces_request_handler';
 import { HttpStart } from '../../../../../../../src/core/public';
 import { getListItem } from '../../helpers/utils';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../../../../../public/components/trace_analytics/home';
+import { TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 
 interface TraceDetailRenderProps {
   traceId: string;
   http: HttpStart;
   openSpanFlyout: (spanId: string) => void;
-  traceAnalyticsMode? : TraceAnalyticsModeType
+  traceAnalyticsMode? : TraceAnalyticsMode
 }
 
 export const TraceDetailRender = ({ traceId, http, openSpanFlyout, traceAnalyticsMode }: TraceDetailRenderProps) => {
-  const mode = traceAnalyticsMode !== undefined ? traceAnalyticsMode : TraceAnalyticsMode.Data_Prepper;
+  const mode = traceAnalyticsMode !== undefined ? traceAnalyticsMode : 'data_prepper';
   const [fields, setFields] = useState<any>({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [payloadData, setPayloadData] = useState('');

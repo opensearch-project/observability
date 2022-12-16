@@ -23,9 +23,9 @@ import {
   getValidTraceIdsQuery,
 } from './queries/traces_queries';
 import { handleDslRequest } from './request_handler';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../home';
+import { TraceAnalyticsMode } from '../home';
 
-export const handleValidTraceIds = (http: HttpSetup, DSL: any, mode: TraceAnalyticsModeType) => {
+export const handleValidTraceIds = (http: HttpSetup, DSL: any, mode: TraceAnalyticsMode) => {
   return handleDslRequest(http, {}, getValidTraceIdsQuery(DSL), mode)
     .then((response) => response.aggregations.traces.buckets.map((bucket: any) => bucket.key))
     .catch((error) => console.error(error));
@@ -37,7 +37,7 @@ export const handleTracesRequest = async (
   timeFilterDSL: any,
   items: any,
   setItems: (items: any) => void,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
   sort?: any,
 ) => {
   const binarySearch = (arr: number[], target: number) => {
@@ -73,7 +73,7 @@ export const handleTracesRequest = async (
     .then((response) => {
       return Promise.all(
         response.aggregations.traces.buckets.map((bucket: any) => {
-          if (mode === TraceAnalyticsMode.Data_Prepper) { 
+          if (mode === 'data_prepper') { 
             return {
               trace_id: bucket.key,
               trace_group: bucket.trace_group.buckets[0]?.key,
@@ -109,7 +109,7 @@ export const handleTraceViewRequest = (
   http: HttpSetup,
   fields: {},
   setFields: (fields: any) => void,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   handleDslRequest(http, null, getTracesQuery(mode, traceId), mode)
     .then(async (response) => {
@@ -138,7 +138,7 @@ export const handleServicesPieChartRequest = async (
   http: HttpSetup,
   setServiceBreakdownData: (serviceBreakdownData: any) => void,
   setColorMap: (colorMap: any) => void,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   const colors = [
     '#7492e7',
@@ -201,7 +201,7 @@ export const handleSpansGanttRequest = (
   setSpanDetailData: (spanDetailData: any) => void,
   colorMap: any,
   spanFiltersDSL: any,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   handleDslRequest(http, spanFiltersDSL, getSpanDetailQuery(mode, traceId), mode)
     .then((response) => hitsToSpanDetailData(response.hits.hits, colorMap, mode))
@@ -213,7 +213,7 @@ export const handleSpansFlyoutRequest = (
   http: HttpSetup,
   spanId: string,
   setItems: (items: any) => void,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   handleDslRequest(http, null, getSpanFlyoutQuery(mode, spanId), mode)
     .then((response) => {
@@ -222,7 +222,7 @@ export const handleSpansFlyoutRequest = (
     .catch((error) => console.error(error));
 };
 
-const hitsToSpanDetailData = async (hits: any, colorMap: any, mode: TraceAnalyticsModeType) => {
+const hitsToSpanDetailData = async (hits: any, colorMap: any, mode: TraceAnalyticsMode) => {
   const data: { gantt: any[]; table: any[]; ganttMaxX: number } = {
     gantt: [],
     table: [],
@@ -230,15 +230,15 @@ const hitsToSpanDetailData = async (hits: any, colorMap: any, mode: TraceAnalyti
   };
   if (hits.length === 0) return data;
 
-  const minStartTime = mode === TraceAnalyticsMode.Jaeger ? microToMilliSec(hits[hits.length - 1].sort[0]) : nanoToMilliSec(hits[hits.length - 1].sort[0]);
+  const minStartTime = mode === 'jaeger' ? microToMilliSec(hits[hits.length - 1].sort[0]) : nanoToMilliSec(hits[hits.length - 1].sort[0]);
   let maxEndTime = 0;
 
   hits.forEach((hit: any) => {
-    const startTime = mode === TraceAnalyticsMode.Jaeger ? microToMilliSec(hit.sort[0]) - minStartTime : nanoToMilliSec(hit.sort[0]) - minStartTime;
-    const duration = mode === TraceAnalyticsMode.Jaeger ? _.round(microToMilliSec(hit._source.duration), 2) : _.round(nanoToMilliSec(hit._source.durationInNanos), 2);;
-    const serviceName = mode === TraceAnalyticsMode.Jaeger? _.get(hit, ['_source', 'process'])['serviceName'] : _.get(hit, ['_source', 'serviceName']);
-    const name = mode === TraceAnalyticsMode.Jaeger ? _.get(hit, '_source.operationName') : _.get(hit, '_source.name');
-    const error = mode === TraceAnalyticsMode.Jaeger ? (hit._source['tag']['error'] === true ? ' \u26a0 Error' : '') : (hit._source['status.code'] === 2 ? ' \u26a0 Error' : '');
+    const startTime = mode === 'jaeger' ? microToMilliSec(hit.sort[0]) - minStartTime : nanoToMilliSec(hit.sort[0]) - minStartTime;
+    const duration = mode === 'jaeger' ? _.round(microToMilliSec(hit._source.duration), 2) : _.round(nanoToMilliSec(hit._source.durationInNanos), 2);;
+    const serviceName = mode === 'jaeger'? _.get(hit, ['_source', 'process'])['serviceName'] : _.get(hit, ['_source', 'serviceName']);
+    const name = mode === 'jaeger' ? _.get(hit, '_source.operationName') : _.get(hit, '_source.name');
+    const error = mode === 'jaeger' ? (hit._source['tag']['error'] === true ? ' \u26a0 Error' : '') : (hit._source['status.code'] === 2 ? ' \u26a0 Error' : '');
     const uniqueLabel = `${serviceName} <br>${name} ` + uuid();
     maxEndTime = Math.max(maxEndTime, startTime + duration);
 
@@ -292,7 +292,7 @@ export const handlePayloadRequest = (
   http: HttpSetup,
   payloadData: any,
   setPayloadData: (payloadData: any) => void,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   handleDslRequest(http, null, getPayloadQuery(mode, traceId), mode)
     .then((response) => setPayloadData(JSON.stringify(response.hits.hits, null, 2)))
@@ -305,7 +305,7 @@ export const handleSpansRequest = (
   setTotal: (total: number) => void,
   spanSearchParams: SpanSearchParams,
   DSL: any,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   handleDslRequest(http, DSL, getSpansQuery(spanSearchParams), mode)
     .then((response) => {

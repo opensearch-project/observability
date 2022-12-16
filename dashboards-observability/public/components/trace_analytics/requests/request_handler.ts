@@ -12,9 +12,9 @@ import {
   JAEGER_INDEX_NAME,
   DATA_PREPPER_INDEX_NAME
 } from '../../../../common/constants/trace_analytics';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../home';
+import { TraceAnalyticsMode } from '../home';
 
-export function handleDslRequest(http: CoreStart['http'], DSL: any, bodyQuery: any, mode: TraceAnalyticsModeType) {
+export function handleDslRequest(http: CoreStart['http'], DSL: any, bodyQuery: any, mode: TraceAnalyticsMode) {
   if (DSL?.query) {
     bodyQuery.query.bool.must.push(...DSL.query.bool.must);
     bodyQuery.query.bool.filter.push(...DSL.query.bool.filter);
@@ -25,7 +25,7 @@ export function handleDslRequest(http: CoreStart['http'], DSL: any, bodyQuery: a
   }
   let body = bodyQuery;
   if (!bodyQuery.index) {
-    body = {...bodyQuery, index: ((mode === TraceAnalyticsMode.Jaeger ? JAEGER_INDEX_NAME : DATA_PREPPER_INDEX_NAME)) }
+    body = {...bodyQuery, index: ((mode === 'jaeger' ? JAEGER_INDEX_NAME : DATA_PREPPER_INDEX_NAME)) }
   }
   return http
     .post(TRACE_ANALYTICS_DSL_ROUTE, {

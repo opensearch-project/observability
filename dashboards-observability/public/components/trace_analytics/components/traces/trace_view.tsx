@@ -20,7 +20,7 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { TraceAnalyticsCoreDeps, TraceAnalyticsMode, TraceAnalyticsModeType } from '../../home';
+import { TraceAnalyticsCoreDeps, TraceAnalyticsMode } from '../../home';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import {
   handlePayloadRequest,
@@ -34,11 +34,11 @@ import { SpanDetailPanel } from './span_detail_panel';
 
 interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
-  mode?: TraceAnalyticsModeType;
+  mode?: TraceAnalyticsMode;
 }
 
 export function TraceView(props: TraceViewProps) {
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
+  const mode = props.mode !== undefined ? props.mode : 'data_prepper'
   const page = 'traceView';
   const renderTitle = (traceId: string) => {
     return (
@@ -85,7 +85,7 @@ export function TraceView(props: TraceViewProps) {
                   </EuiFlexGroup>
                 )}
               </EuiFlexItem>
-              { mode === TraceAnalyticsMode.Data_Prepper ? (
+              { mode === 'data_prepper' ? (
                 <EuiFlexItem grow={false}>
                   <EuiText className="overview-title">Trace group name</EuiText>
                   <EuiText size="s" className="overview-content">
@@ -250,7 +250,7 @@ export function TraceView(props: TraceViewProps) {
             ) : null}
           </EuiPanel>
           <EuiSpacer />
-          { mode === TraceAnalyticsMode.Data_Prepper ? 
+          { mode === 'data_prepper' ? 
             <ServiceMap
               addFilter={undefined}
               serviceMap={traceFilteredServiceMap}

@@ -39,7 +39,7 @@ export function ServicesContent(props: ServicesProps) {
     setStartTime,
     setEndTime,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
+  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
   const [tableItems, setTableItems] = useState([]);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -129,7 +129,7 @@ export function ServicesContent(props: ServicesProps) {
         traceColumnAction={traceColumnAction}
       />
       <EuiSpacer size="m" />
-      { mode === TraceAnalyticsMode.Data_Prepper ? 
+      { mode === 'data_prepper' ? 
         <ServiceMap
           addFilter={addFilter}
           serviceMap={serviceMap}

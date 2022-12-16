@@ -17,13 +17,13 @@ import {
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 import { HttpSetup } from '../../../../../../src/core/public';
-import { TraceAnalyticsMode, TraceAnalyticsModeType } from '../home';
+import { TraceAnalyticsMode } from '../home';
 
 export const handleServicesRequest = async (
   http: HttpSetup,
   DSL: any,
   setItems: any,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
   setServiceMap?: any,
   serviceNameFilter?: string,
 ) => {
@@ -59,7 +59,7 @@ export const handleServicesRequest = async (
 export const handleServiceMapRequest = async (
   http: HttpSetup,
   DSL: DSLService | any,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
   setItems?: any,
   currService?: string,
 ) => {
@@ -164,7 +164,7 @@ export const handleServiceViewRequest = (
   http: HttpSetup,
   DSL: any,
   setFields: any,
-  mode: TraceAnalyticsModeType,
+  mode: TraceAnalyticsMode,
 ) => {
   handleDslRequest(http, DSL, getServicesQuery(mode, serviceName), mode)
     .then(async (response) => {
