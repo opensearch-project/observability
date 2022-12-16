@@ -35,6 +35,7 @@ describe('Service view component', () => {
         endTime="now"
         setEndTime={setEndTime}
         addFilter={addFilter}
+        mode="data_prepper"
       />
     );
 

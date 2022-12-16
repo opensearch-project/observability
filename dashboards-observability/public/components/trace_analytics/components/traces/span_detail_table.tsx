@@ -18,7 +18,7 @@ interface SpanDetailTableProps {
   http: HttpSetup;
   hiddenColumns: string[];
   openFlyout: (spanId: string) => void;
-  mode?: TraceAnalyticsMode
+  mode: TraceAnalyticsMode
   DSL?: any;
   setTotal?: (total: number) => void;
 }
@@ -40,7 +40,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       direction: 'asc' | 'desc';
     }>,
   });
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper;
+  const { mode } = props;
   const [items, setItems] = useState<any>([]);
   const [total, setTotal] = useState(0);
 
@@ -58,46 +58,46 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
   }, [total]);
 
   const columns: EuiDataGridColumn[] = [
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'spanID',
       display: 'Span ID',
     }] : [{
       id: 'spanId',
       display: 'Span ID',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'references',
       display: 'Parent span ID',
     }] : [{
       id: 'parentSpanId',
       display: 'Parent span ID',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'traceID',
       display: 'Trace ID',
     }] : [{
       id: 'traceId',
       display: 'Trace ID',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [] : [{
+    ... mode === 'jaeger' ? [] : [{
       id: 'traceGroup',
       display: 'Trace group',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'process',
       display: 'Service',
     }] : [{
       id: 'serviceName',
       display: 'Service',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'operationName',
       display: 'Operation',
     }] : [{
       id: 'name',
       display: 'Operation',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'duration',
       display: 'Duration',
     }] : [{
@@ -108,14 +108,14 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
       id: 'startTime',
       display: 'Start time',
     },
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'jaegerEndTime',
       display: 'End time',
     }] : [{
       id: 'endTime',
       display: 'End time',
     }],
-    ... mode === TraceAnalyticsMode.Jaeger ? [{
+    ... mode === 'jaeger' ? [{
       id: 'tag',
       display: 'Errors',
     }] : [{
@@ -158,7 +158,7 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
         case 'duration':
           return `${_.round(microToMilliSec(Math.max(0, value)), 2)} ms`;
         case 'startTime':
-          return mode === TraceAnalyticsMode.Jaeger ? moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
+          return mode === 'jaeger' ? moment(_.round(microToMilliSec(Math.max(0, value)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(value).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'jaegerEndTime':
           return moment(_.round(microToMilliSec(Math.max(0, items[adjustedRowIndex]["startTime"] + items[adjustedRowIndex]["duration"])), 2)).format(TRACE_ANALYTICS_DATE_FORMAT);
         case 'endTime':
@@ -205,8 +205,8 @@ export function SpanDetailTable(props: SpanDetailTableProps) {
         columnVisibility={{ visibleColumns, setVisibleColumns }}
         rowCount={total}
         renderCellValue={renderCellValue}
-        sorting={mode === TraceAnalyticsMode.Jaeger ? undefined : { columns: tableParams.sortingColumns, onSort }}
-        toolbarVisibility={mode === TraceAnalyticsMode.Jaeger ? false : true}
+        sorting={mode === 'jaeger' ? undefined : { columns: tableParams.sortingColumns, onSort }}
+        toolbarVisibility={mode === 'jaeger' ? false : true}
         pagination={{
           pageIndex: tableParams.page,
           pageSize: tableParams.size,

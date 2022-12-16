@@ -20,6 +20,7 @@ describe('Trace view component', () => {
         chrome={core.chrome}
         parentBreadcrumbs={[{ text: 'test', href: 'test#/' }]}
         traceId="test"
+        mode="data_prepper"
       />
     );
     expect(wrapper).toMatchSnapshot();

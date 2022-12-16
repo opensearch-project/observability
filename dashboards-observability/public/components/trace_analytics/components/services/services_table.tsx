@@ -33,7 +33,7 @@ interface ServicesTableProps {
   traceColumnAction: any;
   addFilter: (filter: FilterType) => void;
   setRedirect: (redirect: boolean) => void;
-  mode?: TraceAnalyticsMode;
+  mode: TraceAnalyticsMode;
 }
 
 export function ServicesTable(props: ServicesTableProps) {
@@ -170,7 +170,7 @@ export function ServicesTable(props: ServicesTableProps) {
             }}
             loading={loading}
           />
-        ) : mode !== TraceAnalyticsMode.None ? (
+        ) : mode !== 'none' ? (
           <NoMatchMessage size="xl" />
         ) : (
           <MissingConfigurationMessage />

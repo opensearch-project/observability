@@ -280,7 +280,7 @@ export function TracesTable(props: TracesTableProps) {
             onTableChange={onTableChange}
             loading={loading}
           />
-        ) : mode !== TraceAnalyticsMode.None ? (
+        ) : mode !== 'none' ? (
           <NoMatchMessage size="xl" />
         ) : (
           <MissingConfigurationMessage />

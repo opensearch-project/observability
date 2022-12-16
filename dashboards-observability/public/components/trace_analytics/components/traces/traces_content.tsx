@@ -12,7 +12,6 @@ import { filtersToDsl, processTimeStamp } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { TracesProps } from './traces';
 import { TracesTable } from './traces_table';
-import { TraceAnalyticsMode } from '../../home';
 
 export function TracesContent(props: TracesProps) {
   const {
@@ -31,8 +30,8 @@ export function TracesContent(props: TracesProps) {
     setFilters,
     setStartTime,
     setEndTime,
+    mode,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : TraceAnalyticsMode.Data_Prepper
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -50,7 +49,7 @@ export function TracesContent(props: TracesProps) {
   }, []);
 
   useEffect(() => {
-    if (!redirect && mode !== TraceAnalyticsMode.None) refresh();
+    if (!redirect && mode !== 'none') refresh();
   }, [filters, appConfigs]);
 
   const refresh = async (sort?: PropertySort) => {

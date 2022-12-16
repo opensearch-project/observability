@@ -49,6 +49,7 @@ describe('Services component', () => {
         endTime="now"
         setEndTime={setEndTime}
         page="services"
+        mode='data_prepper'
       />
     );
 
@@ -92,6 +93,7 @@ describe('Services component', () => {
         endTime="now"
         setEndTime={setEndTime}
         page="services"
+        mode='data_prepper'
       />
     );
 

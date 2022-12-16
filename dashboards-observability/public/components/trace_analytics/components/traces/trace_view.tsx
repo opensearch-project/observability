@@ -34,11 +34,11 @@ import { SpanDetailPanel } from './span_detail_panel';
 
 interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
-  mode?: TraceAnalyticsMode;
+  mode: TraceAnalyticsMode;
 }
 
 export function TraceView(props: TraceViewProps) {
-  const mode = props.mode !== undefined ? props.mode : 'data_prepper'
+  const { mode } = props;
   const page = 'traceView';
   const renderTitle = (traceId: string) => {
     return (

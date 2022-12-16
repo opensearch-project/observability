@@ -70,7 +70,7 @@ export function ServicesContent(props: ServicesProps) {
       }
     }
     setFilteredService(newFilteredService);
-    if (!redirect && mode !== TraceAnalyticsMode.None) refresh(newFilteredService);
+    if (!redirect && mode !== 'none') refresh(newFilteredService);
   }, [filters, appConfigs]);
 
   const refresh = async (currService?: string) => {

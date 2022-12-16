@@ -76,7 +76,7 @@ export const Home = (props: HomeProps) => {
   //   } else if (jaegerIndicesExist) {
   //     setMode('jaeger');
   //   } else {
-  //     setMode(TraceAnalyticsMode.None);
+  //     setMode('none');
   //   }
   // }, [jaegerIndicesExist, dataPrepperIndicesExist]);
 

@@ -33,9 +33,9 @@ export function SpanDetailFlyout(props: {
   isFlyoutVisible: boolean;
   closeFlyout: () => void;
   addSpanFilter: (field: string, value: any) => void;
-  mode?: TraceAnalyticsMode;
+  mode: TraceAnalyticsMode;
 }) {
-  const mode = props.mode !== undefined ? props.mode: 'data_prepper';
+  const { mode } = props;
   const [span, setSpan] = useState<any>({});
 
   useEffect(() => {

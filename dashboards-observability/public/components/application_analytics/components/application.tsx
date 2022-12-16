@@ -563,6 +563,7 @@ export function Application(props: AppDetailProps) {
             isFlyoutVisible={!!spanFlyoutId}
             closeFlyout={closeSpanFlyout}
             addSpanFilter={addSpanFilter}
+            mode="data_prepper"
           />
         )}
         {traceFlyoutId && (

@@ -83,7 +83,7 @@ export function DashboardContent(props: DashboardProps) {
       }
     }
     setFilteredService(newFilteredService);
-    if (!redirect && mode !== TraceAnalyticsMode.None) refresh(newFilteredService);
+    if (!redirect && mode !== 'none') refresh(newFilteredService);
   }, [filters, startTime, endTime, appConfigs]);
 
   const refresh = async (currService?: string) => {
@@ -204,7 +204,7 @@ export function DashboardContent(props: DashboardProps) {
         page={page}
       />
       <EuiSpacer size="m" />
-      {mode !== TraceAnalyticsMode.None ? (
+      {mode !== 'none' ? (
         <div>
           { mode === 'data_prepper' ? (
           <>
