@@ -129,7 +129,7 @@ export function ServicesContent(props: ServicesProps) {
         traceColumnAction={traceColumnAction}
       />
       <EuiSpacer size="m" />
-      { mode === "Data_Prepper" ? 
+      { mode === TraceAnalyticsMode.Data_Prepper ? 
         <ServiceMap
           addFilter={addFilter}
           serviceMap={serviceMap}
