@@ -49,6 +49,7 @@ describe('Dashboard component', () => {
         endTime="now"
         setEndTime={setEndTime}
         page="dashboard"
+        mode='data_prepper'
       />
     );
 
@@ -91,6 +92,7 @@ describe('Dashboard component', () => {
         endTime="now"
         setEndTime={setEndTime}
         page="dashboard"
+        mode='data_prepper'
       />
     );
 

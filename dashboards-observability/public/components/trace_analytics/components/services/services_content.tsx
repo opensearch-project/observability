@@ -38,8 +38,8 @@ export function ServicesContent(props: ServicesProps) {
     setQuery,
     setStartTime,
     setEndTime,
+    mode,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
   const [tableItems, setTableItems] = useState([]);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<

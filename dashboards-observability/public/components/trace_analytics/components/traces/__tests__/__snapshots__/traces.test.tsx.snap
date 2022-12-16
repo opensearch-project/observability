@@ -49,7 +49,7 @@ exports[`Traces component renders empty traces page 1`] = `
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
-  indicesExist={false}
+  mode="data_prepper"
   page="traces"
   parentBreadcrumbs={
     Array [
@@ -143,7 +143,7 @@ exports[`Traces component renders empty traces page 1`] = `
     endTime="now"
     filters={Array []}
     http={[MockFunction]}
-    indicesExist={false}
+    mode="data_prepper"
     page="traces"
     parentBreadcrumbs={
       Array [
@@ -980,9 +980,9 @@ exports[`Traces component renders empty traces page 1`] = `
       />
     </EuiSpacer>
     <TracesTable
-      indicesExist={false}
       items={Array []}
       loading={false}
+      mode="data_prepper"
       refresh={[Function]}
       traceIdColumnAction={[Function]}
     >
@@ -1044,26 +1044,25 @@ exports[`Traces component renders empty traces page 1`] = `
               className="euiHorizontalRule euiHorizontalRule--full"
             />
           </EuiHorizontalRule>
-          <MissingConfigurationMessage>
+          <NoMatchMessage
+            size="xl"
+          >
+            <EuiSpacer
+              size="xl"
+            >
+              <div
+                className="euiSpacer euiSpacer--xl"
+              />
+            </EuiSpacer>
             <EuiEmptyPrompt
-              actions={
-                <EuiButton
-                  color="primary"
-                  iconSide="right"
-                  iconType="popout"
-                  onClick={[Function]}
-                >
-                  Learn more
-                </EuiButton>
-              }
               body={
                 <EuiText>
-                  The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+                  No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
                 </EuiText>
               }
               title={
                 <h2>
-                  Trace Analytics not set up
+                  No matches
                 </h2>
               }
             >
@@ -1076,7 +1075,7 @@ exports[`Traces component renders empty traces page 1`] = `
                   <h2
                     className="euiTitle euiTitle--medium"
                   >
-                    Trace Analytics not set up
+                    No matches
                   </h2>
                 </EuiTitle>
                 <EuiTextColor
@@ -1100,100 +1099,23 @@ exports[`Traces component renders empty traces page 1`] = `
                           <div
                             className="euiText euiText--medium"
                           >
-                            The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+                            No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
                           </div>
                         </EuiText>
                       </div>
                     </EuiText>
                   </span>
                 </EuiTextColor>
-                <EuiSpacer
-                  size="l"
-                >
-                  <div
-                    className="euiSpacer euiSpacer--l"
-                  />
-                </EuiSpacer>
-                <EuiButton
-                  color="primary"
-                  iconSide="right"
-                  iconType="popout"
-                  onClick={[Function]}
-                >
-                  <EuiButtonDisplay
-                    baseClassName="euiButton"
-                    color="primary"
-                    disabled={false}
-                    element="button"
-                    iconSide="right"
-                    iconType="popout"
-                    isDisabled={false}
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    <button
-                      className="euiButton euiButton--primary"
-                      disabled={false}
-                      onClick={[Function]}
-                      style={
-                        Object {
-                          "minWidth": undefined,
-                        }
-                      }
-                      type="button"
-                    >
-                      <EuiButtonContent
-                        className="euiButton__content"
-                        iconSide="right"
-                        iconType="popout"
-                        textProps={
-                          Object {
-                            "className": "euiButton__text",
-                          }
-                        }
-                      >
-                        <span
-                          className="euiButtonContent euiButtonContent--iconRight euiButton__content"
-                        >
-                          <EuiIcon
-                            className="euiButtonContent__icon"
-                            color="inherit"
-                            size="m"
-                            type="popout"
-                          >
-                            <EuiIconEmpty
-                              aria-hidden={true}
-                              className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                              focusable="false"
-                              role="img"
-                              style={null}
-                            >
-                              <svg
-                                aria-hidden={true}
-                                className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                                focusable="false"
-                                height={16}
-                                role="img"
-                                style={null}
-                                viewBox="0 0 16 16"
-                                width={16}
-                                xmlns="http://www.w3.org/2000/svg"
-                              />
-                            </EuiIconEmpty>
-                          </EuiIcon>
-                          <span
-                            className="euiButton__text"
-                          >
-                            Learn more
-                          </span>
-                        </span>
-                      </EuiButtonContent>
-                    </button>
-                  </EuiButtonDisplay>
-                </EuiButton>
               </div>
             </EuiEmptyPrompt>
-          </MissingConfigurationMessage>
+            <EuiSpacer
+              size="xl"
+            >
+              <div
+                className="euiSpacer euiSpacer--xl"
+              />
+            </EuiSpacer>
+          </NoMatchMessage>
         </div>
       </EuiPanel>
     </TracesTable>
@@ -1250,7 +1172,7 @@ exports[`Traces component renders traces page 1`] = `
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
-  indicesExist={true}
+  mode="data_prepper"
   page="traces"
   parentBreadcrumbs={
     Array [
@@ -1344,7 +1266,7 @@ exports[`Traces component renders traces page 1`] = `
     endTime="now"
     filters={Array []}
     http={[MockFunction]}
-    indicesExist={true}
+    mode="data_prepper"
     page="traces"
     parentBreadcrumbs={
       Array [
@@ -2204,9 +2126,9 @@ exports[`Traces component renders traces page 1`] = `
       />
     </EuiSpacer>
     <TracesTable
-      indicesExist={true}
       items={Array []}
       loading={false}
+      mode="data_prepper"
       refresh={[Function]}
       traceIdColumnAction={[Function]}
     >

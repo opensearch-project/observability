@@ -182,7 +182,7 @@ export const getTracesQuery = (mode: TraceAnalyticsMode, traceId: string = '', s
       },
     });
   }
-  return mode === TraceAnalyticsMode.Jaeger ? jaegerQuery : dataPrepperQuery;
+  return mode === 'jaeger' ? jaegerQuery : dataPrepperQuery;
 };
 
 export const getServiceBreakdownQuery = (traceId: string, mode: TraceAnalyticsMode) => {
@@ -276,11 +276,11 @@ export const getServiceBreakdownQuery = (traceId: string, mode: TraceAnalyticsMo
       },
     },
   };
-  return mode === TraceAnalyticsMode.Jaeger? jaegerQuery : dataPrepperQuery;
+  return mode === 'jaeger'? jaegerQuery : dataPrepperQuery;
 };
 
 export const getSpanDetailQuery = (mode: TraceAnalyticsMode, traceId: string, size = 3000) => {
-  if (mode === TraceAnalyticsMode.Jaeger) {
+  if (mode === 'jaeger') {
     return {
       size,
       query: {
@@ -366,7 +366,7 @@ export const getSpanDetailQuery = (mode: TraceAnalyticsMode, traceId: string, si
 };
 
 export const getPayloadQuery = (mode: TraceAnalyticsMode, traceId: string, size = 1000) => {
-  if (mode === TraceAnalyticsMode.Jaeger) {
+  if (mode === 'jaeger') {
     return {
       size,
       query: {
@@ -405,7 +405,7 @@ export const getPayloadQuery = (mode: TraceAnalyticsMode, traceId: string, size 
 };
 
 export const getSpanFlyoutQuery = (mode: TraceAnalyticsMode, spanId?: string, size = 1000) => {
-  if (mode === TraceAnalyticsMode.Jaeger) {
+  if (mode === 'jaeger') {
     return {
       size,
       query: {

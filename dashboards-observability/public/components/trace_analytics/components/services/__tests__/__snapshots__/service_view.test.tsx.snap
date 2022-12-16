@@ -241,6 +241,7 @@ exports[`Service view component renders service view 1`] = `
               ]
             }
             http={[MockFunction]}
+            mode="data_prepper"
             openFlyout={[Function]}
             setTotal={[Function]}
           />

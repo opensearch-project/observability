@@ -17,7 +17,7 @@ interface TraceFlyoutProps extends TraceAnalyticsComponentDeps {
 export function TraceDetailFlyout(props: TraceFlyoutProps) {
   const { traceId, http, closeTraceFlyout, openSpanFlyout } = props;
   const renderContent = (
-    <TraceDetailRender traceId={traceId} http={http} openSpanFlyout={openSpanFlyout} />
+    <TraceDetailRender traceId={traceId} http={http} openSpanFlyout={openSpanFlyout} mode='data_prepper'/>
   );
   return (
     <EuiFlyout data-test-subj="traceDetailFlyout" onClose={closeTraceFlyout} size="m">

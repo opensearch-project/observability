@@ -44,8 +44,8 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
     query,
     closeServiceFlyout,
     openSpanFlyout,
+    mode,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [total, setTotal] = useState(0);
@@ -111,6 +111,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
           DSL={DSL}
           openFlyout={openSpanFlyout}
           setTotal={setTotal}
+          mode={mode}
         />
       </>
     );

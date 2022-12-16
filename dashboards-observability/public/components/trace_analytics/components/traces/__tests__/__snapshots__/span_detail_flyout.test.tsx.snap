@@ -8,6 +8,7 @@ exports[`<SpanDetailFlyout /> spec renders the empty component 1`] = `
   closeFlyout={[MockFunction]}
   http={[MockFunction]}
   isFlyoutVisible={true}
+  mode="data_prepper"
   spanId="test"
 >
   <EuiFlyout

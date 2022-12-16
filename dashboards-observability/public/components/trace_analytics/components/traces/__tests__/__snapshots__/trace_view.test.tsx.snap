@@ -138,6 +138,7 @@ exports[`Trace view component renders trace view 1`] = `
               }
             }
             http={[MockFunction]}
+            mode="data_prepper"
             setData={[Function]}
             traceId="test"
           />

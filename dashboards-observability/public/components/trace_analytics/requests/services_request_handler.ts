@@ -70,7 +70,7 @@ export const handleServiceMapRequest = async (
   //   const lte = dateMath.parse(startTime.lte, { roundUp: true })!;
   //   minutesInDateRange = lte.diff(gte, 'minutes', true);
   // }
-  minutesInDateRange = 100000000000;
+  // minutesInDateRange = 100000000000;
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery(mode), mode)

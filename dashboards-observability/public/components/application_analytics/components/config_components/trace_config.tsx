@@ -24,7 +24,6 @@ import { handleDashboardRequest } from '../../../trace_analytics/requests/dashbo
 import { AppAnalyticsComponentDeps } from '../../home';
 import { DashboardTable } from '../../../trace_analytics/components/dashboard/dashboard_table';
 import { getClearModal } from '../../helpers/modal_containers';
-import { TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 
 interface TraceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;
@@ -43,8 +42,8 @@ export const TraceConfig = (props: TraceConfigProps) => {
     endTime,
     selectedTraces,
     setSelectedTraces,
+    mode
   } = props;
-  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
   const [traceOpen, setTraceOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [traceItems, setTraceItems] = useState([]);

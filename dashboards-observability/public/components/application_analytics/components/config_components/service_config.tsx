@@ -41,7 +41,7 @@ export const ServiceConfig = (props: ServiceConfigProps) => {
     selectedServices,
     setSelectedServices,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : 'data_prepper';
+  const { mode } = props;
   const [servicesOpen, setServicesOpen] = useState(false);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<

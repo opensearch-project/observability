@@ -43,5 +43,5 @@ export const TraceBlock = ({ http, hit, logTraceId }: props) => {
     );
   }
 
-  return <TraceDetailRender traceId={logTraceId} http={http} />;
+  return <TraceDetailRender traceId={logTraceId} http={http} mode='data_prepper'/>;
 };

@@ -20,11 +20,10 @@ interface TraceDetailRenderProps {
   traceId: string;
   http: HttpStart;
   openSpanFlyout: (spanId: string) => void;
-  traceAnalyticsMode? : TraceAnalyticsMode
+  mode : TraceAnalyticsMode
 }
 
-export const TraceDetailRender = ({ traceId, http, openSpanFlyout, traceAnalyticsMode }: TraceDetailRenderProps) => {
-  const mode = traceAnalyticsMode !== undefined ? traceAnalyticsMode : 'data_prepper';
+export const TraceDetailRender = ({ traceId, http, openSpanFlyout, mode }: TraceDetailRenderProps) => {
   const [fields, setFields] = useState<any>({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [payloadData, setPayloadData] = useState('');

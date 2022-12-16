@@ -85,7 +85,7 @@ export function SpanDetailPanel(props: {
   }, 150);
 
   const spanFiltersToDSL = () => {
-    const spanDSL: any = mode === TraceAnalyticsMode.Jaeger ? {
+    const spanDSL: any = mode === 'jaeger' ? {
       query: {
         bool: {
           must: [
@@ -222,7 +222,7 @@ export function SpanDetailPanel(props: {
     () => (
       <SpanDetailTable
         http={props.http}
-        hiddenColumns={mode === TraceAnalyticsMode.Jaeger ? ['traceID', 'traceGroup'] : ['traceId', 'traceGroup']}
+        hiddenColumns={mode === 'jaeger' ? ['traceID', 'traceGroup'] : ['traceId', 'traceGroup']}
         DSL={DSL}
         mode={mode}
         openFlyout={(spanId: string) => {

@@ -49,6 +49,7 @@ exports[`Dashboard component renders dashboard 1`] = `
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
+  mode="data_prepper"
   page="dashboard"
   parentBreadcrumbs={
     Array [
@@ -141,6 +142,7 @@ exports[`Dashboard component renders dashboard 1`] = `
     endTime="now"
     filters={Array []}
     http={[MockFunction]}
+    mode="data_prepper"
     page="dashboard"
     parentBreadcrumbs={
       Array [
@@ -2113,6 +2115,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
+  mode="data_prepper"
   page="dashboard"
   parentBreadcrumbs={
     Array [
@@ -2205,6 +2208,7 @@ exports[`Dashboard component renders empty dashboard 1`] = `
     endTime="now"
     filters={Array []}
     http={[MockFunction]}
+    mode="data_prepper"
     page="dashboard"
     parentBreadcrumbs={
       Array [

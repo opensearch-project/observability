@@ -48,8 +48,8 @@ export function DashboardContent(props: DashboardProps) {
     setEndTime,
     setQuery,
     setFilters,
+    mode,
   } = props;
-  const mode = props.mode !== undefined ? props.mode : 'data_prepper'
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
