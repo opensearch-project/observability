@@ -137,6 +137,7 @@ export const Home = (props: HomeProps) => {
     setStartTime,
     endTime,
     setEndTime,
+    mode: 'data_prepper',
   };
 
   const setToast = (title: string, color = 'success', text?: ReactChild) => {

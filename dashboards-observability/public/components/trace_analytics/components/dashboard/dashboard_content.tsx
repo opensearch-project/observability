@@ -31,6 +31,7 @@ import { SearchBar } from '../common/search_bar';
 import { DashboardProps } from './dashboard';
 import { DashboardTable } from './dashboard_table';
 import { TraceAnalyticsMode } from '../../home';
+import { DataSourcePicker } from './mode_picker';
 
 export function DashboardContent(props: DashboardProps) {
   const {
@@ -190,6 +191,7 @@ export function DashboardContent(props: DashboardProps) {
 
   return (
     <>
+      <DataSourcePicker modes={[{id: 'jaeger', title: 'jaeger'}, {id: 'data_prepper', title: 'data_prepper'}]} selectedMode={'jaeger'}/>
       <SearchBar
         query={query}
         filters={filters}
