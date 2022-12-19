@@ -35,7 +35,7 @@ export interface TraceAnalyticsComponentDeps extends TraceAnalyticsCoreDeps, Sea
 export const Home = (props: HomeProps) => {
   const [dataPrepperIndicesExist, setDataPrepperIndicesExist] = useState(true);
   const [jaegerIndicesExist, setJaegerIndicesExist] = useState(true);
-  const [mode, setMode] = useState<TraceAnalyticsMode>('jaeger')
+  const [mode, setMode] = useState<TraceAnalyticsMode>(sessionStorage.getItem('TraceAnalyticsMode') as TraceAnalyticsMode || 'jaeger')
   const storedFilters = sessionStorage.getItem('TraceAnalyticsFilters');
   const [query, setQuery] = useState<string>(sessionStorage.getItem('TraceAnalyticsQuery') || '');
   const [filters, setFilters] = useState<FilterType[]>(
@@ -144,7 +144,7 @@ export const Home = (props: HomeProps) => {
         path={['/trace_analytics', '/trace_analytics/home']}
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Dashboard page="dashboard" childBreadcrumbs={dashboardBreadcrumbs} setMode={(mode: string) => {setMode(mode)}} {...commonProps} />
+            <Dashboard page="dashboard" childBreadcrumbs={dashboardBreadcrumbs} setMode={(mode: TraceAnalyticsMode) => {setMode(mode)}} {...commonProps} />
           </ObservabilitySideBar>
         )}
       />

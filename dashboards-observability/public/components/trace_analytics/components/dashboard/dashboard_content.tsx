@@ -51,7 +51,6 @@ export function DashboardContent(props: DashboardProps) {
     mode,
     setMode
   } = props;
-  console.log(setMode)
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
@@ -194,7 +193,7 @@ export function DashboardContent(props: DashboardProps) {
   return (
     <>
       {setMode !== undefined ? 
-      <DataSourcePicker modes={modes} selectedMode={{id: 'jaeger', title: 'Jaeger'}} setMode={setMode}/>
+      <DataSourcePicker modes={modes} selectedMode={mode} setMode={setMode}/>
       : <div/>} 
       <SearchBar
         query={query}
