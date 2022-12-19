@@ -30,7 +30,6 @@ import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { SearchBar } from '../common/search_bar';
 import { DashboardProps } from './dashboard';
 import { DashboardTable } from './dashboard_table';
-import { TraceAnalyticsMode } from '../../home';
 import { DataSourcePicker } from './mode_picker';
 
 export function DashboardContent(props: DashboardProps) {
@@ -50,7 +49,9 @@ export function DashboardContent(props: DashboardProps) {
     setQuery,
     setFilters,
     mode,
+    setMode
   } = props;
+  console.log(setMode)
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
@@ -188,10 +189,13 @@ export function DashboardContent(props: DashboardProps) {
     const newFilters = [...filters, percentileFilter, ...additionalFilters];
     setFilters(newFilters);
   };
+  const modes = [{id: 'jaeger', title: 'Jaeger'}, {id: 'data_prepper', title: 'Data Prepper'}]
 
   return (
     <>
-      <DataSourcePicker modes={[{id: 'jaeger', title: 'jaeger'}, {id: 'data_prepper', title: 'data_prepper'}]} selectedMode={'jaeger'}/>
+      {setMode !== undefined ? 
+      <DataSourcePicker modes={modes} selectedMode={{id: 'jaeger', title: 'Jaeger'}} setMode={setMode}/>
+      : <div/>} 
       <SearchBar
         query={query}
         filters={filters}

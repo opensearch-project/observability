@@ -144,7 +144,7 @@ export const Home = (props: HomeProps) => {
         path={['/trace_analytics', '/trace_analytics/home']}
         render={(routerProps) => (
           <ObservabilitySideBar>
-            <Dashboard page="dashboard" childBreadcrumbs={dashboardBreadcrumbs} {...commonProps} />
+            <Dashboard page="dashboard" childBreadcrumbs={dashboardBreadcrumbs} setMode={(mode: string) => {setMode(mode)}} {...commonProps} />
           </ObservabilitySideBar>
         )}
       />

@@ -5,12 +5,13 @@
 
 import { EuiBreadcrumb, EuiTitle } from '@elastic/eui';
 import React from 'react';
-import { TraceAnalyticsComponentDeps } from '../../home';
+import { TraceAnalyticsComponentDeps, TraceAnalyticsMode } from '../../home';
 import { DashboardContent } from './dashboard_content';
 
 export interface DashboardProps extends TraceAnalyticsComponentDeps {
   childBreadcrumbs: EuiBreadcrumb[];
   page: 'dashboard' | 'app';
+  setMode?: (mode: TraceAnalyticsMode) => void;
 }
 
 export function Dashboard(props: DashboardProps) {
