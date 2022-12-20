@@ -257,6 +257,59 @@ export const getErrorRatePltQuery = (fixedInterval) => {
   return query;
 };
 
+export const getTopErrorRatePltQuery = (fixedInterval) => {
+  const query: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        filter: [],
+        should: [],
+        must_not: [],
+      },
+    },
+    aggs: {
+      error_rate: {
+        date_histogram: {
+          field: 'startTimeMillis',
+          fixed_interval: fixedInterval,
+        },
+        aggs: {
+          error_count: {
+            filter: {
+              term: {
+                'tag.error': true,
+              },
+            },
+            aggs: {
+              trace_count: {
+                cardinality: {
+                  field: 'traceID',
+                },
+              },
+            },
+          },
+          trace_count: {
+            cardinality: {
+              field: 'traceID',
+            },
+          },
+          error_rate: {
+            bucket_script: {
+              buckets_path: {
+                total: 'trace_count.value',
+                errors: 'error_count>trace_count.value',
+              },
+              script: 'params.errors / params.total * 100',
+            },
+          },
+        },
+      },
+    },
+  };
+  return query;
+};
+
 export const getDashboardThroughputPltQuery = (mode: TraceAnalyticsMode, fixedInterval) => {
   return {
     size: 0,
@@ -271,7 +324,7 @@ export const getDashboardThroughputPltQuery = (mode: TraceAnalyticsMode, fixedIn
     aggs: {
       throughput: {
         date_histogram: {
-          field: 'startTime',
+          field: mode === 'jaeger' ? 'startTimeMillis' : 'startTime',
           fixed_interval: fixedInterval,
         },
         aggs: {

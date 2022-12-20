@@ -59,7 +59,6 @@ describe('Create Page', () => {
         name=""
         description=""
         mode='data_prepper'
-        mode='data_prepper'
         setNameWithStorage={setNameWithStorage}
         setDescriptionWithStorage={setDescriptionWithStorage}
         setQueryWithStorage={setQueryWithStorage}

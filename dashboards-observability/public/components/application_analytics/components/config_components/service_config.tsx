@@ -24,7 +24,6 @@ import { handleServiceMapRequest } from '../../../trace_analytics/requests/servi
 import { AppAnalyticsComponentDeps } from '../../home';
 import { OptionType } from '../../../../../common/types/application_analytics';
 import { getClearModal } from '../../helpers/modal_containers';
-import { TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 
 interface ServiceConfigProps extends AppAnalyticsComponentDeps {
   dslService: DSLService;

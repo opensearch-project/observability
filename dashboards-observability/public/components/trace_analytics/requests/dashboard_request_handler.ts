@@ -6,13 +6,14 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { TRACE_ANALYTICS_PLOTS_DATE_FORMAT } from '../../../../common/constants/trace_analytics';
-import { fixedIntervalToMilli, nanoToMilliSec } from '../components/common/helper_functions';
+import { fixedIntervalToMilli, microToMilliSec, nanoToMilliSec } from '../components/common/helper_functions';
 import {
   getDashboardQuery,
   getDashboardThroughputPltQuery,
   getDashboardTraceGroupPercentiles,
   getErrorRatePltQuery,
   getLatencyTrendQuery,
+  getTopErrorRatePltQuery,
 } from './queries/dashboard_queries';
 import { handleDslRequest } from './request_handler';
 
@@ -157,6 +158,40 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
 
 export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems, mode) => {
   return handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval), mode)
+    .then((response) => {
+      const buckets = response.aggregations.error_rate.buckets;
+      const texts = buckets.map(
+        (bucket) =>
+          `${moment(bucket.key).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)} - ${moment(
+            bucket.key + fixedIntervalToMilli(fixedInterval)
+          ).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)}`
+      );
+      const newItems =
+        buckets.length > 0
+          ? [
+              {
+                x: buckets.map((bucket) => bucket.key),
+                y: buckets.map((bucket) => _.round(bucket.error_rate?.value || 0, 2)),
+                marker: {
+                  color: '#fad963',
+                },
+                type: 'bar',
+                customdata: texts,
+                hoverlabel: {
+                  align: 'left',
+                },
+                hovertemplate: '%{customdata}<br>Error rate: %{y}<extra></extra>',
+              },
+            ]
+          : [];
+      setItems({ items: newItems, fixedInterval: fixedInterval });
+    })
+    .catch((error) => console.error(error));
+};
+
+
+export const handleTopErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems, mode) => {
+  return handleDslRequest(http, DSL, getTopErrorRatePltQuery(fixedInterval), mode)
     .then((response) => {
       const buckets = response.aggregations.error_rate.buckets;
       const texts = buckets.map(

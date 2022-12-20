@@ -12,6 +12,8 @@ import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
   handleDashboardThroughputPltRequest,
+  handleTopErrorRatePltRequest,
+  handleTopThroughputPltRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
@@ -54,6 +56,7 @@ export function DashboardContent(props: DashboardProps) {
   } = props;
   const [tableItems, setTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
+  const [jaegerErrorRatePltItems, setJaegerErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -102,39 +105,47 @@ export function DashboardContent(props: DashboardProps) {
       appConfigs
     );
     const fixedInterval = minFixedInterval(startTime, endTime);
+    // handleDashboardRequest(
+    //   http,
+    //   DSL,
+    //   timeFilterDSL,
+    //   latencyTrendDSL,
+    //   tableItems,
+    //   setTableItems,
+    //   mode,
+    //   setPercentileMap,
+    // ).then(() => setLoading(false));
+    // handleDashboardThroughputPltRequest(
+    //   http,
+    //   DSL,
+    //   fixedInterval,
+    //   throughputPltItems,
+    //   setThroughputPltItems,
+    //   mode
+    // );
 
-    handleDashboardRequest(
-      http,
-      DSL,
-      timeFilterDSL,
-      latencyTrendDSL,
-      tableItems,
-      setTableItems,
-      mode,
-      setPercentileMap,
-    ).then(() => setLoading(false));
-    handleDashboardThroughputPltRequest(
+    handleTopErrorRatePltRequest(
       http,
       DSL,
       fixedInterval,
-      throughputPltItems,
-      setThroughputPltItems,
+      jaegerErrorRatePltItems,
+      setJaegerErrorRatePltItems,
       mode
     );
-    handleDashboardErrorRatePltRequest(
-      http,
-      DSL,
-      fixedInterval,
-      errorRatePltItems,
-      setErrorRatePltItems,
-      mode
-    );
-    // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
-    const serviceMapDSL = _.cloneDeep(DSL);
-    serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
-      (must: any) => must?.term?.serviceName == null
-    );
-    handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService);
+    // handleDashboardErrorRatePltRequest(
+    //   http,
+    //   DSL,
+    //   fixedInterval,
+    //   errorRatePltItems,
+    //   setErrorRatePltItems,
+    //   mode
+    // );
+    // // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
+    // const serviceMapDSL = _.cloneDeep(DSL);
+    // serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
+    //   (must: any) => must?.term?.serviceName == null
+    // );
+    // handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -189,6 +200,7 @@ export function DashboardContent(props: DashboardProps) {
     const newFilters = [...filters, percentileFilter, ...additionalFilters];
     setFilters(newFilters);
   };
+  
   const modes = [{id: 'jaeger', title: 'Jaeger'}, {id: 'data_prepper', title: 'Data Prepper'}]
 
   return (
@@ -262,6 +274,10 @@ export function DashboardContent(props: DashboardProps) {
               setRedirect={setRedirect}
               loading={loading}
               page={page}
+              throughPutItems={throughputPltItems}
+              jaegerErrorRatePltItems={jaegerErrorRatePltItems}
+              setStartTime={setStartTime}
+              setEndTime={setEndTime}
             />
           )
           }
