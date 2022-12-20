@@ -11,7 +11,6 @@ import { coreStartMock } from '../../../../test/__mocks__/coreMocks';
 import DSLService from 'public/services/requests/dsl';
 import PPLService from 'public/services/requests/ppl';
 import { render } from '@testing-library/react';
-import { TraceAnalyticsMode } from 'public/components/trace_analytics/home';
 
 describe('Create Page', () => {
   configure({ adapter: new Adapter() });

@@ -350,6 +350,7 @@ export function Application(props: AppDetailProps) {
             openFlyout={setSpanFlyoutId}
             DSL={spanDSL}
             setTotal={setTotalSpans}
+            mode='data_prepper'
           />
         </EuiPanel>
       </>

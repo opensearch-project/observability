@@ -18,7 +18,6 @@ import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { SearchBar } from '../common/search_bar';
 import { ServicesProps } from './services';
 import { ServicesTable } from './services_table';
-import { TraceAnalyticsMode } from '../../home';
 
 export function ServicesContent(props: ServicesProps) {
   const {

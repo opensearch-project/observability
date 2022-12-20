@@ -31,6 +31,7 @@ import { SearchBar } from '../common/search_bar';
 import { DashboardProps } from './dashboard';
 import { DashboardTable } from './dashboard_table';
 import { DataSourcePicker } from './mode_picker';
+import { TopGroupsPage } from './top_groups_page';
 
 export function DashboardContent(props: DashboardProps) {
   const {
@@ -254,7 +255,14 @@ export function DashboardContent(props: DashboardProps) {
               </EuiFlexItem>
             </EuiFlexGroup>
           </> ) : ( 
-            <div>You are looking at raw jaeger data, so some features may not be available. Click on the traces or services subpage to start exploring your data!</div>
+            <TopGroupsPage
+              filters={filters}
+              addFilter={addFilter}
+              addPercentileFilter={addPercentileFilter}
+              setRedirect={setRedirect}
+              loading={loading}
+              page={page}
+            />
           )
           }
         </div>

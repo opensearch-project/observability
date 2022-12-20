@@ -23,7 +23,7 @@ import { filtersToDsl, processTimeStamp } from '../../../../../public/components
 import { ServiceMap } from '../../../../../public/components/trace_analytics/components/services';
 import { ServiceObject } from '../../../../../public/components/trace_analytics/components/common/plots/service_map';
 import { SpanDetailTable } from '../../../../../public/components/trace_analytics/components/traces/span_detail_table';
-import { TraceAnalyticsComponentDeps, TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
+import { TraceAnalyticsComponentDeps } from '../../../../../public/components/trace_analytics/home';
 import { getListItem } from '../../helpers/utils';
 
 interface ServiceFlyoutProps extends TraceAnalyticsComponentDeps {

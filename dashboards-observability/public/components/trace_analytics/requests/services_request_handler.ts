@@ -64,13 +64,12 @@ export const handleServiceMapRequest = async (
   currService?: string,
 ) => {
   let minutesInDateRange: number;
-  // const startTime = DSL.custom?.timeFilter?.[0]?.range?.startTime;
-  // if (startTime) {
-  //   const gte = dateMath.parse(startTime.gte)!;
-  //   const lte = dateMath.parse(startTime.lte, { roundUp: true })!;
-  //   minutesInDateRange = lte.diff(gte, 'minutes', true);
-  // }
-  // minutesInDateRange = 100000000000;
+  const startTime = DSL.custom?.timeFilter?.[0]?.range?.startTime;
+  if (startTime) {
+    const gte = dateMath.parse(startTime.gte)!;
+    const lte = dateMath.parse(startTime.lte, { roundUp: true })!;
+    minutesInDateRange = lte.diff(gte, 'minutes', true);
+  }
   const map: ServiceObject = {};
   let id = 1;
   await handleDslRequest(http, null, getServiceNodesQuery(mode), mode)
