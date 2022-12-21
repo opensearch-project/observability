@@ -187,7 +187,8 @@ internal data class OperationalPanel(
         val x: Int,
         val y: Int,
         val w: Int,
-        val h: Int
+        val h: Int,
+        val visualizationType: String ?= null
     ) : BaseModel {
         internal companion object {
             private const val ID_TAG = "id"
@@ -196,6 +197,7 @@ internal data class OperationalPanel(
             private const val Y_TAG = "y"
             private const val W_TAG = "w"
             private const val H_TAG = "h"
+            private const val VISUALIZATION_TYPE_TAG = "visualizationType"
 
             /**
              * reader to create instance of class from writable.
@@ -220,6 +222,7 @@ internal data class OperationalPanel(
                 var y: Int? = null
                 var w: Int? = null
                 var h: Int? = null
+                var visualizationType: String? = "observability"
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
@@ -235,6 +238,7 @@ internal data class OperationalPanel(
                         Y_TAG -> y = parser.intValue()
                         W_TAG -> w = parser.intValue()
                         H_TAG -> h = parser.intValue()
+                        VISUALIZATION_TYPE_TAG -> visualizationType = parser.text()
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Source Skipping Unknown field $fieldName")
@@ -247,7 +251,7 @@ internal data class OperationalPanel(
                 y ?: throw IllegalArgumentException("$Y_TAG field absent")
                 w ?: throw IllegalArgumentException("$W_TAG field absent")
                 h ?: throw IllegalArgumentException("$H_TAG field absent")
-                return Visualization(id, savedVisualizationId, x, y, w, h)
+                return Visualization(id, savedVisualizationId, x, y, w, h, visualizationType)
             }
         }
 
@@ -257,7 +261,8 @@ internal data class OperationalPanel(
             x = streamInput.readInt(),
             y = streamInput.readInt(),
             w = streamInput.readInt(),
-            h = streamInput.readInt()
+            h = streamInput.readInt(),
+            visualizationType = streamInput.readString(),
         )
 
         override fun writeTo(streamOutput: StreamOutput) {
@@ -267,6 +272,7 @@ internal data class OperationalPanel(
             streamOutput.writeInt(y)
             streamOutput.writeInt(w)
             streamOutput.writeInt(h)
+            streamOutput.writeString(visualizationType)
         }
 
         /**
@@ -281,6 +287,7 @@ internal data class OperationalPanel(
                 .field(Y_TAG, y)
                 .field(W_TAG, w)
                 .field(H_TAG, h)
+                .field(VISUALIZATION_TYPE_TAG, visualizationType)
             return builder.endObject()
         }
     }
