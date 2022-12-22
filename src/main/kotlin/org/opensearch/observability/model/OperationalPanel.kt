@@ -31,15 +31,17 @@ import org.opensearch.observability.util.logger
  *         "x": 0,
  *         "y": 0,
  *         "w": 10,
- *         "h": 10
+ *         "h": 10,
+ *         "visualizationType:"observability"
  *       },
  *       {
  *         "id": "panelViz_7ba28e34-6fd8-489d-9b9f-165fdv6wd611",
- *         "savedVisualizationId": "oiuccXwBYVazWqOO1e06",
- *         "x": 20,
- *         "y": 20,
+ *         "savedVisualizationId": "6527ce20-7b24-11ed-86e0-b3953b180cc0",
+ *         "x": 0,
+ *         "y": 10,
  *         "w": 30,
- *         "h": 20
+ *         "h": 20,
+ *          "visualizationType:"dashboards"
  *       }
  *     ],
  *     "timeRange": {
@@ -188,7 +190,7 @@ internal data class OperationalPanel(
         val y: Int,
         val w: Int,
         val h: Int,
-        val visualizationType: String ?= null
+        val visualizationType: String? = null
     ) : BaseModel {
         internal companion object {
             private const val ID_TAG = "id"
@@ -222,7 +224,7 @@ internal data class OperationalPanel(
                 var y: Int? = null
                 var w: Int? = null
                 var h: Int? = null
-                var visualizationType: String? = "observability"
+                var visualizationType: String? = null
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
@@ -262,7 +264,7 @@ internal data class OperationalPanel(
             y = streamInput.readInt(),
             w = streamInput.readInt(),
             h = streamInput.readInt(),
-            visualizationType = streamInput.readString(),
+            visualizationType = streamInput.readOptionalString(),
         )
 
         override fun writeTo(streamOutput: StreamOutput) {
@@ -272,7 +274,7 @@ internal data class OperationalPanel(
             streamOutput.writeInt(y)
             streamOutput.writeInt(w)
             streamOutput.writeInt(h)
-            streamOutput.writeString(visualizationType)
+            streamOutput.writeOptionalString(visualizationType)
         }
 
         /**
@@ -287,7 +289,7 @@ internal data class OperationalPanel(
                 .field(Y_TAG, y)
                 .field(W_TAG, w)
                 .field(H_TAG, h)
-                .field(VISUALIZATION_TYPE_TAG, visualizationType)
+                .fieldIfNotNull(VISUALIZATION_TYPE_TAG, visualizationType)
             return builder.endObject()
         }
     }
