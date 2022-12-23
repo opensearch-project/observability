@@ -49,9 +49,9 @@ describe('Adding sample data and visualization', () => {
     cy.get('.euiModalHeader__title[data-test-subj="confirmModalTitleText"]')
       .contains('Add samples')
       .should('exist');
-    cy.wait(100);
-    cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
     cy.wait(100 * 5);
+    cy.get('.euiButton__text').contains('Yes').trigger('mouseover').click();
+    cy.wait(100);
     cy.route2('POST', '/addSamplePanels').as('addSamples');
     cy.wait('@addSamples').then(() => {
       cy.get('.euiTableCellContent').contains(SAMPLE_PANEL).should('exist');
@@ -75,12 +75,7 @@ describe('Testing notebooks table', () => {
   it('Displays error toast for invalid notebook name', () => {
     cy.get('.euiButton__text').contains('Create notebook').click();
     cy.wait(delay);
-    cy.get('.euiButton__text')
-      .contains(/^Create$/)
-      .click();
-    cy.wait(delay);
-
-    cy.get('.euiToastHeader__title').contains('Invalid notebook name').should('exist');
+    cy.get('[data-test-subj="createButton"]').should('be.disabled')
   });
 
   it('Creates a notebook and redirects to the notebook', () => {

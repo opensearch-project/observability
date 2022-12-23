@@ -110,22 +110,6 @@ export function NoteTable(props: NoteTableProps) {
     closeModal();
   };
 
-  const createNote = () => {
-    setModalLayout(
-      getCustomModal(
-        onCreate,
-        closeModal,
-        'Name',
-        'Create notebook',
-        'Cancel',
-        'Create',
-        undefined,
-        CREATE_NOTE_MESSAGE
-      )
-    );
-    showModal();
-  };
-
   const renameNote = () => {
     setModalLayout(
       getCustomModal(
@@ -306,7 +290,7 @@ export function NoteTable(props: NoteTableProps) {
                     </EuiPopover>
                   </EuiFlexItem>
                   <EuiFlexItem>
-                    <EuiButton fill onClick={() => createNote()}>
+                    <EuiButton fill href="#/notebooks/create">
                       Create notebook
                     </EuiButton>
                   </EuiFlexItem>
@@ -367,10 +351,9 @@ export function NoteTable(props: NoteTableProps) {
                 <EuiSpacer size="m" />
                 <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem grow={false}>
-                    <EuiButton
+                    <EuiButton fill href="#/notebooks/create"
                       data-test-subj="note-table-empty-state-create-notebook-button"
                       fullWidth={false}
-                      onClick={() => createNote()}
                     >
                       Create notebook
                     </EuiButton>
