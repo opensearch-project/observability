@@ -105,6 +105,11 @@ export function microToMilliSec(nano: number) {
   return nano / 1000;
 }
 
+export function milliToMicroSec(ms: number) {
+  if (typeof ms !== 'number') return 0;
+  return ms * 1000;
+}
+
 export function milliToNanoSec(ms: number) {
   if (typeof ms !== 'number') return 0;
   return ms * 1000000;
@@ -310,6 +315,7 @@ export const getPercentileFilter = (
 };
 
 export const filtersToDsl = (
+  mode: TraceAnalyticsMode,
   filters: FilterType[],
   query: string,
   startTime: any,
@@ -374,8 +380,19 @@ export const filtersToDsl = (
 
       let filterQuery = {};
       let field = filter.field;
-      if (field === 'latency') field = 'traceGroupFields.durationInNanos';
-      else if (field === 'error') field = 'traceGroupFields.statusCode';
+      if (field === 'latency'){
+        if (mode === 'data_prepper') {
+          field = 'traceGroupFields.durationInNanos';
+        } else if (mode === 'jaeger') {
+          field = 'duration';
+        }
+      } else if (field === 'error') {
+        if (mode === 'data_prepper') {
+          field = 'traceGroupFields.statusCode';
+        } else if (mode === 'jaeger') {
+          field = 'tag.error'
+        }
+      }
       let value;
 
       switch (filter.operator) {
@@ -396,6 +413,10 @@ export const filtersToDsl = (
             value = milliToNanoSec(value);
           } else if (field === 'traceGroupFields.statusCode') {
             value = value[0].label === 'true' ? '2' : '0';
+          } else if (field === 'duration') {
+            value = milliToMicroSec(parseFloat(value));
+          } else if (field === 'tag.error') {
+            value = value[0].label === 'true' ? true : false;
           }
 
           filterQuery = {
@@ -413,6 +434,10 @@ export const filtersToDsl = (
           if (field === 'traceGroupFields.durationInNanos') {
             if (range.lte) range.lte = milliToNanoSec(parseInt(range.lte || '')).toString();
             if (range.gte) range.gte = milliToNanoSec(parseInt(range.gte || '')).toString();
+          }
+          if (field === 'duration') {
+            if (range.lte) range.lte = milliToMicroSec(parseInt(range.lte || '')).toString();
+            if (range.gte) range.gte = milliToMicroSec(parseInt(range.gte || '')).toString();
           }
           filterQuery = {
             range: {

@@ -69,7 +69,7 @@ export function DashboardContent(props: DashboardProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...childBreadcrumbs]);
-    const validFilters = getValidFilterFields(page);
+    const validFilters = getValidFilterFields(mode, page);
     setFilters([
       ...filters.map((filter) => ({
         ...filter,
@@ -93,10 +93,11 @@ export function DashboardContent(props: DashboardProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '',processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const DSL = filtersToDsl(mode, filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const timeFilterDSL = filtersToDsl(mode, [], '',processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime, { roundUp: true })?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
+      mode,
       filters,
       query,
       processTimeStamp(latencyTrendStartTime, mode),
@@ -105,24 +106,24 @@ export function DashboardContent(props: DashboardProps) {
       appConfigs
     );
     const fixedInterval = minFixedInterval(startTime, endTime);
-    // handleDashboardRequest(
-    //   http,
-    //   DSL,
-    //   timeFilterDSL,
-    //   latencyTrendDSL,
-    //   tableItems,
-    //   setTableItems,
-    //   mode,
-    //   setPercentileMap,
-    // ).then(() => setLoading(false));
-    // handleDashboardThroughputPltRequest(
-    //   http,
-    //   DSL,
-    //   fixedInterval,
-    //   throughputPltItems,
-    //   setThroughputPltItems,
-    //   mode
-    // );
+    handleDashboardRequest(
+      http,
+      DSL,
+      timeFilterDSL,
+      latencyTrendDSL,
+      tableItems,
+      setTableItems,
+      mode,
+      setPercentileMap,
+    ).then(() => setLoading(false));
+    handleDashboardThroughputPltRequest(
+      http,
+      DSL,
+      fixedInterval,
+      throughputPltItems,
+      setThroughputPltItems,
+      mode
+    );
 
     handleTopErrorRatePltRequest(
       http,
@@ -132,20 +133,20 @@ export function DashboardContent(props: DashboardProps) {
       setJaegerErrorRatePltItems,
       mode
     );
-    // handleDashboardErrorRatePltRequest(
-    //   http,
-    //   DSL,
-    //   fixedInterval,
-    //   errorRatePltItems,
-    //   setErrorRatePltItems,
-    //   mode
-    // );
-    // // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
-    // const serviceMapDSL = _.cloneDeep(DSL);
-    // serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
-    //   (must: any) => must?.term?.serviceName == null
-    // );
-    // handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService);
+    handleDashboardErrorRatePltRequest(
+      http,
+      DSL,
+      fixedInterval,
+      errorRatePltItems,
+      setErrorRatePltItems,
+      mode
+    );
+    // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
+    const serviceMapDSL = _.cloneDeep(DSL);
+    serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
+      (must: any) => must?.term?.serviceName == null
+    );
+    handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -220,6 +221,7 @@ export function DashboardContent(props: DashboardProps) {
         setEndTime={setEndTime}
         refresh={refresh}
         page={page}
+        mode={mode}
       />
       <EuiSpacer size="m" />
       {mode !== 'none' ? (

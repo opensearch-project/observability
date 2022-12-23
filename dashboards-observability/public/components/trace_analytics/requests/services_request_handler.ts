@@ -65,7 +65,7 @@ export const handleServiceMapRequest = async (
 ) => {
   let minutesInDateRange: number;
   const startTime = DSL.custom?.timeFilter?.[0]?.range?.startTime;
-  if (startTime) {
+  if (startTime && mode !== 'jaeger') {
     const gte = dateMath.parse(startTime.gte)!;
     const lte = dateMath.parse(startTime.lte, { roundUp: true })!;
     minutesInDateRange = lte.diff(gte, 'minutes', true);

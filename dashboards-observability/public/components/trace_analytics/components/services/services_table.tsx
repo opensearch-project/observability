@@ -124,7 +124,7 @@ export function ServicesTable(props: ServicesTableProps) {
                   onClick={() => {
                     setRedirect(true);
                     addFilter({
-                      field: 'process.serviceName',
+                      field: mode === 'jaeger' ? 'process.serviceName': 'serviceName',
                       operator: 'is',
                       value: row.name,
                       inverted: false,

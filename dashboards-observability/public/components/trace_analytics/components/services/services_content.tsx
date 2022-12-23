@@ -50,7 +50,7 @@ export function ServicesContent(props: ServicesProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...childBreadcrumbs]);
-    const validFilters = getValidFilterFields('services');
+    const validFilters = getValidFilterFields(mode, 'services');
     setFilters([
       ...filters.map((filter) => ({
         ...filter,
@@ -74,7 +74,7 @@ export function ServicesContent(props: ServicesProps) {
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query,processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const DSL = filtersToDsl(mode, filters, query,processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     // service map should not be filtered by service name
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
@@ -116,6 +116,7 @@ export function ServicesContent(props: ServicesProps) {
         setEndTime={setEndTime}
         refresh={refresh}
         page={page}
+        mode={mode}
       />
       <EuiSpacer size="m" />
       <ServicesTable

@@ -38,7 +38,7 @@ export function TracesContent(props: TracesProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...childBreadcrumbs]);
-    const validFilters = getValidFilterFields('traces');
+    const validFilters = getValidFilterFields(mode, 'traces');
     setFilters([
       ...filters.map((filter) => ({
         ...filter,
@@ -54,8 +54,8 @@ export function TracesContent(props: TracesProps) {
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page);
+    const DSL = filtersToDsl(mode, filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const timeFilterDSL = filtersToDsl(mode, [], '', processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page);
     await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, mode, sort);
     setLoading(false);
   };
@@ -74,6 +74,7 @@ export function TracesContent(props: TracesProps) {
         setEndTime={setEndTime}
         refresh={refresh}
         page={page}
+        mode={mode}
       />
       <EuiSpacer size="m" />
       <TracesTable

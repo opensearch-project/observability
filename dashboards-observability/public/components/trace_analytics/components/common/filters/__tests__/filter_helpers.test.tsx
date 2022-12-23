@@ -17,7 +17,7 @@ describe('Filter helper functions', () => {
   configure({ adapter: new Adapter() });
 
   it('returns fields by page', () => {
-    const fields = getFilterFields('dashboard');
+    const fields = getFilterFields('data_prepper', 'dashboard');
     expect(fields).toEqual([
       'traceGroup',
       'serviceName',
@@ -28,8 +28,8 @@ describe('Filter helper functions', () => {
   });
 
   it('returns valid fields by page', () => {
-    const dashboardFields = getValidFilterFields('dashboard');
-    const servicesFields = getValidFilterFields('services');
+    const dashboardFields = getValidFilterFields('data_prepper', 'dashboard');
+    const servicesFields = getValidFilterFields('data_prepper', 'services');
     expect(dashboardFields).toEqual([
       'traceGroup',
       'serviceName',

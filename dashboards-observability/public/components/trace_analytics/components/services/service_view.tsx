@@ -47,7 +47,7 @@ export function ServiceView(props: ServiceViewProps) {
   const [redirect, setRedirect] = useState(false);
 
   const refresh = () => {
-    const DSL = filtersToDsl(props.filters, props.query, processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode));
+    const DSL = filtersToDsl(mode, props.filters, props.query, processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode));
     handleServiceViewRequest(props.serviceName, props.http, DSL, setFields, mode);
     handleServiceMapRequest(props.http, DSL, mode, setServiceMap, props.serviceName);
   };
@@ -232,7 +232,7 @@ export function ServiceView(props: ServiceViewProps) {
   };
 
   useEffect(() => {
-    const spanDSL = filtersToDsl(props.filters, props.query, processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode));
+    const spanDSL = filtersToDsl(mode, props.filters, props.query, processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode));
     spanDSL.query.bool.must.push({
       term: {
         "process.serviceName": props.serviceName,

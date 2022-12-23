@@ -40,6 +40,7 @@ describe('Search bar components', () => {
         filters={[]}
         setFilters={setFilters}
         appConfigs={[]}
+        mode={'data_prepper'}
       />
     );
     expect(wrapper).toMatchSnapshot();
