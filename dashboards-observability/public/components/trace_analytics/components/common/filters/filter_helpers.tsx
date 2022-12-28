@@ -22,7 +22,7 @@ const getFields = (mode: TraceAnalyticsMode, page: 'dashboard' | 'traces' | 'ser
     app: ['traceId', 'traceGroup', 'serviceName'],
   }[page] : {
     dashboard: ['process.serviceName', 'error', 'latency'],
-    traces: ['traceID', 'process.serviceName', 'error', 'latency'],
+    traces: ['traceID', 'operationName', 'process.serviceName', 'error', 'latency'],
     services: ['process.serviceName', 'error', 'latency'],
     app: ['traceID', 'process.serviceName'],
   }[page]);

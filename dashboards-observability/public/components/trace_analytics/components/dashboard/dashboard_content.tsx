@@ -12,8 +12,8 @@ import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
   handleDashboardThroughputPltRequest,
-  handleTopErrorRatePltRequest,
-  handleTopThroughputPltRequest,
+  handleJaegerDashboardRequest,
+  handleJaegerErrorDashboardRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
@@ -55,8 +55,9 @@ export function DashboardContent(props: DashboardProps) {
     setMode
   } = props;
   const [tableItems, setTableItems] = useState([]);
+  const [jaegerTableItems, setJaegerTableItems] = useState([]);
+  const [jaegerErrorTableItems, setJaegerErrorTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
-  const [jaegerErrorRatePltItems, setJaegerErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -106,16 +107,41 @@ export function DashboardContent(props: DashboardProps) {
       appConfigs
     );
     const fixedInterval = minFixedInterval(startTime, endTime);
-    handleDashboardRequest(
-      http,
-      DSL,
-      timeFilterDSL,
-      latencyTrendDSL,
-      tableItems,
-      setTableItems,
-      mode,
-      setPercentileMap,
-    ).then(() => setLoading(false));
+    if (mode === 'jaeger') { 
+      handleJaegerDashboardRequest(
+        http,
+        DSL,
+        timeFilterDSL,
+        latencyTrendDSL,
+        tableItems,
+        setJaegerTableItems,
+        mode,
+        setPercentileMap,
+      ).then(() => setLoading(false));
+      handleJaegerErrorDashboardRequest(
+        http,
+        DSL,
+        timeFilterDSL,
+        latencyTrendDSL,
+        tableItems,
+        setJaegerErrorTableItems,
+        mode,
+        setPercentileMap,
+      ).then(() => setLoading(false));
+    } else if (mode === 'data_prepper') {
+      handleDashboardRequest(
+        http,
+        DSL,
+        timeFilterDSL,
+        latencyTrendDSL,
+        tableItems,
+        setTableItems,
+        mode,
+        setPercentileMap,
+      ).then(() => setLoading(false));
+    }
+
+    
     handleDashboardThroughputPltRequest(
       http,
       DSL,
@@ -125,14 +151,6 @@ export function DashboardContent(props: DashboardProps) {
       mode
     );
 
-    handleTopErrorRatePltRequest(
-      http,
-      DSL,
-      fixedInterval,
-      jaegerErrorRatePltItems,
-      setJaegerErrorRatePltItems,
-      mode
-    );
     handleDashboardErrorRatePltRequest(
       http,
       DSL,
@@ -161,6 +179,11 @@ export function DashboardContent(props: DashboardProps) {
       }
     }
     const newFilters = [...filters, filter];
+    setFilters(newFilters);
+  };
+
+  const addFilters = (filterArr: FilterType[]) => {
+    const newFilters = [...filters, ...filterArr];
     setFilters(newFilters);
   };
 
@@ -272,12 +295,15 @@ export function DashboardContent(props: DashboardProps) {
             <TopGroupsPage
               filters={filters}
               addFilter={addFilter}
+              addFilters={addFilters}
               addPercentileFilter={addPercentileFilter}
               setRedirect={setRedirect}
               loading={loading}
               page={page}
               throughPutItems={throughputPltItems}
-              jaegerErrorRatePltItems={jaegerErrorRatePltItems}
+              jaegerErrorRatePltItems={errorRatePltItems}
+              jaegerTableItems={jaegerTableItems}
+              jaegerErrorTableItems={jaegerErrorTableItems}
               setStartTime={setStartTime}
               setEndTime={setEndTime}
             />
