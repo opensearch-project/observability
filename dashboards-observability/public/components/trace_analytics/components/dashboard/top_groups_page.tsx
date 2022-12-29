@@ -37,30 +37,26 @@ export function TopGroupsPage( props: {
         { idSelected === 'error_rate' ? (
         <EuiPanel>
           <EuiSpacer size="m" />
-          <EuiButtonGroup
-            options={toggleButtons}
+          <ErrorRatePlt 
+            items={props.jaegerErrorRatePltItems} 
+            setStartTime={props.setStartTime} 
+            setEndTime={props.setEndTime}
+            setIdSelected={(mode: string) => setIdSelected(mode)}
             idSelected={idSelected}
-            onChange={(id) => setIdSelected(id as 'error_rate' | 'throughput')}
-            buttonSize="s"
-            color="text"
+            toggleButtons={toggleButtons}
           />
-          <EuiHorizontalRule margin="m"/>
-          <ErrorRatePlt items={props.jaegerErrorRatePltItems} setStartTime={props.setStartTime} setEndTime={props.setEndTime}/>
-          <EuiHorizontalRule margin="m" />
           <ErrorRatesTable title={'Top Service and Operation Error Rates'}items={props.jaegerErrorTableItems} {...props}/>
         </EuiPanel>) : (
-          <EuiPanel>
+        <EuiPanel>
           <EuiSpacer size="m" />
-          <EuiButtonGroup
-            options={toggleButtons}
+          <ThroughputPlt 
+            items={props.throughPutItems} 
+            setStartTime={props.setStartTime} 
+            setEndTime={props.setEndTime}
+            setIdSelected={(mode: string) => setIdSelected(mode)}
             idSelected={idSelected}
-            onChange={(id) => setIdSelected(id as 'error_rate' | 'throughput')}
-            buttonSize="s"
-            color="text"
+            toggleButtons={toggleButtons}
           />
-          <EuiHorizontalRule margin="m"/>
-          <ThroughputPlt items={props.throughPutItems} setStartTime={props.setStartTime} setEndTime={props.setEndTime}/>
-          <EuiHorizontalRule margin="m" />
           <LatencyTable title={'Top Service and Operation Latency'}items={props.jaegerTableItems} {...props}/>
         </EuiPanel> )}
         </>

@@ -50,11 +50,11 @@ export function DataSourcePicker(props: {modes: {
                 closePopover={() => setPopoverIsOpen(false)}
                 className="eui-textTruncate"
                 anchorClassName="eui-textTruncate"
-                display="block"
+                display="inlineBlock"
                 panelPaddingSize="s"
                 ownFocus
             >
-            <div style={{ width: 320 }}>
+            <div className="popOverContainer">
             <EuiPopoverTitle>
                 {"Choose data type"}
             </EuiPopoverTitle>

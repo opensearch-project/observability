@@ -22,8 +22,7 @@ import {
   import _ from 'lodash';
   import React, { useMemo, useState } from 'react';
   import { FilterType } from '../common/filters/filters';
-  import { calculateTicks, NoMatchMessage, PanelTitle } from '../common/helper_functions';
-  import { BoxPlt } from '../common/plots/box_plt';
+  import { NoMatchMessage, PanelTitle } from '../common/helper_functions';
   import { LatencyTrendCell } from './latency_trend_cell';
   
   export function ErrorRatesTable(props: {
@@ -37,7 +36,6 @@ import {
     loading: boolean;
     page: 'dashboard' | 'traces' | 'services' | 'app';
   }) {  
-    console.log(props.items);
     const getColumns = () =>
       [
         {

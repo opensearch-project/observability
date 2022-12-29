@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
+import { EuiButtonGroup, EuiFlexGroup, EuiHorizontalRule, EuiPanel } from '@elastic/eui';
 import moment from 'moment';
 import React, { useMemo } from 'react';
 import { Plt } from '../../../../visualizations/plotly/plot';
@@ -18,6 +18,9 @@ export function ThroughputPlt(props: {
   items: { items: Plotly.Data[]; fixedInterval: string };
   setStartTime: (startTime: string) => void;
   setEndTime: (endTime: string) => void;
+  setIdSelected: (mode: string) => void;
+  idSelected: string;
+  toggleButtons: any[];
 }) {
   const layout = useMemo(
     () =>
@@ -85,7 +88,16 @@ export function ThroughputPlt(props: {
   return (
     <>
       <EuiPanel style={{ minWidth: 433, minHeight: 308 }}>
+      <EuiFlexGroup justifyContent='spaceBetween' gutterSize='xs'>  
         <PanelTitle title="Traces over time" />
+        <EuiButtonGroup
+            options={props.toggleButtons}
+            idSelected={props.idSelected}
+            onChange={(id: string) => props.setIdSelected(id as 'error_rate' | 'throughput')}
+            buttonSize="s"
+            color="text"
+          />
+      </EuiFlexGroup>
         <EuiHorizontalRule margin="m" />
         {props.items?.items?.length > 0 ? (
           <Plt data={props.items.items} layout={layout} onClickHandler={onClick} />

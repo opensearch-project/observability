@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiHorizontalRule, EuiPanel } from '@elastic/eui';
+import { EuiButtonGroup, EuiHorizontalRule, EuiPanel, EuiFlexGroup, EuiSpacer } from '@elastic/eui';
 import moment from 'moment';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Plt } from '../../../../visualizations/plotly/plot';
 import {
   fixedIntervalToMilli,
@@ -18,6 +18,9 @@ export function ErrorRatePlt(props: {
   items: { items: Plotly.Data[]; fixedInterval: string };
   setStartTime: (startTime: string) => void;
   setEndTime: (endTime: string) => void;
+  setIdSelected: (mode: string) => void;
+  idSelected: string;
+  toggleButtons: any[];
 }) {
   const getLayout = () =>
     ({
@@ -89,8 +92,17 @@ export function ErrorRatePlt(props: {
   return (
     <>
       <EuiPanel style={{ minWidth: 433, minHeight: 308 }}>
-        <PanelTitle title="Trace error rate over time" />
-        <EuiHorizontalRule margin="m" />
+        <EuiFlexGroup justifyContent='spaceBetween' gutterSize='xs'>  
+          <PanelTitle title="Trace error rate over time" />
+          <EuiButtonGroup
+              options={props.toggleButtons}
+              idSelected={props.idSelected}
+              onChange={(id) => props.setIdSelected(id as 'error_rate' | 'throughput')}
+              buttonSize="s"
+              color="text"
+            />
+        </EuiFlexGroup>
+        <EuiSpacer size="m" />
         {props.items?.items?.length > 0 ? (
           <Plt data={props.items.items} layout={layout} onClickHandler={onClick} />
         ) : (
