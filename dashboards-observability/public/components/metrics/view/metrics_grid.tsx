@@ -89,6 +89,7 @@ export const MetricsGrid = ({
           panelVisualization.metricType === 'savedCustomMetric' ? undefined : true
         }
         spanParam={spanParam}
+        metricsPanel={true}
       />
     ));
     setGridData(gridDataComps);

@@ -58,3 +58,7 @@
 .panels-title-text {
   @include euiTextTruncate;
 }
+
+.aggregations-popover {
+  vertical-align:middle;
+}

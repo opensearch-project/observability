@@ -9,7 +9,7 @@ import { DurationRange } from '@elastic/eui/src/components/date_picker/types';
 import _ from 'lodash';
 import React from 'react';
 import { Layout } from 'react-grid-layout';
-import { VISUALIZATION, SAVED_VISUALIZATION } from '../../../../common/constants/metrics';
+import { CUSTOM_PANELS_API_PREFIX } from '../../../../common/constants/custom_panels';
 import {
   EVENT_ANALYTICS,
   OBSERVABILITY_BASE,
@@ -19,7 +19,12 @@ import PPLService from '../../../services/requests/ppl';
 import { CoreStart } from '../../../../../../src/core/public';
 import { MetricType } from '../../../../common/types/metrics';
 import { VisualizationType } from '../../../../common/types/custom_panels';
-import { DEFAULT_METRIC_HEIGHT, DEFAULT_METRIC_WIDTH } from '../../../../common/constants/metrics';
+import {
+  DEFAULT_METRIC_HEIGHT,
+  DEFAULT_METRIC_WIDTH,
+  VISUALIZATION,
+  SAVED_VISUALIZATION,
+} from '../../../../common/constants/metrics';
 import { UNITS_OF_MEASURE } from '../../../../common/constants/explorer';
 import { updateQuerySpanInterval } from '../../custom_panels/helpers/utils';
 
@@ -56,6 +61,14 @@ export const getVisualizations = (http: CoreStart['http']) => {
     })
     .catch((err) => {
       console.error('Issue in fetching all saved visualizations', err);
+    });
+};
+
+export const getVisualization = (http: CoreStart['http'], savedVisualization: string) => {
+  return http
+    .get(`${CUSTOM_PANELS_API_PREFIX}/visualizations/${savedVisualization}`)
+    .catch((err) => {
+      console.error(`Issue in fetching saved visualization ${savedVisualization}`);
     });
 };
 

@@ -23,8 +23,16 @@ import {
   EuiSpacer,
   EuiText,
   EuiToolTip,
+  EuiComboBox,
+  EuiFormControlLayout,
+  EuiButtonEmpty,
+  EuiLink,
 } from '@elastic/eui';
 import React, { useEffect, useMemo, useState } from 'react';
+import {
+  getVisualization,
+  pplServiceRequestor,
+} from '../../../../../public/components/metrics/helpers/utils';
 import { CoreStart } from '../../../../../../../src/core/public';
 import PPLService from '../../../../services/requests/ppl';
 import {
@@ -33,6 +41,8 @@ import {
   renderSavedVisualization,
 } from '../../helpers/utils';
 import './visualization_container.scss';
+import { AggregationSelector } from './aggregation_selector';
+import { AttributesSelector } from './attributes_selector';
 
 /*
  * Visualization container - This module is a placeholder to add visualizations in react-grid-layout
@@ -72,6 +82,7 @@ interface Props {
   removeVisualization?: (visualizationId: string) => void;
   catalogVisualization?: boolean;
   spanParam?: string;
+  metricsPanel?: boolean;
 }
 
 export const VisualizationContainer = ({
@@ -91,6 +102,7 @@ export const VisualizationContainer = ({
   removeVisualization,
   catalogVisualization,
   spanParam,
+  metricsPanel,
 }: Props) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [disablePopover, setDisablePopover] = useState(false);
@@ -104,6 +116,10 @@ export const VisualizationContainer = ({
   const closeActionsMenu = () => setIsPopoverOpen(false);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [dimensions, setDimensions] = useState([]);
+  const [queryDimensions, setQueryDimensions] = useState([]);
+  const [queryAggregation, setQueryAggregation] = useState('avg()');
 
   const closeModal = () => setIsModalVisible(false);
   const showModal = () => setIsModalVisible(true);
@@ -188,7 +204,34 @@ export const VisualizationContainer = ({
     popoverPanel = catalogVisualization ? [showModelPanel] : [popoverPanel[0]];
   }
 
-  const loadVisaulization = async () => {
+  const getMetricsFunctions = async () => {
+    if (metricsPanel) {
+      if (catalogVisualization) {
+        const catalogData = await pplServiceRequestor(
+          pplService,
+          `describe ${savedVisualizationId}`
+        );
+        setDimensions(
+          catalogData.data.COLUMN_NAME.filter((column: string) => {
+            if (!column.includes('@')) return { label: column };
+          }).map((column: string) => ({ label: column }))
+        );
+      } else {
+        const savedVisualization = await getVisualization(http, savedVisualizationId);
+        const pplResponse = await pplServiceRequestor(
+          pplService,
+          savedVisualization.visualization.query.split('|')[0]
+        );
+        setDimensions(
+          pplResponse.metadata.fields.map((row: any) => ({
+            label: row.name,
+          }))
+        );
+      }
+    }
+  };
+
+  const loadVisualization = async () => {
     if (catalogVisualization)
       await renderCatalogVisualization(
         http,
@@ -203,7 +246,9 @@ export const VisualizationContainer = ({
         setVisualizationData,
         setVisualizationMetaData,
         setIsLoading,
-        setIsError
+        setIsError,
+        undefined,
+        queryAggregation
       );
     else
       await renderSavedVisualization(
@@ -219,7 +264,8 @@ export const VisualizationContainer = ({
         setVisualizationData,
         setVisualizationMetaData,
         setIsLoading,
-        setIsError
+        setIsError,
+        queryAggregation
       );
   };
 
@@ -245,12 +291,24 @@ export const VisualizationContainer = ({
   );
 
   useEffect(() => {
-    loadVisaulization();
-  }, [onRefresh]);
+    getMetricsFunctions();
+  }, []);
+
+  useEffect(() => {
+    loadVisualization();
+    console.log(visualizationMetaData);
+  }, [onRefresh, queryAggregation]);
+
+  useEffect(() => {
+    console.log(visualizationMetaData);
+    // setVisualizationMetaData()
+  }, [queryDimensions]);
 
   useEffect(() => {
     editMode ? setDisablePopover(true) : setDisablePopover(false);
   }, [editMode]);
+
+  const a = [{ label: 'count()' }];
 
   return (
     <>
@@ -272,6 +330,20 @@ export const VisualizationContainer = ({
                 </EuiToolTip>
               </EuiText>
             </EuiFlexItem>
+            {metricsPanel && [
+              <EuiFlexItem grow={false}>
+                <EuiSpacer size="s" />
+              </EuiFlexItem>,
+              <EuiFlexItem grow={true}>
+                <AggregationSelector setQueryAggregation={setQueryAggregation} />
+              </EuiFlexItem>,
+              <EuiFlexItem grow={true}>
+                <AttributesSelector
+                  attributes={dimensions}
+                  setQueryDimensions={setQueryDimensions}
+                />
+              </EuiFlexItem>,
+            ]}
             <EuiFlexItem grow={false} className="visualization-action-button">
               {disablePopover ? (
                 <EuiIcon
