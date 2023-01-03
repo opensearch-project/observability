@@ -396,7 +396,12 @@ export const Home = (props: IHomeProps) => {
                   Use Events Analytics to monitor, correlate, analyze and visualize machine
                   generated data through Piped Processing Language. Save frequently searched queries
                   and visualizations for quick access{' '}
-                  <EuiLink external={true} href={EVENT_ANALYTICS_DOCUMENTATION_URL} target="blank">
+                  <EuiLink
+                    data-click-metric-element="event_analytics.learn_more"
+                    external={true}
+                    href={EVENT_ANALYTICS_DOCUMENTATION_URL}
+                    target="blank"
+                  >
                     Learn more
                   </EuiLink>
                 </EuiText>

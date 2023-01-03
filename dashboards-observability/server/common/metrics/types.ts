@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { COMPONENTS, REQUESTS } from './constants';
+import { COMPONENTS } from './constants';
 
-export type ComponentType = typeof COMPONENTS[number];
-export type RequestType = typeof REQUESTS[number];
+export type ComponentType = keyof typeof COMPONENTS;
+export type RequestType<T extends ComponentType> = typeof COMPONENTS[T][number];
 export type CounterNameType = 'count' | 'system_error' | 'user_error' | 'total';
 
 // counter to track user click actions
@@ -19,7 +19,7 @@ type ClickCounterType = {
 // counter to track requests to OpenSearch
 type RequestCounterType = {
   [component in ComponentType]: {
-    [request in RequestType]: {
+    [request in RequestType<component>]: {
       [counter in CounterNameType]?: number;
     };
   };

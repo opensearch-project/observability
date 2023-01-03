@@ -10,7 +10,7 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "2.4.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "2.5.0-SNAPSHOT")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -23,7 +23,6 @@ buildscript {
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.6.0")
         job_scheduler_version = System.getProperty("job_scheduler.version", opensearch_build)
-        jackson_version = "2.14.1"
     }
 
     repositories {
@@ -37,7 +36,7 @@ buildscript {
         classpath "org.opensearch.gradle:build-tools:${opensearch_version}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
     }
 }
@@ -140,7 +139,6 @@ configurations.all {
     resolutionStrategy {
         force "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
-        force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${jackson_version}"
         force "org.mockito:mockito-core:4.6.1"
         force "org.yaml:snakeyaml:1.32"
     }
@@ -185,11 +183,8 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
     implementation 'org.json:json:20220924'
     implementation group: 'com.github.wnameless.json', name: 'json-flattener', version: '0.15.1'
-    // json-base, jackson-databind, jackson-annotations are only used by json-flattener.
-    // see https://github.com/opensearch-project/OpenSearch/issues/5395.
+    // jackson is coming from core now, https://github.com/opensearch-project/opensearch-plugins/issues/191
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
-    implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_version}"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}"
     compileOnly "${group}:opensearch-job-scheduler-spi:${job_scheduler_version}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
