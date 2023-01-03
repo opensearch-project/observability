@@ -33,7 +33,7 @@ export const handleDashboardRequest = async (
   )
     .then((response) => {
       const map: any = {};
-      response.aggregations.trace_group.buckets.forEach((traceGroup) => {
+      response.aggregations?.trace_group?.buckets?.forEach((traceGroup) => {
         map[traceGroup.key] = Object.values(
           traceGroup.latency_variance_nanos.values
         ).map((nano: number) => _.round(nanoToMilliSec(Math.max(0, nano)), 2));
@@ -46,7 +46,7 @@ export const handleDashboardRequest = async (
   const latencyTrends = await handleDslRequest(http, latencyTrendDSL, getLatencyTrendQuery())
     .then((response) => {
       const map: any = {};
-      response.aggregations.trace_group_name.buckets.map((bucket) => {
+      response.aggregations?.trace_group_name?.buckets?.forEach((bucket) => {
         const latencyTrend = bucket.group_by_hour.buckets
           .slice(-24)
           .filter((bucket) => bucket.average_latency?.value || bucket.average_latency?.value === 0);
@@ -101,7 +101,7 @@ export const handleDashboardRequest = async (
   await handleDslRequest(http, DSL, getDashboardQuery())
     .then((response) => {
       return Promise.all(
-        response.aggregations.trace_group_name.buckets.map((bucket) => {
+        response.aggregations?.trace_group_name?.buckets?.map((bucket) => {
           const latencyTrend = latencyTrends?.[bucket.key] || {};
           return {
             dashboard_trace_group_name: bucket.key,
@@ -111,7 +111,7 @@ export const handleDashboardRequest = async (
             dashboard_error_rate: bucket.error_rate.value,
             ...latencyTrend,
           };
-        })
+        }) || []
       );
     })
     .then((newItems) => {
@@ -123,7 +123,7 @@ export const handleDashboardRequest = async (
 export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, items, setItems) => {
   return handleDslRequest(http, DSL, getDashboardThroughputPltQuery(fixedInterval))
     .then((response) => {
-      const buckets = response.aggregations.throughput.buckets;
+      const buckets = response.aggregations?.throughput?.buckets || [];
       const texts = buckets.map(
         (bucket) =>
           `${moment(bucket.key).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)} - ${moment(
@@ -156,13 +156,13 @@ export const handleDashboardThroughputPltRequest = (http, DSL, fixedInterval, it
 export const handleDashboardErrorRatePltRequest = (http, DSL, fixedInterval, items, setItems) => {
   return handleDslRequest(http, DSL, getErrorRatePltQuery(fixedInterval))
     .then((response) => {
-      const buckets = response.aggregations.error_rate.buckets;
+      const buckets = response.aggregations?.error_rate?.buckets;
       const texts = buckets.map(
         (bucket) =>
           `${moment(bucket.key).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)} - ${moment(
             bucket.key + fixedIntervalToMilli(fixedInterval)
           ).format(TRACE_ANALYTICS_PLOTS_DATE_FORMAT)}`
-      );
+      ) || [];
       const newItems =
         buckets.length > 0
           ? [

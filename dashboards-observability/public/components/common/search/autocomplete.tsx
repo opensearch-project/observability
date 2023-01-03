@@ -139,6 +139,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
           'data-test-subj': 'searchAutocompleteTextArea',
           placeholder,
           inputElement: null,
+          enterkeyhint: 'enterKeyHint'
         })}
         {...(panelsFilter && { append, fullWidth: true })}
         disabled={isDisabled}

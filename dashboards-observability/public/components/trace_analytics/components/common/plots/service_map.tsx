@@ -185,6 +185,7 @@ export function ServiceMap({
           onChange={(id) => setIdSelected(id as 'latency' | 'error_rate' | 'throughput')}
           buttonSize="s"
           color="text"
+          legend="Service Map"
         />
         <EuiHorizontalRule margin="m" />
         <EuiFlexGroup alignItems="center" gutterSize="s">
