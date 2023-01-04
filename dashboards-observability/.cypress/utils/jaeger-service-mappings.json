@@ -1,0 +1,1 @@
+{"jaeger-service-2022-12-16":{"mappings":{"dynamic_templates":[{"span_tags_map":{"path_match":"tag.*","mapping":{"ignore_above":256,"type":"keyword"}}},{"process_tags_map":{"path_match":"process.tag.*","mapping":{"ignore_above":256,"type":"keyword"}}}],"properties":{"operationName":{"type":"keyword","ignore_above":256},"serviceName":{"type":"keyword","ignore_above":256}}}}}
