@@ -22,8 +22,9 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { HttpSetup } from '../../../../../../../src/core/public';
 import { TRACE_ANALYTICS_DATE_FORMAT } from '../../../../../common/constants/trace_analytics';
+import { TraceAnalyticsMode } from '../../home';
 import { handleSpansFlyoutRequest } from '../../requests/traces_request_handler';
-import { nanoToMilliSec } from '../common/helper_functions';
+import { microToMilliSec, nanoToMilliSec } from '../common/helper_functions';
 import { FlyoutListItem } from './flyout_list_item';
 
 export function SpanDetailFlyout(props: {
@@ -32,11 +33,13 @@ export function SpanDetailFlyout(props: {
   isFlyoutVisible: boolean;
   closeFlyout: () => void;
   addSpanFilter: (field: string, value: any) => void;
+  mode: TraceAnalyticsMode;
 }) {
+  const { mode } = props;
   const [span, setSpan] = useState<any>({});
 
   useEffect(() => {
-    handleSpansFlyoutRequest(props.http, props.spanId, setSpan);
+    handleSpansFlyoutRequest(props.http, props.spanId, setSpan, mode);
   }, [props.spanId]);
 
   const getListItem = (field: string, title: React.ReactNode, description: React.ReactNode) => {
@@ -64,16 +67,16 @@ export function SpanDetailFlyout(props: {
       getListItem(
         'spanId',
         'Span ID',
-        span.spanId ? (
+        (mode === 'data_prepper' ? span.spanId : span.spanID) ? (
           <EuiFlexGroup gutterSize="xs" style={{ marginTop: -4, marginBottom: -4 }}>
             <EuiFlexItem grow={false}>
-              <EuiCopy textToCopy={span.spanId}>
+              <EuiCopy textToCopy={mode === 'data_prepper' ? span.spanId : span.spanID}>
                 {(copy) => (
                   <EuiButtonIcon aria-label="copy-button" onClick={copy} iconType="copyClipboard" />
                 )}
               </EuiCopy>
             </EuiFlexItem>
-            <EuiFlexItem>{span.spanId}</EuiFlexItem>
+            <EuiFlexItem>{mode === 'data_prepper' ? span.spanId : span.spanID}</EuiFlexItem>
           </EuiFlexGroup>
         ) : (
           '-'
@@ -82,38 +85,38 @@ export function SpanDetailFlyout(props: {
       getListItem(
         'parentSpanId',
         'Parent span ID',
-        span.parentSpanId ? (
+        (mode === 'data_prepper' ? span.parentSpanId : span.references.length) ? (
           <EuiFlexGroup gutterSize="xs" style={{ marginTop: -4, marginBottom: -4 }}>
             <EuiFlexItem grow={false}>
-              <EuiCopy textToCopy={span.parentSpanId}>
+              <EuiCopy textToCopy={mode === 'data_prepper' ? span.parentSpanId : span.references[0].spanID}>
                 {(copy) => (
                   <EuiButtonIcon aria-label="copy-button" onClick={copy} iconType="copyClipboard" />
                 )}
               </EuiCopy>
             </EuiFlexItem>
-            <EuiFlexItem>{span.parentSpanId}</EuiFlexItem>
+            <EuiFlexItem>{mode === 'data_prepper' ? span.parentSpanId : span.references[0].spanID}</EuiFlexItem>
           </EuiFlexGroup>
         ) : (
           '-'
         )
       ),
-      getListItem('serviceName', 'Service', span.serviceName || '-'),
-      getListItem('name', 'Operation', span.name || '-'),
+      getListItem('serviceName', 'Service', (mode === 'data_prepper' ? span.serviceName : span.process['serviceName']) || '-'),
+      getListItem('name', 'Operation', (mode === 'data_prepper' ? span.name : span.operationName) || '-'),
       getListItem(
         'durationInNanos',
         'Duration',
-        `${_.round(nanoToMilliSec(Math.max(0, span.durationInNanos)), 2)} ms`
+        `${(mode === 'data_prepper' ? _.round(nanoToMilliSec(Math.max(0, span.durationInNanos)), 2) : _.round(microToMilliSec(Math.max(0, span.duration)), 2))} ms`
       ),
       getListItem(
         'startTime',
         'Start time',
-        moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT)
+        mode === 'data_prepper' ? moment(span.startTime).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(_.round(microToMilliSec(Math.max(0, span.startTime)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT)
       ),
-      getListItem('endTime', 'End time', moment(span.endTime).format(TRACE_ANALYTICS_DATE_FORMAT)),
+      getListItem('endTime', 'End time',  mode === 'data_prepper' ? moment(span.endTime).format(TRACE_ANALYTICS_DATE_FORMAT) : moment(_.round(microToMilliSec(Math.max(0, span.startTime + span.duration)), 2)).format(TRACE_ANALYTICS_DATE_FORMAT)),
       getListItem(
         'status.code',
         'Errors',
-        span['status.code'] === 2 ? (
+        (mode === 'data_prepper' ? span['status.code'] === 2 : span.tag['error']) ? (
           <EuiText color="danger" size="s" style={{fontWeight: 700}}>
             Yes
           </EuiText>
@@ -124,15 +127,20 @@ export function SpanDetailFlyout(props: {
     ];
     const ignoredKeys = new Set([
       'spanId',
+      'spanID',
       'parentSpanId',
       'serviceName',
       'name',
+      'operationName',
       'durationInNanos',
+      'duration',
       'startTime',
+      'startTimeMillis',
       'endTime',
       'status.code',
       'events',
       'traceId',
+      'traceID',
       'traceGroup',
       'traceGroupFields.endTime',
       'traceGroupFields.statusCode',

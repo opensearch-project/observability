@@ -14,14 +14,16 @@ import {
 } from '../../../trace_analytics/requests/traces_request_handler';
 import { HttpStart } from '../../../../../../../src/core/public';
 import { getListItem } from '../../helpers/utils';
+import { TraceAnalyticsMode } from '../../../../../public/components/trace_analytics/home';
 
 interface TraceDetailRenderProps {
   traceId: string;
   http: HttpStart;
   openSpanFlyout: (spanId: string) => void;
+  mode : TraceAnalyticsMode
 }
 
-export const TraceDetailRender = ({ traceId, http, openSpanFlyout }: TraceDetailRenderProps) => {
+export const TraceDetailRender = ({ traceId, http, openSpanFlyout, mode }: TraceDetailRenderProps) => {
   const [fields, setFields] = useState<any>({});
   const [serviceBreakdownData, setServiceBreakdownData] = useState([]);
   const [payloadData, setPayloadData] = useState('');
@@ -66,6 +68,7 @@ export const TraceDetailRender = ({ traceId, http, openSpanFlyout }: TraceDetail
           colorMap={colorMap}
           page="app"
           openSpanFlyout={openSpanFlyout}
+          mode={mode}
         />
         <EuiSpacer size="xs" />
         <EuiHorizontalRule margin="s" />
@@ -83,9 +86,9 @@ export const TraceDetailRender = ({ traceId, http, openSpanFlyout }: TraceDetail
   }, [traceId, fields, serviceBreakdownData, colorMap, payloadData]);
 
   useEffect(() => {
-    handleTraceViewRequest(traceId, http, fields, setFields);
-    handleServicesPieChartRequest(traceId, http, setServiceBreakdownData, setColorMap);
-    handlePayloadRequest(traceId, http, payloadData, setPayloadData);
+    handleTraceViewRequest(traceId, http, fields, setFields, mode);
+    handleServicesPieChartRequest(traceId, http, setServiceBreakdownData, setColorMap, mode);
+    handlePayloadRequest(traceId, http, payloadData, setPayloadData, mode);
   }, [traceId]);
 
   return renderContent;

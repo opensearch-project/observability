@@ -117,6 +117,7 @@ exports[`<SpanDetailTable /> spec renders the empty component 1`] = `
         "onSort": [Function],
       }
     }
+    toolbarVisibility={true}
   >
     <EuiFocusTrap
       className="euiDataGrid__focusWrap"

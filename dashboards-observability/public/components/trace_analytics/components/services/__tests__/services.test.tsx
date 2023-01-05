@@ -48,8 +48,8 @@ describe('Services component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={false}
         page="services"
+        mode='data_prepper'
       />
     );
 
@@ -92,8 +92,8 @@ describe('Services component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true}
         page="services"
+        mode='data_prepper'
       />
     );
 

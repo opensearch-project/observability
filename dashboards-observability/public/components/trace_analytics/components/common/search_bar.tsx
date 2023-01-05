@@ -98,6 +98,7 @@ export function SearchBar(props: SearchBarOwnProps) {
             filters={props.filters}
             setFilters={props.setFilters}
             appConfigs={props.appConfigs}
+            mode={props.mode}
           />
         </>
       )}

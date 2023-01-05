@@ -13,8 +13,11 @@ import {
   DATA_PREPPER_INDEX_NAME,
   DATA_PREPPER_SERVICE_INDEX_NAME,
   TRACE_ANALYTICS_DOCUMENTATION_LINK,
+  JAEGER_INDEX_NAME,
+  JAEGER_SERVICE_INDEX_NAME,
 } from '../../../../../common/constants/trace_analytics';
 import { uiSettingsService } from '../../../../../common/utils';
+import { TraceAnalyticsMode } from '../../home';
 import { serviceMapColorPalette } from './color_palette';
 import { FilterType } from './filters/filters';
 import { ServiceObject } from './plots/service_map';
@@ -55,7 +58,7 @@ export function MissingConfigurationMessage() {
         title={<h2>Trace Analytics not set up</h2>}
         body={
           <EuiText>
-            {`The indices required for trace analytics (${DATA_PREPPER_INDEX_NAME} and ${DATA_PREPPER_SERVICE_INDEX_NAME}) do not exist or you do not have permission to access them.`}
+            {`The indices required for trace analytics (${JAEGER_INDEX_NAME} and ${JAEGER_SERVICE_INDEX_NAME} or ${DATA_PREPPER_INDEX_NAME} and ${DATA_PREPPER_SERVICE_INDEX_NAME}) do not exist or you do not have permission to access them.`}
           </EuiText>
         }
         actions={
@@ -73,6 +76,14 @@ export function MissingConfigurationMessage() {
   );
 }
 
+export function processTimeStamp(time: string, mode: TraceAnalyticsMode) {
+  if (mode === 'jaeger') {
+    const timeMoment = dateMath.parse(time)!;
+    return timeMoment.unix() * 1000000;
+  }
+  return time;
+}
+
 export function renderBenchmark(value: number) {
   if (typeof value !== 'number') return null;
   const benchmarkColor = value === 0 ? '#9ea8a9' : value > 0 ? '#c23f25' : '#3f7e23';
@@ -87,6 +98,16 @@ export function renderBenchmark(value: number) {
 export function nanoToMilliSec(nano: number) {
   if (typeof nano !== 'number') return 0;
   return nano / 1000000;
+}
+
+export function microToMilliSec(nano: number) {
+  if (typeof nano !== 'number') return 0;
+  return nano / 1000;
+}
+
+export function milliToMicroSec(ms: number) {
+  if (typeof ms !== 'number') return 0;
+  return ms * 1000;
 }
 
 export function milliToNanoSec(ms: number) {
@@ -294,10 +315,11 @@ export const getPercentileFilter = (
 };
 
 export const filtersToDsl = (
+  mode: TraceAnalyticsMode,
   filters: FilterType[],
   query: string,
-  startTime: string,
-  endTime: string,
+  startTime: any,
+  endTime: any,
   page?: string,
   appConfigs: FilterType[] = []
 ) => {
@@ -358,8 +380,19 @@ export const filtersToDsl = (
 
       let filterQuery = {};
       let field = filter.field;
-      if (field === 'latency') field = 'traceGroupFields.durationInNanos';
-      else if (field === 'error') field = 'traceGroupFields.statusCode';
+      if (field === 'latency'){
+        if (mode === 'data_prepper') {
+          field = 'traceGroupFields.durationInNanos';
+        } else if (mode === 'jaeger') {
+          field = 'duration';
+        }
+      } else if (field === 'error') {
+        if (mode === 'data_prepper') {
+          field = 'traceGroupFields.statusCode';
+        } else if (mode === 'jaeger') {
+          field = 'tag.error'
+        }
+      }
       let value;
 
       switch (filter.operator) {
@@ -380,6 +413,10 @@ export const filtersToDsl = (
             value = milliToNanoSec(value);
           } else if (field === 'traceGroupFields.statusCode') {
             value = value[0].label === 'true' ? '2' : '0';
+          } else if (field === 'duration') {
+            value = milliToMicroSec(parseFloat(value));
+          } else if (field === 'tag.error') {
+            value = value[0].label === 'true' ? true : false;
           }
 
           filterQuery = {
@@ -397,6 +434,10 @@ export const filtersToDsl = (
           if (field === 'traceGroupFields.durationInNanos') {
             if (range.lte) range.lte = milliToNanoSec(parseInt(range.lte || '')).toString();
             if (range.gte) range.gte = milliToNanoSec(parseInt(range.gte || '')).toString();
+          }
+          if (field === 'duration') {
+            if (range.lte) range.lte = milliToMicroSec(parseInt(range.lte || '')).toString();
+            if (range.gte) range.gte = milliToMicroSec(parseInt(range.gte || '')).toString();
           }
           filterQuery = {
             range: {

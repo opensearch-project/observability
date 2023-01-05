@@ -120,6 +120,7 @@ describe('Helper functions', () => {
   it('converts filters to DSL', () => {
     const getTestDslFromFilters = (field = 'traceGroup', operator = 'exists') =>
       filtersToDsl(
+        'data_prepper',
         [
           {
             field,
@@ -148,6 +149,7 @@ describe('Helper functions', () => {
     );
 
     const customDSL = filtersToDsl(
+      'data_prepper',
       [
         {
           field: 'serviceName',

@@ -16,7 +16,7 @@ describe('Filter popover component', () => {
   it('renders filter popover', () => {
     const setFilter = jest.fn();
     const closePopover = jest.fn();
-    const filterFieldOptions = getFilterFields('dashboard').map((field) => ({ label: field }));
+    const filterFieldOptions = getFilterFields('data_prepper', 'dashboard').map((field) => ({ label: field }));
     const wrapper = mount(
       <FilterEditPopover
         filterFieldOptions={filterFieldOptions}

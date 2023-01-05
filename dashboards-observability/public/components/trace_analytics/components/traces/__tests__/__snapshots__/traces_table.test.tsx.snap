@@ -66,26 +66,25 @@ exports[`Traces table component renders empty traces table message 1`] = `
           className="euiHorizontalRule euiHorizontalRule--full"
         />
       </EuiHorizontalRule>
-      <MissingConfigurationMessage>
+      <NoMatchMessage
+        size="xl"
+      >
+        <EuiSpacer
+          size="xl"
+        >
+          <div
+            className="euiSpacer euiSpacer--xl"
+          />
+        </EuiSpacer>
         <EuiEmptyPrompt
-          actions={
-            <EuiButton
-              color="primary"
-              iconSide="right"
-              iconType="popout"
-              onClick={[Function]}
-            >
-              Learn more
-            </EuiButton>
-          }
           body={
             <EuiText>
-              The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+              No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
             </EuiText>
           }
           title={
             <h2>
-              Trace Analytics not set up
+              No matches
             </h2>
           }
         >
@@ -98,7 +97,7 @@ exports[`Traces table component renders empty traces table message 1`] = `
               <h2
                 className="euiTitle euiTitle--medium"
               >
-                Trace Analytics not set up
+                No matches
               </h2>
             </EuiTitle>
             <EuiTextColor
@@ -122,100 +121,23 @@ exports[`Traces table component renders empty traces table message 1`] = `
                       <div
                         className="euiText euiText--medium"
                       >
-                        The indices required for trace analytics (otel-v1-apm-span-* and otel-v1-apm-service-map*) do not exist or you do not have permission to access them.
+                        No data matches the selected filter. Clear the filter and/or increase the time range to see more results.
                       </div>
                     </EuiText>
                   </div>
                 </EuiText>
               </span>
             </EuiTextColor>
-            <EuiSpacer
-              size="l"
-            >
-              <div
-                className="euiSpacer euiSpacer--l"
-              />
-            </EuiSpacer>
-            <EuiButton
-              color="primary"
-              iconSide="right"
-              iconType="popout"
-              onClick={[Function]}
-            >
-              <EuiButtonDisplay
-                baseClassName="euiButton"
-                color="primary"
-                disabled={false}
-                element="button"
-                iconSide="right"
-                iconType="popout"
-                isDisabled={false}
-                onClick={[Function]}
-                type="button"
-              >
-                <button
-                  className="euiButton euiButton--primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  style={
-                    Object {
-                      "minWidth": undefined,
-                    }
-                  }
-                  type="button"
-                >
-                  <EuiButtonContent
-                    className="euiButton__content"
-                    iconSide="right"
-                    iconType="popout"
-                    textProps={
-                      Object {
-                        "className": "euiButton__text",
-                      }
-                    }
-                  >
-                    <span
-                      className="euiButtonContent euiButtonContent--iconRight euiButton__content"
-                    >
-                      <EuiIcon
-                        className="euiButtonContent__icon"
-                        color="inherit"
-                        size="m"
-                        type="popout"
-                      >
-                        <EuiIconEmpty
-                          aria-hidden={true}
-                          className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                          focusable="false"
-                          role="img"
-                          style={null}
-                        >
-                          <svg
-                            aria-hidden={true}
-                            className="euiIcon euiIcon--medium euiIcon--inherit euiIcon-isLoading euiButtonContent__icon"
-                            focusable="false"
-                            height={16}
-                            role="img"
-                            style={null}
-                            viewBox="0 0 16 16"
-                            width={16}
-                            xmlns="http://www.w3.org/2000/svg"
-                          />
-                        </EuiIconEmpty>
-                      </EuiIcon>
-                      <span
-                        className="euiButton__text"
-                      >
-                        Learn more
-                      </span>
-                    </span>
-                  </EuiButtonContent>
-                </button>
-              </EuiButtonDisplay>
-            </EuiButton>
           </div>
         </EuiEmptyPrompt>
-      </MissingConfigurationMessage>
+        <EuiSpacer
+          size="xl"
+        >
+          <div
+            className="euiSpacer euiSpacer--xl"
+          />
+        </EuiSpacer>
+      </NoMatchMessage>
     </div>
   </EuiPanel>
 </TracesTable>
@@ -454,30 +376,11 @@ exports[`Traces table component renders traces table 1`] = `
               "truncateText": true,
             },
             Object {
-              "align": "left",
-              "field": "trace_group",
-              "name": "Trace group",
-              "render": [Function],
-              "sortable": true,
-              "truncateText": true,
-            },
-            Object {
               "align": "right",
               "field": "latency",
               "name": "Latency (ms)",
               "sortable": true,
               "truncateText": true,
-            },
-            Object {
-              "align": "right",
-              "field": "percentile_in_trace_group",
-              "name": <React.Fragment>
-                <div>
-                  Percentile in trace group
-                </div>
-              </React.Fragment>,
-              "render": [Function],
-              "sortable": true,
             },
             Object {
               "align": "right",
@@ -543,30 +446,11 @@ exports[`Traces table component renders traces table 1`] = `
                 "truncateText": true,
               },
               Object {
-                "align": "left",
-                "field": "trace_group",
-                "name": "Trace group",
-                "render": [Function],
-                "sortable": true,
-                "truncateText": true,
-              },
-              Object {
                 "align": "right",
                 "field": "latency",
                 "name": "Latency (ms)",
                 "sortable": true,
                 "truncateText": true,
-              },
-              Object {
-                "align": "right",
-                "field": "percentile_in_trace_group",
-                "name": <React.Fragment>
-                  <div>
-                    Percentile in trace group
-                  </div>
-                </React.Fragment>,
-                "render": [Function],
-                "sortable": true,
               },
               Object {
                 "align": "right",
@@ -667,39 +551,21 @@ exports[`Traces table component renders traces table 1`] = `
                                 Object {
                                   "isSortAscending": undefined,
                                   "isSorted": false,
-                                  "key": "_data_s_trace_group_1",
-                                  "name": "Trace group",
-                                  "onSort": [Function],
-                                },
-                                Object {
-                                  "isSortAscending": undefined,
-                                  "isSorted": false,
-                                  "key": "_data_s_latency_2",
+                                  "key": "_data_s_latency_1",
                                   "name": "Latency (ms)",
                                   "onSort": [Function],
                                 },
                                 Object {
                                   "isSortAscending": undefined,
                                   "isSorted": false,
-                                  "key": "_data_s_percentile_in_trace_group_3",
-                                  "name": <React.Fragment>
-                                    <div>
-                                      Percentile in trace group
-                                    </div>
-                                  </React.Fragment>,
-                                  "onSort": [Function],
-                                },
-                                Object {
-                                  "isSortAscending": undefined,
-                                  "isSorted": false,
-                                  "key": "_data_s_error_count_4",
+                                  "key": "_data_s_error_count_2",
                                   "name": "Errors",
                                   "onSort": [Function],
                                 },
                                 Object {
                                   "isSortAscending": undefined,
                                   "isSorted": false,
-                                  "key": "_data_s_last_updated_5",
+                                  "key": "_data_s_last_updated_3",
                                   "name": "Last updated",
                                   "onSort": [Function],
                                 },
@@ -924,75 +790,17 @@ exports[`Traces table component renders traces table 1`] = `
                           </th>
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
-                          align="left"
-                          data-test-subj="tableHeaderCell_trace_group_1"
-                          isSorted={false}
-                          key="_data_h_trace_group_1"
-                          onSort={[Function]}
-                        >
-                          <th
-                            aria-live="polite"
-                            aria-sort="none"
-                            className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_trace_group_1"
-                            role="columnheader"
-                            scope="col"
-                            style={
-                              Object {
-                                "width": undefined,
-                              }
-                            }
-                          >
-                            <button
-                              className="euiTableHeaderButton"
-                              data-test-subj="tableHeaderSortButton"
-                              onClick={[Function]}
-                              type="button"
-                            >
-                              <CellContents
-                                className="euiTableCellContent"
-                                isSorted={false}
-                                showSortMsg={true}
-                              >
-                                <span
-                                  className="euiTableCellContent"
-                                >
-                                  <EuiInnerText>
-                                    <EuiI18n
-                                      default="{innerText}; {description}"
-                                      token="euiTableHeaderCell.titleTextWithDesc"
-                                      values={
-                                        Object {
-                                          "description": undefined,
-                                          "innerText": "Trace group",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className="euiTableCellContent__text"
-                                        title="Trace group"
-                                      >
-                                        Trace group
-                                      </span>
-                                    </EuiI18n>
-                                  </EuiInnerText>
-                                </span>
-                              </CellContents>
-                            </button>
-                          </th>
-                        </EuiTableHeaderCell>
-                        <EuiTableHeaderCell
                           align="right"
-                          data-test-subj="tableHeaderCell_latency_2"
+                          data-test-subj="tableHeaderCell_latency_1"
                           isSorted={false}
-                          key="_data_h_latency_2"
+                          key="_data_h_latency_1"
                           onSort={[Function]}
                         >
                           <th
                             aria-live="polite"
                             aria-sort="none"
                             className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_latency_2"
+                            data-test-subj="tableHeaderCell_latency_1"
                             role="columnheader"
                             scope="col"
                             style={
@@ -1041,76 +849,16 @@ exports[`Traces table component renders traces table 1`] = `
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="right"
-                          data-test-subj="tableHeaderCell_percentile_in_trace_group_3"
+                          data-test-subj="tableHeaderCell_error_count_2"
                           isSorted={false}
-                          key="_data_h_percentile_in_trace_group_3"
+                          key="_data_h_error_count_2"
                           onSort={[Function]}
                         >
                           <th
                             aria-live="polite"
                             aria-sort="none"
                             className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_percentile_in_trace_group_3"
-                            role="columnheader"
-                            scope="col"
-                            style={
-                              Object {
-                                "width": undefined,
-                              }
-                            }
-                          >
-                            <button
-                              className="euiTableHeaderButton"
-                              data-test-subj="tableHeaderSortButton"
-                              onClick={[Function]}
-                              type="button"
-                            >
-                              <CellContents
-                                className="euiTableCellContent euiTableCellContent--alignRight"
-                                isSorted={false}
-                                showSortMsg={true}
-                              >
-                                <span
-                                  className="euiTableCellContent euiTableCellContent--alignRight"
-                                >
-                                  <EuiInnerText>
-                                    <EuiI18n
-                                      default="{innerText}; {description}"
-                                      token="euiTableHeaderCell.titleTextWithDesc"
-                                      values={
-                                        Object {
-                                          "description": undefined,
-                                          "innerText": "Percentile in trace group",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className="euiTableCellContent__text"
-                                        title="Percentile in trace group"
-                                      >
-                                        <div>
-                                          Percentile in trace group
-                                        </div>
-                                      </span>
-                                    </EuiI18n>
-                                  </EuiInnerText>
-                                </span>
-                              </CellContents>
-                            </button>
-                          </th>
-                        </EuiTableHeaderCell>
-                        <EuiTableHeaderCell
-                          align="right"
-                          data-test-subj="tableHeaderCell_error_count_4"
-                          isSorted={false}
-                          key="_data_h_error_count_4"
-                          onSort={[Function]}
-                        >
-                          <th
-                            aria-live="polite"
-                            aria-sort="none"
-                            className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_error_count_4"
+                            data-test-subj="tableHeaderCell_error_count_2"
                             role="columnheader"
                             scope="col"
                             style={
@@ -1159,16 +907,16 @@ exports[`Traces table component renders traces table 1`] = `
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="left"
-                          data-test-subj="tableHeaderCell_last_updated_5"
+                          data-test-subj="tableHeaderCell_last_updated_3"
                           isSorted={false}
-                          key="_data_h_last_updated_5"
+                          key="_data_h_last_updated_3"
                           onSort={[Function]}
                         >
                           <th
                             aria-live="polite"
                             aria-sort="none"
                             className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_last_updated_5"
+                            data-test-subj="tableHeaderCell_last_updated_3"
                             role="columnheader"
                             scope="col"
                             style={
@@ -1374,51 +1122,8 @@ exports[`Traces table component renders traces table 1`] = `
                             </td>
                           </EuiTableRowCell>
                           <EuiTableRowCell
-                            align="left"
-                            key="_data_column_trace_group_0_1"
-                            mobileOptions={
-                              Object {
-                                "header": "Trace group",
-                                "render": undefined,
-                              }
-                            }
-                            setScopeRow={false}
-                            textOnly={false}
-                            truncateText={true}
-                          >
-                            <td
-                              className="euiTableRowCell"
-                              style={
-                                Object {
-                                  "width": undefined,
-                                }
-                              }
-                            >
-                              <div
-                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
-                              >
-                                Trace group
-                              </div>
-                              <div
-                                className="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
-                              >
-                                <EuiText
-                                  className=""
-                                  key=".0"
-                                  size="s"
-                                >
-                                  <div
-                                    className="euiText euiText--small"
-                                  >
-                                    HTTP GET
-                                  </div>
-                                </EuiText>
-                              </div>
-                            </td>
-                          </EuiTableRowCell>
-                          <EuiTableRowCell
                             align="right"
-                            key="_data_column_latency_0_2"
+                            key="_data_column_latency_0_1"
                             mobileOptions={
                               Object {
                                 "header": "Latency (ms)",
@@ -1455,55 +1160,7 @@ exports[`Traces table component renders traces table 1`] = `
                           </EuiTableRowCell>
                           <EuiTableRowCell
                             align="right"
-                            key="_data_column_percentile_in_trace_group_0_3"
-                            mobileOptions={
-                              Object {
-                                "header": <React.Fragment>
-                                  <div>
-                                    Percentile in trace group
-                                  </div>
-                                </React.Fragment>,
-                                "render": undefined,
-                              }
-                            }
-                            setScopeRow={false}
-                            textOnly={false}
-                          >
-                            <td
-                              className="euiTableRowCell"
-                              style={
-                                Object {
-                                  "width": undefined,
-                                }
-                              }
-                            >
-                              <div
-                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
-                              >
-                                <div>
-                                  Percentile in trace group
-                                </div>
-                              </div>
-                              <div
-                                className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--overflowingContent"
-                              >
-                                <EuiText
-                                  className=""
-                                  key=".0"
-                                  size="s"
-                                >
-                                  <div
-                                    className="euiText euiText--small"
-                                  >
-                                    30th
-                                  </div>
-                                </EuiText>
-                              </div>
-                            </td>
-                          </EuiTableRowCell>
-                          <EuiTableRowCell
-                            align="right"
-                            key="_data_column_error_count_0_4"
+                            key="_data_column_error_count_0_2"
                             mobileOptions={
                               Object {
                                 "header": "Errors",
@@ -1535,7 +1192,7 @@ exports[`Traces table component renders traces table 1`] = `
                           </EuiTableRowCell>
                           <EuiTableRowCell
                             align="left"
-                            key="_data_column_last_updated_0_5"
+                            key="_data_column_last_updated_0_3"
                             mobileOptions={
                               Object {
                                 "header": "Last updated",

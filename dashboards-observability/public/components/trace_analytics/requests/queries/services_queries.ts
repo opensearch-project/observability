@@ -5,13 +5,15 @@
 
 import {
   DATA_PREPPER_SERVICE_INDEX_NAME,
+  JAEGER_SERVICE_INDEX_NAME,
   SERVICE_MAP_MAX_EDGES,
   SERVICE_MAP_MAX_NODES,
 } from '../../../../../common/constants/trace_analytics';
 import { getServiceMapTargetResources } from '../../components/common/helper_functions';
 import { ServiceObject } from '../../components/common/plots/service_map';
+import { TraceAnalyticsMode } from '../../home';
 
-export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => {
+export const getServicesQuery = (mode: TraceAnalyticsMode, serviceName: string | undefined, DSL?: any) => {
   const query = {
     size: 0,
     query: {
@@ -25,40 +27,64 @@ export const getServicesQuery = (serviceName: string | undefined, DSL?: any) => 
     aggs: {
       service: {
         terms: {
-          field: 'serviceName',
+          field: mode === 'jaeger' ? 'process.serviceName' : 'serviceName',
           size: 10000,
         },
         aggs: {
           trace_count: {
             cardinality: {
-              field: 'traceId',
+              field: mode === 'jaeger'? 'traceID': 'traceId',
             },
           },
         },
       },
     },
   };
-  if (serviceName) {
-    query.query.bool.must.push({
-      term: {
-        serviceName,
-      },
+  if (mode === 'jaeger') {
+    if (serviceName) {
+      query.query.bool.must.push({
+        term: {
+          "process.serviceName": serviceName,
+        },
+      });
+    }
+    DSL?.custom?.serviceNames?.map((service: string) => {
+      query.query.bool.must.push({
+        term: {
+          "process.serviceName": service,
+        },
+      });
+    });
+    DSL?.custom?.serviceNamesExclude?.map((service: string) => {
+      query.query.bool.must_not.push({
+        term: {
+          "process.serviceName": service,
+        },
+      });
+    });
+  } else {
+    if (serviceName) {
+      query.query.bool.must.push({
+        term: {
+          "serviceName": serviceName,
+        },
+      });
+    }
+    DSL?.custom?.serviceNames?.map((service: string) => {
+      query.query.bool.must.push({
+        term: {
+          "serviceName": service,
+        },
+      });
+    });
+    DSL?.custom?.serviceNamesExclude?.map((service: string) => {
+      query.query.bool.must_not.push({
+        term: {
+          "serviceName": service,
+        },
+      });
     });
   }
-  DSL?.custom?.serviceNames?.map((service: string) => {
-    query.query.bool.must.push({
-      term: {
-        serviceName: service,
-      },
-    });
-  });
-  DSL?.custom?.serviceNamesExclude?.map((service: string) => {
-    query.query.bool.must_not.push({
-      term: {
-        serviceName: service,
-      },
-    });
-  });
   return query;
 };
 
@@ -92,7 +118,7 @@ export const getRelatedServicesQuery = (serviceName: string) => {
                 must: [
                   {
                     term: {
-                      serviceName,
+                      "serviceName": serviceName,
                     },
                   },
                 ],
@@ -107,9 +133,9 @@ export const getRelatedServicesQuery = (serviceName: string) => {
   return query;
 };
 
-export const getServiceNodesQuery = () => {
+export const getServiceNodesQuery = (mode: TraceAnalyticsMode) => {
   return {
-    index: DATA_PREPPER_SERVICE_INDEX_NAME,
+    index: mode === 'jaeger' ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
     query: {
       bool: {
@@ -146,9 +172,9 @@ export const getServiceNodesQuery = () => {
   };
 };
 
-export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
+export const getServiceEdgesQuery = (source: 'destination' | 'target', mode: TraceAnalyticsMode) => {
   return {
-    index: DATA_PREPPER_SERVICE_INDEX_NAME,
+    index: mode === 'jaeger' ? JAEGER_SERVICE_INDEX_NAME : DATA_PREPPER_SERVICE_INDEX_NAME,
     size: 0,
     query: {
       bool: {
@@ -185,7 +211,7 @@ export const getServiceEdgesQuery = (source: 'destination' | 'target') => {
   };
 };
 
-export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject) => {
+export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: ServiceObject, mode: TraceAnalyticsMode) => {
   const traceGroupFilter = new Set(
     DSL?.query?.bool.must
       .filter((must: any) => must.term?.['traceGroup'])
@@ -204,7 +230,117 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
           )
         )
       : [].concat(...Object.keys(map).map((service) => getServiceMapTargetResources(map, service)));
-  const query: any = {
+  const jaegerQuery: any = {
+    size: 0,
+    query: {
+      bool: {
+        must: [],
+        should: [],
+        must_not: [],
+        filter: [
+          {
+            terms: {
+              "process.serviceName": serviceNames,
+            },
+          },
+          {
+            bool: {
+              should: [
+                {
+                  bool: {
+                    filter: [
+                      {
+                        bool: {
+                          must_not: {
+                            term: {
+                              references: {
+                                value: [],
+                              },
+                            },
+                          },
+                        },
+                      },
+                      // {
+                      //   terms: {
+                      //     name: targetResource,
+                      //   },
+                      // },
+                    ],
+                  },
+                },
+                {
+                  bool: {
+                    must: {
+                      term: {
+                        references: {
+                          value: [],
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+              adjust_pure_negative: true,
+              boost: 1,
+            },
+          },
+        ],
+      },
+    },
+    aggregations: {
+      service_name: {
+        terms: {
+          field: 'process.serviceName',
+          size: SERVICE_MAP_MAX_NODES,
+          min_doc_count: 1,
+          shard_min_doc_count: 0,
+          show_term_doc_count_error: false,
+          order: [
+            {
+              _count: 'desc',
+            },
+            {
+              _key: 'asc',
+            },
+          ],
+        },
+        aggregations: {
+          average_latency_nanos: {
+            avg: {
+              field: 'duration',
+            },
+          },
+          average_latency: {
+            bucket_script: {
+              buckets_path: {
+                count: '_count',
+                latency: 'average_latency_nanos.value',
+              },
+              script: 'Math.round(params.latency / 10) / 100.0',
+            },
+          },
+          error_count: {
+            filter: {
+              term: {
+                'tag.error': true,
+              },
+            },
+          },
+          error_rate: {
+            bucket_script: {
+              buckets_path: {
+                total: '_count',
+                errors: 'error_count._count',
+              },
+              script: 'params.errors / params.total * 100',
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const dataPrepperQuery: any = {
     size: 0,
     query: {
       bool: {
@@ -313,6 +449,9 @@ export const getServiceMetricsQuery = (DSL: any, serviceNames: string[], map: Se
       },
     },
   };
-  if (DSL.custom?.timeFilter.length > 0) query.query.bool.must.push(...DSL.custom.timeFilter);
-  return query;
+  if (DSL.custom?.timeFilter.length > 0) {
+    jaegerQuery.query.bool.must.push(...DSL.custom.timeFilter);
+    dataPrepperQuery.query.bool.must.push(...DSL.custom.timeFilter);
+  }
+  return mode === 'jaeger' ? jaegerQuery : dataPrepperQuery;
 };

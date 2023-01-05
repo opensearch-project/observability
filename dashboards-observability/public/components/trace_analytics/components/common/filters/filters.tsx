@@ -16,6 +16,7 @@ import {
   EuiPopoverTitle,
   EuiTextColor,
 } from '@elastic/eui';
+import { TraceAnalyticsMode } from 'public/components/trace_analytics/home';
 import React, { useMemo, useState } from 'react';
 import { FilterEditPopover } from './filter_edit_popover';
 import { getFilterFields, getValidFilterFields } from './filter_helpers';
@@ -34,6 +35,7 @@ export interface FiltersProps {
   filters: FilterType[];
   appConfigs?: FilterType[];
   setFilters: (filters: FilterType[]) => void;
+  mode: TraceAnalyticsMode;
 }
 
 interface FiltersOwnProps extends FiltersProps {
@@ -50,9 +52,9 @@ export function Filters(props: FiltersOwnProps) {
     props.setFilters(newFilters);
   };
 
-  const validFilterFields = useMemo(() => getValidFilterFields(props.page), [props.page]);
+  const validFilterFields = useMemo(() => getValidFilterFields(props.mode, props.page), [props.page]);
   const filterFieldOptions = useMemo(
-    () => getFilterFields(props.page).map((field) => ({ label: field })),
+    () => getFilterFields(props.mode, props.page).map((field) => ({ label: field })),
     [props.page]
   );
 

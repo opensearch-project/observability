@@ -20,7 +20,7 @@ import { Application } from './components/application';
 import { CreateApp } from './components/create';
 import { TraceAnalyticsComponentDeps, TraceAnalyticsCoreDeps } from '../trace_analytics/home';
 import { FilterType } from '../trace_analytics/components/common/filters/filters';
-import { handleIndicesExistRequest } from '../trace_analytics/requests/request_handler';
+import { handleDataPrepperIndicesExistRequest } from '../trace_analytics/requests/request_handler';
 import { ObservabilitySideBar } from '../common/side_nav';
 import { NotificationsStart } from '../../../../../src/core/public';
 import { APP_ANALYTICS_API_PREFIX } from '../../../common/constants/application_analytics';
@@ -114,7 +114,7 @@ export const Home = (props: HomeProps) => {
   };
 
   useEffect(() => {
-    handleIndicesExistRequest(http, setIndicesExist);
+    handleDataPrepperIndicesExistRequest(http, setIndicesExist);
   }, []);
 
   const commonProps: AppAnalyticsComponentDeps = {
@@ -137,7 +137,7 @@ export const Home = (props: HomeProps) => {
     setStartTime,
     endTime,
     setEndTime,
-    indicesExist,
+    mode: 'data_prepper',
   };
 
   const setToast = (title: string, color = 'success', text?: ReactChild) => {

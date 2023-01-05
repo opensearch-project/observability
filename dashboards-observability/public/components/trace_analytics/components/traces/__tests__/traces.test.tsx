@@ -46,8 +46,8 @@ describe('Traces component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={false}
         page="traces"
+        mode='data_prepper'
       />
     );
 
@@ -88,7 +88,7 @@ describe('Traces component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true}
+        mode='data_prepper'
         page="traces"
       />
     );

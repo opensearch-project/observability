@@ -113,6 +113,7 @@ export function Application(props: AppDetailProps) {
     setFilters,
     callback,
     queryManager,
+    mode,
   } = props;
   const [application, setApplication] = useState<ApplicationType>({
     id: '',
@@ -230,7 +231,7 @@ export function Application(props: AppDetailProps) {
   }, [appId, application.name]);
 
   useEffect(() => {
-    const DSL = filtersToDsl(filters, query, appStartTime, appEndTime, 'app', appConfigs);
+    const DSL = filtersToDsl(mode, filters, query, appStartTime, appEndTime, 'app', appConfigs);
     setSpanDSL(DSL);
   }, [filters, appConfigs, query, appStartTime, appEndTime]);
 
@@ -350,6 +351,7 @@ export function Application(props: AppDetailProps) {
             openFlyout={setSpanFlyoutId}
             DSL={spanDSL}
             setTotal={setTotalSpans}
+            mode='data_prepper'
           />
         </EuiPanel>
       </>
@@ -563,6 +565,7 @@ export function Application(props: AppDetailProps) {
             isFlyoutVisible={!!spanFlyoutId}
             closeFlyout={closeSpanFlyout}
             addSpanFilter={addSpanFilter}
+            mode="data_prepper"
           />
         )}
         {traceFlyoutId && (

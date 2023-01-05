@@ -30,6 +30,7 @@ describe('<SpanDetailFlyout /> spec', () => {
         isFlyoutVisible={true}
         closeFlyout={closeFlyout}
         addSpanFilter={addSpanFilter}
+        mode="data_prepper"
       />
     );
     utils.update();
@@ -53,6 +54,7 @@ describe('<SpanDetailFlyout /> spec', () => {
           isFlyoutVisible={true}
           closeFlyout={closeFlyout}
           addSpanFilter={addSpanFilter}
+          mode="data_prepper"
         />,
         container
       );

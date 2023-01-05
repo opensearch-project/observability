@@ -13,7 +13,7 @@ import {
 } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
-import { filtersToDsl } from '../common/helper_functions';
+import { filtersToDsl, processTimeStamp } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { SearchBar } from '../common/search_bar';
 import { ServicesProps } from './services';
@@ -28,7 +28,6 @@ export function ServicesContent(props: ServicesProps) {
     query,
     startTime,
     endTime,
-    indicesExist,
     appConfigs = [],
     childBreadcrumbs,
     parentBreadcrumbs,
@@ -38,6 +37,7 @@ export function ServicesContent(props: ServicesProps) {
     setQuery,
     setStartTime,
     setEndTime,
+    mode,
   } = props;
   const [tableItems, setTableItems] = useState([]);
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
@@ -50,7 +50,7 @@ export function ServicesContent(props: ServicesProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...childBreadcrumbs]);
-    const validFilters = getValidFilterFields('services');
+    const validFilters = getValidFilterFields(mode, 'services');
     setFilters([
       ...filters.map((filter) => ({
         ...filter,
@@ -69,20 +69,20 @@ export function ServicesContent(props: ServicesProps) {
       }
     }
     setFilteredService(newFilteredService);
-    if (!redirect && indicesExist) refresh(newFilteredService);
+    if (!redirect && mode !== 'none') refresh(newFilteredService);
   }, [filters, appConfigs]);
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
+    const DSL = filtersToDsl(mode, filters, query,processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     // service map should not be filtered by service name
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
       (must: any) => must?.term?.serviceName == null
     );
     await Promise.all([
-      handleServicesRequest(http, DSL, setTableItems),
-      handleServiceMapRequest(http, serviceMapDSL, setServiceMap, currService || filteredService),
+      handleServicesRequest(http, DSL, setTableItems, mode),
+      handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService),
     ]);
     setLoading(false);
   };
@@ -116,26 +116,29 @@ export function ServicesContent(props: ServicesProps) {
         setEndTime={setEndTime}
         refresh={refresh}
         page={page}
+        mode={mode}
       />
       <EuiSpacer size="m" />
       <ServicesTable
         items={tableItems}
         addFilter={addFilter}
         setRedirect={setRedirect}
-        indicesExist={indicesExist}
+        mode={mode}
         loading={loading}
         nameColumnAction={nameColumnAction}
         traceColumnAction={traceColumnAction}
       />
       <EuiSpacer size="m" />
-      <ServiceMap
-        addFilter={addFilter}
-        serviceMap={serviceMap}
-        idSelected={serviceMapIdSelected}
-        setIdSelected={setServiceMapIdSelected}
-        currService={filteredService}
-        page={page}
-      />
+      { mode === 'data_prepper' ? 
+        <ServiceMap
+          addFilter={addFilter}
+          serviceMap={serviceMap}
+          idSelected={serviceMapIdSelected}
+          setIdSelected={setServiceMapIdSelected}
+          currService={filteredService}
+          page={page}
+        /> : (<div/>)
+      }
     </>
   );
 }

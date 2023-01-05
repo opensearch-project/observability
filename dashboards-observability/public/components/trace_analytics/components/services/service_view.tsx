@@ -20,13 +20,13 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
-import { TraceAnalyticsComponentDeps } from '../../home';
+import { TraceAnalyticsComponentDeps, TraceAnalyticsMode } from '../../home';
 import {
   handleServiceMapRequest,
   handleServiceViewRequest,
 } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
-import { filtersToDsl, PanelTitle } from '../common/helper_functions';
+import { filtersToDsl, PanelTitle, processTimeStamp } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { renderDatePicker, SearchBarProps } from '../common/search_bar';
 import { SpanDetailFlyout } from '../traces/span_detail_flyout';
@@ -38,6 +38,7 @@ interface ServiceViewProps extends TraceAnalyticsComponentDeps {
 }
 
 export function ServiceView(props: ServiceViewProps) {
+  const { mode } = props;
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
   const [serviceMapIdSelected, setServiceMapIdSelected] = useState<
@@ -46,9 +47,9 @@ export function ServiceView(props: ServiceViewProps) {
   const [redirect, setRedirect] = useState(false);
 
   const refresh = () => {
-    const DSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
-    handleServiceViewRequest(props.serviceName, props.http, DSL, setFields);
-    handleServiceMapRequest(props.http, DSL, setServiceMap, props.serviceName);
+    const DSL = filtersToDsl(mode, props.filters, props.query, processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode));
+    handleServiceViewRequest(props.serviceName, props.http, DSL, setFields, mode);
+    handleServiceMapRequest(props.http, DSL, mode, setServiceMap, props.serviceName);
   };
 
   useEffect(() => {
@@ -110,30 +111,34 @@ export function ServiceView(props: ServiceViewProps) {
                   {props.serviceName || '-'}
                 </EuiText>
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiText className="overview-title">Number of connected services</EuiText>
-                <EuiText size="s" className="overview-content">
-                  {fields.number_of_connected_services !== undefined
-                    ? fields.number_of_connected_services
-                    : 0}
-                </EuiText>
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiText className="overview-title">Connected services</EuiText>
-                <EuiText size="s" className="overview-content">
-                  {fields.connected_services
-                    ? fields.connected_services
-                        .map((service: string) => (
-                          <EuiLink href={`#/trace_analytics/services/${service}`} key={service}>
-                            {service}
-                          </EuiLink>
-                        ))
-                        .reduce((prev: React.ReactNode, curr: React.ReactNode) => {
-                          return [prev, ', ', curr];
-                        })
-                    : '-'}
-                </EuiText>
-              </EuiFlexItem>
+              { mode === 'data_prepper' ? 
+                <EuiFlexItem grow={false}>
+                  <EuiText className="overview-title">Number of connected services</EuiText>
+                  <EuiText size="s" className="overview-content">
+                    {fields.number_of_connected_services !== undefined
+                      ? fields.number_of_connected_services
+                      : 0}
+                  </EuiText>
+                </EuiFlexItem> : <EuiFlexItem/>
+              }
+              { mode === 'data_prepper' ? 
+                <EuiFlexItem grow={false}>
+                  <EuiText className="overview-title">Connected services</EuiText>
+                  <EuiText size="s" className="overview-content">
+                    {fields.connected_services && fields.connected_services.length
+                      ? fields.connected_services
+                          .map((service: string) => (
+                            <EuiLink href={`#/trace_analytics/services/${service}`} key={service}>
+                              {service}
+                            </EuiLink>
+                          ))
+                          .reduce((prev: React.ReactNode, curr: React.ReactNode) => {
+                            return [prev, ', ', curr];
+                          })
+                      : '-'}
+                  </EuiText>
+                </EuiFlexItem> : <EuiFlexItem/>
+              }
             </EuiFlexGroup>
           </EuiFlexItem>
           <EuiFlexItem>
@@ -170,7 +175,7 @@ export function ServiceView(props: ServiceViewProps) {
                       onClick={() => {
                         setRedirect(true);
                         props.addFilter({
-                          field: 'serviceName',
+                          field: 'process.serviceName',
                           operator: 'is',
                           value: props.serviceName,
                           inverted: false,
@@ -227,10 +232,10 @@ export function ServiceView(props: ServiceViewProps) {
   };
 
   useEffect(() => {
-    const spanDSL = filtersToDsl(props.filters, props.query, props.startTime, props.endTime);
+    const spanDSL = filtersToDsl(mode, props.filters, props.query, processTimeStamp(props.startTime, mode), processTimeStamp(props.endTime, mode));
     spanDSL.query.bool.must.push({
       term: {
-        serviceName: props.serviceName,
+        "process.serviceName": props.serviceName,
       },
     });
     spanFilters.map(({ field, value }) => {
@@ -289,6 +294,7 @@ export function ServiceView(props: ServiceViewProps) {
         DSL={DSL}
         openFlyout={(spanId: string) => setCurrentSpan(spanId)}
         setTotal={setTotal}
+        mode={mode}
       />
     ),
     [DSL, setCurrentSpan]
@@ -309,13 +315,15 @@ export function ServiceView(props: ServiceViewProps) {
           <EuiSpacer size="xl" />
           {overview}
           <EuiSpacer />
-          <ServiceMap
-            serviceMap={serviceMap}
-            idSelected={serviceMapIdSelected}
-            setIdSelected={setServiceMapIdSelected}
-            currService={props.serviceName}
-            page="serviceView"
-          />
+          { mode === 'data_prepper' ? 
+            <ServiceMap
+              serviceMap={serviceMap}
+              idSelected={serviceMapIdSelected}
+              setIdSelected={setServiceMapIdSelected}
+              currService={props.serviceName}
+              page="serviceView"
+            /> : <div/>
+          }   
           <EuiSpacer />
           <EuiPanel>
             <PanelTitle title="Spans" totalItems={total} />
@@ -337,6 +345,7 @@ export function ServiceView(props: ServiceViewProps) {
               isFlyoutVisible={!!currentSpan}
               closeFlyout={() => setCurrentSpan('')}
               addSpanFilter={addSpanFilter}
+              mode={mode}
             />
           )}
         </EuiPageBody>

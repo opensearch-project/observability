@@ -19,7 +19,7 @@ import {
   handleServiceMapRequest,
   handleServiceViewRequest,
 } from '../../../../../public/components/trace_analytics/requests/services_request_handler';
-import { filtersToDsl } from '../../../../../public/components/trace_analytics/components/common/helper_functions';
+import { filtersToDsl, processTimeStamp } from '../../../../../public/components/trace_analytics/components/common/helper_functions';
 import { ServiceMap } from '../../../../../public/components/trace_analytics/components/services';
 import { ServiceObject } from '../../../../../public/components/trace_analytics/components/common/plots/service_map';
 import { SpanDetailTable } from '../../../../../public/components/trace_analytics/components/traces/span_detail_table';
@@ -44,6 +44,7 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
     query,
     closeServiceFlyout,
     openSpanFlyout,
+    mode,
   } = props;
   const [fields, setFields] = useState<any>({});
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
@@ -110,16 +111,17 @@ export function ServiceDetailFlyout(props: ServiceFlyoutProps) {
           DSL={DSL}
           openFlyout={openSpanFlyout}
           setTotal={setTotal}
+          mode={mode}
         />
       </>
     );
   }, [serviceName, fields, serviceMap, DSL, serviceMapIdSelected]);
 
   useEffect(() => {
-    const serviceDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
-    handleServiceViewRequest(serviceName, http, serviceDSL, setFields);
-    handleServiceMapRequest(http, serviceDSL, setServiceMap, serviceName);
-    const spanDSL = filtersToDsl(filters, query, startTime, endTime, 'app', appConfigs);
+    const serviceDSL = filtersToDsl(mode, filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), 'app', appConfigs);
+    handleServiceViewRequest(serviceName, http, serviceDSL, setFields, mode);
+    handleServiceMapRequest(http, serviceDSL, mode, setServiceMap, serviceName);
+    const spanDSL = filtersToDsl(mode, filters, query, startTime, endTime, 'app', appConfigs);
     spanDSL.query.bool.must.push({
       term: {
         serviceName,

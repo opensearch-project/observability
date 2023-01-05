@@ -17,17 +17,19 @@ import {
 } from './queries/services_queries';
 import { handleDslRequest } from './request_handler';
 import { HttpSetup } from '../../../../../../src/core/public';
+import { TraceAnalyticsMode } from '../home';
 
 export const handleServicesRequest = async (
   http: HttpSetup,
   DSL: any,
   setItems: any,
+  mode: TraceAnalyticsMode,
   setServiceMap?: any,
-  serviceNameFilter?: string
+  serviceNameFilter?: string,
 ) => {
-  return handleDslRequest(http, DSL, getServicesQuery(serviceNameFilter, DSL))
+  return handleDslRequest(http, DSL, getServicesQuery(mode, serviceNameFilter, DSL), mode)
     .then(async (response) => {
-      const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL, setServiceMap);
+      const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL, mode, setServiceMap);
       return Promise.all(
         response.aggregations.service.buckets
           .filter((bucket: any) => serviceObject[bucket.key])
@@ -57,20 +59,20 @@ export const handleServicesRequest = async (
 export const handleServiceMapRequest = async (
   http: HttpSetup,
   DSL: DSLService | any,
+  mode: TraceAnalyticsMode,
   setItems?: any,
-  currService?: string
+  currService?: string,
 ) => {
   let minutesInDateRange: number;
   const startTime = DSL.custom?.timeFilter?.[0]?.range?.startTime;
-  if (startTime) {
+  if (startTime && mode !== 'jaeger') {
     const gte = dateMath.parse(startTime.gte)!;
     const lte = dateMath.parse(startTime.lte, { roundUp: true })!;
     minutesInDateRange = lte.diff(gte, 'minutes', true);
   }
-
   const map: ServiceObject = {};
   let id = 1;
-  await handleDslRequest(http, null, getServiceNodesQuery())
+  await handleDslRequest(http, null, getServiceNodesQuery(mode), mode)
     .then((response) =>
       response.aggregations.service_name.buckets.map(
         (bucket: any) =>
@@ -89,7 +91,7 @@ export const handleServiceMapRequest = async (
     .catch((error) => console.error(error));
 
   const targets = {};
-  await handleDslRequest(http, null, getServiceEdgesQuery('target'))
+  await handleDslRequest(http, null, getServiceEdgesQuery('target', mode), mode)
     .then((response) =>
       response.aggregations.service_name.buckets.map((bucket: any) => {
         bucket.resource.buckets.map((resource: any) => {
@@ -100,7 +102,7 @@ export const handleServiceMapRequest = async (
       })
     )
     .catch((error) => console.error(error));
-  await handleDslRequest(http, null, getServiceEdgesQuery('destination'))
+  await handleDslRequest(http, null, getServiceEdgesQuery('destination', mode), mode)
     .then((response) =>
       Promise.all(
         response.aggregations.service_name.buckets.map((bucket: any) => {
@@ -124,7 +126,8 @@ export const handleServiceMapRequest = async (
   const latencies = await handleDslRequest(
     http,
     DSL,
-    getServiceMetricsQuery(DSL, Object.keys(map), map)
+    getServiceMetricsQuery(DSL, Object.keys(map), map, mode), 
+    mode,
   );
   latencies.aggregations.service_name.buckets.map((bucket: any) => {
     map[bucket.key].latency = bucket.average_latency.value;
@@ -135,7 +138,7 @@ export const handleServiceMapRequest = async (
   });
 
   if (currService) {
-    await handleDslRequest(http, DSL, getRelatedServicesQuery(currService))
+    await handleDslRequest(http, DSL, getRelatedServicesQuery(currService), mode)
       .then((response) =>
         response.aggregations.traces.buckets.filter((bucket: any) => bucket.service.doc_count > 0)
       )
@@ -159,13 +162,14 @@ export const handleServiceViewRequest = (
   serviceName: string,
   http: HttpSetup,
   DSL: any,
-  setFields: any
+  setFields: any,
+  mode: TraceAnalyticsMode,
 ) => {
-  handleDslRequest(http, DSL, getServicesQuery(serviceName))
+  handleDslRequest(http, DSL, getServicesQuery(mode, serviceName), mode)
     .then(async (response) => {
       const bucket = response.aggregations.service.buckets[0];
       if (!bucket) return {};
-      const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL);
+      const serviceObject: ServiceObject = await handleServiceMapRequest(http, DSL, mode);
       const connectedServices = [
         ...serviceObject[bucket.key].targetServices,
         ...serviceObject[bucket.key].destServices,

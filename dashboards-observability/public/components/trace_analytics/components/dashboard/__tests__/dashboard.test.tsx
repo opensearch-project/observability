@@ -48,8 +48,8 @@ describe('Dashboard component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={false}
         page="dashboard"
+        mode='data_prepper'
       />
     );
 
@@ -91,8 +91,8 @@ describe('Dashboard component', () => {
         setStartTime={setStartTime}
         endTime="now"
         setEndTime={setEndTime}
-        indicesExist={true}
         page="dashboard"
+        mode='data_prepper'
       />
     );
 

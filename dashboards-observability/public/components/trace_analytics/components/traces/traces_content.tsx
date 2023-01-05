@@ -8,7 +8,7 @@ import { EuiSpacer, PropertySort } from '@elastic/eui';
 import React, { useEffect, useState } from 'react';
 import { handleTracesRequest } from '../../requests/traces_request_handler';
 import { getValidFilterFields } from '../common/filters/filter_helpers';
-import { filtersToDsl } from '../common/helper_functions';
+import { filtersToDsl, processTimeStamp } from '../common/helper_functions';
 import { SearchBar } from '../common/search_bar';
 import { TracesProps } from './traces';
 import { TracesTable } from './traces_table';
@@ -23,7 +23,6 @@ export function TracesContent(props: TracesProps) {
     appConfigs,
     startTime,
     endTime,
-    indicesExist,
     parentBreadcrumbs,
     childBreadcrumbs,
     traceIdColumnAction,
@@ -31,6 +30,7 @@ export function TracesContent(props: TracesProps) {
     setFilters,
     setStartTime,
     setEndTime,
+    mode,
   } = props;
   const [tableItems, setTableItems] = useState([]);
   const [redirect, setRedirect] = useState(true);
@@ -38,7 +38,7 @@ export function TracesContent(props: TracesProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...childBreadcrumbs]);
-    const validFilters = getValidFilterFields('traces');
+    const validFilters = getValidFilterFields(mode, 'traces');
     setFilters([
       ...filters.map((filter) => ({
         ...filter,
@@ -49,14 +49,14 @@ export function TracesContent(props: TracesProps) {
   }, []);
 
   useEffect(() => {
-    if (!redirect && indicesExist) refresh();
+    if (!redirect && mode !== 'none') refresh();
   }, [filters, appConfigs]);
 
   const refresh = async (sort?: PropertySort) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', startTime, endTime, page);
-    await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, sort);
+    const DSL = filtersToDsl(mode, filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const timeFilterDSL = filtersToDsl(mode, [], '', processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page);
+    await handleTracesRequest(http, DSL, timeFilterDSL, tableItems, setTableItems, mode, sort);
     setLoading(false);
   };
 
@@ -74,12 +74,13 @@ export function TracesContent(props: TracesProps) {
         setEndTime={setEndTime}
         refresh={refresh}
         page={page}
+        mode={mode}
       />
       <EuiSpacer size="m" />
       <TracesTable
         items={tableItems}
         refresh={refresh}
-        indicesExist={indicesExist}
+        mode={mode}
         loading={loading}
         traceIdColumnAction={traceIdColumnAction}
       />

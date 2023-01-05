@@ -27,6 +27,7 @@ import { BoxPlt } from '../common/plots/box_plt';
 import { LatencyTrendCell } from './latency_trend_cell';
 
 export function DashboardTable(props: {
+  title?: string;
   items: any[];
   filters: FilterType[];
   addFilter: (filter: FilterType) => void;
@@ -349,7 +350,7 @@ export function DashboardTable(props: {
     return (
       <EuiFlexGroup alignItems="center" gutterSize="s">
         <EuiFlexItem grow={10}>
-          <PanelTitle title="Latency by trace group" totalItems={totalItems} />
+          <PanelTitle title={props.title || "Latency by trace group"} totalItems={totalItems} />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiLink

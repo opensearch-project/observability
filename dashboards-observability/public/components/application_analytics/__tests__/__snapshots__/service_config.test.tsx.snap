@@ -21,7 +21,7 @@ exports[`Service Config component renders empty service config 1`] = `
   endTime="now"
   filters={Array []}
   http={[MockFunction]}
-  indicesExist={true}
+  mode="data_prepper"
   name=""
   parentBreadcrumb={
     Object {
@@ -1101,7 +1101,7 @@ exports[`Service Config component renders with one service selected 1`] = `
     ]
   }
   http={[MockFunction]}
-  indicesExist={true}
+  mode="data_prepper"
   name=""
   parentBreadcrumb={
     Object {

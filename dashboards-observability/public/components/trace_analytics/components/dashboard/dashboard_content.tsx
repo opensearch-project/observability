@@ -12,6 +12,8 @@ import {
   handleDashboardErrorRatePltRequest,
   handleDashboardRequest,
   handleDashboardThroughputPltRequest,
+  handleJaegerDashboardRequest,
+  handleJaegerErrorDashboardRequest,
 } from '../../requests/dashboard_request_handler';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import { FilterType } from '../common/filters/filters';
@@ -22,6 +24,7 @@ import {
   milliToNanoSec,
   minFixedInterval,
   MissingConfigurationMessage,
+  processTimeStamp,
 } from '../common/helper_functions';
 import { ErrorRatePlt } from '../common/plots/error_rate_plt';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
@@ -29,6 +32,8 @@ import { ThroughputPlt } from '../common/plots/throughput_plt';
 import { SearchBar } from '../common/search_bar';
 import { DashboardProps } from './dashboard';
 import { DashboardTable } from './dashboard_table';
+import { DataSourcePicker } from './mode_picker';
+import { TopGroupsPage } from './top_groups_page';
 
 export function DashboardContent(props: DashboardProps) {
   const {
@@ -42,13 +47,16 @@ export function DashboardContent(props: DashboardProps) {
     childBreadcrumbs,
     parentBreadcrumbs,
     filters,
-    indicesExist,
     setStartTime,
     setEndTime,
     setQuery,
     setFilters,
+    mode,
+    setMode
   } = props;
   const [tableItems, setTableItems] = useState([]);
+  const [jaegerTableItems, setJaegerTableItems] = useState([]);
+  const [jaegerErrorTableItems, setJaegerErrorTableItems] = useState([]);
   const [throughputPltItems, setThroughputPltItems] = useState({ items: [], fixedInterval: '1h' });
   const [errorRatePltItems, setErrorRatePltItems] = useState({ items: [], fixedInterval: '1h' });
   const [serviceMap, setServiceMap] = useState<ServiceObject>({});
@@ -62,7 +70,7 @@ export function DashboardContent(props: DashboardProps) {
 
   useEffect(() => {
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...childBreadcrumbs]);
-    const validFilters = getValidFilterFields(page);
+    const validFilters = getValidFilterFields(mode, page);
     setFilters([
       ...filters.map((filter) => ({
         ...filter,
@@ -81,53 +89,82 @@ export function DashboardContent(props: DashboardProps) {
       }
     }
     setFilteredService(newFilteredService);
-    if (!redirect && indicesExist) refresh(newFilteredService);
+    if (!redirect && mode !== 'none') refresh(newFilteredService);
   }, [filters, startTime, endTime, appConfigs]);
 
   const refresh = async (currService?: string) => {
     setLoading(true);
-    const DSL = filtersToDsl(filters, query, startTime, endTime, page, appConfigs);
-    const timeFilterDSL = filtersToDsl([], '', startTime, endTime, page, appConfigs);
+    const DSL = filtersToDsl(mode, filters, query, processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
+    const timeFilterDSL = filtersToDsl(mode, [], '',processTimeStamp(startTime, mode), processTimeStamp(endTime, mode), page, appConfigs);
     const latencyTrendStartTime = dateMath.parse(endTime, { roundUp: true })?.subtract(24, 'hours').toISOString()!;
     const latencyTrendDSL = filtersToDsl(
+      mode,
       filters,
       query,
-      latencyTrendStartTime,
-      endTime,
+      processTimeStamp(latencyTrendStartTime, mode),
+      processTimeStamp(endTime, mode),
       page,
       appConfigs
     );
     const fixedInterval = minFixedInterval(startTime, endTime);
+    if (mode === 'jaeger') { 
+      handleJaegerDashboardRequest(
+        http,
+        DSL,
+        timeFilterDSL,
+        latencyTrendDSL,
+        tableItems,
+        setJaegerTableItems,
+        mode,
+        setPercentileMap,
+      ).then(() => setLoading(false));
+      handleJaegerErrorDashboardRequest(
+        http,
+        DSL,
+        timeFilterDSL,
+        latencyTrendDSL,
+        tableItems,
+        setJaegerErrorTableItems,
+        mode,
+        setPercentileMap,
+      ).then(() => setLoading(false));
+    } else if (mode === 'data_prepper') {
+      handleDashboardRequest(
+        http,
+        DSL,
+        timeFilterDSL,
+        latencyTrendDSL,
+        tableItems,
+        setTableItems,
+        mode,
+        setPercentileMap,
+      ).then(() => setLoading(false));
+    }
 
-    handleDashboardRequest(
-      http,
-      DSL,
-      timeFilterDSL,
-      latencyTrendDSL,
-      tableItems,
-      setTableItems,
-      setPercentileMap
-    ).then(() => setLoading(false));
+    
     handleDashboardThroughputPltRequest(
       http,
       DSL,
       fixedInterval,
       throughputPltItems,
-      setThroughputPltItems
+      setThroughputPltItems,
+      mode
     );
+
     handleDashboardErrorRatePltRequest(
       http,
       DSL,
       fixedInterval,
       errorRatePltItems,
-      setErrorRatePltItems
+      setErrorRatePltItems,
+      mode
     );
     // service map should not be filtered by service name (https://github.com/opensearch-project/observability/issues/442)
     const serviceMapDSL = _.cloneDeep(DSL);
     serviceMapDSL.query.bool.must = serviceMapDSL.query.bool.must.filter(
       (must: any) => must?.term?.serviceName == null
     );
-    handleServiceMapRequest(http, serviceMapDSL, setServiceMap, currService || filteredService);
+    handleServiceMapRequest(http, serviceMapDSL, mode, setServiceMap, currService || filteredService);
   };
 
   const addFilter = (filter: FilterType) => {
@@ -142,6 +179,11 @@ export function DashboardContent(props: DashboardProps) {
       }
     }
     const newFilters = [...filters, filter];
+    setFilters(newFilters);
+  };
+
+  const addFilters = (filterArr: FilterType[]) => {
+    const newFilters = [...filters, ...filterArr];
     setFilters(newFilters);
   };
 
@@ -182,9 +224,14 @@ export function DashboardContent(props: DashboardProps) {
     const newFilters = [...filters, percentileFilter, ...additionalFilters];
     setFilters(newFilters);
   };
+  
+  const modes = [{id: 'jaeger', title: 'Jaeger'}, {id: 'data_prepper', title: 'Data Prepper'}]
 
   return (
     <>
+      {setMode !== undefined ? 
+      <DataSourcePicker modes={modes} selectedMode={mode} setMode={setMode}/>
+      : <div/>} 
       <SearchBar
         query={query}
         filters={filters}
@@ -197,52 +244,73 @@ export function DashboardContent(props: DashboardProps) {
         setEndTime={setEndTime}
         refresh={refresh}
         page={page}
+        mode={mode}
       />
       <EuiSpacer size="m" />
-      {indicesExist ? (
-        <>
-          <DashboardTable
-            items={tableItems}
-            filters={filters}
-            addFilter={addFilter}
-            addPercentileFilter={addPercentileFilter}
-            setRedirect={setRedirect}
-            loading={loading}
-            page={page}
-          />
-          <EuiSpacer />
-          <EuiFlexGroup alignItems="baseline">
-            <EuiFlexItem grow={4}>
-              <ServiceMap
-                addFilter={addFilter}
-                serviceMap={serviceMap}
-                idSelected={serviceMapIdSelected}
-                setIdSelected={setServiceMapIdSelected}
-                currService={filteredService}
-                page={page}
-              />
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <EuiFlexGroup direction="column">
-                <EuiFlexItem>
-                  <ErrorRatePlt
-                    items={errorRatePltItems}
-                    setStartTime={setStartTime}
-                    setEndTime={setEndTime}
-                  />
-                </EuiFlexItem>
-                <EuiFlexItem>
-                  <ThroughputPlt
-                    items={throughputPltItems}
-                    setStartTime={setStartTime}
-                    setEndTime={setEndTime}
-                  />
-                </EuiFlexItem>
-              </EuiFlexGroup>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </>
-      ) : (
+      {mode !== 'none' ? (
+        <div>
+          { mode === 'data_prepper' ? (
+          <>
+            <DashboardTable
+              items={tableItems}
+              filters={filters}
+              addFilter={addFilter}
+              addPercentileFilter={addPercentileFilter}
+              setRedirect={setRedirect}
+              loading={loading}
+              page={page}
+            />
+            <EuiSpacer />
+            <EuiFlexGroup alignItems="baseline">
+              <EuiFlexItem grow={4}>
+                <ServiceMap
+                  addFilter={addFilter}
+                  serviceMap={serviceMap}
+                  idSelected={serviceMapIdSelected}
+                  setIdSelected={setServiceMapIdSelected}
+                  currService={filteredService}
+                  page={page}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <EuiFlexGroup direction="column">
+                  <EuiFlexItem>
+                    <ErrorRatePlt
+                      items={errorRatePltItems}
+                      setStartTime={setStartTime}
+                      setEndTime={setEndTime}
+                    />
+                  </EuiFlexItem>
+                  <EuiFlexItem>
+                    <ThroughputPlt
+                      items={throughputPltItems}
+                      setStartTime={setStartTime}
+                      setEndTime={setEndTime}
+                    />
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </> ) : ( 
+            <TopGroupsPage
+              filters={filters}
+              addFilter={addFilter}
+              addFilters={addFilters}
+              addPercentileFilter={addPercentileFilter}
+              setRedirect={setRedirect}
+              loading={loading}
+              page={page}
+              throughPutItems={throughputPltItems}
+              jaegerErrorRatePltItems={errorRatePltItems}
+              jaegerTableItems={jaegerTableItems}
+              jaegerErrorTableItems={jaegerErrorTableItems}
+              setStartTime={setStartTime}
+              setEndTime={setEndTime}
+            />
+          )
+          }
+        </div>
+        ) : (
         <MissingConfigurationMessage />
       )}
     </>

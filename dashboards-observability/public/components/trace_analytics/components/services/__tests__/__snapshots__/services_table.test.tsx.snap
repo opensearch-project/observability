@@ -3,7 +3,6 @@
 exports[`Services table component renders empty services table message 1`] = `
 <ServicesTable
   addFilter={[MockFunction]}
-  indicesExist={true}
   items={Array []}
   loading={false}
   nameColumnAction={[Function]}
@@ -148,7 +147,6 @@ exports[`Services table component renders empty services table message 1`] = `
 exports[`Services table component renders services table 1`] = `
 <ServicesTable
   addFilter={[MockFunction]}
-  indicesExist={true}
   items={
     Array [
       Object {
@@ -262,23 +260,6 @@ exports[`Services table component renders services table 1`] = `
             },
             Object {
               "align": "right",
-              "field": "number_of_connected_services",
-              "name": "No. of connected services",
-              "render": [Function],
-              "sortable": true,
-              "truncateText": true,
-              "width": "80px",
-            },
-            Object {
-              "align": "left",
-              "field": "connected_services",
-              "name": "Connected services",
-              "render": [Function],
-              "sortable": true,
-              "truncateText": true,
-            },
-            Object {
-              "align": "right",
               "field": "traces",
               "name": "Traces",
               "render": [Function],
@@ -353,23 +334,6 @@ exports[`Services table component renders services table 1`] = `
                 "align": "right",
                 "field": "throughput",
                 "name": "Throughput",
-                "render": [Function],
-                "sortable": true,
-                "truncateText": true,
-              },
-              Object {
-                "align": "right",
-                "field": "number_of_connected_services",
-                "name": "No. of connected services",
-                "render": [Function],
-                "sortable": true,
-                "truncateText": true,
-                "width": "80px",
-              },
-              Object {
-                "align": "left",
-                "field": "connected_services",
-                "name": "Connected services",
                 "render": [Function],
                 "sortable": true,
                 "truncateText": true,
@@ -491,21 +455,7 @@ exports[`Services table component renders services table 1`] = `
                                 Object {
                                   "isSortAscending": undefined,
                                   "isSorted": false,
-                                  "key": "_data_s_number_of_connected_services_4",
-                                  "name": "No. of connected services",
-                                  "onSort": [Function],
-                                },
-                                Object {
-                                  "isSortAscending": undefined,
-                                  "isSorted": false,
-                                  "key": "_data_s_connected_services_5",
-                                  "name": "Connected services",
-                                  "onSort": [Function],
-                                },
-                                Object {
-                                  "isSortAscending": undefined,
-                                  "isSorted": false,
-                                  "key": "_data_s_traces_6",
+                                  "key": "_data_s_traces_4",
                                   "name": "Traces",
                                   "onSort": [Function],
                                 },
@@ -905,133 +855,16 @@ exports[`Services table component renders services table 1`] = `
                         </EuiTableHeaderCell>
                         <EuiTableHeaderCell
                           align="right"
-                          data-test-subj="tableHeaderCell_number_of_connected_services_4"
+                          data-test-subj="tableHeaderCell_traces_4"
                           isSorted={false}
-                          key="_data_h_number_of_connected_services_4"
-                          onSort={[Function]}
-                          width="80px"
-                        >
-                          <th
-                            aria-live="polite"
-                            aria-sort="none"
-                            className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_number_of_connected_services_4"
-                            role="columnheader"
-                            scope="col"
-                            style={
-                              Object {
-                                "width": "80px",
-                              }
-                            }
-                          >
-                            <button
-                              className="euiTableHeaderButton"
-                              data-test-subj="tableHeaderSortButton"
-                              onClick={[Function]}
-                              type="button"
-                            >
-                              <CellContents
-                                className="euiTableCellContent euiTableCellContent--alignRight"
-                                isSorted={false}
-                                showSortMsg={true}
-                              >
-                                <span
-                                  className="euiTableCellContent euiTableCellContent--alignRight"
-                                >
-                                  <EuiInnerText>
-                                    <EuiI18n
-                                      default="{innerText}; {description}"
-                                      token="euiTableHeaderCell.titleTextWithDesc"
-                                      values={
-                                        Object {
-                                          "description": undefined,
-                                          "innerText": "No. of connected services",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className="euiTableCellContent__text"
-                                        title="No. of connected services"
-                                      >
-                                        No. of connected services
-                                      </span>
-                                    </EuiI18n>
-                                  </EuiInnerText>
-                                </span>
-                              </CellContents>
-                            </button>
-                          </th>
-                        </EuiTableHeaderCell>
-                        <EuiTableHeaderCell
-                          align="left"
-                          data-test-subj="tableHeaderCell_connected_services_5"
-                          isSorted={false}
-                          key="_data_h_connected_services_5"
+                          key="_data_h_traces_4"
                           onSort={[Function]}
                         >
                           <th
                             aria-live="polite"
                             aria-sort="none"
                             className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_connected_services_5"
-                            role="columnheader"
-                            scope="col"
-                            style={
-                              Object {
-                                "width": undefined,
-                              }
-                            }
-                          >
-                            <button
-                              className="euiTableHeaderButton"
-                              data-test-subj="tableHeaderSortButton"
-                              onClick={[Function]}
-                              type="button"
-                            >
-                              <CellContents
-                                className="euiTableCellContent"
-                                isSorted={false}
-                                showSortMsg={true}
-                              >
-                                <span
-                                  className="euiTableCellContent"
-                                >
-                                  <EuiInnerText>
-                                    <EuiI18n
-                                      default="{innerText}; {description}"
-                                      token="euiTableHeaderCell.titleTextWithDesc"
-                                      values={
-                                        Object {
-                                          "description": undefined,
-                                          "innerText": "Connected services",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className="euiTableCellContent__text"
-                                        title="Connected services"
-                                      >
-                                        Connected services
-                                      </span>
-                                    </EuiI18n>
-                                  </EuiInnerText>
-                                </span>
-                              </CellContents>
-                            </button>
-                          </th>
-                        </EuiTableHeaderCell>
-                        <EuiTableHeaderCell
-                          align="right"
-                          data-test-subj="tableHeaderCell_traces_6"
-                          isSorted={false}
-                          key="_data_h_traces_6"
-                          onSort={[Function]}
-                        >
-                          <th
-                            aria-live="polite"
-                            aria-sort="none"
-                            className="euiTableHeaderCell"
-                            data-test-subj="tableHeaderCell_traces_6"
+                            data-test-subj="tableHeaderCell_traces_4"
                             role="columnheader"
                             scope="col"
                             style={
@@ -1251,84 +1084,7 @@ exports[`Services table component renders services table 1`] = `
                           </EuiTableRowCell>
                           <EuiTableRowCell
                             align="right"
-                            key="_data_column_number_of_connected_services_0_4"
-                            mobileOptions={
-                              Object {
-                                "header": "No. of connected services",
-                                "render": undefined,
-                              }
-                            }
-                            setScopeRow={false}
-                            textOnly={false}
-                            truncateText={true}
-                            width="80px"
-                          >
-                            <td
-                              className="euiTableRowCell"
-                              style={
-                                Object {
-                                  "width": "80px",
-                                }
-                              }
-                            >
-                              <div
-                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
-                              >
-                                No. of connected services
-                              </div>
-                              <div
-                                className="euiTableCellContent euiTableCellContent--alignRight euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
-                              >
-                                2
-                              </div>
-                            </td>
-                          </EuiTableRowCell>
-                          <EuiTableRowCell
-                            align="left"
-                            key="_data_column_connected_services_0_5"
-                            mobileOptions={
-                              Object {
-                                "header": "Connected services",
-                                "render": undefined,
-                              }
-                            }
-                            setScopeRow={false}
-                            textOnly={false}
-                            truncateText={true}
-                          >
-                            <td
-                              className="euiTableRowCell"
-                              style={
-                                Object {
-                                  "width": undefined,
-                                }
-                              }
-                            >
-                              <div
-                                className="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
-                              >
-                                Connected services
-                              </div>
-                              <div
-                                className="euiTableCellContent euiTableCellContent--truncateText euiTableCellContent--overflowingContent"
-                              >
-                                <EuiText
-                                  className=""
-                                  key=".0"
-                                  size="s"
-                                >
-                                  <div
-                                    className="euiText euiText--small"
-                                  >
-                                    order, inventory
-                                  </div>
-                                </EuiText>
-                              </div>
-                            </td>
-                          </EuiTableRowCell>
-                          <EuiTableRowCell
-                            align="right"
-                            key="_data_column_traces_0_6"
+                            key="_data_column_traces_0_4"
                             mobileOptions={
                               Object {
                                 "header": "Traces",

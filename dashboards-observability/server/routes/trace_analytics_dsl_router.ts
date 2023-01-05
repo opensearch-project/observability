@@ -9,20 +9,50 @@ import { IRouter } from '../../../../src/core/server';
 import {
   DATA_PREPPER_INDEX_NAME,
   DATA_PREPPER_SERVICE_INDEX_NAME,
+  JAEGER_INDEX_NAME,
+  JAEGER_SERVICE_INDEX_NAME,
   TRACE_ANALYTICS_DSL_ROUTE,
-  TRACE_ANALYTICS_INDICES_ROUTE,
+  TRACE_ANALYTICS_DATA_PREPPER_INDICES_ROUTE,
+  TRACE_ANALYTICS_JAEGER_INDICES_ROUTE,
 } from '../../common/constants/trace_analytics';
 import { addRequestToMetric } from '../common/metrics/metrics_helper';
 
 export function registerTraceAnalyticsDslRouter(router: IRouter) {
   router.post(
     {
-      path: TRACE_ANALYTICS_INDICES_ROUTE,
+      path: TRACE_ANALYTICS_DATA_PREPPER_INDICES_ROUTE,
       validate: false,
     },
     async (context, request, response) => {
       const params: RequestParams.IndicesExists = {
         index: [DATA_PREPPER_INDEX_NAME, DATA_PREPPER_SERVICE_INDEX_NAME],
+        allow_no_indices: false,
+      };
+      try {
+        const resp = await context.core.opensearch.legacy.client.callAsCurrentUser(
+          'indices.exists',
+          params
+        );
+        return response.ok({
+          body: resp,
+        });
+      } catch (error) {
+        console.error(error);
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message,
+        });
+      }
+    }
+  );
+  router.post(
+    {
+      path: TRACE_ANALYTICS_JAEGER_INDICES_ROUTE,
+      validate: false,
+    },
+    async (context, request, response) => {
+      const params: RequestParams.IndicesExists = {
+        index: [JAEGER_INDEX_NAME, JAEGER_SERVICE_INDEX_NAME],
         allow_no_indices: false,
       };
       try {

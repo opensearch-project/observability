@@ -20,23 +20,25 @@ import {
 } from '@elastic/eui';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { TraceAnalyticsCoreDeps } from '../../home';
+import { TraceAnalyticsCoreDeps, TraceAnalyticsMode } from '../../home';
 import { handleServiceMapRequest } from '../../requests/services_request_handler';
 import {
   handlePayloadRequest,
   handleServicesPieChartRequest,
   handleTraceViewRequest,
 } from '../../requests/traces_request_handler';
-import { filtersToDsl, PanelTitle } from '../common/helper_functions';
+import { filtersToDsl, PanelTitle, processTimeStamp } from '../common/helper_functions';
 import { ServiceMap, ServiceObject } from '../common/plots/service_map';
 import { ServiceBreakdownPanel } from './service_breakdown_panel';
 import { SpanDetailPanel } from './span_detail_panel';
 
 interface TraceViewProps extends TraceAnalyticsCoreDeps {
   traceId: string;
+  mode: TraceAnalyticsMode;
 }
 
 export function TraceView(props: TraceViewProps) {
+  const { mode } = props;
   const page = 'traceView';
   const renderTitle = (traceId: string) => {
     return (
@@ -83,12 +85,14 @@ export function TraceView(props: TraceViewProps) {
                   </EuiFlexGroup>
                 )}
               </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiText className="overview-title">Trace group name</EuiText>
-                <EuiText size="s" className="overview-content">
-                  {fields.trace_group || '-'}
-                </EuiText>
-              </EuiFlexItem>
+              { mode === 'data_prepper' ? (
+                <EuiFlexItem grow={false}>
+                  <EuiText className="overview-title">Trace group name</EuiText>
+                  <EuiText size="s" className="overview-content">
+                    {fields.trace_group || '-'}
+                  </EuiText>
+                </EuiFlexItem> ) : (<div/>)
+              }
             </EuiFlexGroup>
           </EuiFlexItem>
           <EuiFlexItem>
@@ -146,11 +150,11 @@ export function TraceView(props: TraceViewProps) {
   >('latency');
 
   const refresh = async () => {
-    const DSL = filtersToDsl([], '', 'now', 'now', page);
-    handleTraceViewRequest(props.traceId, props.http, fields, setFields);
-    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData);
-    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap);
-    handleServiceMapRequest(props.http, DSL, setServiceMap);
+    const DSL = filtersToDsl(mode, [], '', processTimeStamp('now', mode), processTimeStamp('now', mode), page);
+    handleTraceViewRequest(props.traceId, props.http, fields, setFields, mode);
+    handlePayloadRequest(props.traceId, props.http, payloadData, setPayloadData, mode);
+    handleServicesPieChartRequest(props.traceId, props.http, setServiceBreakdownData, setColorMap, mode);
+    handleServiceMapRequest(props.http, DSL, mode, setServiceMap);
   };
 
   useEffect(() => {
@@ -224,6 +228,7 @@ export function TraceView(props: TraceViewProps) {
                 traceId={props.traceId}
                 http={props.http}
                 colorMap={colorMap}
+                mode={mode}
                 data={ganttData}
                 setData={setGanttData}
               />
@@ -245,14 +250,15 @@ export function TraceView(props: TraceViewProps) {
             ) : null}
           </EuiPanel>
           <EuiSpacer />
-
-          <ServiceMap
-            addFilter={undefined}
-            serviceMap={traceFilteredServiceMap}
-            idSelected={serviceMapIdSelected}
-            setIdSelected={setServiceMapIdSelected}
-            page={page}
-          />
+          { mode === 'data_prepper' ? 
+            <ServiceMap
+              addFilter={undefined}
+              serviceMap={traceFilteredServiceMap}
+              idSelected={serviceMapIdSelected}
+              setIdSelected={setServiceMapIdSelected}
+              page={page}
+            /> : (<div/>)
+          }
         </EuiPageBody>
       </EuiPage>
     </>

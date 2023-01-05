@@ -11,20 +11,26 @@ import {
   EuiSpacer,
 } from '@elastic/eui';
 import _ from 'lodash';
+import { TraceAnalyticsMode } from 'public/components/trace_analytics/home';
 import React from 'react';
 
-const getFields = (page: 'dashboard' | 'traces' | 'services' | 'app') =>
-  ({
+const getFields = (mode: TraceAnalyticsMode, page: 'dashboard' | 'traces' | 'services' | 'app') =>
+  (mode === 'data_prepper' ? {
     dashboard: ['traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
     traces: ['traceId', 'traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
     services: ['traceGroup', 'serviceName', 'error', 'status.message', 'latency'],
     app: ['traceId', 'traceGroup', 'serviceName'],
+  }[page] : {
+    dashboard: ['process.serviceName', 'error', 'latency'],
+    traces: ['traceID', 'operationName', 'process.serviceName', 'error', 'latency'],
+    services: ['process.serviceName', 'error', 'latency'],
+    app: ['traceID', 'process.serviceName'],
   }[page]);
 // filters will take effect and can be manually added
-export const getFilterFields = (page: 'dashboard' | 'traces' | 'services' | 'app') => getFields(page);
+export const getFilterFields = (mode: TraceAnalyticsMode, page: 'dashboard' | 'traces' | 'services' | 'app') => getFields(mode, page);
 // filters will take effect
-export const getValidFilterFields = (page: 'dashboard' | 'traces' | 'services' | 'app') => {
-  const fields = getFields(page);
+export const getValidFilterFields = (mode: TraceAnalyticsMode, page: 'dashboard' | 'traces' | 'services' | 'app') => {
+  const fields = getFields(mode, page);
   if (page !== 'services') return [...fields, 'Latency percentile within trace group'];
   return fields;
 };
