@@ -29,13 +29,11 @@ jobs:
         # Temporarily only do this for linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cd opensearch-observability
           echo "Running backwards compatibility tests ..."
           ./gradlew bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
-          cd opensearch-observability
           ./gradlew build ${{ env.BUILD_ARGS }}
 
       - name: Upload coverage
