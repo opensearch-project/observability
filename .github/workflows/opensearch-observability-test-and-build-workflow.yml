@@ -47,7 +47,7 @@ jobs:
       - name: Create Artifact Path
         run: |
           mkdir -p opensearch-observability-builds
-          cp -r ./opensearch-observability/build/distributions/*.zip opensearch-observability-builds/
+          cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
