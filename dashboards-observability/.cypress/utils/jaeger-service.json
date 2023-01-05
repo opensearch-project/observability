@@ -1,13 +1,26 @@
-{"_index":"jaeger-service-2022-12-16","_id":"c9e22197086c9894","_score":1,"_source":{"serviceName":"frontend","operationName":"HTTP GET /"}}
-{"_index":"jaeger-service-2022-12-16","_id":"6dbb9f3e3c708a1","_score":1,"_source":{"serviceName":"frontend","operationName":"HTTP GET"}}
-{"_index":"jaeger-service-2022-12-16","_id":"33c4cb4b19ecedd1","_score":1,"_source":{"serviceName":"redis","operationName":"FindDriverIDs"}}
-{"_index":"jaeger-service-2022-12-16","_id":"15441fb455e8c7b6","_score":1,"_source":{"serviceName":"frontend","operationName":"HTTP GET /dispatch"}}
-{"_index":"jaeger-service-2022-12-16","_id":"cbc9c5cc8f945492","_score":1,"_source":{"serviceName":"frontend","operationName":"HTTP GET /config"}}
-{"_index":"jaeger-service-2022-12-16","_id":"d5a5244871755da4","_score":1,"_source":{"serviceName":"frontend","operationName":"HTTP GET: /customer"}}
-{"_index":"jaeger-service-2022-12-16","_id":"e35de70e6c88ce35","_score":1,"_source":{"serviceName":"driver","operationName":"/driver.DriverService/FindNearest"}}
-{"_index":"jaeger-service-2022-12-16","_id":"7f2cc55f5c028524","_score":1,"_source":{"serviceName":"route","operationName":"HTTP GET /route"}}
-{"_index":"jaeger-service-2022-12-16","_id":"68e16ac75fdc0ab8","_score":1,"_source":{"serviceName":"customer","operationName":"HTTP GET /customer"}}
-{"_index":"jaeger-service-2022-12-16","_id":"e3c6f8e1a9826dee","_score":1,"_source":{"serviceName":"redis","operationName":"GetDriver"}}
-{"_index":"jaeger-service-2022-12-16","_id":"dfc21dc44abf1b9","_score":1,"_source":{"serviceName":"frontend","operationName":"HTTP GET: /route"}}
-{"_index":"jaeger-service-2022-12-16","_id":"885fc1f27cc72caf","_score":1,"_source":{"serviceName":"frontend","operationName":"/driver.DriverService/FindNearest"}}
-{"_index":"jaeger-service-2022-12-16","_id":"ee354843a16b40dd","_score":1,"_source":{"serviceName":"mysql","operationName":"SQL SELECT"}}
+{"index":{}}
+{"serviceName":"frontend","operationName":"HTTP GET /"}
+{"index":{}}
+{"serviceName":"frontend","operationName":"HTTP GET"}
+{"index":{}}
+{"serviceName":"redis","operationName":"FindDriverIDs"}
+{"index":{}}
+{"serviceName":"frontend","operationName":"HTTP GET /dispatch"}
+{"index":{}}
+{"serviceName":"frontend","operationName":"HTTP GET /config"}
+{"index":{}}
+{"serviceName":"frontend","operationName":"HTTP GET: /customer"}
+{"index":{}}
+{"serviceName":"driver","operationName":"/driver.DriverService/FindNearest"}
+{"index":{}}
+{"serviceName":"route","operationName":"HTTP GET /route"}
+{"index":{}}
+{"serviceName":"customer","operationName":"HTTP GET /customer"}
+{"index":{}}
+{"serviceName":"redis","operationName":"GetDriver"}
+{"index":{}}
+{"serviceName":"frontend","operationName":"HTTP GET: /route"}
+{"index":{}}
+{"serviceName":"frontend","operationName":"/driver.DriverService/FindNearest"}
+{"index":{}}
+{"serviceName":"mysql","operationName":"SQL SELECT"}
