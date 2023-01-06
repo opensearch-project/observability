@@ -28,6 +28,7 @@ import { ObservabilitySideBar } from '../common/side_nav';
 import { CustomPanelTable } from './custom_panel_table';
 import { CustomPanelView } from './custom_panel_view';
 import { isNameValid } from './helpers/utils';
+import { CreateCustomPanel } from './create';
 
 /*
  * "Home" module is initial page for Operantional Panels
@@ -133,6 +134,7 @@ export const Home = ({
         body: JSON.stringify(renamePanelObject),
       })
       .then((res) => {
+        sessionStorage.setItem('PanelsName', res.path);
         setcustomPanelData((prevCustomPanelData) => {
           const newCustomPanelData = [...prevCustomPanelData];
           const renamedCustomPanel = newCustomPanelData.find(
@@ -296,6 +298,19 @@ export const Home = ({
         }}
         side={toastRightSide ? 'right' : 'left'}
         toastLifeTimeMs={6000}
+      />
+      <Route
+        exact
+        path={['/operational_panels/create', '/operational_panels/edit/:id+']}
+        render={(routerProps) => (
+          <CreateCustomPanel
+            existingPanelId={decodeURIComponent(routerProps.match.params.id) || ''}
+            parentBreadcrumb={parentBreadcrumbs}
+            setBreadcrumbs={chrome.setBreadcrumbs}
+            createPanel={createCustomPanel}
+            renamePanel={renameCustomPanel} 
+          />
+        )}
       />
       <Route
         exact

@@ -214,8 +214,11 @@ export const CustomPanelTable = ({
       key="rename"
       disabled={customPanels.length === 0 || selectedCustomPanels.length !== 1}
       onClick={() => {
-        setIsActionsPopoverOpen(false);
+        // setIsActionsPopoverOpen(false);
         renamePanel();
+        window.location.assign(
+          `${_.last(parentBreadcrumbs)!.href}edit/${selectedCustomPanels[0].id}`
+        );
       }}
     >
       Rename
@@ -323,7 +326,7 @@ export const CustomPanelTable = ({
                   <EuiFlexItem>
                     <EuiButton
                       fill
-                      onClick={() => createPanel()}
+                      href="#/operational_panels/create"
                       data-test-subj="customPanels__createNewPanels"
                     >
                       Create panel
@@ -390,7 +393,7 @@ export const CustomPanelTable = ({
                     <EuiButton
                       data-test-subj="customPanels__emptyCreateNewPanels"
                       fullWidth={false}
-                      onClick={() => createPanel()}
+                      href="#/operational_panels/create"
                     >
                       Create panel
                     </EuiButton>
