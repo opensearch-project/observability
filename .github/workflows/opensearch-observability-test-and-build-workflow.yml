@@ -28,9 +28,12 @@ jobs:
       - name: Build with Gradle
         run: |
 <<<<<<< HEAD
+<<<<<<< HEAD
           cd opensearch-observability
           ./gradlew build
 =======
+=======
+>>>>>>> e7dea87b (remove front end workflow and code (#1362))
           ./gradlew build ${{ env.BUILD_ARGS }}
 >>>>>>> e7dea87b (remove front end workflow and code (#1362))
 
