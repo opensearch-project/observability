@@ -22,14 +22,17 @@ jobs:
     
       - name: Run Backwards Compatibility Tests
         run: |
-          cd opensearch-observability
           echo "Running backwards compatibility tests ..."
           ./gradlew bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
+<<<<<<< HEAD
           cd opensearch-observability
           ./gradlew build
+=======
+          ./gradlew build ${{ env.BUILD_ARGS }}
+>>>>>>> e7dea87b (remove front end workflow and code (#1362))
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
@@ -41,7 +44,7 @@ jobs:
       - name: Create Artifact Path
         run: |
           mkdir -p opensearch-observability-builds
-          cp -r ./opensearch-observability/build/distributions/*.zip opensearch-observability-builds/
+          cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
