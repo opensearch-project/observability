@@ -1,4 +1,0 @@
-# ignore artifacts in this directory
-*
-*/
-!.gitignore
