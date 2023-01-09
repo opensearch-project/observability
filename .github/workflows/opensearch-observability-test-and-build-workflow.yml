@@ -34,7 +34,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          ./gradlew build ${{ env.BUILD_ARGS }}
+          ./gradlew build
 
       - name: Upload coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
