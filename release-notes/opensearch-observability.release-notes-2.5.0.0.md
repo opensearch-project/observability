@@ -22,3 +22,7 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 2.5.0
 
 ### Documentation
 - Adding release notes for 2.4.1 ([#1343](https://github.com/opensearch-project/observability/pull/1343))
+
+### Enhancement
+
+- Add more metrics for backend plugin ([#1323](https://github.com/opensearch-project/observability/pull/1323))
