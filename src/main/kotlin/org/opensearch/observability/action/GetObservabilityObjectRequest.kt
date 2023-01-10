@@ -23,6 +23,7 @@ import org.opensearch.commons.utils.enumSet
 import org.opensearch.commons.utils.fieldIfNotNull
 import org.opensearch.commons.utils.logger
 import org.opensearch.commons.utils.stringList
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FILTER_PARAM_LIST_FIELD
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
@@ -188,6 +189,7 @@ class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
         if (maxItems <= 0) {
             validationException = ValidateActions.addValidationError("maxItems is not +ve", validationException)
         }
+        validationException ?: Metrics.OBSERVABILITY_GET_USER_ERROR.counter.increment()
         return validationException
     }
 }

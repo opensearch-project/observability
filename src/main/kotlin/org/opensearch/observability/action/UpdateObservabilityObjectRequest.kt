@@ -19,6 +19,7 @@ import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.commons.utils.fieldIfNotNull
 import org.opensearch.commons.utils.logger
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.BaseObjectData
 import org.opensearch.observability.model.ObservabilityObjectDataProperties
 import org.opensearch.observability.model.ObservabilityObjectType
@@ -76,9 +77,15 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
                     }
                 }
             }
-            objectId ?: throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
-            type ?: throw IllegalArgumentException("Object type field absent")
-            baseObjectData ?: throw IllegalArgumentException("Object data field absent")
+            try {
+                objectId ?: throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
+                type ?: throw IllegalArgumentException("Object type field absent")
+                baseObjectData ?: throw IllegalArgumentException("Object data field absent")
+            } catch (e: IllegalArgumentException) {
+                Metrics.OBSERVABILITY_UPDATE_USER_ERROR.counter.increment()
+                throw e
+            }
+            Metrics.incrementObservabilityObjectActionCounter(type, Metrics.Action.UPDATE)
             return UpdateObservabilityObjectRequest(baseObjectData, type, objectId)
         }
     }
