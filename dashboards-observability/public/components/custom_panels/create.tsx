@@ -57,15 +57,12 @@ import { last } from 'lodash';
     const onUpdate = (name: string, id: string) => {
       sessionStorage.setItem('PanelsName', '');
       window.location.assign(`${last(parentBreadcrumb)!.href}${id}`);
-      console.log("name onUpdate: ", name);
       renamePanel(name, id);
     }
 
     const onCancel = () => {
       setName("");
       sessionStorage.setItem('PanelsName', '');
-      console.log('parent breadcrumb',parentBreadcrumb!.href);
-      // window.location.assign(`${parentBreadcrumb!.href}operational_panels/`);
       window.location.assign(`${last(parentBreadcrumb)!.href}`);
 
     };

@@ -64,6 +64,7 @@ export const Home = ({
   const [toastRightSide, setToastRightSide] = useState<boolean>(true);
   const [start, setStart] = useState<ShortDate>('');
   const [end, setEnd] = useState<ShortDate>('');
+  const [renamedPanelName, setRenamedPanelName] = useState('');
 
   const setToast = (title: string, color = 'success', text?: ReactChild, side?: string) => {
     if (!text) text = '';
@@ -140,7 +141,10 @@ export const Home = ({
           const renamedCustomPanel = newCustomPanelData.find(
             (customPanel) => customPanel.id === editedCustomPanelId
           );
-          if (renamedCustomPanel) renamedCustomPanel.name = editedCustomPanelName;
+          if (renamedCustomPanel) {
+            renamedCustomPanel.name = editedCustomPanelName;
+            setRenamedPanelName(editedCustomPanelName);
+          }
           return newCustomPanelData;
         });
         setToast(`Operational Panel successfully renamed into "${editedCustomPanelName}"`);
@@ -355,6 +359,7 @@ export const Home = ({
               setStartTime={setStart}
               setEndTime={setEnd}
               page="operationalPanels"
+              renamedPanelName={renamedPanelName}
             />
           );
         }}

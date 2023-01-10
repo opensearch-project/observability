@@ -60,8 +60,28 @@ exports[`Panels View Component renders panel view container with visualizations 
               },
             ],
           ],
+          Array [
+            Array [
+              Object {
+                "href": "#/operational_panels/",
+                "text": "Operational panels",
+              },
+              Object {
+                "href": "observability#/",
+                "text": "Observability",
+              },
+              Object {
+                "href": "observability#/L8Sx53wBDp0rvEg3yoLb",
+                "text": undefined,
+              },
+            ],
+          ],
         ],
         "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
           Object {
             "type": "return",
             "value": undefined,
@@ -1488,8 +1508,28 @@ exports[`Panels View Component renders panel view container with visualizations 
                               },
                             ],
                           ],
+                          Array [
+                            Array [
+                              Object {
+                                "href": "#/operational_panels/",
+                                "text": "Operational panels",
+                              },
+                              Object {
+                                "href": "observability#/",
+                                "text": "Observability",
+                              },
+                              Object {
+                                "href": "observability#/L8Sx53wBDp0rvEg3yoLb",
+                                "text": undefined,
+                              },
+                            ],
+                          ],
                         ],
                         "results": Array [
+                          Object {
+                            "type": "return",
+                            "value": undefined,
+                          },
                           Object {
                             "type": "return",
                             "value": undefined,
@@ -1694,8 +1734,28 @@ exports[`Panels View Component renders panel view container without visualizatio
               },
             ],
           ],
+          Array [
+            Array [
+              Object {
+                "href": "#/operational_panels/",
+                "text": "Operational panels",
+              },
+              Object {
+                "href": "observability#/",
+                "text": "Observability",
+              },
+              Object {
+                "href": "observability#/L8Sx53wBDp0rvEg3yoLb",
+                "text": undefined,
+              },
+            ],
+          ],
         ],
         "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
           Object {
             "type": "return",
             "value": undefined,
@@ -3089,8 +3149,28 @@ exports[`Panels View Component renders panel view container without visualizatio
                               },
                             ],
                           ],
+                          Array [
+                            Array [
+                              Object {
+                                "href": "#/operational_panels/",
+                                "text": "Operational panels",
+                              },
+                              Object {
+                                "href": "observability#/",
+                                "text": "Observability",
+                              },
+                              Object {
+                                "href": "observability#/L8Sx53wBDp0rvEg3yoLb",
+                                "text": undefined,
+                              },
+                            ],
+                          ],
                         ],
                         "results": Array [
+                          Object {
+                            "type": "return",
+                            "value": undefined,
+                          },
                           Object {
                             "type": "return",
                             "value": undefined,

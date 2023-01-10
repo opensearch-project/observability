@@ -60,6 +60,8 @@ import {
 } from '../common/search/autocomplete_logic';
 import { AddVisualizationPopover } from './helpers/add_visualization_popover';
 import { DeleteModal } from '../common/helpers/delete_modal';
+import { CreateCustomPanel } from './create';
+import { Route, RouteComponentProps } from 'react-router-dom';
 
 /*
  * "CustomPanelsView" module used to render an Operational Panel
@@ -112,6 +114,7 @@ interface CustomPanelViewProps {
   appId?: string;
   updateAvailabilityVizId?: any;
   onAddClick?: any;
+  renamedPanelName: string;
 }
 
 export const CustomPanelView = (props: CustomPanelViewProps) => {
@@ -136,6 +139,7 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     setToast,
     onEditClick,
     onAddClick,
+    renamedPanelName,
   } = props;
   const [openPanelName, setOpenPanelName] = useState('');
   const [panelCreatedTime, setPanelCreatedTime] = useState('');
@@ -532,6 +536,10 @@ export const CustomPanelView = (props: CustomPanelViewProps) => {
     }
     chrome.setBreadcrumbs([...parentBreadcrumbs, ...newBreadcrumb]);
   }, [panelId, openPanelName]);
+
+  useEffect(() => {
+    setOpenPanelName(renamedPanelName);
+  }, [renamedPanelName]);
 
   return (
     <div>

@@ -337,29 +337,28 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                   <EuiButton
                                     data-test-subj="customPanels__createNewPanels"
                                     fill={true}
-                                    onClick={[Function]}
+                                    href="#/operational_panels/create"
                                   >
                                     <EuiButtonDisplay
                                       baseClassName="euiButton"
                                       data-test-subj="customPanels__createNewPanels"
-                                      disabled={false}
-                                      element="button"
+                                      element="a"
                                       fill={true}
+                                      href="#/operational_panels/create"
                                       isDisabled={false}
-                                      onClick={[Function]}
-                                      type="button"
+                                      rel="noreferrer"
                                     >
-                                      <button
+                                      <a
                                         className="euiButton euiButton--primary euiButton--fill"
                                         data-test-subj="customPanels__createNewPanels"
                                         disabled={false}
-                                        onClick={[Function]}
+                                        href="#/operational_panels/create"
+                                        rel="noreferrer"
                                         style={
                                           Object {
                                             "minWidth": undefined,
                                           }
                                         }
-                                        type="button"
                                       >
                                         <EuiButtonContent
                                           className="euiButton__content"
@@ -380,7 +379,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                             </span>
                                           </span>
                                         </EuiButtonContent>
-                                      </button>
+                                      </a>
                                     </EuiButtonDisplay>
                                   </EuiButton>
                                 </div>
@@ -473,29 +472,28 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                           <EuiButton
                             data-test-subj="customPanels__emptyCreateNewPanels"
                             fullWidth={false}
-                            onClick={[Function]}
+                            href="#/operational_panels/create"
                           >
                             <EuiButtonDisplay
                               baseClassName="euiButton"
                               data-test-subj="customPanels__emptyCreateNewPanels"
-                              disabled={false}
-                              element="button"
+                              element="a"
                               fullWidth={false}
+                              href="#/operational_panels/create"
                               isDisabled={false}
-                              onClick={[Function]}
-                              type="button"
+                              rel="noreferrer"
                             >
-                              <button
+                              <a
                                 className="euiButton euiButton--primary"
                                 data-test-subj="customPanels__emptyCreateNewPanels"
                                 disabled={false}
-                                onClick={[Function]}
+                                href="#/operational_panels/create"
+                                rel="noreferrer"
                                 style={
                                   Object {
                                     "minWidth": undefined,
                                   }
                                 }
-                                type="button"
                               >
                                 <EuiButtonContent
                                   className="euiButton__content"
@@ -516,7 +514,7 @@ exports[`Panels Table Component renders empty panel table container 1`] = `
                                     </span>
                                   </span>
                                 </EuiButtonContent>
-                              </button>
+                              </a>
                             </EuiButtonDisplay>
                           </EuiButton>
                         </div>
@@ -966,29 +964,28 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                   <EuiButton
                                     data-test-subj="customPanels__createNewPanels"
                                     fill={true}
-                                    onClick={[Function]}
+                                    href="#/operational_panels/create"
                                   >
                                     <EuiButtonDisplay
                                       baseClassName="euiButton"
                                       data-test-subj="customPanels__createNewPanels"
-                                      disabled={false}
-                                      element="button"
+                                      element="a"
                                       fill={true}
+                                      href="#/operational_panels/create"
                                       isDisabled={false}
-                                      onClick={[Function]}
-                                      type="button"
+                                      rel="noreferrer"
                                     >
-                                      <button
+                                      <a
                                         className="euiButton euiButton--primary euiButton--fill"
                                         data-test-subj="customPanels__createNewPanels"
                                         disabled={false}
-                                        onClick={[Function]}
+                                        href="#/operational_panels/create"
+                                        rel="noreferrer"
                                         style={
                                           Object {
                                             "minWidth": undefined,
                                           }
                                         }
-                                        type="button"
                                       >
                                         <EuiButtonContent
                                           className="euiButton__content"
@@ -1009,7 +1006,7 @@ exports[`Panels Table Component renders panel table container 1`] = `
                                             </span>
                                           </span>
                                         </EuiButtonContent>
-                                      </button>
+                                      </a>
                                     </EuiButtonDisplay>
                                   </EuiButton>
                                 </div>
