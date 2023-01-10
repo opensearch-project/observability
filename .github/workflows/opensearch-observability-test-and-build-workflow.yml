@@ -4,17 +4,10 @@ on: [pull_request, push]
 
 jobs:
   build:
-    env:
-      BUILD_ARGS: ${{ matrix.os_build_args }}
     strategy:
       matrix:
         java: [11, 17]
         os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: windows-latest
-            os_build_args: -x integTest -x jacocoTestReport
-          - os: macos-latest
-            os_build_args: -x integTest -x jacocoTestReport
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -29,14 +22,12 @@ jobs:
         # Temporarily only do this for linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cd opensearch-observability
           echo "Running backwards compatibility tests ..."
           ./gradlew bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
-          cd opensearch-observability
-          ./gradlew build ${{ env.BUILD_ARGS }}
+          ./gradlew build
 
       - name: Upload coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -49,7 +40,7 @@ jobs:
       - name: Create Artifact Path
         run: |
           mkdir -p opensearch-observability-builds
-          cp -r ./opensearch-observability/build/distributions/*.zip opensearch-observability-builds/
+          cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
