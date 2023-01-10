@@ -13,6 +13,7 @@ import org.opensearch.common.xcontent.XContentBuilder
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.commons.utils.logger
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.BaseResponse
 import org.opensearch.observability.model.RestTag.OBJECT_ID_FIELD
 import java.io.IOException
@@ -56,7 +57,10 @@ internal class CreateObservabilityObjectResponse : BaseResponse {
                     }
                 }
             }
-            objectId ?: throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
+            objectId ?: run {
+                Metrics.OBSERVABILITY_CREATE_SYSTEM_ERROR.counter.increment()
+                throw IllegalArgumentException("$OBJECT_ID_FIELD field absent")
+            }
             return CreateObservabilityObjectResponse(objectId)
         }
     }
