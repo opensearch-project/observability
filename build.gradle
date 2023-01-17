@@ -340,7 +340,7 @@ String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-open
                             if (!dir.exists()) {
                                 dir.mkdirs()
                             }
-                            File file = new File(dir, "opensearch-observability-2.4.0.0-SNAPSHOT.zip")
+                            File file = new File(dir, bwcObservabilityPlugin)
                             if (!file.exists()) {
                                 new URL(remoteFileURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
                             }
