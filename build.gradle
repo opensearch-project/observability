@@ -323,8 +323,7 @@ String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
 String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
-String bwcReportsSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/2.4.0/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-reports-scheduler-2.4.0.0.zip"
-
+String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/2.4.0/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-2.4.0.0.zip"
 
 2.times {i ->
     testClusters {
