@@ -273,18 +273,10 @@ integTest {
     }
 }
 
-String baseVersion = "2.5.0"
-String bwcVersion = baseVersion + ".0"
-String baseName = "obsBwcCluster"
-String bwcFilePath = "src/test/resources/bwc/"
-String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
-String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
-
-
 Zip bundle = (Zip) project.getTasks().getByName("bundlePlugin");
 integTest.dependsOn(bundle)
 integTest.getClusters().forEach { c -> c.plugin(project.getObjects().fileProperty().value(bundle.getArchiveFile())) }
-String jobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-${bwcVersion}.zip"
+String jobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/" + opensearch_version.replace("-SNAPSHOT", "") + "/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-" + opensearch_build.replace("-SNAPSHOT", "") + ".zip"
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
@@ -324,12 +316,40 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
+String baseVersion = "2.5.0"
+String bwcVersion = baseVersion + ".0"
+String baseName = "obsBwcCluster"
+String bwcFilePath = "src/test/resources/bwc/"
+String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
+String bwcJobSchedulerPlugin = "opensearch-job-scheduler" + bwcVersion + ".zip"
+String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
+String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
+
 2.times {i ->
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
             versions = [baseVersion,opensearch_version]
             numberOfNodes = 3
+            plugin(provider(new Callable<RegularFile>(){
+                @Override
+                RegularFile call() throws Exception {
+                    return new RegularFile() {
+                        @Override
+                        File getAsFile() {
+                            File dir = new File(bwcFilePath + "/job-scheduler/" + bwcVersion)
+                            if (!dir.exists()) {
+                                dir.mkdirs()
+                            }
+                            File file = new File(dir, "opensearch-job-scheduler-" + bwcVersion + ".zip")
+                            if (!file.exists()) {
+                                new URL(bwcJobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                            }
+                            return fileTree(bwcFilePath + "/job-scheduler/" + bwcVersion).getSingleFile()
+                        }
+                    }
+                }
+            }))
             plugin(provider(new Callable<RegularFile>(){
                 @Override
                 RegularFile call() throws Exception {
