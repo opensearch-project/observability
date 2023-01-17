@@ -7,6 +7,8 @@ jobs:
     env:
       BUILD_ARGS: ${{ matrix.os_build_args }}
     strategy:
+      # Run all jobs
+      fail-fast: false
       matrix:
         java: [11, 17]
         os: [ubuntu-latest, windows-latest, macos-latest]
