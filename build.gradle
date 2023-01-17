@@ -317,16 +317,18 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String bwcVersion = "2.5.0-SNAPSHOT"
+String baseVersion = "2.5.0"
+String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
-String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/2.4.0/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-observability-2.4.0.0.zip"
+String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
+String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
 
 2.times {i ->
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = ["2.4.0",opensearch_version]
+            versions = [baseVersion,opensearch_version]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override
