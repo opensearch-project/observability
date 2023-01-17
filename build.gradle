@@ -317,7 +317,7 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String bwcVersion = "2.4.0-SNAPSHOT"
+String bwcVersion = "2.5.0-SNAPSHOT"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/2.4.0/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-observability-2.4.0.0.zip"
