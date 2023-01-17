@@ -342,7 +342,7 @@ String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build
                             if (!dir.exists()) {
                                 dir.mkdirs()
                             }
-                            File file = new File(dir, "opensearch-job-scheduler-" + bwcVersion + ".zip")
+                            File file = new File(dir, bwcJobSchedulerPlugin)
                             if (!file.exists()) {
                                 new URL(bwcJobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
                             }
