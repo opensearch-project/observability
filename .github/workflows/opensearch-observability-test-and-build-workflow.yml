@@ -7,6 +7,8 @@ jobs:
     env:
       BUILD_ARGS: ${{ matrix.os_build_args }}
     strategy:
+      # Run all jobs
+      fail-fast: false
       matrix:
         java: [11, 17]
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -29,13 +31,11 @@ jobs:
         # Temporarily only do this for linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cd opensearch-observability
           echo "Running backwards compatibility tests ..."
           ./gradlew bwcTestSuite -Dtests.security.manager=false
 
       - name: Build with Gradle
         run: |
-          cd opensearch-observability
           ./gradlew build ${{ env.BUILD_ARGS }}
 
       - name: Upload coverage
@@ -49,7 +49,7 @@ jobs:
       - name: Create Artifact Path
         run: |
           mkdir -p opensearch-observability-builds
-          cp -r ./opensearch-observability/build/distributions/*.zip opensearch-observability-builds/
+          cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
