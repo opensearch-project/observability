@@ -176,6 +176,28 @@
       "$id": "/schemas/Attributes",
       "type": "object",
       "additionalProperties": true,
+      "properties": {
+        "dataflow": {
+          "$ref": "/schemas/Dataflow"
+        }
+      },
+      "title": "Attributes"
+    },
+    "Dataflow": {
+      "$id": "/schemas/Dataflow",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "dataset": {
+          "type": "string"
+        }
+      },
       "title": "Attributes"
     }
   }

@@ -10,14 +10,14 @@
   "droppedAttributesCount": 0,
   "droppedEventsCount": 0,
   "droppedLinksCount": 0,
-  "resources":{
+  "resources": {
     "telemetry@sdk@name": "opentelemetry",
     "telemetry@sdk@language": "python",
     "telemetry@sdk@version": "0.14b0",
     "service@name": "frontend-client",
     "host@hostname": "ip-172-31-10-8.us-west-2.compute.internal"
   },
-  "status":{
+  "status": {
     "code": 0
   }
 }

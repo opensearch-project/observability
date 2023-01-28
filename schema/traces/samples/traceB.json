@@ -28,6 +28,10 @@
     "code": 2
   },
   "attributes": {
+    "dataflow": {
+      "type": "span",
+      "dataset": "mysql"
+    },
     "component": "mysql",
     "db@user": "root",
     "net@peer@name": "localhost",
