@@ -1,0 +1,139 @@
+{
+  "index_patterns": [
+    "sso_traces-*-*"
+  ],
+  "mappings": {
+    "_meta": {
+      "version": "0.1.0-dev"
+    },
+    "dynamic_templates": [
+      {
+        "attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "attributes.*"
+        }
+      },
+      {
+        "events_attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "events.attributes.*"
+        }
+      },
+      {
+        "links_attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "links.attributes.*"
+        }
+      },
+      {
+        "resources_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "resources.*"
+        }
+      }
+    ],
+    "_source": {
+      "enabled": true
+    },
+    "properties": {
+      "traceId": {
+        "ignore_above": 256,
+        "type": "keyword"
+      },
+      "spanId": {
+        "ignore_above": 256,
+        "type": "keyword"
+      },
+      "traceState": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "parentSpanId": {
+        "ignore_above": 256,
+        "type": "keyword"
+      },
+      "name": {
+        "ignore_above": 1024,
+        "type": "keyword"
+      },
+      "kind": {
+        "ignore_above": 128,
+        "type": "keyword"
+      },
+      "startTime": {
+        "type": "date_nanos"
+      },
+      "endTime": {
+        "type": "date_nanos"
+      },
+      "droppedAttributesCount": {
+        "type": "long"
+      },
+      "droppedEventsCount": {
+        "type": "long"
+      },
+      "droppedLinksCount": {
+        "type": "long"
+      },
+      "status": {
+        "properties": {
+          "code": {
+            "ignore_above": 128,
+            "type": "keyword"
+          },
+          "message": {
+            "ignore_above": 128,
+            "type": "keyword"
+          }
+        }
+      },
+      "events": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "ignore_above": 1024,
+            "type": "keyword"
+          },
+          "timestamp": {
+            "type": "date_nanos"
+          }
+        }
+      },
+      "links": {
+        "type": "nested",
+        "properties": {
+          "traceId": {
+            "ignore_above": 256,
+            "type": "keyword"
+          },
+          "spanId": {
+            "ignore_above": 256,
+            "type": "keyword"
+          },
+          "traceState": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

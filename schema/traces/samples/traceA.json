@@ -1,0 +1,23 @@
+{
+  "traceId": "4fa04f117be100f476b175e41096e736",
+  "spanId": "e275ac9d21929e9b",
+  "traceState": "",
+  "parentSpanId": "",
+  "name": "client_checkout",
+  "kind": "INTERNAL",
+  "startTime": "2021-03-25T17:23:30.088478464Z",
+  "endTime": "2021-03-25T17:23:30.481628416Z",
+  "droppedAttributesCount": 0,
+  "droppedEventsCount": 0,
+  "droppedLinksCount": 0,
+  "resources":{
+    "telemetry@sdk@name": "opentelemetry",
+    "telemetry@sdk@language": "python",
+    "telemetry@sdk@version": "0.14b0",
+    "service@name": "frontend-client",
+    "host@hostname": "ip-172-31-10-8.us-west-2.compute.internal"
+  },
+  "status":{
+    "code": 0
+  }
+}
