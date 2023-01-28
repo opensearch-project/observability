@@ -1,15 +1,15 @@
 {
   "traceId": "c1d985bd02e1dbb85b444011f19a1ecc",
   "spanId": "55a698828fe06a42",
-  "traceState": "",
+  "traceState": [],
   "parentSpanId": "",
   "name": "mysql",
   "kind": "CLIENT",
-  "startTime": "2021-03-25T17:21:03.000792576Z",
-  "endTime": "2021-03-25T17:21:03.023983360Z",
+  "startTime": "2021-11-13T20:20:39+00:00",
+  "endTime": "2021-11-14T20:10:41+00:00",
   "events": [
     {
-      "timestamp": "2021-03-25T17:21:03.023934720Z",
+      "timestamp": "2021-03-25T17:21:03+00:00",
       "name": "exception",
       "attributes": {
         "exception@message": "1050 %2842S01%29: Table  Inventory_Items  already exists",
@@ -23,7 +23,7 @@
     {
       "traceId": "c1d985bd02e1dbb85b444011f19a1ecc",
       "spanId": "55a698828fe06a42w2",
-      "traceState": "",
+      "traceState": [],
       "attributes": {
         "db@user": "root",
         "net@peer@name": "localhost",

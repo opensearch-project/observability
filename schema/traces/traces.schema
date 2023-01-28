@@ -1,120 +1,124 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "$ref": "https://opensearch.org/schemas/SSO",
-  "definitions": {
-    "span": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "traceId": {
-          "type": "string"
-        },
-        "spanId": {
-          "type": "string"
-        },
-        "traceState": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "status": {
-          "type": "object",
-          "$ref": "#/definitions/Status"
-        },
-        "parentSpanId": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "CLIENT",
-              "SERVER",
-              "CONSUMER",
-              "PRODUCER",
-              "INTERNAL"
-            ]
-          }
-        },
-        "startTime": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "endTime": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "events": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Event"
-          }
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "traceId": {
-                "type": "string"
-              },
-              "spanId": {
-                "type": "string"
-              },
-              "traceState": {
-                "type": "array",
-                "items": {
-                  "type": "object"
-                }
-              },
-              "attributes": {
-                "$ref": "#/definitions/Attributes"
-              },
-              "droppedAttributesCount": {
-                "type": "integer"
-              }
-            },
-            "required": [
-              "traceId",
-              "spanId",
-              "traceState"
-            ],
-            "title": "Links"
-          }
-        },
-        "droppedAttributesCount": {
-          "type": "integer"
-        },
-        "droppedEventsCount": {
-          "type": "integer"
-        },
-        "droppedLinksCount": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "traceId",
-        "spanId",
-        "startTime",
-        "endTime",
-        "kind",
-        "name",
-        "status"
-      ],
-      "title": "Spans"
+  "$id": "https://opensearch.org/schemas/Span",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "traceId": {
+      "type": "string"
     },
+    "spanId": {
+      "type": "string"
+    },
+    "traceState": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "status": {
+      "type": "object",
+      "$ref": "/schemas/Status"
+    },
+    "parentSpanId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "CLIENT",
+          "SERVER",
+          "CONSUMER",
+          "PRODUCER",
+          "INTERNAL"
+        ]
+      }
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resources": {
+      "type": "object"
+    },
+    "attributes": {
+      "type": "object"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "/schemas/Event"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "traceId": {
+            "type": "string"
+          },
+          "spanId": {
+            "type": "string"
+          },
+          "traceState": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "attributes": {
+            "$ref": "/schemas/Attributes"
+          },
+          "droppedAttributesCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "traceId",
+          "spanId",
+          "traceState"
+        ],
+        "title": "Links"
+      }
+    },
+    "droppedAttributesCount": {
+      "type": "integer"
+    },
+    "droppedEventsCount": {
+      "type": "integer"
+    },
+    "droppedLinksCount": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "traceId",
+    "spanId",
+    "startTime",
+    "endTime",
+    "kind",
+    "name",
+    "status"
+  ],
+  "$defs": {
     "Status": {
+      "$id": "/schemas/Status",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "code": {
-          "type": "array",
+          "type": "integer",
           "items": {
             "type": "integer",
             "enum": [
@@ -125,7 +129,7 @@
           }
         },
         "message": {
-          "type": "array",
+          "type": "string",
           "items": {
             "type": "string",
             "enum": [
@@ -137,12 +141,12 @@
         }
       },
       "required": [
-        "code",
-        "message"
+        "code"
       ],
       "title": "Status"
     },
     "Event": {
+      "$id": "/schemas/Event",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -154,7 +158,7 @@
           "type": "string"
         },
         "attributes": {
-          "$ref": "#/definitions/Attributes"
+          "$ref": "/schemas/Attributes"
         },
         "droppedAttributesCount": {
           "type": "integer"
@@ -164,11 +168,12 @@
         "attributes",
         "droppedAttributesCount",
         "name",
-        "time"
+        "timestamp"
       ],
       "title": "Event"
     },
     "Attributes": {
+      "$id": "/schemas/Attributes",
       "type": "object",
       "additionalProperties": true,
       "title": "Attributes"
