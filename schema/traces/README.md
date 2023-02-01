@@ -1,4 +1,18 @@
 # Traces Schema Support
+Observability in the software industry is the ability to monitor and diagnose systems and applications in real-time, in order to understand how they are behaving and identify potential issues.
+Traces are a critical component of observability, providing detailed information about the flow of requests through a system, including timing information and any relevant contextual data.
+
+The importance of supporting traces schema lies in the fact that it enables better analysis and understanding of system behavior.
+A structured schema provides a clear, consistent format for traces, making it easier for observability tools to process and aggregate the data.
+This in turn makes it easier for engineers to understand the performance and behavior of their systems, and quickly identify potential issues.
+
+When traces are unstructured, it can be difficult for observability tools to extract meaningful information from them - For example, if the timing information for a particular request is not consistently represented in the same format,
+it can be difficult to compare and analyze performance data over time. Similarly, if contextual data is not consistently recorded, it can be difficult to understand the context in which a particular request was executed.
+
+With a structured schema in place, observability tools can automatically extract and aggregate data, making it easier to understand system behavior at a high level.
+This can help teams quickly identify performance bottlenecks, track the root cause of errors, and resolve issues more efficiently.
+
+## Details
 The next section provides the Simple Schema for Observability support which conforms with the OTEL specification.
 
 - traces.mapping presents the template mapping for creating the Simple Schema for Observability index
