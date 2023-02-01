@@ -1,0 +1,60 @@
+{
+  "max": 652094078,
+  "type": "HISTOGRAM",
+  "buckets": [
+    {
+      "min": 3.4028234663852886e+38,
+      "max": 0,
+      "count": 0
+    },
+    {
+      "min": 0,
+      "max": 10000000,
+      "count": 0
+    },
+    {
+      "min": 10000000,
+      "max": 50000000,
+      "count": 5
+    },
+    {
+      "min": 50000000,
+      "max": 100000000,
+      "count": 1
+    },
+    {
+      "min": 100000000,
+      "max": 3.4028234663852886e+38,
+      "count": 10
+    }
+  ],
+  "count": 16,
+  "bucketCountsList": [
+    0,
+    0,
+    5,
+    1,
+    10
+  ],
+  "description": "Histogram of durationInNanos in the events",
+  "sum": 3136355061,
+  "unit": "seconds",
+  "aggregationTemporality": "AGGREGATION_TEMPORALITY_DELTA",
+  "min": 44606914,
+  "bucketCounts": 5,
+  "name": "histogram",
+  "startTime": "20230120T05:16:16.425669Z",
+  "explicitBoundsCount": 4,
+  "time": "20230120T05:16:43.134674Z",
+  "explicitBoundsList": [
+    0,
+    10000000,
+    50000000,
+    100000000
+  ],
+  "attributes": {
+    "aggr._duration": 26709005000,
+    "serviceName": "AOCDockerDemoService",
+    "histogram_key": "durationInNanos"
+  }
+}
