@@ -43,9 +43,9 @@
   "min": 44606914,
   "bucketCounts": 5,
   "name": "histogram",
-  "startTime": "20230120T05:16:16.425669Z",
+  "startTime": "2023-01-20T05:16:16.425669Z",
   "explicitBoundsCount": 4,
-  "time": "20230120T05:16:43.134674Z",
+  "time": "2023-01-20T05:16:16.425669Z",
   "explicitBoundsList": [
     0,
     10000000,
