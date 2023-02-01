@@ -53,7 +53,7 @@
     100000000
   ],
   "attributes": {
-    "aggr._duration": 26709005000,
+    "aggr_duration": 26709005000,
     "serviceName": "AOCDockerDemoService",
     "histogram_key": "durationInNanos"
   }

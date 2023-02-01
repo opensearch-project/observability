@@ -2,28 +2,31 @@
   "index_patterns": [
     "sso_metrics-*-*"
   ],
-  "dynamic_templates": [
-    {
-      "attributes_map": {
-        "mapping": {
-          "type":"keyword"
-        },
-        "path_match":"attributes.*"
-      }
-    },
-    {
-      "resources_map": {
-        "mapping": {
-          "type": "keyword"
-        },
-        "path_match": "resources.*"
-      }
-    }
-  ],
   "mappings": {
     "_meta": {
       "version": "0.1.0-dev"
     },
+    "_source": {
+      "enabled": true
+    },
+    "dynamic_templates": [
+      {
+        "attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "attributes.*"
+        }
+      },
+      {
+        "resources_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "resources.*"
+        }
+      }
+    ],
     "properties": {
       "name": {
         "type": "text",
@@ -73,6 +76,10 @@
           }
         }
       },
+      "kind": {
+        "type": "alias",
+        "path": "type"
+      },
       "type": {
         "type": "text",
         "fields": {
@@ -82,7 +89,6 @@
           }
         }
       },
-
       "aggregationTemporality": {
         "type": "text",
         "fields": {
@@ -95,14 +101,12 @@
       "monotonic": {
         "type": "boolean"
       },
-
       "startTime": {
         "type": "date"
       },
       "time": {
         "type": "date"
       },
-
       "value": {
         "properties": {
           "int": {
@@ -113,7 +117,6 @@
           }
         }
       },
-
       "buckets": {
         "properties": {
           "count": {
@@ -136,13 +139,16 @@
       "bucketCountsList": {
         "type": "long"
       },
+      "explicitBounds": {
+        "type": "alias",
+        "path": "explicitBoundsList"
+      },
       "explicitBoundsList": {
         "type": "float"
       },
       "explicitBoundsCount": {
         "type": "float"
       },
-
       "quantiles": {
         "properties": {
           "quantile": {
@@ -156,7 +162,6 @@
       "quantileValuesCount": {
         "type": "long"
       },
-
       "positiveBuckets": {
         "properties": {
           "count": {
@@ -195,7 +200,6 @@
       "scale": {
         "type": "long"
       },
-
       "max": {
         "type": "float"
       },
