@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://opensearch.org/schemas/Metrics",
+  "title": "OpenTelemetry Metrics",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "counter",
+        "gauge",
+        "histogram"
+      ]
+    },
+    "value": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "buckets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "number"
+                  },
+                  "upper_bound": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "count",
+                  "upper_bound"
+                ]
+              }
+            },
+            "count": {
+              "type": "number"
+            },
+            "sum": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "buckets",
+            "count",
+            "sum"
+          ]
+        }
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "attributes": {
+      "$ref": "/schemas/Attributes"
+    },
+    "labels": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "value",
+    "timestamp"
+  ],
+  "$defs": {
+    "Attributes": {
+      "$id": "/schemas/Attributes",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "dataflow": {
+          "$ref": "/schemas/Dataflow"
+        }
+      },
+      "title": "Attributes"
+    },
+    "Dataflow": {
+      "$id": "/schemas/Dataflow",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "dataset": {
+          "type": "string"
+        }
+      },
+      "title": "Attributes"
+    }
+  }
+}
