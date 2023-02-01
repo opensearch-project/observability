@@ -1,0 +1,159 @@
+{
+  "index_patterns": [
+    "sso_metrics-*-*"
+  ],
+  "dynamic_templates": [
+    {
+      "attributes_map": {
+        "mapping": {
+          "type":"keyword"
+        },
+        "path_match":"attributes.*"
+      }
+    },
+    {
+      "resources_map": {
+        "mapping": {
+          "type": "keyword"
+        },
+        "path_match": "resources.*"
+      }
+    }
+  ],
+  "mappings": {
+    "_meta": {
+      "version": "0.1.0-dev"
+    },
+    "properties": {
+      "temporality": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "bucketCounts": {
+        "type": "long"
+      },
+      "bucketCountsList": {
+        "type": "long"
+      },
+      "buckets": {
+        "properties": {
+          "count": {
+            "type": "long"
+          },
+          "max": {
+            "type": "float"
+          },
+          "min": {
+            "type": "float"
+          }
+        }
+      },
+      "count": {
+        "type": "long"
+      },
+      "description": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "explicitBounds": {
+        "type": "float"
+      },
+      "explicitBoundsCount": {
+        "type": "long"
+      },
+      "histogram_key": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "kind": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "max": {
+        "type": "float"
+      },
+      "min": {
+        "type": "float"
+      },
+      "name": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "startTime": {
+        "type": "date"
+      },
+      "sum": {
+        "type": "float"
+      },
+      "time": {
+        "type": "date"
+      },
+      "unit": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "dataflow": {
+            "properties": {
+              "dataset": {
+                "ignore_above": 128,
+                "type": "keyword"
+              },
+              "namespace": {
+                "ignore_above": 128,
+                "type": "keyword"
+              },
+              "type": {
+                "ignore_above": 56,
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "order": 1,
+  "settings": {
+    "index": {
+      "mapping": {
+        "total_fields": {
+          "limit": 10000
+        }
+      },
+      "refresh_interval": "5s"
+    }
+  }
+}
