@@ -256,6 +256,9 @@
               }
             }
           },
+          "dropped_attributes_count": {
+            "type": "integer"
+          },
           "schemaUrl": {
             "type": "text",
             "fields": {
