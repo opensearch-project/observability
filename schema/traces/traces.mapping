@@ -32,6 +32,14 @@
         }
       },
       {
+        "instrumentation_scope_attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "instrumentationScope.attributes.*"
+        }
+      },
+      {
         "resources_map": {
           "mapping": {
             "type": "keyword"
@@ -145,6 +153,40 @@
             "type": "keyword"
           },
           "traceState": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      },
+      "instrumentationScope": {
+        "properties": {
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 128
+              }
+            }
+          },
+          "version": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "droppedAttributesCount": {
+            "type": "integer"
+          },
+          "schemaUrl": {
             "type": "text",
             "fields": {
               "keyword": {

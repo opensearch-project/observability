@@ -31,11 +31,12 @@
       "items": {
         "type": "string",
         "enum": [
-          "CLIENT",
-          "SERVER",
-          "CONSUMER",
-          "PRODUCER",
-          "INTERNAL"
+          "SPAN_KIND_UNSPECIFIED",
+          "SPAN_KIND_INTERNAL",
+          "SPAN_KIND_SERVER",
+          "SPAN_KIND_CLIENT",
+          "SPAN_KIND_PRODUCER",
+          "SPAN_KIND_CONSUMER"
         ]
       }
     },
@@ -100,6 +101,9 @@
     },
     "droppedLinksCount": {
       "type": "integer"
+    },
+    "instrumentationScope": {
+      "$ref": "/schemas/InstrumentationScope"
     }
   },
   "required": [
@@ -182,6 +186,26 @@
         }
       },
       "title": "Attributes"
+    },
+    "InstrumentationScope": {
+      "$id": "/schemas/InstrumentationScope",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "schemaUrl": {
+          "type": "string"
+        },
+        "droppedAttributesCount": {
+          "type": "integer"
+        }
+      },
+      "title": "InstrumentationScope"
     },
     "Dataflow": {
       "$id": "/schemas/Dataflow",
