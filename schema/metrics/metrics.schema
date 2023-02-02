@@ -16,17 +16,17 @@
     "unit": {
       "type": "string"
     },
-    "type": {
+    "kind": {
       "type": "string",
       "enum": [
         "COUNTER_MONOTONIC",
         "COUNTER_CUMULATIVE",
+        "SUM",
         "GAUGE",
         "HISTOGRAM",
         "EXPONENTIAL_HISTOGRAM"
       ]
     },
-
     "aggregationTemporality": {
       "type": "string",
       "enum": [
@@ -38,8 +38,6 @@
     "monotonic": {
       "type": "boolean"
     },
-
-
     "startTime": {
       "type": "string",
       "format": "date-time"
@@ -48,18 +46,16 @@
       "type": "string",
       "format": "date-time"
     },
-
     "value.int": {
       "type": "integer"
     },
     "value.double": {
       "type": "number"
     },
-
     "buckets": {
       "type": "array",
-        "items": {
-          "$ref": "/schemas/Bucket"
+      "items": {
+        "$ref": "/schemas/Bucket"
       }
     },
     "bucketCount": {
@@ -80,68 +76,73 @@
         "type": "number"
       }
     },
-
     "quantiles": {
       "type": "array",
       "items": {
         "$ref": "/schemas/Quantile"
       }
-
     },
     "quantileValuesCount": {
       "type": "number"
     },
-
-   "positiveBuckets": {
+    "positiveBuckets": {
       "type": "array",
       "items": {
         "$ref": "/schemas/Bucket"
       }
     },
-   "negativeBuckets": {
+    "negativeBuckets": {
       "type": "array",
       "items": {
         "$ref": "/schemas/Bucket"
       }
     },
-   "positiveOffset": {
-     "type": "array",
-     "items": {
-       "type": "number"
-     }
-   },
-   "negativeOffset": {
-     "type": "array",
-     "items": {
-       "type": "number"
-     }
-   },
-   "zeroCount": {
+    "positiveOffset": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "negativeOffset": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "zeroCount": {
       "type": "number"
     },
-   "scale": {
+    "scale": {
       "type": "integer"
     },
-
-   "max": {
+    "max": {
       "type": "number"
     },
-   "min": {
+    "min": {
       "type": "number"
     },
-   "sum": {
+    "sum": {
       "type": "number"
     },
-   "count": {
+    "count": {
       "type": "number"
+    },
+    "exemplars": {
+      "type": "array",
+      "items": {
+        "$ref": "/schemas/Exemplar"
+      }
+    },
+    "instrumentationScope": {
+      "$ref": "/schemas/InstrumentationScope"
     }
   },
   "required": [
     "name",
     "description",
     "unit",
-    "type",
-    "aggregationTemporality"
+    "kind",
+    "time"
   ],
   "$defs": {
     "Bucket": {
@@ -186,6 +187,44 @@
         "value"
       ],
       "title": "Quantile"
+    },
+    "InstrumentationScope": {
+      "$id": "/schemas/InstrumentationScope",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "schemaUrl": {
+          "type": "string"
+        }
+      },
+      "title": "InstrumentationScope"
+    },
+    "Exemplar": {
+      "$id": "/schemas/Exemplar",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "spanId": {
+          "type": "string"
+        },
+        "traceId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Exemplar"
     },
     "Attributes": {
       "$id": "/schemas/Attributes",

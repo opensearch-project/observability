@@ -1,6 +1,6 @@
 {
   "max": 652094078,
-  "type": "HISTOGRAM",
+  "kind": "HISTOGRAM",
   "buckets": [
     {
       "min": 3.4028234663852886e+38,

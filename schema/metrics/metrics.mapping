@@ -25,6 +25,22 @@
           },
           "path_match": "resources.*"
         }
+      },
+      {
+        "exemplar_attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "exemplar.attributes.*"
+        }
+      },
+      {
+        "instrumentation_scope_attributes_map": {
+          "mapping": {
+            "type": "keyword"
+          },
+          "path_match": "instrumentationScope.attributes.*"
+        }
       }
     ],
     "properties": {
@@ -77,10 +93,6 @@
         }
       },
       "kind": {
-        "type": "alias",
-        "path": "type"
-      },
-      "type": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -138,10 +150,6 @@
       },
       "bucketCountsList": {
         "type": "long"
-      },
-      "explicitBounds": {
-        "type": "alias",
-        "path": "explicitBoundsList"
       },
       "explicitBoundsList": {
         "type": "float"
@@ -211,6 +219,53 @@
       },
       "count": {
         "type": "long"
+      },
+
+      "exemplar": {
+        "properties": {
+          "time": {
+            "type": "date"
+          },
+          "traceId": {
+            "ignore_above": 256,
+            "type": "keyword"
+          },
+          "spanId": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        }
+      },
+      "instrumentationScope": {
+        "properties": {
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 128
+              }
+            }
+          },
+          "version": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "schemaUrl": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
       }
     }
   },
