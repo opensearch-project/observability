@@ -256,7 +256,7 @@
               }
             }
           },
-          "dropped_attributes_count": {
+          "droppedAttributesCount": {
             "type": "integer"
           },
           "schemaUrl": {

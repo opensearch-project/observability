@@ -201,6 +201,9 @@
         },
         "schemaUrl": {
           "type": "string"
+        },
+        "droppedAttributesCount": {
+          "type": "integer"
         }
       },
       "title": "InstrumentationScope"
