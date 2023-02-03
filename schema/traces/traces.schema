@@ -104,6 +104,9 @@
     },
     "instrumentationScope": {
       "$ref": "/schemas/InstrumentationScope"
+    },
+    "schemaUrl": {
+      "type": "string"
     }
   },
   "required": [
