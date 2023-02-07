@@ -12,6 +12,14 @@
       },
       "dynamic_templates": [
         {
+          "resources_map": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "path_match": "resource.*"
+          }
+        },
+        {
           "attributes_map": {
             "mapping": {
               "type": "keyword"
@@ -183,7 +191,8 @@
     }
   },
   "composed_of": [
-    "http_template","communication_template"
+    "http_template",
+    "communication_template"
   ],
   "version": 1,
   "_meta": {

@@ -1,5 +1,5 @@
 {
-  "time": "",
+  "@timestamp": "2022-12-09T10:39:23.000Z",
   "http": {
     "method": "GET",
     "flavor": "1.1",

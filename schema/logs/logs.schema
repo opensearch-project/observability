@@ -7,13 +7,16 @@
     "severity": {
       "$ref": "/schemas/Severity"
     },
+    "resource": {
+      "type": "object"
+    },
     "attributes": {
       "$ref": "/schemas/Attributes"
     },
     "body": {
       "type": "string"
     },
-    "time": {
+    "@timestamp": {
       "type": "string",
       "format": "date-time"
     },
@@ -34,15 +37,12 @@
       "$ref": "/schemas/InstrumentationScope"
     },
     "event": {
-      "$ref": "/schema/Event"
+      "$ref": "/schemas/Event"
     }
   },
   "required": [
-    "name",
-    "description",
-    "unit",
-    "kind",
-    "time"
+    "body",
+    "@timestamp"
   ],
   "$defs": {
     "InstrumentationScope": {
@@ -70,7 +70,12 @@
         "text": {
           "type": "string",
           "enum": [
-            "TRACE","DEBUG","INFO","WARN","ERROR","FATAL"
+            "TRACE",
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR",
+            "FATAL"
           ]
         },
         "number": {
@@ -154,34 +159,37 @@
         },
         "kind": {
           "type": "string",
-          "enum":[
+          "enum": [
             "alert",
             "enrichment",
             "event",
             "metric",
             "state",
             "pipeline_error",
-            "signal"]
+            "signal"
+          ]
         },
         "type": {
           "type": "string",
-          "enum":["access",
-                  "admin",
-                  "allowed",
-                  "change",
-                  "connection",
-                  "creation",
-                  "deletion",
-                  "denied",
-                  "end",
-                  "error",
-                  "group",
-                  "indicator",
-                  "info",
-                  "installation",
-                  "protocol",
-                  "start",
-                  "user"]
+          "enum": [
+            "access",
+            "admin",
+            "allowed",
+            "change",
+            "connection",
+            "creation",
+            "deletion",
+            "denied",
+            "end",
+            "error",
+            "group",
+            "indicator",
+            "info",
+            "installation",
+            "protocol",
+            "start",
+            "user"
+          ]
         },
         "domain": {
           "type": "string"
