@@ -10,6 +10,9 @@
     "attributes": {
       "$ref": "/schemas/Attributes"
     },
+    "resource": {
+      "type": "object"
+    },
     "description": {
       "type": "string"
     },
