@@ -137,7 +137,7 @@
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "timestamp": {
+            "@timestamp": {
               "type": "date_nanos"
             }
           }

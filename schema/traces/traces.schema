@@ -157,7 +157,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "timestamp": {
+        "@timestamp": {
           "type": "string",
           "format": "date-time"
         },
@@ -175,7 +175,7 @@
         "attributes",
         "droppedAttributesCount",
         "name",
-        "timestamp"
+        "@timestamp"
       ],
       "title": "Event"
     },
