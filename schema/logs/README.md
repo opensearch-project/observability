@@ -15,10 +15,13 @@ The next section provides the Simple Schema for Observability support which conf
 - logs.schema presents the json schema validation for verification of a metrics document conforms to the mapping structure
 
 ## Logs
-see [OTEL Logs convention](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/logs/data-model.md)
-see [OTEL logs protobuf](https://github.com/open-telemetry/opentelemetry-proto/tree/main/opentelemetry/proto/logs/v1)
+See [OTEL Logs convention](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/logs/data-model.md)
+See [OTEL logs protobuf](https://github.com/open-telemetry/opentelemetry-proto/tree/main/opentelemetry/proto/logs/v1)
+See [ECS logs](https://github.com/elastic/ecs)
 
-Simple Schema for Observability conforms with OTEL logs protocol which defines the next data model:
+Simple Schema for Observability conforms with OTEL logs protocol and also was greatly inspired from the Elastic-Common-Schema schema.
+
+Simple Schema for Observability defines the next data model:
 
 ## General Fields
      
@@ -28,37 +31,30 @@ For example, some domains could have well-defined schema for their events based 
 
 `event.kind` gives high-level information about what type of information the event contains, without being specific to the contents of the event.(ECS driven)
 **Possible values**
- - alert
- - enrichment
- - event
- - metric
- - state
- - pipeline_error
- - signal
+ - **alert** -  indicates an alerting type event which can be triggered by any alerting mechanism
+ - **enrichment** - indicates an enriched typed event that adds additional context to the original event
+ - **event**   -  the default type of the event
+ - **metric**  -  this indicated the event describes a numeric measurement
 
 The `event.domain` attribute is used to logically separate events from different systems. For example, to record Events from `browser` apps, `mobile` apps and `Kubernetes`, we could use browser, device and k8s as the domain for their Events.
 This provides a clean separation of semantics for events in each of the domains. (OTEL driven)
 
 `event.category` gives categorical-level information about what type of information the event contains, this field is an array. (ECS driven)
 **Possible values**
-   - authentication
-   - configuration
-   - database
-   - driver
-   - email
-   - file
-   - host
-   - iam
-   - intrusion_detection
-   - malware
-   - network
-   - package
-   - process
-   - registry
-   - session
-   - threat
-   - vulnerability
-   - web
+   - authentication - events are of a challenge and response process by any system that has such responsibilities 
+   - configuration  - events related to the configuration of a system or an application
+   - database       - events that are generated as part of the storage system (SQL RDBMS and such)
+   - driver         - events related to the O/S device driver
+   - email          - events related to email messages, email attachments and such
+   - file           - events related to the fact that it has been created on, or has existed on a filesystem
+   - host           - events related to host inventory or lifecycle events
+   - iam            - Identity & access Management logs types 
+   - network        - events relating of network activities (connection / traffic and such)
+   - package        - events indication of software packages installation of hosts
+   - process        - events related to O/S process information
+   - registry       - events related to O/S registry events
+   - session        - events related to a persistent connection between different network components
+   - web            - events related to web server activity
 
 `event.category` corresponds with  `event.domain`
 
@@ -66,23 +62,22 @@ This provides a clean separation of semantics for events in each of the domains.
 This will allow proper categorization of some events that fall in multiple event types, this field is an array. (ECS driven)
 
 **Possible values**
-  - access
-  - admin
-  - allowed
-  - change
-  - connection
-  - creation
-  - deletion
-  - denied
-  - end
-  - error
-  - group
-  - indicator
-  - info
-  - installation
-  - protocol
-  - start
-  - user
+  - access   - indication that this event has accesses some resource
+  - admin    - indication that this event is related to the admin context
+  - allowed  - indication that this event was subsequently allowed by some authority system
+  - change   - indication that this event is related to something that has changed
+  - connection - indication that this event is related to network traffic with indication of connection activity
+  - creation   - indication that this event is related to resources being created
+  - deletion   - indication that this event is related to resources being deleted
+  - denied     - indication that this event is related to resources being denied access
+  - error      - indication of an error related event
+  - group      - indication of events that are related to group objects
+  - info       - indication of events which are informative without other distinct classification 
+  - installation   - indication that this event is related to resources being installed 
+  - protocol   - indicate that the event is related to specific knowledge of protocol info
+  - end        - indicate that te event is related to some termination state
+  - start      - indicate that te event is related to some initiation state
+  - user       - indicate that the event is related to specific knowledge a user resource
 
 
 `event.result` gives a success or a failure indication from the perspective of the entity that produced the event. (ECS driven)
@@ -178,7 +173,25 @@ Includes client / server part of the communication
 
 ---
 
+```text
 
+ ___________________
+ | _______________ |
+ | |XXXXXXXXXXXXX| |
+ | |XXXXXXXXXXXXX| |
+ | |XXXXXXXXXXXXX| |
+ | |XXXXXXXXXXXXX| |
+ | |XXXXXXXXXXXXX| |
+ |_________________|
+     _[_______]_
+  ___[___________]___
+ |         [_____] []|__
+ |         [_____] []|  \__
+ L___________________J      \  \___\/
+  ___________________       /\
+  /###################\    (__)
+
+```
 
 ---
 ### Setting Up the Logs Mapping
