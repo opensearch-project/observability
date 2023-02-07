@@ -45,7 +45,7 @@
   "name": "histogram",
   "startTime": "2023-01-20T05:16:16.425669Z",
   "explicitBoundsCount": 4,
-  "time": "2023-01-20T05:16:16.425669Z",
+  "@timestamp": "2023-01-20T05:16:16.425669Z",
   "explicitBoundsList": [
     0,
     10000000,

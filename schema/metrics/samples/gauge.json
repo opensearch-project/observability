@@ -6,7 +6,7 @@
   "flags": 0,
   "description": "The last API latency observed at collection interval",
   "startTime": "2023-01-20T05:16:16.425669Z",
-  "time": "2023-01-20T05:16:16.425669Z",
+  "@timestamp": "2023-01-20T05:16:16.425669Z",
   "value.double": 0.0,
   "resources": {
     "cloud@account@id": "123367104812",

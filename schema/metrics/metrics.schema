@@ -42,7 +42,7 @@
       "type": "string",
       "format": "date-time"
     },
-    "time": {
+    "@timestamp": {
       "type": "string",
       "format": "date-time"
     },
@@ -145,7 +145,7 @@
     "description",
     "unit",
     "kind",
-    "time"
+    "@timestamp"
   ],
   "$defs": {
     "Bucket": {

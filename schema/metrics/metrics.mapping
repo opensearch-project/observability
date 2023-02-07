@@ -117,7 +117,7 @@
         "startTime": {
           "type": "date"
         },
-        "time": {
+        "@timestamp": {
           "type": "date"
         },
         "value": {
