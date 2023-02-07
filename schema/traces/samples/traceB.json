@@ -40,7 +40,7 @@
     "db@instance": "",
     "db@statement": "CREATE TABLE `User_Carts` %28  `ItemId` varchar%2816%29 NOT NULL,  `TotalQty` int%2811%29 NOT NULL,  PRIMARY KEY %28`ItemId`%29%29 ENGINE=InnoDB"
   },
-  "resources": {
+  "resource": {
     "telemetry@sdk@language": "python",
     "service@name": "database",
     "telemetry@sdk@version": "0.14b0",

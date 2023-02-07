@@ -39,7 +39,7 @@
   "droppedAttributesCount": 0,
   "droppedEventsCount": 0,
   "droppedLinksCount": 0,
-  "resources": {
+  "resource": {
     "telemetry@sdk@language": "python",
     "telemetry@sdk@version": "0.14b0",
     "service@instance@id": "140307275923408",
