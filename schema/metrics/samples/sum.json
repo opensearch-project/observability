@@ -46,6 +46,11 @@
   "attributes": {
     "serviceName": "AOCDockerDemoService",
     "statusCode": "",
-    "apiName": ""
+    "apiName": "",
+    "data_stream": {
+      "dataset": "sum",
+      "namespace": "production",
+      "type": "metric"
+    }
   }
 }

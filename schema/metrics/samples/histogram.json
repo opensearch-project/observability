@@ -55,6 +55,11 @@
   "attributes": {
     "aggr_duration": 26709005000,
     "serviceName": "AOCDockerDemoService",
-    "histogram_key": "durationInNanos"
+    "histogram_key": "durationInNanos",
+    "data_stream": {
+      "dataset": "histogram",
+      "namespace": "production",
+      "type": "metric"
+    }
   }
 }
