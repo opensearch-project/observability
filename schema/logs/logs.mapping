@@ -57,7 +57,7 @@
         "attributes": {
           "type": "object",
           "properties": {
-            "data-stream": {
+            "data_stream": {
               "properties": {
                 "dataset": {
                   "ignore_above": 128,
