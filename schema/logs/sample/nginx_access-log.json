@@ -4,6 +4,11 @@
   "body": "47.29.201.179 - - [01/Mar/2020:10:34:43 +0100] \"GET / HTTP/1.1\" 200 612 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36\"",
   "trace_id":"102981ABCD2901",
   "span_id":"abcdef1010",
+  "instrumentationScope":{
+    "attributes": {
+      "identification": "nginx"
+    }
+  },
   "attributes": {
     "data_stream": {
       "dataset": "nginx.access",
