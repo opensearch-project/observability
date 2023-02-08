@@ -40,7 +40,10 @@
   "instrumentationScope": {
     "version": "1.0",
     "name": "aws-otel",
-    "schemaUrl": "https://opentelemetry.io/schemas/1.13.0"
+    "schemaUrl": "https://opentelemetry.io/schemas/1.13.0",
+    "attributes": {
+      "identification": "aws-ec2"
+    }
   },
 
   "attributes": {
