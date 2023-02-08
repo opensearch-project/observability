@@ -28,7 +28,7 @@
     "code": 2
   },
   "attributes": {
-    "dataflow": {
+    "data_stream": {
       "type": "span",
       "dataset": "mysql"
     },
