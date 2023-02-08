@@ -37,6 +37,13 @@ If nothing is stated in the namespace / dataset - the signal information would b
 - **Metrics** - metrics-default-namespace
 - **Logs** -   logs-default-namespace
 
+### Instrumentation scope
+This is a logical unit of the application with which the emitted telemetry can be associated. It is typically the developer’s choice to decide what denotes a reasonable instrumentation scope.
+The most common approach is to use the instrumentation library as the scope, however other scopes are also common, e.g. a module, a package, or a class can be chosen as the instrumentation scope.
+
+The instrumentation scope may have zero or more additional attributes that provide additional information about the scope. As an example the field
+`instrumentationScope.attributes.identification` is presented will be used to determine the resource origin of the signal and can be used to filter accordingly
+
 ## Traces
 see [OTEL traces convention](https://github.com/open-telemetry/opentelemetry-specification/tree/main/semantic_conventions/trace)
 
