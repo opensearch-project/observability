@@ -124,9 +124,9 @@ This means the fields can only contain characters that are valid as part of name
 
 
 If nothing is stated in the namespace / dataset - the signal information would be routed into the default data-stream indices
- - **Traces** - traces-default
- - **Metrics** - metrics-default
- - **Logs** -   logs-default
+ - **Traces** - traces-default-namespace
+ - **Metrics** - metrics-default-namespace
+ - **Logs** -   logs-default-namespace
 
 ### Logs Classifications
 
