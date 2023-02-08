@@ -89,7 +89,7 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "dataflow": {
+        "data-stream": {
           "$ref": "/schemas/Dataflow"
         }
       },

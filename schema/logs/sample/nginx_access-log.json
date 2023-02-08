@@ -5,7 +5,7 @@
   "trace_id":"102981ABCD2901",
   "span_id":"abcdef1010",
   "attributes": {
-    "dataflow": {
+    "data-stream": {
       "dataset": "nginx.access",
       "namespace": "production",
       "type": "logs"

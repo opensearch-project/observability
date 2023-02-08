@@ -109,7 +109,26 @@ According to [ECS](https://github.com/elastic/ecs) and the most recent (experime
 log schema. This schema can be used for working with a well-structured set of typed logs arriving from categorical sources.
 These sources are expected to report information in a specific way that will simplify future correlations and consolidate similar concerns.
 
-### Classifications
+### data-stream
+[data-stream](https://opensearch.org/docs/latest/opensearch/data-streams/) Data streams simplify this process and enforce a setup that best suits time-series data, such as being designed primarily for append-only data and ensuring that each document has a timestamp field.
+A data stream is internally composed of multiple backing indices. Search requests are routed to all the backing indices, while indexing requests are routed to the latest write index.
+
+As part of the Observability naming scheme, the value of the data stream fields combine to the name of the actual data stream :
+
+`{data_stream.type}-{data_stream.dataset}-{data_stream.namespace}`.
+This means the fields can only contain characters that are valid as part of names of data streams.
+
+ - **type** conforms to one of the supported Observability signals (Traces, Logs, Metrics, Alerts)
+ - **dataset** user defined field that can mainly be utilized for describing the origin of the signal
+ - **namespace** user custom field that can be used to describe any customer domain specific classification
+
+
+If nothing is stated in the namespace / dataset - the signal information would be routed into the default data-stream indices
+ - **Traces** - traces-default
+ - **Metrics** - metrics-default
+ - **Logs** -   logs-default
+
+### Logs Classifications
 
 #### HTTP 
 
@@ -194,25 +213,6 @@ Includes client / server part of the communication
 ```
 
 ---
-### Setting Up the Logs Mapping
-Start the OpenSearch cluster and follow the next steps for manually setup of the Log mapping template:
-
-`>> PUT _component_template/http_template`
-
-Copy the http.mapping content [here](http.mapping)
-
-`>> PUT _component_template/communication_template`
-
-Copy the communication.mapping content [here](communication.mapping)
-
-`>> PUT _index_template/logs`
-
-Copy the logs.mapping content [here](logs.mapping)
-
-Now you can create an index (following the logs index pattern) that has the supported schema:
-
-`>> PUT /sso_logs-dataset-test1`
-
 
 ### References
  - https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/logs/semantic_conventions/events.md

@@ -2,6 +2,7 @@
   "index_patterns": [
     "sso_logs-*-*"
   ],
+  "data_stream": {},
   "template": {
     "mappings": {
       "_meta": {
@@ -56,7 +57,7 @@
         "attributes": {
           "type": "object",
           "properties": {
-            "dataflow": {
+            "data-stream": {
               "properties": {
                 "dataset": {
                   "ignore_above": 128,
