@@ -45,6 +45,9 @@ If nothing is stated in the namespace / dataset - the signal information would b
 - **Metrics** - metrics-default-namespace
 - **Logs** -   logs-default-namespace
 
+#### Timestamp field
+As part of the data-stream definition the `@timestamp` is  mandatory, if the field is not present to begin with use `ObservedTimestamp` as value for this field
+
 ### Instrumentation scope
 This is a logical unit of the application with which the emitted telemetry can be associated. It is typically the developer’s choice to decide what denotes a reasonable instrumentation scope.
 The most common approach is to use the instrumentation library as the scope, however other scopes are also common, e.g. a module, a package, or a class can be chosen as the instrumentation scope.

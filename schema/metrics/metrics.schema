@@ -49,6 +49,10 @@
       "type": "string",
       "format": "date-time"
     },
+    "observedTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
     "value.int": {
       "type": "integer"
     },

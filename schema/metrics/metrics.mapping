@@ -120,6 +120,9 @@
         "@timestamp": {
           "type": "date"
         },
+        "observedTimestamp": {
+          "type": "date_nanos"
+        },
         "value": {
           "properties": {
             "int": {
