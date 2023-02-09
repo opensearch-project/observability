@@ -81,7 +81,7 @@
         "@timestamp": {
           "type": "date"
         },
-        "observerTime": {
+        "observedTimestamp": {
           "type": "date"
         },
         "traceId": {

@@ -20,7 +20,7 @@
       "type": "string",
       "format": "date-time"
     },
-    "observerTime": {
+    "observedTimestamp": {
       "type": "string",
       "format": "date-time"
     },
