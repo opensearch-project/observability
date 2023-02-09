@@ -13,7 +13,7 @@
     "traceState": {
       "type": "array",
       "items": {
-        "type": "object"
+        "$ref": "/schemas/KeyValue"
       }
     },
     "status": {
@@ -193,6 +193,20 @@
         }
       },
       "title": "Attributes"
+    },
+    "KeyValue": {
+      "$id": "/schemas/KeyValue",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "object"
+        }
+      },
+      "title": "KeyValue"
     },
     "InstrumentationScope": {
       "$id": "/schemas/InstrumentationScope",

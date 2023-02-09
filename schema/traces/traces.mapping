@@ -170,45 +170,21 @@
         "instrumentationScope": {
           "properties": {
             "name": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "type": "keyword",
-                  "ignore_above": 128
-                }
-              }
+              "type": "keyword"
             },
             "version": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "type": "keyword",
-                  "ignore_above": 256
-                }
-              }
+              "type": "keyword"
             },
             "droppedAttributesCount": {
               "type": "integer"
             },
             "schemaUrl": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "type": "keyword",
-                  "ignore_above": 256
-                }
-              }
+              "type": "keyword"
             }
           }
         },
         "schemaUrl": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
+          "type": "keyword"
         }
       }
     }
