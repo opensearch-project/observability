@@ -17,6 +17,6 @@
     "address": "192.0.2.5"
   },
   "response": {
-    "status_code": "200"
+    "status_code": 200
   }
 }

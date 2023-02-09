@@ -80,7 +80,7 @@
           "type": "string"
         },
         "status_code": {
-          "type": "string"
+          "type": "integer"
         },
         "header": {
           "type": "object"

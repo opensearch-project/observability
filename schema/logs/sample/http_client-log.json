@@ -11,6 +11,6 @@
     "port": 8080
   },
   "response": {
-    "status_code": "200"
+    "status_code": 200
   }
 }

@@ -105,8 +105,7 @@
                   "ignore_above": 256
                 },
                 "status_code": {
-                  "type": "keyword",
-                  "ignore_above": 256
+                  "type": "integer"
                 }
               }
             }
