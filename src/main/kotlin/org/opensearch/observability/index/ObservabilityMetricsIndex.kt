@@ -7,17 +7,17 @@ import org.opensearch.action.admin.indices.template.get.GetIndexTemplatesRequest
 import org.opensearch.action.admin.indices.template.put.PutIndexTemplateRequest
 import org.opensearch.client.Client
 import org.opensearch.cluster.service.ClusterService
+import org.opensearch.common.component.LifecycleListener
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
 
-
 /**
  * Class for doing OpenSearch Metrics schema mapping & default index init operation
  */
-internal object ObservabilityMetricsIndex {
+internal object ObservabilityMetricsIndex : LifecycleListener() {
     private val log by logger(ObservabilityMetricsIndex::class.java)
     private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metrics_template"
     private const val METRICS_MAPPING_TEMPLATE_FILE = "sso_metrics-mapping-template.yml"
@@ -28,17 +28,22 @@ internal object ObservabilityMetricsIndex {
 
     /**
      * Initialize the class
-     * Generate the metrics template and the default index
      * @param client The OpenSearch client
      * @param clusterService The OpenSearch cluster service
      */
-    fun initialize(client: Client, clusterService: ClusterService) {
+    fun initialize(client: Client, clusterService: ClusterService): ObservabilityMetricsIndex {
         this.client = SecureIndexClient(client)
         this.clusterService = clusterService
+        return this
+    }
 
-        //create template mapping
+    /**
+     * once lifecycle indicate start has occurred - instantiating the mapping template and default data stream
+     */
+    override fun afterStart() {
+        // create template mapping
         createMappingTemplate()
-        //create default index
+        // create default index
         createDataStream()
     }
 
@@ -108,7 +113,6 @@ internal object ObservabilityMetricsIndex {
         val response = indices.getTemplates(GetIndexTemplatesRequest(template)).get()
         return response.indexTemplates.isNotEmpty()
     }
-
 
     /**
      * Check if the data-stream is created and available.
