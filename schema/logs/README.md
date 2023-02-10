@@ -230,6 +230,9 @@ Includes client / server part of the communication
 ---
 
 ### References
+ - https://github.com/opensearch-project/observability/issues/1413
+ - https://github.com/opensearch-project/observability/issues/1405
+ - https://github.com/opensearch-project/observability/issues/1411
  - https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/logs/semantic_conventions/events.md
  - https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md
  - https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md
