@@ -2,6 +2,7 @@
   "index_patterns": [
     "sso_metrics-*-*"
   ],
+  "data_stream": {},
   "template": {
     "mappings": {
       "_meta": {
