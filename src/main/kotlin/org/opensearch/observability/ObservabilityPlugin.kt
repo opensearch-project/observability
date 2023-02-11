@@ -10,10 +10,6 @@ import org.opensearch.client.Client
 import org.opensearch.cluster.metadata.IndexNameExpressionResolver
 import org.opensearch.cluster.node.DiscoveryNodes
 import org.opensearch.cluster.service.ClusterService
-import org.opensearch.common.component.AbstractLifecycleComponent
-import org.opensearch.common.component.Lifecycle
-import org.opensearch.common.component.LifecycleComponent
-import org.opensearch.common.component.LifecycleListener
 import org.opensearch.common.io.stream.NamedWriteableRegistry
 import org.opensearch.common.settings.ClusterSettings
 import org.opensearch.common.settings.IndexScopedSettings
@@ -40,6 +36,7 @@ import org.opensearch.observability.scheduler.ObservabilityJobRunner
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.logger
 import org.opensearch.plugins.ActionPlugin
+import org.opensearch.plugins.ClusterPlugin
 import org.opensearch.plugins.Plugin
 import org.opensearch.repositories.RepositoriesService
 import org.opensearch.rest.RestController
@@ -54,7 +51,7 @@ import java.util.function.Supplier
  * This class initializes the rest handlers.
  */
 @Suppress("TooManyFunctions")
-class ObservabilityPlugin : Plugin(), ActionPlugin, LifecycleComponent, JobSchedulerExtension {
+class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerExtension {
 
     companion object {
         private val log by logger(ObservabilityPlugin::class.java)
@@ -62,7 +59,6 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, LifecycleComponent, JobSched
         const val LOG_PREFIX = "observability"
         const val BASE_OBSERVABILITY_URI = "/_plugins/_observability"
         const val BASE_NOTEBOOKS_URI = "/_plugins/_notebooks"
-        var lifecycle: ObservabilityLifeCycle = ObservabilityLifeCycle()
     }
 
     /**
@@ -90,8 +86,14 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, LifecycleComponent, JobSched
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
-        addLifecycleListener(ObservabilityMetricsIndex.initialize(client, clusterService))
+//        clusterService.addLifecycleListener(ObservabilityMetricsIndex.initialize(client, clusterService))
+        ObservabilityMetricsIndex.initialize(client, clusterService)
         return emptyList()
+    }
+
+    override fun onNodeStarted() {
+        super.onNodeStarted()
+        ObservabilityMetricsIndex.afterStart()
     }
 
     /**
@@ -151,39 +153,5 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, LifecycleComponent, JobSched
 
     override fun getJobParser(): ScheduledJobParser {
         return ObservabilityJobParser
-    }
-
-    override fun lifecycleState(): Lifecycle.State {
-        return lifecycle.lifecycleState()
-    }
-
-    override fun addLifecycleListener(listener: LifecycleListener?) {
-        lifecycle.addLifecycleListener(listener)
-    }
-
-    override fun removeLifecycleListener(listener: LifecycleListener?) {
-        lifecycle.removeLifecycleListener(listener)
-    }
-
-    override fun start() {
-        lifecycle.start()
-    }
-
-    override fun stop() {
-        lifecycle.stop()
-    }
-
-    class ObservabilityLifeCycle : AbstractLifecycleComponent() {
-        override fun doStart() {
-            log.info("ObservabilityPlugin start")
-        }
-
-        override fun doStop() {
-            log.info("ObservabilityPlugin stop")
-        }
-
-        override fun doClose() {
-            log.info("ObservabilityPlugin close")
-        }
     }
 }

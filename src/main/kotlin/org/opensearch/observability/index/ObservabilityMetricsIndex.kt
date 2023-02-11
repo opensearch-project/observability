@@ -1,6 +1,7 @@
 package org.opensearch.observability.index
 
 import org.opensearch.ResourceAlreadyExistsException
+import org.opensearch.ResourceNotFoundException
 import org.opensearch.action.admin.indices.datastream.CreateDataStreamAction
 import org.opensearch.action.admin.indices.datastream.GetDataStreamAction
 import org.opensearch.action.admin.indices.template.get.GetIndexTemplatesRequest
@@ -19,9 +20,10 @@ import org.opensearch.observability.util.logger
  */
 internal object ObservabilityMetricsIndex : LifecycleListener() {
     private val log by logger(ObservabilityMetricsIndex::class.java)
-    private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metrics_template"
-    private const val METRICS_MAPPING_TEMPLATE_FILE = "sso_metrics-mapping-template.yml"
-    private const val METRICS_INDEX_NAME = "sso_metrics-default-namespace"
+    private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metric_template"
+    private const val METRICS_MAPPING_TEMPLATE_FILE = "metrics-mapping-template.json"
+    private const val METRICS_INDEX_NAME =  "sso_metrics-default-namespace"
+    private const val METRIC_PATTERN_NAME = "sso_metrics-*-*"
 
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
@@ -41,8 +43,6 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * once lifecycle indicate start has occurred - instantiating the mapping template and default data stream
      */
     override fun afterStart() {
-        // create template mapping
-        createMappingTemplate()
         // create default index
         createDataStream()
     }
@@ -52,6 +52,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createDataStream() {
+        log.info("$LOG_PREFIX:createDataStream $METRICS_INDEX_NAME API called")
         if (!isTemplateExists(METRICS_MAPPING_TEMPLATE_NAME)) {
             createMappingTemplate()
         }
@@ -80,11 +81,15 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createMappingTemplate() {
+        log.info("$LOG_PREFIX:createMappingTemplate $METRICS_INDEX_NAME API called")
         if (!isTemplateExists(METRICS_MAPPING_TEMPLATE_NAME)) {
             val classLoader = ObservabilityMetricsIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(METRICS_MAPPING_TEMPLATE_FILE)?.readText()!!
             val request = PutIndexTemplateRequest(METRICS_MAPPING_TEMPLATE_NAME)
-                .mapping(indexMappingSource, XContentType.YAML)
+                .mapping(indexMappingSource, XContentType.JSON)
+                .patterns(listOf(METRIC_PATTERN_NAME))
+            // enable data-stream
+            request.includeDataStreams()
             try {
                 val actionFuture = client.admin().indices().putTemplate(request)
                 val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
@@ -109,9 +114,20 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * @return true if template is available, false otherwise
      */
     private fun isTemplateExists(template: String): Boolean {
-        val indices = client.admin().indices()
-        val response = indices.getTemplates(GetIndexTemplatesRequest(template)).get()
-        return response.indexTemplates.isNotEmpty()
+        try {
+            val indices = client.admin().indices()
+            val response = indices.getTemplates(GetIndexTemplatesRequest(template)).get()
+            return response.indexTemplates.isNotEmpty()
+        } catch (exception: ResourceNotFoundException) {
+            return false
+        } catch (exception: ResourceAlreadyExistsException) {
+            return true
+        } catch (exception: Exception) {
+            if (exception.cause !is ResourceAlreadyExistsException) {
+                throw exception
+            }
+        }
+        return false
     }
 
     /**
@@ -120,8 +136,19 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * @return true if index is available, false otherwise
      */
     private fun isDataStreamExists(index: String): Boolean {
-        val streams = client.admin().indices().getDataStreams(GetDataStreamAction.Request(arrayOf(index)))
-        val response = streams.actionGet()
-        return response.dataStreams.isNotEmpty()
+        try {
+            val streams = client.admin().indices().getDataStreams(GetDataStreamAction.Request(arrayOf(index)))
+            val response = streams.actionGet()
+            return response.dataStreams.isNotEmpty()
+        } catch (exception: ResourceNotFoundException) {
+            return false
+        } catch (exception: ResourceAlreadyExistsException) {
+            return true
+        } catch (exception: Exception) {
+            if (exception.cause !is ResourceAlreadyExistsException) {
+                throw exception
+            }
+        }
+        return false
     }
 }
