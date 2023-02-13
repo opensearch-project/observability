@@ -34,7 +34,6 @@ import org.opensearch.observability.resthandler.SchedulerRestHandler
 import org.opensearch.observability.scheduler.ObservabilityJobParser
 import org.opensearch.observability.scheduler.ObservabilityJobRunner
 import org.opensearch.observability.settings.PluginSettings
-import org.opensearch.observability.util.logger
 import org.opensearch.plugins.ActionPlugin
 import org.opensearch.plugins.ClusterPlugin
 import org.opensearch.plugins.Plugin
@@ -54,7 +53,6 @@ import java.util.function.Supplier
 class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerExtension {
 
     companion object {
-        private val log by logger(ObservabilityPlugin::class.java)
         const val PLUGIN_NAME = "opensearch-observability"
         const val LOG_PREFIX = "observability"
         const val BASE_OBSERVABILITY_URI = "/_plugins/_observability"
@@ -93,6 +91,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
 
     override fun onNodeStarted() {
         super.onNodeStarted()
+        ObservabilityIndex.afterStart()
         ObservabilityMetricsIndex.afterStart()
     }
 

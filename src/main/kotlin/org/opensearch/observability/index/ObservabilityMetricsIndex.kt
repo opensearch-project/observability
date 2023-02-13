@@ -5,15 +5,19 @@ import org.opensearch.ResourceNotFoundException
 import org.opensearch.action.admin.indices.datastream.CreateDataStreamAction
 import org.opensearch.action.admin.indices.datastream.GetDataStreamAction
 import org.opensearch.action.admin.indices.template.get.GetIndexTemplatesRequest
-import org.opensearch.action.admin.indices.template.put.PutIndexTemplateRequest
+import org.opensearch.action.admin.indices.template.put.PutComposableIndexTemplateAction
 import org.opensearch.client.Client
+import org.opensearch.cluster.metadata.ComposableIndexTemplate
+import org.opensearch.cluster.metadata.Template
 import org.opensearch.cluster.service.ClusterService
 import org.opensearch.common.component.LifecycleListener
-import org.opensearch.common.xcontent.XContentType
+import org.opensearch.common.compress.CompressedXContent
+import org.opensearch.common.settings.Settings
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
+import java.util.*
 
 /**
  * Class for doing OpenSearch Metrics schema mapping & default index init operation
@@ -22,7 +26,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
     private val log by logger(ObservabilityMetricsIndex::class.java)
     private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metric_template"
     private const val METRICS_MAPPING_TEMPLATE_FILE = "metrics-mapping-template.json"
-    private const val METRICS_INDEX_NAME =  "sso_metrics-default-namespace"
+    private const val METRICS_INDEX_NAME = "sso_metrics-default-namespace"
     private const val METRIC_PATTERN_NAME = "sso_metrics-*-*"
 
     private lateinit var client: Client
@@ -79,19 +83,35 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
     /**
      * Create index using the pre-defined mapping template
      */
-    @Suppress("TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught", "MagicNumber")
     private fun createMappingTemplate() {
         log.info("$LOG_PREFIX:createMappingTemplate $METRICS_INDEX_NAME API called")
         if (!isTemplateExists(METRICS_MAPPING_TEMPLATE_NAME)) {
             val classLoader = ObservabilityMetricsIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(METRICS_MAPPING_TEMPLATE_FILE)?.readText()!!
-            val request = PutIndexTemplateRequest(METRICS_MAPPING_TEMPLATE_NAME)
-                .mapping(indexMappingSource, XContentType.JSON)
-                .patterns(listOf(METRIC_PATTERN_NAME))
-            // enable data-stream
-            request.includeDataStreams()
+            val settings = Settings.builder()
+                .put("index.number_of_shards", 3)
+                .put("index.auto_expand_replicas", "0-2")
+                .build()
+            val template = Template(settings, CompressedXContent(indexMappingSource), null)
+            val request = PutComposableIndexTemplateAction.Request(METRICS_MAPPING_TEMPLATE_NAME)
+                .indexTemplate(
+                    ComposableIndexTemplate(
+                        listOf(METRIC_PATTERN_NAME),
+                        template,
+                        Collections.emptyList(),
+                        1,
+                        1,
+                        Collections.singletonMap("description", "Observability Metrics Mapping Template") as Map<String, Any>?,
+                        ComposableIndexTemplate.DataStreamTemplate()
+                    )
+                )
             try {
-                val actionFuture = client.admin().indices().putTemplate(request)
+                val validationException = request.validateIndexTemplate(null)
+                if (validationException != null && !validationException.validationErrors().isEmpty()) {
+                    error("$LOG_PREFIX:Index Template $METRICS_MAPPING_TEMPLATE_NAME validation errors ${validationException.message}")
+                }
+                val actionFuture = client.admin().indices().execute(PutComposableIndexTemplateAction.INSTANCE, request)
                 val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
                 if (response.isAcknowledged) {
                     log.info("$LOG_PREFIX:Mapping Template $METRICS_MAPPING_TEMPLATE_NAME creation Acknowledged")
@@ -113,6 +133,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * @param template name
      * @return true if template is available, false otherwise
      */
+    @Suppress("TooGenericExceptionCaught", "SwallowedException", "RethrowCaughtException")
     private fun isTemplateExists(template: String): Boolean {
         try {
             val indices = client.admin().indices()
@@ -123,11 +144,8 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
         } catch (exception: ResourceAlreadyExistsException) {
             return true
         } catch (exception: Exception) {
-            if (exception.cause !is ResourceAlreadyExistsException) {
-                throw exception
-            }
+            throw exception
         }
-        return false
     }
 
     /**
@@ -135,6 +153,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * @param index
      * @return true if index is available, false otherwise
      */
+    @Suppress("TooGenericExceptionCaught", "RethrowCaughtException", "SwallowedException")
     private fun isDataStreamExists(index: String): Boolean {
         try {
             val streams = client.admin().indices().getDataStreams(GetDataStreamAction.Request(arrayOf(index)))
@@ -145,10 +164,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
         } catch (exception: ResourceAlreadyExistsException) {
             return true
         } catch (exception: Exception) {
-            if (exception.cause !is ResourceAlreadyExistsException) {
-                throw exception
-            }
+            throw exception
         }
-        return false
     }
 }
