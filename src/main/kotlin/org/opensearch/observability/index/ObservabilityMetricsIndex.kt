@@ -44,11 +44,11 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
     }
 
     /**
-     * once lifecycle indicate start has occurred - instantiating the mapping template and default data stream
+     * once lifecycle indicate start has occurred - instantiating the mapping template
      */
     override fun afterStart() {
         // create default index
-        createDataStream()
+        createMappingTemplate()
     }
 
     /**
