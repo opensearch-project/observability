@@ -39,14 +39,28 @@ This means the fields can only contain characters that are valid as part of name
 - **dataset** user defined field that can mainly be utilized for describing the origin of the signal
 - **namespace** user custom field that can be used to describe any customer domain specific classification
 
+#### Default data_stream
+Each signal has a default data_stream that accepts its corresponding type:
+- **Traces** - `traces-default-namespace`
+- **Metrics** - `metrics-default-namespace`
+- **Logs** -   `logs-default-namespace`
 
-If nothing is stated in the namespace / dataset - the signal information would be routed into the default data-stream indices
-- **Traces** - traces-default-namespace
-- **Metrics** - metrics-default-namespace
-- **Logs** -   logs-default-namespace
+If nothing is stated otherwise in the namespace attribute section - the signal information would be routed into the default data-stream.
+
+The actual routing of the singal to its appropriate index is the responsibility of the ingestion mechanism...
+```json
+  "attributes": {
+    ....
+    "data_stream": {
+      "dataset": "histogram",
+      "namespace": "production",
+      "type": "metric"
+    }
+  }
+```
 
 #### Timestamp field
-As part of the data-stream definition the `@timestamp` is  mandatory, if the field is not present to begin with use `ObservedTimestamp` as value for this field
+As part of the data-stream definition the `@timestamp` is mandatory, if the field is not present to in the original signal populate this field using `ObservedTimestamp` as value.
 
 ### Instrumentation scope
 This is a logical unit of the application with which the emitted telemetry can be associated. It is typically the developer’s choice to decide what denotes a reasonable instrumentation scope.
@@ -59,7 +73,7 @@ The instrumentation scope may have zero or more additional attributes that provi
 Metrics are a specific kind of telemetry data. They represent a snapshot of the current state for a set of data.
 Metrics are distinct from logs or events, which focus on records or information about individual events.
 
-Metrics expresses all system states as numerical values; counts, current values, enumerations, and boolean states being common examples.
+Metrics expresses all system states as numerical values; counts, current values and such.
 Metrics tend to aggregate data temporally, while this can lose information, the reduction in overhead is an engineering trade-off commonly chosen in many modern monitoring systems.
 
 Time series are a record of changing information over time. While time series can support arbitrary strings or binary data, only numeric data is in our scope.
@@ -87,7 +101,7 @@ _- The metric stream’s description_
 
 **Values:** Metric values in MUST be either floating points or integers.
 
-**Attributes:** Labels are key-value pairs consisting of strings
+**Attributes:** Labels are key-value pairs consisting of string as keys and Any type as values (strings, object, array) 
 
 **MetricPoint:** Each MetricPoint consists of a set of values, depending on the MetricFamily type.
 
