@@ -12,11 +12,17 @@ replacers:
   - search: '##'
     replace: '###'
 
+exclude-labels:
+  - 'skip-changelog'
+
+exclude-contributors:
+  - 'opensearch-drigger-bot'
+
 # Organizing the tagged PRs into unified categories
 categories:
   - title: 'Breaking Changes'
     labels:
-      - 'Breaking Changes'
+      - 'breaking'
   - title: 'Features'
     labels:
       - 'feature'
@@ -28,18 +34,11 @@ categories:
       - 'bug'
   - title: 'Infrastructure'
     labels:
-      - 'infra'
-      - 'test'
+      - 'infrastructure'
       - 'dependencies'
-      - 'github actions'
   - title: 'Documentation'
     labels:
       - 'documentation'
   - title: 'Maintenance'
     labels:
-      - "version compatibility"
-      - "maintenance"
-  - title: 'Refactoring'
-    labels:
-      - 'refactor'
-      - 'code quality'
+      - 'maintenance'
