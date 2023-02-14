@@ -39,6 +39,8 @@ This means the fields can only contain characters that are valid as part of name
 - **dataset** user defined field that can mainly be utilized for describing the origin of the signal
 - **namespace** user custom field that can be used to describe any customer domain specific classification
 
+See additional info [here](https://github.com/opensearch-project/observability/issues/1405)
+
 #### Default data_stream
 Each signal has a default data_stream that accepts its corresponding type:
 - **Traces** - `traces-default-namespace`
