@@ -16,7 +16,7 @@ exclude-labels:
   - 'skip-changelog'
 
 exclude-contributors:
-  - 'opensearch-drigger-bot'
+  - 'opensearch-trigger-bot'
 
 # Organizing the tagged PRs into unified categories
 categories:
