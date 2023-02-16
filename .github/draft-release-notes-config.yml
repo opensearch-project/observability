@@ -15,9 +15,6 @@ replacers:
 exclude-labels:
   - 'skip-changelog'
 
-exclude-contributors:
-  - 'opensearch-trigger-bot'
-
 # Organizing the tagged PRs into unified categories
 categories:
   - title: 'Breaking Changes'
