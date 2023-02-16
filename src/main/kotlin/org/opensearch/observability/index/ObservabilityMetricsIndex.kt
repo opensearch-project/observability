@@ -51,7 +51,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * once lifecycle indicate start has occurred - instantiating the mapping template
      */
     override fun afterStart() {
-        // create default index
+        // create default mapping
         createMappingTemplate()
     }
 
@@ -85,7 +85,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
     }
 
     /**
-     * Create index using the pre-defined mapping template
+     * Create the pre-defined mapping template
      */
     @Suppress("TooGenericExceptionCaught", "MagicNumber")
     private fun createMappingTemplate() {

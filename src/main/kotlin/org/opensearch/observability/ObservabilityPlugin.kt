@@ -89,7 +89,6 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
     }
 
     override fun onNodeStarted() {
-        super.onNodeStarted()
         ObservabilityIndex.afterStart()
         ObservabilityMetricsIndex.afterStart()
     }
