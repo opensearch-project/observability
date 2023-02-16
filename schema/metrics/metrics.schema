@@ -22,8 +22,7 @@
     "kind": {
       "type": "string",
       "enum": [
-        "COUNTER_MONOTONIC",
-        "COUNTER_CUMULATIVE",
+        "COUNTER",
         "SUM",
         "GAUGE",
         "HISTOGRAM",

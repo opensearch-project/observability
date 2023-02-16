@@ -27,7 +27,7 @@ see [OTEL metrics protobuf](https://github.com/open-telemetry/opentelemetry-prot
 Simple Schema for Observability conforms with OTEL metrics protocol which defines the next data model:
 
 #### Timestamp field
-As part of the data-stream definition the `@timestamp` is mandatory, if the field is not present to in the original signal populate this field using `ObservedTimestamp` as value.
+As part of the data-stream definition the `@timestamp` is mandatory, if the field is not present in the original signal populate this field using `ObservedTimestamp` as value.
 
 ### Instrumentation scope
 This is a logical unit of the application with which the emitted telemetry can be associated. It is typically the developer’s choice to decide what denotes a reasonable instrumentation scope.
