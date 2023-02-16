@@ -90,8 +90,6 @@ If the `data_stream` information if not present inside the signal, the default i
 With the expectation of multiple Observability data providers and the need to consolidate all to a single common schema - the Observability plugin will take the following responsibilities :
 
  - Define and create all the signals index templates upon loading
- - Create default data_stream for each signal type upon explicit request 
-   - this is not done eagerly since the customer may want to change some template index settings before generating the default indices 
  - Publish a versioned schema file (Json Schema) for each signal type for general validation usage by any 3rd party
 
 ### Note

@@ -30,7 +30,6 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
     private val log by logger(ObservabilityMetricsIndex::class.java)
     private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metric_template"
     private const val METRICS_MAPPING_TEMPLATE_FILE = "metrics-mapping-template.json"
-    private const val METRICS_INDEX_NAME = "sso_metrics-default-namespace"
     private const val METRIC_PATTERN_NAME = "sso_metrics-*-*"
 
     private lateinit var client: Client
@@ -55,41 +54,13 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
         createMappingTemplate()
     }
 
-    /**
-     * Create index expecting the index template already exists
-     */
-    @Suppress("TooGenericExceptionCaught")
-    private fun createDataStream() {
-        log.info("$LOG_PREFIX:createDataStream $METRICS_INDEX_NAME API called")
-        if (!isTemplateExists(METRICS_MAPPING_TEMPLATE_NAME)) {
-            createMappingTemplate()
-        }
-        if (!isDataStreamExists(METRICS_INDEX_NAME)) {
-            val request = CreateDataStreamAction.Request(METRICS_INDEX_NAME)
-            try {
-                val actionFuture = client.admin().indices().createDataStream(request)
-                val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
-                if (response.isAcknowledged) {
-                    log.info("$LOG_PREFIX:DataStream $METRICS_INDEX_NAME creation Acknowledged")
-                } else {
-                    error("$LOG_PREFIX:DataStream $METRICS_INDEX_NAME creation not Acknowledged")
-                }
-            } catch (exception: ResourceAlreadyExistsException) {
-                log.warn("message: ${exception.message}")
-            } catch (exception: Exception) {
-                if (exception.cause !is ResourceAlreadyExistsException) {
-                    throw exception
-                }
-            }
-        }
-    }
 
     /**
      * Create the pre-defined mapping template
      */
     @Suppress("TooGenericExceptionCaught", "MagicNumber")
     private fun createMappingTemplate() {
-        log.info("$LOG_PREFIX:createMappingTemplate $METRICS_INDEX_NAME API called")
+        log.info("$LOG_PREFIX:createMappingTemplate $METRICS_MAPPING_TEMPLATE_NAME API called")
         if (!isTemplateExists(METRICS_MAPPING_TEMPLATE_NAME)) {
             val classLoader = ObservabilityMetricsIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(METRICS_MAPPING_TEMPLATE_FILE)?.readText()!!
