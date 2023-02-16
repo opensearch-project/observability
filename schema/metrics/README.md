@@ -26,41 +26,6 @@ see [OTEL metrics protobuf](https://github.com/open-telemetry/opentelemetry-prot
 
 Simple Schema for Observability conforms with OTEL metrics protocol which defines the next data model:
 
-### data-stream
-[data-stream](https://opensearch.org/docs/latest/opensearch/data-streams/) Data streams simplify this process and enforce a setup that best suits time-series data, such as being designed primarily for append-only data and ensuring that each document has a timestamp field.
-A data stream is internally composed of multiple backing indices. Search requests are routed to all the backing indices, while indexing requests are routed to the latest write index.
-
-As part of the Observability naming scheme, the value of the data stream fields combine to the name of the actual data stream :
-
-`{data_stream.type}-{data_stream.dataset}-{data_stream.namespace}`.
-This means the fields can only contain characters that are valid as part of names of data streams.
-
-- **type** conforms to one of the supported Observability signals (Traces, Logs, Metrics, Alerts)
-- **dataset** user defined field that can mainly be utilized for describing the origin of the signal
-- **namespace** user custom field that can be used to describe any customer domain specific classification
-
-See additional info [here](https://github.com/opensearch-project/observability/issues/1405)
-
-#### Default data_stream
-Each signal has a default data_stream that accepts its corresponding type:
-- **Traces** - `traces-default-namespace`
-- **Metrics** - `metrics-default-namespace`
-- **Logs** -   `logs-default-namespace`
-
-If nothing is stated otherwise in the namespace attribute section - the signal information would be routed into the default data-stream.
-
-The actual routing of the singal to its appropriate index is the responsibility of the ingestion mechanism...
-```json
-  "attributes": {
-    ....
-    "data_stream": {
-      "dataset": "histogram",
-      "namespace": "production",
-      "type": "metric"
-    }
-  }
-```
-
 #### Timestamp field
 As part of the data-stream definition the `@timestamp` is mandatory, if the field is not present to in the original signal populate this field using `ObservedTimestamp` as value.
 
