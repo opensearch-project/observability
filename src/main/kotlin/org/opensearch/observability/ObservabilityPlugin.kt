@@ -84,7 +84,6 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
-//        clusterService.addLifecycleListener(ObservabilityMetricsIndex.initialize(client, clusterService))
         ObservabilityMetricsIndex.initialize(client, clusterService)
         return emptyList()
     }
