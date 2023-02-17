@@ -122,12 +122,6 @@ This means the fields can only contain characters that are valid as part of name
  - **dataset** user defined field that can mainly be utilized for describing the origin of the signal
  - **namespace** user custom field that can be used to describe any customer domain specific classification
 
-
-If nothing is stated in the namespace / dataset - the signal information would be routed into the default data-stream indices
- - **Traces** - traces-default-namespace
- - **Metrics** - metrics-default-namespace
- - **Logs** -   logs-default-namespace
-
 #### Timestamp field
 As part of the data-stream definition the `@timestamp` is  mandatory, if the field is not present to begin with use `ObservedTimestamp` as value for this field
 
