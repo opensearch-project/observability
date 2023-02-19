@@ -1,0 +1,81 @@
+version: '3'
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.5.0
+    container_name: opensearch
+    environment:
+      - cluster.name=opensearch-cluster # Name the cluster
+      - node.name=opensearch # Name the node that will run in this container
+      - discovery.seed_hosts=opensearch # Nodes to look for when discovering the cluster
+      - cluster.initial_cluster_manager_nodes=opensearch # Nodes eligibile to serve as cluster manager
+      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
+      - "DISABLE_INSTALL_DEMO_CONFIG=true" # Prevents execution of bundled demo script which installs demo certificates and security configurations to OpenSearch
+      - "DISABLE_SECURITY_PLUGIN=true" # Disables security plugin
+    ulimits:
+      memlock:
+        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+        hard: -1
+      nofile:
+        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
+        hard: 65536
+    volumes:
+      - opensearch:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+    ports:
+      - 9200:9200
+      - 9600:9600
+    expose:
+      - "9200"
+    networks:
+      - opensearch-net # All of the containers will join the same Docker bridge network
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    ports:
+      - 5601:5601 # Map host port 5601 to container port 5601
+    expose:
+      - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
+    environment:
+      - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
+    networks:
+      - opensearch-net
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    environment:
+      - SPAN_STORAGE_TYPE=opensearch
+    command: [
+      "--es.server-urls=http://opensearch:9200"
+    ]
+    restart: on-failure
+    ports:
+      - 16686:16686
+    networks:
+      - opensearch-net # All of the containers will join the same Docker bridge network
+  collector:
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/volume/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector:/etc/volume
+    ports:
+      - 4317:4317
+    networks:
+      - opensearch-net # All of the containers will join the same Docker bridge network
+  nginx:
+    image: nginx-otel
+    build:
+      context: nginx-otel
+    volumes:
+      - ./nginx-otel/opentelemetry_module.conf:/etc/nginx/conf.d/opentelemetry_module.conf
+    ports:
+      - 8080:80
+    networks:
+      - opensearch-net # All of the containers will join the same Docker bridge network
+
+volumes:
+  opensearch:
+
+networks:
+  opensearch-net:
