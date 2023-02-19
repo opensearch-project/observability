@@ -22,5 +22,5 @@ Integrations are a stateful bundle which will be stored inside a system `.integr
 **Integration availability queries & filters:**
 
 
-## Get By Name / Type / Category 
+## Filter By Name / Type / Category 
 
