@@ -1,0 +1,694 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.namespace",
+            "value": {
+              "stringValue": "DemoServiceNamespace"
+            }
+          },
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "DemoService"
+            }
+          },
+          {
+            "key": "telemetry.sdk.name",
+            "value": {
+              "stringValue": "opentelemetry"
+            }
+          },
+          {
+            "key": "service.instance.id",
+            "value": {
+              "stringValue": "DemoInstanceId"
+            }
+          },
+          {
+            "key": "telemetry.sdk.language",
+            "value": {
+              "stringValue": "Nginx"
+            }
+          },
+          {
+            "key": "telemetry.sdk.version",
+            "value": {
+              "stringValue": "1.0.0GA"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "Nginx",
+            "version": "1.0.0GA"
+          },
+          "spans": [
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "a37ca85257d86260",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_realip_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394658206385",
+              "endTimeUnixNano": "1675826394658246496",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "bca146d0ded69c96",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_rewrite_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394658300159",
+              "endTimeUnixNano": "1675826394658627424",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "6bcef9e3342c535b",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_rewrite_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394659389516",
+              "endTimeUnixNano": "1675826394659414280",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "2f20bfa0479e4e14",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_realip_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394659492350",
+              "endTimeUnixNano": "1675826394659606050",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "6c17e766759cadcf",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_limit_req_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394659708231",
+              "endTimeUnixNano": "1675826394659806977",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "7aaf947e2152afda",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_limit_conn_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394659832060",
+              "endTimeUnixNano": "1675826394659853252",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "4d86312cbd4bad25",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_access_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394659877634",
+              "endTimeUnixNano": "1675826394660081342",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "1e486f612d013d38",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_auth_basic_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394660122862",
+              "endTimeUnixNano": "1675826394660283097",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "f0dfbd760f917533",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_auth_request_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394660320663",
+              "endTimeUnixNano": "1675826394660600547",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "8a63c367ce37a9d4",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_otel_try_files_handler_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394660791571",
+              "endTimeUnixNano": "1675826394660997846",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "bf8673ee9b914629",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_otel_mirror_handler_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394661197169",
+              "endTimeUnixNano": "1675826394661263320",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "f17c46c27580f1be",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_random_index_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394661634063",
+              "endTimeUnixNano": "1675826394661695249",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "d73463e9f152dae3",
+              "parentSpanId": "27c8d4c1498ecd21",
+              "name": "ngx_http_index_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394661755910",
+              "endTimeUnixNano": "1675826394664823906",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "c6388125cdc4515f45beb4bde046655a",
+              "spanId": "27c8d4c1498ecd21",
+              "parentSpanId": "",
+              "name": "/",
+              "kind": 2,
+              "startTimeUnixNano": "1675826394658162657",
+              "endTimeUnixNano": "1675826394664865641",
+              "attributes": [
+                {
+                  "key": "request_protocol",
+                  "value": {
+                    "stringValue": "HTTP/1.1\r\nHost"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "ee3500e2ee286e69",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_realip_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394735601400",
+              "endTimeUnixNano": "1675826394735675670",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "a575e0bd6bec3d50",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_rewrite_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394735709759",
+              "endTimeUnixNano": "1675826394735746490",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "f7b5d29bb6c35a4f",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_rewrite_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394735775554",
+              "endTimeUnixNano": "1675826394735805626",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "95057afa33ba7ba9",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_realip_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394735834924",
+              "endTimeUnixNano": "1675826394735865757",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "811c693ea3b7caed",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_limit_req_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394735891681",
+              "endTimeUnixNano": "1675826394735922964",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "106908cca50a4c0e",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_limit_conn_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394736010419",
+              "endTimeUnixNano": "1675826394736162931",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "61643ed9155022f3",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_access_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394736244440",
+              "endTimeUnixNano": "1675826394736282526",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "77e476ac0ff92b70",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_auth_basic_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394736319632",
+              "endTimeUnixNano": "1675826394736392908",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "1ca91c6a434bf571",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_auth_request_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394736592036",
+              "endTimeUnixNano": "1675826394736659303",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "58f96fa8b291e789",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_otel_try_files_handler_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394736717275",
+              "endTimeUnixNano": "1675826394736746653",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "69ad0327e3db2c6a",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_otel_mirror_handler_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394736873092",
+              "endTimeUnixNano": "1675826394736920513",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "2f797aa80b7a593a",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_random_index_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394737037766",
+              "endTimeUnixNano": "1675826394737086218",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "fb4f1fe56a5bc8d1",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_index_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394737125336",
+              "endTimeUnixNano": "1675826394737147914",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "c64006cfbaf5099e",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_autoindex_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394737170633",
+              "endTimeUnixNano": "1675826394737201898",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "07001a5abd73b712",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_dav_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394737348836",
+              "endTimeUnixNano": "1675826394737430107",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "3297e6a0e33a3592",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_gzip_static_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394737472808",
+              "endTimeUnixNano": "1675826394737584025",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "140fbf2eb7d24a9d",
+              "parentSpanId": "cb90dc598e9cc771",
+              "name": "ngx_http_static_module_",
+              "kind": 3,
+              "startTimeUnixNano": "1675826394737864091",
+              "endTimeUnixNano": "1675826394738055053",
+              "attributes": [
+                {
+                  "key": "interactionType",
+                  "value": {
+                    "stringValue": "EXIT_CALL"
+                  }
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            },
+            {
+              "traceId": "1e01bc25a8aee81831709a3b3af44dee",
+              "spanId": "cb90dc598e9cc771",
+              "parentSpanId": "",
+              "name": "/favicon.ico",
+              "kind": 2,
+              "startTimeUnixNano": "1675826394735531203",
+              "endTimeUnixNano": "1675826394738280399",
+              "attributes": [
+                {
+                  "key": "request_protocol",
+                  "value": {
+                    "stringValue": "HTTP/1.1\r\nHost"
+                  }
+                }
+              ],
+              "status": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
