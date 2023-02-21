@@ -6,8 +6,6 @@ package org.opensearch.observability.index
 
 import org.opensearch.ResourceAlreadyExistsException
 import org.opensearch.ResourceNotFoundException
-import org.opensearch.action.admin.indices.datastream.CreateDataStreamAction
-import org.opensearch.action.admin.indices.datastream.GetDataStreamAction
 import org.opensearch.action.admin.indices.template.get.GetIndexTemplatesRequest
 import org.opensearch.action.admin.indices.template.put.PutComposableIndexTemplateAction
 import org.opensearch.client.Client
@@ -53,7 +51,6 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
         // create default mapping
         createMappingTemplate()
     }
-
 
     /**
      * Create the pre-defined mapping template
@@ -114,26 +111,6 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
             val indices = client.admin().indices()
             val response = indices.getTemplates(GetIndexTemplatesRequest(template)).get()
             return response.indexTemplates.isNotEmpty()
-        } catch (exception: ResourceNotFoundException) {
-            return false
-        } catch (exception: ResourceAlreadyExistsException) {
-            return true
-        } catch (exception: Exception) {
-            throw exception
-        }
-    }
-
-    /**
-     * Check if the data-stream is created and available.
-     * @param index
-     * @return true if index is available, false otherwise
-     */
-    @Suppress("TooGenericExceptionCaught", "RethrowCaughtException", "SwallowedException")
-    private fun isDataStreamExists(index: String): Boolean {
-        try {
-            val streams = client.admin().indices().getDataStreams(GetDataStreamAction.Request(arrayOf(index)))
-            val response = streams.actionGet()
-            return response.dataStreams.isNotEmpty()
         } catch (exception: ResourceNotFoundException) {
             return false
         } catch (exception: ResourceAlreadyExistsException) {
