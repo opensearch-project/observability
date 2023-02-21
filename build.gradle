@@ -11,6 +11,7 @@ buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
         opensearch_version = System.getProperty("opensearch.version", "2.6.0-SNAPSHOT")
+        opensearch_bwc_version = System.getProperty("opensearch.bwc.version", "2.5.0.0")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -225,13 +226,19 @@ tasks.withType(licenseHeaders.class) {
     additionalLicense 'AL   ', 'Apache', 'Licensed under the Apache License, Version 2.0 (the "License")'
 }
 
+task loadObservabilityPlugin(type: Exec) {
+    description = "Downloads observability plugin Maven artifact using Maven command"
+    def repoUrl = opensearch_bwc_version.contains("SNAPSHOT") ? "https://aws.oss.sonatype.org/content/repositories/snapshots" : "https://repo1.maven.org/maven2/"
+    commandLine "mvn", "org.apache.maven.plugins:maven-dependency-plugin:2.1:get", "-DrepoUrl=${repoUrl}", "-Dartifact=org.opensearch.plugin:opensearch-observability:${opensearch_bwc_version}:zip"
+}
+
 task loadJobSchedulerPlugin(type: Exec) {
     description = "Downloads job-scheduler plugin Maven artifact using Maven command"
     def repoUrl = job_scheduler_version.contains("SNAPSHOT") ? "https://aws.oss.sonatype.org/content/repositories/snapshots" : "https://repo1.maven.org/maven2/"
     commandLine "mvn", "org.apache.maven.plugins:maven-dependency-plugin:2.1:get", "-DrepoUrl=${repoUrl}", "-Dartifact=org.opensearch.plugin:opensearch-job-scheduler:${job_scheduler_version}:zip"
 }
 
-task integTest(type: RestIntegTestTask, dependsOn: loadJobSchedulerPlugin) {
+task integTest(type: RestIntegTestTask, dependsOn: [loadJobSchedulerPlugin,loadObservabilityPlugin]) {
     description = "Run tests against a cluster that has security enabled"
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
@@ -317,16 +324,11 @@ testClusters.integTest {
     }
     setting 'path.repo', repo.absolutePath
 }
-
-String baseVersion = "2.6.0"
-String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
-
 2.times { i ->
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = [baseVersion, opensearch_version]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>() {
                 @Override
@@ -337,7 +339,7 @@ String baseName = "obsBwcCluster"
                             def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                             def group = "org.opensearch.plugin"
                             def name = "opensearch-job-scheduler"
-                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcVersion}/${name}-${bwcVersion}.zip").getSingleFile()
+                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${opensearch_bwc_version}/${name}-${opensearch_bwc_version}.zip").getSingleFile()
                         }
                     }
                 }
@@ -351,7 +353,7 @@ String baseName = "obsBwcCluster"
                             def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                             def group = "org.opensearch.plugin"
                             def name = "observability"
-                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcVersion}/${name}-${bwcVersion}.zip").getSingleFile()
+                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${opensearch_bwc_version}/${name}-${opensearch_bwc_version}.zip").getSingleFile()
                         }
                     }
                 }
@@ -378,7 +380,7 @@ task prepareBwcTests {
                                 def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                                 def group = "org.opensearch.plugin"
                                 def name = "opensearch-job-scheduler"
-                                return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcVersion}/${name}-${bwcVersion}.zip").getSingleFile()
+                                return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${opensearch_bwc_version}/${name}-${opensearch_bwc_version}.zip").getSingleFile()
                             }
                         }
                     }
@@ -399,7 +401,7 @@ task prepareBwcTests {
         }
         systemProperty 'tests.rest.bwcsuite', 'old_cluster'
         systemProperty 'tests.rest.bwcsuite_round', 'old'
-        systemProperty 'tests.plugin_bwc_version', bwcVersion
+        systemProperty 'tests.plugin_bwc_version', opensearch_bwc_version
         nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}$i".allHttpSocketURI.join(",")}")
         nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}$i".getName()}")
     }
@@ -419,7 +421,7 @@ task "${baseName}#mixedClusterTask"(type: StandaloneRestIntegTestTask) {
     }
     systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
     systemProperty 'tests.rest.bwcsuite_round', 'first'
-    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    systemProperty 'tests.plugin_bwc_version', opensearch_bwc_version
     nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}0".allHttpSocketURI.join(",")}")
     nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}0".getName()}")
 }
@@ -438,7 +440,7 @@ task "${baseName}#twoThirdsUpgradedClusterTask"(type: StandaloneRestIntegTestTas
     }
     systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
     systemProperty 'tests.rest.bwcsuite_round', 'second'
-    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    systemProperty 'tests.plugin_bwc_version', opensearch_bwc_version
     nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}0".allHttpSocketURI.join(",")}")
     nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}0".getName()}")
 }
@@ -458,7 +460,7 @@ task "${baseName}#rollingUpgradeClusterTask"(type: StandaloneRestIntegTestTask) 
     mustRunAfter "${baseName}#mixedClusterTask"
     systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
     systemProperty 'tests.rest.bwcsuite_round', 'third'
-    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    systemProperty 'tests.plugin_bwc_version', opensearch_bwc_version
     nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}0".allHttpSocketURI.join(",")}")
     nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}0".getName()}")
 }
@@ -475,7 +477,7 @@ task "${baseName}#fullRestartClusterTask"(type: StandaloneRestIntegTestTask) {
         includeTestsMatching "org.opensearch.observability.bwc.*IT"
     }
     systemProperty 'tests.rest.bwcsuite', 'upgraded_cluster'
-    systemProperty 'tests.plugin_bwc_version', bwcVersion
+    systemProperty 'tests.plugin_bwc_version', opensearch_bwc_version
     nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters."${baseName}1".allHttpSocketURI.join(",")}")
     nonInputProperties.systemProperty('tests.clustername', "${-> testClusters."${baseName}1".getName()}")
 }
