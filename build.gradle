@@ -10,7 +10,7 @@ import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "2.5.0")
+        opensearch_version = System.getProperty("opensearch.version", "2.6.0-SNAPSHOT")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -22,7 +22,7 @@ buildscript {
         }
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.6.0")
-        job_scheduler_version = System.getProperty("job_scheduler.version", "2.5.0.0")
+        job_scheduler_version = System.getProperty("job_scheduler.version", "2.6.0.0-SNAPSHOT")
         jackson_version = "2.14.1"
     }
 
@@ -225,7 +225,13 @@ tasks.withType(licenseHeaders.class) {
     additionalLicense 'AL   ', 'Apache', 'Licensed under the Apache License, Version 2.0 (the "License")'
 }
 
-task integTest(type: RestIntegTestTask) {
+task loadJobSchedulerPlugin(type: Exec) {
+    description = "Downloads job-scheduler plugin Maven artifact using Maven command"
+    def repoUrl = job_scheduler_version.contains("SNAPSHOT") ? "https://aws.oss.sonatype.org/content/repositories/snapshots" : "https://repo1.maven.org/maven2/"
+    commandLine "mvn", "org.apache.maven.plugins:maven-dependency-plugin:2.1:get", "-DrepoUrl=${repoUrl}", "-Dartifact=org.opensearch.plugin:opensearch-job-scheduler:${job_scheduler_version}:zip"
+}
+
+task integTest(type: RestIntegTestTask, dependsOn: loadJobSchedulerPlugin) {
     description = "Run tests against a cluster that has security enabled"
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
@@ -278,12 +284,11 @@ integTest {
 Zip bundle = (Zip) project.getTasks().getByName("bundlePlugin");
 integTest.dependsOn(bundle)
 integTest.getClusters().forEach { c -> c.plugin(project.getObjects().fileProperty().value(bundle.getArchiveFile())) }
-String jobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/" + opensearch_version.replace("-SNAPSHOT", "") + "/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-" + opensearch_build.replace("-SNAPSHOT", "") + ".zip"
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
     // need to install job-scheduler first, need to assemble job-scheduler first
-    plugin(provider(new Callable<RegularFile>(){
+    plugin(provider(new Callable<RegularFile>() {
         @Override
         RegularFile call() throws Exception {
             return new RegularFile() {
@@ -318,17 +323,17 @@ String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
-String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip" 
+String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
 String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
 String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcJobSchedulerPlugin
 
-2.times {i ->
+2.times { i ->
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = [baseVersion,opensearch_version]
+            versions = [baseVersion, opensearch_version]
             numberOfNodes = 3
-            plugin(provider(new Callable<RegularFile>(){
+            plugin(provider(new Callable<RegularFile>() {
                 @Override
                 RegularFile call() throws Exception {
                     return new RegularFile() {
@@ -340,14 +345,14 @@ String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build
                             }
                             File file = new File(dir, bwcJobSchedulerPlugin)
                             if (!file.exists()) {
-                                new URL(bwcJobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                                new URL(bwcJobSchedulerURL).withInputStream { ins -> file.withOutputStream { it << ins } }
                             }
                             return fileTree(bwcFilePath + "/job-scheduler/" + bwcVersion).getSingleFile()
                         }
                     }
                 }
             }))
-            plugin(provider(new Callable<RegularFile>(){
+            plugin(provider(new Callable<RegularFile>() {
                 @Override
                 RegularFile call() throws Exception {
                     return new RegularFile() {
@@ -359,7 +364,7 @@ String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build
                             }
                             File file = new File(dir, bwcObservabilityPlugin)
                             if (!file.exists()) {
-                                new URL(remoteFileURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                                new URL(remoteFileURL).withInputStream { ins -> file.withOutputStream { it << ins } }
                             }
                             return fileTree(bwcFilePath + "observability/" + bwcVersion).getSingleFile()
                         }
@@ -379,7 +384,7 @@ task prepareBwcTests {
     dependsOn bundle
     doLast {
         plugins = [
-                provider(new Callable<RegularFile>(){
+                provider(new Callable<RegularFile>() {
                     @Override
                     RegularFile call() throws Exception {
                         return new RegularFile() {
@@ -391,7 +396,7 @@ task prepareBwcTests {
                                 }
                                 File file = new File(dir, "opensearch-job-scheduler-" + project.version + ".zip")
                                 if (!file.exists()) {
-                                    new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                                    new URL(jobSchedulerURL).withInputStream { ins -> file.withOutputStream { it << ins } }
                                 }
                                 return fileTree(bwcFilePath + "job-scheduler/" + project.version).getSingleFile()
                             }
@@ -405,7 +410,7 @@ task prepareBwcTests {
 
 
 // Creates 2 test clusters with 3 nodes of the old version.
-2.times {i ->
+2.times { i ->
     task "${baseName}#oldVersionClusterTask$i"(type: StandaloneRestIntegTestTask) {
         dependsOn 'prepareBwcTests'
         useCluster testClusters."${baseName}$i"
@@ -567,13 +572,13 @@ task updateVersion {
     doLast {
         ext.newVersion = System.getProperty('newVersion')
         println "Setting version to ${newVersion}."
-         // String tokenization to support -SNAPSHOT
-        ant.replaceregexp(file:'build.gradle', match: '"opensearch.version", "\\d.*"', replace: '"opensearch.version", "' + newVersion.tokenize('-')[0] + '-SNAPSHOT"', flags:'g', byline:true)
-        ant.replaceregexp(file:'../.github/workflows/dashboards-observability-test-and-build-workflow.yml', match:'OPENSEARCH_PLUGIN_VERSION: \\d+.\\d+.\\d+.\\d+', replace:'OPENSEARCH_PLUGIN_VERSION: ' + newVersion.tokenize('-')[0] + '.0', flags:'g', byline:true)
+        // String tokenization to support -SNAPSHOT
+        ant.replaceregexp(file: 'build.gradle', match: '"opensearch.version", "\\d.*"', replace: '"opensearch.version", "' + newVersion.tokenize('-')[0] + '-SNAPSHOT"', flags: 'g', byline: true)
+        ant.replaceregexp(file: '../.github/workflows/dashboards-observability-test-and-build-workflow.yml', match: 'OPENSEARCH_PLUGIN_VERSION: \\d+.\\d+.\\d+.\\d+', replace: 'OPENSEARCH_PLUGIN_VERSION: ' + newVersion.tokenize('-')[0] + '.0', flags: 'g', byline: true)
         // Match key version in JSON files.
-        ant.replaceregexp(file:'../dashboards-observability/opensearch_dashboards.json', match:'"version": "\\d+.\\d+.\\d+.\\d+', replace:'"version": ' + '"' + newVersion.tokenize('-')[0] + '.0', flags:'g', byline:true)
-        ant.replaceregexp(file:'../dashboards-observability/package.json', match:'"version": "\\d+.\\d+.\\d+.\\d+', replace:'"version": ' + '"' + newVersion.tokenize('-')[0] + '.0', flags:'g', byline:true)
+        ant.replaceregexp(file: '../dashboards-observability/opensearch_dashboards.json', match: '"version": "\\d+.\\d+.\\d+.\\d+', replace: '"version": ' + '"' + newVersion.tokenize('-')[0] + '.0', flags: 'g', byline: true)
+        ant.replaceregexp(file: '../dashboards-observability/package.json', match: '"version": "\\d+.\\d+.\\d+.\\d+', replace: '"version": ' + '"' + newVersion.tokenize('-')[0] + '.0', flags: 'g', byline: true)
         // Match key opensearchDashboardsVersion in JSON files.
-        ant.replaceregexp(file:'../dashboards-observability/opensearch_dashboards.json', match:'"opensearchDashboardsVersion": "\\d+.\\d+.\\d+', replace:'"opensearchDashboardsVersion": ' + '"' + newVersion.tokenize('-')[0], flags:'g', byline:true)
+        ant.replaceregexp(file: '../dashboards-observability/opensearch_dashboards.json', match: '"opensearchDashboardsVersion": "\\d+.\\d+.\\d+', replace: '"opensearchDashboardsVersion": ' + '"' + newVersion.tokenize('-')[0], flags: 'g', byline: true)
     }
 }
