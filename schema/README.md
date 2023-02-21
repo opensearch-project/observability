@@ -51,7 +51,7 @@ The Observability indices would follow the recommended immutable data stream ing
 Index pattern will follow the next naming structure `sso_{type}`-`{dataset}`-`{namespace}`
 
  - **type**	- indicated	the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
- - **dataset**	- The field can contain anything that classify the source of the data - such as `nginx.access` (If none specified "**default** " will be used).
+ - **dataset**	- The field can contain anything that classify the source of the data - such as `nginx.access`
  - **namespace**	- A user defined namespace. Mainly useful to allow grouping of data such as production grade, geography classification
 
 This strategy allows the two degrees of naming freedom: dataset and namespace. For example a customer may want to route the nginx logs from two geographical areas into two different indices:
@@ -83,8 +83,6 @@ For example if within the ingested log contains the following section:
 }
 ```
 This indicates that the target index for this observability signal should be `sso_traces`-`mysql`-`prod` index that follows uses the traces schema mapping.
-
-If the `data_stream` information if not present inside the signal, the default index should be used.
 
 ## Observability Index templates
 With the expectation of multiple Observability data providers and the need to consolidate all to a single common schema - the Observability plugin will take the following responsibilities :
