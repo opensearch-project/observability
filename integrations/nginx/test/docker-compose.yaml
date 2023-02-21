@@ -27,6 +27,11 @@ services:
       - 9600:9600
     expose:
       - "9200"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health?wait_for_status=yellow"]
+      interval: 5s
+      timeout: 25s
+      retries: 4
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   opensearch-dashboards:
@@ -39,6 +44,8 @@ services:
     environment:
       - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
       - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
+    depends_on:
+      - opensearch
     networks:
       - opensearch-net
   jaeger:
@@ -49,9 +56,11 @@ services:
     command: [
       "--es.server-urls=http://opensearch:9200"
     ]
-    restart: on-failure
     ports:
       - 16686:16686
+    depends_on:
+      opensearch:
+        condition: service_healthy
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   collector:
@@ -61,6 +70,8 @@ services:
       - ./otel-collector:/etc/volume
     ports:
       - 4317:4317
+    depends_on:
+      - jaeger
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   nginx:
