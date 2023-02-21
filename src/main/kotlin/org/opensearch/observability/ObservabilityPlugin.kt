@@ -27,6 +27,7 @@ import org.opensearch.observability.action.DeleteObservabilityObjectAction
 import org.opensearch.observability.action.GetObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.index.ObservabilityIndex
+import org.opensearch.observability.index.ObservabilityTracesIndex
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
 import org.opensearch.observability.resthandler.SchedulerRestHandler
@@ -34,6 +35,7 @@ import org.opensearch.observability.scheduler.ObservabilityJobParser
 import org.opensearch.observability.scheduler.ObservabilityJobRunner
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.plugins.ActionPlugin
+import org.opensearch.plugins.ClusterPlugin
 import org.opensearch.plugins.Plugin
 import org.opensearch.repositories.RepositoriesService
 import org.opensearch.rest.RestController
@@ -47,7 +49,8 @@ import java.util.function.Supplier
  * Entry point of the OpenSearch Observability plugin.
  * This class initializes the rest handlers.
  */
-class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
+@Suppress("TooManyFunctions")
+class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerExtension {
 
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
@@ -81,7 +84,13 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
+        ObservabilityTracesIndex.initialize(client, clusterService)
         return emptyList()
+    }
+
+    override fun onNodeStarted() {
+        ObservabilityIndex.afterStart()
+        ObservabilityTracesIndex.afterStart()
     }
 
     /**
