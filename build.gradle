@@ -321,8 +321,6 @@ testClusters.integTest {
 String baseVersion = "2.6.0"
 String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
-String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
-String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
 
 2.times { i ->
     testClusters {
@@ -339,7 +337,7 @@ String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
                             def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                             def group = "org.opensearch.plugin"
                             def name = "opensearch-job-scheduler"
-                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcJobSchedulerPlugin}/${name}-${bwcJobSchedulerPlugin}.zip").getSingleFile()
+                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcVersion}/${name}-${bwcVersion}.zip").getSingleFile()
                         }
                     }
                 }
@@ -353,7 +351,7 @@ String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
                             def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                             def group = "org.opensearch.plugin"
                             def name = "observability"
-                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcObservabilityPlugin}/${name}-${bwcObservabilityPlugin}.zip").getSingleFile()
+                            return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcVersion}/${name}-${bwcVersion}.zip").getSingleFile()
                         }
                     }
                 }
@@ -380,7 +378,7 @@ task prepareBwcTests {
                                 def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                                 def group = "org.opensearch.plugin"
                                 def name = "opensearch-job-scheduler"
-                                return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcJobSchedulerPlugin}/${name}-${bwcJobSchedulerPlugin}.zip").getSingleFile()
+                                return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${bwcVersion}/${name}-${bwcVersion}.zip").getSingleFile()
                             }
                         }
                     }
