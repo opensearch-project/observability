@@ -8,23 +8,6 @@ _**Highlights**_
 - [Problem definition](#problem-definition)
 - [Proposal](#Proposal)
 ---
-**_Design-Details_**
-
-- [Schema support for Observability](#schema-support-for-observability)
-- [Schema Aware Components](#schema-aware-components)
-- [Data Model](#data-model)
-- [Ingestion Pipeline](#ingestion-pipline)
-- [Observability Indices](#observability-indices)
-- [Observability index naming](#observability-index-naming)
-- [Data index routing](#data-index-routing)
-- [Schema driven Dashboards](#schema-driven-dashboards)
-- [Integrating Component Structure](#integrating-component-structure)
-- [Integration usage workflows](#integration-usage-workflows)
-- [Integration Development Tes-Harness](#integration-development-test-harness)
-- [Appendix: Observability Physical mapping](#observability-physical-mapping)
-
-
----
 ## Introduction
 Integration is a new type of logical component that allows high level composition of multiple Dashboards / Applications / Queries and more.
 Integrations can be used to bring together all the metrics and logs from the infrastructure and gain insight into the unified system as a whole.
@@ -142,6 +125,8 @@ As part of the Observability Integration, Observability will publish a schema th
 
 Additional information attached:
 
+[Nginx module for Fluent Bit ECS](https://gist.github.com/agup006/7848e339f111cdaafdd0f3fdf7ee2d32)
+
 * **Traces**
     * https://github.com/opensearch-project/data-prepper/tree/main/data-prepper-plugins/otel-trace-source
     * https://github.com/open-telemetry/opentelemetry-proto/blob/v0.9.0/opentelemetry/proto/trace/v1/trace.proto
@@ -160,10 +145,6 @@ Additional information attached:
     * https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/logs/semantic_conventions
     * https://github.com/open-telemetry/opentelemetry-java/tree/0a9794ad415c87c162f518a9112a9b7849564bee/sdk/logs
     * https://github.com/opensearch-project/observability/pull/1403
-
->Logs Mapping will contain the union of both OTEL & ECS formats where once a log has arrived it can either comply to the OTEL generic log format or the ECS specific format.
-
-> *In the future we will supply a smart inference mechanism to extract specific logs from the generic OTEL format where the actual data resides on the **attributes** key/value field.*
 
 
 * * *

@@ -13,10 +13,14 @@ Validation of an Integration is expected to be a build-time phase. It also expec
 * make sure all the input_types defined in the `collections` elements have a compatible transformation schema and this schema complies with the SSO versioned schema.
 * make sure all the transformation’s conform to the SSO versioned schema.
 
-
 - **Display Validation**:  make sure all the display components have a valid json structure and if the explicitly reference fields - these fields must be aligned with the SSO schema type (Trace/Metrics/Logs...)
 
 - **Query** **Validation**:  make sure all the queries have a valid PPL structure and if the explicitly reference fields - these fields must be aligned with the SSO schema type (Trace/Metrics/Logs...)
+ 
+- **Assets** **Validation**:  make sure all the assets are valid 
+  
+  - Datasource configuration assets validation - verify datasource is available and alive
+  - Materialized view configuration assets validation - verify materialized view is accessible
 
 ***_End to End_***
 - **Sample Validation:**

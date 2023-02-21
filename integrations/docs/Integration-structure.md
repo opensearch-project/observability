@@ -19,9 +19,15 @@ This document presents Integration's structure and convention and shares an exam
   * Applications
   * Notebooks
   * Operations Panels
-  * Saved PPL/SQL/DQL Queries
+  * Saved [PPL](https://opensearch.org/docs/2.4/search-plugins/sql/ppl/index/)/[SQL](https://opensearch.org/docs/2.4/search-plugins/sql/sql/index/)/[DQL](https://opensearch.org/docs/2.4/dashboards/discover/dql/) Queries
   * Alerts
+  * Additional Assets
   
+**_Additional Assets may include_**
+  * [Datasource configuration](https://opensearch.org/docs/2.4/dashboards/discover/multi-data-sources/)
+  * Materialized View Table Creation
+  * 
+
 The notion that structured data has an enormous contribution to the understanding of the system behaviour is the key role dictating the Integration model.
 Once input content has form and shape - it will be used to calculate and correlate different pieces of data.
 
@@ -69,13 +75,14 @@ Let's examine the next NginX integration component:
 ```yaml
 nginX
     config.json
-    display`
-        ApplicationA.json
-        Maps.json
-        DashboardB.json
-        Alerts.json
-    queries
-      QueryA.json
+    assets
+        display`
+            ApplicationA.json
+            Maps.json
+            DashboardB.json
+            Alerts.json
+        queries
+          QueryA.json
     schemas
       transformation.json
     samples
@@ -176,7 +183,6 @@ In this case the field resides in the `instrumentationScope.attributes.identific
 ```
 "identification": "instrumentationScope.attributes.identification",
 ```
-
 
 `Categories:`
 This section defines the classification categories associated to this Integration according to ECS specification (https://www.elastic.co/guide/en/ecs/current/ecs-allowed-values-event-category.html)
