@@ -28,13 +28,9 @@ class AssemblyValidationIT : PluginRestTestCase() {
         Thread.sleep(1000)
         Assert.assertNotNull(response.get("index_templates"))
         Assert.assertNotNull(!response.get("index_templates").asJsonArray.isEmpty)
-    }
 
-
-    fun `test observability metrics template and was created`() {
         // verify metrics mapping template was created successfully as part of the plugin initialization
-        Thread.sleep(1000)
-        var response = executeRequest(
+        response = executeRequest(
             RestRequest.Method.GET.name,
             "/_index_template/$METRICS_MAPPING_TEMPLATE_NAME",
             "",
