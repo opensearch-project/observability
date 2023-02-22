@@ -236,6 +236,9 @@ task loadJobSchedulerPlugin(type: Exec) {
     description = "Downloads job-scheduler plugin Maven artifact using Maven command"
     def repoUrl = job_scheduler_version.contains("SNAPSHOT") ? "https://aws.oss.sonatype.org/content/repositories/snapshots" : "https://repo1.maven.org/maven2/"
     commandLine "mvn", "org.apache.maven.plugins:maven-dependency-plugin:2.1:get", "-DrepoUrl=${repoUrl}", "-Dartifact=org.opensearch.plugin:opensearch-job-scheduler:${job_scheduler_version}:zip"
+    // bwc job-scheduler version
+    def bwcRepoUrl = opensearch_bwc_version.contains("SNAPSHOT") ? "https://aws.oss.sonatype.org/content/repositories/snapshots" : "https://repo1.maven.org/maven2/"
+    commandLine "mvn", "org.apache.maven.plugins:maven-dependency-plugin:2.1:get", "-DrepoUrl=${bwcRepoUrl}", "-Dartifact=org.opensearch.plugin:opensearch-job-scheduler:${opensearch_bwc_version}:zip"
 }
 
 task integTest(type: RestIntegTestTask, dependsOn: [loadJobSchedulerPlugin,loadObservabilityPlugin]) {
