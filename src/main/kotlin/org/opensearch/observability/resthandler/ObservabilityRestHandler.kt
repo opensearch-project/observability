@@ -18,6 +18,7 @@ import org.opensearch.observability.action.ObservabilityActions
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectRequest
 import org.opensearch.observability.index.ObservabilityQueryHelper
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
 import org.opensearch.observability.model.RestTag.MAX_ITEMS_FIELD
@@ -200,10 +201,26 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
      */
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
         return when (request.method()) {
-            POST -> executePostRequest(request, client)
-            PUT -> executePutRequest(request, client)
-            GET -> executeGetRequest(request, client)
-            DELETE -> executeDeleteRequest(request, client)
+            POST -> {
+                Metrics.OBSERVABILITY_CREATE_TOTAL.counter.increment()
+                Metrics.OBSERVABILITY_CREATE_INTERVAL_COUNT.counter.increment()
+                executePostRequest(request, client)
+            }
+            PUT -> {
+                Metrics.OBSERVABILITY_UPDATE_TOTAL.counter.increment()
+                Metrics.OBSERVABILITY_UPDATE_INTERVAL_COUNT.counter.increment()
+                executePutRequest(request, client)
+            }
+            GET -> {
+                Metrics.OBSERVABILITY_GET_TOTAL.counter.increment()
+                Metrics.OBSERVABILITY_GET_INTERVAL_COUNT.counter.increment()
+                executeGetRequest(request, client)
+            }
+            DELETE -> {
+                Metrics.OBSERVABILITY_DELETE_TOTAL.counter.increment()
+                Metrics.OBSERVABILITY_DELETE_INTERVAL_COUNT.counter.increment()
+                executeDeleteRequest(request, client)
+            }
             else -> RestChannelConsumer {
                 it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "${request.method()} is not allowed"))
             }

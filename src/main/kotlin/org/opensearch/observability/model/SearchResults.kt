@@ -16,6 +16,7 @@ import org.opensearch.common.xcontent.ToXContent.Params
 import org.opensearch.common.xcontent.XContentBuilder
 import org.opensearch.common.xcontent.XContentParser
 import org.opensearch.common.xcontent.XContentParserUtils
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.search.SearchHit
 
 internal abstract class SearchResults<ItemClass : BaseModel> : BaseModel {
@@ -127,7 +128,10 @@ internal abstract class SearchResults<ItemClass : BaseModel> : BaseModel {
                 }
             }
         }
-        objectList ?: throw IllegalArgumentException("$objectListFieldName field absent")
+        objectList ?: run {
+            Metrics.OBSERVABILITY_GET_SYSTEM_ERROR.counter.increment()
+            throw IllegalArgumentException("$objectListFieldName field absent")
+        }
         if (totalHits == 0L) {
             totalHits = objectList.size.toLong()
         }

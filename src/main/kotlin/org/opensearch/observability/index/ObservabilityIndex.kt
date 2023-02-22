@@ -20,6 +20,7 @@ import org.opensearch.action.search.SearchRequest
 import org.opensearch.action.update.UpdateRequest
 import org.opensearch.client.Client
 import org.opensearch.cluster.service.ClusterService
+import org.opensearch.common.component.LifecycleListener
 import org.opensearch.common.unit.TimeValue
 import org.opensearch.common.xcontent.LoggingDeprecationHandler
 import org.opensearch.common.xcontent.NamedXContentRegistry
@@ -48,7 +49,7 @@ import java.util.concurrent.TimeUnit
  * Class for doing OpenSearch index operation to maintain observability objects in cluster.
  */
 @Suppress("TooManyFunctions")
-internal object ObservabilityIndex {
+internal object ObservabilityIndex : LifecycleListener() {
     private val log by logger(ObservabilityIndex::class.java)
     private const val INDEX_NAME = ".opensearch-observability"
     private const val NOTEBOOKS_INDEX_NAME = ".opensearch-notebooks"
@@ -80,6 +81,14 @@ internal object ObservabilityIndex {
         this.client = SecureIndexClient(client)
         this.clusterService = clusterService
         this.mappingsUpdated = false
+    }
+
+    /**
+     * once lifecycle indicate start has occurred - instantiating system index creation
+     */
+    override fun afterStart() {
+        // create default index
+        createIndex()
     }
 
     /**

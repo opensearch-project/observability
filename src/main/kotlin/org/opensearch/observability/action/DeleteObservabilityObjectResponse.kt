@@ -17,6 +17,7 @@ import org.opensearch.commons.utils.STRING_WRITER
 import org.opensearch.commons.utils.enumReader
 import org.opensearch.commons.utils.enumWriter
 import org.opensearch.commons.utils.logger
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.BaseResponse
 import org.opensearch.observability.model.RestTag.DELETE_RESPONSE_LIST_TAG
 import org.opensearch.rest.RestStatus
@@ -61,7 +62,10 @@ internal class DeleteObservabilityObjectResponse : BaseResponse {
                     }
                 }
             }
-            objectIdToStatus ?: throw IllegalArgumentException("$DELETE_RESPONSE_LIST_TAG field absent")
+            objectIdToStatus ?: run {
+                Metrics.OBSERVABILITY_DELETE_SYSTEM_ERROR.counter.increment()
+                throw IllegalArgumentException("$DELETE_RESPONSE_LIST_TAG field absent")
+            }
             return DeleteObservabilityObjectResponse(objectIdToStatus)
         }
 
