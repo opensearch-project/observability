@@ -9,6 +9,7 @@ import com.google.gson.JsonObject
 import org.apache.http.HttpHost
 import org.junit.After
 import org.junit.AfterClass
+import org.junit.Assert
 import org.junit.Before
 import org.opensearch.client.Request
 import org.opensearch.client.RequestOptions
@@ -23,6 +24,8 @@ import org.opensearch.common.xcontent.NamedXContentRegistry
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.commons.ConfigConstants
 import org.opensearch.commons.rest.SecureRestClientBuilder
+import org.opensearch.rest.RestRequest
+import org.opensearch.rest.RestStatus
 import org.opensearch.test.rest.OpenSearchRestTestCase
 import java.io.BufferedReader
 import java.io.IOException
@@ -54,31 +57,61 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
     }
 
     open fun preserveOpenSearchIndicesAfterTest(): Boolean = false
+    open fun preserveOpenSearchDataStreamsAfterTest(): Boolean = true
 
     @Throws(IOException::class)
     @After
     open fun wipeAllOpenSearchIndices() {
-        if (preserveOpenSearchIndicesAfterTest()) return
-        val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
-        val xContentType = XContentType.fromMediaType(response.entity.contentType.value)
-        xContentType.xContent().createParser(
-            NamedXContentRegistry.EMPTY, DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
-            response.entity.content
-        ).use { parser ->
-            for (index in parser.list()) {
-                val jsonObject: Map<*, *> = index as java.util.HashMap<*, *>
-                val indexName: String = jsonObject["index"] as String
-                // .opendistro_security isn't allowed to delete from cluster
-                if (".opendistro_security" != indexName) {
-                    val request = Request("DELETE", "/$indexName")
-                    // TODO: remove PERMISSIVE option after moving system index access to REST API call
-                    val options = RequestOptions.DEFAULT.toBuilder()
-                    options.setWarningsHandler(WarningsHandler.PERMISSIVE)
-                    request.options = options.build()
-                    adminClient().performRequest(request)
+        if (!preserveOpenSearchDataStreamsAfterTest()) {
+            var getResponse = executeRequest(
+                RestRequest.Method.GET.name,
+                "/_data_stream/*",
+                "",
+                RestStatus.OK.status
+            )
+            Assert.assertNotNull(!getResponse.get("data_streams").asJsonArray.isEmpty)
+            for (stream in getResponse.get("data_streams").asJsonArray) {
+                dataStreamCleanUp(stream.asJsonObject.get("name").asString)
+            }
+        }
+        if (!preserveOpenSearchIndicesAfterTest()) {
+            val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
+            val xContentType = XContentType.fromMediaType(response.entity.contentType.value)
+            xContentType.xContent().createParser(
+                NamedXContentRegistry.EMPTY, DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
+                response.entity.content
+            ).use { parser ->
+                for (index in parser.list()) {
+                    val jsonObject: Map<*, *> = index as java.util.HashMap<*, *>
+                    val indexName: String = jsonObject["index"] as String
+                    // .opendistro_security isn't allowed to delete from cluster and same for data-stream backing indices
+                    if (".opendistro_security" != indexName && !indexName.startsWith(".ds-", false)) {
+                        val request = Request("DELETE", "/$indexName")
+                        // TODO: remove PERMISSIVE option after moving system index access to REST API call
+                        val options = RequestOptions.DEFAULT.toBuilder()
+                        options.setWarningsHandler(WarningsHandler.PERMISSIVE)
+                        request.options = options.build()
+                        adminClient().performRequest(request)
+                    }
                 }
             }
         }
+    }
+
+    fun dataStreamCleanUp(stream: String) {
+        // remove data-stream for house cleaning
+        var response = executeRequest(
+            RestRequest.Method.DELETE.name,
+            "/_data_stream/$stream",
+            "",
+            RestStatus.OK.status
+        )
+        Assert.assertNotNull(response.get("acknowledged"))
+        Assert.assertEquals(true, response.get("acknowledged").asBoolean)
+    }
+
+    open fun cleanUp() {
+        // Override for specific cleanup behaviour
     }
 
     /**
