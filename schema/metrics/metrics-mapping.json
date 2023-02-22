@@ -86,31 +86,16 @@
           }
         },
         "unit": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
+          "type": "keyword",
+          "ignore_above": 128
         },
         "kind": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
+          "type": "keyword",
+          "ignore_above": 128
         },
         "aggregationTemporality": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          }
+          "type": "keyword",
+          "ignore_above": 128
         },
         "monotonic": {
           "type": "boolean"
