@@ -28,6 +28,7 @@ import org.opensearch.observability.action.GetObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.index.ObservabilityIndex
 import org.opensearch.observability.index.ObservabilityMetricsIndex
+import org.opensearch.observability.index.ObservabilityTracesIndex
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
 import org.opensearch.observability.resthandler.SchedulerRestHandler
@@ -85,11 +86,13 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
         ObservabilityMetricsIndex.initialize(client, clusterService)
+        ObservabilityTracesIndex.initialize(client, clusterService)
         return emptyList()
     }
 
     override fun onNodeStarted() {
         ObservabilityIndex.afterStart()
+        ObservabilityTracesIndex.afterStart()
         ObservabilityMetricsIndex.afterStart()
     }
 
