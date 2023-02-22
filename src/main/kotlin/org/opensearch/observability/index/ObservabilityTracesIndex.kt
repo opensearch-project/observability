@@ -22,7 +22,7 @@ import org.opensearch.observability.util.logger
 import java.util.*
 
 /**
- * Class for doing OpenSearch Metrics schema mapping & default index init operation
+ * Class for doing OpenSearch Traces schema mapping & default index init operation
  */
 internal object ObservabilityTracesIndex : LifecycleListener() {
     private val log by logger(ObservabilityTracesIndex::class.java)
@@ -74,7 +74,7 @@ internal object ObservabilityTracesIndex : LifecycleListener() {
                         Collections.emptyList(),
                         1,
                         1,
-                        Collections.singletonMap("description", "Observability Metrics Mapping Template") as Map<String, Any>?,
+                        Collections.singletonMap("description", "Observability Traces Mapping Template") as Map<String, Any>?,
                         ComposableIndexTemplate.DataStreamTemplate()
                     )
                 )
