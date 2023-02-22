@@ -352,7 +352,7 @@ String baseName = "obsBwcCluster"
                         File getAsFile() {
                             def mavenLocal = "${System.properties['user.home']}/.m2/repository"
                             def group = "org.opensearch.plugin"
-                            def name = "observability"
+                            def name = "opensearch-observability"
                             return fileTree("${mavenLocal}/${group.replace('.', '/')}/${name}/${opensearch_bwc_version}/${name}-${opensearch_bwc_version}.zip").getSingleFile()
                         }
                     }
