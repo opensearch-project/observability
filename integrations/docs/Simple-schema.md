@@ -24,7 +24,7 @@ Customer will focuses on measuring application performance and on surfacing appl
 
 ### Schema To the Rescue
 
-When considering the share amount of log format and types - starting from the linux systemd logs to the cloudwatch, from the application proprietary logging to the RDBMS logs - everything is relevant and everything is important.
+When considering the Sheer amount of log format and types - starting from the linux systemd logs to the cloudwatch, from the application proprietary logging to the RDBMS logs - everything is relevant and everything is important.
 Missing something may disrupt the understanding of the system and deny the ability to analyze its weaknesses.
 
 Many log reporters and log formats where created during the many years the infrastructure we are using today exists - their structure is different and their semantic nature is not aligned with the contemporary jargon.

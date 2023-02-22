@@ -6,22 +6,29 @@ Integrations are a stateful bundle which will be stored inside a system `.integr
 **Integration Loading Lifecycle API**: 
 
 ## Load Integrations
+// TODO explain with details
 
 ### Verify Integration
+// TODO explain with details
 
 ### Create data-stream
+// TODO explain with details
+
+### Load visualizations
+// TODO explain with details
 
 ### Load dashboards  
-
-### Load visualizations  
+// TODO explain with details
 
 ### Load Sample data
+// TODO explain with details
 
 ---
 
 **Integration availability queries & filters:**
 
 ## Filter By Name / Type / Category 
+// TODO explain with details
 
 ---
 

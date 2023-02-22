@@ -11,18 +11,8 @@ The integrations passing this process can be available out of the box once the O
 Once an Observability is distributed, it is pre-bundled with the verified Integrations. These integrations are packaged in a dedicated folder.
 
 **Integration Lifecycle**
-
-```
-                <-  Loading ->          
-                |                  |
-                |           <- Maintenance  
-       Ready2Ingest ->
-                                      <-  Ready2Read ->
-                                      |                 |
-                                Ingesting    ->   <-     Stale
-      
-```
-
+![](img/integration-loading-lifecycle.png)
+ 
 Observability bootstrap initiates the state for all the Integrations bundled with the distribution, the initial state is
 
 ***Loading*** - indicating the integration is still loading and has not yet been verified for runtime readiness.
