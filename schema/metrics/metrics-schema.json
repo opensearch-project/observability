@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://opensearch.org/schemas/Metrics",
+  "$id": "https://opensearch.org#/definitions/Metrics",
   "title": "OpenTelemetry Metrics",
   "type": "object",
   "properties": {
@@ -8,7 +8,7 @@
       "type": "string"
     },
     "attributes": {
-      "$ref": "/schemas/Attributes"
+      "$ref": "#/definitions/Attributes"
     },
     "resource": {
       "type": "object"
@@ -61,7 +61,7 @@
     "buckets": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/Bucket"
+        "$ref": "#/definitions/Bucket"
       }
     },
     "bucketCount": {
@@ -85,7 +85,7 @@
     "quantiles": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/Quantile"
+        "$ref": "#/definitions/Quantile"
       }
     },
     "quantileValuesCount": {
@@ -94,13 +94,13 @@
     "positiveBuckets": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/Bucket"
+        "$ref": "#/definitions/Bucket"
       }
     },
     "negativeBuckets": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/Bucket"
+        "$ref": "#/definitions/Bucket"
       }
     },
     "positiveOffset": {
@@ -136,11 +136,11 @@
     "exemplars": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/Exemplar"
+        "$ref": "#/definitions/Exemplar"
       }
     },
     "instrumentationScope": {
-      "$ref": "/schemas/InstrumentationScope"
+      "$ref": "#/definitions/InstrumentationScope"
     },
     "schemaUrl": {
       "type": "string"
@@ -153,9 +153,9 @@
     "kind",
     "@timestamp"
   ],
-  "$defs": {
+  "definitions": {
     "Bucket": {
-      "$id": "/schemas/Bucket",
+      "$id": "#/definitions/Bucket",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -180,7 +180,7 @@
       "title": "Bucket"
     },
     "Quantile": {
-      "$id": "/schemas/Quantile",
+      "$id": "#/definitions/Quantile",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -198,7 +198,7 @@
       "title": "Quantile"
     },
     "InstrumentationScope": {
-      "$id": "/schemas/InstrumentationScope",
+      "$id": "#/definitions/InstrumentationScope",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -218,7 +218,7 @@
       "title": "InstrumentationScope"
     },
     "Exemplar": {
-      "$id": "/schemas/Exemplar",
+      "$id": "/definitions/Exemplar",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -239,18 +239,18 @@
       "title": "Exemplar"
     },
     "Attributes": {
-      "$id": "/schemas/Attributes",
+      "$id": "/definitions/Attributes",
       "type": "object",
       "additionalProperties": true,
       "properties": {
         "data_stream": {
-          "$ref": "/schemas/Dataflow"
+          "$ref": "#/definitions/Dataflow"
         }
       },
       "title": "Attributes"
     },
     "Dataflow": {
-      "$id": "/schemas/Dataflow",
+      "$id": "/definitions/Dataflow",
       "type": "object",
       "additionalProperties": true,
       "properties": {

@@ -13,12 +13,12 @@
     "traceState": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/KeyValue"
+        "$ref": "#/definitions/KeyValue"
       }
     },
     "status": {
       "type": "object",
-      "$ref": "/schemas/Status"
+      "$ref": "#/definitions/Status"
     },
     "parentSpanId": {
       "type": "string"
@@ -52,12 +52,12 @@
       "type": "object"
     },
     "attributes": {
-      "$ref": "/schemas/Attributes"
+      "$ref": "#/definitions/Attributes"
     },
     "events": {
       "type": "array",
       "items": {
-        "$ref": "/schemas/Event"
+        "$ref": "#/definitions/Event"
       }
     },
     "links": {
@@ -79,7 +79,7 @@
             }
           },
           "attributes": {
-            "$ref": "/schemas/Attributes"
+            "$ref": "#/definitions/Attributes"
           },
           "droppedAttributesCount": {
             "type": "integer"
@@ -103,7 +103,7 @@
       "type": "integer"
     },
     "instrumentationScope": {
-      "$ref": "/schemas/InstrumentationScope"
+      "$ref": "#/definitions/InstrumentationScope"
     },
     "schemaUrl": {
       "type": "string"
@@ -118,9 +118,9 @@
     "name",
     "status"
   ],
-  "$defs": {
+  "definitions": {
     "Status": {
-      "$id": "/schemas/Status",
+      "$id": "#/definitions/Status",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -153,7 +153,7 @@
       "title": "Status"
     },
     "Event": {
-      "$id": "/schemas/Event",
+      "$id": "#/definitions/Event",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -169,7 +169,7 @@
           "type": "string"
         },
         "attributes": {
-          "$ref": "/schemas/Attributes"
+          "$ref": "#/definitions/Attributes"
         },
         "droppedAttributesCount": {
           "type": "integer"
@@ -184,18 +184,18 @@
       "title": "Event"
     },
     "Attributes": {
-      "$id": "/schemas/Attributes",
+      "$id": "#/definitions/Attributes",
       "type": "object",
       "additionalProperties": true,
       "properties": {
         "data_stream": {
-          "$ref": "/schemas/Dataflow"
+          "$ref": "#/definitions/Dataflow"
         }
       },
       "title": "Attributes"
     },
     "KeyValue": {
-      "$id": "/schemas/KeyValue",
+      "$id": "#/definitions/KeyValue",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -209,7 +209,7 @@
       "title": "KeyValue"
     },
     "InstrumentationScope": {
-      "$id": "/schemas/InstrumentationScope",
+      "$id": "#/definitions/InstrumentationScope",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -229,7 +229,7 @@
       "title": "InstrumentationScope"
     },
     "Dataflow": {
-      "$id": "/schemas/Dataflow",
+      "$id": "#/definitions/Dataflow",
       "type": "object",
       "additionalProperties": true,
       "properties": {

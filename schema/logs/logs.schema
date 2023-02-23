@@ -1,17 +1,17 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://opensearch.org/schemas/Logs",
+  "$id": "https://opensearch.org#/definitions/Logs",
   "title": "OpenTelemetry Logs",
   "type": "object",
   "properties": {
     "severity": {
-      "$ref": "/schemas/Severity"
+      "$ref": "#/definitions/Severity"
     },
     "resource": {
       "type": "object"
     },
     "attributes": {
-      "$ref": "/schemas/Attributes"
+      "$ref": "#/definitions/Attributes"
     },
     "body": {
       "type": "string"
@@ -34,19 +34,19 @@
       "type": "string"
     },
     "instrumentationScope": {
-      "$ref": "/schemas/InstrumentationScope"
+      "$ref": "#/definitions/InstrumentationScope"
     },
     "event": {
-      "$ref": "/schemas/Event"
+      "$ref": "#/definitions/Event"
     }
   },
   "required": [
     "body",
     "@timestamp"
   ],
-  "$defs": {
+  "definitions": {
     "InstrumentationScope": {
-      "$id": "/schemas/InstrumentationScope",
+      "$id": "#/definitions/InstrumentationScope",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -63,7 +63,7 @@
       "title": "InstrumentationScope"
     },
     "Severity": {
-      "$id": "/schemas/Severity",
+      "$id": "#/definitions/Severity",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -85,18 +85,18 @@
       "title": "Severity"
     },
     "Attributes": {
-      "$id": "/schemas/Attributes",
+      "$id": "#/definitions/Attributes",
       "type": "object",
       "additionalProperties": true,
       "properties": {
         "data_stream": {
-          "$ref": "/schemas/Dataflow"
+          "$ref": "#/definitions/Dataflow"
         }
       },
       "title": "Attributes"
     },
     "Dataflow": {
-      "$id": "/schemas/Dataflow",
+      "$id": "#/definitions/Dataflow",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -113,7 +113,7 @@
       "title": "Dataflow"
     },
     "Exception": {
-      "$id": "/schemas/Exception",
+      "$id": "#/definitions/Exception",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -130,7 +130,7 @@
       "title": "Exception"
     },
     "Event": {
-      "$id": "/schemas/Event",
+      "$id": "#/definitions/Event",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -207,7 +207,7 @@
           ]
         },
         "exception": {
-          "$ref": "/schemas/Exception"
+          "$ref": "#/definitions/Exception"
         }
       },
       "title": "Event"
