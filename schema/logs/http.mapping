@@ -101,8 +101,7 @@
                   "type": "text"
                 },
                 "bytes": {
-                  "type": "keyword",
-                  "ignore_above": 256
+                  "type": "integer"
                 },
                 "status_code": {
                   "type": "integer"

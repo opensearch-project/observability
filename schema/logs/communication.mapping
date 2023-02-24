@@ -30,8 +30,7 @@
                   }
                 },
                 "bytes": {
-                  "type": "keyword",
-                  "ignore_above": 256
+                  "type": "integer"
                 },
                 "ip": {
                   "type": "ip"
@@ -70,8 +69,7 @@
                   }
                 },
                 "bytes": {
-                  "type": "keyword",
-                  "ignore_above": 256
+                  "type": "integer"
                 },
                 "ip": {
                   "type": "ip"
