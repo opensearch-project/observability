@@ -48,7 +48,7 @@
           "type": "string"
         },
         "bytes": {
-          "type": "string"
+          "type": "integer"
         },
         "method": {
           "type": "string"
@@ -77,7 +77,7 @@
           "type": "string"
         },
         "bytes": {
-          "type": "string"
+          "type": "integer"
         },
         "status_code": {
           "type": "integer"
