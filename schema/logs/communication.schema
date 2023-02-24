@@ -36,7 +36,7 @@
             "type": "string"
           },
           "bytes": {
-            "type": "string"
+            "type": "integer"
           },
           "ip": {
             "type": "string"
@@ -65,7 +65,7 @@
             "type": "string"
           },
           "bytes": {
-            "type": "string"
+            "type": "integer"
           },
           "ip": {
             "type": "string"

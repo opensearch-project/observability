@@ -30,7 +30,7 @@
                   }
                 },
                 "bytes": {
-                  "type": "integer"
+                  "type": "long"
                 },
                 "ip": {
                   "type": "ip"
@@ -69,7 +69,7 @@
                   }
                 },
                 "bytes": {
-                  "type": "integer"
+                  "type": "long"
                 },
                 "ip": {
                   "type": "ip"
