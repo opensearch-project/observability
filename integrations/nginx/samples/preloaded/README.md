@@ -1,8 +1,10 @@
-# Data Fabrication
-For creating this tutorial we used the following preloaded data generated using nginx flluent-bit data generator repo and translated it using the
-fluent-bit nginx lua parser. [Fluent-bit](https://github.com/fluent/fluent-bit)
+# Nginx Dashboard Playground
+For the purpose of playing and reviewing the nginx dashboard, this tutorial uses the nginx preloaded access-logs data. This sample data was generated using nginx fluent-bit data generator repo and translated it using the
+fluent-bit nginx lua parser - that appears in the test mention below.
+- [Fluent-bit](https://github.com/fluent/fluent-bit)
+- [Services Playground](../../test/README.md)
 
-The sample logs are added here under the preloaded data folder ready to be ingested into open search
+The [sample logs](bulk_logs.json) are added here under the preloaded data folder and are ready to be ingested into open search.
 
 ## Demo Instructions
 
@@ -23,9 +25,10 @@ This will load both opensearch server & dashboards
    
 4. We can now load the Nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/sso-logs-dashboard.ndjson)
    - First add an index pattern `sso_logs-*-*`
-           `curl  -X POST localhost:5601/api/saved_objects/index-pattern/sso_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
-   - Load the [dashboards](../../assets/display/sso-logs-dashboard.ndjson)
-   -       `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@sso-logs-dashboard.ndjson`
+     - `curl  -X POST localhost:5601/api/saved_objects/index-pattern/sso_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
+   
+   - Load the [dashboards](../../assets/display/sso-logs-dashboard.ndjson) 
+     - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@sso-logs-dashboard.ndjson`
 5. Open the dashboard and view the preloaded access logs
    - Go to [Dashbords](http://localhost:5601/app/dashboards#/list?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'2023-02-24T17:10:34.442Z',to:'2023-02-24T17:46:44.056Z'))
    
