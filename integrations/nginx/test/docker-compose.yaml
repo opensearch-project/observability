@@ -27,6 +27,11 @@ services:
       - 9600:9600
     expose:
       - "9200"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health?wait_for_status=yellow"]
+      interval: 5s
+      timeout: 25s
+      retries: 4
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   opensearch-dashboards:
@@ -39,40 +44,58 @@ services:
     environment:
       - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
       - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
+    depends_on:
+      - opensearch
     networks:
       - opensearch-net
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    container_name: jaeger
-    environment:
-      - SPAN_STORAGE_TYPE=opensearch
-    command: [
-      "--es.server-urls=http://opensearch:9200"
-    ]
-    restart: on-failure
-    ports:
-      - 16686:16686
-    networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
-  collector:
-    image: otel/opentelemetry-collector:latest
-    command: ["--config=/etc/volume/otel-collector-config.yaml"]
-    volumes:
-      - ./otel-collector:/etc/volume
-    ports:
-      - 4317:4317
-    networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
   nginx:
-    image: nginx-otel
-    build:
-      context: nginx-otel
+    image: nginx:latest
     volumes:
-      - ./nginx-otel/opentelemetry_module.conf:/etc/nginx/conf.d/opentelemetry_module.conf
+      # - ./nginx-otel/opentelemetry_module.conf:/etc/nginx/conf.d/opentelemetry_module.conf
+      - ./nginx-otel/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 8080:80
+    depends_on:
+      - flask-app
+      - fluentbit
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
+    links:
+      - fluentbit
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 127.0.0.1:24224
+        tag: nginx.access
+  fluentbit:
+    container_name: fluentbit
+    image: fluent/fluent-bit:latest
+    volumes:
+      - ./fluent-bit:/fluent-bit/etc
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    networks:
+      - opensearch-net
+  redis:
+    image: redis
+    ports:
+      - 6357:6357
+    networks:
+      - opensearch-net
+  flask-app:
+    build: flask-app
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+    volumes:
+      - ./flask-app/app.py:/code/app.py
+    networks:
+      - opensearch-net
 
 volumes:
   opensearch:
