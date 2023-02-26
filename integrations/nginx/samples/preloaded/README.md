@@ -31,5 +31,6 @@ This will load both opensearch server & dashboards
      - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@sso-logs-dashboard.ndjson`
 5. Open the dashboard and view the preloaded access logs
    - Go to [Dashbords](http://localhost:5601/app/dashboards#/list?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'2023-02-24T17:10:34.442Z',to:'2023-02-24T17:46:44.056Z'))
-   
+   - data-stream name :`sso_logs-nginx-prod`
+
    ![](img/nginx-dashboard.png)
