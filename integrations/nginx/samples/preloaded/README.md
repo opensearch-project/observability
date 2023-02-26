@@ -23,11 +23,11 @@ This will load both opensearch server & dashboards
 3. Bulk load the Nginx access logs preloaded data into the `sso_logs-nginx-prod` data_stream
    - `curl -XPOST "localhost:9200/sso_logs-nginx-prod/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_logs.json`
    
-4. We can now load the Nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/sso-logs-dashboard.ndjson)
+4. We can now load the Nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/sso-logs-dashboard-new.ndjson)
    - First add an index pattern `sso_logs-*-*`
      - `curl  -X POST localhost:5601/api/saved_objects/index-pattern/sso_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
    
-   - Load the [dashboards](../../assets/display/sso-logs-dashboard.ndjson) 
+   - Load the [dashboards](../../assets/display/sso-logs-dashboard-new.ndjson) 
      - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@sso-logs-dashboard.ndjson`
 5. Open the dashboard and view the preloaded access logs
    - Go to [Dashbords](http://localhost:5601/app/dashboards#/list?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'2023-02-24T17:10:34.442Z',to:'2023-02-24T17:46:44.056Z'))

@@ -1,0 +1,30 @@
+{
+  "query": "source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
+  "selected_date_range": {
+    "start": "now/15m",
+    "end": "now",
+    "text": "utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')"
+  },
+  "selected_timestamp": {
+    "name": "utc_time",
+    "type": "timestamp"
+  },
+  "selected_fields": {
+    "text": "| fields clientip, bytes, memory, host",
+    "tokens": [
+      {"name":"bytes","type":"long"},
+      {"name":"clientip","type":"ip"}
+    ]
+  },
+  "type": "bar",
+  "name": "Logs between dates",
+  "description": "some descriptions related to this query",
+  "application_id": "KE1Ie34BbsTr-CsB4G6Y",
+  "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}",
+  "sub_type": "metric",
+  "units_of_measure": "hours (h)",
+  "labels": [
+    {"label":"avg"},
+    {"label":"count"}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/IndexPattern",
+  "definitions": {
+    "IndexPattern": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string"
+        },
+        "timeFieldName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "title": "IndexPattern"
+    }
+  }
+}

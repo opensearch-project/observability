@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/panel",
+  "definitions": {
+    "panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operationalPanel": {
+          "$ref": "#/definitions/OperationalPanel"
+        }
+      },
+      "required": [
+        "operationalPanel"
+      ],
+      "title": "panel"
+    },
+    "OperationalPanel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "visualizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Visualization"
+          }
+        },
+        "timeRange": {
+          "$ref": "#/definitions/TimeRange"
+        },
+        "queryFilter": {
+          "$ref": "#/definitions/QueryFilter"
+        },
+        "applicationId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "applicationId",
+        "name",
+        "queryFilter",
+        "timeRange",
+        "visualizations"
+      ],
+      "title": "OperationalPanel"
+    },
+    "QueryFilter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "language",
+        "query"
+      ],
+      "title": "QueryFilter"
+    },
+    "TimeRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "title": "TimeRange"
+    },
+    "Visualization": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "savedVisualizationId": {
+          "type": "string"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "w": {
+          "type": "integer"
+        },
+        "h": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "savedVisualizationId",
+        "h",
+        "w",
+        "x",
+        "y"
+      ],
+      "title": "Visualization"
+    }
+  }
+}
