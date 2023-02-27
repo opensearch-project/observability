@@ -39,6 +39,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
+        classpath "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_version}"
     }
 }
 
@@ -286,7 +287,7 @@ integTest {
 Zip bundle = (Zip) project.getTasks().getByName("bundlePlugin");
 integTest.dependsOn(bundle)
 integTest.getClusters().forEach { c -> c.plugin(project.getObjects().fileProperty().value(bundle.getArchiveFile())) }
-String jobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/" + opensearch_version.replace("-SNAPSHOT", "") + "/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-" + opensearch_build.replace("-SNAPSHOT", "") + ".zip"
+// String jobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/" + opensearch_version.replace("-SNAPSHOT", "") + "/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-" + opensearch_build.replace("-SNAPSHOT", "") + ".zip"
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
@@ -297,14 +298,14 @@ testClusters.integTest {
             return new RegularFile() {
                 @Override
                 File getAsFile() {
-                    File dir = new File("src/test/resources/job-scheduler")
-                    if (!dir.exists()) {
-                        dir.mkdirs()
-                    }
-                    File file = new File(dir, "opensearch-job-scheduler-" + opensearch_build + ".zip")
-                    if (!file.exists()) {
-                        new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
-                    }
+                    // File dir = new File("src/test/resources/job-scheduler")
+                    // if (!dir.exists()) {
+                    //     dir.mkdirs()
+                    // }
+                    // File file = new File(dir, "opensearch-job-scheduler-" + opensearch_build + ".zip")
+                    // if (!file.exists()) {
+                    //     new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                    // }
                     return fileTree("src/test/resources/job-scheduler").getSingleFile()
                 }
             }
