@@ -5,7 +5,7 @@
 
 package org.opensearch.observability.model
 
-import org.opensearch.common.xcontent.XContentParser
+import org.opensearch.core.xcontent.XContentParser
 
 /**
  * Functional interface to create object using XContentParser

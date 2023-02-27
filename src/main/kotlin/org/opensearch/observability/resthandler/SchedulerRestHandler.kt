@@ -4,7 +4,7 @@ import org.opensearch.action.ActionListener
 import org.opensearch.action.index.IndexRequest
 import org.opensearch.action.index.IndexResponse
 import org.opensearch.client.node.NodeClient
-import org.opensearch.common.xcontent.json.JsonXContent
+import org.opensearch.core.xcontent.json.JsonXContent
 import org.opensearch.jobscheduler.spi.schedule.IntervalSchedule
 import org.opensearch.observability.model.RestTag
 import org.opensearch.observability.model.ScheduledJobDoc
