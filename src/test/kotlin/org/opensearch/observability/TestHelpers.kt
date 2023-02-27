@@ -11,9 +11,9 @@ import org.junit.Assert
 import org.opensearch.core.xcontent.DeprecationHandler
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.core.xcontent.ToXContent
-import org.opensearch.core.xcontent.XContentFactory
+import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.core.xcontent.XContentParser
-import org.opensearch.core.xcontent.XContentType
+import org.opensearch.common.xcontent.XContentType
 import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.Timestamp
