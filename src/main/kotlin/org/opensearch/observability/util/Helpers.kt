@@ -15,7 +15,7 @@ import org.opensearch.core.xcontent.ToXContentObject
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.core.xcontent.XContentParser.Token
-import org.opensearch.core.xcontent.XContentParserUtils
+import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.core.xcontent.XContentType
 import org.opensearch.rest.RestRequest
 

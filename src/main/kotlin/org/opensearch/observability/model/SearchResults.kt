@@ -15,7 +15,7 @@ import org.opensearch.common.io.stream.Writeable
 import org.opensearch.core.xcontent.ToXContent.Params
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
-import org.opensearch.core.xcontent.XContentParserUtils
+import org.opensearch.common.xcontent.XContentParserUtils
 import org.opensearch.search.SearchHit
 
 internal abstract class SearchResults<ItemClass : BaseModel> : BaseModel {
