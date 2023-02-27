@@ -39,7 +39,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
-        classpath "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_version}@zip"
+        classpath "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_build}-SNAPSHOT@zip"
     }
 }
 
