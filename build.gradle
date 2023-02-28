@@ -39,8 +39,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
-        classpath "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_build}@zip"
-        classpath "org.opensearch.plugin:opensearch-job-scheduler:2.6.0.0-SNAPSHOT@zip"
+        zipArchive "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_build}"
+        zipArchive "org.opensearch.plugin:opensearch-job-scheduler:2.6.0.0-SNAPSHOT"
     }
 }
 
@@ -112,6 +112,7 @@ allOpen {
 
 configurations {
     ktlint
+    zipArchive
 }
 
 detekt {
@@ -299,15 +300,7 @@ testClusters.integTest {
             return new RegularFile() {
                 @Override
                 File getAsFile() {
-                    // File dir = new File("src/test/resources/job-scheduler")
-                    // if (!dir.exists()) {
-                    //     dir.mkdirs()
-                    // }
-                    // File file = new File(dir, "opensearch-job-scheduler-" + opensearch_build + ".zip")
-                    // if (!file.exists()) {
-                    //     new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
-                    // }
-                    return fileTree("src/test/resources/job-scheduler").getSingleFile()
+                    return configurations.zipArchive.asFileTree.getSingleFile()
                 }
             }
         }
@@ -349,15 +342,7 @@ String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build
                     return new RegularFile() {
                         @Override
                         File getAsFile() {
-                            File dir = new File(bwcFilePath + "/job-scheduler/" + bwcVersion)
-                            if (!dir.exists()) {
-                                dir.mkdirs()
-                            }
-                            File file = new File(dir, bwcJobSchedulerPlugin)
-                            if (!file.exists()) {
-                                new URL(bwcJobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
-                            }
-                            return fileTree(bwcFilePath + "/job-scheduler/" + bwcVersion).getSingleFile()
+                            return configurations.zipArchive.asFileTree.getSingleFile()
                         }
                     }
                 }
