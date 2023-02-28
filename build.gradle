@@ -39,8 +39,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
-        zipArchive "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_build}"
-        zipArchive "org.opensearch.plugin:opensearch-job-scheduler:2.6.0.0-SNAPSHOT"
+        zipArchive group: 'org.opensearch.plugin', name:'opensearch-job-scheduler', version: "${opensearch_build}"
+        // zipArchive "org.opensearch.plugin:opensearch-job-scheduler:2.6.0.0-SNAPSHOT"
     }
 }
 
