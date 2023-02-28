@@ -7,8 +7,6 @@ import java.util.concurrent.Callable
 import org.opensearch.gradle.test.RestIntegTestTask
 import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 
-String baseVersion = "2.6.0"
-
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
@@ -42,7 +40,7 @@ buildscript {
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
         classpath "org.jacoco:org.jacoco.agent:0.8.5"
         classpath "org.opensearch.plugin:opensearch-job-scheduler:${opensearch_build}@zip"
-        classpath "org.opensearch.plugin:opensearch-job-scheduler:${baseVersion}.0-SNAPSHOT@zip"
+        classpath "org.opensearch.plugin:opensearch-job-scheduler:2.6.0.0-SNAPSHOT@zip"
     }
 }
 
@@ -330,6 +328,7 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
+String baseVersion = "2.6.0"
 String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
