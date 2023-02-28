@@ -101,8 +101,7 @@
         "status": {
           "properties": {
             "code": {
-              "ignore_above": 128,
-              "type": "keyword"
+              "type": "long"
             },
             "message": {
               "ignore_above": 128,
