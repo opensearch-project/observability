@@ -391,15 +391,7 @@ task prepareBwcTests {
                         return new RegularFile() {
                             @Override
                             File getAsFile() {
-                                // File dir = new File(bwcFilePath + "job-scheduler/" + project.version)
-                                // if (!dir.exists()) {
-                                //     dir.mkdirs()
-                                // }
-                                // File file = new File(dir, "opensearch-job-scheduler-" + project.version + ".zip")
-                                // if (!file.exists()) {
-                                //     new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
-                                // }
-                                return fileTree(bwcFilePath + "job-scheduler/" + project.version).getSingleFile()
+                                return configurations.zipArchive.asFileTree.getSingleFile()
                             }
                         }
                     }
