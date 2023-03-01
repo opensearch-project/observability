@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Notebook",
+  "definitions": {
+    "Notebook": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dateModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "backend": {
+          "type": "string"
+        },
+        "paragraphs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Paragraph"
+          }
+        }
+      },
+      "required": [
+        "backend",
+        "dateCreated",
+        "dateModified",
+        "name",
+        "paragraphs"
+      ],
+      "title": "Notebook"
+    },
+    "Paragraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "output": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Output"
+          }
+        },
+        "input": {
+          "$ref": "#/definitions/Input"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "dateCreated",
+        "dateModified",
+        "id",
+        "input",
+        "output"
+      ],
+      "title": "Paragraph"
+    },
+    "Input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inputText": {
+          "type": "string"
+        },
+        "inputType": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "inputText",
+        "inputType"
+      ],
+      "title": "Input"
+    },
+    "Output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "type": "string"
+        },
+        "outputType": {
+          "type": "string"
+        },
+        "execution_time": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "execution_time",
+        "outputType",
+        "result"
+      ],
+      "title": "Output"
+    }
+  }
+}
