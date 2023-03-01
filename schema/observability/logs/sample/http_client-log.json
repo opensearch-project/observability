@@ -1,0 +1,16 @@
+{
+  "@timestamp": "2022-12-09T10:39:23.000Z",
+  "http": {
+    "method": "GET",
+    "flavor": "1.1",
+    "url": "https://example.com:8080/webshop/articles/4?s=1"
+  },
+  "destination": {
+    "domain": "example.com",
+    "address": "192.0.2.5",
+    "port": 8080
+  },
+  "response": {
+    "status_code": 200
+  }
+}

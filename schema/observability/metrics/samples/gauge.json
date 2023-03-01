@@ -1,0 +1,52 @@
+{
+  "unit": "ms",
+  "exemplars": [],
+  "kind": "GAUGE",
+  "name": "lastLatency",
+  "flags": 0,
+  "description": "The last API latency observed at collection interval",
+  "startTime": "2023-01-20T05:16:16.425669Z",
+  "@timestamp": "2023-01-20T05:16:16.425669Z",
+  "value.double": 0.0,
+  "resource": {
+    "cloud@account@id": "123367104812",
+    "process@pid": 1,
+    "host@arch": "amd64",
+    "host@id": "i-0005de88c8ebe7dbb",
+    "host@image@id": "ami-093d4bc1f6d4a890b",
+    "telemetry@sdk@version": "1.19.0",
+    "service@name": "AOCDockerDemoService",
+    "process@runtime@name": "OpenJDK Runtime Environment",
+    "os@type": "linux",
+    "cloud@availability_zone": "us-west-2b",
+    "host@type": "c5.2xlarge",
+    "cloud@provider": "aws",
+    "telemetry@sdk@language": "java",
+    "host@name": "ip-172-16-42-233.amazon.com",
+    "process@runtime@description": "Debian OpenJDK 64-Bit Server VM 17.0.4+8-Debian-1deb11u1",
+    "service@namespace": "AOCDockerDemo",
+    "cloud@region": "us-west-2",
+    "process@executable@path": "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+    "process@command_line": "/usr/lib/jvm/java-17-openjdk-amd64/bin/java -javaagent:/aws-observability/classpath/aws-opentelemetry-agent-1.19.0-SNAPSHOT.jar",
+    "process@runtime@version": "17.0.4+8-Debian-1deb11u1",
+    "cloud@platform": "aws_ec2",
+    "telemetry@sdk@name": "opentelemetry",
+    "container@id": "71301ad845e7d082911d846ac9af3cd9ba4f2144d82d7ac0dfd51f335b256a61",
+    "telemetry@auto@version": "1.19.0-aws-SNAPSHOT",
+    "os@description": "Linux 5.4.225-139.416.amzn2int.x86_64"
+  },
+  "attributes": {
+    "statusCode": "",
+    "apiName": "",
+    "serviceName": "AOCDockerDemoService"
+  },
+
+  "instrumentationScope": {
+    "version": "1.0",
+    "name": "aws-otel",
+    "schemaUrl": "https://opentelemetry.io/schemas/1.13.0",
+    "attributes": {
+      "identification": "aws-ec2"
+    }
+  }
+}

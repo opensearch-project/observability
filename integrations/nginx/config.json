@@ -1,0 +1,44 @@
+{
+  "name": "nginx",
+  "version": {
+    "integ": "0.1.0",
+    "schema": "1.0.0",
+    "resource": "^1.23.0"
+  },
+  "description": "Nginx HTTP server collector",
+  "identification": "instrumentationScope.attributes.identification",
+  "categories": [
+    "web","http"
+  ],
+  "collection":[
+    {
+      "logs": [{
+        "info": "access logs",
+        "input_type":"logfile",
+        "dataset":"nginx.access",
+        "labels" :["nginx","access"],
+        "schema": "./schema/logs/access.json"
+      },
+        {
+          "info": "error logs",
+          "input_type":"logfile",
+          "labels" :["nginx","error"],
+          "dataset":"nginx.error",
+          "schema": "./schema/logs/error.json"
+        }]
+    },
+    {
+      "metrics": [{
+        "info": "status metrics",
+        "input_type":"metrics",
+        "dataset":"nginx.status",
+        "labels" :["nginx","status"],
+        "schema": "./schema/metrics/status.json"
+      }]
+    }
+  ],
+  "repo": {
+    "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/nginx"
+  }
+}
+
