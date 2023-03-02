@@ -5,6 +5,9 @@ Integrations are a stateful bundle which will be stored inside a system `.integr
 ---
 ## Integration UX Loading Lifecycle API 
 
+### Flow Diagram
+![Screenshot 2023-03-01 at 7 00 50 PM](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
+
 ### Load Integrations Repositoty
 As part of the Integration Ux workflow, once the Integration plugin is loaded it should load all the available integrations that are bundled in the integration repo.
 
@@ -109,12 +112,18 @@ This page will require the F/E to fetch multiple assets from different locations
 - integrations filter display
 - integration panel display
 ---
+
+
 ### Load Integration
 As part of the Integration Ux workflow, once the Integration plugin has loaded and was selected by the user for loading into the system - the B/E should initiate the loading process and display the appropriate status to reflect the loading steps...
 
 This phase follows the [previous step](https://github.com/opensearch-project/observability/issues/1441) in which the user has filtered the Integrations from the repository and selected a specific one to load into the system
 
-### Integration loading state machine
+### Integration Load workflow
+![Screenshot 2023-03-01 at 7 17 31 PM](https://user-images.githubusercontent.com/48943349/222322253-e582b325-8b85-4edf-83ef-402abd54d837.png)
+
+
+### Integration state machine
 ![Screen Shot 2023-02-01 at 6 30 24 PM](https://user-images.githubusercontent.com/48943349/222246887-2be6edc3-1c8a-433a-a154-325fec66d95b.png)
 
 The API needed from the backend should be as follows:
