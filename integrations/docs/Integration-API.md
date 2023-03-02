@@ -5,6 +5,9 @@ Integrations are a stateful bundle which will be stored inside a system `.integr
 ---
 ## Integration UX Loading Lifecycle API 
 
+### Flow Diagram
+![Screenshot 2023-03-01 at 7 00 50 PM](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
+
 ### Load Integrations Repositoty
 As part of the Integration Ux workflow, once the Integration plugin is loaded it should load all the available integrations that are bundled in the integration repo.
 
@@ -109,12 +112,18 @@ This page will require the F/E to fetch multiple assets from different locations
 - integrations filter display
 - integration panel display
 ---
+
+
 ### Load Integration
 As part of the Integration Ux workflow, once the Integration plugin has loaded and was selected by the user for loading into the system - the B/E should initiate the loading process and display the appropriate status to reflect the loading steps...
 
 This phase follows the [previous step](https://github.com/opensearch-project/observability/issues/1441) in which the user has filtered the Integrations from the repository and selected a specific one to load into the system
 
-### Integration loading state machine
+### Integration Load workflow
+![Screenshot 2023-03-01 at 7 17 31 PM](https://user-images.githubusercontent.com/48943349/222322253-e582b325-8b85-4edf-83ef-402abd54d837.png)
+
+
+### Integration state machine
 ![Screen Shot 2023-02-01 at 6 30 24 PM](https://user-images.githubusercontent.com/48943349/222246887-2be6edc3-1c8a-433a-a154-325fec66d95b.png)
 
 The API needed from the backend should be as follows:
@@ -177,17 +186,28 @@ During the UX interaction with the user, user can update data-stream details sho
 
 If the user keeps all the original data-stream naming convention (namespace and domain) the next phase would be the validation of the integration prior to loading all the assets.
 
-### Data-Stream naming update
-In case the Cx wants to update the data-stream naming details - the next screens will be presented:
+### Data-Stream / index naming update
+In case the user wants to update the data-stream / index naming details - he may do so using dedicated window.
+Selection of the naming convention may also display available existing data-streams that are selectable if the user wants to choose from available ones and not creating new templates.
 
-![Screenshot 2023-03-01 at 11 28 39 AM](https://user-images.githubusercontent.com/48943349/222274246-d1be30a6-32e9-4b91-b60a-1fc0df2fca02.png)
+Once user changes the data-stream / index pattern - this will be reflected in every asset that has this attribute. 
 
-Selection of the naming convention may also display available existing data-streams that are selectable if the Cx wants
-to choose from available ones.
+#### Loading Integration
 
-#### Verify Integration
+The integration has the next steps:
+
+```text
+ - LOADING
+   - VALIDATION
+     - UPLOAD
+       - READY
+```
+Each step may result on one of two result
+- `ready` - this will transition it to the next step
+- `maintenance` - this will hold until user fix issues
 
 Once the Integration instance was stored in the integration `store` index, it will have a `loading` status as displayed in the
+
 first image.
 
 Next the integration instance will undergo a validation phase in which
@@ -218,7 +238,7 @@ the current state of the integration:
 ```
 The next screen shows the maintenance issues:
 
-![...](...)
+![todo](...)
 
 Once all the issues are manually resolved by the User, the UX can continue the loading process by the next API
 `PUT _integration/store/$instance_name/activate`
@@ -232,7 +252,6 @@ This API attempts to move the state of the integration to `Ready` and returns th
   "integration-name": "nginx",
   "status": "loading"
 }
-
 ```
 
 #### Load Assets
@@ -245,7 +264,7 @@ The loading assets phase will use the existing bulk load api for all the existin
 
 The User can chery pick specific assets to load and use the next UX window for this purpose
 
-![...](...)
+![todo](...)
 
 Using the next API
 `PUT _integration/store/$instance_name/load`

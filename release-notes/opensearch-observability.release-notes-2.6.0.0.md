@@ -5,7 +5,7 @@ Compatible with OpenSearch and OpenSearch Dashboards Version 2.6.0
 ### Infrastructure
 
 - Add publish snapshots to maven via GHA ([#1423](https://github.com/opensearch-project/observability/pull/1423))
-
+- Add support for structured Metrics & Traces index using Simple Schema for Observability ([#1427](https://github.com/opensearch-project/observability/pull/1427))
 
 ### Maintenance
 

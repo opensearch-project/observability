@@ -25,7 +25,7 @@ For such correlation to be possible the industry has formulated several protocol
 ---
 ## Schema Aware Components
 
-The role of the Observability plugin is intended to allow maximum flexibility and not imposing a strict Index structure of the data source. Nevertheless, the modern nature of distributed application and the vast amount of telemetry producers is changing this perception.
+The role of the Observability [plugin](https://github.com/opensearch-project/observability) is intended to allow maximum flexibility and not imposing a strict Index structure of the data source. Nevertheless, the modern nature of distributed application and the vast amount of telemetry producers is changing this perception.
 
 Today many of the Observability solutions (splunk, datadog, dynatrace) recommend using a consolidated schema to represent the entire variance of log/trace/metrics producers.
 
