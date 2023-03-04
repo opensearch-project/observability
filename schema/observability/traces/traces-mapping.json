@@ -191,6 +191,8 @@
   },
   "version": 1,
   "_meta": {
-    "description": "Observability Traces Mapping Template"
+    "description": "Observability Traces Mapping Template",
+    "catalog": "Observability",
+    "type": "traces"
   }
 }

@@ -83,7 +83,7 @@ The frontend responsibilities :
 
 ![Screenshot 2023-03-01 at 10 13 41 AM](https://user-images.githubusercontent.com/48943349/222226930-1d9a684d-7f19-4aaf-b601-32bf7ce08920.png)
 
-In addition the following API is also supported
+In addition, the following API is also supported
 ```
 GET _integration/repository/$name
 ```
@@ -132,7 +132,7 @@ Store API:
 ```
 POST _integration/store/$instance_name
 ```
-The $instance_name represents the specific name the integration was instanciated with - for example an Nginx Integration can be a template for multiple Nginx instances
+The $instance_name represents the specific name the integration was instanced with - for example, Nginx Integration can be a template for multiple Nginx instances
 each representing different domain / aspect such as geographic.
 
 ```jsoon
@@ -190,7 +190,11 @@ If the user keeps all the original data-stream naming convention (namespace and 
 In case the user wants to update the data-stream / index naming details - he may do so using dedicated window.
 Selection of the naming convention may also display available existing data-streams that are selectable if the user wants to choose from available ones and not creating new templates.
 
-Once user changes the data-stream / index pattern - this will be reflected in every asset that has this attribute. 
+Once user changes the data-stream / index pattern - this will be reflected in every asset that has this attribute.
+ - update the asset name (according to the `instance_name` field)
+   - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{domain}-assetName.json`
+ - update the index template's `index_pattern` field with the added pattern 
+   - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
 
 #### Loading Integration
 
@@ -206,14 +210,13 @@ Each step may result on one of two result
 - `ready` - this will transition it to the next step
 - `maintenance` - this will hold until user fix issues
 
-Once the Integration instance was stored in the integration `store` index, it will have a `loading` status as displayed in the
-
-first image.
+Once the Integration instance was stored in the integration `store` index, it will have a `loading` status as displayed in the first image.
 
 Next the integration instance will undergo a validation phase in which
  - assets will be validated with the schema to match fields to the mapping
+ - assets containing index patterns will be validated any index with these pattern exists 
  - datasource will be validated to verify connection is accessible
- - mapping templates are verified to exist
+ - mapping templates are verified to exist 
 
 If any of the validation failed - the API (the call to `_integration/store/$instance_name` ) will return a status indicating 
 the current state of the integration:
