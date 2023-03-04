@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Catalog",
+  "definitions": {
+    "Catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "catalog": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": [
+            "https"
+          ]
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        }
+      },
+      "required": [
+        "catalog",
+        "categories",
+        "url",
+        "version"
+      ],
+      "title": "Catalog"
+    },
+    "Category": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": [
+            "https"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Component"
+          }
+        }
+      },
+      "required": [
+        "category",
+        "components",
+        "url",
+        "version"
+      ],
+      "title": "Category"
+    },
+    "Component": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": [
+            "https"
+          ]
+        },
+        "container": {
+          "type": "boolean"
+        },
+        "tags": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "component",
+        "container",
+        "tags",
+        "url",
+        "version"
+      ],
+      "title": "Component"
+    }
+  }
+}

@@ -283,6 +283,8 @@
   },
   "version": 1,
   "_meta": {
-    "description": "Observability Metrics Mapping Template"
+    "description": "Observability Metrics Mapping Template",
+    "catalog": "Observability",
+    "type": "metrics"
   }
 }

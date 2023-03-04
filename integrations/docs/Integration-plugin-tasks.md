@@ -13,13 +13,35 @@ During the loading of the Integration Plugin it will go over all the [catalog sc
 template mapping for each catalog schema entity. This will allow the future Integration to be validated to the schema catalog they are associated with.
 
 **For example** - the [Observability](../../schema/observability) catalog will eventually be registered with the next mapping templates
- - [Traces](../../schema/observability/traces/traces-mapping.json)
+ - [Traces](../../schema/observability/traces/traces.mapping)
  - [Logs](../../schema/observability/logs/logs.mapping)
- - [Metrics](../../schema/observability/metrics/metrics-mapping.json)
+ - [Metrics](../../schema/observability/metrics/metrics.mapping)
 
 These mapping specify a backed `data-stream` index pattern they conform with [Naming Pattern](observability/Naming-convention.md).
 
-**_In the future this catalog may be exposed using a dedicated REST API_**
+**API**
+The catalog API can be queries according to the next fields:
+ - type
+ - catalog
+ - category
+ - version
+
+`GET _integration/catalog?filter=type:Logs&catalog:Observability&category:web`
+
+ This call will result with the appropriate index_template IDs corresponding to the query:
+
+```json
+{
+  "templates": ["sso_logs-template","http-template"],
+  "catalog":[...],
+  "category": [...],
+  "version": [...]
+}
+```
+
+Using the template names one can access the template directly using the `_index_template` URL:
+
+`GET _index_template/sso_logs-template`
 
 ---
 
@@ -92,9 +114,15 @@ After the `_integration/store/$instance_name` API was called the next steps will
 
  - The integration object will be inserted into the `.integration` index with a `LOADING` status
    - During this step the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`
+     - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{domain}-assetName.json`
+   - update the index template's `index_pattern` field with the added pattern
+     - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+---
    - **Success**: If the user changes the data-stream / index naming pattern - this will also be changes in every assets that supports such capability.
    - **Fail**:    If the validation fails the integration status would be updated to `maintenance` and an appropriate response should reflect the issues.
-     **Response**:
+   
+ 
+   - **Response**:
    ```json
    {
      "instance": "nginx-prod",
@@ -106,30 +134,38 @@ After the `_integration/store/$instance_name` API was called the next steps will
    ```
 
  - Next the integration will undergo a validation phase -  marked with a `VALIDATION` status
+      - assets will be validated with the schema to match fields to the mapping
+      - assets containing index patterns will be validated any index with these pattern exists
+      - datasource will be validated to verify connection is accessible
+      - mapping templates are verified to exist
+---
    - **Success**: If the validation succeeds the integration status would be updated
    - **Fail**:   If the validation fails the integration status would be updated and the next response would return.
-     **Response**:
-   ```json
-   {
-     "instance": "nginx-prod",
-     "integration-name": "nginx",
-     "status": "maintenance",
-     "phase": "VALIDATION",
-     "issues": [
-       { 
-         "asset": "dashboard",
-         "name": "nginx-prod-core",
-         "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
-         "issue": [
-           "field cloud.version is not present in mapping sso_log-nginx-prod"
-         ]
-       }
-     ]
-   }
-   ```
+  
+
+   - **Response**:
+     ```json
+     {
+       "instance": "nginx-prod",
+       "integration-name": "nginx",
+       "status": "maintenance",
+       "phase": "VALIDATION",
+       "issues": [
+         { 
+           "asset": "dashboard",
+           "name": "nginx-prod-core",
+           "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
+           "issue": [
+             "field cloud.version is not present in mapping sso_log-nginx-prod"
+           ]
+         }
+       ]
+     }
+     ```
 
 
  - The assets are being uploaded to the objects store index, if the users cherry picket specific assets to upload they will be loaded as requested.
+---
  - **Success**: If the upload succeeds the integration status would be updated and the user will get the success status response
    - **Response:**
     ```json

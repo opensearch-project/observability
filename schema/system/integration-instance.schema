@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/IntegrationInstance",
+  "definitions": {
+    "IntegrationInstance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "template": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": [
+            "https"
+          ],
+          "qt-uri-extensions": [
+            ".json"
+          ]
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        }
+      },
+      "required": [
+        "assets",
+        "creationDate",
+        "description",
+        "domain",
+        "id",
+        "name",
+        "namespace",
+        "status",
+        "template",
+        "version"
+      ],
+      "title": "IntegrationInstance"
+    },
+    "Asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "creationDate",
+        "name",
+        "status"
+      ],
+      "title": "Asset"
+    }
+  }
+}

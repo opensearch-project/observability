@@ -36,3 +36,34 @@ This will allow any future Integration using these catalogs without the need to 
 
 Each catalog may support semantic versioning so that it may evolve its schema as needed. 
 In the future, the catalog will enable to associate domains with catalogs and allow externally importing catalogs into Opensearch for additional collaboration. 
+
+### Catalog Structure
+A catalog is structured in the following way:
+
+ - Catalog named folder: `Observability`
+   - Categories named folder : `Logs`, `Traces`, `Metrics` 
+     - Component named file : `http` , `communication` , `traces` , `metrics` 
+
+Each level encapsulates additional internal structure that allows a greater level of composability and agility.
+The details of each catalog structure is described in the [catalog.json](system/samples/catalog.json) file that resides in the root level of each catalog folder.
+
+**Component** 
+The component is the leaf level definition of the catalog hierarchy, it details the actual building blocks of the catalog's types and fields.
+
+Each component has two flavours:
+
+ - `$component.mapping` - describes how the type is physically stored in the underlying index
+ - `$component.mapping` - describing the actual json schema for this component type
+
+A component may be classified as a `container` which has the ability to group / combine multiple components inside. 
+
+For example, we can examine the [`logs`](observability/logs/logs.mapping) component that has the capacity to combine additional components (such as `http`, `communication` and more)
+```json5
+  ...
+  "composed_of": [
+    "http_template",
+    "communication_template"
+  ],
+  ...
+```
+

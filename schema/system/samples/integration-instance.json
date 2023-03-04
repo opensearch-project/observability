@@ -1,0 +1,19 @@
+{
+  "name": "nginx",
+  "namespace": "prod",
+  "domain": "us_east",
+  "id": "nginx-prod-us_east",
+  "version":  "0.1.0",
+  "description": "Nginx HTTP server collector for east cost prod systems",
+  "template": "https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json",
+  "creationDate": "2016-08-29T09:12:33.001Z",
+  "status": "LOADED",
+  "assets": [
+    {
+      "name": "sso-logs-dashboard-new.ndjson",
+      "creationDate": "'2016-08-29T09:12:33.001Z'",
+      "status": "LOADED"
+    }
+  ]
+}
+

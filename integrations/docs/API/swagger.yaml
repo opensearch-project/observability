@@ -1,0 +1,287 @@
+openapi: 3.0.0
+info:
+  description: This is the Integration & Catalog API
+  version: "1.0.0"
+  title: Integration API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /catalog:
+    get:
+      tags:
+        - developers
+      summary: schema list of loaded catalogs
+      operationId: searchCatalog
+      description: |
+        By passing in the appropriate search attributes, you can search for
+        available catalogs in the system
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up catalog components
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../../schema/system/catalog.schema'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds a catalog item
+      operationId: addCatalog
+      description: |
+        Adds a catalog item to the system, expecting the internal URLs to be accessible
+      requestBody:
+        description: Inventory item to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../../schema/system/catalog.schema'
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+  /repository:
+    get:
+      tags:
+        - developers
+      summary: repository of available integrations
+      operationId: searchRepository
+      description: |
+        By passing in the appropriate search attributes, you can search for
+        available integration in the repository (available for loading into the store)
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up available Integrations
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../../schema/system/integration.schema'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds an Integration item
+      operationId: addIntegration
+      description: |
+       Adds an Integration to the repository, expecting the internal URLs to be accessible
+      requestBody:
+        required: true
+        description: Inventory item to add
+        content:
+          application/json:
+            schema:
+              $ref: '../../../schema/system/integration.schema'
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+  /store:
+    get:
+      tags:
+        - developers
+      summary: get all stored Integrations
+      operationId: searchStore
+      description: |
+        By passing in the appropriate search attributes, you can search for
+        available Integrations in the store
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up Integration in the store
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../../schema/system/integration-instance.schema'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds an Integration item to store
+      operationId: storeIntegration
+      description: |
+       Adds an Integration to the system store, expecting the internal URLs to be accessible
+      requestBody:
+        required: true
+        description: Inventory item to add
+        content:
+          application/json:
+            schema:
+              $ref: '../../../schema/system/integration-instance.schema'
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+  /store/{id}/status:
+    get:
+      tags:
+        - developers
+      summary: get status for a loaded Integration
+      operationId: integrationStatus
+      description: |
+        Get the Integration's status in the store
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../../schema/system/integration-instance.schema'
+        '400':
+          description: bad input parameter
+  /store/{id}/validate:
+    post:
+      tags:
+        - developers
+      summary: validates an Integration
+      operationId: integrationValidate
+      description: |
+        validate this integration including all its assets
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../../schema/system/integration-instance.schema'
+        '400':
+          description: bad input parameter
+  /store/{id}/upload:
+    post:
+      tags:
+        - developers
+      summary: upload Integration's assets
+      operationId: integrationUploadAssets
+      description: |
+        Load a list of assets associated with this integration into 
+        available Integrations in the system store
+      requestBody:
+        required: false
+        description: Inventory items to upload
+        content:
+          application/json:
+            schema:
+              $ref: '../../../schema/system/integration-instance.schema'
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../../schema/system/integration-instance.schema'
+        '400':
+          description: bad input parameter
+  /store/{id}/activate:
+    put:
+      tags:
+        - developers
+      summary: activate an Integration
+      operationId: integrationActivate
+      description: |
+        attempts activating an integration that may be in an intermediate phase
+        during the storage process
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../../schema/system/integration-instance.schema'
+        '400':
+          description: bad input parameter
