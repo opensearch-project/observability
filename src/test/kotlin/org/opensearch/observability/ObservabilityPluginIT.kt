@@ -11,6 +11,7 @@ import org.opensearch.cluster.health.ClusterHealthStatus
 import org.opensearch.plugins.PluginInfo
 import org.opensearch.test.OpenSearchIntegTestCase
 
+@Suppress("TooManyFunctions")
 class ObservabilityPluginIT : OpenSearchIntegTestCase() {
     fun testPluginsAreInstalled() {
         val request = ClusterHealthRequest()
