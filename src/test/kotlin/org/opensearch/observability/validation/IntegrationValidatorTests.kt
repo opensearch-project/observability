@@ -3,27 +3,47 @@ package org.opensearch.observability.validation
 import com.fasterxml.jackson.core.JsonParseException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.opensearch.common.Strings
+import org.opensearch.common.xcontent.json.JsonXContent
 
 internal class IntegrationValidatorTests {
+    private fun buildIntegration(with: Map<String, Any> = mapOf(), without: Set<String> = setOf()): String {
+        val defaults = mapOf(Pair("name", "test"))
+        val builder = JsonXContent.contentBuilder()
+        builder.startObject()
+        for (entry in defaults.entries) {
+            if (without.contains(entry.key)) {
+                continue
+            }
+            if (!with.contains(entry.key)) {
+                builder.field(entry.key, entry.value)
+                continue
+            }
+            builder.field(entry.key, with[entry.key])
+        }
+        builder.endObject()
+        return Strings.toString(builder)
+    }
+
     @Test
     fun testConfigInvalidJson() {
-        val config = "{\"name\": \"test\""
+        val config = "{"
         val validator = IntegrationValidator(config)
-        assertThrows<JsonParseException> {
+        assertThrows<ValidationException> {
             validator.validate().getOrThrow()
         }
     }
 
     @Test
-    fun testValidatorValidName() {
-        val config = "{\"name\": \"test\"}"
+    fun testValidatorValidIntegration() {
+        val config = buildIntegration()
         val validator = IntegrationValidator(config)
         validator.validate().getOrThrow()
     }
 
     @Test
     fun testValidatorBlankName() {
-        val config = "{\"name\": \"\"}"
+        val config = buildIntegration(mapOf(Pair("name", "")))
         val validator = IntegrationValidator(config)
         assertThrows<ValidationException> {
             validator.validate().getOrThrow()
@@ -32,7 +52,7 @@ internal class IntegrationValidatorTests {
 
     @Test
     fun testValidatorMissingName() {
-        val config = "{}"
+        val config = buildIntegration(without=setOf("name"))
         val validator = IntegrationValidator(config)
         assertThrows<ValidationException> {
             validator.validate().getOrThrow()
@@ -41,7 +61,7 @@ internal class IntegrationValidatorTests {
 
     @Test
     fun testValidatorNonStringName() {
-        val config = "{\"name\": 1}"
+        val config = buildIntegration(mapOf(Pair("name", 1)))
         val validator = IntegrationValidator(config)
         assertThrows<ValidationException> {
             validator.validate().getOrThrow()

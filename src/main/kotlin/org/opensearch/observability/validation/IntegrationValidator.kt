@@ -26,10 +26,10 @@ class IntegrationValidator(val config: String) {
                 config
             )
         } catch (ex: Exception) {
-            when (ex) {
+            return when (ex) {
                 is JsonParseException,
-                is UnsupportedOperationException,
-                is ValidationException -> return Result.failure(ex)
+                is UnsupportedOperationException -> Result.failure(ValidationException(cause=ex))
+                is ValidationException -> Result.failure(ex)
                 else -> throw ex
             }
         }

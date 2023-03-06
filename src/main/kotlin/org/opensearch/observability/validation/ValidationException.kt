@@ -1,4 +1,4 @@
 package org.opensearch.observability.validation
 
-class ValidationException(message: String) : Exception(message) {
+class ValidationException(message: String? = null, cause: Throwable? = null) : Exception(message, cause) {
 }
