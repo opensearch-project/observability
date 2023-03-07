@@ -28,8 +28,8 @@ class IntegrationValidator(val config: String) {
         } catch (ex: Exception) {
             return when (ex) {
                 is JsonParseException,
-                is UnsupportedOperationException -> Result.failure(ValidationException(cause=ex))
-                is ValidationException -> Result.failure(ex)
+                is UnsupportedOperationException -> Result.failure(IntegrationValidationException(cause=ex))
+                is IntegrationValidationException -> Result.failure(ex)
                 else -> throw ex
             }
         }
@@ -37,13 +37,13 @@ class IntegrationValidator(val config: String) {
 
     private fun validateName(name: Any?): Result<String> {
         if (name == null) {
-            return Result.failure(ValidationException("integration key `name` is required, but was not supplied"))
+            return Result.failure(IntegrationValidationException("integration key `name` is required, but was not supplied"))
         }
         if (name !is String) {
-            return Result.failure(ValidationException("integration key `name` must be String, but was ${name.javaClass}"))
+            return Result.failure(IntegrationValidationException("integration key `name` must be String, but was ${name.javaClass}"))
         }
         if (name.isBlank()) {
-            return Result.failure(ValidationException("integration key `name` may not be blank"))
+            return Result.failure(IntegrationValidationException("integration key `name` may not be blank"))
         }
         return Result.success(name)
     }

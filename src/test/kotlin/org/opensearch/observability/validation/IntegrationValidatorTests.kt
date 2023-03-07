@@ -29,7 +29,7 @@ internal class IntegrationValidatorTests {
     fun testConfigInvalidJson() {
         val config = "{"
         val validator = IntegrationValidator(config)
-        assertThrows<ValidationException> {
+        assertThrows<IntegrationValidationException> {
             validator.validate().getOrThrow()
         }
     }
@@ -45,7 +45,7 @@ internal class IntegrationValidatorTests {
     fun testValidatorBlankName() {
         val config = buildIntegration(mapOf(Pair("name", "")))
         val validator = IntegrationValidator(config)
-        assertThrows<ValidationException> {
+        assertThrows<IntegrationValidationException> {
             validator.validate().getOrThrow()
         }
     }
@@ -54,7 +54,7 @@ internal class IntegrationValidatorTests {
     fun testValidatorMissingName() {
         val config = buildIntegration(without=setOf("name"))
         val validator = IntegrationValidator(config)
-        assertThrows<ValidationException> {
+        assertThrows<IntegrationValidationException> {
             validator.validate().getOrThrow()
         }
     }
@@ -63,7 +63,7 @@ internal class IntegrationValidatorTests {
     fun testValidatorNonStringName() {
         val config = buildIntegration(mapOf(Pair("name", 1)))
         val validator = IntegrationValidator(config)
-        assertThrows<ValidationException> {
+        assertThrows<IntegrationValidationException> {
             validator.validate().getOrThrow()
         }
     }
