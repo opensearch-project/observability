@@ -323,3 +323,6 @@ local-test
 .local-*
 
 /artifacts/
+
+# Python Virtual Env
+**/venv
