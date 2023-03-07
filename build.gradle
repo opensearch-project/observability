@@ -110,6 +110,7 @@ allOpen {
 
 configurations {
     ktlint
+    zipArchive
 }
 
 detekt {
@@ -162,6 +163,7 @@ allprojects {
 }
 
 dependencies {
+    zipArchive group: 'org.opensearch.plugin', name:'opensearch-job-scheduler', version: "${opensearch_build}"
     implementation "org.opensearch:opensearch:${opensearch_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
@@ -286,7 +288,6 @@ integTest {
 Zip bundle = (Zip) project.getTasks().getByName("bundlePlugin");
 integTest.dependsOn(bundle)
 integTest.getClusters().forEach { c -> c.plugin(project.getObjects().fileProperty().value(bundle.getArchiveFile())) }
-String jobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/" + opensearch_version.replace("-SNAPSHOT", "") + "/latest/linux/x64/tar/builds/opensearch/plugins/opensearch-job-scheduler-" + opensearch_build.replace("-SNAPSHOT", "") + ".zip"
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
@@ -297,15 +298,7 @@ testClusters.integTest {
             return new RegularFile() {
                 @Override
                 File getAsFile() {
-                    File dir = new File("src/test/resources/job-scheduler")
-                    if (!dir.exists()) {
-                        dir.mkdirs()
-                    }
-                    File file = new File(dir, "opensearch-job-scheduler-" + opensearch_build + ".zip")
-                    if (!file.exists()) {
-                        new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
-                    }
-                    return fileTree("src/test/resources/job-scheduler").getSingleFile()
+                    return configurations.zipArchive.asFileTree.getSingleFile()
                 }
             }
         }
@@ -326,14 +319,14 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String baseVersion = "2.6.0"
+String baseVersion = "2.7.0"
 String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
 String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip" 
-String remoteFileURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcObservabilityPlugin
-String bwcJobSchedulerURL = "https://ci.opensearch.org/ci/dbc/distribution-build-opensearch/${baseVersion}/latest/linux/x64/tar/builds/opensearch/plugins/" + bwcJobSchedulerPlugin
+String remoteFileURL = "https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-observability/2.7.0.0-SNAPSHOT/opensearch-observability-2.7.0.0-20230307.002038-1.zip"
+String bwcJobSchedulerURL = "https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-job-scheduler/2.7.0.0-SNAPSHOT/opensearch-job-scheduler-2.7.0.0-20230307.020232-12.zip"
 
 2.times {i ->
     testClusters {
@@ -398,15 +391,7 @@ task prepareBwcTests {
                         return new RegularFile() {
                             @Override
                             File getAsFile() {
-                                File dir = new File(bwcFilePath + "job-scheduler/" + project.version)
-                                if (!dir.exists()) {
-                                    dir.mkdirs()
-                                }
-                                File file = new File(dir, "opensearch-job-scheduler-" + project.version + ".zip")
-                                if (!file.exists()) {
-                                    new URL(jobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
-                                }
-                                return fileTree(bwcFilePath + "job-scheduler/" + project.version).getSingleFile()
+                                return configurations.zipArchive.asFileTree.getSingleFile()
                             }
                         }
                     }
