@@ -1,6 +1,5 @@
 package org.opensearch.observability.validation
 
-import com.fasterxml.jackson.core.JsonParseException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.common.Strings
@@ -8,7 +7,11 @@ import org.opensearch.common.xcontent.json.JsonXContent
 
 internal class IntegrationValidatorTests {
     private fun buildIntegration(with: Map<String, Any> = mapOf(), without: Set<String> = setOf()): String {
-        val defaults = mapOf(Pair("name", "test"))
+        val defaults = mapOf(
+            Pair("name", "test"),
+            Pair("desc", "This is a test integration config"),
+            Pair("categories", listOf("cat1", "cat2")),
+        )
         val builder = JsonXContent.contentBuilder()
         builder.startObject()
         for (entry in defaults.entries) {
