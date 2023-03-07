@@ -6,7 +6,7 @@
 package org.opensearch.observability.model
 
 import org.opensearch.common.io.stream.Writeable
-import org.opensearch.common.xcontent.ToXContent
+import org.opensearch.core.xcontent.ToXContent
 
 /**
  * interface for representing objects.
