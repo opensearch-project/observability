@@ -180,14 +180,14 @@ paths:
           description: 'invalid input, object invalid'
         '409':
           description: an existing item already exists
-  /store/{id}/status:
+  /store/{id}:
     get:
       tags:
         - developers
-      summary: get status for a loaded Integration
+      summary: get stored Integration status
       operationId: integrationStatus
       description: |
-        Get the Integration's status in the store
+        Get the stored Integration's status
       parameters:
         - in: path
           name: id
@@ -197,7 +197,7 @@ paths:
             type: string
       responses:
         '200':
-          description: integration store status
+          description: stored integration status
           content:
             application/json:
               schema:
