@@ -30,7 +30,7 @@
             "$ref": "#/definitions/Collection"
           }
         },
-        "Repository": {
+        "repository": {
           "$ref": "#/definitions/Repository"
         }
       },
@@ -40,7 +40,7 @@
         "description",
         "identification",
         "name",
-        "Repository",
+        "repository",
         "version"
       ],
       "title": "Integration"
