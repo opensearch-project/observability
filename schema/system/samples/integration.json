@@ -17,15 +17,13 @@
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
-        "labels" :["nginx","access"],
-        "schema": "./schema/logs/access.json"
+        "labels" :["nginx","access"]
       },
         {
           "info": "error logs",
           "input_type":"logfile",
           "labels" :["nginx","error"],
-          "dataset":"nginx.error",
-          "schema": "./schema/logs/error.json"
+          "dataset":"nginx.error"
         }]
     },
     {
@@ -33,8 +31,7 @@
         "info": "status metrics",
         "input_type":"metrics",
         "dataset":"nginx.status",
-        "labels" :["nginx","status"],
-        "schema": "./schema/metrics/status.json"
+        "labels" :["nginx","status"]
       }]
     }
   ],

@@ -114,7 +114,7 @@ After the `_integration/store/$instance_name` API was called the next steps will
 
  - The integration object will be inserted into the `.integration` index with a `LOADING` status
    - During this step the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`
-     - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{domain}-assetName.json`
+     - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
    - update the index template's `index_pattern` field with the added pattern
      - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
 ---

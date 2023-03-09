@@ -1,7 +1,7 @@
 {
   "name": "nginx",
-  "namespace": "prod",
-  "domain": "us_east",
+  "dataset": "prod",
+  "namespace": "us_east",
   "id": "nginx-prod-us_east",
   "version":  "0.1.0",
   "description": "Nginx HTTP server collector for east cost prod systems",

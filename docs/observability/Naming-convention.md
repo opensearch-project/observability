@@ -1,6 +1,6 @@
 # Naming Convention
 This document will describe the index naming standard for ingestion of Observability signals - Traces, Metrics, Logs.
-Currently there is no single coherent pattern to use for all Observability signals and potential data sources.
+Currently, there is no single coherent pattern to use for all Observability signals and potential data sources.
 
 For example - `data-prepper` use their own index naming and structure to ingest Observability signals.
 
@@ -21,7 +21,7 @@ Today due to different index structure and non-standard naming patterns we cant 
 We would use the next structure and naming patterns based on the following conventions :
 1) Add `data_stream` support for all Observability based standard indices
 2) Use a standard Observability signals naming index conventions
-3) Create customer domain naming degree of freedom to allow arbitrary names for specific customer use-cases
+3) Create customer namespace naming degree of freedom to allow arbitrary names for specific customer use-cases
 4) Move the Observability Indices Template & default index creation into Observability Plugin bootstrap
 
 ---

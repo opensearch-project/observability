@@ -12,7 +12,7 @@
         "namespace": {
           "type": "string"
         },
-        "domain": {
+        "dataset": {
           "type": "string"
         },
         "id": {
@@ -52,7 +52,7 @@
         "assets",
         "creationDate",
         "description",
-        "domain",
+        "dataset",
         "id",
         "name",
         "namespace",

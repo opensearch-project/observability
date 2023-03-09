@@ -189,7 +189,7 @@ each representing different domain / aspect such as geographic.
 During the UX interaction with the user, user can update data-stream details shown here:
 ![Screenshot 2023-03-01 at 11 28 00 AM](https://user-images.githubusercontent.com/48943349/222274241-f8689084-5ff5-432f-bc06-83546ac255ec.png)
 
-If the user keeps all the original data-stream naming convention (namespace and domain) the next phase would be the validation of the integration prior to loading all the assets.
+If the user keeps all the original data-stream naming convention (namespace and dataset) the next phase would be the validation of the integration prior to loading all the assets.
 
 ### Data-Stream / index naming update
 In case the user wants to update the data-stream / index naming details - he may do so using dedicated window.
@@ -197,7 +197,7 @@ Selection of the naming convention may also display available existing data-stre
 
 Once user changes the data-stream / index pattern - this will be reflected in every asset that has this attribute.
  - update the asset name (according to the `instance_name` field)
-   - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{domain}-assetName.json`
+   - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
  - update the index template's `index_pattern` field with the added pattern 
    - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
 

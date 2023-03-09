@@ -131,15 +131,13 @@ nginX
                     "info": "access logs",
                     "input_type":"logfile",
                     "dataset":"nginx.access",
-                    "labels" :["`nginx"``,``"access"``],`
-                    "schema": "./schema/logs/access.json"
+                    "labels" :["nginx","access"]
                 },
                 {
                     "info": "error logs",
                     "input_type":"logfile",
                     "labels" :["nginx","error"],
-                    "dataset":"nginx.error",
-                    "schema": "./schema/logs/error.json"
+                    "dataset":"nginx.error"
                 }]
     },
     {
@@ -147,8 +145,7 @@ nginX
                     "info": "`status metrics`",
                     "input_type":"`metrics`",
                     "dataset":"nginx.status",
-                    "labels" :["nginx","status"],
-                    "schema": "./schema/metrics/status.json"
+                    "labels" :["nginx","status"]
                 }]
     }
   ],
@@ -202,21 +199,20 @@ The collection **name** (`logs`,`traces`,`metrics`) reflects the catalog's `cate
 Let's dive into a specific log collection:
 
 ```
-       "logs": [{
-                    "info": "access logs",
-                    "input_type":"logfile",
-                    "dataset":"nginx.access",
-                    "labels" :["`nginx"``,``"access"``],`
-                    "schema": "./schema/logs/access.json"
-                },
+   "logs": [{
+                "info": "access logs",
+                "input_type":"logfile",
+                "dataset":"nginx.access",
+                "labels" :["nginx","access"]
+            },
 ```
 
 This log collects nginx access logs as described in the `info` section.
 The `input_type` is a categorical classification of the log kind which is specified in the ECS specification as well.
 
-- `dataset`  is defined above and indicates the target routing index.
+- `dataset` is defined above and indicates the target routing index, in this example `sso_logs-nginx.access-${namespace}` 
 - `lables`  are general purpose labeling tags that allow further correlation and associations.
-- `schema`  is the location of the mapping configuration between the original log format to the Observability Log format.
+- `schema`  optional parameter - is the location of the mapping configuration between the original log format to the Observability Log format.
 * * *
 
 #### Display:

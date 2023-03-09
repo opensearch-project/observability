@@ -23,7 +23,7 @@ Observability bootstrap initiates the state for all the Integrations bundled wit
 
 - Loading an integration may also allow the user to configure some parts of the Integration so that he could load multiple instances of the same integration template - for example for a service provider with different customers having a similar resource.
 - Configure index pattern / name
-- Configure datasource (domain) name (shared by the dashboards, queries, visualizations, alerts)
+- Configure datasource (namespace) name (shared by the dashboards, queries, visualizations, alerts)
 - Configure security policies
 
 ***Maintenance***
