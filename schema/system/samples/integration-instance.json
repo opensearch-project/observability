@@ -1,5 +1,5 @@
 {
-  "name": "nginx",
+  "template-name": "nginx",
   "dataset": "prod",
   "namespace": "us_east",
   "id": "nginx-prod-us_east",

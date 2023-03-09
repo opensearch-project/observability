@@ -6,7 +6,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "name": {
+        "template-name": {
           "type": "string"
         },
         "namespace": {
@@ -54,7 +54,7 @@
         "description",
         "dataset",
         "id",
-        "name",
+        "template-name",
         "namespace",
         "status",
         "template",

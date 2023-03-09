@@ -9,7 +9,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "name": {
+        "template-name": {
           "type": "string"
         },
         "version": {
@@ -32,7 +32,7 @@
         "catalog",
         "collections",
         "description",
-        "name",
+        "template-name",
         "version"
       ],
       "title": "IntegrationsTemplateList"

@@ -89,7 +89,7 @@ The frontend responsibilities :
 
 In addition, the following API is also supported
 ```
-GET _integration/repository/$name
+GET _integration/repository/$templat_name
 ```
 This call results in returning the cached integration config json object
 It would be used for display and route the F/E for fetching the relevant page assets
@@ -141,7 +141,7 @@ each representing different domain / aspect such as geographic.
 
 ```jsoon
 {
-  "name": "nginx",
+  "template-name": "nginx",
   "version": {
     "integ": "0.1.0",
     "schema": "1.0.0",
@@ -229,8 +229,8 @@ the current state of the integration:
 **Response**:
 ```json
 {
+  "template-name": "nginx",
   "instance": "nginx-prod",
-  "integration-name": "nginx",
   "status": "maintenance",
   "issues": [
     { 

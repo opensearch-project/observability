@@ -113,7 +113,7 @@ nginX
 
 ```
 {
-  "name": "nginx",
+  "template_name": "nginx",
   "version": {
         "integ": "0.1.0",
         "schema": "1.0.0",

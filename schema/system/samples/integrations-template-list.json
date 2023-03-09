@@ -1,6 +1,6 @@
 [
   {
-    "name": "nginx",
+    "template-name": "nginx",
     "version":  "1.0.0",
     "description": "Nginx HTTP server collector",
     "catalog": "observability",

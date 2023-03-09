@@ -1,5 +1,5 @@
 {
-  "name": "nginx",
+  "template-name": "nginx",
   "version": {
     "integration": "0.1.0",
     "schema": "1.0.0",

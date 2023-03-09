@@ -6,7 +6,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "name": {
+        "template-name": {
           "type": "string"
         },
         "version": {
@@ -43,7 +43,7 @@
         "collection",
         "description",
         "identification",
-        "name",
+        "template-name",
         "Repository",
         "version"
       ],

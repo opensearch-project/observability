@@ -48,9 +48,20 @@ Using the template names one can access the template directly using the `_index_
 ### Integrations registry
 
 During the Integration plugin loading, it will scan the Integration folder (or any resource that functions as the integration repository ) and load each repository [config file](../../schema/system/integration.schema)
-into an in memory cache allowing to query and filter according to the different integration attributes.
+into an in memory cache / index allowing to query and filter according to the different integration attributes.
 
-This cache will allow the F/E to retrieve additional content residing in the integration folder directly ( images, html pages, URL's ) 
+### External Integrations registry loading
+"External integrations" (ones that are not packaged in the original integrations bundle) can be published by the user.
+These "external" integrations are packages as a zip bundle and contain all the relevant resources including:
+ - `images`
+ - `assets`
+ - `documents`
+ - `icons`
+
+Once the user has uploaded this zip bundle using the `POST /repository` API, this bundle will be maintained inside the repository index (Blob file or extracted bundle).
+
+In addition to the repository index, the Integration may use a repository cache that will allow the F/E to retrieve additional content residing in the integration folder directly ( images, html pages, URL's ) 
+
 #### Flow Diagram
 ![Screenshot 2023-03-01 at 7 00 50 PM](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
 
@@ -61,13 +72,9 @@ GET _integration/repository?filter=type:Logs&category:web,html
 ```
  - results a list of integrations
 
-Query integration by name:
-```
-GET _integration/repository/$name
-```
 - Query integration by name:
 ```
-GET _integration/repository/$name
+GET _integration/repository/$template_name
 ```
 - results a single integration
 
