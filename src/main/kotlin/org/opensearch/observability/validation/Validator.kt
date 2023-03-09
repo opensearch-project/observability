@@ -7,6 +7,10 @@ import com.worldturner.medeia.api.PathSchemaSource
 import com.worldturner.medeia.api.ValidationFailedException
 import com.worldturner.medeia.api.jackson.MedeiaJacksonApi
 import com.worldturner.medeia.schema.validation.SchemaValidator
+import org.opensearch.common.xcontent.DeprecationHandler
+import org.opensearch.common.xcontent.NamedXContentRegistry
+import org.opensearch.common.xcontent.XContentParser
+import org.opensearch.common.xcontent.json.JsonXContent
 import org.opensearch.commons.utils.logger
 import java.io.File
 import java.io.FileNotFoundException
@@ -28,14 +32,21 @@ class Validator(val component: IntegrationComponent) {
         return medeiaApi.loadSchema(schemaSource)
     }
 
-    fun validate(json: String): Result<JsonNode> {
+    fun validate(json: String): Result<XContentParser> {
         return try {
             val mapper = jacksonObjectMapper()
-            val parser = medeiaApi.decorateJsonParser(
+            val medeia = medeiaApi.decorateJsonParser(
                 loadComponentSchema(),
                 mapper.createParser(json)
             )
-            Result.success(parser.readValueAsTree())
+            // Validation happens when tree is read
+            medeia.readValueAsTree<JsonNode>()
+            val xContentParser = JsonXContent.jsonXContent.createParser(
+                NamedXContentRegistry.EMPTY,
+                DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
+                json
+            )
+            Result.success(xContentParser)
         } catch (ex: JsonParseException) {
             Result.failure(ex)
         } catch (ex: ValidationFailedException) {
