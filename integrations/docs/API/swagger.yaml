@@ -124,7 +124,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '../../../schema/system/integration.schema'
+                  $ref: '../../../schema/system/integrations-template-list.schema'
         '400':
           description: bad input parameter
     post:

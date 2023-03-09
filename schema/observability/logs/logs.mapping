@@ -198,7 +198,7 @@
   "version": 1,
   "_meta": {
     "description": "Simple Schema For Observability",
-    "catalog": "Observability",
+    "catalog": "observability",
     "type": "logs"
   }
 }

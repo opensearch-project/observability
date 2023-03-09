@@ -1,5 +1,5 @@
 {
-  "catalog": "Observability",
+  "catalog": "observability",
   "version": "1.0",
   "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability",
   "categories": [

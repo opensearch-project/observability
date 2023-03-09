@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/IntegrationsTemplateList"
+  },
+  "definitions": {
+    "IntegrationsTemplateList": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "catalog": {
+          "type": "string"
+        },
+        "collections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "catalog",
+        "collections",
+        "description",
+        "name",
+        "version"
+      ],
+      "title": "IntegrationsTemplateList"
+    }
+  }
+}
