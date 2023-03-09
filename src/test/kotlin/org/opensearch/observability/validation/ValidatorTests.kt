@@ -16,7 +16,7 @@ internal class ValidatorTests {
             Pair("identification", "12345"),
             Pair("categories", listOf("cat1", "cat2")),
             Pair("collection", emptyList<String>()),
-            Pair("Repository", mapOf(
+            Pair("repository", mapOf(
                 Pair("url", "https://example.com/")
             )),
             Pair("version", mapOf(

@@ -33,7 +33,8 @@
         "dataset": "nginx.error",
         "schema": "./schema/logs/error.json"
       }
-    ],
+    ]
+  }, {
     "metrics": [
       {
         "info": "status metrics",
