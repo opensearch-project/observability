@@ -68,6 +68,30 @@ paths:
           description: 'invalid input, object invalid'
         '409':
           description: an existing item already exists
+  /catalog/{id}:
+    get:
+      tags:
+        - developers
+      summary: get catalog by id
+      operationId: catalogById
+      description: |
+        Get a specific catalog by Id
+      parameters:
+        - in: path
+          name: id
+          description: catalog instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: catalog
+          content:
+            application/json:
+              schema:
+                $ref: '../../../schema/system/catalog.schema'
+        '400':
+          description: bad input parameter
   /repository:
     get:
       tags:
@@ -76,11 +100,11 @@ paths:
       operationId: searchRepository
       description: |
         By passing in the appropriate search attributes, you can search for
-        available integration in the repository (available for loading into the store)
+        available integration templates in the repository (available for loading into the store)
       parameters:
         - in: query
           name: searchString
-          description: pass an optional search string for looking up available Integrations
+          description: pass an optional search string for looking up available Integrations template
           required: false
           schema:
             type: string
@@ -106,13 +130,13 @@ paths:
     post:
       tags:
         - admins
-      summary: adds an Integration item
+      summary: adds an Integration template item
       operationId: addIntegration
       description: |
-       Adds an Integration to the repository, expecting the internal URLs to be accessible
+       Adds an Integration template to the repository, expecting the internal URLs to be accessible
       requestBody:
         required: true
-        description: Inventory item to add
+        description: Inventory template item to add
         content:
           application/json:
             schema:
@@ -124,6 +148,30 @@ paths:
           description: 'invalid input, object invalid'
         '409':
           description: an existing item already exists
+  /repository/{id}:
+    get:
+      tags:
+        - developers
+      summary: get integration template from the repository by id
+      operationId: integrationFromRepositoryById
+      description: |
+        Get a specific Integration from the repository by Id
+      parameters:
+        - in: path
+          name: id
+          description: integration name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Integration template
+          content:
+            application/json:
+              schema:
+                $ref: '../../../schema/system/integration.schema'
+        '400':
+          description: bad input parameter
   /store:
     get:
       tags:

@@ -20,7 +20,7 @@ As part of the Integration Ux workflow, once the Integration plugin is loaded it
 The API needed from the backend should be as follows:
 Query:
 ```text
-GET _integration/repository?filter=type:Logs&category:web,html
+GET _integration/repository?filter=category:logs&component:web
 ```
 **Response**:
 ```jsoon
@@ -34,7 +34,8 @@ GET _integration/repository?filter=type:Logs&category:web,html
   "description": "Nginx HTTP server collector",
   "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
-  "categories": [
+  "catalog": "observability",
+  "components": [
     "web","http"
   ],
   "collection":[
@@ -149,7 +150,8 @@ each representing different domain / aspect such as geographic.
   "description": "Nginx HTTP server collector",
   "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
-  "categories": [
+  "catalog": "observability",
+  "components": [
     "web","http"
   ],
   "collection":[

@@ -66,4 +66,16 @@ For example, we can examine the [`logs`](observability/logs/logs.mapping) compon
   ],
   ...
 ```
+A component also has a list of `tags` which are aliases for the component name which can be used to reference it directly by an integration components list.
 
+```json5
+  ...
+    {
+      "component": "communication",
+      "version": "1.0",
+      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication",
+      "tags": ["web"],
+      "container": false
+    }
+  ...
+```
