@@ -28,14 +28,11 @@ internal class ValidatorTests {
         val builder = JsonXContent.contentBuilder()
         builder.startObject()
         for (entry in defaults.entries) {
-            if (without.contains(entry.key)) {
-                continue
+            when {
+                without.contains(entry.key) -> continue
+                with.contains(entry.key) -> builder.field(entry.key, with[entry.key])
+                else -> builder.field(entry.key, entry.value)
             }
-            if (!with.contains(entry.key)) {
-                builder.field(entry.key, entry.value)
-                continue
-            }
-            builder.field(entry.key, with[entry.key])
         }
         builder.endObject()
         return Strings.toString(builder)

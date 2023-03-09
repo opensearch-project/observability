@@ -38,8 +38,6 @@ class Validator(val component: IntegrationComponent) {
             Result.success(parser.readValueAsTree())
         } catch (ex: JsonParseException) {
             Result.failure(ex)
-        } catch (ex: ValidatorException) {
-            Result.failure(ex)
         } catch (ex: ValidationFailedException) {
             Result.failure(ex)
         }
