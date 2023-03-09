@@ -1,12 +1,12 @@
 package org.opensearch.observability.validation
 
 import com.fasterxml.jackson.core.JsonParseException
-import com.worldturner.medeia.api.ValidationFailedException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.common.Strings
 import org.opensearch.common.xcontent.json.JsonXContent
 import java.io.File
+import kotlin.test.assertEquals
 
 internal class ValidatorTests {
     private fun buildIntegration(with: Map<String, Any> = mapOf(), without: Set<String> = setOf()): String {
@@ -44,7 +44,7 @@ internal class ValidatorTests {
         val config = "{"
         val validator = Validator(IntegrationComponent.INTEGRATION)
         assertThrows<JsonParseException> {
-            validator.validate(config).getOrThrow()
+            validator.validate(config)
         }
     }
 
@@ -65,7 +65,7 @@ internal class ValidatorTests {
             val sampleDir = component.resourcePath.substring(0, component.resourcePath.lastIndexOf("/")) + "/samples/"
             val samplePath = sampleDir + sampleFiles[component]
             val sampleJson = File(samplePath).readText(Charsets.UTF_8)
-            validator.validate(sampleJson).getOrThrow()
+            assertEquals(validator.validate(sampleJson).validationMessages.size, 0)
         }
     }
 
@@ -73,17 +73,13 @@ internal class ValidatorTests {
     fun testValidatorMissingField() {
         val config = buildIntegration(without = setOf("name"))
         val validator = Validator(IntegrationComponent.INTEGRATION)
-        assertThrows<ValidationFailedException> {
-            validator.validate(config).getOrThrow()
-        }
+        assertEquals(validator.validate(config).validationMessages.size, 1)
     }
 
     @Test
     fun testValidatorWrongFieldType() {
         val config = buildIntegration(mapOf(Pair("name", 1)))
         val validator = Validator(IntegrationComponent.INTEGRATION)
-        assertThrows<ValidationFailedException> {
-            validator.validate(config).getOrThrow()
-        }
+        assertEquals(validator.validate(config).validationMessages.size, 1)
     }
 }

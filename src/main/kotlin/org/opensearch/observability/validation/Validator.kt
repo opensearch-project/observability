@@ -1,16 +1,10 @@
 package org.opensearch.observability.validation
 
-import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.worldturner.medeia.api.PathSchemaSource
-import com.worldturner.medeia.api.ValidationFailedException
-import com.worldturner.medeia.api.jackson.MedeiaJacksonApi
-import com.worldturner.medeia.schema.validation.SchemaValidator
-import org.opensearch.common.xcontent.DeprecationHandler
-import org.opensearch.common.xcontent.NamedXContentRegistry
-import org.opensearch.common.xcontent.XContentParser
-import org.opensearch.common.xcontent.json.JsonXContent
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.networknt.schema.JsonSchema
+import com.networknt.schema.JsonSchemaFactory
+import com.networknt.schema.SpecVersionDetector
+import com.networknt.schema.ValidationResult
 import org.opensearch.commons.utils.logger
 import java.io.File
 import java.io.FileNotFoundException
@@ -20,37 +14,23 @@ class Validator(val component: IntegrationComponent) {
         private val log by logger(Validator::class.java)
     }
 
-    private val medeiaApi = MedeiaJacksonApi()
+    private val mapper = ObjectMapper()
 
-    private fun loadComponentSchema(): SchemaValidator {
+    private fun loadComponentSchema(): JsonSchema {
         val schemaFile = File(component.resourcePath)
         if (!schemaFile.exists()) {
             log.fatal("could not find schema '${schemaFile.path}' for component '$component'")
             throw FileNotFoundException("could not find schema '${schemaFile.path}'")
         }
-        val schemaSource = PathSchemaSource(schemaFile.toPath())
-        return medeiaApi.loadSchema(schemaSource)
+        val schemaSource = schemaFile.readText(Charsets.UTF_8)
+        val schemaNode = mapper.readTree(schemaSource)
+        val factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode))
+        return factory.getSchema(schemaNode)
     }
 
-    fun validate(json: String): Result<XContentParser> {
-        return try {
-            val mapper = jacksonObjectMapper()
-            val medeia = medeiaApi.decorateJsonParser(
-                loadComponentSchema(),
-                mapper.createParser(json)
-            )
-            // Validation happens when tree is read
-            medeia.readValueAsTree<JsonNode>()
-            val xContentParser = JsonXContent.jsonXContent.createParser(
-                NamedXContentRegistry.EMPTY,
-                DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
-                json
-            )
-            Result.success(xContentParser)
-        } catch (ex: JsonParseException) {
-            Result.failure(ex)
-        } catch (ex: ValidationFailedException) {
-            Result.failure(ex)
-        }
+    fun validate(json: String): ValidationResult {
+        val schema = loadComponentSchema()
+        val node = mapper.readTree(json)
+        return schema.validateAndCollect(node)
     }
 }
