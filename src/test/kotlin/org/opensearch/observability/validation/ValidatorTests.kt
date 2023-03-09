@@ -16,14 +16,15 @@ internal class ValidatorTests {
             Pair("identification", "12345"),
             Pair("categories", listOf("cat1", "cat2")),
             Pair("collection", emptyList<String>()),
-            Pair("repository", mapOf(
-                Pair("url", "https://example.com/")
-            )),
-            Pair("version", mapOf(
-                Pair("integration", "0.0.1"),
-                Pair("schema", "0.0.1"),
-                Pair("resource", "0.0.1"),
-            ))
+            Pair("repository", mapOf(Pair("url", "https://example.com/"))),
+            Pair(
+                "version",
+                mapOf(
+                    Pair("integration", "0.0.1"),
+                    Pair("schema", "0.0.1"),
+                    Pair("resource", "0.0.1"),
+                )
+            )
         )
         val builder = JsonXContent.contentBuilder()
         builder.startObject()
@@ -70,7 +71,7 @@ internal class ValidatorTests {
 
     @Test
     fun testValidatorMissingField() {
-        val config = buildIntegration(without=setOf("name"))
+        val config = buildIntegration(without = setOf("name"))
         val validator = Validator(IntegrationComponent.INTEGRATION)
         assertThrows<ValidationFailedException> {
             validator.validate(config).getOrThrow()
