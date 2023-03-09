@@ -1,26 +1,32 @@
 package org.opensearch.observability.validation
 
+import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException
-import org.opensearch.common.ValidationException
-import org.opensearch.common.xcontent.DeprecationHandler
-import org.opensearch.common.xcontent.NamedXContentRegistry
-import org.opensearch.common.xcontent.json.JsonXContent
+import com.fasterxml.jackson.databind.JsonMappingException
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.worldturner.medeia.api.UrlSchemaSource
+import com.worldturner.medeia.api.ValidationFailedException
+import com.worldturner.medeia.api.jackson.MedeiaJacksonApi
+import com.worldturner.medeia.schema.validation.SchemaValidator
 import org.opensearch.commons.utils.logger
-import org.opensearch.observability.action.CreateObservabilityObjectRequest
-import java.lang.Exception
-import java.lang.UnsupportedOperationException
-import java.util.*
 
 class IntegrationValidator(val config: String) {
     companion object {
         private val log by logger(IntegrationValidator::class.java)
     }
 
-    private val keyValidators = mapOf(
-        "name" to ::validateName,
-        "description" to ::validateDesc,
-        "categories" to ::validateCategories,
-    )
+    private val medeiaApi = MedeiaJacksonApi()
+
+    private fun loadSchema(): SchemaValidator {
+        val resource = javaClass.getResource("/schema/system/integration.schema")
+        resource ?: run {
+            log.error("failed to load integration schema resource")
+            throw IntegrationValidationException("failed to load integration schema resource")
+        }
+        val source = UrlSchemaSource(resource)
+        return medeiaApi.loadSchema(source)
+    }
 
     private fun invalid(message: String? = null, cause: Throwable? = null): IntegrationValidationException {
         when {
@@ -31,54 +37,20 @@ class IntegrationValidator(val config: String) {
         return IntegrationValidationException(message, cause)
     }
 
-    fun validate(): Result<String> {
-        try {
-            val configMap = JsonXContent
-                .jsonXContent
-                .createParser(NamedXContentRegistry.EMPTY, DeprecationHandler.THROW_UNSUPPORTED_OPERATION, config)
-                .map()
-            for (validator in keyValidators.entries) {
-                val item = configMap[validator.key]
-                validator.value.invoke(item).getOrThrow()
-            }
-            return Result.success(
-                config
+    fun validate(): Result<JsonNode> {
+        return try {
+            val mapper = jacksonObjectMapper()
+            val parser = medeiaApi.decorateJsonParser(
+                loadSchema(),
+                mapper.createParser(config)
             )
-        } catch (ex: Exception) {
-            return when (ex) {
-                is JsonParseException,
-                is UnsupportedOperationException -> Result.failure(invalid(cause=ex))
-                is IntegrationValidationException -> Result.failure(ex)
-                else -> throw ex
-            }
+            Result.success(parser.readValueAsTree())
+        } catch (ex: JsonParseException) {
+            Result.failure(ex)
+        } catch (ex: IntegrationValidationException) {
+            Result.failure(ex)
+        } catch (ex: ValidationFailedException) {
+            Result.failure(ex)
         }
-    }
-
-    private fun validateName(name: Any?): Result<String> {
-        val nameStr = name as? String
-            ?: return Result.failure(invalid("integration `name` is not a string"))
-        if (nameStr.isBlank()) {
-            return Result.failure(invalid("integration key `name` may not be blank"))
-        }
-        return Result.success(nameStr.trim())
-    }
-
-    private fun validateDesc(desc: Any?): Result<Optional<String>> {
-        desc ?: return Result.success(Optional.empty())
-        val descStr = desc as? String
-            ?: return Result.failure(invalid("integration `description` is present but not a string"))
-        return Result.success(Optional.of(descStr))
-    }
-
-    private fun validateCategories(categories: Any?): Result<List<String>> {
-        val categoryList = categories as? List<*>
-            ?: return Result.failure(invalid("integration `categories` is not an array"))
-        val categoryStrings = categoryList
-            .filterIsInstance<String>()
-            .filter { it.isNotBlank() }
-            .map { it.trim().lowercase() }
-            .takeIf { it.size == categoryList.size }
-            ?: return Result.failure(invalid("integration `categories` is not an array of valid strings"))
-        return Result.success(categoryStrings)
     }
 }
