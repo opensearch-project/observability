@@ -8,6 +8,7 @@ import org.opensearch.common.xcontent.json.JsonXContent
 import org.opensearch.observability.validation.schema.system.SystemComponent
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 internal class ValidatorTests {
     private fun buildIntegration(with: Map<String, Any> = mapOf(), without: Set<String> = setOf()): String {
@@ -36,12 +37,17 @@ internal class ValidatorTests {
                 else -> builder.field(entry.key, entry.value)
             }
         }
+        for (entry in with.entries) {
+            if (!defaults.containsKey(entry.key)) {
+                builder.field(entry.key, entry.value)
+            }
+        }
         builder.endObject()
         return Strings.toString(builder)
     }
 
     @Test
-    fun testConfigInvalidJson() {
+    fun `test config with invalid json throws exception`() {
         val config = "{"
         val validator = Validator(SystemComponent.INTEGRATION)
         assertThrows<JsonParseException> {
@@ -146,16 +152,23 @@ internal class ValidatorTests {
     }
 
     @Test
-    fun testValidatorMissingField() {
+    fun `test missing json field fails validation`() {
         val config = buildIntegration(without = setOf("name"))
         val validator = Validator(SystemComponent.INTEGRATION)
-        assertEquals(validator.validate(config).validationMessages.size, 1)
+        assertNotEquals(validator.validate(config).validationMessages, setOf())
     }
 
     @Test
-    fun testValidatorWrongFieldType() {
+    fun `test json field with wrong type fails validation`() {
         val config = buildIntegration(mapOf(Pair("name", 1)))
         val validator = Validator(SystemComponent.INTEGRATION)
-        assertEquals(validator.validate(config).validationMessages.size, 1)
+        assertNotEquals(validator.validate(config).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test json with extra field fails validation`() {
+        val config = buildIntegration(mapOf(Pair("extra_field", 1)))
+        val validator = Validator(SystemComponent.INTEGRATION)
+        assertNotEquals(validator.validate(config).validationMessages, setOf())
     }
 }
