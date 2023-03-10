@@ -8,8 +8,13 @@ import com.networknt.schema.ValidationResult
 import org.opensearch.commons.utils.logger
 import org.opensearch.observability.validation.schema.system.SystemComponent
 import java.io.File
-import java.io.FileNotFoundException
 
+/**
+ * Validator class for validating schema components.
+ * The class is constructed with a Component enum defining the type to validate.
+ * The ValidationResult returned by the `validate` method is checked via the `validationMessages` field.
+ * If the messages are empty, the component has passed validation.
+ */
 class Validator(val component: SystemComponent) {
     companion object {
         private val log by logger(Validator::class.java)
@@ -21,7 +26,6 @@ class Validator(val component: SystemComponent) {
         val schemaFile = File(component.resourcePath)
         if (!schemaFile.exists()) {
             log.fatal("could not find schema '${schemaFile.path}' for component '$component'")
-            throw FileNotFoundException("could not find schema '${schemaFile.path}'")
         }
         val schemaSource = schemaFile.readText(Charsets.UTF_8)
         val schemaNode = mapper.readTree(schemaSource)
