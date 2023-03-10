@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.common.Strings
 import org.opensearch.common.xcontent.json.JsonXContent
+import org.opensearch.observability.validation.schema.system.SystemComponent
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -42,7 +43,7 @@ internal class ValidatorTests {
     @Test
     fun testConfigInvalidJson() {
         val config = "{"
-        val validator = Validator(IntegrationComponent.INTEGRATION)
+        val validator = Validator(SystemComponent.INTEGRATION)
         assertThrows<JsonParseException> {
             validator.validate(config)
         }
@@ -51,16 +52,16 @@ internal class ValidatorTests {
     @Test
     fun testValidatorSampleIntegrations() {
         val sampleFiles = mapOf(
-            Pair(IntegrationComponent.APPLICATION, "application.json"),
-            Pair(IntegrationComponent.DATASOURCE, "datasource.json"),
-            Pair(IntegrationComponent.INDEX_PATTERN, "index-pattern.json"),
-            Pair(IntegrationComponent.INTEGRATION, "integration.json"),
-            Pair(IntegrationComponent.NOTEBOOK, "notebook.json"),
-            Pair(IntegrationComponent.OPERATIONAL_PANEL, "operationalPanel.json"),
-            Pair(IntegrationComponent.SAVED_QUERY, "savedQuery.json"),
-            Pair(IntegrationComponent.VISUALIZATION, "visualization.json")
+            Pair(SystemComponent.APPLICATION, "application.json"),
+            Pair(SystemComponent.DATASOURCE, "datasource.json"),
+            Pair(SystemComponent.INDEX_PATTERN, "index-pattern.json"),
+            Pair(SystemComponent.INTEGRATION, "integration.json"),
+            Pair(SystemComponent.NOTEBOOK, "notebook.json"),
+            Pair(SystemComponent.OPERATIONAL_PANEL, "operationalPanel.json"),
+            Pair(SystemComponent.SAVED_QUERY, "savedQuery.json"),
+            Pair(SystemComponent.VISUALIZATION, "visualization.json")
         )
-        for (component in IntegrationComponent.values()) {
+        for (component in SystemComponent.values()) {
             val validator = Validator(component)
             val sampleDir = component.resourcePath.substring(0, component.resourcePath.lastIndexOf("/")) + "/samples/"
             val samplePath = sampleDir + sampleFiles[component]
@@ -72,14 +73,14 @@ internal class ValidatorTests {
     @Test
     fun testValidatorMissingField() {
         val config = buildIntegration(without = setOf("name"))
-        val validator = Validator(IntegrationComponent.INTEGRATION)
+        val validator = Validator(SystemComponent.INTEGRATION)
         assertEquals(validator.validate(config).validationMessages.size, 1)
     }
 
     @Test
     fun testValidatorWrongFieldType() {
         val config = buildIntegration(mapOf(Pair("name", 1)))
-        val validator = Validator(IntegrationComponent.INTEGRATION)
+        val validator = Validator(SystemComponent.INTEGRATION)
         assertEquals(validator.validate(config).validationMessages.size, 1)
     }
 }

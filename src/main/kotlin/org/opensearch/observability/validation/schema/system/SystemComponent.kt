@@ -1,8 +1,8 @@
-package org.opensearch.observability.validation
+package org.opensearch.observability.validation.schema.system
 
 private const val ROOT = "../../../schema/system/"
 
-enum class IntegrationComponent(val resourcePath: String) {
+enum class SystemComponent(val resourcePath: String) {
     // TODO figure out how to configure the paths robustly
     APPLICATION(ROOT + "application.schema"),
     DATASOURCE(ROOT + "datasource.schema"),

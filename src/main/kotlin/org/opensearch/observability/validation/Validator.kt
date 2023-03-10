@@ -6,10 +6,11 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersionDetector
 import com.networknt.schema.ValidationResult
 import org.opensearch.commons.utils.logger
+import org.opensearch.observability.validation.schema.system.SystemComponent
 import java.io.File
 import java.io.FileNotFoundException
 
-class Validator(val component: IntegrationComponent) {
+class Validator(val component: SystemComponent) {
     companion object {
         private val log by logger(Validator::class.java)
     }
