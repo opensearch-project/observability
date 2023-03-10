@@ -50,24 +50,99 @@ internal class ValidatorTests {
     }
 
     @Test
-    fun testValidatorSampleIntegrations() {
-        val sampleFiles = mapOf(
-            Pair(SystemComponent.APPLICATION, "application.json"),
-            Pair(SystemComponent.DATASOURCE, "datasource.json"),
-            Pair(SystemComponent.INDEX_PATTERN, "index-pattern.json"),
-            Pair(SystemComponent.INTEGRATION, "integration.json"),
-            Pair(SystemComponent.NOTEBOOK, "notebook.json"),
-            Pair(SystemComponent.OPERATIONAL_PANEL, "operationalPanel.json"),
-            Pair(SystemComponent.SAVED_QUERY, "savedQuery.json"),
-            Pair(SystemComponent.VISUALIZATION, "visualization.json")
-        )
-        for (component in SystemComponent.values()) {
-            val validator = Validator(component)
-            val sampleDir = component.resourcePath.substring(0, component.resourcePath.lastIndexOf("/")) + "/samples/"
-            val samplePath = sampleDir + sampleFiles[component]
-            val sampleJson = File(samplePath).readText(Charsets.UTF_8)
-            assertEquals(validator.validate(sampleJson).validationMessages.size, 0)
-        }
+    fun `test validator does not flag sample application json`() {
+        val component = SystemComponent.APPLICATION
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/application.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample datasource json`() {
+        val component = SystemComponent.DATASOURCE
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/datasource.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample index pattern json`() {
+        val component = SystemComponent.INDEX_PATTERN
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/index-pattern.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample integration json`() {
+        val component = SystemComponent.INTEGRATION
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/integration.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample notebook json`() {
+        val component = SystemComponent.NOTEBOOK
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/notebook.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample operational panel json`() {
+        val component = SystemComponent.OPERATIONAL_PANEL
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/operationalPanel.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample saved query json`() {
+        val component = SystemComponent.SAVED_QUERY
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/savedQuery.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
+    }
+
+    @Test
+    fun `test validator does not flag sample visualization json`() {
+        val component = SystemComponent.VISUALIZATION
+        val validator = Validator(component)
+        val jsonPath = component.resourcePath.substring(
+            0,
+            component.resourcePath.lastIndexOf("/")
+        ) + "/samples/visualization.json"
+        val json = File(jsonPath).readText(Charsets.UTF_8)
+        assertEquals(validator.validate(json).validationMessages, setOf())
     }
 
     @Test
