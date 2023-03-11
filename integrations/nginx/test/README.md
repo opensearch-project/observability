@@ -1,4 +1,8 @@
-# Services Demo Instructions
+# Test Folder
+This folder contains a demo that includes a simulated application with several services.
+It also includes an Nginx web server which has a fluent-bit agent that reports access log traffic to opensearch Observability data-stream. 
+
+## Services Demo Instructions
 This demo includes a simulated multi-services system that contains:
  - nginx server
  - flask-app
