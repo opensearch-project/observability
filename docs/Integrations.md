@@ -125,7 +125,7 @@ As part of the Observability Integration, Observability will publish a schema th
 
 Additional information attached:
 
-[Nginx module for Fluent Bit ECS](https://gist.github.com/agup006/7848e339f111cdaafdd0f3fdf7ee2d32)
+[Nginx module for Fluent-bit ECS](https://gist.github.com/agup006/7848e339f111cdaafdd0f3fdf7ee2d32)
 
 * **Traces**
     * https://github.com/opensearch-project/data-prepper/tree/main/data-prepper-plugins/otel-trace-source

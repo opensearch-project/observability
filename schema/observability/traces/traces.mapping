@@ -189,6 +189,8 @@
       }
     }
   },
+  "composed_of": [
+  ],
   "version": 1,
   "_meta": {
     "description": "Observability Traces Mapping Template",

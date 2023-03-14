@@ -22,7 +22,7 @@ An Integration may have multiple ways of ingesting Observability signals, for ex
 Observability Providers are agents which can collect nginx logs, metrics and traces information, convert them to `sso` observability schema and send them to opensearch observability data-streams.
 
 ### Fluent-Bit
-Fluent Bit has a dedicated input plugin for Nginx called `in_tail` which can be used to tail the Nginx access logs and send them to a destination of your choice.
-The in_tail plugin reads log files line by line and sends them to Fluent Bit engine to be processed.
+Fluent-bit has a dedicated input plugin for Nginx called `in_tail` which can be used to tail the Nginx access logs and send them to a destination of your choice.
+The in_tail plugin reads log files line by line and sends them to Fluent-bit engine to be processed.
 
 See additional details [here](fluet-bit/README.md).

@@ -48,6 +48,14 @@
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traces",
           "tags": [],
           "container": true
+        },
+        {
+          "component": "service",
+          "description": "Observability services are representations of the dependencies and interactions between various components of a software system. They provide a high-level view of how different parts of the system are connected and how data flows between them. By using service maps, engineers and developers can gain a better understanding of how changes in one part of the system can affect other parts, helping them make more informed decisions about troubleshooting and optimization including root cause analysis",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/services",
+          "tags": [],
+          "container": false
         }]
     },
     {
