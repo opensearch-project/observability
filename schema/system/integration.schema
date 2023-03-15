@@ -6,7 +6,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "name": {
+        "template-name": {
           "type": "string"
         },
         "version": {
@@ -15,10 +15,13 @@
         "description": {
           "type": "string"
         },
+        "catalog": {
+          "type": "string"
+        },
         "identification": {
           "type": "string"
         },
-        "categories": {
+        "components": {
           "type": "array",
           "items": {
             "type": "string"
@@ -30,17 +33,18 @@
             "$ref": "#/definitions/Collection"
           }
         },
-        "Repository": {
-          "$ref": "#/definitions/Repository"
+        "repository": {
+          "$ref": "#/definitions/repository"
         }
       },
       "required": [
-        "categories",
+        "catalog",
+        "components",
         "collection",
         "description",
         "identification",
-        "name",
-        "Repository",
+        "template-name",
+        "repository",
         "version"
       ],
       "title": "Integration"
@@ -86,18 +90,52 @@
         },
         "schema": {
           "type": "string"
+        },
+        "fields-mapping": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "alias": {
+                  "type": "string"
+                },
+                "field": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "alias",
+                "field"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "alias": {
+                  "type": "string"
+                },
+                "field": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "alias",
+                "field"
+              ]
+            }
+          ]
         }
       },
       "required": [
         "dataset",
         "info",
         "input_type",
-        "labels",
-        "schema"
+        "labels"
       ],
       "title": "Log"
     },
-    "Repository": {
+    "repository": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -112,7 +150,7 @@
       "required": [
         "url"
       ],
-      "title": "Repository"
+      "title": "repository"
     },
     "Version": {
       "type": "object",
@@ -130,8 +168,7 @@
       },
       "required": [
         "integration",
-        "resource",
-        "schema"
+        "resource"
       ],
       "title": "Version"
     }

@@ -11,15 +11,20 @@ The integrations passing this process can be available out of the box once the O
 Once an Observability is distributed, it is pre-bundled with the verified Integrations. These integrations are packaged in a dedicated folder.
 
 **Integration Lifecycle**
-![](img/integration-loading-lifecycle.png)
- 
+```
+- LOADING
+    - VALIDATION
+        - UPLOAD
+            - READY
+``` 
 Observability bootstrap initiates the state for all the Integrations bundled with the distribution, the initial state is
 
 ***Loading*** - indicating the integration is still loading and has not yet been verified for runtime readiness.
 
 - Loading an integration may also allow the user to configure some parts of the Integration so that he could load multiple instances of the same integration template - for example for a service provider with different customers having a similar resource.
 - Configure index pattern / name
-- Configure datasource (domain) name (shared by the dashboards, queries, visualizations, alerts)
+- Configure custom index fields mapping ([aliasing fields](Integration-fields-mapping.md))
+- Configure datasource (namespace) name (shared by the dashboards, queries, visualizations, alerts)
 - Configure security policies
 
 ***Maintenance***

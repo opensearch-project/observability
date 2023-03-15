@@ -25,7 +25,7 @@ This will load both opensearch server & dashboards
    
 4. We can now load the Nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/ss4o-logs-dashboard-new.ndjson)
    - First add an index pattern `ss4o_logs-*-*`
-     - `curl  -X POST localhost:5601/api/saved_objects/index-pattern/ss4o_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
+     - `curl  -X POST localhost:5601/api/saved_objects/index-pattern/ss4o_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "ss4o_logs-*-*",  "timeFieldName": "@timestamp" } }'`
    
    - Load the [dashboards](../../assets/display/ss4o-logs-dashboard-new.ndjson) 
      - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@ss4o-logs-dashboard.ndjson`

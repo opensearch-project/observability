@@ -13,24 +13,57 @@ During the loading of the Integration Plugin it will go over all the [catalog sc
 template mapping for each catalog schema entity. This will allow the future Integration to be validated to the schema catalog they are associated with.
 
 **For example** - the [Observability](../../schema/observability) catalog will eventually be registered with the next mapping templates
- - [Traces](../../schema/observability/traces/traces-mapping.json)
+ - [Traces](../../schema/observability/traces/traces.mapping)
  - [Logs](../../schema/observability/logs/logs.mapping)
- - [Metrics](../../schema/observability/metrics/metrics-mapping.json)
+ - [Metrics](../../schema/observability/metrics/metrics.mapping)
 
 These mapping specify a backed `data-stream` index pattern they conform with [Naming Pattern](observability/Naming-convention.md).
 
-**_In the future this catalog may be exposed using a dedicated REST API_**
+**API**
+The catalog API can be queries according to the next fields:
+ - type
+ - catalog
+ - category
+ - version
+
+`GET _integration/catalog?filter=type:Logs&catalog:Observability&category:web`
+
+ This call will result with the appropriate index_template IDs corresponding to the query:
+
+```json
+{
+  "templates": ["ss4o_logs-template","http-template"],
+  "catalog":[...],
+  "category": [...],
+  "version": [...]
+}
+```
+
+Using the template names one can access the template directly using the `_index_template` URL:
+
+`GET _index_template/ss4o_logs-template`
 
 ---
 
 ### Integrations registry
 
 During the Integration plugin loading, it will scan the Integration folder (or any resource that functions as the integration repository ) and load each repository [config file](../../schema/system/integration.schema)
-into an in memory cache allowing to query and filter according to the different integration attributes.
+into an in memory cache / index allowing to query and filter according to the different integration attributes.
 
-This cache will allow the F/E to retrieve additional content residing in the integration folder directly ( images, html pages, URL's ) 
+### External Integrations' registry loading
+"External integrations" (ones that are not packaged in the original integrations bundle) can be published by the user.
+These "external" integrations are packages as a zip bundle and contain all the relevant resources including:
+ - `images`
+ - `assets`
+ - `documents`
+ - `icons`
+
+Once the user has uploaded this zip bundle using the `POST /repository` API, this bundle will be maintained inside the repository index (Blob file or extracted bundle).
+
+In addition to the repository index, the Integration may use a repository cache that will allow the F/E to retrieve additional content residing in the integration folder directly ( images, html pages, URL's ) 
+
 #### Flow Diagram
-![Screenshot 2023-03-01 at 7 00 50 PM](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
+![flow-diagram-](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
 
 Once the Integration has completed loading, it will allow to query the cache content using the following REST api:
  - Filter integration according to its attributes:
@@ -39,13 +72,9 @@ GET _integration/repository?filter=type:Logs&category:web,html
 ```
  - results a list of integrations
 
-Query integration by name:
-```
-GET _integration/repository/$name
-```
 - Query integration by name:
 ```
-GET _integration/repository/$name
+GET _integration/repository/$template_name
 ```
 - results a single integration
 
@@ -92,9 +121,16 @@ After the `_integration/store/$instance_name` API was called the next steps will
 
  - The integration object will be inserted into the `.integration` index with a `LOADING` status
    - During this step the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`
+     - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
+   - update the index template's `index_pattern` field with the added pattern
+       - "index_patterns":` ["ss4o_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+   - if user selected custom index with proprietary fields -  mapping must be called ([field aliasing](Integration-fields-mapping.md))
+---
    - **Success**: If the user changes the data-stream / index naming pattern - this will also be changes in every assets that supports such capability.
    - **Fail**:    If the validation fails the integration status would be updated to `maintenance` and an appropriate response should reflect the issues.
-     **Response**:
+   
+ 
+   - **Response**:
    ```json
    {
      "instance": "nginx-prod",
@@ -106,30 +142,38 @@ After the `_integration/store/$instance_name` API was called the next steps will
    ```
 
  - Next the integration will undergo a validation phase -  marked with a `VALIDATION` status
+      - assets will be validated with the schema to match fields to the mapping
+      - assets containing index patterns will be validated any index with these pattern exists
+      - datasource will be validated to verify connection is accessible
+      - mapping templates are verified to exist
+---
    - **Success**: If the validation succeeds the integration status would be updated
    - **Fail**:   If the validation fails the integration status would be updated and the next response would return.
-     **Response**:
-   ```json
-   {
-     "instance": "nginx-prod",
-     "integration-name": "nginx",
-     "status": "maintenance",
-     "phase": "VALIDATION",
-     "issues": [
-       { 
-         "asset": "dashboard",
-         "name": "nginx-prod-core",
-         "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
-         "issue": [
-           "field cloud.version is not present in mapping ss4o_log-nginx-prod"
-         ]
-       }
-     ]
-   }
-   ```
+  
+
+   - **Response**:
+     ```json
+     {
+       "instance": "nginx-prod",
+       "integration-name": "nginx",
+       "status": "maintenance",
+       "phase": "VALIDATION",
+       "issues": [
+         { 
+           "asset": "dashboard",
+           "name": "nginx-prod-core",
+           "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
+           "issue": [
+             "field cloud.version is not present in mapping ss4o_log-nginx-prod"
+           ]
+         }
+       ]
+     }
+     ```
 
 
  - The assets are being uploaded to the objects store index, if the users cherry picket specific assets to upload they will be loaded as requested.
+---
  - **Success**: If the upload succeeds the integration status would be updated and the user will get the success status response
    - **Response:**
     ```json

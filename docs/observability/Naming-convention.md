@@ -1,6 +1,6 @@
 # Naming Convention
 This document will describe the index naming standard for ingestion of Observability signals - Traces, Metrics, Logs.
-Currently there is no single coherent pattern to use for all Observability signals and potential data sources.
+Currently, there is no single coherent pattern to use for all Observability signals and potential data sources.
 
 For example - `data-prepper` use their own index naming and structure to ingest Observability signals.
 
@@ -21,7 +21,7 @@ Today due to different index structure and non-standard naming patterns we cant 
 We would use the next structure and naming patterns based on the following conventions :
 1) Add `data_stream` support for all Observability based standard indices
 2) Use a standard Observability signals naming index conventions
-3) Create customer domain naming degree of freedom to allow arbitrary names for specific customer use-cases
+3) Create customer namespace naming degree of freedom to allow arbitrary names for specific customer use-cases
 4) Move the Observability Indices Template & default index creation into Observability Plugin bootstrap
 
 ---
@@ -51,12 +51,12 @@ For example a customer may want to route the nginx logs from two geographical ar
 - `ss4o_logs-nginx-us`
 - `ss4o_logs-nginx-eu`
 
-This type of distinction also allows for creation of crosscutting queries by setting the next **index query pattern** `ss4o_logs-nginx-*` or by using a geographic based crosscutting query `sso_logs-*-eu`.
+This type of distinction also allows for creation of crosscutting queries by setting the next **index query pattern** `ss4o_logs-nginx-*` or by using a geographic based crosscutting query `ss4o_logs-*-eu`.
 
 
 ## Data index routing
 The [ingestion component](https://github.com/opensearch-project/data-prepper) which is responsible for ingesting the Observability signals should route the data into the relevant indices.
-The `ss4o_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `sso_` prefix into one of the supported type:
+The `ss4o_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `ss4o_` prefix into one of the supported type:
 
 - Traces - `ss4o_traces`
 - Metrics - `ss4o_metrics`

@@ -1,4 +1,8 @@
-# Services Demo Instructions
+# Test Folder
+This folder contains a demo that includes a simulated application with several services.
+It also includes an Nginx web server which has a fluent-bit agent that reports access log traffic to opensearch Observability data-stream. 
+
+## Services Demo Instructions
 This demo includes a simulated multi-services system that contains:
  - nginx server
  - flask-app
@@ -28,7 +32,7 @@ by the different components.
 
 3. Import the nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/ss4o-logs-dashboard.ndjson)
    - First add an index pattern `ss4o_logs-*-*`
-     `curl  -X POST localhost:5601/api/saved_objects/index-pattern/ss4o_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
+     `curl  -X POST localhost:5601/api/saved_objects/index-pattern/ss4o_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "ss4o_logs-*-*",  "timeFieldName": "@timestamp" } }'`
    - Load the [dashboards](../../assets/display/ss4o-logs-dashboard.ndjson)
    -  `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@ss4o-logs-dashboard.ndjson`
 4. Generate some traces by repeatedly pinging the `http://localhost:8080/` endpoint.

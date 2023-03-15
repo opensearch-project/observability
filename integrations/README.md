@@ -62,15 +62,15 @@ It will overview the concepts of observability, will describe the current issues
 
 ```yaml
 
-reousce-name
+integration-template-name
     config.json
-    display`
+    display
         Application.json
         Maps.json
         Dashboard.json
-    queries
+    stored-queries
       Query.json
-    schemas
+    transformation-schemas
       transformation.json
     samples
       resource.access logs
@@ -79,6 +79,7 @@ reousce-name
       expected_results
     info  
       documentation
+      images
 ```
 
 **Definitions**
@@ -109,12 +110,4 @@ The visual display component will need to be validated to the schema that it is 
 
 Queries contains specific PPL queries that precisely demonstrates some common and useful use-case .
 
-*Example:*
 
-*-- The visual display component will need to be validated to the schema that it is expected to work on*
-
-```
-source = ss4o_logs-default-prod | ... where ...
-```
-
----

@@ -59,13 +59,13 @@ This strategy allows two degrees of naming freedom: dataset and namespace. For e
  - `ss4o_logs-nginx-us`
  - `ss4o_logs-nginx-eu`
 
-This type of distinction also allows for creation of crosscutting queries by setting the next index query pattern `ss4o_logs-nginx-*` or by using a geographic based crosscutting query `sso_logs-*-eu`.
+This type of distinction also allows for creation of crosscutting queries by setting the next index query pattern `ss4o_logs-nginx-*` or by using a geographic based crosscutting query `ss4o_logs-*-eu`.
 
 ## Data index routing
 
 The [ingestion component](https://github.com/opensearch-project/data-prepper) which is responsible for ingesting the Observability signals is responsible to route the data into the relevant indices.
 
-The `ss4o_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `sso_` prefix into one of the supported type:
+The `ss4o_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `ss4o_` prefix into one of the supported type:
 
  - Traces - `ss4o_traces`
  - Metrics - `ss4o_metrics`
