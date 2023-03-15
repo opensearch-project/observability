@@ -2,7 +2,8 @@
 
 ## Fluent-bit 
 
-Fluent-bit is a lightweight and flexible log data collector and forwarder, designed to handle a large volume of log data in real-time. It is an open-source project maintained by Fluentd Inc. and has gained popularity among developers due to its simplicity and ease of use.
+Fluent-bit is a lightweight and flexible data collector and forwarder, designed to handle a large volume of log data in real-time.
+It is an open-source projectpart of the Cloud Native Computing Foundation (CNCF). and has gained popularity among developers for simplicity and ease of use.
 
 Fluent-bit is designed to be lightweight, which means that it has a small footprint and can be installed on resource-constrained environments like embedded systems or containers. It is written in C language, making it fast and efficient, and it has a low memory footprint, which allows it to consume minimal system resources.
 
@@ -41,7 +42,7 @@ For setting up a fluent-bit agent on Nginx, please follow the next instructions
     Skip_Long_Lines   On
 
 [OUTPUT]
-    Name        os
+    Name        opensearch
     Match       nginx.*
     Host        <OSS_HOST>
     Port        <OSS_PORT>
@@ -49,10 +50,12 @@ For setting up a fluent-bit agent on Nginx, please follow the next instructions
 ```
 Here, we specify the input plugin as tail, set the path to the Nginx access log file, and specify a tag to identify the logs in Fluent-bit. We also set some additional parameters such as memory buffer limit and skipping long lines.
 
-For the output, we use the `os` plugin to send the logs to Opensearch. We specify the Opensearch host, port, and index name.
+For the output, we use the `opensearch` plugin to send the logs to Opensearch. We specify the Opensearch host, port, and index name.
 
-- Modify the Opensearch host and port in the configuration file to match your Opensearch installation.
-- Start the Fluent-bit service by running the following command:
+   - Modify the Opensearch host and port in the configuration file to match your Opensearch installation.
+   - Depending on the system where Fluent Bit is installed:
+     - Start the Fluent-bit service by running the following command:
+
 ```text
 sudo systemctl start fluent-bit
 ```
