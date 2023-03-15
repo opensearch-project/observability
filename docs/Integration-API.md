@@ -244,9 +244,14 @@ the current state of the integration:
   ]
 }
 ```
+The next screen shows the Integration assets status:
+
+![Integration - assets - status](img/Integration-assets-status.png)
+
+
 The next screen shows the maintenance issues:
 
-![todo](...)
+![Maintaining - issue](img/maintaining-issue.png)
 
 Once all the issues are manually resolved by the User, the UX can continue the loading process by the next API
 `PUT _integration/store/$instance_name/activate`
@@ -271,8 +276,6 @@ The loading assets phase will use the existing bulk load api for all the existin
  - MappingTemplates
 
 The User can chery pick specific assets to load and use the next UX window for this purpose
-
-![todo](...)
 
 Using the next API
 `PUT _integration/store/$instance_name/load`
