@@ -112,6 +112,9 @@
         "attributes": {
           "type": "object",
           "properties": {
+            "serviceName": {
+              "type": "keyword"
+            },
             "data_stream": {
               "properties": {
                 "dataset": {
@@ -190,6 +193,7 @@
     }
   },
   "composed_of": [
+    "tracegroups_template"
   ],
   "version": 1,
   "_meta": {

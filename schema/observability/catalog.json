@@ -31,9 +31,12 @@
           "description": "Observability communication covers the host and destination information in the network fields. They contain a set of metadata that provide contextual information about the host, destination and network environment where a system is running. They include information such as the host/destination name, IP address, operating system version, and network interface details.",
           "version": "1.0",
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication",
-          "tags": ["web"],
+          "tags": [
+            "web"
+          ],
           "container": false
-        }]
+        }
+      ]
     },
     {
       "category": "traces",
@@ -50,13 +53,22 @@
           "container": true
         },
         {
-          "component": "service",
+          "component": "services",
           "description": "Observability services are representations of the dependencies and interactions between various components of a software system. They provide a high-level view of how different parts of the system are connected and how data flows between them. By using service maps, engineers and developers can gain a better understanding of how changes in one part of the system can affect other parts, helping them make more informed decisions about troubleshooting and optimization including root cause analysis",
           "version": "1.0",
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/services",
           "tags": [],
+          "container": true
+        },
+        {
+          "component": "traceGroups",
+          "description": "Observability trace groups fields are a set of derived fields that are calculated for a trace's root span - they are copied to all the spans in that trace",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traceGroups",
+          "tags": [],
           "container": false
-        }]
+        }
+      ]
     },
     {
       "category": "metrics",
@@ -71,7 +83,8 @@
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics",
           "tags": [],
           "container": true
-        }]
+        }
+      ]
     }
   ]
 }

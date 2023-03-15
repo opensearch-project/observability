@@ -40,6 +40,10 @@
         ]
       }
     },
+    "@timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
     "startTime": {
       "type": "string",
       "format": "date-time"
@@ -112,6 +116,7 @@
   "required": [
     "traceId",
     "spanId",
+    "@timestamp",
     "startTime",
     "endTime",
     "kind",
@@ -188,6 +193,9 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "serviceName": {
+          "type": "string"
+        },
         "data_stream": {
           "$ref": "#/definitions/Dataflow"
         }

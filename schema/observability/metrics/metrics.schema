@@ -243,6 +243,9 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "serviceName": {
+          "type": "string"
+        },
         "data_stream": {
           "$ref": "#/definitions/Dataflow"
         }

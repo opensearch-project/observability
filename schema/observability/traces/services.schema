@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "https://opensearch.org/schemas/Service",
+  "type": "object",
+  "properties": {
+    "serviceName": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "resource",
+        "domain"
+      ]
+    },
+    "target": {
+      "type": "null"
+    },
+    "traceGroupName": {
+      "type": "string"
+    },
+    "hashId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "serviceName",
+    "kind",
+    "destination",
+    "target",
+    "traceGroupName",
+    "hashId"
+  ]
+}
