@@ -5,12 +5,12 @@ This document presents Integration's structure and convention and shares an exam
 
 **_Metadata_**
 
-  * Observability (data producer) resource
+  * Integration (data producer) resource
   * Indices (mapping & naming)
-  * Transformation schema
+  * Transformation mapping schema
   * Optional test harnesses repository
   * Verified version and documentation
-  * Category & classification (logs/traces/alerts/metrics)
+  * Catalog, Category & classification (e.g Observability, logs/traces/alerts/metrics, http)
 
 **_Display components_**
 
@@ -19,14 +19,14 @@ This document presents Integration's structure and convention and shares an exam
   * Applications
   * Notebooks
   * Operations Panels
-  * Saved [PPL](https://opensearch.org/docs/2.4/search-plugins/sql/ppl/index/)/[SQL](https://opensearch.org/docs/2.4/search-plugins/sql/sql/index/)/[DQL](https://opensearch.org/docs/2.4/dashboards/discover/dql/) Queries
+  * Saved Queries:  [PPL](https://opensearch.org/docs/2.4/search-plugins/sql/ppl/index/)/[SQL](https://opensearch.org/docs/2.4/search-plugins/sql/sql/index/)/[DQL](https://opensearch.org/docs/2.4/dashboards/discover/dql/) 
   * Alerts
   * Additional Assets
   
 **_Additional Assets may include_**
   * [Datasource configuration](https://opensearch.org/docs/2.4/dashboards/discover/multi-data-sources/)
   * Materialized View Table Creation
-  * 
+  * S3 schema/table definitions
 
 The notion that structured data has an enormous contribution to the understanding of the system behaviour is the key role dictating the Integration model.
 Once input content has form and shape - it will be used to calculate and correlate different pieces of data.
@@ -113,7 +113,7 @@ nginX
 
 ```
 {
-  "name": "nginx",
+  "template_name": "nginx",
   "version": {
         "integ": "0.1.0",
         "schema": "1.0.0",
@@ -121,8 +121,9 @@ nginX
    }
   "description": "Nginx HTTP server collector",
   "identification": "instrumentationScope.attributes.identification",
-  "categories": [
-    "web",
+  "catalog": "observability",
+  "components": [
+    "web","http"
   ],
   "collection":[
     {
@@ -130,15 +131,13 @@ nginX
                     "info": "access logs",
                     "input_type":"logfile",
                     "dataset":"nginx.access",
-                    "labels" :["`nginx"``,``"access"``],`
-                    "schema": "./schema/logs/access.json"
+                    "labels" :["nginx","access"]
                 },
                 {
                     "info": "error logs",
                     "input_type":"logfile",
                     "labels" :["nginx","error"],
-                    "dataset":"nginx.error",
-                    "schema": "./schema/logs/error.json"
+                    "dataset":"nginx.error"
                 }]
     },
     {
@@ -146,8 +145,7 @@ nginX
                     "info": "`status metrics`",
                     "input_type":"`metrics`",
                     "dataset":"nginx.status",
-                    "labels" :["nginx","status"],
-                    "schema": "./schema/metrics/status.json"
+                    "labels" :["nginx","status"]
                 }]
     }
   ],
@@ -184,34 +182,37 @@ In this case the field resides in the `instrumentationScope.attributes.identific
 "identification": "instrumentationScope.attributes.identification",
 ```
 
-`Categories:`
-This section defines the classification categories associated to this Integration according to ECS specification (https://www.elastic.co/guide/en/ecs/current/ecs-allowed-values-event-category.html)
+`Catalog:`
+This defines the catalog source from which the Integration is associated with. This is based on the `catalog` API which is part of the integration support.[Sample Observability catalog](../../schema/system/samples/catalog.json)
+
+`Components:`
+This section defines the classification components associated to this Integration according to [ECS specification](https://www.elastic.co/guide/en/ecs/current/ecs-allowed-values-event-category.html) and expresses in the [Sample Observability catalog](../../schema/system/samples/catalog.json)
 
 `collection:`
-This references the different types of collection this integration if offering.  It can be one of the following
+This references the different types of collection this integration if offering.  It can be one of the following Observability catalog's element:
 { *`Traces, Logs, Metrics`* }.
 
+The collection **name** (`logs`,`traces`,`metrics`) reflects the catalog's `category` as it appears in the [Sample Observability catalog](../../schema/system/samples/catalog.json)
 
 **Collections** 
 
 Let's dive into a specific log collection:
 
 ```
-       "logs": [{
-                    "info": "access logs",
-                    "input_type":"logfile",
-                    "dataset":"nginx.access",
-                    "labels" :["`nginx"``,``"access"``],`
-                    "schema": "./schema/logs/access.json"
-                },
+   "logs": [{
+                "info": "access logs",
+                "input_type":"logfile",
+                "dataset":"nginx.access",
+                "labels" :["nginx","access"]
+            },
 ```
 
 This log collects nginx access logs as described in the `info` section.
 The `input_type` is a categorical classification of the log kind which is specified in the ECS specification as well.
 
-- `dataset`  is defined above and indicates the target routing index.
+- `dataset` is defined above and indicates the target routing index, in this example `sso_logs-nginx.access-${namespace}` 
 - `lables`  are general purpose labeling tags that allow further correlation and associations.
-- `schema`  is the location of the mapping configuration between the original log format to the Observability Log format.
+- `schema`  optional parameter - is the location of the mapping configuration between the original log format to the Observability Log format.
 * * *
 
 #### Display:
@@ -223,30 +224,3 @@ The visual display component will need to be validated to the schema that it is 
 #### Queries
 
 Queries contains specific PPL queries that precisely demonstrates some common and useful use-case .
-
-*Example:*
-
-*-- The visual display component will need to be validated to the schema that it is expected to work on*
-
-```
-source = logs-*-prod | ... where ...
-```
-
-***Future Enhancements** *
-
-In the future, an Integration would be able to supplement the Observability main SSO schemas with some proprietary schemas - such as the serviceMap which is currently defined and maintained by data-prepper.
-
-The `schema, index, label `& `input_type` will define the explicit way that the data is ingested, which schema is backing its visualizations and the tagging information its labeled with.
-
-```
-       "supplements": [{
-                    "info": "service map",
-                    "labels" :["services","calculated"],                    
-                    "input_type": "services",
-                    "schema": "./schema/supplements/servicesMapping.json",
-                    "index":  "otel-v1-dp-service-map"   
-                }]
-                
-```
-
-* * *
