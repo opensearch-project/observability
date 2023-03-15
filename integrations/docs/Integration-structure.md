@@ -234,7 +234,7 @@ source = logs-*-prod | ... where ...
 
 ***Future Enhancements** *
 
-In the future, an Integration would be able to supplement the Observability main SSO schemas with some proprietary schemas - such as the serviceMap which is currently defined and maintained by data-prepper.
+In the future, an Integration would be able to supplement the Observability main SS4O schemas with some proprietary schemas - such as the serviceMap which is currently defined and maintained by data-prepper.
 
 The `schema, index, label `& `input_type` will define the explicit way that the data is ingested, which schema is backing its visualizations and the tagging information its labeled with.
 

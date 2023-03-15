@@ -230,7 +230,7 @@ the current state of the integration:
       "name": "nginx-prod-core",
       "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
       "issue": [
-        "field cloud.version is not present in mapping sso_log-nginx-prod"
+        "field cloud.version is not present in mapping ss4o_log-nginx-prod"
       ]
     }
   ]

@@ -114,7 +114,7 @@ Queries contains specific PPL queries that precisely demonstrates some common an
 *-- The visual display component will need to be validated to the schema that it is expected to work on*
 
 ```
-source = sso_logs-default-prod | ... where ...
+source = ss4o_logs-default-prod | ... where ...
 ```
 
 ---

@@ -48,28 +48,28 @@ Simple Schema for Observability allows ingestion of both (OTEL/ECS) formats and 
 
 The Observability indices would follow the recommended for immutable data stream ingestion pattern using the [data_stream concepts](https://opensearch.org/docs/latest/opensearch/data-streams/)
 
-Index pattern will follow the next naming template `sso_{type}`-`{dataset}`-`{namespace}`
+Index pattern will follow the next naming template `ss4o_{type}`-`{dataset}`-`{namespace}`
 
- - **type**	- indicated	the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
+ - **type**	- indicated	the observability high level types "logs", "metrics", "traces" (prefixed by the `ss4o_` schema convention )
  - **dataset**	- The field can contain anything that classify the source of the data - such as `nginx.access`
  - **namespace**	- A user defined namespace - mainly useful to allow grouping of data such as production grade, geography classification
 
 This strategy allows two degrees of naming freedom: dataset and namespace. For example a customer may want to route the nginx logs from two geographical areas into two different indices:
 
- - `sso_logs-nginx-us`
- - `sso_logs-nginx-eu`
+ - `ss4o_logs-nginx-us`
+ - `ss4o_logs-nginx-eu`
 
-This type of distinction also allows for creation of crosscutting queries by setting the next index query pattern `sso_logs-nginx-*` or by using a geographic based crosscutting query `sso_logs-*-eu`.
+This type of distinction also allows for creation of crosscutting queries by setting the next index query pattern `ss4o_logs-nginx-*` or by using a geographic based crosscutting query `sso_logs-*-eu`.
 
 ## Data index routing
 
 The [ingestion component](https://github.com/opensearch-project/data-prepper) which is responsible for ingesting the Observability signals is responsible to route the data into the relevant indices.
 
-The `sso_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `sso_` prefix into one of the supported type:
+The `ss4o_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `sso_` prefix into one of the supported type:
 
- - Traces - `sso_traces`
- - Metrics - `sso_metrics`
- - Logs - `sso_logs`
+ - Traces - `ss4o_traces`
+ - Metrics - `ss4o_metrics`
+ - Logs - `ss4o_logs`
 
 For example if within the ingested log contains the following section:
 ```json
@@ -84,7 +84,7 @@ For example if within the ingested log contains the following section:
   }
 }
 ```
-This indicates that the target index for this observability signal should be `sso_traces`-`mysql`-`prod` index that follows uses the traces schema mapping.
+This indicates that the target index for this observability signal should be `ss4o_traces`-`mysql`-`prod` index that follows uses the traces schema mapping.
 
 ## Observability Index templates
 
@@ -96,7 +96,7 @@ With the expectation of multiple Observability data providers and the need to co
 ## Observability Ingestion pipeline
 The responsibility on an **Observability-ingestion-pipeline** is to create the actual `data_stream` in which it is expecting to ingest into.
 
-This `data_stream` will use one of the Observability ready-made index templates (Metrics,Traces and Logs) and conform with the above naming pattern (`sso_{type}`-`{dataset}`-`{namespace}`)
+This `data_stream` will use one of the Observability ready-made index templates (Metrics,Traces and Logs) and conform with the above naming pattern (`ss4o_{type}`-`{dataset}`-`{namespace}`)
 
 **If the ingesting party has a need to update the template default index setting (shards, replicas ) it may do so before the actual creation of the data_stream.**  
 
