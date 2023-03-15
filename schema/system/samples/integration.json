@@ -17,7 +17,11 @@
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
-        "labels" :["nginx","access"]
+        "labels" :["nginx","access"],
+        "fields-mapping" : [
+          {"alias":"http.url","field":"request_url"} ,
+          {"alias":"http.request.body.content","field":"request_body"}
+        ]
       },
         {
           "info": "error logs",

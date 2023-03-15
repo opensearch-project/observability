@@ -33,8 +33,8 @@
             "$ref": "#/definitions/Collection"
           }
         },
-        "Repository": {
-          "$ref": "#/definitions/Repository"
+        "repository": {
+          "$ref": "#/definitions/repository"
         }
       },
       "required": [
@@ -44,7 +44,7 @@
         "description",
         "identification",
         "template-name",
-        "Repository",
+        "repository",
         "version"
       ],
       "title": "Integration"
@@ -90,18 +90,52 @@
         },
         "schema": {
           "type": "string"
+        },
+        "fields-mapping": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "alias": {
+                  "type": "string"
+                },
+                "field": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "alias",
+                "field"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "alias": {
+                  "type": "string"
+                },
+                "field": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "alias",
+                "field"
+              ]
+            }
+          ]
         }
       },
       "required": [
         "dataset",
         "info",
         "input_type",
-        "labels",
-        "schema"
+        "labels"
       ],
       "title": "Log"
     },
-    "Repository": {
+    "repository": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -116,7 +150,7 @@
       "required": [
         "url"
       ],
-      "title": "Repository"
+      "title": "repository"
     },
     "Version": {
       "type": "object",
@@ -134,8 +168,7 @@
       },
       "required": [
         "integration",
-        "resource",
-        "schema"
+        "resource"
       ],
       "title": "Version"
     }

@@ -6,7 +6,7 @@ Integrations are a stateful bundle which will be stored inside a system `.integr
 ## Integration UX Loading Lifecycle API 
 
 ### Flow Diagram
-![Screenshot 2023-03-01 at 7 00 50 PM](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
+![flow-diagram](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
 
 
 ### [Swagger API reference](../docs/API/swagger.yaml)
@@ -14,7 +14,7 @@ Integrations are a stateful bundle which will be stored inside a system `.integr
 ### Load Integrations Repository
 As part of the Integration Ux workflow, once the Integration plugin is loaded it should load all the available integrations that are bundled in the integration repo.
 
-![Screenshot 2023-03-01 at 10 01 45 AM](https://user-images.githubusercontent.com/48943349/222223963-9c740f33-e156-4541-88cf-67d70131410f.png)
+![load-integration](https://user-images.githubusercontent.com/48943349/222223963-9c740f33-e156-4541-88cf-67d70131410f.png)
 
 
 The API needed from the backend should be as follows:
@@ -85,7 +85,7 @@ The frontend responsibilities :
 - enable shared info (html, images) resources in a CDN
 - allow filtering for the integrations
 
-![Screenshot 2023-03-01 at 10 13 41 AM](https://user-images.githubusercontent.com/48943349/222226930-1d9a684d-7f19-4aaf-b601-32bf7ce08920.png)
+![show_repository](https://user-images.githubusercontent.com/48943349/222226930-1d9a684d-7f19-4aaf-b601-32bf7ce08920.png)
 
 In addition, the following API is also supported
 ```
@@ -94,10 +94,10 @@ GET _integration/repository/$templat_name
 This call results in returning the cached integration config json object
 It would be used for display and route the F/E for fetching the relevant page assets
 
-![Screenshot 2023-03-01 at 10 13 58 AM](https://user-images.githubusercontent.com/48943349/222234012-68b134aa-72b6-4c72-84b4-bd2e5be2e4e5.png)
+![view_integrations](https://user-images.githubusercontent.com/48943349/222234012-68b134aa-72b6-4c72-84b4-bd2e5be2e4e5.png)
 
 Once an integration was selected
-![Screenshot 2023-03-01 at 10 38 50 AM](https://user-images.githubusercontent.com/48943349/222234188-017498c6-1d09-4d1f-84ee-5b5fa30fd9a4.png)
+![view_integration](https://user-images.githubusercontent.com/48943349/222234188-017498c6-1d09-4d1f-84ee-5b5fa30fd9a4.png)
 
 This page will require the F/E to fetch multiple assets from different locations
 - images
@@ -124,11 +124,11 @@ As part of the Integration Ux workflow, once the Integration plugin has loaded a
 This phase follows the [previous step](https://github.com/opensearch-project/observability/issues/1441) in which the user has filtered the Integrations from the repository and selected a specific one to load into the system
 
 ### Integration Load workflow
-![Screenshot 2023-03-01 at 7 17 31 PM](https://user-images.githubusercontent.com/48943349/222322253-e582b325-8b85-4edf-83ef-402abd54d837.png)
+![Integration-load-flow](https://user-images.githubusercontent.com/48943349/222322253-e582b325-8b85-4edf-83ef-402abd54d837.png)
 
 
 ### Integration state machine
-![Screen Shot 2023-02-01 at 6 30 24 PM](https://user-images.githubusercontent.com/48943349/222246887-2be6edc3-1c8a-433a-a154-325fec66d95b.png)
+![Integration-state-machine](https://user-images.githubusercontent.com/48943349/222246887-2be6edc3-1c8a-433a-a154-325fec66d95b.png)
 
 The API needed from the backend should be as follows:
 

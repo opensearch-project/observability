@@ -50,7 +50,7 @@ Using the template names one can access the template directly using the `_index_
 During the Integration plugin loading, it will scan the Integration folder (or any resource that functions as the integration repository ) and load each repository [config file](../../schema/system/integration.schema)
 into an in memory cache / index allowing to query and filter according to the different integration attributes.
 
-### External Integrations registry loading
+### External Integrations' registry loading
 "External integrations" (ones that are not packaged in the original integrations bundle) can be published by the user.
 These "external" integrations are packages as a zip bundle and contain all the relevant resources including:
  - `images`
@@ -63,7 +63,7 @@ Once the user has uploaded this zip bundle using the `POST /repository` API, thi
 In addition to the repository index, the Integration may use a repository cache that will allow the F/E to retrieve additional content residing in the integration folder directly ( images, html pages, URL's ) 
 
 #### Flow Diagram
-![Screenshot 2023-03-01 at 7 00 50 PM](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
+![flow-diagram-](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
 
 Once the Integration has completed loading, it will allow to query the cache content using the following REST api:
  - Filter integration according to its attributes:
@@ -123,7 +123,8 @@ After the `_integration/store/$instance_name` API was called the next steps will
    - During this step the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`
      - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
    - update the index template's `index_pattern` field with the added pattern
-     - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+       - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+   - if user selected custom index with proprietary fields -  mapping must be called ([field aliasing](Integration-fields-mapping.md))
 ---
    - **Success**: If the user changes the data-stream / index naming pattern - this will also be changes in every assets that supports such capability.
    - **Fail**:    If the validation fails the integration status would be updated to `maintenance` and an appropriate response should reflect the issues.
