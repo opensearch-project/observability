@@ -199,7 +199,7 @@ Once user changes the data-stream / index pattern - this will be reflected in ev
  - update the asset name (according to the `instance_name` field)
    - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
  - update the index template's `index_pattern` field with the added pattern 
-   - "index_patterns":` ["ss4o_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+   - "index_patterns":` ["ss4o_logs-*-*"]` -> `["ss4o_logs-*-*", "myLogs-*"]`
 
 #### Loading Integration
 
