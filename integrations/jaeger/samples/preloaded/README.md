@@ -4,7 +4,6 @@ For the purpose of playing and reviewing the services dashboard, this tutorial u
 
 The [sample traces](bulk_traces.json) are added here under the preloaded data folder and are ready to be ingested into open search.
 The [sample services](bulk_traces.json) are added here under the preloaded data folder and are ready to be ingested into open search.
-The [sample metrics](bulk_metrics.json) are added here under the preloaded data folder and are ready to be ingested into open search.
 
 ## Demo Instructions
 
@@ -20,22 +19,18 @@ This will load both opensearch server & dashboards
    - `curl -XPUT localhost:9200/_index_template/traces  -H "Content-Type: application/json" --data-binary @traces.mapping`
    
    - `curl -XPUT localhost:9200/_index_template/services  -H "Content-Type: application/json" --data-binary @services.mapping`
-   
-   - `curl -XPUT localhost:9200/_index_template/metrics  -H "Content-Type: application/json" --data-binary @metrics.mapping`
 
 
-3. Load the (proprietary) `data-prepper` traces / services  [traces mapping template](../../schema/data-prepper-traces.mapping) , [Service mapping templates](../../schema/data-prepper-services.mapping)
-   - `curl -XPUT localhost:9200/_index_template/otel-v1-apm-span  -H "Content-Type: application/json" --data-binary @data-prepper-traces.mapping`
+3. Load the (proprietary) `jaeger` traces / services  [traces mapping template](../../schema/jaeger-traces.mapping) , [Service mapping templates](../../schema/jaeger-services.mapping)
+   - `curl -XPUT localhost:9200/_index_template/jaeger-span-v1  -H "Content-Type: application/json" --data-binary @jaeger-traces.mapping`
 
-   - `curl -XPUT localhost:9200/_template/otel-v1-apm-service  -H "Content-Type: application/json" --data-binary @data-prepper-services.mapping`
+   - `curl -XPUT localhost:9200/_template/jaeger-service-v1  -H "Content-Type: application/json" --data-binary @jaeger-services.mapping`
 
    
 4. Bulk load the traces into the proprietary traces / services indices 
    
-   - `curl -XPOST "localhost:9200/otel-v1-apm-span/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_traces.json`
-   - `curl -XPOST "localhost:9200/otel-v1-apm-service-map/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_services.json`
-   
-   - `curl -XPOST "localhost:9200/sso_metrics-histogram-prod/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_metrics.json`
+   - `curl -XPOST "localhost:9200/jaeger-span-v1/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_traces.json`
+   - `curl -XPOST "localhost:9200/jaeger-service-v1/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_services.json`
 
 4.1) Bulk load the traces into the standard sso traces data-stream: 
 
@@ -60,7 +55,7 @@ curl -X PUT "http://localhost:9200/sso_traces-default-namespace/_bulk" -H 'Conte
 This indicates to the Integration loading API to create field aliases in the following manner:
 
 ```
-curl -X PUT "http://localhost:9200/otel-v1-apm-span/_mapping" -H 'Content-Type: application/json' -d '
+curl -X PUT "http://localhost:9200/jaeger-span-v1/_mapping" -H 'Content-Type: application/json' -d '
 {
   "properties": {
     "attributes.serviceName": {
@@ -82,15 +77,15 @@ curl -X PUT "http://localhost:9200/otel-v1-apm-span/_mapping" -H 'Content-Type: 
    - Load the [dashboards](../../assets/display/services-dashboard.ndjson) 
      - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@services-dashboard.ndjson`
 
-   - For the collaboration between the proprietary `traces` stream from `data-prepper` and the standard `traces` stream from SSO - we will use the pre-canned dashboard's default `index-pattern` (`sso_traces-*-*`) without changes
-   - For the dashboard to work with both the proprietary `otel-v1-apm-span` data-stream and the standard `sso_traces-*` stream we will create an index alias for the `otel-v1-apm-span`
+   - For the collaboration between the proprietary `traces` stream from `jaeger` and the standard `traces` stream from SSO - we will use the pre-canned dashboard's default `index-pattern` (`sso_traces-*-*`) without changes
+   - For the dashboard to work with both the proprietary `jaeger-span-v1` data-stream and the standard `sso_traces-*` stream we will create an index alias for the `jaeger-span-v1`
 ```
    curl -X POST "http://localhost:9200/_aliases" -H 'Content-Type: application/json' -d '
    {
       "actions": [
          {
             "add": {
-               "index": "otel-v1-apm-span",
+               "index": "jaeger-span-v1",
                "alias": "sso_traces-dataset-test"
             }
          }

@@ -102,3 +102,12 @@ And will result with :
 }
 ```
 
+
+
+####  running the swagger mock server as docker
+
+One-liner docker command (assuming running from repository root):
+
+```text
+docker run -p 9200:4010 -v "$(pwd)/docs/API:/api" -v "$(pwd)/schema:/schema" --name integ-prism -t stoplight/prism mock -h 0.0.0.0 /api/swagger.yaml
+```

@@ -1,12 +1,19 @@
-![data-prepper](dataPrepper.svg)
+![jaeger](jaeger-logo.png)
 
-# What is Data Prepper
+# What is Jaeger
 
-[Data Prepper](https://github.com/opensearch-project/data-prepper/blob/main/docs/overview.md) is an open source utility service. Data Prepper is a server side data collector with abilities to filter, enrich, transform, normalize and aggregate data for downstream analytics and visualization. The broader vision for Data Prepper is to enable an end-to-end data analysis life cycle from gathering raw logs to facilitating sophisticated and actionable interactive ad-hoc analyses on the data.
+[Jaeger](https://github.com/jaegertracing/jaeger) Jaeger, inspired by Dapper and OpenZipkin, is a distributed tracing platform created by Uber Technologies and donated to Cloud Native Computing Foundation. It can be used for monitoring microservices-based distributed systems:
 
-# What is Data Prepper Integration
+- Distributed context propagation
+- Distributed transaction monitoring
+- Root cause analysis
+- Service dependency analysis
+- Performance / latency optimization
 
-Data Prepper integration is concerned with the following aspects
+
+# What is Jaeger Integration
+
+Jaeger integration is concerned with the following aspects
  
  - Allow simple and automatic generation of all schematic structured
    - traces ( including specific fields mapping to map to SS4O schema)
@@ -17,8 +24,9 @@ Data Prepper integration is concerned with the following aspects
 
  - Add correlation queries to investigate traces based metrics
 
-# Data - Prepper Trace Fields
-Data Prepper uses the following [Traces](https://github.com/opensearch-project/data-prepper/blob/main/docs/schemas/trace-analytics/otel-v1-apm-span-index-template.md) mapping file
+# Jaeger Trace Fields
+Jaeger uses the following [Traces](../schema/jaeger-traces.mapping) mapping file
+
 The next fields are used:
 ```text
 
@@ -53,8 +61,8 @@ There are some additional `trace.group` related fields which are not part of the
 
 ```
 
-# Data - Prepper Trace Fields Mapping to SSO Trace Schema
-To compensate for the minor differences in fields naming between the [Data-Prepper-Trace mapping](https://github.com/opensearch-project/data-prepper/blob/main/docs/schemas/trace-analytics/otel-v1-apm-span-index-template.md) and [SSO Traces mapping](../../../schema/observability/traces/traces.mapping)
+# Jaeger Trace Fields Mapping to SSO Trace Schema
+To compensate for the minor differences in fields naming between the [Jaeger -Trace mapping](../schema/jaeger-traces.mapping) and [SSO Traces mapping](../../../schema/observability/traces/traces.mapping)
 We will define the next mapping alias that will be part of the [config.json](../config.json) for this integration
 
 ```json5
