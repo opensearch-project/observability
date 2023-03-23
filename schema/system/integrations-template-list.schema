@@ -9,7 +9,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "template-name": {
+        "templateName": {
+          "type": "string"
+        },
+        "assetUrl": {
           "type": "string"
         },
         "version": {
@@ -32,8 +35,9 @@
         "catalog",
         "collections",
         "description",
-        "template-name",
-        "version"
+        "templateName",
+        "version",
+        "assetUrl"
       ],
       "title": "IntegrationsTemplateList"
     }

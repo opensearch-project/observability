@@ -6,7 +6,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "template-name": {
+        "templateName": {
           "type": "string"
         },
         "version": {
@@ -20,6 +20,9 @@
         },
         "identification": {
           "type": "string"
+        },
+        "assetUrl": {
+            "type": "string"
         },
         "components": {
           "type": "array",
@@ -45,7 +48,8 @@
         "identification",
         "template-name",
         "repository",
-        "version"
+        "version",
+        "assetUrl"
       ],
       "title": "Integration"
     },

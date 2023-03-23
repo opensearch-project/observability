@@ -6,7 +6,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "template-name": {
+        "templateName": {
           "type": "string"
         },
         "namespace": {
@@ -41,6 +41,15 @@
         "status": {
           "type": "string"
         },
+        "dashboardUrl": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "author": {
+                  "type": "string"
+                },
         "assets": {
           "type": "array",
           "items": {
@@ -54,11 +63,14 @@
         "description",
         "dataset",
         "id",
-        "template-name",
+        "templateName",
         "namespace",
         "status",
         "template",
-        "version"
+        "version",
+        "dashboardUrl",
+        "type",
+        "author"
       ],
       "title": "IntegrationInstance"
     },

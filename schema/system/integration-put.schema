@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/IntegrationInstance",
+  "definitions": {
+    "IntegrationInstance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "templateName": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "dataset": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+      },
+      "required": [
+        "dataset",
+        "templateName",
+        "namespace",
+        "version",
+      ],
+      "title": "IntegrationInstance"
+    }
+}

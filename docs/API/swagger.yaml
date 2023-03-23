@@ -273,30 +273,29 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '../../schema/system/integrations-template-list.schema'
-              example:
-                - template-name: nginx
-                  version: 1.0.0
-                  description: Nginx HTTP server collector
-                  catalog: observability
-                  collections:
-                    - logs
-                    - metrics
-                - name: apache HTTP server
-                  version: 1.0.0
-                  description: Http Apache server
-                  catalog: observability
-                  collections:
-                    - logs
-                    - metrics
-                - name: VPC Flow Logs
-                  version: 1.0.0
-                  description: " Log and View Network Traffic Flows"
-                  catalog: observability
-                  collections:
-                    - logs
+              examples:
+                test:
+                  value:
+                    - templateName: nginx
+                      version: 1.0.0
+                      description: Nginx HTTP server collector
+                      catalog: observability
+                      collections: [logs, metrics]
+                      assetUrl: https://cdn.iconscout.com/icon/free/png-256/nginx-3521604-2945048.png
+                    - templateName: apache HTTP server
+                      version: 1.0.0
+                      description: Http Apache server
+                      catalog: observability
+                      collections: [logs, metrics]
+                      assetUrl: https://developer.asustor.com/uploadIcons/0020_999_1618451670_apache_256.png
+                    - templateName: VPC Flow Logs
+                      version: 1.0.0
+                      description: " Log and View Network Traffic Flows"
+                      catalog: observability
+                      collections: [logs]
+                      assetUrl: https://www.cloudoptics.io/wp-content/uploads/2015/03/aws_vpc.png
+
 
         '400':
           description: bad input parameter
@@ -346,7 +345,18 @@ paths:
               schema:
                 $ref: '../../schema/system/integration.schema'
               example:
-                template-name: nginx
+                templateName: nginx
+                assetUrl: https://cdn.iconscout.com/icon/free/png-256/nginx-3521604-2945048.png
+                link: https://www.nginx.com/
+                status: AVAILABLE
+                contributer:
+                  link: https://github.com/rupal-bq
+                  name: Rupal
+                screenshotUrls:
+                  one: data:image/png;base64,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
+                  two: data:image/png;base64,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
+                  three: data:image/png;base64,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
+                license: Apache 2.0
                 version:
                   integration: 0.1.0
                   schema: 1.0.0
@@ -380,6 +390,25 @@ paths:
                           - status
                 repository:
                   url: https://github.com/opensearch-project/observability/tree/main/integrarions/nginx
+                assets:
+                  - name: sso-logs-dashboard-new.ndjson
+                    creationDate: "'2016-08-29T09:12:33.001Z'"
+                    status: LOADED
+                    type: dashboard
+                fields:
+                  - name: ip_address
+                    type: string
+                    category: web
+                  - name: nginx.access.url
+                    type: string
+                    category: web
+                  - name: nginx.access.http_version
+                    type: string
+                    category: http
+                  - name: nginx.ingress_controller.http.request.length
+                    type: string
+                    category: http
+
 
         '400':
           description: bad input parameter
@@ -416,20 +445,25 @@ paths:
                 type: array
                 items:
                   $ref: '../../schema/system/integration-instance.schema'
-                example:
-                  template-name: nginx
-                  dataset: prod
-                  namespace: us_east
-                  id: nginx-prod-us_east
-                  version: 0.1.0
-                  description: Nginx HTTP server collector for east cost prod systems
-                  template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
-                  creationDate: '2016-08-29T09:12:33.001Z'
-                  status: LOADED
-                  assets:
-                    - name: sso-logs-dashboard-new.ndjson
-                      creationDate: "'2016-08-29T09:12:33.001Z'"
-                      status: LOADED
+              examples:
+                test:
+                  value:
+                  - templateName: nginx
+                    type: dashboard
+                    dataset: prod
+                    namespace: us_east
+                    id: nginx-prod-us_east
+                    version: 0.1.0
+                    description: Nginx HTTP server collector for east cost prod systems
+                    template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+                    creationDate: '2016-08-29T09:12:33.001Z'
+                    author: Ani
+                    status: LOADED
+                    dashboardUrl: http://localhost:5601/app/dashboards#/view/7adfa750-4c81-11e8-b3d7-01146121b73d?_g=(filters:!(),refreshInterval:(pause:!f,value:900000),time:(from:now-24h,to:now))&_a=(description:'Analyze%20mock%20flight%20data%20for%20OpenSearch-Air,%20Logstash%20Airways,%20OpenSearch%20Dashboards%20Airlines%20and%20BeatsWest',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!t,title:'%5BFlights%5D%20Global%20Flight%20Dashboard',viewMode:view)
+                    assets:
+                      - name: sso-logs-dashboard-new.ndjson
+                        creationDate: "'2016-08-29T09:12:33.001Z'"
+                        status: LOADED
 
         '400':
           description: bad input parameter
@@ -446,21 +480,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '../../schema/system/integration-instance.schema'
+              $ref: '../../schema/system/integration-put.schema'
             example:
-              template-name: nginx
+              templateName: nginx
               dataset: prod
               namespace: us_east
-              id: nginx-prod-us_east
               version: 0.1.0
-              description: Nginx HTTP server collector for east cost prod systems
-              template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
-              creationDate: '2016-08-29T09:12:33.001Z'
-              status: LOADED
-              assets:
-                - name: sso-logs-dashboard-new.ndjson
-                  creationDate: "'2016-08-29T09:12:33.001Z'"
-                  status: LOADED
 
       responses:
         '201':
