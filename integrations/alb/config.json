@@ -1,0 +1,35 @@
+{
+  "name": "alb_logs",
+  "version": {
+    "integ": "0.1.0",
+    "schema": "1.0.0",
+    "resource": "^2.6.0"
+  },
+  "description": "AWS ALB Integration",
+  "catalog": "observability",
+  "components": [
+    "http,communication,cloud,container,aws_elb"
+  ],
+  "collection":[
+    {
+      "logs": [{
+        "info": "ALB logs",
+        "input_type":"logfile",
+        "dataset":"aws.alb",
+        "labels" :["aws","ALB"]
+      }]
+    },
+    {
+      "metrics": [{
+          "info": "ALB metrics signals ",
+          "input_type": "metrics",
+          "dataset": "alb.status",
+          "labels": ["metrics",""]
+        }]
+    }
+  ],
+  "repo": {
+    "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/alb"
+  }
+}
+

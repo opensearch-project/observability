@@ -9,7 +9,7 @@
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
   "components": [
-    "web","http"
+    "communication","http"
   ],
   "collection":[
     {

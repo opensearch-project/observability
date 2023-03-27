@@ -35,6 +35,22 @@
             "web"
           ],
           "container": false
+        },
+        {
+          "component": "cloud",
+          "description": "Observability cloud fields definition contains a set of standardized fields to capture metadata about the cloud environment where an event or metric is generated. This includes information about the cloud provider, region, availability zone, machine type, account details, service name, and instance details. These fields allow for the efficient organization and analysis of data across different cloud platforms, making it easier to monitor and manage resources in a multi-cloud environment.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/cloud",
+          "container": false,
+          "tags": []
+        },
+        {
+          "component": "container",
+          "description": "Observability container The container fields definition provides a structured way to store metadata and metrics about containers, which can be used to correlate data across container runtimes. This includes information like the container's unique ID, image name, tags, resource usage (CPU, memory, disk, and network), and runtime management system, allowing users to efficiently monitor and analyze their containerized applications.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/container",
+          "container": false,
+          "tags": []
         }
       ]
     },
