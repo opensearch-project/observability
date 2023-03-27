@@ -1,0 +1,39 @@
+{
+  "name": "alb_s3",
+  "version": {
+    "integ": "0.1.0",
+    "schema": "1.0.0",
+    "resource": "^2.6.0"
+  },
+  "description": "Jaeger Tracing correlations Integration",
+  "catalog": "observability",
+  "components": [
+    "traces,traceGroups,metrics"
+  ],
+  "collection":[
+    {
+      "traces": [{
+        "info": "traces signals",
+        "input_type":"traces",
+        "dataset":"spans",
+        "labels" :["traces"],
+        "fields-mapping" : [
+          {"alias":"attributes.serviceName","field":"serviceName"} ,
+          {"alias":"events.@timestamp","field":"events.time"}
+        ]
+      }]
+    },
+    {
+      "services": [{
+          "info": "service map",
+          "input_type": "services",
+          "dataset": "service",
+          "labels": ["services"]
+        }]
+    }
+  ],
+  "repo": {
+    "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/jaeger"
+  }
+}
+
