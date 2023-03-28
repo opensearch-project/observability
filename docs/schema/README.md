@@ -1,104 +1,81 @@
-# Simple Schema for Observability
+# Simple Schema for Open Search
 
 ## Background
-Observability is the ability to measure a system’s current state based on the data it generates, such as logs, metrics, and traces. Observability relies on telemetry derived from instrumentation that comes from the endpoints and services.
+Simple Schema for OpenSearch brings the concept of organized and structured catalog data.
+A catalog of schemas is a comprehensive collection of all the possible data schemas or structures that can be used to represent information.
 
-Observability telemetry signals (logs, metrics, traces) arriving from the system would contain all the necessary information needed to observe and monitor.
+It provides a standardized way of organizing and describing the structure of data, making it easier to analyze, compare, and share data across different systems and applications.
+Structured data refers to any data that is organized in a specific format or schema - for example Observability data or security data...
 
-Modern application can have a complicated distributed architecture that combines cloud native and microservices layers. Each layer produces telemetry signals that may have different structure and information.
+By using a catalog of schemas, data analysts and scientists can easily identify and understand the different structures of data, allowing them to correlate and analyze information more effectively.
+One of the key benefits of a catalog of schemas is that it promotes interoperability between different systems and applications.
+By using standardized schema descriptions, data can be shared and exchanged more easily, regardless of the system or application being used.
 
-Using Simple Schema's Observability telemetry schema we can organize, correlate and investigate system behavior in a standard and well-defined manner.
+The use of a catalog of schemas can also improve data quality by ensuring that data is consistent and accurate. This is because the schema provides a clear definition of the data structure and the rules for how data should be entered, validated, and stored.
 
-Observability telemetry schema defines the following components - **logs, traces and metrics**.
+## OpenSearch Schemas
 
-**Logs** provide comprehensive system details, such as a fault and the specific time when the fault occurred. By analyzing the logs, one can troubleshoot code and identify where and why the error occurred.
+Opensearch supports out of the box the following schemas
+ - [Observability](observability/README.md) 
+ - [Security](security/README.md) 
+ - [System](system/README.md) 
 
-**Traces** represent the entire journey of a request or action as it moves through all the layers of a distributed system. Traces allow you to profile and observe systems, especially containerized applications, serverless architectures, or microservices architecture.
+### Observability
+Simple Schema for [Observability](https://github.com/opensearch-project/observability) allows ingestion of both (OTEL/ECS) formats and internally consolidate them to best of its capabilities for presenting a unified Observability platform.
 
-**Metrics** provide a numerical representation of data that can be used to determine a service or component’s overall behaviour over time.
+### Security
+OpenSearch Security is a [plugin](https://github.com/opensearch-project/security) for OpenSearch that offers encryption, authentication and authorization. When combined with OpenSearch Security-Advanced Modules, it supports authentication via Active Directory, LDAP, Kerberos, JSON web tokens, SAML, OpenID and more. It includes fine grained role-based access control to indices, documents and fields. It also provides multi-tenancy support in OpenSearch Dashboards.
 
+### System
+System represents the internal structure of Opensearch's `.dashboard` entities such as `dashboard`, `notebook`, `save-query` `integration`. Every saved object may declare itself in the system
+catalog folder and publish a corresponding schema. This capability will allow validation of these objects and also simplify structure evolution using this schema. 
 
-In many occasions, correlation between the logs, traces and metrics is mandatory to be able to monitor and understand how the system is behaving. In addition, the distributed nature of the application produces multiple formats of telemetry signals arriving from different components ( network router, web server, database)
+### Catalog Loading
+During Integration plugin loading, it will go over all the Opensearch's schema supported catalogs and generate the appropriate templates representing them.
+This will allow any future Integration using these catalogs without the need to explicitly defining them thus maintaining a unified common schema.
 
-For such correlation to be possible the industry has formulated several protocols ([OTEL](https://github.com/open-telemetry), [ECS](https://github.com/elastic/ecs), [OpenMetrics](https://github.com/OpenObservability/OpenMetrics)) for communicating these signals - the Observability schemas.
+Each catalog may support semantic versioning so that it may evolve its schema as needed. 
+In the future, the catalog will enable to associate domains with catalogs and allow externally importing catalogs into Opensearch for additional collaboration. 
 
----
-## Schema Aware Components
+### Catalog Structure
+A catalog is structured in the following way:
 
-The role of the Observability [plugin](https://github.com/opensearch-project/observability) is intended to allow maximum flexibility and not imposing a strict Index structure of the data source. Nevertheless, the modern nature of distributed application and the vast amount of telemetry producers is changing this perception.
+ - Catalog named folder: `Observability`
+   - Categories named folder : `Logs`, `Traces`, `Metrics` 
+     - Component named file : `http` , `communication` , `traces` , `metrics` 
 
-Today many of the Observability solutions (splunk, datadog, dynatrace) recommend using a consolidated schema to represent the entire variance of log/trace/metrics producers.
+Each level encapsulates additional internal structure that allows a greater level of composability and agility.
+The details of each catalog structure is described in the [catalog.json](system/samples/catalog.json) file that resides in the root level of each catalog folder.
 
-This allows monitoring, incidents investigation and corrections process to become simpler, maintainable and reproducible.
+**Component** 
+The component is the leaf level definition of the catalog hierarchy, it details the actual building blocks of the catalog's types and fields.
 
+Each component has two flavours:
 
-A Schema-Aware visualization component is a component which assumes the existence of specific index/indices name patterns and expects these indices to have a specific structure - a schema.
+ - `$component.mapping` - describes how the type is physically stored in the underlying index
+ - `$component.mapping` - describing the actual json schema for this component type
 
-As an example we can see that **Trace-Analytics** is a schema-aware visual component since it directly assumes the traces & serviceMap indices exist and expects them to follow a specific structure.
+A component may be classified as a `container` which has the ability to group / combine multiple components inside. 
 
-This definition doesn’t change the existing status of visualization components which are not “Schema Aware” but it only regulates which Visual components would benefit using a schema and which will be agnostic of its content.
-
-Operation Panel for example, are not “Schema Aware” since they don’t assume in advanced the existence of a specific index nor do they expect the index they display to have a specific structure.
-
-## Data Model
-
-Simple Schema for Observability allows ingestion of both (OTEL/ECS) formats and internally consolidate them to best of its capabilities for presenting a unified Observability platform.
-
-## Observability index naming
-
-The Observability indices would follow the recommended for immutable data stream ingestion pattern using the [data_stream concepts](https://opensearch.org/docs/latest/opensearch/data-streams/)
-
-Index pattern will follow the next naming template `sso_{type}`-`{dataset}`-`{namespace}`
-
- - **type**	- indicated	the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
- - **dataset**	- The field can contain anything that classify the source of the data - such as `nginx.access`
- - **namespace**	- A user defined namespace - mainly useful to allow grouping of data such as production grade, geography classification
-
-This strategy allows two degrees of naming freedom: dataset and namespace. For example a customer may want to route the nginx logs from two geographical areas into two different indices:
-
- - `sso_logs-nginx-us`
- - `sso_logs-nginx-eu`
-
-This type of distinction also allows for creation of crosscutting queries by setting the next index query pattern `sso_logs-nginx-*` or by using a geographic based crosscutting query `sso_logs-*-eu`.
-
-## Data index routing
-
-The [ingestion component](https://github.com/opensearch-project/data-prepper) which is responsible for ingesting the Observability signals is responsible to route the data into the relevant indices.
-
-The `sso_{type}-{dataset}-{namespace}` combination dictates the target index, `{type}` is prefixed with the `sso_` prefix into one of the supported type:
-
- - Traces - `sso_traces`
- - Metrics - `sso_metrics`
- - Logs - `sso_logs`
-
-For example if within the ingested log contains the following section:
-```json
-{
+For example, we can examine the [`logs`](observability/logs/logs.mapping) component that has the capacity to combine additional components (such as `http`, `communication` and more)
+```json5
   ...
-  "attributes": {
-    "data_stream": {
-      "type": "span",
-      "dataset": "mysql",
-      "namespace": "prod"
-    }
-  }
-}
+  "composed_of": [
+    "http_template",
+    "communication_template"
+  ],
+  ...
 ```
-This indicates that the target index for this observability signal should be `sso_traces`-`mysql`-`prod` index that follows uses the traces schema mapping.
+A component also has a list of `tags` which are aliases for the component name which can be used to reference it directly by an integration components list.
 
-## Observability Index templates
-
-With the expectation of multiple Observability data providers and the need to consolidate all to a single common schema - the Observability plugin will take the following responsibilities :
-
- - Define and create all the signals **index templates** upon loading 
- - Publish a versioned schema file (Json Schema) for each signal type for general validation usage by any 3rd party
-
-## Observability Ingestion pipeline
-The responsibility on an **Observability-ingestion-pipeline** is to create the actual `data_stream` in which it is expecting to ingest into.
-
-This `data_stream` will use one of the Observability ready-made index templates (Metrics,Traces and Logs) and conform with the above naming pattern (`sso_{type}`-`{dataset}`-`{namespace}`)
-
-**If the ingesting party has a need to update the template default index setting (shards, replicas ) it may do so before the actual creation of the data_stream.**  
-
-### Note
-It is important to mention that these new capabilities would not change or prevent existing customer usage of the system and continue to allow proprietary usage.
+```json5
+  ...
+    {
+      "component": "communication",
+      "version": "1.0",
+      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication",
+      "tags": ["web"],
+      "container": false
+    }
+  ...
+```
