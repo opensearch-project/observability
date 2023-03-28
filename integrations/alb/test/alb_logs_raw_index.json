@@ -1,0 +1,42 @@
+{
+  "mappings" : {
+    "properties" : {
+      "receivedBytes" : {
+        "type" : "long"
+      },
+      "requestUrl" : {
+        "type" : "text",
+        "fields" : {
+          "keyword" : {
+            "type" : "keyword",
+            "ignore_above" : 256
+          }
+        }
+      },
+      "requestVerb" : {
+        "type" : "text",
+        "fields" : {
+          "keyword" : {
+            "type" : "keyword",
+            "ignore_above" : 256
+          }
+        }
+      },
+      "sentBytes" : {
+        "type" : "long"
+      },
+      "statusCode" : {
+        "type" : "text",
+        "fields" : {
+          "keyword" : {
+            "type" : "keyword",
+            "ignore_above" : 256
+          }
+        }
+      },
+      "timestamp" : {
+        "type" : "date"
+      }
+    }
+  }
+}
