@@ -34,7 +34,6 @@
           }
         },
         "repository": {
-          "$ref": "#/definitions/Repository"
           "$ref": "#/definitions/repository"
         }
       },
