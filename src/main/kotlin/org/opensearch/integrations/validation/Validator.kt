@@ -1,4 +1,4 @@
-package org.opensearch.observability.validation
+package org.opensearch.integrations.validation
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.JsonSchema
@@ -6,8 +6,10 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersionDetector
 import com.networknt.schema.ValidationResult
 import org.opensearch.commons.utils.logger
-import org.opensearch.observability.validation.schema.system.SystemComponent
+import org.opensearch.integrations.validation.schema.system.SystemComponent
 import java.io.File
+import java.io.FileNotFoundException
+import java.lang.RuntimeException
 
 /**
  * Validator class for validating schema components.
@@ -23,12 +25,12 @@ class Validator(val component: SystemComponent) {
     private val mapper = ObjectMapper()
 
     private fun loadComponentSchema(): JsonSchema {
-        val schemaFile = File(component.resourcePath)
-        if (!schemaFile.exists()) {
-            log.fatal("could not find schema '${schemaFile.path}' for component '$component'")
+        val schemaResource = this::class.java.getResource(component.resourcePath)?.readText()
+        schemaResource ?: run {
+            log.fatal("could not load schema for component '$component'")
+            throw RuntimeException("could not load schema for component '$component'")
         }
-        val schemaSource = schemaFile.readText(Charsets.UTF_8)
-        val schemaNode = mapper.readTree(schemaSource)
+        val schemaNode = mapper.readTree(schemaResource)
         val factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode))
         return factory.getSchema(schemaNode)
     }

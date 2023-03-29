@@ -1,11 +1,12 @@
-package org.opensearch.observability.validation
+package org.opensearch.integrations.validation
 
 import com.fasterxml.jackson.core.JsonParseException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.common.Strings
 import org.opensearch.common.xcontent.json.JsonXContent
-import org.opensearch.observability.validation.schema.system.SystemComponent
+import org.opensearch.integrations.validation.Validator
+import org.opensearch.integrations.validation.schema.system.SystemComponent
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
