@@ -1,16 +1,22 @@
 {
   "template": {
     "mappings": {
+      "_meta": {
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component": "cloud"
+      },
       "properties": {
         "cloud": {
           "properties": {
-            "provider" : {
+            "provider": {
               "type": "keyword"
             },
-            "availability_zone" : {
+            "availability_zone": {
               "type": "keyword"
             },
-            "region" : {
+            "region": {
               "type": "keyword"
             },
             "machine": {

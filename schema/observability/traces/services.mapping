@@ -5,7 +5,10 @@
   "template": {
     "mappings": {
       "_meta": {
-        "version": "1.0.0-dev"
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "traces",
+        "component": "services"
       },
       "_source": {
         "enabled": true

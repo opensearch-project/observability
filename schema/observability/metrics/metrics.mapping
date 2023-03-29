@@ -6,7 +6,10 @@
   "template": {
     "mappings": {
       "_meta": {
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "metrics",
+        "component": "metrics"
       },
       "_source": {
         "enabled": true

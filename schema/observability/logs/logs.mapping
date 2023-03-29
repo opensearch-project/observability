@@ -6,7 +6,10 @@
   "template": {
     "mappings": {
       "_meta": {
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component" : "log"
       },
       "_source": {
         "enabled": true

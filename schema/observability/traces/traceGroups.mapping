@@ -1,6 +1,12 @@
 {
   "template": {
     "mappings": {
+      "_meta": {
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "traces",
+        "component": "traceGroups"
+      },
       "properties": {
         "traceGroup": {
           "ignore_above": 1024,

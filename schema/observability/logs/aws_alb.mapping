@@ -1,7 +1,13 @@
 {
   "template": {
     "mappings": {
-      "aws" : {
+      "_meta": {
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component": "aws_alb"
+      },
+      "aws": {
         "type": "object",
         "elb": {
           "properties": {
