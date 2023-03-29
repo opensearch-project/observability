@@ -8,7 +8,7 @@ package org.opensearch.observability.model
 import org.apache.lucene.search.TotalHits
 import org.opensearch.action.search.SearchResponse
 import org.opensearch.common.io.stream.StreamInput
-import org.opensearch.common.xcontent.XContentParser
+import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.observability.model.RestTag.OBJECT_LIST_FIELD
 
 /**
