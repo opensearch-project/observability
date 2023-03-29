@@ -45,7 +45,7 @@ For setting up a fluent-bit agent on Nginx, please follow the next instructions
     Match       nginx.*
     Host        <OSS_HOST>
     Port        <OSS_PORT>
-    Index       sso_nginx-access-%Y.%m.%d
+    Index       ss4o_nginx-access-%Y.%m.%d
 ```
 Here, we specify the input plugin as tail, set the path to the Nginx access log file, and specify a tag to identify the logs in Fluent-bit. We also set some additional parameters such as memory buffer limit and skipping long lines.
 

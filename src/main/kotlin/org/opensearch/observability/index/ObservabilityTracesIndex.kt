@@ -26,9 +26,9 @@ import java.util.*
  */
 internal object ObservabilityTracesIndex : LifecycleListener() {
     private val log by logger(ObservabilityTracesIndex::class.java)
-    private const val TRACES_MAPPING_TEMPLATE_NAME = "sso_trace_template"
+    private const val TRACES_MAPPING_TEMPLATE_NAME = "ss4o_trace_template"
     private const val TRACES_MAPPING_TEMPLATE_FILE = "traces-mapping-template.json"
-    private const val TRACES_PATTERN_NAME = "sso_traces-*-*"
+    private const val TRACES_PATTERN_NAME = "ss4o_traces-*-*"
 
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService

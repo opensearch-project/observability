@@ -2,7 +2,7 @@
 For loading the given samples run the next request once the Opensearch cluster including Observability plugin has started:
 
 
-`PUT sso_traces-default-namespace/_bulk`
+`PUT ss4o_traces-default-namespace/_bulk`
 ```json
 { "create":{ } }
 {"traceId":"4fa04f117be100f476b175e41096e736","spanId":"e275ac9d21929e9b","traceState":[],"parentSpanId":"","name":"client_checkout","kind":"INTERNAL","@timestamp":"2021-11-13T20:20:39+00:00","endTime":"2021-11-14T20:10:41+00:00","droppedAttributesCount":0,"droppedEventsCount":0,"droppedLinksCount":0,"resource":{"telemetry@sdk@name":"opentelemetry","telemetry@sdk@language":"python","telemetry@sdk@version":"0.14b0","service@name":"frontend-client","host@hostname":"ip-172-31-10-8.us-west-2.compute.internal"},"status":{"code":0}}
@@ -14,7 +14,7 @@ For loading the given samples run the next request once the Opensearch cluster i
 
 Run the next query to get the Spans kind CLIENT:
 
-- `GET sso_traces-default-namespace/_search`
+- `GET ss4o_traces-default-namespace/_search`
 ```json
 {
   "query":{

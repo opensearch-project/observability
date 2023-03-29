@@ -1,6 +1,6 @@
 {
   "index_patterns": [
-    "sso_traces-*-*"
+    "ss4o_traces-*-*"
   ],
   "data_stream": {},
   "template": {

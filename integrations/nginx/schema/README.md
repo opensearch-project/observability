@@ -1,5 +1,5 @@
 # Schema
-The schema folder is where the actual translation is done between the Nginx format (logs/metrics) and the `sso` [Observability format](../../../schema/observability/README.md) 
+The schema folder is where the actual translation is done between the Nginx format (logs/metrics) and the `ss4o` [Observability format](../../../schema/observability/README.md) 
 
 ## Nginx Log Format
 Nginx log format refers to the way Nginx web server records information about incoming HTTP requests and outgoing responses in its access log files. The log format is configurable, meaning that you can choose what information is logged, and in what format.
@@ -27,9 +27,9 @@ Custom log formats can be defined by modifying the `log_format` directive in the
 
 ### Schema Folder
 
-Each sub-folder represents a different observability signals provider that can be used to translate and deliver `sso` compatible events from nginx to opensearch.
+Each sub-folder represents a different observability signals provider that can be used to translate and deliver `ss4o` compatible events from nginx to opensearch.
 
 
 ### Fluent-bit
-This data collector has a dedicated agent for nginx which can use a [dedicated lua parser](fluent-bit/parsers.conf) that converts nginx original log format into sso logs format.
+This data collector has a dedicated agent for nginx which can use a [dedicated lua parser](fluent-bit/parsers.conf) that converts nginx original log format into ss4o logs format.
 
