@@ -1,0 +1,653 @@
+openapi: 3.0.0
+info:
+  description: This is the Integration & Catalog API
+  version: "1.0.0"
+  title: Integration API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /catalog:
+    get:
+      tags:
+        - developers
+      summary: schema list of loaded catalogs
+      operationId: searchCatalog
+      description: |
+        By passing in the appropriate search attributes, you can search for
+        available catalogs in the system
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up catalog components
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../schema/system/catalog.schema'
+              example:
+                observability:
+                  application/json:
+                    schema:
+                      type: array
+                      items:
+                        $ref: '../../schema/system/catalog.schema'
+                    examples:
+                      catalog: observability
+                      version: '1.0'
+                      url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability
+                      categories:
+                        - category: logs
+                          version: '1.0'
+                          url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs
+                          components:
+                            - component: log
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/logs
+                              container: true
+                              tags: [ ]
+                            - component: http
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/http
+                              tags: [ ]
+                              container: false
+                            - component: communication
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication
+                              tags:
+                                - web
+                              container: false
+                        - category: traces
+                          version: '1.0'
+                          url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces
+                          components:
+                            - component: span
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traces
+                              tags: [ ]
+                              container: true
+                        - category: metrics
+                          version: '1.0'
+                          url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics
+                          components:
+                            - component: metric
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics
+                              tags: [ ]
+                              container: true
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds a catalog item
+      operationId: addCatalog
+      description: |
+        Adds a catalog item to the system, expecting the internal URLs to be accessible
+      requestBody:
+        description: Inventory item to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../schema/system/catalog.schema'
+            example:
+              observability:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '../../schema/system/catalog.schema'
+                  examples:
+                    catalog: observability
+                    version: '1.0'
+                    url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability
+                    categories:
+                      - category: logs
+                        version: '1.0'
+                        url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs
+                        components:
+                          - component: log
+                            version: '1.0'
+                            url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/logs
+                            container: true
+                            tags: [ ]
+                          - component: http
+                            version: '1.0'
+                            url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/http
+                            tags: [ ]
+                            container: false
+                          - component: communication
+                            version: '1.0'
+                            url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication
+                            tags:
+                              - web
+                            container: false
+                      - category: traces
+                        version: '1.0'
+                        url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces
+                        components:
+                          - component: span
+                            version: '1.0'
+                            url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traces
+                            tags: [ ]
+                            container: true
+                      - category: metrics
+                        version: '1.0'
+                        url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics
+                        components:
+                          - component: metric
+                            version: '1.0'
+                            url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics
+                            tags: [ ]
+                            container: true
+
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+  /catalog/{id}:
+    get:
+      tags:
+        - developers
+      summary: get catalog by id
+      operationId: catalogById
+      description: |
+        Get a specific catalog by Id
+      parameters:
+        - in: path
+          name: id
+          description: catalog instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: catalog
+          content:
+            application/json:
+              schema:
+                $ref: '../../schema/system/catalog.schema'
+              example:
+                observability:
+                  application/json:
+                    schema:
+                      type: array
+                      items:
+                        $ref: '../../schema/system/catalog.schema'
+                    examples:
+                      catalog: observability
+                      version: '1.0'
+                      url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability
+                      categories:
+                        - category: logs
+                          version: '1.0'
+                          url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs
+                          components:
+                            - component: log
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/logs
+                              container: true
+                              tags: [ ]
+                            - component: http
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/http
+                              tags: [ ]
+                              container: false
+                            - component: communication
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication
+                              tags:
+                                - web
+                              container: false
+                        - category: traces
+                          version: '1.0'
+                          url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces
+                          components:
+                            - component: span
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traces
+                              tags: [ ]
+                              container: true
+                        - category: metrics
+                          version: '1.0'
+                          url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics
+                          components:
+                            - component: metric
+                              version: '1.0'
+                              url: https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics
+                              tags: [ ]
+                              container: true
+        '400':
+          description: bad input parameter
+  /repository:
+    get:
+      tags:
+        - developers
+      summary: repository of available integrations
+      operationId: searchRepository
+      description: |
+        By passing in the appropriate search attributes, you can search for
+        available integration templates in the repository (available for loading into the store)
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up available Integrations template
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../schema/system/integrations-template-list.schema'
+              example:
+                - template-name: nginx
+                  version: 1.0.0
+                  description: Nginx HTTP server collector
+                  catalog: observability
+                  collections:
+                    - logs
+                    - metrics
+                - name: apache HTTP server
+                  version: 1.0.0
+                  description: Http Apache server
+                  catalog: observability
+                  collections:
+                    - logs
+                    - metrics
+                - name: VPC Flow Logs
+                  version: 1.0.0
+                  description: " Log and View Network Traffic Flows"
+                  catalog: observability
+                  collections:
+                    - logs
+
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds an Integration template item
+      operationId: addIntegration
+      description: |
+       Adds an Integration template to the repository, expecting the internal URLs to be accessible
+      requestBody:
+        required: true
+        description: Inventory template item to add
+        content:
+          application/zip:
+            schema:
+              $ref: '../../schema/system/integration.schema'
+            example:
+              - BLOB including all images, json files, dashboards and documentations
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+  /repository/{id}:
+    get:
+      tags:
+        - developers
+      summary: get integration template from the repository by id
+      operationId: integrationFromRepositoryById
+      description: |
+        Get a specific Integration from the repository by Id
+      parameters:
+        - in: path
+          name: id
+          description: integration name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Integration template
+          content:
+            application/json:
+              schema:
+                $ref: '../../schema/system/integration.schema'
+              example:
+                template-name: nginx
+                version:
+                  integration: 0.1.0
+                  schema: 1.0.0
+                  resource: "^1.23.0"
+                description: Nginx HTTP server collector
+                identification: instrumentationScope.attributes.identification
+                catalog: observability
+                components:
+                  - web
+                  - http
+                collection:
+                  - logs:
+                      - info: access logs
+                        input_type: logfile
+                        dataset: nginx.access
+                        labels:
+                          - nginx
+                          - access
+                      - info: error logs
+                        input_type: logfile
+                        labels:
+                          - nginx
+                          - error
+                        dataset: nginx.error
+                  - metrics:
+                      - info: status metrics
+                        input_type: metrics
+                        dataset: nginx.status
+                        labels:
+                          - nginx
+                          - status
+                repository:
+                  url: https://github.com/opensearch-project/observability/tree/main/integrarions/nginx
+
+        '400':
+          description: bad input parameter
+  /store:
+    get:
+      tags:
+        - developers
+      summary: get all stored Integrations
+      operationId: searchStore
+      description: |
+        By passing in the appropriate search attributes, you can search for
+        available Integrations in the store
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up Integration in the store
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../schema/system/integration-instance.schema'
+                example:
+                  template-name: nginx
+                  dataset: prod
+                  namespace: us_east
+                  id: nginx-prod-us_east
+                  version: 0.1.0
+                  description: Nginx HTTP server collector for east cost prod systems
+                  template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+                  creationDate: '2016-08-29T09:12:33.001Z'
+                  status: LOADED
+                  assets:
+                    - name: sso-logs-dashboard-new.ndjson
+                      creationDate: "'2016-08-29T09:12:33.001Z'"
+                      status: LOADED
+
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds an Integration item to store
+      operationId: storeIntegration
+      description: |
+       Adds an Integration to the system store, expecting the internal URLs to be accessible
+      requestBody:
+        required: true
+        description: Inventory item to add
+        content:
+          application/json:
+            schema:
+              $ref: '../../schema/system/integration-instance.schema'
+            example:
+              template-name: nginx
+              dataset: prod
+              namespace: us_east
+              id: nginx-prod-us_east
+              version: 0.1.0
+              description: Nginx HTTP server collector for east cost prod systems
+              template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+              creationDate: '2016-08-29T09:12:33.001Z'
+              status: LOADED
+              assets:
+                - name: sso-logs-dashboard-new.ndjson
+                  creationDate: "'2016-08-29T09:12:33.001Z'"
+                  status: LOADED
+
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+  /store/{id}:
+    get:
+      tags:
+        - developers
+      summary: get stored Integration status
+      operationId: integrationStatus
+      description: |
+        Get the stored Integration's status
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: stored integration status
+          content:
+            application/json:
+              schema:
+                $ref: '../../schema/system/integration-instance.schema'
+              example:
+                template-name: nginx
+                dataset: prod
+                namespace: us_east
+                id: nginx-prod-us_east
+                version: 0.1.0
+                description: Nginx HTTP server collector for east cost prod systems
+                template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+                creationDate: '2016-08-29T09:12:33.001Z'
+                status: LOADED
+                assets:
+                  - name: sso-logs-dashboard-new.ndjson
+                    creationDate: "'2016-08-29T09:12:33.001Z'"
+                    status: LOADED
+
+        '400':
+          description: bad input parameter
+  /store/{id}/validate:
+    post:
+      tags:
+        - developers
+      summary: validates an Integration
+      operationId: integrationValidate
+      description: |
+        validate this integration including all its assets
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../schema/system/integration-instance.schema'
+              example:
+                template-name: nginx
+                dataset: prod
+                namespace: us_east
+                id: nginx-prod-us_east
+                version: 0.1.0
+                description: Nginx HTTP server collector for east cost prod systems
+                template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+                creationDate: '2016-08-29T09:12:33.001Z'
+                status: LOADED
+                assets:
+                  - name: sso-logs-dashboard-new.ndjson
+                    creationDate: "'2016-08-29T09:12:33.001Z'"
+                    status: LOADED
+
+        '400':
+          description: bad input parameter
+  /store/{id}/upload:
+    post:
+      tags:
+        - developers
+      summary: upload Integration's assets
+      operationId: integrationUploadAssets
+      description: |
+        Load a list of assets associated with this integration into 
+        available Integrations in the system store
+      requestBody:
+        required: false
+        description: Inventory items to upload
+        content:
+          application/json:
+            schema:
+              $ref: '../../schema/system/integration-instance.schema'
+            example:
+              template-name: nginx
+              dataset: prod
+              namespace: us_east
+              id: nginx-prod-us_east
+              version: 0.1.0
+              description: Nginx HTTP server collector for east cost prod systems
+              template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+              creationDate: '2016-08-29T09:12:33.001Z'
+              status: LOADED
+              assets:
+                - name: sso-logs-dashboard-new.ndjson
+                  creationDate: "'2016-08-29T09:12:33.001Z'"
+                  status: LOADED
+
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../schema/system/integration-instance.schema'
+              example:
+                template-name: nginx
+                dataset: prod
+                namespace: us_east
+                id: nginx-prod-us_east
+                version: 0.1.0
+                description: Nginx HTTP server collector for east cost prod systems
+                template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+                creationDate: '2016-08-29T09:12:33.001Z'
+                status: LOADED
+                assets:
+                  - name: sso-logs-dashboard-new.ndjson
+                    creationDate: "'2016-08-29T09:12:33.001Z'"
+                    status: LOADED
+
+        '400':
+          description: bad input parameter
+  /store/{id}/activate:
+    put:
+      tags:
+        - developers
+      summary: activate an Integration
+      operationId: integrationActivate
+      description: |
+        attempts activating an integration that may be in an intermediate phase
+        during the storage process
+      parameters:
+        - in: path
+          name: id
+          description: Integration instance Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: integration store status
+          content:
+            application/json:
+              schema:
+                $ref: '../../schema/system/integration-instance.schema'
+              example:
+                template-name: nginx
+                dataset: prod
+                namespace: us_east
+                id: nginx-prod-us_east
+                version: 0.1.0
+                description: Nginx HTTP server collector for east cost prod systems
+                template: https://github.com/opensearch-project/observability/blob/2.x/integrations/nginx/config.json
+                creationDate: '2016-08-29T09:12:33.001Z'
+                status: LOADED
+                assets:
+                  - name: sso-logs-dashboard-new.ndjson
+                    creationDate: "'2016-08-29T09:12:33.001Z'"
+                    status: LOADED
+        '400':
+          description: bad input parameter
+servers:
+  - url: http://127.0.0.1:4010
+    description: Mock server (uses fake data)
