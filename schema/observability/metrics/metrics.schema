@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://opensearch.org#/definitions/Metrics",
+  "$id": "https://opensearch.org/schema/observability/Metrics",
   "title": "OpenTelemetry Metrics",
   "type": "object",
   "properties": {
@@ -227,10 +227,10 @@
           "format": "date-time"
         },
         "spanId": {
-          "type": "string"
+          "$ref": "https://opensearch.org/schemas/observability/Span#spanId"
         },
         "traceId": {
-          "type": "string"
+          "$ref": "https://opensearch.org/schemas/observability/Span#traceId"
         }
       },
       "required": [

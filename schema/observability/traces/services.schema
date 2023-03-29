@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "https://opensearch.org/schemas/Service",
+  "$id": "https://opensearch.org/schemas/observability/Service",
   "type": "object",
   "properties": {
     "serviceName": {
@@ -28,7 +28,7 @@
       "type": "null"
     },
     "traceGroupName": {
-      "type": "string"
+      "$ref": "https://opensearch.org/schemas/observability/TraceGroups#traceGroup"
     },
     "hashId": {
       "type": "string"

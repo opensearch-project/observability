@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "$id": "https://opensearch.org/schemas/Span",
+  "$id": "https://opensearch.org/schemas/observability/Span",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -21,7 +21,7 @@
       "$ref": "#/definitions/Status"
     },
     "parentSpanId": {
-      "type": "string"
+      "$ref": "#/properties/spanId"
     },
     "name": {
       "type": "string"
@@ -71,10 +71,10 @@
         "additionalProperties": false,
         "properties": {
           "traceId": {
-            "type": "string"
+            "$ref": "#/properties/traceId"
           },
           "spanId": {
-            "type": "string"
+            "$ref": "#/properties/spanId"
           },
           "traceState": {
             "type": "array",
@@ -194,7 +194,7 @@
       "additionalProperties": true,
       "properties": {
         "serviceName": {
-          "type": "string"
+          "$ref": "https://opensearch.org/schemas/observability/Service#serviceName"
         },
         "data_stream": {
           "$ref": "#/definitions/Dataflow"
