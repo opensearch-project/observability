@@ -196,10 +196,12 @@ In case the user wants to update the data-stream / index naming details - he may
 Selection of the naming convention may also display available existing data-streams that are selectable if the user wants to choose from available ones and not creating new templates.
 
 Once user changes the data-stream / index pattern - this will be reflected in every asset that has this attribute.
- - update the asset name (according to the `instance_name` field)
-   - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
- - update the index template's `index_pattern` field with the added pattern 
-   - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+  - Update the asset name (according to the `instance_name` field)
+    - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
+  - Update the index template's `index_patterns` field with the added pattern 
+    - "index_patterns":` ["ss4o_logs-*-*"]` -> `["ss4o_logs-*-*", "myLogs-*"]`
+  - Note that the old `sso_*` pattern is deprecated and new integrations aren't created with it by default.
+    One can also update this field to use old `sso_*` logs.
 
 #### Loading Integration
 
@@ -238,7 +240,7 @@ the current state of the integration:
       "name": "nginx-prod-core",
       "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
       "issue": [
-        "field cloud.version is not present in mapping sso_log-nginx-prod"
+        "field cloud.version is not present in mapping ss4o_log-nginx-prod"
       ]
     }
   ]

@@ -5,7 +5,7 @@
 
 package org.opensearch.observability.scheduler
 
-import org.opensearch.common.xcontent.XContentParser
+import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.jobscheduler.spi.JobDocVersion
 import org.opensearch.jobscheduler.spi.ScheduledJobParameter
 import org.opensearch.jobscheduler.spi.ScheduledJobParser

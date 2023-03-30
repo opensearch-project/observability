@@ -32,7 +32,7 @@ The catalog API can be queries according to the next fields:
 
 ```json
 {
-  "templates": ["sso_logs-template","http-template"],
+  "templates": ["ss4o_logs-template","http-template"],
   "catalog":[...],
   "category": [...],
   "version": [...]
@@ -41,7 +41,7 @@ The catalog API can be queries according to the next fields:
 
 Using the template names one can access the template directly using the `_index_template` URL:
 
-`GET _index_template/sso_logs-template`
+`GET _index_template/ss4o_logs-template`
 
 ---
 
@@ -123,7 +123,7 @@ After the `_integration/store/$instance_name` API was called the next steps will
    - During this step the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`
      - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
    - update the index template's `index_pattern` field with the added pattern
-       - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
+       - "index_patterns":` ["ss4o_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
    - if user selected custom index with proprietary fields -  mapping must be called ([field aliasing](Integration-fields-mapping.md))
 ---
    - **Success**: If the user changes the data-stream / index naming pattern - this will also be changes in every assets that supports such capability.
@@ -164,7 +164,7 @@ After the `_integration/store/$instance_name` API was called the next steps will
            "name": "nginx-prod-core",
            "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
            "issue": [
-             "field cloud.version is not present in mapping sso_log-nginx-prod"
+             "field cloud.version is not present in mapping ss4o_log-nginx-prod"
            ]
          }
        ]
@@ -199,7 +199,7 @@ After the `_integration/store/$instance_name` API was called the next steps will
          "name": "nginx-prod-core",
          "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
          "issue": [
-           "field cloud.version is not present in mapping sso_log-nginx-prod"
+           "field cloud.version is not present in mapping ss4o_log-nginx-prod"
          ]
        }
      ]

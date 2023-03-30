@@ -427,7 +427,7 @@ paths:
                   creationDate: '2016-08-29T09:12:33.001Z'
                   status: LOADED
                   assets:
-                    - name: sso-logs-dashboard-new.ndjson
+                    - name: ss4o-logs-dashboard-new.ndjson
                       creationDate: "'2016-08-29T09:12:33.001Z'"
                       status: LOADED
 
@@ -458,7 +458,7 @@ paths:
               creationDate: '2016-08-29T09:12:33.001Z'
               status: LOADED
               assets:
-                - name: sso-logs-dashboard-new.ndjson
+                - name: ss4o-logs-dashboard-new.ndjson
                   creationDate: "'2016-08-29T09:12:33.001Z'"
                   status: LOADED
 
@@ -502,7 +502,7 @@ paths:
                 creationDate: '2016-08-29T09:12:33.001Z'
                 status: LOADED
                 assets:
-                  - name: sso-logs-dashboard-new.ndjson
+                  - name: ss4o-logs-dashboard-new.ndjson
                     creationDate: "'2016-08-29T09:12:33.001Z'"
                     status: LOADED
 
@@ -541,7 +541,7 @@ paths:
                 creationDate: '2016-08-29T09:12:33.001Z'
                 status: LOADED
                 assets:
-                  - name: sso-logs-dashboard-new.ndjson
+                  - name: ss4o-logs-dashboard-new.ndjson
                     creationDate: "'2016-08-29T09:12:33.001Z'"
                     status: LOADED
 
@@ -574,7 +574,7 @@ paths:
               creationDate: '2016-08-29T09:12:33.001Z'
               status: LOADED
               assets:
-                - name: sso-logs-dashboard-new.ndjson
+                - name: ss4o-logs-dashboard-new.ndjson
                   creationDate: "'2016-08-29T09:12:33.001Z'"
                   status: LOADED
 
@@ -603,7 +603,7 @@ paths:
                 creationDate: '2016-08-29T09:12:33.001Z'
                 status: LOADED
                 assets:
-                  - name: sso-logs-dashboard-new.ndjson
+                  - name: ss4o-logs-dashboard-new.ndjson
                     creationDate: "'2016-08-29T09:12:33.001Z'"
                     status: LOADED
 
@@ -643,7 +643,7 @@ paths:
                 creationDate: '2016-08-29T09:12:33.001Z'
                 status: LOADED
                 assets:
-                  - name: sso-logs-dashboard-new.ndjson
+                  - name: ss4o-logs-dashboard-new.ndjson
                     creationDate: "'2016-08-29T09:12:33.001Z'"
                     status: LOADED
         '400':
