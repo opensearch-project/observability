@@ -47,8 +47,7 @@ internal class ValidatorTests {
     fun `test config with invalid json fails validation`() {
         val config = "{"
         val validator = Validator(SystemComponent.INTEGRATION)
-        val result = validator.validate(config)
-        assertIs<MalformedJson>(result)
+        assertIs<MalformedJson>(validator.validate(config))
     }
 
     @Test
@@ -127,23 +126,20 @@ internal class ValidatorTests {
     fun `test missing json field fails validation`() {
         val config = buildIntegration(without = setOf("name"))
         val validator = Validator(SystemComponent.INTEGRATION)
-        val result = validator.validate(config)
-        assertIs<Rejected>(result)
+        assertIs<Rejected>(validator.validate(config))
     }
 
     @Test
     fun `test json field with wrong type fails validation`() {
         val config = buildIntegration(mapOf(Pair("name", 1)))
         val validator = Validator(SystemComponent.INTEGRATION)
-        val result = validator.validate(config)
-        assertIs<Rejected>(result)
+        assertIs<Rejected>(validator.validate(config))
     }
 
     @Test
     fun `test json with extra field fails validation`() {
         val config = buildIntegration(mapOf(Pair("extra_field", 1)))
         val validator = Validator(SystemComponent.INTEGRATION)
-        val result = validator.validate(config)
-        assertIs<Rejected>(result)
+        assertIs<Rejected>(validator.validate(config))
     }
 }
