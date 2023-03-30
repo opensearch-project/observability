@@ -1,16 +1,12 @@
 package org.opensearch.integrations.validation
 
 import com.fasterxml.jackson.core.JacksonException
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.JsonSchema
 import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersionDetector
 import org.opensearch.commons.utils.logger
 import org.opensearch.integrations.validation.schema.system.SystemComponent
-import java.io.FileNotFoundException
-import java.lang.IllegalArgumentException
-import java.util.*
 
 /**
  * Validator class for validating schema components.
@@ -50,18 +46,19 @@ class Validator(val component: SystemComponent) {
      * Validation could fail due to a misconfigured component, malformed json, or a schema violation.
      * IOExceptions and similar processing exceptions are passed through as-is.
      */
-    fun validate(json: String): Result<JsonNode> {
+    fun validate(json: String): ValidationResult {
         val schema = loadComponentSchema()
-        schema ?: return Result.failure(FileNotFoundException("could not load schema for component `$component`"))
+        schema ?: return InvalidSchema()
         try {
             val node = mapper.readTree(json)
             val result = schema.validateAndCollect(node)
             if (result.validationMessages.size > 0) {
-                return Result.failure(IllegalArgumentException("validation failed: ${result.validationMessages}"))
+                return Rejected()
             }
-            return Result.success(node)
+            return Success()
         } catch (ex: JacksonException) {
-            return Result.failure(ex)
+            log.info("received malformed json: ${ex.message}")
+            return MalformedJson()
         }
     }
 }

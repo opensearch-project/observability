@@ -5,7 +5,7 @@ import org.opensearch.common.Strings
 import org.opensearch.common.xcontent.json.JsonXContent
 import org.opensearch.integrations.validation.schema.system.SystemComponent
 import java.io.File
-import kotlin.test.assertTrue
+import kotlin.test.assertIs
 
 internal class ValidatorTests {
     private fun buildIntegration(with: Map<String, Any> = mapOf(), without: Set<String> = setOf()): String {
@@ -47,7 +47,8 @@ internal class ValidatorTests {
     fun `test config with invalid json fails validation`() {
         val config = "{"
         val validator = Validator(SystemComponent.INTEGRATION)
-        assertTrue(validator.validate(config).isFailure)
+        val result = validator.validate(config)
+        assertIs<MalformedJson>(result)
     }
 
     @Test
@@ -56,7 +57,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/application.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -65,7 +66,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/datasource.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -74,7 +75,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/index-pattern.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -83,7 +84,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/integration.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -92,7 +93,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/notebook.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -101,7 +102,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/operationalPanel.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -110,7 +111,7 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/savedQuery.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
@@ -119,27 +120,30 @@ internal class ValidatorTests {
         val validator = Validator(component)
         val jsonPath = "../../../docs/schema/system/samples/visualization.json"
         val json = File(jsonPath).readText(Charsets.UTF_8)
-        assertTrue(validator.validate(json).isSuccess)
+        assertIs<Success>(validator.validate(json))
     }
 
     @Test
     fun `test missing json field fails validation`() {
         val config = buildIntegration(without = setOf("name"))
         val validator = Validator(SystemComponent.INTEGRATION)
-        assertTrue(validator.validate(config).isFailure)
+        val result = validator.validate(config)
+        assertIs<Rejected>(result)
     }
 
     @Test
     fun `test json field with wrong type fails validation`() {
         val config = buildIntegration(mapOf(Pair("name", 1)))
         val validator = Validator(SystemComponent.INTEGRATION)
-        assertTrue(validator.validate(config).isFailure)
+        val result = validator.validate(config)
+        assertIs<Rejected>(result)
     }
 
     @Test
     fun `test json with extra field fails validation`() {
         val config = buildIntegration(mapOf(Pair("extra_field", 1)))
         val validator = Validator(SystemComponent.INTEGRATION)
-        assertTrue(validator.validate(config).isFailure)
+        val result = validator.validate(config)
+        assertIs<Rejected>(result)
     }
 }
