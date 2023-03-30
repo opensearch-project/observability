@@ -1,5 +1,6 @@
 package org.opensearch.integrations.validation
 
+import com.fasterxml.jackson.core.JacksonException
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonNode
@@ -26,32 +27,42 @@ class Validator(val component: SystemComponent) {
 
     private val mapper = ObjectMapper()
 
-    private fun loadComponentSchema(): Optional<JsonSchema> {
+    /**
+     * Load the schema corresponding to the validator's configured component.
+     * The schema is used to validate a JsonNode's conformity to a given structure.
+     *
+     * Returns null if the schema could not be loaded.
+     * This scenario would indicate a bug in the component configuration and is logged as fatal.
+     */
+    private fun loadComponentSchema(): JsonSchema? {
         val schemaResource = this::class.java.getResource(component.resourcePath)?.readText()
         schemaResource ?: run {
             log.fatal("resource for `$component` does not exist")
-            return Optional.empty()
+            return null
         }
         val schemaNode = mapper.readTree(schemaResource)
         val factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode))
-        return Optional.of(factory.getSchema(schemaNode))
+        return factory.getSchema(schemaNode)
     }
 
+    /**
+     * Validate provided json to see if it is an instance of the configured component.
+     * The result is successful is the json matches the schema.
+     *
+     * Validation could fail due to a misconfigured component, malformed json, or a schema violation.
+     * IOExceptions and similar processing exceptions are passed through as-is.
+     */
     fun validate(json: String): Result<JsonNode> {
         val schema = loadComponentSchema()
-        if (schema.isEmpty) {
-            return Result.failure(FileNotFoundException("could not load schema for component `$component`"))
-        }
+        schema ?: return Result.failure(FileNotFoundException("could not load schema for component `$component`"))
         try {
             val node = mapper.readTree(json)
-            val result = schema.get().validateAndCollect(node)
+            val result = schema.validateAndCollect(node)
             if (result.validationMessages.size > 0) {
                 return Result.failure(IllegalArgumentException("validation failed: ${result.validationMessages}"))
             }
             return Result.success(node)
-        } catch (ex: JsonMappingException) {
-            return Result.failure(ex)
-        } catch (ex: JsonProcessingException) {
+        } catch (ex: JacksonException) {
             return Result.failure(ex)
         }
     }
