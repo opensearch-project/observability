@@ -10,12 +10,12 @@ Validation of an Integration is expected to be a build-time phase. It also expec
 
 - **Schema Validation**:
 
-* make sure all the input_types defined in the `collections` elements have a compatible transformation schema and this schema complies with the SSO versioned schema.
-* make sure all the transformation’s conform to the SSO versioned schema.
+* make sure all the input_types defined in the `collections` elements have a compatible transformation schema and this schema complies with the SS4O versioned schema.
+* make sure all the transformation’s conform to the SS4O versioned schema.
 
-- **Display Validation**:  make sure all the display components have a valid json structure and if the explicitly reference fields - these fields must be aligned with the SSO schema type (Trace/Metrics/Logs...)
+- **Display Validation**:  make sure all the display components have a valid json structure and if the explicitly reference fields - these fields must be aligned with the SS4O schema type (Trace/Metrics/Logs...)
 
-- **Query** **Validation**:  make sure all the queries have a valid PPL structure and if the explicitly reference fields - these fields must be aligned with the SSO schema type (Trace/Metrics/Logs...)
+- **Query** **Validation**:  make sure all the queries have a valid PPL structure and if the explicitly reference fields - these fields must be aligned with the SS4O schema type (Trace/Metrics/Logs...)
  
 - **Assets** **Validation**:  make sure all the assets are valid 
   
@@ -25,7 +25,7 @@ Validation of an Integration is expected to be a build-time phase. It also expec
 ***_End to End_***
 - **Sample Validation:**
 
-* make sure the sample outcome of the transformation is compatible with the SSO schema
+* make sure the sample outcome of the transformation is compatible with the SS4O schema
 * make sure the outcome result shares all the transformable information from the input source sample
 
 All these validations would use a dedicated validation & testing library supplied by SimpleSchema plugin.
@@ -37,7 +37,7 @@ In order to simplify and automate the process of validating an Integration compl
 
 - Docker compose with the following :
 
-    * Component (Agent / Exporter) responsible of transforming the source format to the Observability SSO format.
+    * Component (Agent / Exporter) responsible of transforming the source format to the Observability SS4O format.
     * Pipeline that will be used to push Observability signals into OpenSearch Index
     * OpenSearch with Observability plugin
     * Ready made sample from the original signals that will be used by the transformation component to produce the Observability documents.

@@ -210,7 +210,7 @@ Let's dive into a specific log collection:
 This log collects nginx access logs as described in the `info` section.
 The `input_type` is a categorical classification of the log kind which is specified in the ECS specification as well.
 
-- `dataset` is defined above and indicates the target routing index, in this example `sso_logs-nginx.access-${namespace}` 
+- `dataset` is defined above and indicates the target routing index, in this example `ss4o_logs-nginx.access-${namespace}` 
 - `lables`  are general purpose labeling tags that allow further correlation and associations.
 - `schema`  optional parameter - is the location of the mapping configuration between the original log format to the Observability Log format.
 * * *

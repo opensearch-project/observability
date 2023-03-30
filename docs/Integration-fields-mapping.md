@@ -37,7 +37,7 @@ This capability allows for queries and dashboards to work seamlessly without any
 
 For example, the field `request_url` can be connected to the `http.url` field with the next command:
 ```
-PUT sso_logs-nginx-demo/_mapping
+PUT ss4o_logs-nginx-demo/_mapping
 {
   "properties": {
     "http.url": {
@@ -51,14 +51,14 @@ This will allow queries / dashboards using the `http.url` field to execute corre
 
 We can also validate if an alias exists using the `field_caps` API
 ```
-GET sso_logs-nginx-demo/_field_caps?fields=http.url
+GET ss4o_logs-nginx-demo/_field_caps?fields=http.url
 ```
 
 Returning:
 ```
 {
   "indices": [
-    "sso_logs-nginx-demo"
+    "ss4o_logs-nginx-demo"
   ],
   "fields": {
     "http.url": {

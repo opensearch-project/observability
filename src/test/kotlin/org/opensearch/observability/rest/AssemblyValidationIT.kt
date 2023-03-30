@@ -12,8 +12,8 @@ import org.opensearch.rest.RestStatus
 
 class AssemblyValidationIT : PluginRestTestCase() {
     companion object {
-        private const val TRACES_MAPPING_TEMPLATE_NAME = "sso_trace_template"
-        private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metric_template"
+        private const val TRACES_MAPPING_TEMPLATE_NAME = "ss4o_trace_template"
+        private const val METRICS_MAPPING_TEMPLATE_NAME = "ss4o_metric_template"
     }
 
     fun `test observability traces template and was created`() {

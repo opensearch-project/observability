@@ -20,17 +20,17 @@ This will load both opensearch server & dashboards
    - `curl -XPUT localhost:9200/_component_template/communication_template  -H "Content-Type: application/json" --data-binary @communication.mapping`
    
    - `curl -XPUT localhost:9200/_index_template/logs  -H "Content-Type: application/json" --data-binary @logs.mapping`
-3. Bulk load the Nginx access logs preloaded data into the `sso_logs-nginx-prod` data_stream
-   - `curl -XPOST "localhost:9200/sso_logs-nginx-prod/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_logs.json`
+3. Bulk load the Nginx access logs preloaded data into the `ss4o_logs-nginx-prod` data_stream
+   - `curl -XPOST "localhost:9200/ss4o_logs-nginx-prod/_bulk?pretty&refresh" -H "Content-Type: application/json" --data-binary @bulk_logs.json`
    
-4. We can now load the Nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/sso-logs-dashboard-new.ndjson)
-   - First add an index pattern `sso_logs-*-*`
-     - `curl  -X POST localhost:5601/api/saved_objects/index-pattern/sso_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
+4. We can now load the Nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/ss4o-logs-dashboard-new.ndjson)
+   - First add an index pattern `ss4o_logs-*-*`
+     - `curl  -X POST localhost:5601/api/saved_objects/index-pattern/ss4o_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "ss4o_logs-*-*",  "timeFieldName": "@timestamp" } }'`
    
-   - Load the [dashboards](../../assets/display/sso-logs-dashboard-new.ndjson) 
-     - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@sso-logs-dashboard.ndjson`
+   - Load the [dashboards](../../assets/display/ss4o-logs-dashboard-new.ndjson) 
+     - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@ss4o-logs-dashboard.ndjson`
 5. Open the dashboard and view the preloaded access logs
    - Go to [Dashbords](http://localhost:5601/app/dashboards#/list?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'2023-02-24T17:10:34.442Z',to:'2023-02-24T17:46:44.056Z'))
-   - data-stream name :`sso_logs-nginx-prod`
+   - data-stream name :`ss4o_logs-nginx-prod`
 
    ![](img/nginx-dashboard.png)

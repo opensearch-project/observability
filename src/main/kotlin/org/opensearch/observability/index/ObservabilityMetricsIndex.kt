@@ -26,9 +26,9 @@ import java.util.*
  */
 internal object ObservabilityMetricsIndex : LifecycleListener() {
     private val log by logger(ObservabilityMetricsIndex::class.java)
-    private const val METRICS_MAPPING_TEMPLATE_NAME = "sso_metric_template"
+    private const val METRICS_MAPPING_TEMPLATE_NAME = "ss4o_metric_template"
     private const val METRICS_MAPPING_TEMPLATE_FILE = "metrics-mapping-template.json"
-    private const val METRIC_PATTERN_NAME = "sso_metrics-*-*"
+    private const val METRIC_PATTERN_NAME = "ss4o_metrics-*-*"
 
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService

@@ -19,7 +19,7 @@ As described in the [documentation](../../README.md) Nginx integrations is a bun
 An Integration may have multiple ways of ingesting Observability signals, for example nginx logs may arrive via fluent-bit agent or OTEL-logs collector...
 
 ## Which are the Nginx Observability providers ?
-Observability Providers are agents which can collect nginx logs, metrics and traces information, convert them to `sso` observability schema and send them to opensearch observability data-streams.
+Observability Providers are agents which can collect nginx logs, metrics and traces information, convert them to `ss4o` observability schema and send them to opensearch observability data-streams.
 
 ### Fluent-Bit
 Fluent-bit has a dedicated input plugin for Nginx called `in_tail` which can be used to tail the Nginx access logs and send them to a destination of your choice.
