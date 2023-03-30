@@ -31,12 +31,18 @@ class Validator(val component: SystemComponent) {
     private fun loadComponentSchema(): JsonSchema? {
         val schemaResource = this::class.java.getResource(component.resourcePath)?.readText()
         schemaResource ?: run {
-            log.fatal("resource for `$component` does not exist")
+            log.error("Resource for `$component` could not be loaded.")
             return null
         }
-        val schemaNode = mapper.readTree(schemaResource)
-        val factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode))
-        return factory.getSchema(schemaNode)
+        return try {
+            val schemaNode = mapper.readTree(schemaResource)
+            val factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode))
+            factory.getSchema(schemaNode)
+        } catch (ex: JacksonException) {
+            log.error("Resource for `$component` is malformed JSON. This is a bug. Exception: ${ex.message}")
+            // In this scenario, proceed as though the schema couldn't be loaded.
+            null
+        }
     }
 
     /**
@@ -48,7 +54,7 @@ class Validator(val component: SystemComponent) {
      */
     fun validate(json: String): ValidationResult {
         val schema = loadComponentSchema()
-        schema ?: return InvalidSchema()
+        schema ?: return SchemaNotLoaded()
         try {
             val node = mapper.readTree(json)
             val result = schema.validateAndCollect(node)
@@ -57,7 +63,7 @@ class Validator(val component: SystemComponent) {
             }
             return Success()
         } catch (ex: JacksonException) {
-            log.info("received malformed json: ${ex.message}")
+            log.info("Received malformed json: ${ex.message}")
             return MalformedJson()
         }
     }

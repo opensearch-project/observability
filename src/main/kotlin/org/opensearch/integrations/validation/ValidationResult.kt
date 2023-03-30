@@ -23,7 +23,7 @@ class MalformedJson : ValidationResult(false)
 class Rejected : ValidationResult(false)
 
 /**
- * The schema failed to load
- * This indicates a bug and should not be returned in normal operation
+ * The schema failed to load.
+ * This is most likely due to a file IO issue while loading the schema.
  */
-class InvalidSchema : ValidationResult(false)
+class SchemaNotLoaded : ValidationResult(false)
