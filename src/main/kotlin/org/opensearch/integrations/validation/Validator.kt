@@ -1,8 +1,6 @@
 package org.opensearch.integrations.validation
 
 import com.fasterxml.jackson.core.JacksonException
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.JsonSchema
