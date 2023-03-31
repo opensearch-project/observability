@@ -25,10 +25,10 @@
       "format": "date-time"
     },
     "traceId": {
-      "$ref": "https://opensearch.org/schemas/observability/Span#traceId"
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
     },
     "spanId": {
-      "$ref": "https://opensearch.org/schemas/observability/Span#spanId"
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
     },
     "schemaUrl": {
       "type": "string"

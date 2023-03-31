@@ -28,7 +28,7 @@
       "type": "null"
     },
     "traceGroupName": {
-      "$ref": "https://opensearch.org/schemas/observability/TraceGroups#traceGroup"
+      "$ref": "https://opensearch.org/schemas/observability/TraceGroups#/properties/traceGroup"
     },
     "hashId": {
       "type": "string"

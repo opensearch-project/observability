@@ -117,7 +117,7 @@
               ]
             },
             "traceId": {
-              "$ref": "https://opensearch.org/schemas/observability/Span#traceId"
+              "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
             },
             "type": {
               "type": "string"

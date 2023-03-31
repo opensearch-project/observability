@@ -194,7 +194,7 @@
       "additionalProperties": true,
       "properties": {
         "serviceName": {
-          "$ref": "https://opensearch.org/schemas/observability/Service#serviceName"
+          "$ref": "https://opensearch.org/schemas/observability/Service#/properties/serviceName"
         },
         "data_stream": {
           "$ref": "#/definitions/Dataflow"

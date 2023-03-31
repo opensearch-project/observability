@@ -227,10 +227,10 @@
           "format": "date-time"
         },
         "spanId": {
-          "$ref": "https://opensearch.org/schemas/observability/Span#spanId"
+          "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
         },
         "traceId": {
-          "$ref": "https://opensearch.org/schemas/observability/Span#traceId"
+          "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
         }
       },
       "required": [
