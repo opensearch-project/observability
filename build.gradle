@@ -325,8 +325,8 @@ String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
 String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip" 
-String remoteFileURL = "https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-observability/2.7.0.0-SNAPSHOT/opensearch-observability-2.7.0.0-20230307.002038-1.zip"
-String bwcJobSchedulerURL = "https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-job-scheduler/2.7.0.0-SNAPSHOT/opensearch-job-scheduler-2.7.0.0-20230307.020232-12.zip"
+String remoteFileURL = "https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-observability/2.7.0.0-SNAPSHOT/opensearch-observability-2.7.0.0-20230329.215121-5.zip"
+String bwcJobSchedulerURL = "https://aws.oss.sonatype.org/content/repositories/snapshots/org/opensearch/plugin/opensearch-job-scheduler/2.7.0.0-SNAPSHOT/opensearch-job-scheduler-2.7.0.0-20230328.234347-24.zip"
 
 2.times {i ->
     testClusters {
