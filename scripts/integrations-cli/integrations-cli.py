@@ -1,7 +1,6 @@
 #!./venv/bin/python3
 import json
 import os
-from urllib import parse
 import zipfile
 
 import click
@@ -17,13 +16,16 @@ def integrations_cli():
 
 
 def do_add_component(_builder: helpers.IntegrationBuilder) -> bool:
-    """Start an interactive session for """
+    """Start an interactive session for"""
     click.echo("Interactive component definition is work-in-progress. Sorry!")
-    return click.prompt(
-        "Configure another component? (y/n)",
-        type=click.Choice(["y", "n"], False),
-        show_choices=False,
-    ) == "y"
+    return (
+        click.prompt(
+            "Configure another component? (y/n)",
+            type=click.Choice(["y", "n"], False),
+            show_choices=False,
+        )
+        == "y"
+    )
 
 
 @integrations_cli.command()
@@ -52,11 +54,14 @@ def create(name: str):
         default="file://" + integration_path,
         type=builder.with_repository,
     )
-    add_component = click.prompt(
-        "Would you like to configure components interactively? (y/n)",
-        type=click.Choice(["y", "n"], False),
-        show_choices=False,
-    ) == "y"
+    add_component = (
+        click.prompt(
+            "Would you like to configure components interactively? (y/n)",
+            type=click.Choice(["y", "n"], False),
+            show_choices=False,
+        )
+        == "y"
+    )
     while add_component:
         add_component = do_add_component(builder)
     builder.build()

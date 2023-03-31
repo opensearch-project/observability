@@ -4,10 +4,12 @@ import jsonschema
 from .constants import SCHEMAS
 
 
-@safe(exceptions=(
-    jsonschema.exceptions.ValidationError,
-    jsonschema.exceptions.SchemaError,
-))
+@safe(
+    exceptions=(
+        jsonschema.exceptions.ValidationError,
+        jsonschema.exceptions.SchemaError,
+    )
+)
 def validate_instance(instance: dict, schema: dict) -> dict:
     jsonschema.validate(instance, schema)
     return instance

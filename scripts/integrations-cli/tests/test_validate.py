@@ -15,8 +15,6 @@ class TestSchemas(unittest.TestCase):
 
 
 class TestConfigValidations(unittest.TestCase):
-    """Test validations pertaining to config objects"""
-
     def test_default_config_is_valid(self):
         config = deepcopy(constants.DEFAULT_CONFIG)
         assert is_successful(validate.validate_config(config))

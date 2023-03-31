@@ -9,7 +9,7 @@ license = "Apache-2.0"
 profile = "black"
 
 [tool.pylint]
-disable = "missing-function-docstring"
+disable = "C,R"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -21,6 +21,7 @@ jsonschema = "^4.17.3"
 [tool.poetry.dev-dependencies]
 black = "^23.3.0"
 isort = "^5.12.0"
+pylint = "^2.17.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
