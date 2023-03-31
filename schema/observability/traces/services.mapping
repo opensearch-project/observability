@@ -8,7 +8,14 @@
         "version": "1.0.0",
         "catalog": "observability",
         "type": "traces",
-        "component": "services"
+        "component": "services",
+        "correlations": [
+          {
+            "field": "traceGroupName",
+            "foreign-schema": "traceGroups",
+            "foreign-field": "traceGroup"
+          }
+        ]
       },
       "_source": {
         "enabled": true
@@ -37,6 +44,10 @@
           }
         },
         "hashId": {
+          "type": "keyword",
+          "ignore_above": 1024
+        },
+        "serviceName": {
           "type": "keyword",
           "ignore_above": 1024
         },
@@ -79,6 +90,13 @@
   "_meta": {
     "description": "Simple Schema For Observability Service",
     "catalog": "observability",
-    "type": "services"
+    "type": "services",
+    "correlations": [
+      {
+        "field": "traceGroupName",
+        "foreign-schema": "traceGroups",
+        "foreign-field": "traceGroup"
+      }
+    ]
   }
 }

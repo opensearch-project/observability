@@ -9,7 +9,14 @@
         "version": "1.0.0",
         "catalog": "observability",
         "type": "traces",
-        "component": "trace"
+        "component": "trace",
+        "correlations": [
+          {
+            "field": "serviceName",
+            "foreign-schema": "services",
+            "foreign-field": "spanId"
+          }
+        ]
       },
       "dynamic_templates": [
         {
@@ -202,6 +209,13 @@
   "_meta": {
     "description": "Observability Traces Mapping Template",
     "catalog": "observability",
-    "type": "traces"
+    "type": "traces",
+    "correlations": [
+      {
+        "field": "serviceName",
+        "foreign-schema": "services",
+        "foreign-field": "spanId"
+      }
+    ]
   }
 }

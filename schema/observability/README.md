@@ -100,5 +100,59 @@ This `data_stream` will use one of the Observability ready-made index templates 
 
 **If the ingesting party has a need to update the template default index setting (shards, replicas ) it may do so before the actual creation of the data_stream.**  
 
+## Observability Signals Correlation
+
+In order to be able to correlate information across different signal (represented in different indices) we introduced the notion of correlation into the schema.
+This information is represented explicitly in both the declarative schema file (for example [`logs.schema`](logs/logs.schema)) and the physical mapping file ([`logs.mapping`](logs/logs.mapping))
+
+This information will enable the knowledge to be projected and allow for analytic engine to produce a join query that will take advantage of these relationships.
+The correlation metadata info is exported in the following way:
+
+### Schema related
+In JSON Schema, there is no built-in way to represent relationships directly between multiple schemas, like you would find in a relational database. However, you can establish relationships indirectly by using a combination of `$id`, `$ref`, and consistent property naming across your schemas.
+For example the [`logs.schema`](logs/logs.schema) file contains the next `$ref` references for the `traceId` & `spanId` fields that belong to the [`traces.schema`](traces/traceGroups.schema).
+
+```json5
+  ...
+    "traceId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
+    },
+    "spanId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
+    },
+  ...
+```
+
+We can observe that the `traceId` field is defined by referencing to the [Span](traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+
+### Mapping related
+Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](logs/logs.mapping) file will contain the next correlation object in the mapping `_meta` section:
+
+```json5
+      "_meta": {
+        "description": "Simple Schema For Observability",
+        "catalog": "observability",
+        "type": "logs",
+        "correlations": [
+          {
+            "field": "spanId",
+            "foreign-schema": "traces",
+            "foreign-field": "spanId"
+          },
+          {
+           "field": "traceId",
+            "foreign-schema": "traces",
+            "foreign-field": "traceId"
+           }
+          ]
+        }
+
+```
+
+Each `correlations` field contains the F.K (foreign-key) field name - `spanId` , the referenced schema - `traces` and the source field name in that schema `spanId`
+
+This information can be used to generate the correct join queries on a contextual basis. 
+
 ### Note
 It is important to mention that these new capabilities would not change or prevent existing customer usage of the system and continue to allow proprietary usage.
+
