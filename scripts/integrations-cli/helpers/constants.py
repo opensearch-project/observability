@@ -19,7 +19,9 @@ SCHEMAS = {}
 
 # For now, assume we're running in the current relative directory
 if os.path.isdir(_SCHEMA_ROOT):
-    for filename in glob.glob(os.path.join(_SCHEMA_ROOT, "**/*.schema"), recursive=True):
+    for filename in glob.glob(
+        os.path.join(_SCHEMA_ROOT, "**/*.schema"), recursive=True
+    ):
         schema_name = os.path.split(filename)[1]
         with open(filename, "r") as schema_file:
             SCHEMAS[schema_name] = json.load(schema_file)

@@ -5,6 +5,12 @@ description = "CLI for managing OpenSearch Integrations"
 authors = ["Simeon Widdis <sawiddis@amazon.com>"]
 license = "Apache-2.0"
 
+[tool.isort]
+profile = "black"
+
+[tool.pylint]
+disable = "missing-function-docstring"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 click = "^8.1.3"

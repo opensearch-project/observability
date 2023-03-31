@@ -21,7 +21,7 @@ class IntegrationBuilder:
         self.path = path
         self.config["repository"]["url"] = f"file://{path}"
         return self
-    
+
     def with_schema_version(self, version: str) -> "IntegrationBuilder":
         if not re.match(r"^\d+\.\d+\.\d+", version):
             raise ValueError("Invalid version")
@@ -34,10 +34,10 @@ class IntegrationBuilder:
 
     def with_description(self, desc: str) -> "IntegrationBuilder":
         self.config["description"] = desc
-    
+
     def with_catalog(self, catalog: str) -> "IntegrationBuilder":
         self.config["catalog"] = catalog
-    
+
     def with_repository(self, repo_url: str) -> "IntegrationBuilder":
         if not parse.urlparse(repo_url):
             raise ValueError("Invalid URL")

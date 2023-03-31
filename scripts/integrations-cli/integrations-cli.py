@@ -14,12 +14,16 @@ import helpers
 @click.group()
 def integrations_cli():
     """Create and maintain Integrations for the OpenSearch Integrations Plugin."""
-    pass
 
 
-def do_add_component(_builder: helpers.IntegrationBuilder):
+def do_add_component(_builder: helpers.IntegrationBuilder) -> bool:
+    """Start an interactive session for """
     click.echo("Interactive component definition is work-in-progress. Sorry!")
-    return "n"
+    return click.prompt(
+        "Configure another component? (y/n)",
+        type=click.Choice(["y", "n"], False),
+        show_choices=False,
+    ) == "y"
 
 
 @integrations_cli.command()
@@ -35,30 +39,25 @@ def create(name: str):
     for subdir in ["assets", "info", "samples", "schema", "test"]:
         os.makedirs(os.path.join(integration_path, subdir))
     builder = helpers.IntegrationBuilder().with_name(name).with_path(integration_path)
-    click.prompt(
-        "Schema version", default="1.0.0", type=builder.with_schema_version
+    click.prompt("Schema version", default="1.0.0", type=builder.with_schema_version)
+    click.prompt("Resource version", type=builder.with_resource_version)
+    click.prompt("Integration description", default="", type=builder.with_description)
+    builder.with_catalog(
+        click.prompt(
+            "Integration catalog", type=click.Choice(["observability", "security"])
+        )
     )
-    click.prompt(
-        "Resource version", type=builder.with_resource_version
-    )
-    click.prompt(
-        "Integration description", default="", type=builder.with_description
-    )
-    builder.with_catalog(click.prompt(
-        "Integration catalog",
-        type=click.Choice(["observability", "security"])
-    ))
     click.prompt(
         "Integration Repository URL",
         default="file://" + integration_path,
-        type=builder.with_repository
+        type=builder.with_repository,
     )
     add_component = click.prompt(
         "Would you like to configure components interactively? (y/n)",
         type=click.Choice(["y", "n"], False),
-        show_choices=False
-    )
-    while add_component == "y":
+        show_choices=False,
+    ) == "y"
+    while add_component:
         add_component = do_add_component(builder)
     builder.build()
     click.echo(colored(f"Integration created at '{integration_path}'", "green"))
@@ -107,17 +106,6 @@ def package(name: str):
             for item in dirnames + filenames:
                 zf.write(os.path.join(integration_path, item), arcname=item)
     click.echo(colored(f"Packaged integration as '{artifact_path}'", "green"))
-
-
-@integrations_cli.command()
-@click.argument("name")
-@click.argument("opensearch_url", default="http://localhost:9200/")
-def upload(name: str, opensearch_url: str):
-    url = parse.urlparse(opensearch_url)
-    if not url:
-        click.echo(colored("Invalid URL", "red"))
-        return
-    print(url)
 
 
 if __name__ == "__main__":

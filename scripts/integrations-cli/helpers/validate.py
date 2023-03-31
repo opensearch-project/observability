@@ -1,13 +1,20 @@
-import logging
-
+from returns.result import Result, Failure, safe
 import jsonschema
 
 from .constants import SCHEMAS
 
 
-def validate_config(config: dict) -> dict:
-    if "integration.schema" in SCHEMAS:
-        jsonschema.validate(instance=config, schema=SCHEMAS["integration.schema"])
-    else:
-        raise ValueError("integration.schema does not exist")
-    return config
+@safe(exceptions=(
+    jsonschema.exceptions.ValidationError,
+    jsonschema.exceptions.SchemaError,
+))
+def validate_instance(instance: dict, schema: dict) -> dict:
+    jsonschema.validate(instance, schema)
+    return instance
+
+
+def validate_config(config: dict) -> Result[dict, Exception]:
+    try:
+        return validate_instance(config, SCHEMAS["integration.schema"])
+    except KeyError as err:
+        return Failure(err)
