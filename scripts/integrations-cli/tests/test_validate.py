@@ -2,10 +2,11 @@ import unittest
 from copy import deepcopy
 
 import jsonschema
+from returns.pipeline import is_successful
 
 import helpers.constants as constants
 import helpers.validate as validate
-from returns.pipeline import is_successful
+from helpers.catalog import _load_catalog_file
 
 
 class TestSchemas(unittest.TestCase):
@@ -28,3 +29,8 @@ class TestConfigValidations(unittest.TestCase):
         config = deepcopy(constants.DEFAULT_CONFIG)
         config["description"] = 0
         assert not is_successful(validate.validate_config(config))
+
+class TestCatalogValidations(unittest.TestCase):
+    def test_catalog_is_valid(self):
+        catalog = _load_catalog_file().bind_result(validate.validate_catalog)
+        return is_successful(catalog)

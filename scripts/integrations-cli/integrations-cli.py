@@ -15,9 +15,17 @@ def integrations_cli():
     """Create and maintain Integrations for the OpenSearch Integrations Plugin."""
 
 
-def do_add_component(_builder: helpers.IntegrationBuilder) -> bool:
+def do_add_component(builder: helpers.IntegrationBuilder) -> bool:
     """Start an interactive session for"""
-    click.echo("Interactive component definition is work-in-progress. Sorry!")
+    manager = helpers.CatalogManager()
+    choices = {}
+    for category in manager.catalog["categories"]:
+        click.echo(f"- Category {category['category']}")
+        for component in category["components"]:
+            click.echo(f"  - {component['component']}: {component['description']}")
+            choices[component["component"]] = component
+    component = click.prompt("Select component", type=click.Choice(list(choices)), show_choices=False)
+    builder.with_component(component)
     return (
         click.prompt(
             "Configure another component? (y/n)",

@@ -2,7 +2,7 @@ import glob
 import json
 import os
 
-_SCHEMA_ROOT = "../../src/main/resources/schema"
+SCHEMA_ROOT = "../../src/main/resources/schema"
 
 DEFAULT_CONFIG = {
     "template-name": "default",
@@ -18,10 +18,8 @@ DEFAULT_CONFIG = {
 SCHEMAS = {}
 
 # For now, assume we're running in the current relative directory
-if os.path.isdir(_SCHEMA_ROOT):
-    for filename in glob.glob(
-        os.path.join(_SCHEMA_ROOT, "**/*.schema"), recursive=True
-    ):
+if os.path.isdir(SCHEMA_ROOT):
+    for filename in glob.glob(os.path.join(SCHEMA_ROOT, "**/*.schema"), recursive=True):
         schema_name = os.path.split(filename)[1]
-        with open(filename, "r") as schema_file:
+        with open(filename, "r", encoding="utf-8") as schema_file:
             SCHEMAS[schema_name] = json.load(schema_file)
