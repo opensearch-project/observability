@@ -9,6 +9,6 @@ SELECT
       COUNT(*) FILTER(WHERE target_status_code LIKE '5__') AS count5xx,
       SUM(received_bytes) AS totalReceivedBytes,
       SUM(sent_bytes) AS totalSentBytes
-FROM maximus_alb_logs
+FROM alb_logs_temp
 WHERE client_ip = '10.212.10.101'
 GROUP BY TUMBLE(time, '1 Minute');

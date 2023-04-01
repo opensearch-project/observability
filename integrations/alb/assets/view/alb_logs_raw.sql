@@ -7,5 +7,5 @@ SELECT
       target_status_code AS statusCode,
       received_bytes AS receivedBytes,
       sent_bytes AS sentBytes
-FROM maximus_alb_logs
+FROM alb_logs_temp
 WHERE client_ip = '10.212.10.101'
