@@ -26,7 +26,7 @@ class IntegrationStoreRestHandler: BaseRestHandler() {
     }
 
     /**
-     * {@inheritDoc
+     * {@inheritDoc}
      */
     override fun routes(): List<Route> {
         return listOf(
@@ -64,6 +64,7 @@ class IntegrationStoreRestHandler: BaseRestHandler() {
      */
     override fun prepareRequest(request: RestRequest?, client: NodeClient?): RestChannelConsumer {
         requireNotNull(request)
+        log.debug("Received: ${request.path()}")
         // it's a little confused, but it's got the spirit
         return RestChannelConsumer {
             it.sendResponse(BytesRestResponse(RestStatus.NOT_IMPLEMENTED, "{\"error\": \"${request.path()} not implemented\"}"))
