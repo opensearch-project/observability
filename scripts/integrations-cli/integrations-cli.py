@@ -4,8 +4,9 @@ import os
 import zipfile
 
 import click
-import jsonschema
 from termcolor import colored
+from returns.pipeline import is_successful
+from returns.result import Result
 
 import helpers
 
@@ -76,21 +77,25 @@ def create(name: str):
     click.echo(colored(f"Integration created at '{integration_path}'", "green"))
 
 
+def validate_component(path: str, validator) -> Result[dict, Exception]:
+    with open(path, "r", encoding="utf-8") as item_data:
+        loaded = json.load(item_data)
+        result = validator(loaded)
+        if not is_successful(result):
+            msg = str(result.failure)
+            msg = ("> " + msg).replace("\n", "\n> ")
+            click.echo(colored(msg, "red"), err=True)
+        return result
+
+
 def full_integration_is_valid(name: str) -> bool:
     integration_path = os.path.join(os.getcwd(), "integrations", name)
     integration_parts = {"config.json": helpers.validate.validate_config}
     encountered_errors = False
     for item, validator in integration_parts.items():
         item_path = os.path.join(integration_path, item)
-        with open(item_path, "r") as item_data:
-            try:
-                loaded = json.load(item_data)
-                validator(loaded)
-            except jsonschema.exceptions.ValidationError as err:
-                click.echo(colored(f"'{item_path}' is invalid", "red"))
-                err_msg = ("> " + str(err)).replace("\n", "\n> ")
-                click.echo(colored(err_msg, "red"), err=True)
-                encountered_errors = True
+        if not is_successful(validate_component(item_path, validator)):
+            encountered_errors = True
     return not encountered_errors
 
 

@@ -57,5 +57,5 @@ class IntegrationBuilder:
         os.makedirs(self.path, exist_ok=True)
         files = {"config.json": validate_config(self.config).unwrap()}
         for filename, data in files.items():
-            with open(os.path.join(self.path, filename), "w") as file:
+            with open(os.path.join(self.path, filename), "w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=2)
