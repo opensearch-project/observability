@@ -4,7 +4,7 @@
   "definitions": {
     "Catalog": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "catalog": {
           "type": "string"
@@ -36,7 +36,7 @@
     },
     "Category": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "category": {
           "type": "string"
@@ -68,7 +68,7 @@
     },
     "Component": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "component": {
           "type": "string"
