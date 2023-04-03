@@ -47,7 +47,7 @@ class IntegrationBuilder:
             raise ValueError("Invalid URL")
         self.config["repository"]["url"] = repo_url
         return self
-    
+
     def with_component(self, component: dict) -> "IntegrationBuilder":
         self.config["components"].append(component)
         return self

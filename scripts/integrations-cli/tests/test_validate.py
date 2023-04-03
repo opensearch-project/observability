@@ -30,6 +30,7 @@ class TestConfigValidations(unittest.TestCase):
         config["description"] = 0
         assert not is_successful(validate.validate_config(config))
 
+
 class TestCatalogValidations(unittest.TestCase):
     def test_catalog_is_valid(self):
         catalog = _load_catalog_file().bind_result(validate.validate_catalog)

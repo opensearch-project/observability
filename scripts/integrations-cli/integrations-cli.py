@@ -4,9 +4,9 @@ import os
 import zipfile
 
 import click
-from termcolor import colored
 from returns.pipeline import is_successful
 from returns.result import Result
+from termcolor import colored
 
 import helpers
 
@@ -25,7 +25,9 @@ def do_add_component(builder: helpers.IntegrationBuilder) -> bool:
         for component in category["components"]:
             click.echo(f"  - {component['component']}: {component['description']}")
             choices[component["component"]] = component
-    component = click.prompt("Select component", type=click.Choice(list(choices)), show_choices=False)
+    component = click.prompt(
+        "Select component", type=click.Choice(list(choices)), show_choices=False
+    )
     builder.with_component(component)
     return (
         click.prompt(
