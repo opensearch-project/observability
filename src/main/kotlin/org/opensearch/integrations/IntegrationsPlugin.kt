@@ -2,11 +2,11 @@ package org.opensearch.integrations
 
 import org.opensearch.cluster.metadata.IndexNameExpressionResolver
 import org.opensearch.cluster.node.DiscoveryNodes
-import org.opensearch.common.settings.*
+import org.opensearch.common.settings.ClusterSettings
+import org.opensearch.common.settings.IndexScopedSettings
+import org.opensearch.common.settings.Settings
+import org.opensearch.common.settings.SettingsFilter
 import org.opensearch.integrations.resthandler.IntegrationStoreRestHandler
-import org.opensearch.observability.resthandler.ObservabilityRestHandler
-import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
-import org.opensearch.observability.resthandler.SchedulerRestHandler
 import org.opensearch.plugins.ActionPlugin
 import org.opensearch.plugins.Plugin
 import org.opensearch.rest.RestController
