@@ -1,0 +1,77 @@
+{
+  "catalog": "observability",
+  "version": "1.0",
+  "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability",
+  "description": "Observability data catalog is a centralized repository that captures metadata about different data sources and metrics. It provides a comprehensive view of the signals collected from various components of a system and helps identify performance issues. The catalog helps in data discovery, enabling data analysts and engineers to quickly locate and access the required data.It also ensures data quality by enforcing consistent naming conventions, and standardizes data formats to facilitate data analysis and visualization.",
+  "categories": [
+    {
+      "category": "logs",
+      "version": "1.0",
+      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs",
+      "description": "Observability logs are a type of data that capture the events and activities occurring in a system. They record information such as user actions, system responses, and errors, providing valuable insights into system behavior.Logs can be structured or unstructured, and may include contextual information such as timestamps, unique identifiers, and metadata tags.Logs can be used to troubleshoot issues, detect anomalies, and improve system performance by identifying areas for optimization",
+      "components": [
+        {
+          "component": "log",
+          "description": "Observability log is the container for all compound specific log components. It includes timestamp, instrumentation details, provider's resources and attributes and additional metadata, ",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/logs",
+          "container": true,
+          "tags": []
+        },
+        {
+          "component": "http",
+          "description": "Observability HTTP logs are a type of data that capture information about HTTP requests and responses in a system. They record details such as the request method, URI, response status, and response size. Observability HTTP logs can be used to track user behavior, detect security threats, and monitor system performance. By analyzing HTTP logs, it is possible to identify patterns and anomalies, and to optimize system configuration and behavior for better user experience.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/http",
+          "tags": [],
+          "container": false
+        },
+        {
+          "component": "communication",
+          "description": "Observability communication covers the host and destination information in the network fields. They contain a set of metadata that provide contextual information about the host, destination and network environment where a system is running. They include information such as the host/destination name, IP address, operating system version, and network interface details.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication",
+          "tags": ["web"],
+          "container": false
+        }]
+    },
+    {
+      "category": "traces",
+      "description": "Observability traces are a type of data that capture the end-to-end flow of a transaction or request through a system. They include information about the different components and services involved in processing the request, as well as timing and latency data. Traces help identify bottlenecks and performance issues in complex distributed systems, they simplify root cause analysis of issues by providing a detailed view of how a request flows through the system and where delays or errors occur.",
+      "version": "1.0",
+      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces",
+      "components": [
+        {
+          "component": "span",
+          "description": "Observability spans are a type of data that represent a single unit of work within a trace.They provide information about the execution of a specific operation or function within a service or component.Spans can include timing data, metadata, and contextual information such as error messages or parameters passed to the function, by examining spans within a trace, it is possible to identify specific areas where performance can be optimized or where errors are occurring.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traces",
+          "tags": [],
+          "container": true
+        },
+        {
+          "component": "service",
+          "description": "Observability services are representations of the dependencies and interactions between various components of a software system. They provide a high-level view of how different parts of the system are connected and how data flows between them. By using service maps, engineers and developers can gain a better understanding of how changes in one part of the system can affect other parts, helping them make more informed decisions about troubleshooting and optimization including root cause analysis",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/services",
+          "tags": [],
+          "container": false
+        }]
+    },
+    {
+      "category": "metrics",
+      "description": "Observability metrics are a type of data that capture quantitative measurements of system performance and behavior. They provide information about system resources such as CPU usage, memory consumption, and network traffic. Metrics can be used to track key performance indicators (KPIs) and service level objectives (SLOs), and to monitor system health.By visualizing and analyzing metrics, it is possible to identify trends and anomalies, and to proactively detect and address performance issues before they impact system availability or user experience.",
+      "version": "1.0",
+      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics",
+      "components": [
+        {
+          "component": "metric",
+          "description": "There are several types of metrics that exist in observability, including: Counter Metrics, Gauge Metrics ,Histogram Metrics, Exponential Histogram Metrics, Summary Metrics ",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics",
+          "tags": [],
+          "container": true
+        }]
+    }
+  ]
+}

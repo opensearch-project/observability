@@ -1,0 +1,32 @@
+{
+  "operationalPanel": {
+    "name": "Demo Panel 1",
+    "visualizations": [
+      {
+        "id": "panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17",
+        "savedVisualizationId": "oyuecXwBYVazWqOOde0o",
+        "x": 0,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      },
+      {
+        "id": "panelViz_7ba28e34-6fd8-489d-9b9f-165fdv6wd611",
+        "savedVisualizationId": "oiuccXwBYVazWqOO1e06",
+        "x": 20,
+        "y": 20,
+        "w": 30,
+        "h": 20
+      }
+    ],
+    "timeRange": {
+      "to": "now",
+      "from": "now-1d"
+    },
+    "queryFilter": {
+      "query": "| where Carrier='OpenSearch-Air'",
+      "language": "ppl"
+    },
+    "applicationId": "KE1Ie34BbsTr-CsB4G6Y"
+  }
+}

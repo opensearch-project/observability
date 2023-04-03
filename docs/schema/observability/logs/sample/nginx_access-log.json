@@ -1,0 +1,48 @@
+{
+  "@timestamp": "2022-12-09T10:39:23.000Z",
+  "observedTimestamp": "2022-12-09T10:39:38.896Z",
+  "body": "47.29.201.179 - - [01/Mar/2020:10:34:43 +0100] \"GET / HTTP/1.1\" 200 612 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36\"",
+  "trace_id":"102981ABCD2901",
+  "span_id":"abcdef1010",
+  "instrumentationScope":{
+    "attributes": {
+      "identification": "nginx"
+    }
+  },
+  "attributes": {
+    "data_stream": {
+      "dataset": "nginx.access",
+      "namespace": "production",
+      "type": "logs"
+    }
+  },
+  "event": {
+    "category": [
+      "web"
+    ],
+    "name": "access",
+    "domain": "nginx.access",
+    "kind": "event",
+    "result": "success",
+    "type": [
+      "access"
+    ]
+  },
+  "http": {
+    "request": {
+      "method": "GET"
+    },
+    "response": {
+      "bytes": 97,
+      "status_code": 200
+    },
+    "flavor": "1.1",
+    "url": "/server-status"
+  },
+  "communication": {
+    "source": {
+      "address": "127.0.0.1",
+      "ip": "127.0.0.1"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/SavedQuery",
+  "definitions": {
+    "SavedQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "selected_date_range": {
+          "$ref": "#/definitions/SelectedDateRange"
+        },
+        "selected_timestamp": {
+          "$ref": "#/definitions/SelectedTimestamp"
+        },
+        "selected_fields": {
+          "$ref": "#/definitions/SelectedFields"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "name",
+        "query",
+        "selected_date_range",
+        "selected_fields",
+        "selected_timestamp"
+      ],
+      "title": "SavedQuery"
+    },
+    "SelectedDateRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "end",
+        "start",
+        "text"
+      ],
+      "title": "SelectedDateRange"
+    },
+    "SelectedFields": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SelectedTimestamp"
+          }
+        }
+      },
+      "required": [
+        "text",
+        "tokens"
+      ],
+      "title": "SelectedFields"
+    },
+    "SelectedTimestamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "title": "SelectedTimestamp"
+    }
+  }
+}
