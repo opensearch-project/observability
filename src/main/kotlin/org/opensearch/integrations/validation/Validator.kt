@@ -25,13 +25,13 @@ class Validator(val component: SystemComponent) {
      * Load the schema corresponding to the validator's configured component.
      * The schema is used to validate a JsonNode's conformity to a given structure.
      *
-     * Returns null if the schema could not be loaded.
-     * This scenario would indicate a bug in the component configuration and is logged as fatal.
+     * Returns null if the schema could not be loaded,
+     * either due to file IO or an invalid schema.
      */
     private fun loadComponentSchema(): JsonSchema? {
         val schemaResource = this::class.java.getResource(component.resourcePath)?.readText()
         schemaResource ?: run {
-            log.error("Resource for `$component` could not be loaded.")
+            log.warn("Resource file for `$component` could not be read.")
             return null
         }
         return try {
@@ -39,7 +39,7 @@ class Validator(val component: SystemComponent) {
             val factory = JsonSchemaFactory.getInstance(SpecVersionDetector.detect(schemaNode))
             factory.getSchema(schemaNode)
         } catch (ex: JacksonException) {
-            log.error("Resource for `$component` is malformed JSON. This is a bug. Exception: ${ex.message}")
+            log.error("Resource for `$component` is not a valid JSON Schema. This is a bug. Exception: ${ex.message}")
             // In this scenario, proceed as though the schema couldn't be loaded.
             null
         }
