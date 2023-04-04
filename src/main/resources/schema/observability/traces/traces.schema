@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "$id": "https://opensearch.org/schemas/Span",
+  "$id": "https://opensearch.org/schemas/observability/Span",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -21,7 +21,7 @@
       "$ref": "#/definitions/Status"
     },
     "parentSpanId": {
-      "type": "string"
+      "$ref": "#/properties/spanId"
     },
     "name": {
       "type": "string"
@@ -39,6 +39,10 @@
           "SPAN_KIND_CONSUMER"
         ]
       }
+    },
+    "@timestamp": {
+      "type": "string",
+      "format": "date-time"
     },
     "startTime": {
       "type": "string",
@@ -67,10 +71,10 @@
         "additionalProperties": false,
         "properties": {
           "traceId": {
-            "type": "string"
+            "$ref": "#/properties/traceId"
           },
           "spanId": {
-            "type": "string"
+            "$ref": "#/properties/spanId"
           },
           "traceState": {
             "type": "array",
@@ -112,6 +116,7 @@
   "required": [
     "traceId",
     "spanId",
+    "@timestamp",
     "startTime",
     "endTime",
     "kind",
@@ -188,6 +193,9 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "serviceName": {
+          "$ref": "https://opensearch.org/schemas/observability/Service#/properties/serviceName"
+        },
         "data_stream": {
           "$ref": "#/definitions/Dataflow"
         }

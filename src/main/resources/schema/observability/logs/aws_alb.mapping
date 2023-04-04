@@ -1,0 +1,147 @@
+{
+  "template": {
+    "mappings": {
+      "_meta": {
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component": "aws_alb"
+      },
+      "aws": {
+        "type": "object",
+        "elb": {
+          "properties": {
+            "name": {
+              "type": "keyword"
+            },
+            "type": {
+              "type": "keyword"
+            },
+            "target_group": {
+              "properties": {
+                "arn": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "listener": {
+              "type": "keyword"
+            },
+            "protocol": {
+              "type": "keyword"
+            },
+            "request_processing_time": {
+              "properties": {
+                "sec": {
+                  "type": "float"
+                }
+              }
+            },
+            "backend_processing_time": {
+              "properties": {
+                "sec": {
+                  "type": "float"
+                }
+              }
+            },
+            "response_processing_time": {
+              "properties": {
+                "sec": {
+                  "type": "float"
+                }
+              }
+            },
+            "connection_time": {
+              "properties": {
+                "ms": {
+                  "type": "long"
+                }
+              }
+            },
+            "tls_handshake_time": {
+              "properties": {
+                "ms": {
+                  "type": "long"
+                }
+              }
+            },
+            "backend": {
+              "properties": {
+                "ip": {
+                  "type": "keyword"
+                },
+                "port": {
+                  "type": "keyword"
+                },
+                "http": {
+                  "properties": {
+                    "response": {
+                      "properties": {
+                        "status_code": {
+                          "type": "long"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "ssl_cipher": {
+              "type": "keyword"
+            },
+            "ssl_protocol": {
+              "type": "keyword"
+            },
+            "chosen_cert": {
+              "properties": {
+                "arn": {
+                  "type": "keyword"
+                },
+                "serial": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "incoming_tls_alert": {
+              "type": "keyword"
+            },
+            "tls_named_group": {
+              "type": "keyword"
+            },
+            "trace_id": {
+              "type": "keyword"
+            },
+            "matched_rule_priority": {
+              "type": "keyword"
+            },
+            "action_executed": {
+              "type": "keyword"
+            },
+            "redirect_url": {
+              "type": "keyword"
+            },
+            "error": {
+              "properties": {
+                "reason": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "target_port": {
+              "type": "keyword"
+            },
+            "target_status_code": {
+              "type": "keyword"
+            },
+            "classification": {
+              "type": "keyword"
+            },
+            "classification_reason": {
+              "type": "keyword"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "@timestamp": "2018-07-02T22:23:00.186Z",
+  "aws": {
+    "elb": {
+      "backend": {
+        "http": {
+          "response": {
+            "status_code": 200
+          }
+        },
+        "ip": "10.0.0.1",
+        "port": "80"
+      },
+      "backend_processing_time": {
+        "sec": 0.001
+      },
+      "matched_rule_priority": "0",
+      "name": "app/my-loadbalancer/50dc6c495c0c9188",
+      "protocol": "http",
+      "request_processing_time": {
+        "sec": 0
+      },
+      "response_processing_time": {
+        "sec": 0
+      },
+      "target_group": {
+        "arn": "arn:aws:elasticloadbalancing:us-east-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"
+      },
+      "target_port": [
+        "10.0.0.1:80"
+      ],
+      "target_status_code": [
+        "200"
+      ],
+      "traceId": "Root=1-58337262-36d228ad5d99923122bbe354",
+      "type": "http"
+    }
+  },
+  "cloud": {
+    "provider": "aws"
+  },
+  "http": {
+    "request": {
+      "body": {
+        "bytes": 34
+      },
+      "method": "GET"
+    },
+    "response": {
+      "body": {
+        "bytes": 366
+      },
+      "status_code": 200
+    },
+    "url": "http://www.example.com:80/",
+    "schema": "http"
+  },
+  "communication": {
+    "source": {
+      "address": "192.168.131.39",
+      "ip": "192.168.131.39",
+      "port": 2817
+    }
+  },
+  "traceId": "Root=1-58337262-36d228ad5d99923122bbe354"
+}

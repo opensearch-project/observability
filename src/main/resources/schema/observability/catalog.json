@@ -31,9 +31,28 @@
           "description": "Observability communication covers the host and destination information in the network fields. They contain a set of metadata that provide contextual information about the host, destination and network environment where a system is running. They include information such as the host/destination name, IP address, operating system version, and network interface details.",
           "version": "1.0",
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication",
-          "tags": ["web"],
+          "tags": [
+            "web"
+          ],
           "container": false
-        }]
+        },
+        {
+          "component": "cloud",
+          "description": "Observability cloud fields definition contains a set of standardized fields to capture metadata about the cloud environment where an event or metric is generated. This includes information about the cloud provider, region, availability zone, machine type, account details, service name, and instance details. These fields allow for the efficient organization and analysis of data across different cloud platforms, making it easier to monitor and manage resources in a multi-cloud environment.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/cloud",
+          "container": false,
+          "tags": []
+        },
+        {
+          "component": "container",
+          "description": "Observability container The container fields definition provides a structured way to store metadata and metrics about containers, which can be used to correlate data across container runtimes. This includes information like the container's unique ID, image name, tags, resource usage (CPU, memory, disk, and network), and runtime management system, allowing users to efficiently monitor and analyze their containerized applications.",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/container",
+          "container": false,
+          "tags": []
+        }
+      ]
     },
     {
       "category": "traces",
@@ -50,13 +69,22 @@
           "container": true
         },
         {
-          "component": "service",
+          "component": "services",
           "description": "Observability services are representations of the dependencies and interactions between various components of a software system. They provide a high-level view of how different parts of the system are connected and how data flows between them. By using service maps, engineers and developers can gain a better understanding of how changes in one part of the system can affect other parts, helping them make more informed decisions about troubleshooting and optimization including root cause analysis",
           "version": "1.0",
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/services",
           "tags": [],
+          "container": true
+        },
+        {
+          "component": "traceGroups",
+          "description": "Observability trace groups fields are a set of derived fields that are calculated for a trace's root span - they are copied to all the spans in that trace",
+          "version": "1.0",
+          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traceGroups",
+          "tags": [],
           "container": false
-        }]
+        }
+      ]
     },
     {
       "category": "metrics",
@@ -71,7 +99,8 @@
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics",
           "tags": [],
           "container": true
-        }]
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://opensearch.org#/definitions/Metrics",
+  "$id": "https://opensearch.org/schema/observability/Metrics",
   "title": "OpenTelemetry Metrics",
   "type": "object",
   "properties": {
@@ -227,10 +227,10 @@
           "format": "date-time"
         },
         "spanId": {
-          "type": "string"
+          "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
         },
         "traceId": {
-          "type": "string"
+          "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
         }
       },
       "required": [
@@ -243,6 +243,9 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "serviceName": {
+          "type": "string"
+        },
         "data_stream": {
           "$ref": "#/definitions/Dataflow"
         }
