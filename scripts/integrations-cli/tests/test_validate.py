@@ -4,9 +4,9 @@ from copy import deepcopy
 import jsonschema
 from returns.pipeline import is_successful
 
-import helpers.constants as constants
-import helpers.validate as validate
-from helpers.catalog import _load_catalog_file
+import integrations_cli.helpers.constants as constants
+import integrations_cli.helpers.validate as validate
+from integrations_cli.helpers.catalog import _load_catalog_file
 
 
 class TestSchemas(unittest.TestCase):

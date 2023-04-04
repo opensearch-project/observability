@@ -5,6 +5,11 @@ description = "CLI for managing OpenSearch Integrations"
 authors = ["Simeon Widdis <sawiddis@amazon.com>"]
 license = "Apache-2.0"
 
+[tool.poetry.scripts]
+cli = "integrations_cli.main:integrations_cli"
+test = "scripts:test"
+format = "scripts:format"
+
 [tool.isort]
 profile = "black"
 
