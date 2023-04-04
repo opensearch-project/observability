@@ -20,9 +20,6 @@ class IntegrationsPlugin: Plugin(), ActionPlugin {
         const val BASE_INTEGRATIONS_URI = "/_plugins/_integrations"
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getRestHandlers(
         settings: Settings,
         restController: RestController,

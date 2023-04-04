@@ -63,9 +63,6 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         return PluginSettings.getAllSettings()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun createComponents(
         client: Client,
         clusterService: ClusterService,
