@@ -50,9 +50,14 @@ The Observability indices would follow the recommended for immutable data stream
 
 Index pattern will follow the next naming template `sso_{type}`-`{dataset}`-`{namespace}`
 
- - **type**	- indicated	the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
- - **dataset**	- The field can contain anything that classify the source of the data - such as `nginx.access`
- - **namespace**	- A user defined namespace - mainly useful to allow grouping of data such as production grade, geography classification
+**type**
+- indicated the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
+
+**dataset**
+- The field can contain anything that classify the source of the data - such as `nginx.access`
+
+**namespace**
+- A user defined namespace - mainly useful to allow grouping of data such as production grade, geography classification
 
 This strategy allows two degrees of naming freedom: dataset and namespace. For example a customer may want to route the nginx logs from two geographical areas into two different indices:
 
@@ -72,7 +77,7 @@ The `sso_{type}-{dataset}-{namespace}` combination dictates the target index, `{
  - Logs - `sso_logs`
 
 For example if within the ingested log contains the following section:
-```json
+```json5
 {
   ...
   "attributes": {

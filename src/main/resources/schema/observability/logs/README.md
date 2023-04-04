@@ -139,11 +139,10 @@ This field is expected to appear in any future integration or Observability reso
 
 ### Logs Classifications
 
-#### HTTP 
-
+#### HTTP
 _Inspired by [ECS - http](https://www.elastic.co/guide/en/ecs/current/ecs-http.html), [OTEL - http](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md)_
 
- - `method` - HTTP request method.	`GET; POST; HEAD` (OTEL driven) Correspond with `request.method` (ECS driven)
+ - `method` - HTTP request method. `GET; POST; HEAD` (OTEL driven) Correspond with `request.method` (ECS driven)
  - `status_code` - [Http response code](https://tools.ietf.org/html/rfc7231#section-6) (OTEL driven) Correspond with `response.status_code` (ECS driven)
  - `flavor`  - Kind of HTTP protocol used. (OTEL driven) Correspond with `version` (ECS driven)
  - `user_agent` -  Value of the HTTP User-Agent header sent by the client. (OTEL driven)
