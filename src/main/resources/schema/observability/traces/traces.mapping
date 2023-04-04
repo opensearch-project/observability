@@ -6,7 +6,17 @@
   "template": {
     "mappings": {
       "_meta": {
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "traces",
+        "component": "trace",
+        "correlations": [
+          {
+            "field": "serviceName",
+            "foreign-schema": "services",
+            "foreign-field": "spanId"
+          }
+        ]
       },
       "dynamic_templates": [
         {
@@ -112,6 +122,9 @@
         "attributes": {
           "type": "object",
           "properties": {
+            "serviceName": {
+              "type": "keyword"
+            },
             "data_stream": {
               "properties": {
                 "dataset": {
@@ -190,11 +203,19 @@
     }
   },
   "composed_of": [
+    "tracegroups_template"
   ],
   "version": 1,
   "_meta": {
     "description": "Observability Traces Mapping Template",
     "catalog": "observability",
-    "type": "traces"
+    "type": "traces",
+    "correlations": [
+      {
+        "field": "serviceName",
+        "foreign-schema": "services",
+        "foreign-field": "spanId"
+      }
+    ]
   }
 }

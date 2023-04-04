@@ -6,6 +6,7 @@
   "name": "mysql",
   "kind": "CLIENT",
   "@timestamp": "2021-11-13T20:20:39+00:00",
+  "startTime": "2021-11-13T20:20:39+00:00",
   "endTime": "2021-11-14T20:10:41+00:00",
   "events": [
     {
@@ -28,6 +29,7 @@
     "code": 2
   },
   "attributes": {
+    "serviceName": "database",
     "data_stream": {
       "type": "span",
       "dataset": "mysql"

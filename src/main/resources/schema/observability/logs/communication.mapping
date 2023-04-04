@@ -1,6 +1,12 @@
 {
   "template": {
     "mappings": {
+      "_meta": {
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component": "communication"
+      },
       "properties": {
         "communication": {
           "properties": {

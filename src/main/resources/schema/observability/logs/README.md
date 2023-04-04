@@ -139,33 +139,32 @@ This field is expected to appear in any future integration or Observability reso
 
 ### Logs Classifications
 
-#### HTTP 
-
+#### HTTP
 _Inspired by [ECS - http](https://www.elastic.co/guide/en/ecs/current/ecs-http.html), [OTEL - http](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md)_
 
-- `method` - HTTP request method.	`GET; POST; HEAD` (OTEL driven) Correspond with `request.method` (ECS driven)
-- `status_code` - [Http response code](https://tools.ietf.org/html/rfc7231#section-6) (OTEL driven) Correspond with `response.status_code` (ECS driven)
-- `flavor`  - Kind of HTTP protocol used. (OTEL driven) Correspond with `version` (ECS driven)
-- `user_agent` -  Value of the HTTP User-Agent header sent by the client. (OTEL driven)
+ - `method` - HTTP request method. `GET; POST; HEAD` (OTEL driven) Correspond with `request.method` (ECS driven)
+ - `status_code` - [Http response code](https://tools.ietf.org/html/rfc7231#section-6) (OTEL driven) Correspond with `response.status_code` (ECS driven)
+ - `flavor`  - Kind of HTTP protocol used. (OTEL driven) Correspond with `version` (ECS driven)
+ - `user_agent` -  Value of the HTTP User-Agent header sent by the client. (OTEL driven)
 
-- `request.id` - A unique identifier for each HTTP request to correlate logs between clients and servers in transactions. (ECS driven)
-- `request_content_length` - The size of the request payload body in bytes. (OTEL driven)  Correspond with `request.bytes` (ECS driven) 
-- `request.body.content` - The full HTTP request body. (ECS driven)
-- `request.referrer` - Referrer for this HTTP request. (ECS driven)
-- `request.header` - HTTP request headers key/value object (OTEL driven)
-- `request.mime_type` - Mime type of the body of the response. (ECS driven)
+ - `request.id` - A unique identifier for each HTTP request to correlate logs between clients and servers in transactions. (ECS driven)
+ - `request_content_length` - The size of the request payload body in bytes. (OTEL driven)  Correspond with `request.bytes` (ECS driven) 
+ - `request.body.content` - The full HTTP request body. (ECS driven)
+ - `request.referrer` - Referrer for this HTTP request. (ECS driven)
+ - `request.header` - HTTP request headers key/value object (OTEL driven)
+ - `request.mime_type` - Mime type of the body of the response. (ECS driven)
 
-- `response_content_length` - The size of the response payload body in bytes. (OTEL driven) Correspond with `response.bytes` (ECS driven)
-- `response.body.content` - The full HTTP response body. (ECS driven)
-- `response.header` - HTTP response headers key/value object (OTEL driven)
+ - `response_content_length` - The size of the response payload body in bytes. (OTEL driven) Correspond with `response.bytes` (ECS driven)
+ - `response.body.content` - The full HTTP response body. (ECS driven)
+ - `response.header` - HTTP response headers key/value object (OTEL driven)
 
-- `url` - Full HTTP request URL in the form scheme://host[:port]/path?query[#fragment] (OTEL driven)
-- `resend_count` - The ordinal number of request resending attempt (OTEL driven)
+ - `url` - Full HTTP request URL in the form scheme://host[:port]/path?query[#fragment] (OTEL driven)
+ - `resend_count` - The ordinal number of request resending attempt (OTEL driven)
 
-- `scheme` - The URI scheme identifying the used protocol. (OTEL driven)
-- `target` - The full request target as passed in a HTTP request line or equivalent. (OTEL driven)
-- `route`  - The matched route (path template in the format used by the respective server framework) (OTEL driven)
-- `client_ip` - The IP address of the original client behind all proxies (OTEL driven) `client.ip` -  IP address of the client (IPv4 or IPv6). (ECS driven)
+ - `scheme` - The URI scheme identifying the used protocol. (OTEL driven)
+ - `target` - The full request target as passed in a HTTP request line or equivalent. (OTEL driven)
+ - `route`  - The matched route (path template in the format used by the respective server framework) (OTEL driven)
+ - `client_ip` - The IP address of the original client behind all proxies (OTEL driven) `client.ip` -  IP address of the client (IPv4 or IPv6). (ECS driven)
 
 #### Communication
 Includes client / server part of the communication

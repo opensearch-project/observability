@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://opensearch.org#/definitions/Logs",
+  "$id": "https://opensearch.org/schema/observability/Logs",
   "title": "OpenTelemetry Logs",
   "type": "object",
   "properties": {
@@ -25,10 +25,10 @@
       "format": "date-time"
     },
     "traceId": {
-      "type": "string"
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
     },
     "spanId": {
-      "type": "string"
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
     },
     "schemaUrl": {
       "type": "string"
@@ -165,7 +165,7 @@
             "event",
             "metric",
             "state",
-            "pipeline_error",
+            "error",
             "signal"
           ]
         },
