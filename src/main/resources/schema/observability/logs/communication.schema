@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://opensearch.org/schemas/Communication",
+  "$id": "https://opensearch.org/schemas/observability/Communication",
   "title": "Communication",
   "type": "object",
   "properties": {
@@ -11,10 +11,10 @@
           "type": "string"
         },
         "source": {
-          "$ref": "/schemas/Source"
+          "$ref": "#/definitions/Source"
         },
         "destination": {
-          "$ref": "/schemas/Destination"
+          "$ref": "#/definitions/Destination"
         }
       }
     },
@@ -22,66 +22,67 @@
       "type": "object",
       "properties": {
       }
-    },
-    "$defs": {
-      "Source": {
-        "$id": "/schemas/Source",
-        "type": "object",
-        "additionalProperties": true,
-        "properties": {
-          "address": {
-            "type": "string"
-          },
-          "domain": {
-            "type": "string"
-          },
-          "bytes": {
-            "type": "integer"
-          },
-          "ip": {
-            "type": "string"
-          },
-          "port": {
-            "type": "integer"
-          },
-          "mac": {
-            "type": "string"
-          },
-          "packets": {
-            "type": "integer"
-          }
+    }
+  },
+  "definitions": {
+    "Source": {
+      "$id": "#/definitions/Source",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "address": {
+          "type": "string"
         },
-        "title": "Source"
+        "domain": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "mac": {
+          "type": "string"
+        },
+        "packets": {
+          "type": "integer"
+        }
       },
-      "Destination": {
-        "$id": "/schemas/Destination",
-        "type": "object",
-        "additionalProperties": true,
-        "properties": {
-          "address": {
-            "type": "string"
-          },
-          "domain": {
-            "type": "string"
-          },
-          "bytes": {
-            "type": "integer"
-          },
-          "ip": {
-            "type": "string"
-          },
-          "port": {
-            "type": "integer"
-          },
-          "mac": {
-            "type": "string"
-          },
-          "packets": {
-            "type": "integer"
-          }
+      "title": "Source"
+    },
+    "Destination": {
+      "$id": "#/definitions/Destination",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "address": {
+          "type": "string"
         },
-        "title": "Destination"
-      }
+        "domain": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "mac": {
+          "type": "string"
+        },
+        "packets": {
+          "type": "integer"
+        }
+      },
+      "title": "Destination"
     }
   }
+
 }
