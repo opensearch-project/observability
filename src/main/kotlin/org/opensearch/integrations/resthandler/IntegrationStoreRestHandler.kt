@@ -18,16 +18,10 @@ class IntegrationStoreRestHandler: BaseRestHandler() {
         private val log by logger(IntegrationStoreRestHandler::class.java)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getName(): String {
         return INTEGRATIONS_ACTION
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun routes(): List<Route> {
         return listOf(
             /**
@@ -59,9 +53,6 @@ class IntegrationStoreRestHandler: BaseRestHandler() {
         )
     }
 
-    /**
-     * @inheritDoc
-     */
     override fun prepareRequest(request: RestRequest?, client: NodeClient?): RestChannelConsumer {
         requireNotNull(request)
         log.debug("Received: ${request.path()}")
