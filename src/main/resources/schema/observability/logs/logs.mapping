@@ -6,7 +6,22 @@
   "template": {
     "mappings": {
       "_meta": {
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component": "log",
+        "correlations": [
+          {
+            "field": "spanId",
+            "foreign-schema": "traces",
+            "foreign-field": "spanId"
+          },
+          {
+            "field": "traceId",
+            "foreign-schema": "traces",
+            "foreign-field": "traceId"
+          }
+        ]
       },
       "_source": {
         "enabled": true
@@ -199,6 +214,18 @@
   "_meta": {
     "description": "Simple Schema For Observability",
     "catalog": "observability",
-    "type": "logs"
+    "type": "logs",
+    "correlations": [
+      {
+        "field": "spanId",
+        "foreign-schema": "traces",
+        "foreign-field": "spanId"
+      },
+      {
+        "field": "traceId",
+        "foreign-schema": "traces",
+        "foreign-field": "traceId"
+      }
+    ]
   }
 }

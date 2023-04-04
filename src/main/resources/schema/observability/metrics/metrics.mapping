@@ -6,7 +6,22 @@
   "template": {
     "mappings": {
       "_meta": {
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "metrics",
+        "component": "metrics",
+        "correlations" : [
+          {
+            "field": "spanId",
+            "foreign-schema" : "traces",
+            "foreign-field" : "spanId"
+          },
+          {
+            "field": "traceId",
+            "foreign-schema" : "traces",
+            "foreign-field" : "traceId"
+          }
+        ]
       },
       "_source": {
         "enabled": true
@@ -285,6 +300,18 @@
   "_meta": {
     "description": "Observability Metrics Mapping Template",
     "catalog": "observability",
-    "type": "metrics"
+    "type": "metrics",
+    "correlations" : [
+      {
+        "field": "spanId",
+        "foreign-schema" : "traces",
+        "foreign-field" : "spanId"
+      },
+      {
+        "field": "traceId",
+        "foreign-schema" : "traces",
+        "foreign-field" : "traceId"
+      }
+    ]
   }
 }

@@ -1,0 +1,11 @@
+{
+  "serviceName": "frontend",
+  "kind": "SPAN_KIND_CLIENT",
+  "destination": {
+    "resource": "HTTP GET /customer",
+    "domain": "customer"
+  },
+  "target": null,
+  "traceGroupName": "HTTP GET /dispatch",
+  "hashId": "u2t8FF1YHF4t/5Qa68XINw=="
+}

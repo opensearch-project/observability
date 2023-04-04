@@ -1,0 +1,22 @@
+{
+  "@timestamp": "2022-12-09T10:39:23.000Z",
+  "http": {
+    "method": "GET",
+    "flavor": "1.1",
+    "target": "https://example.com:8080/webshop/articles/4?s=1",
+    "schema": "https",
+    "route": "https",
+    "client.ip": "192.0.2.4",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0"
+  },
+  "source": {
+    "domain": "example.com",
+    "port": 8080
+  },
+  "destination": {
+    "address": "192.0.2.5"
+  },
+  "response": {
+    "status_code": 200
+  }
+}
