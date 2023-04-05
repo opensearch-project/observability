@@ -84,8 +84,8 @@ The data model is highly coupled with the visual components, for example - the A
 ## Ingestion Pipeline
 
 A mandatory part of an Observability solution is its ability to ingest data at scale, currently, OpenSearch Observability support the following out of the box schematized data providers:
-- Data prepper - https://github.com/opensearch-project/data-prepper
-- Jaeger   - https://opensearch.org/docs/latest/observing-your-data/trace/trace-analytics-jaeger/
+- [Data prepper](https://github.com/opensearch-project/data-prepper)
+- [Jaeger](https://opensearch.org/docs/latest/observing-your-data/trace/trace-analytics-jaeger)
 
 ### **Data Prepper:**
 

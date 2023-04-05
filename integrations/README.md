@@ -1,4 +1,4 @@
-# Definitions
+# Integration Definitions
 
 ## Bundle
 
@@ -98,7 +98,7 @@ integration-template-name
 
 `Config.json` file includes the following Integration configuration see [NginX config](nginx/config.json)
  
- Additional information on the config structure see [Structure](docs/Integration-structure.md)  
+ Additional information on the config structure see [Structure](../docs/Integration-structure.md)  
 
 #### Display:
 
