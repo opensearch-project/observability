@@ -7,15 +7,15 @@ Start the OpenSearch cluster and follow the next steps for manually setup of the
 
 `>> PUT _component_template/http_template`
 
-Copy the http.mapping content [here](http.mapping)
+Copy the http.mapping content [here](../../../../src/main/resources/schema/observability/logs/http.mapping)
 
 `>> PUT _component_template/communication_template`
 
-Copy the communication.mapping content [here](communication.mapping)
+Copy the communication.mapping content [here](../../../../src/main/resources/schema/observability/logs/communication.mapping)
 
 `>> PUT _index_template/logs`
 
-Copy the logs.mapping content [here](logs.mapping)
+Copy the logs.mapping content [here](../../../../src/main/resources/schema/observability/logs/logs.mapping)
 
 Now you can create an data-stream index (following the logs index pattern) that has the supported schema:
 

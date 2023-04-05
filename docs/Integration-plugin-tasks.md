@@ -9,13 +9,13 @@ The integration plugins is currently responsible for the next tasks:
 
 ### Catalog Registration 
 
-During the loading of the Integration Plugin it will go over all the [catalog schemas](../../schema/README.md) and creates the appropriate 
+During the loading of the Integration Plugin it will go over all the [catalog schemas](schema/README.md) and creates the appropriate 
 template mapping for each catalog schema entity. This will allow the future Integration to be validated to the schema catalog they are associated with.
 
-**For example** - the [Observability](../../schema/observability) catalog will eventually be registered with the next mapping templates
- - [Traces](../../schema/observability/traces/traces.mapping)
- - [Logs](../../schema/observability/logs/logs.mapping)
- - [Metrics](../../schema/observability/metrics/metrics.mapping)
+**For example** - the [Observability](schema/observability) catalog will eventually be registered with the next mapping templates
+ - [Traces](../src/main/resources/schema/observability/traces/traces.mapping)
+ - [Logs](../src/main/resources/schema/observability/logs/logs.mapping)
+ - [Metrics](../src/main/resources/schema/observability/metrics/metrics.mapping)
 
 These mapping specify a backed `data-stream` index pattern they conform with [Naming Pattern](observability/Naming-convention.md).
 

@@ -46,7 +46,7 @@ Observability telemetry schema defines the following components - **logs**, **tr
 
 In many occasions, correlate between the logs, traces and metrics is mandatory to be able to monitor and understand how the system is behaving. In addition, the distributed nature of the application produces multiple formats of telemetry signals arriving from different components ( network router, web server, database)
 
-For such correlation to be possible the industry has formulated several protocols  ([OTEL](https://github.com/open-telemetry), [ECS](https://github.com/elastic/ecs), [OpenMetrics](https://github.com/OpenObservability/OpenMetrics), [Alerts](https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/azure-monitor/alerts/alerts-common-schema.md)) for communicating these signals - the **Observability schemas**.
+For such correlation to be possible the industry has formulated several protocols:  ([OTEL](https://github.com/open-telemetry), [ECS](https://github.com/elastic/ecs), [OpenMetrics](https://github.com/OpenObservability/OpenMetrics), [Alerts]()) for communicating these signals - the **Observability schemas**.
 
 ## Problem definition
 Today in OpenSearch, Observability and its dashboards are only partially aware (traces only) of the schematic structure of these signal types. In addition, the actual schema mapping is not present internally in the Observability plugin and has to be imported externally.
