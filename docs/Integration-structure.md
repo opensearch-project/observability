@@ -183,16 +183,16 @@ In this case the field resides in the `instrumentationScope.attributes.identific
 ```
 
 `Catalog:`
-This defines the catalog source from which the Integration is associated with. This is based on the `catalog` API which is part of the integration support.[Sample Observability catalog](../../schema/system/samples/catalog.json)
+This defines the catalog source from which the Integration is associated with. This is based on the `catalog` API which is part of the integration support.[Sample Observability catalog](schema/system/samples/catalog.json)
 
 `Components:`
-This section defines the classification components associated to this Integration according to [ECS specification](https://www.elastic.co/guide/en/ecs/current/ecs-allowed-values-event-category.html) and expresses in the [Sample Observability catalog](../../schema/system/samples/catalog.json)
+This section defines the classification components associated to this Integration according to [ECS specification](https://www.elastic.co/guide/en/ecs/current/ecs-allowed-values-event-category.html) and expresses in the [Sample Observability catalog](schema/system/samples/catalog.json)
 
 `collection:`
 This references the different types of collection this integration if offering.  It can be one of the following Observability catalog's element:
 { *`Traces, Logs, Metrics`* }.
 
-The collection **name** (`logs`,`traces`,`metrics`) reflects the catalog's `category` as it appears in the [Sample Observability catalog](../../schema/system/samples/catalog.json)
+The collection **name** (`logs`,`traces`,`metrics`) reflects the catalog's `category` as it appears in the [Sample Observability catalog](schema/system/samples/catalog.json)
 
 **Collections** 
 

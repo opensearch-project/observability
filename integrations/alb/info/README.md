@@ -135,3 +135,35 @@ The `elb` dataset collects logs from AWS ELBs.
 | user_agent.original | Unparsed user_agent string. | keyword |
 | user_agent.original.text | Multi-field of `user_agent.original`. | match_only_text |
 | user_agent.version | Version of the user agent. | keyword |
+
+
+### Integration Loading Process
+The AWS ALB logs integration loading process includes the following assets
+ - **Connectivity**
+   - S3 Datasource connectivity
+   - Spark compute engine connectivity
+ - **Tables**
+   - alb logs external table (definition including fields mapping to observability logs template)
+   - alb logs index (definition based on observability logs template)
+ - **Views**
+   - alb log materialized view (view is a pre-calculated query based on a specific given dimension)
+   - alb metrics materialized view (view is a pre-calculated query based on a specific given dimension)
+ - **Display**
+   - alb dashboard for viewing all the given information in a meaningful manner
+
+
+#### Assets Loading Order 
+The general order for which the assets are needed to be loaded is dictated by the next concepts:
+
+1) Connectivity - First the connection related configuration are required to be validated for existence and correctness.
+
+2) Mapping - Next the schema specific instruction dictated by the integration's config must be verified for existence or be created
+
+3) Tables - Next the external / internal tables / indices will be verified for existence or be created - (they are based on the mapping phase and connectivity phase )
+
+4) Views - Next the views search templates need to be created (they are based on the tables and connectivity phase  )
+
+5) Display - Last the dashboards and visual assets are uploaded (they are based on the views, tables and connectivity phase)
+
+
+![](alb-integration-load-assets.png)
