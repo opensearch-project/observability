@@ -1,0 +1,9 @@
+[
+  {
+    "name" : "myspark",
+    "connector": "jdbc",
+    "properties" : {
+      "url" : "jdbc:hive2://spark-thrift:10000/default"
+    }
+  }
+]
