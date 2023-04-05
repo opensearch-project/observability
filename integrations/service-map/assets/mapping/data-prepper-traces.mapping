@@ -1,0 +1,157 @@
+{
+  "index_patterns": [
+    "otel-v1-apm-span-*"
+  ],
+  "data_stream": {},
+  "template": {
+    "mappings": {
+      "dynamic_templates": [
+        {
+          "resource_attributes_map": {
+            "path_match": "resource.attributes.*",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        },
+        {
+          "span_attributes_map": {
+            "path_match": "span.attributes.*",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+      ],
+      "date_detection": false,
+      "properties": {
+        "droppedAttributesCount": {
+          "type": "long"
+        },
+        "droppedEventsCount": {
+          "type": "long"
+        },
+        "droppedLinksCount": {
+          "type": "long"
+        },
+        "durationInNanos": {
+          "type": "long"
+        },
+        "endTime": {
+          "type": "date_nanos"
+        },
+        "events": {
+          "type": "nested",
+          "properties": {
+            "attributes": {
+              "properties": {
+                "time": {
+                  "type": "date_nanos"
+                }
+              }
+            },
+            "droppedAttributesCount": {
+              "type": "long"
+            },
+            "name": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "time": {
+              "type": "date_nanos"
+            }
+          }
+        },
+        "kind": {
+          "type": "keyword",
+          "ignore_above": 128
+        },
+        "links": {
+          "type": "nested"
+        },
+        "name": {
+          "type": "keyword",
+          "ignore_above": 1024
+        },
+        "parentSpanId": {
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "resource": {
+          "properties": {
+            "attributes": {
+              "properties": {
+                "service@name": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "serviceName": {
+          "type": "keyword"
+        },
+        "span": {
+          "properties": {
+            "attributes": {
+              "properties": {}
+            }
+          }
+        },
+        "spanId": {
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "startTime": {
+          "type": "date_nanos"
+        },
+        "status": {
+          "properties": {
+            "code": {
+              "type": "integer"
+            },
+            "message": {
+              "type": "keyword"
+            }
+          }
+        },
+        "traceGroup": {
+          "type": "keyword",
+          "ignore_above": 1024
+        },
+        "traceGroupFields": {
+          "properties": {
+            "durationInNanos": {
+              "type": "long"
+            },
+            "endTime": {
+              "type": "date_nanos"
+            },
+            "statusCode": {
+              "type": "integer"
+            }
+          }
+        },
+        "traceId": {
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "traceState": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+  },
+  "version": 1
+}
