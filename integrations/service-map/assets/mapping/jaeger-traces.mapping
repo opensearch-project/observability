@@ -1,0 +1,239 @@
+{
+  "index_patterns": [
+    "jaeger-span-v1*"
+  ],
+  "data_stream": {},
+  "template": {
+    "mappings": {
+      "properties": {
+        "duration": {
+          "type": "long"
+        },
+        "flags": {
+          "type": "integer"
+        },
+        "logs": {
+          "type": "nested",
+          "dynamic": "false",
+          "properties": {
+            "fields": {
+              "type": "nested",
+              "dynamic": "false",
+              "properties": {
+                "key": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "tagType": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "value": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "timestamp": {
+              "type": "long"
+            }
+          }
+        },
+        "operationName": {
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "parentSpanID": {
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "process": {
+          "properties": {
+            "serviceName": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "tag": {
+              "properties": {
+                "client-uuid": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "hostname": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "ip": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "jaeger@version": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "tags": {
+              "type": "nested",
+              "dynamic": "false",
+              "properties": {
+                "key": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "tagType": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "value": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        },
+        "references": {
+          "type": "nested",
+          "dynamic": "false",
+          "properties": {
+            "refType": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "spanID": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "traceID": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "spanID": {
+          "type": "keyword",
+          "ignore_above": 256
+        },
+        "startTime": {
+          "type": "long"
+        },
+        "startTimeMillis": {
+          "type": "date",
+          "format": "epoch_millis"
+        },
+        "tag": {
+          "properties": {
+            "component": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "error": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "http@method": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "http@status_code": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "http@url": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "internal@span@format": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "net/http@reused": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "net/http@was_idle": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "param@driverID": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "param@location": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "peer@service": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "request": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "sampler@param": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "sampler@type": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "span@kind": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "sql@query": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "tags": {
+          "type": "nested",
+          "dynamic": "false",
+          "properties": {
+            "key": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "tagType": {
+              "type": "keyword",
+              "ignore_above": 256
+            },
+            "value": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "traceID": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      },
+      "dynamic_templates": [
+        {
+          "span_tags_map": {
+            "path_match": "tag.*",
+            "mapping": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        {
+          "process_tags_map": {
+            "path_match": "process.tag.*",
+            "mapping": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "version": 1
+}
