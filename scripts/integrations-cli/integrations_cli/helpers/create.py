@@ -3,6 +3,7 @@ import os
 import re
 from copy import deepcopy
 from urllib import parse
+import requests
 
 from .constants import DEFAULT_CONFIG
 from .validate import validate_config
@@ -12,6 +13,8 @@ class IntegrationBuilder:
     def __init__(self):
         self.path = None
         self.config = deepcopy(DEFAULT_CONFIG)
+        self.dashboards = []
+        self.mappings = dict()
 
     def with_name(self, name: str) -> "IntegrationBuilder":
         self.config["template-name"] = name
@@ -49,13 +52,29 @@ class IntegrationBuilder:
         return self
 
     def with_component(self, component: dict) -> "IntegrationBuilder":
-        self.config["components"].append(component)
+        ## TODO make robust
+        self.config["components"].append(component["component"])
+        url = component["url"].replace("github.com", "raw.githubusercontent.com").replace("/tree", "") + ".mapping"
+        mapping = requests.get(url).json()
+        self.mappings[url.split("/")[-1]] = mapping
+        return self
+    
+    def with_dashboard(self, component: str) -> "IntegrationBuilder":
+        ## TODO make robust
+        self.dashboards.append(component)
         return self
 
     def build(self):
         assert self.path is not None
         os.makedirs(self.path, exist_ok=True)
         files = {"config.json": validate_config(self.config).unwrap()}
+        for fname, mapping in self.mappings.items():
+            files[f"schema/{fname}"] = mapping # TODO validate
         for filename, data in files.items():
             with open(os.path.join(self.path, filename), "w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=2)
+        for dashboard in self.dashboards:
+            print(os.path.abspath("."))
+            with open(dashboard, "r") as fin:
+                with open(os.path.join(self.path, "assets/display", dashboard.split('/')[-1]), "w") as fout:
+                    fout.write(fin.read())

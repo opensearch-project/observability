@@ -10,6 +10,10 @@ from termcolor import colored
 
 import integrations_cli.helpers as helpers
 
+available_templates = {
+    "http": "template-dashboards/http.ndjson"
+}
+
 
 @click.group()
 def integrations_cli():
@@ -23,12 +27,21 @@ def do_add_component(builder: helpers.IntegrationBuilder) -> bool:
     for category in manager.catalog["categories"]:
         click.echo(f"- Category {category['category']}")
         for component in category["components"]:
-            click.echo(f"  - {component['component']}: {component['description']}")
+            desc = component["description"]
+            desc = desc if len(desc) < 50 else desc[:47] + "..."
+            click.echo(f"  - {component['component']}: {desc}")
             choices[component["component"]] = component
     component = click.prompt(
         "Select component", type=click.Choice(list(choices)), show_choices=False
     )
-    builder.with_component(component)
+    builder = builder.with_component(choices[component])
+    if component in available_templates:
+        if click.prompt(
+            f"A pre-made template dashboard for component `{component}` was detected. Include it? (y/n)",
+            type=click.Choice(["y", "n"]),
+            show_choices=False
+        ) == "y":
+            builder.with_dashboard(available_templates[component])
     return (
         click.prompt(
             "Configure another component? (y/n)",
@@ -49,7 +62,7 @@ def create(name: str):
         raise click.ClickException(
             f"destination path '{integration_path}' exists and is non-empty"
         )
-    for subdir in ["assets", "info", "samples", "schema", "test"]:
+    for subdir in ["assets", "schema", "assets/display"]:
         os.makedirs(os.path.join(integration_path, subdir))
     builder = helpers.IntegrationBuilder().with_name(name).with_path(integration_path)
     click.prompt("Schema version", default="1.0.0", type=builder.with_schema_version)
