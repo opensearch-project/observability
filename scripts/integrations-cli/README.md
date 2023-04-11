@@ -11,37 +11,52 @@ The tool has three main functions:
 
 ## Installation
 
-The project is managed with [Poetry](https://python-poetry.org/).
-After installing Poetry, install dependencies:
+The project requires Python 3.7 or better.
+As the project is not yet a full Python package, it must be installed manually.
+To manually install, create a virtual environment and install the requirements.
 
-```sh
-$ poetry install
-Installing dependencies from lock file
+On Unix:
+
+```bash
+$ python3 -m venv venv
+$ source ./venv/bin/activate
+$ pip install -r requirements.txt
+```
+
+On Windows:
+
+```ps1
+> python -m venv venv
+> ./venv/Scripts/activate.ps1
+> pip install -r requirements.txt
+```
+
+On Unix, the script `integ-cli` that will automatically install necessary dependencies.
+
+```bash
+$ ./integ-cli
 ```
 
 ## Usage
 
-The CLI can be run with:
+On unix, the CLI is callable with the included `integ-cli` script.
 
-```sh
-$ poetry run cli
-Usage: cli.cmd [OPTIONS] COMMAND [ARGS]...
+```bash
+$ ./integ-cli
 ```
-
-If you don't want to prefix everything 
 
 ## Development
 
-For development, there are a few scripts to help:
+Running the tests:
 
-```sh
-$ poetry run test
-...
-OK
+```bash
+$ python -m unittest
+```
 
-$ poetry run format
-...
-All done!
+Formatting:
+
+```bash
+$ black .
 ```
 
 ## License
