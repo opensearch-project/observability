@@ -11,7 +11,7 @@ from termcolor import colored
 import helpers
 
 available_templates = {
-    "http": "template-dashboards/http.ndjson"
+    "log": "template-dashboards/logs.ndjson"
 }
 
 
@@ -25,11 +25,11 @@ def do_add_component(builder: helpers.IntegrationBuilder) -> bool:
     manager = helpers.CatalogManager()
     choices = {}
     for category in manager.catalog["categories"]:
-        click.echo(f"- Category {category['category']}")
+        click.echo(f"- {colored(category['category'], color='light_blue')}")
         for component in category["components"]:
             desc = component["description"]
             desc = desc if len(desc) < 50 else desc[:47] + "..."
-            click.echo(f"  - {component['component']}: {desc}")
+            click.echo(f"  - {colored(component['component'], 'light_yellow')}: {desc}")
             choices[component["component"]] = component
     component = click.prompt(
         "Select component", type=click.Choice(list(choices)), show_choices=False
@@ -38,7 +38,7 @@ def do_add_component(builder: helpers.IntegrationBuilder) -> bool:
     if component in available_templates:
         if click.prompt(
             f"A pre-made template dashboard for component `{component}` was detected. Include it? (y/n)",
-            type=click.Choice(["y", "n"]),
+            type=click.Choice(["y", "n"], False),
             show_choices=False
         ) == "y":
             builder.with_dashboard(available_templates[component])
