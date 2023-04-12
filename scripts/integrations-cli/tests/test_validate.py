@@ -9,13 +9,13 @@ import integrations_cli.helpers.validate as validate
 from integrations_cli.helpers.catalog import _load_catalog_file
 
 
-class TestSchemas(unittest.TestCase):
+class TestSchemas:
     def test_config_schema_is_valid(self):
         config_schema = constants.SCHEMAS["integration.schema"]
         jsonschema.Draft6Validator.check_schema(config_schema)
 
 
-class TestConfigValidations(unittest.TestCase):
+class TestConfigValidations:
     def test_default_config_is_valid(self):
         config = deepcopy(constants.DEFAULT_CONFIG)
         assert is_successful(validate.validate_config(config))
@@ -31,7 +31,7 @@ class TestConfigValidations(unittest.TestCase):
         assert not is_successful(validate.validate_config(config))
 
 
-class TestCatalogValidations(unittest.TestCase):
+class TestCatalogValidations:
     def test_catalog_is_valid(self):
         catalog = _load_catalog_file().bind_result(validate.validate_catalog)
-        return is_successful(catalog)
+        assert is_successful(catalog)
