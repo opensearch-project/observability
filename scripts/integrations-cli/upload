@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+
+# Demo script for uploading a generated integration to OSD
+
+bash integ-cli check $1
+FILE=integrations/$1
+
+echo "Loading $1 integration"
+
+# First upload component templates
+for f in $FILE/schema/*.mapping; do
+    if ! grep -q "\"index_mapping\"" "$f"; then
+        # Get filename without extension
+        filename=$(basename -- "$f")
+        filename="${filename%.*}"
+        curl -XPUT "localhost:9200/_component_template/${filename}_template" -H "Content-Type: application/json" --data-binary "@$f"
+        echo -e "\n"
+    fi
+done
+
+# Now index templates
+for f in $FILE/schema/*.mapping; do
+    if grep -q "\"index_mapping\"" "$f"; then
+        # Get filename without extension
+        filename=$(basename -- "$f")
+        filename="${filename%.*}"
+        curl -XPUT "localhost:9200/_index_template/${filename}" -H "Content-Type: application/json" --data-binary "@$f"
+        echo -e "\n"
+    fi
+done
+
+# Add an sso_logs index pattern
+# Other categories currently not supported
+curl -XPOST localhost:5601/api/saved_objects/index-pattern/sso_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'
+echo -e "\n"
+
+# Finally, upload the saved objects
+for f in $FILE/assets/display/*.ndjson; do
+    curl -XPOST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@$f
+    echo -e "\n"
+done
+
+echo -e "\nLoaded"

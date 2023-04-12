@@ -8,7 +8,7 @@ from returns.pipeline import is_successful
 from returns.result import Result
 from termcolor import colored
 
-import integrations_cli.helpers as helpers
+import helpers
 
 available_templates = {
     "http": "template-dashboards/http.ndjson"

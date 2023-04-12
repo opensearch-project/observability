@@ -1,9 +1,2 @@
 #!/usr/bin/bash
-
-if [ ! -f ./venv ]; then
-    echo "Virtual environment not found, creating"
-    python3 -m venv venv
-    source ./venv/bin/activate
-    pip install -r requirements.txt
-    echo "Successfully installed, calling CLI"
-fi
+python3 integrations_cli/main.py "$@"
