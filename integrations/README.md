@@ -1,4 +1,14 @@
+<img src="https://opensearch.org/assets/img/opensearch-logo-themed.svg" height="64px">
+
 # Integration Definitions
+
+An integration is a bundle of pre-canned assets which are bundled togather in a meaningful manner. Mostly the integration is associated with a particular context which is
+contained within a certain data domain. For an example we can consider the Observability domain as the generic context and as a specific subject we can define the next integrations which
+are collected according to a subject:
+ - nginx web server integration includes dashboards, queries and index mapping
+ - aws vpc flow logs integration includes dashboards, queries and index mapping
+
+Each integration has a bundle of assets which are associated with the domain context and are mostly coupled with specific schema category (logs, traces, metrics).
 
 ## Bundle
 
@@ -85,12 +95,16 @@ integration-template-name
 **Definitions**
 
 - `config.json`  defines the general configuration for the entire integration component.
-- `display`   this is the folder in which the actual visualization components are stored
-- `queries`   this is the folder in which the actual PPL queries are stored
-- `schemas`     this is the folder in which the schemas are stored - schema for mapping translations or index mapping.
-- `samples`     this folder contains sample logs and translated logs are present
-- `metadata` this folder contains additional metadata definitions such as security and policies
-- `info`           this folder contains documentations, licences and external references
+- `display`      this is the folder in which the actual visualization components are stored
+- `queries`      this is the folder in which the actual PPL queries are stored
+- `templates`    this is the folder in which the index mappings stored
+- `indices`      this is the folder in which the index definition are stored
+- `tables`       this is the folder in which the external table definition are stored
+- `datasource`   this is the folder in which the datasource definition are stored
+- `schemas`      this is the folder in which the schemas are stored - schema for mapping translations or index mapping.
+- `samples`      this folder contains sample logs and translated logs are present
+- `metadata`     this folder contains additional metadata definitions such as security and policies
+- `info`         this folder contains documentations, licences and external references
 
 ---
 

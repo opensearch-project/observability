@@ -160,6 +160,10 @@
               "ignore_above": 256,
               "type": "keyword"
             },
+            "source": {
+              "ignore_above": 256,
+              "type": "keyword"
+            },
             "category": {
               "ignore_above": 256,
               "type": "keyword"

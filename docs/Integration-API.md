@@ -35,37 +35,37 @@ GET _integration/repository?filter=category:logs&component:web
   "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
-  "components": [
-    "web","http"
-  ],
   "collection":[
     {
-      "logs": [{
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
-        "labels" :["nginx","access"],
-        "schema": "file:///.../schema/logs/access.json"
+        "labels" :["nginx","access"]
       },
         {
           "info": "error logs",
           "input_type":"logfile",
           "labels" :["nginx","error"],
-          "dataset":"nginx.error",
-        "schema": "file:///.../schema/logs/error.json"
+          "dataset":"nginx.error"
         }]
     },
     {
-      "metrics": [{
+      "category": "metrics",
+      "components": [],
+      "feeds": [{
         "info": "status metrics",
         "input_type":"metrics",
         "dataset":"nginx.status",
-        "labels" :["nginx","status"],
-        "schema": "file:///.../schema/logs/status.json"
+        "labels" :["nginx","status"]
       }]
     }
   ],
-  "repo": {
+    "repository": {
     "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/nginx"
   }
 }
@@ -151,33 +151,33 @@ each representing different domain / aspect such as geographic.
   "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
-  "components": [
-    "web","http"
-  ],
   "collection":[
     {
-      "logs": [{
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
-        "labels" :["nginx","access"],
-        "schema": "file:///.../schema/logs/access.json"
+        "labels" :["nginx","access"]
       },
         {
           "info": "error logs",
           "input_type":"logfile",
           "labels" :["nginx","error"],
-          "dataset":"nginx.error",
-        "schema": "file:///.../schema/logs/error.json"
+          "dataset":"nginx.error"
         }]
     },
     {
-      "metrics": [{
+      "category": "metrics",
+      "components": [],
+      "feeds": [{
         "info": "status metrics",
         "input_type":"metrics",
         "dataset":"nginx.status",
-        "labels" :["nginx","status"],
-        "schema": "file:///.../schema/logs/status.json"
+        "labels" :["nginx","status"]
       }]
     }
   ],

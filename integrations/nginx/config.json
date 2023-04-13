@@ -8,12 +8,13 @@
   "description": "Nginx HTTP server collector",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
-  "components": [
-    "communication","http"
-  ],
   "collection":[
     {
-      "logs": [{
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
@@ -27,7 +28,9 @@
         }]
     },
     {
-      "metrics": [{
+      "category": "metrics",
+      "components": [],
+      "feeds": [{
         "info": "status metrics",
         "input_type":"metrics",
         "dataset":"nginx.status",
