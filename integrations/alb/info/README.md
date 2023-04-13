@@ -170,5 +170,11 @@ The general order for which the assets are needed to be loaded is dictated by th
 
 5) Display - Last the dashboards and visual assets are uploaded (they are based on the views, tables and connectivity phase)
 
+The next diagram describes the ALB-Logs Integration assets loading and validation process for the flow manager to upload as part of the state transitions. 
+
+![](flint-integration-flow-chart.png)
+
+
+This diagram details different aspects of the interaction between the visual dashboard and panels to the backing SQL queries that would be executed. 
 
 ![](alb-integration-load-assets.png)
