@@ -1,6 +1,6 @@
 import json
 import os
-from functools import cache
+from functools import lru_cache
 
 from returns.io import impure_safe
 
@@ -15,7 +15,7 @@ def _load_catalog_file() -> dict:
 
 
 class CatalogManager:
-    @cache
+    @lru_cache
     def __init__(self):
         catalog = _load_catalog_file().bind_result(validate.validate_catalog)
         # For now just re-throw exceptions on catalog load failure
