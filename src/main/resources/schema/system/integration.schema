@@ -21,12 +21,6 @@
         "identification": {
           "type": "string"
         },
-        "components": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "collection": {
           "$ref": "#/definitions/Collection"
         },
@@ -36,7 +30,6 @@
       },
       "required": [
         "catalog",
-        "components",
         "collection",
         "description",
         "template-name",
@@ -52,17 +45,23 @@
         "category" : {
           "type": "string"
         },
-        "stream": {
+        "components": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Stream"
+            "type": "string"
+          }
+        },
+        "feeds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Feed"
           }
         }
       },
-      "required": [],
+      "required": ["category","feeds"],
       "title": "Collection"
     },
-    "Stream": {
+    "Feed": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -129,7 +128,7 @@
         "input_type",
         "labels"
       ],
-      "title": "Stream"
+      "title": "Feed"
     },
     "repository": {
       "type": "object",
