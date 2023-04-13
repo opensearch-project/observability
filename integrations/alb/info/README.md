@@ -19,6 +19,11 @@ ALB integration is concerned with the following aspects
 
 - Add correlation queries to investigate logs based metrics
 
+This integration helps data flow as described in the next diagram:
+
+![](data-flow-diagram.png)
+
+
 ## ALB logs fields
 
 The following table describes the fields of an access log entry.
