@@ -3,7 +3,9 @@ import os
 import re
 from copy import deepcopy
 from urllib import parse
+import click
 import requests
+from termcolor import colored
 
 from .constants import DEFAULT_CONFIG
 from .validate import validate_config
@@ -53,10 +55,13 @@ class IntegrationBuilder:
 
     def with_component(self, component: dict) -> "IntegrationBuilder":
         ## TODO make robust
-        self.config["components"].append(component["component"])
+        self.config["components"] = sorted(set(self.config["components"]) | {component["component"]})
         url = component["url"].replace("github.com", "raw.githubusercontent.com").replace("/tree", "") + ".mapping"
-        mapping = requests.get(url).json()
-        self.mappings[url.split("/")[-1]] = mapping
+        try:
+            mapping = requests.get(url).json()
+            self.mappings[url.split("/")[-1]] = mapping
+        except requests.exceptions.ConnectionError:
+            click.echo(colored("Network error while pulling component mapping, manual install needed", "red"))
         return self
     
     def with_dashboard(self, component: str) -> "IntegrationBuilder":
