@@ -92,10 +92,10 @@ def create(name: str):
     click.echo(colored(f"Integration created at '{integration_path}'", "green"))
 
 
-def validate_component(path: str, name: str, validator) -> Result[dict, Exception]:
+def validate_component(path: str, validator) -> Result[dict, Exception]:
     with open(path, "r", encoding="utf-8") as item_data:
         loaded = json.load(item_data)
-        result = validator(loaded, name)
+        result = validator(loaded)
         if not is_successful(result):
             msg = str(result.failure)
             msg = ("> " + msg).replace("\n", "\n> ")
@@ -109,7 +109,7 @@ def full_integration_is_valid(name: str) -> bool:
     encountered_errors = False
     for item, validator in integration_parts.items():
         item_path = os.path.join(integration_path, item)
-        if not is_successful(validate_component(item_path, name, validator)):
+        if not is_successful(validate_component(item_path, validator)):
             encountered_errors = True
     return not encountered_errors
 
