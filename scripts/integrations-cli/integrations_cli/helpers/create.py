@@ -24,7 +24,6 @@ class IntegrationBuilder:
 
     def with_path(self, path: str) -> "IntegrationBuilder":
         self.path = path
-        self.config["repository"]["url"] = f"file://{path}"
         return self
 
     def with_schema_version(self, version: str) -> "IntegrationBuilder":
@@ -89,7 +88,6 @@ class IntegrationBuilder:
             with open(os.path.join(self.path, filename), "w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=2)
         for dashboard in self.dashboards:
-            print(os.path.abspath("."))
             with open(dashboard, "r") as fin:
                 with open(
                     os.path.join(self.path, "assets/display", dashboard.split("/")[-1]),
