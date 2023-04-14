@@ -23,7 +23,7 @@ Query:
 GET _integration/repository?filter=category:logs&component:web
 ```
 **Response**:
-```jsoon
+```json
 {
   "template-name": "nginx",
   "version": {
@@ -139,7 +139,7 @@ POST _integration/store/$instance_name
 The $instance_name represents the specific name the integration was instanced with - for example, Nginx Integration can be a template for multiple Nginx instances
 each representing different domain / aspect such as geographic.
 
-```jsoon
+```json
 {
   "template-name": "nginx",
   "version": {
