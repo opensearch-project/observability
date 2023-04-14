@@ -61,14 +61,23 @@ The general order for which the assets are needed to be loaded is dictated by th
 
 1) Connectivity - First the connection related configuration are required to be validated for existence and correctness.
 
+![](datasource-connection-flow.png)
+
+---
 2) Mapping - Next the schema specific instruction dictated by the integration's config must be verified for existence or be created
 
+---
 3) Tables - Next the external / internal tables / indices will be verified for existence or be created - (they are based on the mapping phase and connectivity phase )
 
+---
 4) Views - Next the views search templates need to be created (they are based on the tables and connectivity phase  )
 
+---
 5) Display - Last the dashboards and visual assets are uploaded (they are based on the views, tables and connectivity phase)
 
+---
+
+### Integration assets flow 
 The next diagram describes the ALB-Logs Integration assets loading and validation process for the flow manager to upload as part of the state transitions. 
 
 ![](flint-integration-flow-chart.png)
