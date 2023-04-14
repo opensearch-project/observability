@@ -15,9 +15,6 @@
         "description": {
           "type": "string"
         },
-        "catalog": {
-          "type": "string"
-        },
         "identification": {
           "type": "string"
         },
@@ -38,7 +35,6 @@
         }
       },
       "required": [
-        "catalog",
         "components",
         "collection",
         "description",
@@ -147,9 +143,7 @@
           ]
         }
       },
-      "required": [
-        "url"
-      ],
+      "required": [],
       "title": "repository"
     },
     "Version": {

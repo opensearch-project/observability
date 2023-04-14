@@ -16,7 +16,11 @@
           "version": "1.0",
           "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/logs",
           "container": true,
-          "tags": []
+          "tags": [],
+          "dependencies": [
+            "http",
+            "communication"
+          ]
         },
         {
           "component": "http",

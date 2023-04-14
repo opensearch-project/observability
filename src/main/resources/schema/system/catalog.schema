@@ -89,6 +89,12 @@
         "tags": {
           "type": "array",
           "items": {}
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [

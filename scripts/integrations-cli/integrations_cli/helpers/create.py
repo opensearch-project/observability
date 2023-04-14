@@ -43,11 +43,9 @@ class IntegrationBuilder:
         self.config["description"] = desc
         return self
 
-    def with_catalog(self, catalog: str) -> "IntegrationBuilder":
-        self.config["catalog"] = catalog
-        return self
-
     def with_repository(self, repo_url: str) -> "IntegrationBuilder":
+        if repo_url.strip() == "":
+            return self
         if not parse.urlparse(repo_url, allow_fragments=False):
             raise ValueError("Invalid URL")
         self.config["repository"]["url"] = repo_url
@@ -55,15 +53,27 @@ class IntegrationBuilder:
 
     def with_component(self, component: dict) -> "IntegrationBuilder":
         ## TODO make robust
-        self.config["components"] = sorted(set(self.config["components"]) | {component["component"]})
-        url = component["url"].replace("github.com", "raw.githubusercontent.com").replace("/tree", "") + ".mapping"
+        self.config["components"] = sorted(
+            set(self.config["components"]) | {component["component"]}
+        )
+        url = (
+            component["url"]
+            .replace("github.com", "raw.githubusercontent.com")
+            .replace("/tree", "")
+            + ".mapping"
+        )
         try:
             mapping = requests.get(url).json()
             self.mappings[url.split("/")[-1]] = mapping
         except requests.exceptions.ConnectionError:
-            click.echo(colored("Network error while pulling component mapping, manual install needed", "red"))
+            click.echo(
+                colored(
+                    "Network error while pulling component mapping, manual install needed",
+                    "red",
+                )
+            )
         return self
-    
+
     def with_dashboard(self, component: str) -> "IntegrationBuilder":
         ## TODO make robust
         self.dashboards.append(component)
@@ -74,12 +84,15 @@ class IntegrationBuilder:
         os.makedirs(self.path, exist_ok=True)
         files = {"config.json": validate_config(self.config).unwrap()}
         for fname, mapping in self.mappings.items():
-            files[f"schema/{fname}"] = mapping # TODO validate
+            files[f"schema/{fname}"] = mapping  # TODO validate
         for filename, data in files.items():
             with open(os.path.join(self.path, filename), "w", encoding="utf-8") as file:
                 json.dump(data, file, ensure_ascii=False, indent=2)
         for dashboard in self.dashboards:
             print(os.path.abspath("."))
             with open(dashboard, "r") as fin:
-                with open(os.path.join(self.path, "assets/display", dashboard.split('/')[-1]), "w") as fout:
+                with open(
+                    os.path.join(self.path, "assets/display", dashboard.split("/")[-1]),
+                    "w",
+                ) as fout:
                     fout.write(fin.read())

@@ -10,9 +10,7 @@ from termcolor import colored
 
 import helpers
 
-available_templates = {
-    "log": "template-dashboards/logs.ndjson"
-}
+available_templates = {"log": "template-dashboards/logs.ndjson"}
 
 
 @click.group()
@@ -31,17 +29,24 @@ def do_add_component(builder: helpers.IntegrationBuilder) -> bool:
             desc = desc if len(desc) < 50 else desc[:47] + "..."
             click.echo(f"  - {colored(component['component'], 'light_yellow')}: {desc}")
             choices[component["component"]] = component
-    component = click.prompt(
-        "Select component", type=click.Choice(list(choices)), show_choices=False
-    )
-    builder = builder.with_component(choices[component])
-    if component in available_templates:
-        if click.prompt(
-            f"A pre-made template dashboard for component `{component}` was detected. Include it? (y/n)",
-            type=click.Choice(["y", "n"], False),
-            show_choices=False
-        ) == "y":
-            builder.with_dashboard(available_templates[component])
+    component = choices[
+        click.prompt(
+            "Select component", type=click.Choice(list(choices)), show_choices=False
+        )
+    ]
+    builder = builder.with_component(component)
+    for dep in component["dependencies"] if "dependencies" in component else []:
+        builder = builder.with_component(choices[dep])
+    if component["component"] in available_templates:
+        if (
+            click.prompt(
+                f"A pre-made template dashboard for component `{component['component']}` was detected. Include it? (y/n)",
+                type=click.Choice(["y", "n"], False),
+                show_choices=False,
+            )
+            == "y"
+        ):
+            builder.with_dashboard(available_templates[component["component"]])
     return (
         click.prompt(
             "Configure another component? (y/n)",
@@ -68,14 +73,9 @@ def create(name: str):
     click.prompt("Schema version", default="1.0.0", type=builder.with_schema_version)
     click.prompt("Resource version", type=builder.with_resource_version)
     click.prompt("Integration description", default="", type=builder.with_description)
-    builder.with_catalog(
-        click.prompt(
-            "Integration catalog", type=click.Choice(["observability", "security"])
-        )
-    )
     click.prompt(
-        "Integration Repository URL",
-        default="file://" + integration_path,
+        "Integration repository URL",
+        default="",
         type=builder.with_repository,
     )
     add_component = (
