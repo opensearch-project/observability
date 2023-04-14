@@ -35,11 +35,11 @@ The `elb` dataset collects logs from AWS ELBs.
 **Exported fields**
 
 The aws logs mapping fields contain the next components categories:
- - [http](../../../src/main/resources/schema/observability/logs/http.mapping)
- - [communication](../../../src/main/resources/schema/observability/logs/communication.mapping)
- - [cloud](../../../src/main/resources/schema/observability/logs/cloud.mapping)
- - [container](../../../src/main/resources/schema/observability/logs/container.mapping)
- - [aws_elb](../../../src/main/resources/schema/observability/logs/aws_alb.mapping)
+ - [http](../../../../src/main/resources/schema/observability/logs/http.mapping)
+ - [communication](../../../../src/main/resources/schema/observability/logs/communication.mapping)
+ - [cloud](../../../../src/main/resources/schema/observability/logs/cloud.mapping)
+ - [container](../../../../src/main/resources/schema/observability/logs/container.mapping)
+ - [aws_elb](../../../../src/main/resources/schema/observability/logs/aws_alb.mapping)
 
 ### Integration Loading Process
 The AWS ALB logs integration loading process includes the following assets
