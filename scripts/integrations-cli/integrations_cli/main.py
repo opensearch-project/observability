@@ -135,9 +135,9 @@ def package(name: str):
     integration_path = os.path.join(os.getcwd(), "integrations", name)
     artifact_path = os.path.join("artifacts", f"{name}.zip")
     with zipfile.ZipFile(artifact_path, "w") as zf:
-        for _, dirnames, filenames in os.walk(integration_path):
+        for dirpath, dirnames, filenames in os.walk(integration_path):
             for item in dirnames + filenames:
-                zf.write(os.path.join(integration_path, item), arcname=item)
+                zf.write(os.path.join(integration_path, dirpath, item), arcname=os.path.join(dirpath, item))
     click.echo(colored(f"Packaged integration as '{artifact_path}'", "green"))
 
 
