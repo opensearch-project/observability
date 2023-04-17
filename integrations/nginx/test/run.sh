@@ -1,2 +1,0 @@
-# Copy access.log, error.log, metrics.log, parsers.conf, and fluent-bit.conf into the /tmp directory
-sudo docker run -it -v /tmp/:/tmp/ fluent/fluent-bit /bin/fluent-bit -R /tmp/parsers.conf -c /tmp/fluent-bit.conf
