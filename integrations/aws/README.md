@@ -24,7 +24,7 @@ Listeners receive requests and decide to which target group they forward the req
 **Observability supports the next load balance log integrations:**
 
  - [V1: Classic load balance logs]()
- - [V2: Application load balance logs](alb/info/README.md)
+ - [V2: Application load balance logs](elb/info/README.md)
  - [V2: Network load balance logs]()
 
 ---

@@ -89,7 +89,11 @@
                 },
                 "packets": {
                   "type": "long"
-                }
+                },
+                "geo.city_name": {"type": "keyword"},
+                "geo.country_iso_code": {"type": "keyword"},
+                "geo.country_name": {"type": "keyword"},
+                "geo.location": {"type": "geo_point"}
               }
             }
           }

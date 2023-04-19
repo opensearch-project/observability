@@ -1,0 +1,90 @@
+ {
+  "template": {
+    "mappings": {
+      "_meta": {
+        "version": "1.0.0",
+        "catalog": "observability",
+        "type": "logs",
+        "component": "aws_elb"
+      },
+      "properties": {
+        "aws": {
+          "type": "object",
+          "elb": {
+            "properties": {
+              "backend.ip": {
+                "type": "ip"
+              },
+              "backend.port": {
+                "type": "integer"
+              },
+              "backend.processing_time": {
+                "type": "half_float"
+              },
+              "backend.status_code": {
+                "type": "short"
+              },
+              "client.ip": {
+                "type": "ip"
+              },
+              "client.port": {
+                "type": "integer"
+              },
+              "connection_time": {
+                "type": "integer"
+              },
+              "destination.ip": {
+                "type": "ip"
+              },
+              "destination.port": {
+                "type": "integer"
+              },
+              "elb_status_code": {
+                "type": "short"
+              },
+              "http.port": {
+                "type": "integer"
+              },
+              "http.version": {
+                "type": "keyword"
+              },
+              "matched_rule_priority": {
+                "type": "integer"
+              },
+              "received_bytes": {
+                "type": "integer"
+              },
+              "request_creation_time": {
+                "type": "date"
+              },
+              "request_processing_time": {
+                "type": "half_float"
+              },
+              "response_processing_time": {
+                "type": "half_float"
+              },
+              "sent_bytes": {
+                "type": "integer"
+              },
+              "target_ip": {
+                "type": "ip"
+              },
+              "target_port": {
+                "type": "integer"
+              },
+              "target_processing_time": {
+                "type": "half_float"
+              },
+              "target_status_code": {
+                "type": "short"
+              },
+              "timestamp": {
+                "type": "date"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+ }

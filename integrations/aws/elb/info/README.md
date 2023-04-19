@@ -26,7 +26,7 @@ This integration helps data flow as described in the next diagram:
 
 ## ALB logs fields
 
-The following table describes the fields of an access log entry.
+The following table describes the fields of an access [log entry](# https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html).
 
 ## Logs reference
 
