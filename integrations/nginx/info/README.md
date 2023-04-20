@@ -26,3 +26,8 @@ Fluent-bit has a dedicated input plugin for Nginx called `in_tail` which can be 
 The in_tail plugin reads log files line by line and sends them to Fluent-bit engine to be processed.
 
 See additional details [here](fluet-bit/README.md).
+
+### Dashboards
+The following dashboard preview shows the summarized information collected from the access log index
+
+![nginx-dashboard-preview.png](preview%2Fnginx-dashboard-preview.png)

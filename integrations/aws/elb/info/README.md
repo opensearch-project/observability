@@ -86,3 +86,9 @@ The next diagram describes the ALB-Logs Integration assets loading and validatio
 This diagram details different aspects of the interaction between the visual dashboard and panels to the backing SQL queries that would be executed. 
 
 ![](alb-integration-load-assets.png)
+
+
+### Dashboards
+The following dashboard preview shows the summarized information collected from the load balancer log index
+
+![dashboard-elb.jpg](dashboard-elb.jpg)
