@@ -99,6 +99,10 @@
         "observedTimestamp": {
           "type": "date"
         },
+        "observerTime": {
+          "type": "alias",
+          "path": "observedTimestamp"
+        },
         "traceId": {
           "ignore_above": 256,
           "type": "keyword"

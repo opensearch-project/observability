@@ -34,3 +34,14 @@ Creating a monitor for RequestPerMinute max Alert & ErrorsPerMinute max Alert
 API: http://osd:5601/api/saved_objects/_import?overwrite=true   
 
  - [Dashboard](display/sso-logs-dashboard-new.ndjson)
+
+
+### Fields
+The next table details the different fields usage across the different assets
+
+| Field    | Mapping Source |                                                                                                                          Usage |
+|----------|:--------------:|-------------------------------------------------------------------------------------------------------------------------------:|
+| `@timestamp` |  logs.mapping  |                                                                                                                                |
+| `http.response.bytes` |  http.mapping  |                                                       [sso-logs-dashboard-new.ndjson](display%2Fsso-logs-dashboard-new.ndjson) |
+| `observerTime` |  http.mapping  |                                                                                                                                |
+| `http.response.status_code` | http.mapping  | [sso-logs-dashboard-new.ndjson](display%2Fsso-logs-dashboard-new.ndjson), [ErrorPerMinute.json](monitor%2FErrorPerMinute.json) |
