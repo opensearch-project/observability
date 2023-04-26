@@ -58,6 +58,21 @@ A typical Observability Integration consists of the following parts:
     * Saved PPL/SQL/DQL Queries
     * Alerts
 
+***Data Structure Components***
+
+    * Datasource
+    * Mappings
+    * Indices
+    * Tables
+    * Views
+
+***Notification Components***
+
+    * Channels
+    * Alerts
+    * Monitors
+
+
 Since the structured data has an enormous contribution to the understanding of the system behaviour - each resource will define a well-structured mapping it conforms with.
 
 Once input content has form and shape - it can and will be used to calculate and correlate different pieces of data.
@@ -100,7 +115,11 @@ integration-template-name
 - `templates`    this is the folder in which the index mappings stored
 - `indices`      this is the folder in which the index definition are stored
 - `tables`       this is the folder in which the external table definition are stored
+- `views`        this is the folder in which the external table definition are stored
 - `datasource`   this is the folder in which the datasource definition are stored
+- `monitors`      this is the folder in which the monitors & alerts are stored
+- `channels`      this is the folder in which the alters channels are defined.
+
 - `schemas`      this is the folder in which the schemas are stored - schema for mapping translations or index mapping.
 - `samples`      this folder contains sample logs and translated logs are present
 - `metadata`     this folder contains additional metadata definitions such as security and policies
@@ -125,3 +144,39 @@ The visual display component will need to be validated to the schema that it is 
 Queries contains specific PPL queries that precisely demonstrates some common and useful use-case .
 
 
+## Flow of the assets creation process
+Different assets that are bundled within an integration may be depended on one another, the next diagram details the order which describes the dependencies within the Integration. 
+
+***Visual Components***
+```mermaid
+  graph LR;
+      datasource-->index;
+      mapping-->index;
+      mapping-->index_pattern;
+      
+      index_pattern-->dashboard
+      index-->dashboard
+
+```
+
+***Data Structure Components***
+
+```mermaid
+  graph LR;
+      datasource-->index;
+      mapping-->index;
+      
+      index-->table;
+      table-->view;
+      index-->saved-search
+
+```
+***Notification Components***
+
+```mermaid
+  graph LR;
+    index-->monitor;
+    channel-->monitor;
+    monitor-->alert;
+
+```
