@@ -137,37 +137,15 @@ For Example - in the sample [nginx_access-log.json](sample/nginx_access-log.json
 This field is expected to appear in any future integration or Observability resources into OpenSearch.
 
 
-### Logs Classifications
+### Logs Components
 
-#### HTTP 
+### HTTP 
 
 _Inspired by [ECS - http](https://www.elastic.co/guide/en/ecs/current/ecs-http.html), [OTEL - http](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md)_
+ - [Http component ](http.md)
 
-- `method` - HTTP request method.	`GET; POST; HEAD` (OTEL driven) Correspond with `request.method` (ECS driven)
-- `status_code` - [Http response code](https://tools.ietf.org/html/rfc7231#section-6) (OTEL driven) Correspond with `response.status_code` (ECS driven)
-- `flavor`  - Kind of HTTP protocol used. (OTEL driven) Correspond with `version` (ECS driven)
-- `user_agent` -  Value of the HTTP User-Agent header sent by the client. (OTEL driven)
 
-- `request.id` - A unique identifier for each HTTP request to correlate logs between clients and servers in transactions. (ECS driven)
-- `request_content_length` - The size of the request payload body in bytes. (OTEL driven)  Correspond with `request.bytes` (ECS driven) 
-- `request.body.content` - The full HTTP request body. (ECS driven)
-- `request.referrer` - Referrer for this HTTP request. (ECS driven)
-- `request.header` - HTTP request headers key/value object (OTEL driven)
-- `request.mime_type` - Mime type of the body of the response. (ECS driven)
-
-- `response_content_length` - The size of the response payload body in bytes. (OTEL driven) Correspond with `response.bytes` (ECS driven)
-- `response.body.content` - The full HTTP response body. (ECS driven)
-- `response.header` - HTTP response headers key/value object (OTEL driven)
-
-- `url` - Full HTTP request URL in the form scheme://host[:port]/path?query[#fragment] (OTEL driven)
-- `resend_count` - The ordinal number of request resending attempt (OTEL driven)
-
-- `scheme` - The URI scheme identifying the used protocol. (OTEL driven)
-- `target` - The full request target as passed in a HTTP request line or equivalent. (OTEL driven)
-- `route`  - The matched route (path template in the format used by the respective server framework) (OTEL driven)
-- `client_ip` - The IP address of the original client behind all proxies (OTEL driven) `client.ip` -  IP address of the client (IPv4 or IPv6). (ECS driven)
-
-#### Communication
+### Communication
 Includes client / server part of the communication
 
  **_Inspired by_** :
@@ -177,28 +155,26 @@ Includes client / server part of the communication
  - [ECS - Destination](https://www.elastic.co/guide/en/ecs/8.6/ecs-destination.html)
  - [OTEL - network](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md)
 
+- [Communication component ](communication.md)
 
- - `sock.family` - Protocol address family which is used for communication. (OTEL driven)
+### Cloud
+Includes cloud field set describing a standardized structured representation of cloud infrastructure metadata
 
- - `client.domain` -   The domain name of the client system. (ECS driven) Correspond with `source.domain`, (ECS driven)
- - `client.bytes`  -  Bytes sent from the client to the server. (ECS driven) Correspond with `source.bytes` (ECS driven)
- - `client.ip` -  IP address of the client (IPv4 or IPv6). (ECS driven) Correspond with `source.ip` (ECS driven)
- - `client.mac` -  MAC address of the client. (IPv4 or IPv6). (ECS driven) Correspond with `source.mac` (ECS driven)
- - `client.packets` - Packets sent from the client to the server. (ECS driven) Correspond with `source.packets` (ECS driven)
+**_Inspired by_** :
+- [ECS - cloud](https://www.elastic.co/guide/en/ecs/8.6/ecs-cloud.html)
 
- - `sock.host.addr` - Local socket address. (OTEL driven) Correspond with `client.address`,`source.address`  (ECS driven)
- - `sock.host.port` - Local socket port number. (OTEL driven) Corresponds with `client.port`,`source.port` (ECS driven)
+- [Cloud component ](cloud.md)
 
- - `server.domain` -   The domain name of the server system. (ECS driven) Correspond with `destination.domain` (ECS driven)
- - `server.bytes`  -  Bytes sent from the server to the client. (ECS driven)  Correspond with `destination.bytes` (ECS driven)
- - `server.ip` -  IP address of the server (IPv4 or IPv6). (ECS driven) Correspond with `destination.ip` (ECS driven)
- - `server.mac` -  MAC address of the server. (IPv4 or IPv6). (ECS driven) Correspond with `destination.mac` (ECS driven)
- - `server.packets` - Packets sent from the server to the client.. (ECS driven) Correspond with `destination.packets` (ECS driven)
+ 
+### Container
+Includes container field set describing a structured and comprehensive representation of container-related data
 
- - `sock.peer.addr` - Remote socket peer address: IPv4 or IPv6 (OTEL driven)  Correspond with `server.address`, `destination.address` (ECS driven)
- - `sock.peer.name` - Remote socket peer name. (OTEL driven) Correspond with `destination.domain` (ECS driven)
- - `sock.peer.port` - Remote socket peer port. (OTEL driven)  (OTEL driven) Corresponds with `server.port`,`destination.port` (ECS driven)
+**_Inspired by_** :
+- [ECS - container](https://www.elastic.co/guide/en/ecs/8.6/ecs-container.html)
 
+- [Container component ](container.md)
+
+ 
 ---
 
 ```text
