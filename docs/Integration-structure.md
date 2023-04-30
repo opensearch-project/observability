@@ -115,7 +115,7 @@ nginX
 {
   "template_name": "nginx",
   "version": {
-        "integ": "0.1.0",
+        "integration": "0.1.0",
         "schema": "1.0.0",
         "resource": "^1.23.0",
    }
@@ -149,7 +149,7 @@ nginX
                 }]
     }
   ],
-  "repo": {
+  "repository": {
     "github": "https://github.com/opensearch-project/observability/tree/main/integrations/nginx"
   }
 }
@@ -159,7 +159,7 @@ nginX
 
 ```
   "version": {
-        "integ": "0.1.0",
+        "integration": "0.1.0",
         "schema": "1.0.0",
         "resource": "^1.23.0",
    }

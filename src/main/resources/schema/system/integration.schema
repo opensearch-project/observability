@@ -28,10 +28,7 @@
           }
         },
         "collection": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Collection"
-          }
+          "$ref": "#/definitions/Collection"
         },
         "repository": {
           "$ref": "#/definitions/repository"
@@ -42,7 +39,6 @@
         "components",
         "collection",
         "description",
-        "identification",
         "template-name",
         "repository",
         "version"
@@ -50,29 +46,29 @@
       "title": "Integration"
     },
     "Collection": {
-      "type": "object",
+      "type": "array",
       "additionalProperties": false,
       "properties": {
-        "logs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Log"
-          }
+        "category" : {
+          "type": "string"
         },
-        "metrics": {
+        "stream": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Log"
+            "$ref": "#/definitions/Stream"
           }
         }
       },
       "required": [],
       "title": "Collection"
     },
-    "Log": {
+    "Stream": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "name": {
+          "type": "string"
+        },
         "info": {
           "type": "string"
         },
@@ -133,7 +129,7 @@
         "input_type",
         "labels"
       ],
-      "title": "Log"
+      "title": "Stream"
     },
     "repository": {
       "type": "object",
