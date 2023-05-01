@@ -23,7 +23,7 @@ buildscript {
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.6.0")
         job_scheduler_version = System.getProperty("job_scheduler.version", opensearch_build)
-        jackson_version = "2.14.1"
+        jackson_version = "2.14.2"
     }
 
     repositories {
@@ -68,6 +68,12 @@ opensearchplugin {
     description 'OpenSearch Plugin for OpenSearch Dashboards Observability'
     classname "org.opensearch.observability.ObservabilityPlugin"
     extendedPlugins = ['opensearch-job-scheduler']
+}
+
+opensearchplugin {
+    name 'opensearch-integrations'
+    description 'OpenSearch Plugin for Integrations'
+    classname 'org.opensearch.integrations.IntegrationsPlugin'
 }
 
 publishing {
@@ -176,6 +182,11 @@ dependencies {
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
     implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_version}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}"
+    // Forced dependency from json-schema-validator, we add nop to deactivate it
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.36'
+    implementation group: 'com.ethlo.time', name: 'itu', version: '1.7.0'
+    implementation group: 'com.networknt', name: 'json-schema-validator', version: '1.0.78'
     compileOnly "${group}:opensearch-job-scheduler-spi:${job_scheduler_version}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
