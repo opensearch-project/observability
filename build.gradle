@@ -70,6 +70,12 @@ opensearchplugin {
     extendedPlugins = ['opensearch-job-scheduler']
 }
 
+opensearchplugin {
+    name 'opensearch-integrations'
+    description 'OpenSearch Plugin for Integrations'
+    classname 'org.opensearch.integrations.IntegrationsPlugin'
+}
+
 publishing {
     publications {
         pluginZip(MavenPublication) { publication ->
