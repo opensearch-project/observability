@@ -56,6 +56,7 @@ A typical Observability Integration consists of the following parts:
     * Notebooks
     * Operations Panels
     * Saved PPL/SQL/DQL Queries
+    * Saved PPL/SQL/DQL Scripts
     * Alerts
 
 ***Data Structure Components***
@@ -111,7 +112,8 @@ integration-template-name
 
 - `config.json`  defines the general configuration for the entire integration component.
 - `display`      this is the folder in which the actual visualization components are stored
-- `queries`      this is the folder in which the actual PPL queries are stored
+- `queries`      this is the folder in which the actual PPL/SQL/DQL queries are stored
+- `scripts`      this is the folder in which the actual PPL/SQL/DQL scripts are stored
 - `templates`    this is the folder in which the index mappings stored
 - `indices`      this is the folder in which the index definition are stored
 - `tables`       this is the folder in which the external table definition are stored
@@ -152,7 +154,6 @@ Different assets that are bundled within an integration may be depended on one a
   graph LR;
       datasource-->index;
       mapping-->index;
-      mapping-->index_pattern;
       
       index_pattern-->dashboard
       index-->dashboard
@@ -168,7 +169,7 @@ Different assets that are bundled within an integration may be depended on one a
       
       index-->table;
       table-->view;
-      index-->saved-search
+      index-->queries/scripts
 
 ```
 ***Notification Components***
