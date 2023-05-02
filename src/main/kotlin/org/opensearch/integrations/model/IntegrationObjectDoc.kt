@@ -15,7 +15,6 @@ import org.opensearch.commons.utils.stringList
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
-import org.opensearch.integrations.model.IntegrationObjectDataProperties.getReaderForObjectType
 import org.opensearch.integrations.model.RestTag.ACCESS_LIST_FIELD
 import org.opensearch.integrations.model.RestTag.CREATED_TIME_FIELD
 import org.opensearch.integrations.model.RestTag.OBJECT_ID_FIELD
@@ -103,7 +102,6 @@ data class IntegrationObjectDoc(
             return IntegrationObjectDoc(objectId, updatedTime, createdTime, tenant, access, type, objectData)
         }
     }
-
     /**
      * create XContentBuilder from this object using [XContentFactory.jsonBuilder()]
      * @param params XContent parameters
@@ -124,7 +122,13 @@ data class IntegrationObjectDoc(
         tenant = input.readString(),
         access = input.readStringList(),
         type = input.readEnum(IntegrationObjectType::class.java),
-        objectData = input.readOptionalWriteable(getReaderForObjectType(input.readEnum(IntegrationObjectType::class.java)))
+        objectData = input.readOptionalWriteable(
+            IntegrationObjectDataProperties.getReaderForObjectType(
+                input.readEnum(
+                    IntegrationObjectType::class.java
+                )
+            )
+        )
     )
 
     /**
@@ -147,14 +151,14 @@ data class IntegrationObjectDoc(
     override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
         builder!!
         builder.startObject()
-        if (params?.paramAsBoolean(OBJECT_ID_FIELD, false) == true) {
-            builder.field(OBJECT_ID_FIELD, objectId)
+        if (params?.paramAsBoolean(RestTag.OBJECT_ID_FIELD, false) == true) {
+            builder.field(RestTag.OBJECT_ID_FIELD, objectId)
         }
-        builder.field(UPDATED_TIME_FIELD, updatedTime.toEpochMilli())
-            .field(CREATED_TIME_FIELD, createdTime.toEpochMilli())
-            .field(TENANT_FIELD, tenant)
-        if (params?.paramAsBoolean(ACCESS_LIST_FIELD, true) == true && access.isNotEmpty()) {
-            builder.field(ACCESS_LIST_FIELD, access)
+        builder.field(RestTag.UPDATED_TIME_FIELD, updatedTime.toEpochMilli())
+            .field(RestTag.CREATED_TIME_FIELD, createdTime.toEpochMilli())
+            .field(RestTag.TENANT_FIELD, tenant)
+        if (params?.paramAsBoolean(RestTag.ACCESS_LIST_FIELD, true) == true && access.isNotEmpty()) {
+            builder.field(RestTag.ACCESS_LIST_FIELD, access)
         }
         builder.field(type.tag, objectData)
             .endObject()
