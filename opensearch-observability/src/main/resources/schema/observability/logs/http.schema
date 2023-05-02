@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://opensearch.org/schemas/observability/Http",
+  "title": "Http",
+  "type": "object",
+  "properties": {
+      "request": {
+        "$ref": "#/definitions/Request"
+      },
+      "response": {
+        "$ref": "#/definitions/Response"
+      },
+    "flavor": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "schema": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "route": {
+      "type": "string"
+    },
+    "client_ip": {
+      "type": "string"
+    },
+    "resent_count": {
+      "type": "integer"
+    }
+  },
+  "definitions": {
+    "Request": {
+      "$id": "#/definitions/Request",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "body.content": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "method": {
+          "type": "string"
+        },
+        "referrer": {
+          "type": "string"
+        },
+        "header": {
+          "type": "string"
+        },
+        "mime_type": {
+          "type": "object"
+        }
+      },
+      "title": "Request"
+    },
+    "Response": {
+      "$id": "#/definitions/Response",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "body.content": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "status_code": {
+          "type": "integer"
+        },
+        "header": {
+          "type": "object"
+        }
+      },
+      "title": "Response"
+    }
+  }
+}

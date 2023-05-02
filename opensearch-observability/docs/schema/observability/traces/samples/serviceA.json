@@ -1,0 +1,11 @@
+{
+  "serviceName": "customer",
+  "kind": "SPAN_KIND_SERVER",
+  "destination": {
+    "resource": "SQL SELECT",
+    "domain": "mysql"
+  },
+  "target": null,
+  "traceGroupName": "HTTP GET /dispatch",
+  "hashId": "OP/8YTM/rui5D131Dyl3uw=="
+}

@@ -1,0 +1,257 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "https://opensearch.org/schemas/observability/Span",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "traceId": {
+      "type": "string"
+    },
+    "spanId": {
+      "type": "string"
+    },
+    "traceState": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/KeyValue"
+      }
+    },
+    "status": {
+      "type": "object",
+      "$ref": "#/definitions/Status"
+    },
+    "parentSpanId": {
+      "$ref": "#/properties/spanId"
+    },
+    "name": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "SPAN_KIND_UNSPECIFIED",
+          "SPAN_KIND_INTERNAL",
+          "SPAN_KIND_SERVER",
+          "SPAN_KIND_CLIENT",
+          "SPAN_KIND_PRODUCER",
+          "SPAN_KIND_CONSUMER"
+        ]
+      }
+    },
+    "@timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resource": {
+      "type": "object"
+    },
+    "attributes": {
+      "$ref": "#/definitions/Attributes"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Event"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "traceId": {
+            "$ref": "#/properties/traceId"
+          },
+          "spanId": {
+            "$ref": "#/properties/spanId"
+          },
+          "traceState": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "attributes": {
+            "$ref": "#/definitions/Attributes"
+          },
+          "droppedAttributesCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "traceId",
+          "spanId",
+          "traceState"
+        ],
+        "title": "Links"
+      }
+    },
+    "droppedAttributesCount": {
+      "type": "integer"
+    },
+    "droppedEventsCount": {
+      "type": "integer"
+    },
+    "droppedLinksCount": {
+      "type": "integer"
+    },
+    "instrumentationScope": {
+      "$ref": "#/definitions/InstrumentationScope"
+    },
+    "schemaUrl": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "traceId",
+    "spanId",
+    "@timestamp",
+    "startTime",
+    "endTime",
+    "kind",
+    "name",
+    "status"
+  ],
+  "definitions": {
+    "Status": {
+      "$id": "#/definitions/Status",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "integer",
+          "items": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          }
+        },
+        "message": {
+          "type": "string",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNSET",
+              "OK",
+              "ERROR"
+            ]
+          }
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "title": "Status"
+    },
+    "Event": {
+      "$id": "#/definitions/Event",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "@timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observedTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "attributes": {
+          "$ref": "#/definitions/Attributes"
+        },
+        "droppedAttributesCount": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "attributes",
+        "droppedAttributesCount",
+        "name",
+        "@timestamp"
+      ],
+      "title": "Event"
+    },
+    "Attributes": {
+      "$id": "#/definitions/Attributes",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "serviceName": {
+          "$ref": "https://opensearch.org/schemas/observability/Service#/properties/serviceName"
+        },
+        "data_stream": {
+          "$ref": "#/definitions/Dataflow"
+        }
+      },
+      "title": "Attributes"
+    },
+    "KeyValue": {
+      "$id": "#/definitions/KeyValue",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "object"
+        }
+      },
+      "title": "KeyValue"
+    },
+    "InstrumentationScope": {
+      "$id": "#/definitions/InstrumentationScope",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "schemaUrl": {
+          "type": "string"
+        },
+        "droppedAttributesCount": {
+          "type": "integer"
+        }
+      },
+      "title": "InstrumentationScope"
+    },
+    "Dataflow": {
+      "$id": "#/definitions/Dataflow",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "dataset": {
+          "type": "string"
+        }
+      },
+      "title": "Attributes"
+    }
+  }
+}

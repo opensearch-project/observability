@@ -1,0 +1,259 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "https://opensearch.org/schemas/observability/AWS_ALB",
+  "type": "object",
+  "properties": {
+    "@timestamp": {
+      "type": "string"
+    },
+    "aws": {
+      "type": "object",
+      "properties": {
+        "elb": {
+          "type": "object",
+          "properties": {
+            "backend": {
+              "type": "object",
+              "properties": {
+                "http": {
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "status_code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "response"
+                  ]
+                },
+                "ip": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "http",
+                "ip",
+                "port"
+              ]
+            },
+            "backend_processing_time": {
+              "type": "object",
+              "properties": {
+                "sec": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "sec"
+              ]
+            },
+            "matched_rule_priority": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "protocol": {
+              "type": "string"
+            },
+            "request_processing_time": {
+              "type": "object",
+              "properties": {
+                "sec": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "sec"
+              ]
+            },
+            "response_processing_time": {
+              "type": "object",
+              "properties": {
+                "sec": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "sec"
+              ]
+            },
+            "target_group": {
+              "type": "object",
+              "properties": {
+                "arn": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "arn"
+              ]
+            },
+            "target_port": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "target_status_code": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "traceId": {
+              "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "backend",
+            "backend_processing_time",
+            "matched_rule_priority",
+            "name",
+            "protocol",
+            "request_processing_time",
+            "response_processing_time",
+            "target_group",
+            "target_port",
+            "target_status_code",
+            "traceId",
+            "type"
+          ]
+        }
+      },
+      "required": [
+        "elb"
+      ]
+    },
+    "cloud": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider"
+      ]
+    },
+    "http": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "object",
+              "properties": {
+                "bytes": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "bytes"
+              ]
+            },
+            "method": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "body",
+            "method"
+          ]
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "object",
+              "properties": {
+                "bytes": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "bytes"
+              ]
+            },
+            "status_code": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "body",
+            "status_code"
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request",
+        "response",
+        "url",
+        "schema"
+      ]
+    },
+    "communication": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "ip": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "address",
+            "ip",
+            "port"
+          ]
+        }
+      },
+      "required": [
+        "source"
+      ]
+    },
+    "traceId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "@timestamp",
+    "aws",
+    "cloud",
+    "http",
+    "communication",
+    "traceId"
+  ]
+}

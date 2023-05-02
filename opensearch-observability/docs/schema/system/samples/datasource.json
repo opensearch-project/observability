@@ -1,0 +1,12 @@
+{
+  "title": "datasource-a",
+  "description": "my datasource-a",
+  "endpoint": "http://localhost:80",
+  "auth": {
+    "type": "username_password",
+    "credentials": {
+      "username": "foo",
+      "password": "***"
+    }
+  }
+}

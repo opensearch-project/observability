@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://opensearch.org/schemas/observability/Communication",
+  "title": "Communication",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "sock.family": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/definitions/Source"
+        },
+        "destination": {
+          "$ref": "#/definitions/Destination"
+        }
+      }
+    },
+    "destination": {
+      "type": "object",
+      "properties": {
+      }
+    }
+  },
+  "definitions": {
+    "Source": {
+      "$id": "#/definitions/Source",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "mac": {
+          "type": "string"
+        },
+        "packets": {
+          "type": "integer"
+        }
+      },
+      "title": "Source"
+    },
+    "Destination": {
+      "$id": "#/definitions/Destination",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "mac": {
+          "type": "string"
+        },
+        "packets": {
+          "type": "integer"
+        }
+      },
+      "title": "Destination"
+    }
+  }
+
+}

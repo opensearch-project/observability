@@ -1,0 +1,273 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://opensearch.org/schema/observability/Metrics",
+  "title": "OpenTelemetry Metrics",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "attributes": {
+      "$ref": "#/definitions/Attributes"
+    },
+    "resource": {
+      "type": "object"
+    },
+    "description": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "COUNTER",
+        "SUM",
+        "GAUGE",
+        "HISTOGRAM",
+        "EXPONENTIAL_HISTOGRAM"
+      ]
+    },
+    "aggregationTemporality": {
+      "type": "string",
+      "enum": [
+        "AGGREGATION_TEMPORALITY_UNSPECIFIED",
+        "AGGREGATION_TEMPORALITY_DELTA",
+        "AGGREGATION_TEMPORALITY_CUMULATIVE"
+      ]
+    },
+    "monotonic": {
+      "type": "boolean"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "@timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observedTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "value.int": {
+      "type": "integer"
+    },
+    "value.double": {
+      "type": "number"
+    },
+    "buckets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bucket"
+      }
+    },
+    "bucketCount": {
+      "type": "integer"
+    },
+    "bucketCountsList": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "explicitBoundsCount": {
+      "type": "integer"
+    },
+    "explicitBoundsList": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "quantiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Quantile"
+      }
+    },
+    "quantileValuesCount": {
+      "type": "number"
+    },
+    "positiveBuckets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bucket"
+      }
+    },
+    "negativeBuckets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bucket"
+      }
+    },
+    "positiveOffset": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "negativeOffset": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "zeroCount": {
+      "type": "number"
+    },
+    "scale": {
+      "type": "integer"
+    },
+    "max": {
+      "type": "number"
+    },
+    "min": {
+      "type": "number"
+    },
+    "sum": {
+      "type": "number"
+    },
+    "count": {
+      "type": "number"
+    },
+    "exemplars": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Exemplar"
+      }
+    },
+    "instrumentationScope": {
+      "$ref": "#/definitions/InstrumentationScope"
+    },
+    "schemaUrl": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "unit",
+    "kind",
+    "@timestamp"
+  ],
+  "definitions": {
+    "Bucket": {
+      "$id": "#/definitions/Bucket",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "sum": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "count",
+        "max",
+        "min"
+      ],
+      "title": "Bucket"
+    },
+    "Quantile": {
+      "$id": "#/definitions/Quantile",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "quantile": {
+          "type": "number"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "quantile",
+        "value"
+      ],
+      "title": "Quantile"
+    },
+    "InstrumentationScope": {
+      "$id": "#/definitions/InstrumentationScope",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "schemaUrl": {
+          "type": "string"
+        },
+        "droppedAttributesCount": {
+          "type": "integer"
+        }
+      },
+      "title": "InstrumentationScope"
+    },
+    "Exemplar": {
+      "$id": "/definitions/Exemplar",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "spanId": {
+          "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
+        },
+        "traceId": {
+          "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
+        }
+      },
+      "required": [
+        "time"
+      ],
+      "title": "Exemplar"
+    },
+    "Attributes": {
+      "$id": "/definitions/Attributes",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "serviceName": {
+          "type": "string"
+        },
+        "data_stream": {
+          "$ref": "#/definitions/Dataflow"
+        }
+      },
+      "title": "Attributes"
+    },
+    "Dataflow": {
+      "$id": "/definitions/Dataflow",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "dataset": {
+          "type": "string"
+        }
+      },
+      "title": "Dataflow"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "https://opensearch.org/schemas/observability/TraceGroups",
+  "type": "object",
+  "properties": {
+    "traceGroupFields": {
+      "type": "object",
+      "properties": {
+        "endTime": {
+          "type": "string"
+        },
+        "durationInNanos": {
+          "type": "integer"
+        },
+        "statusCode": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "endTime",
+        "durationInNanos",
+        "statusCode"
+      ]
+    },
+    "traceGroup": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "traceGroupFields",
+    "traceGroup"
+  ]
+}

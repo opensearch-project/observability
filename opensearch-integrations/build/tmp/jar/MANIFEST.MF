@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Main-Class: org.opensearch.integrations.IntegrationsPlugin
+Module-Origin: git@github.com:derek-ho/observability.git
+Change: dddecd1991da1f301d6406808dd9eb2b6a0344a5
+X-Compile-OpenSearch-Version: 3.0.0-SNAPSHOT
+X-Compile-Lucene-Version: 9.6.0-snapshot-a3ae27f
+X-Compile-OpenSearch-Snapshot: true
+Implementation-Title: org.opensearch#opensearch-integrations;3.0.0.0-SNA
+ PSHOT
+Implementation-Version: 3.0.0.0-SNAPSHOT
+Built-Status: integration
+Built-By: dxho
+Built-OS: Mac OS X
+Build-Timezone: America/New_York
+Build-Date-UTC: 2023-05-02T15:21:35.972314Z
+Build-Date: 2023-05-02T15:21:35.946592Z
+Gradle-Version: 7.6.1
+Created-By: 17.0.4.1+9-LTS (Amazon.com Inc.)
+X-Compile-Target-JDK: 11
+X-Compile-Source-JDK: 11
+Build-Java-Version: 17
+
