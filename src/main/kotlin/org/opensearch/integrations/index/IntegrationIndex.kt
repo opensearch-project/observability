@@ -10,7 +10,6 @@ import org.opensearch.cluster.service.ClusterService
 import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.core.xcontent.ToXContent
-import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.index.IndexNotFoundException
 import org.opensearch.integrations.model.Integration
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
