@@ -11,8 +11,8 @@ import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.index.IndexNotFoundException
-import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
+import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
