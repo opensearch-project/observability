@@ -2,7 +2,7 @@ package org.opensearch.integrations.resthandler
 
 import org.opensearch.client.node.NodeClient
 import org.opensearch.commons.utils.logger
-import org.opensearch.integrations.IntegrationsPlugin.Companion.BASE_INTEGRATIONS_URI
+import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_INTEGRATIONS_URI
 import org.opensearch.rest.BaseRestHandler
 import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestHandler.Route
@@ -10,7 +10,7 @@ import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestRequest.Method
 import org.opensearch.rest.RestStatus
 
-class IntegrationStoreRestHandler: BaseRestHandler() {
+class IntegrationStoreRestHandler : BaseRestHandler() {
     companion object {
         private const val INTEGRATIONS_ACTION = "integrations_actions"
         private const val URI = "$BASE_INTEGRATIONS_URI/store"
