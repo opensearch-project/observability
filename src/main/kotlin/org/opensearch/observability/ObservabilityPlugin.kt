@@ -19,6 +19,7 @@ import org.opensearch.common.settings.SettingsFilter
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
+import org.opensearch.integrations.resthandler.IntegrationStoreRestHandler
 import org.opensearch.jobscheduler.spi.JobSchedulerExtension
 import org.opensearch.jobscheduler.spi.ScheduledJobParser
 import org.opensearch.jobscheduler.spi.ScheduledJobRunner
@@ -54,6 +55,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         const val LOG_PREFIX = "observability"
         const val BASE_OBSERVABILITY_URI = "/_plugins/_observability"
         const val BASE_NOTEBOOKS_URI = "/_plugins/_notebooks"
+        const val BASE_INTEGRATIONS_URI = "/_plugins/_integrations"
     }
 
     /**
@@ -96,7 +98,8 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         return listOf(
             ObservabilityRestHandler(),
             ObservabilityStatsRestHandler(),
-            SchedulerRestHandler() // TODO: tmp rest handler only for POC purpose
+            SchedulerRestHandler(), // TODO: tmp rest handler only for POC purpose
+            IntegrationStoreRestHandler()
         )
     }
 
