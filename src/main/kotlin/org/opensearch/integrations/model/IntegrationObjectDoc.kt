@@ -15,20 +15,20 @@ import org.opensearch.commons.utils.stringList
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
-import org.opensearch.Integration.model.IntegrationObjectDataProperties.getReaderForObjectType
-import org.opensearch.Integration.model.RestTag.ACCESS_LIST_FIELD
-import org.opensearch.Integration.model.RestTag.CREATED_TIME_FIELD
-import org.opensearch.Integration.model.RestTag.OBJECT_ID_FIELD
-import org.opensearch.Integration.model.RestTag.TENANT_FIELD
-import org.opensearch.Integration.model.RestTag.UPDATED_TIME_FIELD
-import org.opensearch.Integration.security.UserAccessManager
+import org.opensearch.integrations.model.IntegrationObjectDataProperties.getReaderForObjectType
+import org.opensearch.integrations.model.RestTag.ACCESS_LIST_FIELD
+import org.opensearch.integrations.model.RestTag.CREATED_TIME_FIELD
+import org.opensearch.integrations.model.RestTag.OBJECT_ID_FIELD
+import org.opensearch.integrations.model.RestTag.TENANT_FIELD
+import org.opensearch.integrations.model.RestTag.UPDATED_TIME_FIELD
+import org.opensearch.integrations.security.UserAccessManager
 import java.io.IOException
 import java.time.Instant
 
 /**
  * Data class representing IntegrationsObject.
  */
-data class IntegrationsObjectDoc(
+data class IntegrationObjectDoc(
     val objectId: String,
     val updatedTime: Instant,
     val createdTime: Instant,
@@ -39,12 +39,12 @@ data class IntegrationsObjectDoc(
 ) : BaseModel {
 
     companion object {
-        private val log by logger(IntegrationsObjectDoc::class.java)
+        private val log by logger(IntegrationObjectDoc::class.java)
 
         /**
          * reader to create instance of class from writable.
          */
-        val reader = Writeable.Reader { IntegrationsObjectDoc(it) }
+        val reader = Writeable.Reader { IntegrationObjectDoc(it) }
 
         /**
          * Parse the data from parser and create object

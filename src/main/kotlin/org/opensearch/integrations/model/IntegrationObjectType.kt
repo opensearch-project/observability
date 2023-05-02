@@ -6,12 +6,9 @@
 package org.opensearch.integrations.model
 
 import org.opensearch.commons.utils.EnumParser
-import org.opensearch.observability.model.RestTag.APPLICATION_FIELD
-import org.opensearch.observability.model.RestTag.NOTEBOOK_FIELD
-import org.opensearch.observability.model.RestTag.OPERATIONAL_PANEL_FIELD
-import org.opensearch.observability.model.RestTag.SAVED_QUERY_FIELD
-import org.opensearch.observability.model.RestTag.SAVED_VISUALIZATION_FIELD
-import org.opensearch.observability.model.RestTag.TIMESTAMP_FIELD
+import org.opensearch.integrations.model.RestTag.INSTANCE_FIELD
+import org.opensearch.integrations.model.RestTag.TEMPLATE_FIELD
+import org.opensearch.integrations.model.RestTag.TIMESTAMP_FIELD
 import java.util.EnumSet
 
 /**
@@ -23,27 +20,12 @@ enum class IntegrationObjectType(val tag: String) {
             return tag
         }
     },
-    NOTEBOOK(NOTEBOOK_FIELD) {
+    TEMPLATE(TEMPLATE_FIELD) {
         override fun toString(): String {
             return tag
         }
     },
-    SAVED_QUERY(SAVED_QUERY_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
-    },
-    SAVED_VISUALIZATION(SAVED_VISUALIZATION_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
-    },
-    OPERATIONAL_PANEL(OPERATIONAL_PANEL_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
-    },
-    APPLICATION(APPLICATION_FIELD) {
+    INSTANCE(INSTANCE_FIELD) {
         override fun toString(): String {
             return tag
         }
