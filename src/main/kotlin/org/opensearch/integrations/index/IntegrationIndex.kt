@@ -1,12 +1,15 @@
 package org.opensearch.integrations.index
 
 import org.opensearch.ResourceAlreadyExistsException
+import org.opensearch.action.DocWriteResponse
 import org.opensearch.action.admin.indices.create.CreateIndexRequest
 import org.opensearch.action.admin.indices.mapping.put.PutMappingRequest
+import org.opensearch.action.index.IndexRequest
 import org.opensearch.client.Client
 import org.opensearch.cluster.service.ClusterService
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.index.IndexNotFoundException
+import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
@@ -14,7 +17,7 @@ import org.opensearch.observability.util.logger
 
 object IntegrationIndex {
     private val log by logger(IntegrationIndex::class.java)
-    private const val INTEGRATIONS_INDEX_NAME = ".opensearch-integrations"
+    private const val INDEX_NAME = ".opensearch-integrations"
     private const val INTEGRATIONS_MAPPING_FILE_NAME = "observability-mapping.yml"
     private const val INTEGRATIONS_SETTINGS_FILE_NAME = "observability-settings.yml"
     private var mappingsUpdated: Boolean = false
@@ -37,20 +40,20 @@ object IntegrationIndex {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
-        if (!isIndexExists(INTEGRATIONS_INDEX_NAME)) {
+        if (!isIndexExists(INDEX_NAME)) {
             val classLoader = IntegrationIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(INTEGRATIONS_MAPPING_FILE_NAME)?.readText()!!
             val indexSettingsSource = classLoader.getResource(INTEGRATIONS_SETTINGS_FILE_NAME)?.readText()!!
-            val request = CreateIndexRequest(INTEGRATIONS_INDEX_NAME)
+            val request = CreateIndexRequest(INDEX_NAME)
                 .mapping(indexMappingSource, XContentType.YAML)
                 .settings(indexSettingsSource, XContentType.YAML)
             try {
                 val actionFuture = client.admin().indices().create(request)
                 val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
                 if (response.isAcknowledged) {
-                    log.info("${LOG_PREFIX}:Index $INTEGRATIONS_INDEX_NAME creation Acknowledged")
+                    log.info("$LOG_PREFIX:Index $INDEX_NAME creation Acknowledged")
                 } else {
-                    error("${LOG_PREFIX}:Index $INTEGRATIONS_INDEX_NAME creation not Acknowledged")
+                    error("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
                 }
             } catch (exception: ResourceAlreadyExistsException) {
                 log.warn("message: ${exception.message}")
@@ -81,19 +84,45 @@ object IntegrationIndex {
     private fun updateMappings() {
         val classLoader = IntegrationIndex::class.java.classLoader
         val indexMappingSource = classLoader.getResource(INTEGRATIONS_MAPPING_FILE_NAME)?.readText()!!
-        val request = PutMappingRequest(INTEGRATIONS_INDEX_NAME)
+        val request = PutMappingRequest(INDEX_NAME)
             .source(indexMappingSource, XContentType.YAML)
         try {
             val actionFuture = client.admin().indices().putMapping(request)
             val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
             if (response.isAcknowledged) {
-                log.info("${LOG_PREFIX}:Index $INTEGRATIONS_INDEX_NAME update mapping Acknowledged")
+                log.info("$LOG_PREFIX:Index $INDEX_NAME update mapping Acknowledged")
             } else {
-                error("${LOG_PREFIX}:Index $INTEGRATIONS_INDEX_NAME update mapping not Acknowledged")
+                error("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
             }
             this.mappingsUpdated = true
         } catch (exception: IndexNotFoundException) {
-            log.error("${LOG_PREFIX}:IndexNotFoundException:", exception)
+            log.error("$LOG_PREFIX:IndexNotFoundException:", exception)
+        }
+    }
+
+    /**
+     * Create observability object
+     *
+     * @param observabilityObjectDoc
+     * @param id
+     * @return object id if successful, otherwise null
+     */
+    fun createIntegrationObject(integrationObjectDoc: IntegrationObjectDoc, id: String? = null): String? {
+        createIndex()
+        val xContent = integrationObjectDoc.toXContent()
+        val indexRequest = IndexRequest(INDEX_NAME)
+            .source(xContent)
+            .create(true)
+        if (id != null) {
+            indexRequest.id(id)
+        }
+        val actionFuture = client.index(indexRequest)
+        val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
+        return if (response.result != DocWriteResponse.Result.CREATED) {
+            log.warn("$LOG_PREFIX:createObservabilityObject - response:$response")
+            null
+        } else {
+            response.id
         }
     }
 }
