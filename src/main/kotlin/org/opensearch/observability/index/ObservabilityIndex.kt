@@ -51,12 +51,9 @@ import java.util.concurrent.TimeUnit
 internal object ObservabilityIndex {
     private val log by logger(ObservabilityIndex::class.java)
     private const val INDEX_NAME = ".opensearch-observability"
-    private const val INTEGRATIONS_INDEX_NAME = ".opensearch-integrations"
     private const val NOTEBOOKS_INDEX_NAME = ".opensearch-notebooks"
     private const val OBSERVABILITY_MAPPING_FILE_NAME = "observability-mapping.yml"
     private const val OBSERVABILITY_SETTINGS_FILE_NAME = "observability-settings.yml"
-    private const val INTEGRATIONS_MAPPING_FILE_NAME = "observability-mapping.yml"
-    private const val INTEGRATIONS_SETTINGS_FILE_NAME = "observability-settings.yml"
 
     private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
@@ -114,32 +111,6 @@ internal object ObservabilityIndex {
                 }
             }
             this.mappingsUpdated = true
-        }
-        if (!isIndexExists(INTEGRATIONS_INDEX_NAME)) {
-            val classLoader = ObservabilityIndex::class.java.classLoader
-            val indexMappingSource = classLoader.getResource(INTEGRATIONS_MAPPING_FILE_NAME)?.readText()!!
-            val indexSettingsSource = classLoader.getResource(INTEGRATIONS_SETTINGS_FILE_NAME)?.readText()!!
-            val request = CreateIndexRequest(INTEGRATIONS_INDEX_NAME)
-                .mapping(indexMappingSource, XContentType.YAML)
-                .settings(indexSettingsSource, XContentType.YAML)
-            try {
-                val actionFuture = client.admin().indices().create(request)
-                val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
-                if (response.isAcknowledged) {
-                    log.info("$LOG_PREFIX:Index $INTEGRATIONS_INDEX_NAME creation Acknowledged")
-                } else {
-                    error("$LOG_PREFIX:Index $INTEGRATIONS_INDEX_NAME creation not Acknowledged")
-                }
-            } catch (exception: ResourceAlreadyExistsException) {
-                log.warn("message: ${exception.message}")
-            } catch (exception: Exception) {
-                if (exception.cause !is ResourceAlreadyExistsException) {
-                    throw exception
-                }
-            }
-            this.mappingsUpdated = true
-
-
         } else if (!this.mappingsUpdated) {
             updateMappings()
         }
@@ -151,22 +122,12 @@ internal object ObservabilityIndex {
     private fun updateMappings() {
         val classLoader = ObservabilityIndex::class.java.classLoader
         val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
-        val integrationsIndexMappingSource = classLoader.getResource(INTEGRATIONS_MAPPING_FILE_NAME)?.readText()!!
         val request = PutMappingRequest(INDEX_NAME)
             .source(indexMappingSource, XContentType.YAML)
-        val integrationsRequest = PutMappingRequest(INTEGRATIONS_INDEX_NAME)
-            .source(integrationsIndexMappingSource, XContentType.YAML)
         try {
             val actionFuture = client.admin().indices().putMapping(request)
             val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
             if (response.isAcknowledged) {
-                log.info("$LOG_PREFIX:Index $INDEX_NAME update mapping Acknowledged")
-            } else {
-                error("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
-            }
-            val integrationActionFuture = client.admin().indices().putMapping(request)
-            val integrationResponse = integrationActionFuture.actionGet(PluginSettings.operationTimeoutMs)
-            if (integrationResponse.isAcknowledged) {
                 log.info("$LOG_PREFIX:Index $INDEX_NAME update mapping Acknowledged")
             } else {
                 error("$LOG_PREFIX:Index $INDEX_NAME update mapping not Acknowledged")
