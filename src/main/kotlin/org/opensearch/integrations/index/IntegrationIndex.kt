@@ -9,8 +9,8 @@ import org.opensearch.client.Client
 import org.opensearch.cluster.service.ClusterService
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.index.IndexNotFoundException
-import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
+import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
@@ -55,6 +55,7 @@ object IntegrationIndex {
                 } else {
                     error("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
                 }
+                //
             } catch (exception: ResourceAlreadyExistsException) {
                 log.warn("message: ${exception.message}")
             } catch (exception: Exception) {
@@ -107,7 +108,7 @@ object IntegrationIndex {
      * @param id
      * @return object id if successful, otherwise null
      */
-    fun createIntegrationObject(integrationObjectDoc: IntegrationObjectDoc, id: String? = null): String? {
+    fun createIntegrationObject(integrationObjectDoc: ObservabilityObjectDoc, id: String? = null): String? {
         createIndex()
         val xContent = integrationObjectDoc.toXContent()
         val indexRequest = IndexRequest(INDEX_NAME)
