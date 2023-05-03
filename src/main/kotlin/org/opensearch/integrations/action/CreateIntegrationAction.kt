@@ -8,10 +8,12 @@ import org.opensearch.common.inject.Inject
 import org.opensearch.commons.authuser.User
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.integrations.index.IntegrationIndex
+import org.opensearch.integrations.model.IntegrationObjectDoc
+import org.opensearch.integrations.security.UserAccessManager
 import org.opensearch.observability.action.PluginBaseAction
-import org.opensearch.observability.security.UserAccessManager
 import org.opensearch.rest.RestStatus
 import org.opensearch.transport.TransportService
+import java.time.Instant
 
 internal class CreateIntegrationAction @Inject constructor(
     transportService: TransportService,
@@ -34,25 +36,18 @@ internal class CreateIntegrationAction @Inject constructor(
         request: CreateIntegrationRequest,
         user: User?
     ): CreateIntegrationResponse {
-
-//        UserAccessManager.validateUser(user)
-//        val currentTime = Instant.now()
-//        val objectDoc = ObservabilityObjectDoc(
-//            "ignore",
-//            currentTime,
-//            currentTime,
-//            UserAccessManager.getUserTenant(user),
-//            UserAccessManager.getAllAccessInfo(user),
-//            request.type,
-//            request.objectData
-//        )
-//        val docId = ObservabilityIndex.createObservabilityObject(objectDoc, request.objectId)
-//        docId ?: throw OpenSearchStatusException(
-//            "ObservabilityObject Creation failed",
-//            RestStatus.INTERNAL_SERVER_ERROR
-//        )
         UserAccessManager.validateUser(user)
-        val docId = IntegrationIndex.createIntegrationObject(request.integrationInstance)
+        val currentTime = Instant.now()
+        val objectDoc = IntegrationObjectDoc(
+            "ignore",
+            currentTime,
+            currentTime,
+            UserAccessManager.getUserTenant(user),
+            UserAccessManager.getAllAccessInfo(user),
+            request.type,
+            request.objectData
+        )
+        val docId = IntegrationIndex.createIntegrationObject(objectDoc, request.objectId)
         docId ?: throw OpenSearchStatusException(
             "Integration Creation failed",
             RestStatus.INTERNAL_SERVER_ERROR

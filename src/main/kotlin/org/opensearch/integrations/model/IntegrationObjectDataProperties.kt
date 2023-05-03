@@ -7,8 +7,6 @@ package org.opensearch.integrations.model
 
 import org.opensearch.common.io.stream.Writeable
 import org.opensearch.core.xcontent.XContentParser
-import org.opensearch.observability.model.XParser
-
 
 internal object IntegrationObjectDataProperties {
     /**
@@ -21,14 +19,7 @@ internal object IntegrationObjectDataProperties {
     )
 
     private val OBJECT_PROPERTIES_MAP = mapOf(
-        Pair(
-            IntegrationObjectType.INSTANCE,
-            ObjectProperty(IntegrationInstance.reader, IntegrationInstance.xParser)
-        ),
-        Pair(
-            IntegrationObjectType.TEMPLATE,
-            ObjectProperty(IntegrationTemplate.reader, IntegrationTemplate.xParser)
-        )
+        Pair(IntegrationObjectType.INSTANCE, ObjectProperty(IntegrationInstance.reader, IntegrationInstance.xParser)),
     )
 
     /**
@@ -39,6 +30,16 @@ internal object IntegrationObjectDataProperties {
     fun getReaderForObjectType(objectType: IntegrationObjectType): Writeable.Reader<out BaseObjectData> {
         return OBJECT_PROPERTIES_MAP[objectType]?.objectDataReader
             ?: throw IllegalArgumentException("Transport action used with unknown ConfigType:$objectType")
+    }
+
+    /**
+     * Validate config data is of ConfigType
+     */
+    fun validateObjectData(objectType: IntegrationObjectType, objectData: BaseObjectData?): Boolean {
+        return when (objectType) {
+            IntegrationObjectType.INSTANCE -> objectData is IntegrationInstance
+            else -> false
+        }
     }
 
     /**
