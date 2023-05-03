@@ -14,7 +14,6 @@ import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
-import org.opensearch.integrations.model.XParser
 import org.opensearch.observability.util.fieldIfNotNull
 import org.opensearch.observability.util.logger
 
