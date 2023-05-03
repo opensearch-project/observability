@@ -20,11 +20,7 @@ import org.opensearch.integrations.model.RestTag.CREATED_TIME_FIELD
 import org.opensearch.integrations.model.RestTag.OBJECT_ID_FIELD
 import org.opensearch.integrations.model.RestTag.TENANT_FIELD
 import org.opensearch.integrations.model.RestTag.UPDATED_TIME_FIELD
-<<<<<<< HEAD
 import org.opensearch.integrations.security.UserAccessManager
-=======
-import org.opensearch.observability.security.UserAccessManager
->>>>>>> 89dda4a6 (create integration doc)
 import java.io.IOException
 import java.time.Instant
 
@@ -151,14 +147,14 @@ data class IntegrationObjectDoc(
     override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
         builder!!
         builder.startObject()
-        if (params?.paramAsBoolean(RestTag.OBJECT_ID_FIELD, false) == true) {
-            builder.field(RestTag.OBJECT_ID_FIELD, objectId)
+        if (params?.paramAsBoolean(OBJECT_ID_FIELD, false) == true) {
+            builder.field(OBJECT_ID_FIELD, objectId)
         }
-        builder.field(RestTag.UPDATED_TIME_FIELD, updatedTime.toEpochMilli())
-            .field(RestTag.CREATED_TIME_FIELD, createdTime.toEpochMilli())
-            .field(RestTag.TENANT_FIELD, tenant)
-        if (params?.paramAsBoolean(RestTag.ACCESS_LIST_FIELD, true) == true && access.isNotEmpty()) {
-            builder.field(RestTag.ACCESS_LIST_FIELD, access)
+        builder.field(UPDATED_TIME_FIELD, updatedTime.toEpochMilli())
+            .field(CREATED_TIME_FIELD, createdTime.toEpochMilli())
+            .field(TENANT_FIELD, tenant)
+        if (params?.paramAsBoolean(ACCESS_LIST_FIELD, true) == true && access.isNotEmpty()) {
+            builder.field(ACCESS_LIST_FIELD, access)
         }
         builder.field(type.tag, objectData)
             .endObject()

@@ -58,11 +58,11 @@ class IntegrationStoreRestHandler : BaseRestHandler() {
     }
 
     private fun executeCreateRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        val obj = request.contentParserNextToken()
+        log.info("were in create request")
         return RestChannelConsumer {
             client.execute(
                 CreateIntegrationAction.ACTION_TYPE,
-                CreateIntegrationRequest.parse(obj),
+                CreateIntegrationRequest.parse(request.contentParserNextToken()),
                 RestResponseToXContentListener(it)
             )
         }

@@ -11,8 +11,8 @@ import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentType
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.index.IndexNotFoundException
+import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
-import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
@@ -112,7 +112,6 @@ object IntegrationIndex {
      */
 
     fun createIntegrationObject(integrationObjectDoc: IntegrationObjectDoc, id: String? = null): String? {
-        // TODO using raw integration class instead of object doc, refactor later
         createIndex()
         val xContent = integrationObjectDoc.toXContent(XContentFactory.jsonBuilder(), ToXContent.EMPTY_PARAMS)
         val indexRequest = IndexRequest(INDEX_NAME)

@@ -34,8 +34,25 @@ internal class CreateIntegrationAction @Inject constructor(
         request: CreateIntegrationRequest,
         user: User?
     ): CreateIntegrationResponse {
+
+//        UserAccessManager.validateUser(user)
+//        val currentTime = Instant.now()
+//        val objectDoc = ObservabilityObjectDoc(
+//            "ignore",
+//            currentTime,
+//            currentTime,
+//            UserAccessManager.getUserTenant(user),
+//            UserAccessManager.getAllAccessInfo(user),
+//            request.type,
+//            request.objectData
+//        )
+//        val docId = ObservabilityIndex.createObservabilityObject(objectDoc, request.objectId)
+//        docId ?: throw OpenSearchStatusException(
+//            "ObservabilityObject Creation failed",
+//            RestStatus.INTERNAL_SERVER_ERROR
+//        )
         UserAccessManager.validateUser(user)
-        val docId = IntegrationIndex.createIntegrationObject(request.integrationObjectDoc)
+        val docId = IntegrationIndex.createIntegrationObject(request.integrationInstance)
         docId ?: throw OpenSearchStatusException(
             "Integration Creation failed",
             RestStatus.INTERNAL_SERVER_ERROR
