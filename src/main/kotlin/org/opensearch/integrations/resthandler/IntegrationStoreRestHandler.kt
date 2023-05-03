@@ -1,12 +1,14 @@
 package org.opensearch.integrations.resthandler
 
 import org.opensearch.client.node.NodeClient
+import org.opensearch.commons.utils.contentParserNextToken
 import org.opensearch.commons.utils.logger
 import org.opensearch.integrations.action.CreateIntegrationAction
 import org.opensearch.integrations.action.CreateIntegrationRequest
+import org.opensearch.integrations.model.IntegrationInstance
+import org.opensearch.integrations.model.IntegrationObjectType
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_INTEGRATIONS_URI
 import org.opensearch.observability.resthandler.RestResponseToXContentListener
-import org.opensearch.observability.util.contentParserNextToken
 import org.opensearch.rest.BaseRestHandler
 import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestHandler.Route
@@ -58,11 +60,12 @@ class IntegrationStoreRestHandler : BaseRestHandler() {
     }
 
     private fun executeCreateRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        log.info("were in create request")
+        log.info("Execute create request")
+        val integration = IntegrationInstance.parse(request.contentParserNextToken())
         return RestChannelConsumer {
             client.execute(
                 CreateIntegrationAction.ACTION_TYPE,
-                CreateIntegrationRequest.parse(request.contentParserNextToken()),
+                CreateIntegrationRequest(null, IntegrationObjectType.INSTANCE, integration),
                 RestResponseToXContentListener(it)
             )
         }
