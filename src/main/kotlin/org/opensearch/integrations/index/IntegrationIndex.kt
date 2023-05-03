@@ -20,8 +20,8 @@ import org.opensearch.observability.util.logger
 object IntegrationIndex {
     private val log by logger(IntegrationIndex::class.java)
     private const val INDEX_NAME = ".opensearch-integrations"
-    private const val INTEGRATIONS_MAPPING_FILE_NAME = "integration-mapping.yml"
-    private const val INTEGRATIONS_SETTINGS_FILE_NAME = "integration-settings.yml"
+    private const val INTEGRATIONS_MAPPING_FILE_NAME = "integrations-mapping.yml"
+    private const val INTEGRATIONS_SETTINGS_FILE_NAME = "integrations-settings.yml"
     private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
