@@ -8,14 +8,12 @@ import org.opensearch.core.xcontent.ToXContentObject
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.integrations.model.Integration
-import org.opensearch.observability.model.ObservabilityObjectDataProperties
-import org.opensearch.observability.model.ObservabilityObjectType
 import java.io.IOException
 
 class CreateIntegrationRequest(val integration: Integration) : ActionRequest(), ToXContentObject {
     companion object {
         @JvmStatic
-        fun parse(parser: XContentParser) : CreateIntegrationRequest {
+        fun parse(parser: XContentParser): CreateIntegrationRequest {
             return CreateIntegrationRequest(
                 Integration.parse(parser)
             )

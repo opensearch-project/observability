@@ -99,10 +99,10 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         nodesInCluster: Supplier<DiscoveryNodes>
     ): List<RestHandler> {
         return listOf(
+            IntegrationStoreRestHandler(),
             ObservabilityRestHandler(),
             ObservabilityStatsRestHandler(),
             SchedulerRestHandler(), // TODO: tmp rest handler only for POC purpose
-            IntegrationStoreRestHandler()
         )
     }
 

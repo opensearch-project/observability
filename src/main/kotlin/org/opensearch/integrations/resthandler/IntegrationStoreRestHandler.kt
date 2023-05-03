@@ -6,6 +6,7 @@ import org.opensearch.integrations.action.CreateIntegrationAction
 import org.opensearch.integrations.action.CreateIntegrationRequest
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_INTEGRATIONS_URI
 import org.opensearch.observability.resthandler.RestResponseToXContentListener
+import org.opensearch.observability.util.contentParserNextToken
 import org.opensearch.rest.BaseRestHandler
 import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestHandler.Route
@@ -57,17 +58,18 @@ class IntegrationStoreRestHandler : BaseRestHandler() {
     }
 
     private fun executeCreateRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
+        val obj = request.contentParserNextToken()
         return RestChannelConsumer {
             client.execute(
                 CreateIntegrationAction.ACTION_TYPE,
-                CreateIntegrationRequest.parse(request.contentParser()),
+                CreateIntegrationRequest.parse(obj),
                 RestResponseToXContentListener(it)
             )
         }
     }
 
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        log.debug("Received: ${request.path()}")
+        log.info("Received: ${request.path()}")
         return when (request.method()) {
             Method.POST -> executeCreateRequest(request, client)
             else -> RestChannelConsumer {

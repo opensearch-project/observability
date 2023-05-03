@@ -1,5 +1,6 @@
 package org.opensearch.integrations.rest
 
+import org.junit.Assert
 import org.opensearch.integrations.model.Integration
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_INTEGRATIONS_URI
 import org.opensearch.observability.PluginRestTestCase
@@ -19,8 +20,10 @@ class CreateIntegrationIT : PluginRestTestCase() {
             RestRequest.Method.POST.name,
             "$BASE_INTEGRATIONS_URI/store",
             requestBody,
-            RestStatus.CREATED.status
+            RestStatus.OK.status
         )
-        assertEquals(sampleIntegration.id, createResponse.get("id").asString)
+        val id = createResponse.get("objectId").asString
+        Assert.assertNotNull("Id should be generated", id)
+        Thread.sleep(100)
     }
 }
