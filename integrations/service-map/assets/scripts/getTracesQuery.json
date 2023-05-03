@@ -1,0 +1,68 @@
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "size": 0,
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "term": {
+                "traceId": "{{traceId}}"
+              }
+            }
+          ],
+          "filter": [],
+          "should": [],
+          "must_not": []
+        }
+      },
+      "aggs": {
+        "traces": {
+          "terms": {
+            "field": "traceId",
+            "size": 100,
+            "order": {
+              "_key": "{{direction}}"
+            }
+          },
+          "aggs": {
+            "latency": {
+              "max": {
+                "script": {
+                  "source": "\n                if (doc.containsKey('duration') && !doc['duration'].empty) {\n                  return Math.round(doc['duration'].value) / 1000.0\n                }\n\n                return 0\n                ",
+                  "lang": "painless"
+                }
+              }
+            },
+            "trace_group": {
+              "terms": {
+                "field": "traceGroup",
+                "size": 1
+              }
+            },
+            "error_count": {
+              "filter": {
+                "term": {
+                  "tag.error": true
+                }
+              }
+            },
+            "last_updated": {
+              "max": {
+                "script": {
+                  "source": "\n                if (doc.containsKey('startTime') && !doc['startTime'].empty && doc.containsKey('duration') && !doc['duration'].empty) {\n                  return (Math.round(doc['duration'].value) + Math.round(doc['startTime'].value)) / 1000.0\n                }\n\n                return 0\n                ",
+                  "lang": "painless"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "params": {
+      "traceId": "traceId",
+      "direction": "asc"
+    }
+  }
+}

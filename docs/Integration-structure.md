@@ -115,41 +115,44 @@ nginX
 {
   "template_name": "nginx",
   "version": {
-        "integ": "0.1.0",
+        "integration": "0.1.0",
         "schema": "1.0.0",
         "resource": "^1.23.0",
    }
   "description": "Nginx HTTP server collector",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
-  "components": [
-    "web","http"
-  ],
   "collection":[
     {
-       "logs": [{
-                    "info": "access logs",
-                    "input_type":"logfile",
-                    "dataset":"nginx.access",
-                    "labels" :["nginx","access"]
-                },
-                {
-                    "info": "error logs",
-                    "input_type":"logfile",
-                    "labels" :["nginx","error"],
-                    "dataset":"nginx.error"
-                }]
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
+        "info": "access logs",
+        "input_type":"logfile",
+        "dataset":"nginx.access",
+        "labels" :["nginx","access"]
+      },
+        {
+          "info": "error logs",
+          "input_type":"logfile",
+          "labels" :["nginx","error"],
+          "dataset":"nginx.error"
+        }]
     },
     {
-        "metrics": [{
-                    "info": "`status metrics`",
-                    "input_type":"`metrics`",
-                    "dataset":"nginx.status",
-                    "labels" :["nginx","status"]
-                }]
+      "category": "metrics",
+      "components": [],
+      "feeds": [{
+        "info": "status metrics",
+        "input_type":"metrics",
+        "dataset":"nginx.status",
+        "labels" :["nginx","status"]
+      }]
     }
   ],
-  "repo": {
+  "repository": {
     "github": "https://github.com/opensearch-project/observability/tree/main/integrations/nginx"
   }
 }
@@ -159,7 +162,7 @@ nginX
 
 ```
   "version": {
-        "integ": "0.1.0",
+        "integration": "0.1.0",
         "schema": "1.0.0",
         "resource": "^1.23.0",
    }

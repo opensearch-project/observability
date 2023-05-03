@@ -21,17 +21,8 @@
         "identification": {
           "type": "string"
         },
-        "components": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "collection": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Collection"
-          }
+          "$ref": "#/definitions/Collection"
         },
         "repository": {
           "$ref": "#/definitions/repository"
@@ -39,10 +30,8 @@
       },
       "required": [
         "catalog",
-        "components",
         "collection",
         "description",
-        "identification",
         "template-name",
         "repository",
         "version"
@@ -50,29 +39,35 @@
       "title": "Integration"
     },
     "Collection": {
-      "type": "object",
+      "type": "array",
       "additionalProperties": false,
       "properties": {
-        "logs": {
+        "category" : {
+          "type": "string"
+        },
+        "components": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Log"
+            "type": "string"
           }
         },
-        "metrics": {
+        "feeds": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Log"
+            "$ref": "#/definitions/Feed"
           }
         }
       },
-      "required": [],
+      "required": ["category","feeds"],
       "title": "Collection"
     },
-    "Log": {
+    "Feed": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "name": {
+          "type": "string"
+        },
         "info": {
           "type": "string"
         },
@@ -133,7 +128,7 @@
         "input_type",
         "labels"
       ],
-      "title": "Log"
+      "title": "Feed"
     },
     "repository": {
       "type": "object",

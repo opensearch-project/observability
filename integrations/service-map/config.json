@@ -1,47 +1,86 @@
 {
-  "name": "data-prepper",
+  "template-name": "service-map",
   "version": {
-    "integ": "0.1.0",
+    "integration": "0.1.0",
     "schema": "1.0.0",
     "resource": "^2.6.0"
   },
-  "description": "Data-Prepper Service Map and Tracing correlations Integration",
+  "description": "Service Map and Tracing correlations Integration",
   "catalog": "observability",
-  "components": [
-    "traces,traceGroups,metrics"
-  ],
-  "collection":[
+  "collection": [
     {
-      "traces": [{
-        "info": "traces signals",
-        "input_type":"traces",
-        "dataset":"spans",
-        "labels" :["traceGroups","traces"],
-        "fields-mapping" : [
-          {"alias":"attributes.serviceName","field":"serviceName"} ,
-          {"alias":"events.@timestamp","field":"events.time"}
-        ]
-      }]
+      "category": "traces",
+      "components": ["traceGroups"],
+      "feeds": [
+        {
+          "info": "traces signals",
+          "input_type": "traces",
+          "dataset": "spans",
+          "labels": [
+            "traceGroups",
+            "traces"
+          ],
+          "fields-mapping": [
+            {
+              "template": "data-prepper-traces",
+              "fields": [
+                {
+                  "alias": "attributes.serviceName",
+                  "field": "serviceName"
+                },
+                {
+                  "alias": "events.@timestamp",
+                  "field": "events.time"
+                }
+              ]
+            },
+            {
+              "template": "jaeger-traces",
+              "fields": [
+                {
+                  "alias": "attributes.serviceName",
+                  "field": "serviceName"
+                },
+                {
+                  "alias": "events.@timestamp",
+                  "field": "events.time"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      "services": [{
+      "category": "services",
+      "components": [],
+      "feeds": [
+        {
           "info": "service map",
           "input_type": "services",
           "dataset": "service",
-          "labels": ["services"]
-        }]
+          "labels": [
+            "services"
+          ]
+        }
+      ]
     },
     {
-      "metrics": [{
-        "info": "status metrics",
-        "input_type":"metrics",
-        "dataset":"metrics",
-        "labels" :["metrics"]
-      }]
+      "metrics": [
+        {
+          "components": [],
+          "info": "status metrics",
+          "input_type": "metrics",
+          "dataset": "metrics",
+          "labels": [
+            "metrics"
+          ]
+        }
+      ]
     }
   ],
-  "repo": {
-    "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/service-map"
+  "repository": {
+    "url": "https://github.com/opensearch-project/observability/tree/main/integrarions/service-map"
   }
 }
 

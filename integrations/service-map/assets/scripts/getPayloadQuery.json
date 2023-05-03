@@ -1,0 +1,25 @@
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "size": 1000,
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "term": {
+                "traceId": "{{traceId}}"
+              }
+            }
+          ],
+          "filter": [],
+          "should": [],
+          "must_not": []
+        }
+      }
+    },
+    "params": {
+      "traceId": "traceId"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "size": 1000,
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "term": {
+                "spanID": "{{spanId}}"
+              }
+            }
+          ],
+          "filter": [],
+          "should": [],
+          "must_not": []
+        }
+      }
+    },
+    "params": {
+      "traceId": "spanId"
+    }
+  }
+}

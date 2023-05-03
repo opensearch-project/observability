@@ -1,6 +1,9 @@
 # API Mock Tests
 The [Swagger](swagger.yaml) describes the API used by the Integration repository to support the `catalog`, `registry` and `store` functionalities.
 
+Its possible to visualize the REST API using any on the numerous [online editors](https://editor.swagger.io/)
+![](API.png)
+
 ### Setup mock server
 In order to test the API, we can utilize a swagger based mock library which allows ['contract based testing'](https://github.com/stoplightio/prism).
 
