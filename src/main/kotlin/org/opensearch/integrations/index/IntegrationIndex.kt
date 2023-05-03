@@ -110,7 +110,10 @@ object IntegrationIndex {
      * @param id
      * @return object id if successful, otherwise null
      */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 89dda4a6 (create integration doc)
     fun createIntegrationObject(integrationObjectDoc: IntegrationObjectDoc, id: String? = null): String? {
         // TODO using raw integration class instead of object doc, refactor later
         createIndex()

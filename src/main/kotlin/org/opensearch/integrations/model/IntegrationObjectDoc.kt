@@ -21,7 +21,11 @@ import org.opensearch.integrations.model.RestTag.CREATED_TIME_FIELD
 import org.opensearch.integrations.model.RestTag.OBJECT_ID_FIELD
 import org.opensearch.integrations.model.RestTag.TENANT_FIELD
 import org.opensearch.integrations.model.RestTag.UPDATED_TIME_FIELD
+<<<<<<< HEAD
 import org.opensearch.integrations.security.UserAccessManager
+=======
+import org.opensearch.observability.security.UserAccessManager
+>>>>>>> 89dda4a6 (create integration doc)
 import java.io.IOException
 import java.time.Instant
 

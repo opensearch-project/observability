@@ -35,7 +35,7 @@ internal class CreateIntegrationAction @Inject constructor(
         user: User?
     ): CreateIntegrationResponse {
         UserAccessManager.validateUser(user)
-        val docId = IntegrationIndex.createIntegrationObject(request.integration)
+        val docId = IntegrationIndex.createIntegrationObject(request.integrationObjectDoc)
         docId ?: throw OpenSearchStatusException(
             "Integration Creation failed",
             RestStatus.INTERNAL_SERVER_ERROR

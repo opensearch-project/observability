@@ -8,7 +8,10 @@ package org.opensearch.integrations.model
 import org.opensearch.commons.utils.EnumParser
 import org.opensearch.integrations.model.RestTag.INSTANCE_FIELD
 import org.opensearch.integrations.model.RestTag.TEMPLATE_FIELD
+<<<<<<< HEAD
 import org.opensearch.integrations.model.RestTag.TIMESTAMP_FIELD
+=======
+>>>>>>> 89dda4a6 (create integration doc)
 import java.util.EnumSet
 
 /**
@@ -29,11 +32,14 @@ enum class IntegrationObjectType(val tag: String) {
         override fun toString(): String {
             return tag
         }
+<<<<<<< HEAD
     },
     TIMESTAMP(TIMESTAMP_FIELD) {
         override fun toString(): String {
             return tag
         }
+=======
+>>>>>>> 89dda4a6 (create integration doc)
     };
 
     companion object {
