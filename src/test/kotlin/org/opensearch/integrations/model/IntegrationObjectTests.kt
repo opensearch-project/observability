@@ -9,7 +9,7 @@ import org.opensearch.observability.getJsonString
 import org.opensearch.observability.model.SavedQuery
 import kotlin.test.assertEquals
 
-class IntegrationTests {
+class IntegrationObjectTests {
     private val sampleIntegration = Integration(
         "sample_integration",
         "This is a sample integration"

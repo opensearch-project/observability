@@ -19,6 +19,7 @@ import org.opensearch.common.settings.SettingsFilter
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
+import org.opensearch.integrations.action.CreateIntegrationAction
 import org.opensearch.integrations.index.IntegrationIndex
 import org.opensearch.integrations.resthandler.IntegrationStoreRestHandler
 import org.opensearch.jobscheduler.spi.JobSchedulerExtension
@@ -125,6 +126,10 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
             ActionPlugin.ActionHandler(
                 UpdateObservabilityObjectAction.ACTION_TYPE,
                 UpdateObservabilityObjectAction::class.java
+            ),
+            ActionPlugin.ActionHandler(
+                CreateIntegrationAction.ACTION_TYPE,
+                CreateIntegrationAction::class.java
             )
         )
     }

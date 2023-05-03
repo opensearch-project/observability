@@ -16,6 +16,7 @@ data class Integration(
     companion object {
         private val log by logger(Integration::class.java)
 
+        @JvmStatic
         fun parse(parser: XContentParser): Integration {
             var id: String? = null
             var description: String? = null

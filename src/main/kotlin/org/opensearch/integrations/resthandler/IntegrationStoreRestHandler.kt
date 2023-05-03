@@ -2,7 +2,10 @@ package org.opensearch.integrations.resthandler
 
 import org.opensearch.client.node.NodeClient
 import org.opensearch.commons.utils.logger
+import org.opensearch.integrations.action.CreateIntegrationAction
+import org.opensearch.integrations.action.CreateIntegrationRequest
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_INTEGRATIONS_URI
+import org.opensearch.observability.resthandler.RestResponseToXContentListener
 import org.opensearch.rest.BaseRestHandler
 import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestHandler.Route
@@ -53,13 +56,20 @@ class IntegrationStoreRestHandler : BaseRestHandler() {
         )
     }
 
-    override fun prepareRequest(request: RestRequest?, client: NodeClient?): RestChannelConsumer {
-        requireNotNull(request)
+    private fun executeCreateRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
+        return RestChannelConsumer {
+            client.execute(
+                CreateIntegrationAction.ACTION_TYPE,
+                CreateIntegrationRequest.parse(request.contentParser()),
+                RestResponseToXContentListener(it)
+            )
+        }
+    }
+
+    override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
         log.debug("Received: ${request.path()}")
         return when (request.method()) {
-            Method.POST -> RestChannelConsumer {
-                it.sendResponse(BytesRestResponse(RestStatus.NOT_IMPLEMENTED, "{\"error\": \"${request.path()} not implemented\"}"))
-            }
+            Method.POST -> executeCreateRequest(request, client)
             else -> RestChannelConsumer {
                 it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "{\"error\": \"${request.method().name} request not allowed\"}"))
             }
