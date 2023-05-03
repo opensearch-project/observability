@@ -7,10 +7,12 @@ import org.opensearch.action.admin.indices.mapping.put.PutMappingRequest
 import org.opensearch.action.index.IndexRequest
 import org.opensearch.client.Client
 import org.opensearch.cluster.service.ClusterService
+import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentType
+import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.index.IndexNotFoundException
+import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
-import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
@@ -18,8 +20,8 @@ import org.opensearch.observability.util.logger
 object IntegrationIndex {
     private val log by logger(IntegrationIndex::class.java)
     private const val INDEX_NAME = ".opensearch-integrations"
-    private const val INTEGRATIONS_MAPPING_FILE_NAME = "observability-mapping.yml"
-    private const val INTEGRATIONS_SETTINGS_FILE_NAME = "observability-settings.yml"
+    private const val INTEGRATIONS_MAPPING_FILE_NAME = "integrations-mapping.yml"
+    private const val INTEGRATIONS_SETTINGS_FILE_NAME = "integrations-settings.yml"
     private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
@@ -108,9 +110,11 @@ object IntegrationIndex {
      * @param id
      * @return object id if successful, otherwise null
      */
-    fun createIntegrationObject(integrationObjectDoc: ObservabilityObjectDoc, id: String? = null): String? {
+
+    fun createIntegrationObject(integrationObjectDoc: IntegrationObjectDoc, id: String? = null): String? {
+        // TODO using raw integration class instead of object doc, refactor later
         createIndex()
-        val xContent = integrationObjectDoc.toXContent()
+        val xContent = integrationObjectDoc.toXContent(XContentFactory.jsonBuilder(), ToXContent.EMPTY_PARAMS)
         val indexRequest = IndexRequest(INDEX_NAME)
             .source(xContent)
             .create(true)
