@@ -23,11 +23,11 @@ Query:
 GET _integration/repository?filter=category:logs&component:web
 ```
 **Response**:
-```jsoon
+```json
 {
-  "name": "nginx",
+  "template-name": "nginx",
   "version": {
-    "integ": "0.1.0",
+    "integration": "0.1.0",
     "schema": "1.0.0",
     "resource": "^1.23.0"
   },
@@ -35,37 +35,37 @@ GET _integration/repository?filter=category:logs&component:web
   "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
-  "components": [
-    "web","http"
-  ],
   "collection":[
     {
-      "logs": [{
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
-        "labels" :["nginx","access"],
-        "schema": "file:///.../schema/logs/access.json"
+        "labels" :["nginx","access"]
       },
         {
           "info": "error logs",
           "input_type":"logfile",
           "labels" :["nginx","error"],
-          "dataset":"nginx.error",
-        "schema": "file:///.../schema/logs/error.json"
+          "dataset":"nginx.error"
         }]
     },
     {
-      "metrics": [{
+      "category": "metrics",
+      "components": [],
+      "feeds": [{
         "info": "status metrics",
         "input_type":"metrics",
         "dataset":"nginx.status",
-        "labels" :["nginx","status"],
-        "schema": "file:///.../schema/logs/status.json"
+        "labels" :["nginx","status"]
       }]
     }
   ],
-  "repo": {
+    "repository": {
     "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/nginx"
   }
 }
@@ -139,11 +139,11 @@ POST _integration/store/$instance_name
 The $instance_name represents the specific name the integration was instanced with - for example, Nginx Integration can be a template for multiple Nginx instances
 each representing different domain / aspect such as geographic.
 
-```jsoon
+```json
 {
   "template-name": "nginx",
   "version": {
-    "integ": "0.1.0",
+    "integration": "0.1.0",
     "schema": "1.0.0",
     "resource": "^1.23.0"
   },
@@ -151,37 +151,37 @@ each representing different domain / aspect such as geographic.
   "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
-  "components": [
-    "web","http"
-  ],
   "collection":[
     {
-      "logs": [{
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
         "info": "access logs",
         "input_type":"logfile",
         "dataset":"nginx.access",
-        "labels" :["nginx","access"],
-        "schema": "file:///.../schema/logs/access.json"
+        "labels" :["nginx","access"]
       },
         {
           "info": "error logs",
           "input_type":"logfile",
           "labels" :["nginx","error"],
-          "dataset":"nginx.error",
-        "schema": "file:///.../schema/logs/error.json"
+          "dataset":"nginx.error"
         }]
     },
     {
-      "metrics": [{
+      "category": "metrics",
+      "components": [],
+      "feeds": [{
         "info": "status metrics",
         "input_type":"metrics",
         "dataset":"nginx.status",
-        "labels" :["nginx","status"],
-        "schema": "file:///.../schema/logs/status.json"
+        "labels" :["nginx","status"]
       }]
     }
   ],
-  "repo": {
+  "repository": {
     "github": "https://github.com/opensearch-project/observability/tree/main/integrarions/nginx"
   }
 }

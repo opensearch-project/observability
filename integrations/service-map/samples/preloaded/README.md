@@ -52,11 +52,19 @@ curl -X PUT "http://localhost:9200/sso_traces-default-namespace/_bulk" -H 'Conte
 
 5. As part of the Integration instance loading, the [`config.json`](../../config.json) has defined fields mapping section for the `traces` collection stream
 ```json5
-  "fields-mapping" : [
-       {"alias":"attributes.serviceName","field":"serviceName"} ,
-       {"alias":"events.@timestamp","field":"events.time"}
+    ... 
+     "fields-mapping" : [
+         {
+           "template": "data-prepper-services",
+           "fields": [
+                     {"alias":"attributes.serviceName","field":"serviceName"} ,
+                     {"alias":"events.@timestamp","field":"events.time"}
+               ]
+        }
      ]
+    ...
 ```
+
 This indicates to the Integration loading API to create field aliases in the following manner:
 
 ```
@@ -77,7 +85,7 @@ curl -X PUT "http://localhost:9200/otel-v1-apm-span/_mapping" -H 'Content-Type: 
 ```
 
 
-6. We can now load the services dashboards to display the preloaded data services based correlations  [dashboards](../../assets/display/services-dashboard.ndjson)
+6. We can now see the services dashboards to display the preloaded data services based correlations  [dashboards](../../assets/display/services-dashboard.ndjson)
    
    - Load the [dashboards](../../assets/display/services-dashboard.ndjson) 
      - `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@services-dashboard.ndjson`

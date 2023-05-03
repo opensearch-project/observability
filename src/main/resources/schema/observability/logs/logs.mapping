@@ -103,6 +103,10 @@
         "observedTimestamp": {
           "type": "date"
         },
+        "observerTime": {
+          "type": "alias",
+          "path": "observedTimestamp"
+        },
         "traceId": {
           "ignore_above": 256,
           "type": "keyword"
@@ -161,6 +165,10 @@
               "type": "keyword"
             },
             "name": {
+              "ignore_above": 256,
+              "type": "keyword"
+            },
+            "source": {
               "ignore_above": 256,
               "type": "keyword"
             },

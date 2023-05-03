@@ -44,14 +44,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '../../schema/system/catalog.schema'
+                  $ref: '../../src/main/resources/schema/system/catalog.schema'
               example:
                 observability:
                   application/json:
                     schema:
                       type: array
                       items:
-                        $ref: '../../schema/system/catalog.schema'
+                        $ref: '../../src/main/resources/schema/system/catalog.schema'
                     examples:
                       catalog: observability
                       version: '1.0'
@@ -110,14 +110,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '../../schema/system/catalog.schema'
+              $ref: '../../src/main/resources/schema/system/catalog.schema'
             example:
               observability:
                 application/json:
                   schema:
                     type: array
                     items:
-                      $ref: '../../schema/system/catalog.schema'
+                      $ref: '../../src/main/resources/schema/system/catalog.schema'
                   examples:
                     catalog: observability
                     version: '1.0'
@@ -190,14 +190,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/catalog.schema'
+                $ref: '../../src/main/resources/schema/system/catalog.schema'
               example:
                 observability:
                   application/json:
                     schema:
                       type: array
                       items:
-                        $ref: '../../schema/system/catalog.schema'
+                        $ref: '../../src/main/resources/schema/system/catalog.schema'
                     examples:
                       catalog: observability
                       version: '1.0'
@@ -275,7 +275,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '../../schema/system/integrations-template-list.schema'
+                  $ref: '../../src/main/resources/schema/system/integrations-template-list.schema'
               example:
                 - template-name: nginx
                   version: 1.0.0
@@ -313,7 +313,7 @@ paths:
         content:
           application/zip:
             schema:
-              $ref: '../../schema/system/integration.schema'
+              $ref: '../../src/main/resources/schema/system/integration.schema'
             example:
               - BLOB including all images, json files, dashboards and documentations
       responses:
@@ -344,7 +344,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/integration.schema'
+                $ref: '../../src/main/resources/schema/system/integration.schema'
               example:
                 template-name: nginx
                 version:
@@ -354,11 +354,12 @@ paths:
                 description: Nginx HTTP server collector
                 identification: instrumentationScope.attributes.identification
                 catalog: observability
-                components:
-                  - web
-                  - http
                 collection:
-                  - logs:
+                  - category: logs
+                    components:
+                      - communication
+                      - http
+                    feeds:
                       - info: access logs
                         input_type: logfile
                         dataset: nginx.access
@@ -371,7 +372,9 @@ paths:
                           - nginx
                           - error
                         dataset: nginx.error
-                  - metrics:
+                  - category: metrics
+                    components: [ ]
+                    feeds:
                       - info: status metrics
                         input_type: metrics
                         dataset: nginx.status
@@ -380,7 +383,6 @@ paths:
                           - status
                 repository:
                   url: https://github.com/opensearch-project/observability/tree/main/integrarions/nginx
-
         '400':
           description: bad input parameter
   /repository/{id}/fields:
@@ -404,7 +406,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/integration-fields-list.schema'
+                $ref: '../../src/main/resources/schema/system/integration-fields-list.schema'
               example:
                 template-name: nginx
                 version: 1.0.0
@@ -818,7 +820,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '../../schema/system/integration-instance.schema'
+                  $ref: '../../src/main/resources/schema/system/integration-instance.schema'
                 example:
                   template-name: nginx
                   dataset: prod
@@ -849,7 +851,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '../../schema/system/integration-instance.schema'
+              $ref: '../../src/main/resources/schema/system/integration-instance.schema'
             example:
               template-name: nginx
               dataset: prod
@@ -893,7 +895,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/integration-instance.schema'
+                $ref: '../../src/main/resources/schema/system/integration-instance.schema'
               example:
                 template-name: nginx
                 dataset: prod
@@ -932,7 +934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/integration-instance.schema'
+                $ref: '../../src/main/resources/schema/system/integration-instance.schema'
               example:
                 template-name: nginx
                 dataset: prod
@@ -965,7 +967,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '../../schema/system/integration-instance.schema'
+              $ref: '../../src/main/resources/schema/system/integration-instance.schema'
             example:
               template-name: nginx
               dataset: prod
@@ -994,7 +996,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/integration-instance.schema'
+                $ref: '../../src/main/resources/schema/system/integration-instance.schema'
               example:
                 template-name: nginx
                 dataset: prod
@@ -1034,7 +1036,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../schema/system/integration-instance.schema'
+                $ref: '../../src/main/resources/schema/system/integration-instance.schema'
               example:
                 template-name: nginx
                 dataset: prod

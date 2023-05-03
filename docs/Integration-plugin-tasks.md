@@ -93,14 +93,23 @@ _For example the next observability integration:_
   ...
   "collection":[
     {
-      "logs": [{
+      "category": "logs",
+      "components": [
+        "communication","http"
+      ],
+      "feeds": [{
         "info": "access logs",
-        "input_type":"logfile",  
-        "dataset":"nginx.access", <<- subject to user changes
-        "namespace": "prod",<<- subject to user changes
-        "labels" :["nginx","access"],
-        "schema": "file:///.../schema/logs/access.json"
+        "input_type":"logfile",
+        "dataset":"nginx.access",
+        "labels" :["nginx","access"]
       },
+        {
+          "info": "error logs",
+          "input_type":"logfile",
+          "labels" :["nginx","error"],
+          "dataset":"nginx.error"
+        }]
+    },
     ...
 ```
 ### Loading Step
