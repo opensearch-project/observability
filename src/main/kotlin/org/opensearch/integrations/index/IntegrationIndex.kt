@@ -5,17 +5,34 @@ import org.opensearch.action.DocWriteResponse
 import org.opensearch.action.admin.indices.create.CreateIndexRequest
 import org.opensearch.action.admin.indices.mapping.put.PutMappingRequest
 import org.opensearch.action.index.IndexRequest
+import org.opensearch.action.search.SearchRequest
 import org.opensearch.client.Client
 import org.opensearch.cluster.service.ClusterService
+import org.opensearch.common.unit.TimeValue
+import org.opensearch.common.xcontent.LoggingDeprecationHandler
 import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.common.xcontent.XContentType
+import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.index.IndexNotFoundException
+import org.opensearch.index.query.QueryBuilders
+import org.opensearch.integrations.action.GetIntegrationObjectRequest
 import org.opensearch.integrations.model.IntegrationObjectDoc
+import org.opensearch.integrations.model.IntegrationObjectSearchResult
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
+import org.opensearch.observability.action.GetObservabilityObjectRequest
+import org.opensearch.observability.index.ObservabilityIndex
+import org.opensearch.observability.index.ObservabilityQueryHelper
+import org.opensearch.observability.model.ObservabilityObjectDoc
+import org.opensearch.observability.model.ObservabilityObjectSearchResult
+import org.opensearch.observability.model.RestTag
+import org.opensearch.integrations.model.SearchResults
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
+import org.opensearch.search.SearchHit
+import org.opensearch.search.builder.SearchSourceBuilder
+import java.util.concurrent.TimeUnit
 
 object IntegrationIndex {
     private val log by logger(IntegrationIndex::class.java)
@@ -25,6 +42,18 @@ object IntegrationIndex {
     private var mappingsUpdated: Boolean = false
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
+
+    private val searchHitParser = object : SearchResults.SearchHitParser<IntegrationObjectDoc> {
+        override fun parse(searchHit: SearchHit): IntegrationObjectDoc {
+            val parser = XContentType.JSON.xContent().createParser(
+                NamedXContentRegistry.EMPTY,
+                LoggingDeprecationHandler.INSTANCE,
+                searchHit.sourceAsString
+            )
+            parser.nextToken()
+            return IntegrationObjectDoc.parse(parser, searchHit.id)
+        }
+    }
 
     /**
      * Initialize the class
@@ -128,5 +157,48 @@ object IntegrationIndex {
         } else {
             response.id
         }
+    }
+
+    /**
+     * Get all integration objects
+     *
+     * @param tenant
+     * @param access
+     * @param request
+     * @return [IntegrationObjectSearchResult]
+     */
+    fun getAllIntegrationObjects(
+        tenant: String,
+        access: List<String>,
+        request: GetIntegrationObjectRequest
+    ): IntegrationObjectSearchResult {
+        createIndex()
+        val queryHelper = ObservabilityQueryHelper(request.types)
+        val sourceBuilder = SearchSourceBuilder()
+            .timeout(TimeValue(PluginSettings.operationTimeoutMs, TimeUnit.MILLISECONDS))
+            .size(request.maxItems)
+            .from(request.fromIndex)
+        queryHelper.addSortField(sourceBuilder, request.sortField, request.sortOrder)
+
+        val query = QueryBuilders.boolQuery()
+        query.filter(QueryBuilders.termsQuery(RestTag.TENANT_FIELD, tenant))
+        if (access.isNotEmpty()) {
+            query.filter(QueryBuilders.termsQuery(RestTag.ACCESS_LIST_FIELD, access))
+        }
+        queryHelper.addTypeFilters(query)
+        queryHelper.addQueryFilters(query, request.filterParams)
+        sourceBuilder.query(query)
+        val searchRequest = SearchRequest()
+            .indices(INDEX_NAME)
+            .source(sourceBuilder)
+        val actionFuture = client.search(searchRequest)
+        val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
+        val result = IntegrationObjectSearchResult(request.fromIndex.toLong(), response, searchHitParser)
+        log.info(
+            "$LOG_PREFIX:getAllObservabilityObjects types:${request.types} from:${request.fromIndex}, maxItems:${request.maxItems}," +
+                " sortField:${request.sortField}, sortOrder=${request.sortOrder}, filters=${request.filterParams}" +
+                " retCount:${result.objectList.size}, totalCount:${result.totalHits}"
+        )
+        return result
     }
 }

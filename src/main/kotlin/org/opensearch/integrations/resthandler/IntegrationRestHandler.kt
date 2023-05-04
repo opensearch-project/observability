@@ -16,12 +16,12 @@ import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestRequest.Method
 import org.opensearch.rest.RestStatus
 
-class IntegrationStoreRestHandler : BaseRestHandler() {
+class IntegrationRestHandler : BaseRestHandler() {
     companion object {
         private const val INTEGRATIONS_ACTION = "integrations_actions"
         private const val URI = "$BASE_INTEGRATIONS_URI/store"
         private const val ID_FIELD = "integration_id"
-        private val log by logger(IntegrationStoreRestHandler::class.java)
+        private val log by logger(IntegrationRestHandler::class.java)
     }
 
     override fun getName(): String {
