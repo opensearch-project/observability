@@ -24,7 +24,6 @@ import org.opensearch.core.xcontent.ToXContentObject
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.integrations.model.IntegrationObjectType
-import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FILTER_PARAM_LIST_FIELD
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
 import org.opensearch.observability.model.RestTag.MAX_ITEMS_FIELD

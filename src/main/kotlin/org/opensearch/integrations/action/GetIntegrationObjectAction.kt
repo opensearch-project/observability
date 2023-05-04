@@ -5,7 +5,6 @@
 
 package org.opensearch.integrations.action
 
-import org.opensearch.OpenSearchStatusException
 import org.opensearch.action.ActionType
 import org.opensearch.action.support.ActionFilters
 import org.opensearch.client.Client
@@ -18,13 +17,8 @@ import org.opensearch.observability.action.GetObservabilityObjectRequest
 import org.opensearch.observability.action.GetObservabilityObjectResponse
 import org.opensearch.observability.action.ObservabilityActions
 import org.opensearch.observability.action.PluginBaseAction
-import org.opensearch.observability.index.ObservabilityIndex
-import org.opensearch.observability.metrics.Metrics
-import org.opensearch.observability.model.ObservabilityObjectDoc
-import org.opensearch.observability.model.ObservabilityObjectSearchResult
 import org.opensearch.observability.security.UserAccessManager
 import org.opensearch.observability.util.logger
-import org.opensearch.rest.RestStatus
 import org.opensearch.transport.TransportService
 
 /**
@@ -44,7 +38,7 @@ internal class GetIntegrationObjectAction @Inject constructor(
 ) {
     private val log by logger(ObservabilityActions::class.java)
     companion object {
-        private const val NAME = "cluster:admin/opensearch/observability/get"
+        private const val NAME = "cluster:admin/opensearch/integrations/store/get"
         internal val ACTION_TYPE = ActionType(NAME, ::GetIntegrationObjectResponse)
     }
 
@@ -144,6 +138,7 @@ internal class GetIntegrationObjectAction @Inject constructor(
     /**
      * {@inheritDoc}
      */
+    @Suppress("TooGenericExceptionThrown")
     override fun executeRequest(request: GetIntegrationObjectRequest, user: User?): GetIntegrationObjectResponse {
         log.info("${ObservabilityPlugin.LOG_PREFIX}:IntegrationObject-get ${request.objectIds}")
         UserAccessManager.validateUser(user)

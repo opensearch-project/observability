@@ -1,3 +1,8 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package org.opensearch.integrations.index
 
 import org.opensearch.ResourceAlreadyExistsException
@@ -19,9 +24,9 @@ import org.opensearch.index.query.QueryBuilders
 import org.opensearch.integrations.action.GetIntegrationObjectRequest
 import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.integrations.model.IntegrationObjectSearchResult
+import org.opensearch.integrations.model.SearchResults
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.model.RestTag
-import org.opensearch.integrations.model.SearchResults
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger

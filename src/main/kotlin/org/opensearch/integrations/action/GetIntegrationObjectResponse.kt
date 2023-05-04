@@ -13,7 +13,6 @@ import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.integrations.model.IntegrationObjectSearchResult
 import org.opensearch.observability.model.BaseResponse
-import org.opensearch.observability.model.ObservabilityObjectSearchResult
 import org.opensearch.observability.model.RestTag
 import java.io.IOException
 

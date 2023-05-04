@@ -1,3 +1,8 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package org.opensearch.integrations.resthandler
 
 import org.opensearch.client.node.NodeClient
@@ -11,12 +16,8 @@ import org.opensearch.integrations.model.IntegrationInstance
 import org.opensearch.integrations.model.IntegrationObjectType
 import org.opensearch.observability.ObservabilityPlugin
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_INTEGRATIONS_URI
-import org.opensearch.observability.action.GetObservabilityObjectAction
-import org.opensearch.observability.action.GetObservabilityObjectRequest
 import org.opensearch.observability.index.ObservabilityQueryHelper
-import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag
-import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.RestResponseToXContentListener
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.rest.BaseRestHandler
