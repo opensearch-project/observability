@@ -137,27 +137,27 @@ class IntegrationRestHandler : BaseRestHandler() {
             Method.GET -> {
                 when (request.uri().split("/").last()) {
                     "list_all" -> RestChannelConsumer {
-                        it.sendResponse(BytesRestResponse(RestStatus.NOT_IMPLEMENTED, "{\"list\":[{}]}"))
+                        it.sendResponse(BytesRestResponse(RestStatus.OK, "{\"list\":[{}]}"))
                     }
                     "list_added" -> {
                         if (added) {
                             return RestChannelConsumer {
-                                it.sendResponse(BytesRestResponse(RestStatus.FORBIDDEN, "{\"list\":[{}]}"))
+                                it.sendResponse(BytesRestResponse(RestStatus.OK, "{\"list\":[{}]}"))
                             }
                         } else {
                             RestChannelConsumer {
-                                it.sendResponse(BytesRestResponse(RestStatus.ACCEPTED, "{\"list\":[]}"))
+                                it.sendResponse(BytesRestResponse(RestStatus.OK, "{\"list\":[]}"))
                             }
                         }
                     }
                     "details" -> RestChannelConsumer {
-                        it.sendResponse(BytesRestResponse(RestStatus.PARTIAL_CONTENT, "{\"status\":\"READY\"}"))
+                        it.sendResponse(BytesRestResponse(RestStatus.OK, "{\"status\":\"READY\"}"))
                     }
                     else -> executeGetRequest(request, client)
                 }
             }
             else -> RestChannelConsumer {
-                it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "{\"error\": \"${request.method().name} request not allowed\"}"))
+                it.sendResponse(BytesRestResponse(RestStatus.OK, "{\"error\": \"${request.method().name} request not allowed\"}"))
             }
         }
     }
