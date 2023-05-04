@@ -11,6 +11,7 @@ import org.opensearch.common.io.stream.Writeable
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
+import org.opensearch.integrations.model.IntegrationObjectSearchResult
 import org.opensearch.observability.model.BaseResponse
 import org.opensearch.observability.model.ObservabilityObjectSearchResult
 import org.opensearch.observability.model.RestTag
@@ -20,7 +21,7 @@ import java.io.IOException
  * Action Response for getting ObservabilityObject.
  */
 internal class GetIntegrationObjectResponse : BaseResponse {
-    val searchResult: ObservabilityObjectSearchResult
+    val searchResult: IntegrationObjectSearchResult
     private val filterSensitiveInfo: Boolean
 
     companion object {
@@ -37,7 +38,7 @@ internal class GetIntegrationObjectResponse : BaseResponse {
         @JvmStatic
         @Throws(IOException::class)
         fun parse(parser: XContentParser): GetIntegrationObjectResponse {
-            return GetIntegrationObjectResponse(ObservabilityObjectSearchResult(parser), false)
+            return GetIntegrationObjectResponse(IntegrationObjectSearchResult(parser), false)
         }
     }
 
@@ -45,7 +46,7 @@ internal class GetIntegrationObjectResponse : BaseResponse {
      * constructor for creating the class
      * @param searchResult the ObservabilityObject list
      */
-    constructor(searchResult: ObservabilityObjectSearchResult, filterSensitiveInfo: Boolean) {
+    constructor(searchResult: IntegrationObjectSearchResult, filterSensitiveInfo: Boolean) {
         this.searchResult = searchResult
         this.filterSensitiveInfo = filterSensitiveInfo
     }
@@ -55,7 +56,7 @@ internal class GetIntegrationObjectResponse : BaseResponse {
      */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
-        searchResult = ObservabilityObjectSearchResult(input)
+        searchResult = IntegrationObjectSearchResult(input)
         filterSensitiveInfo = input.readBoolean()
     }
 

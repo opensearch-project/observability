@@ -23,6 +23,7 @@ import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.ToXContentObject
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
+import org.opensearch.integrations.model.IntegrationObjectType
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FILTER_PARAM_LIST_FIELD
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
@@ -41,7 +42,7 @@ import java.util.EnumSet
  */
 class GetIntegrationObjectRequest : ActionRequest, ToXContentObject {
     val objectIds: Set<String>
-    val types: EnumSet<ObservabilityObjectType>
+    val types: EnumSet<IntegrationObjectType>
     val fromIndex: Int
     val maxItems: Int
     val sortField: String?
@@ -64,7 +65,7 @@ class GetIntegrationObjectRequest : ActionRequest, ToXContentObject {
         @Throws(IOException::class)
         fun parse(parser: XContentParser): GetIntegrationObjectRequest {
             var objectIdList: Set<String> = setOf()
-            var types: EnumSet<ObservabilityObjectType> = EnumSet.noneOf(ObservabilityObjectType::class.java)
+            var types: EnumSet<IntegrationObjectType> = EnumSet.noneOf(IntegrationObjectType::class.java)
             var fromIndex = 0
             var maxItems = PluginSettings.defaultItemsQueryCount
             var sortField: String? = null
@@ -81,7 +82,7 @@ class GetIntegrationObjectRequest : ActionRequest, ToXContentObject {
                 parser.nextToken()
                 when (fieldName) {
                     OBJECT_ID_LIST_FIELD -> objectIdList = parser.stringList().toSet()
-                    OBJECT_TYPE_FIELD -> types = parser.enumSet(ObservabilityObjectType.enumParser)
+                    OBJECT_TYPE_FIELD -> types = parser.enumSet(IntegrationObjectType.enumParser)
                     FROM_INDEX_FIELD -> fromIndex = parser.intValue()
                     MAX_ITEMS_FIELD -> maxItems = parser.intValue()
                     SORT_FIELD_FIELD -> sortField = parser.text()
@@ -132,7 +133,7 @@ class GetIntegrationObjectRequest : ActionRequest, ToXContentObject {
     @Suppress("LongParameterList")
     constructor(
         objectIds: Set<String> = setOf(),
-        types: EnumSet<ObservabilityObjectType> = EnumSet.noneOf(ObservabilityObjectType::class.java),
+        types: EnumSet<IntegrationObjectType> = EnumSet.noneOf(IntegrationObjectType::class.java),
         fromIndex: Int = 0,
         maxItems: Int = PluginSettings.defaultItemsQueryCount,
         sortField: String? = null,
@@ -154,7 +155,7 @@ class GetIntegrationObjectRequest : ActionRequest, ToXContentObject {
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         objectIds = input.readStringList().toSet()
-        types = input.readEnumSet(ObservabilityObjectType::class.java)
+        types = input.readEnumSet(IntegrationObjectType::class.java)
         fromIndex = input.readInt()
         maxItems = input.readInt()
         sortField = input.readOptionalString()
