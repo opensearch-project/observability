@@ -173,7 +173,7 @@ object IntegrationIndex {
         request: GetIntegrationObjectRequest
     ): IntegrationObjectSearchResult {
         createIndex()
-        val queryHelper = ObservabilityQueryHelper(request.types)
+        val queryHelper = IntegrationQueryHelper(request.types)
         val sourceBuilder = SearchSourceBuilder()
             .timeout(TimeValue(PluginSettings.operationTimeoutMs, TimeUnit.MILLISECONDS))
             .size(request.maxItems)

@@ -20,4 +20,5 @@ internal object RestTag {
     const val ACCESS_LIST_FIELD = "access"
     const val INSTANCE_FIELD = "instance"
     const val TEMPLATE_FIELD = "template"
+    const val NAME_FIELD = "name"
 }
