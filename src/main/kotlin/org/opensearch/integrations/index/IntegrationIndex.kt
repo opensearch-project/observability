@@ -20,11 +20,6 @@ import org.opensearch.integrations.action.GetIntegrationObjectRequest
 import org.opensearch.integrations.model.IntegrationObjectDoc
 import org.opensearch.integrations.model.IntegrationObjectSearchResult
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
-import org.opensearch.observability.action.GetObservabilityObjectRequest
-import org.opensearch.observability.index.ObservabilityIndex
-import org.opensearch.observability.index.ObservabilityQueryHelper
-import org.opensearch.observability.model.ObservabilityObjectDoc
-import org.opensearch.observability.model.ObservabilityObjectSearchResult
 import org.opensearch.observability.model.RestTag
 import org.opensearch.integrations.model.SearchResults
 import org.opensearch.observability.settings.PluginSettings
@@ -34,7 +29,7 @@ import org.opensearch.search.SearchHit
 import org.opensearch.search.builder.SearchSourceBuilder
 import java.util.concurrent.TimeUnit
 
-object IntegrationIndex {
+internal object IntegrationIndex {
     private val log by logger(IntegrationIndex::class.java)
     private const val INDEX_NAME = ".opensearch-integrations"
     private const val INTEGRATIONS_MAPPING_FILE_NAME = "integrations-mapping.yml"
