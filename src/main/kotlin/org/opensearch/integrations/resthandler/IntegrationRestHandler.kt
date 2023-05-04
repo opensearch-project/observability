@@ -35,6 +35,7 @@ class IntegrationRestHandler : BaseRestHandler() {
         private const val URI = "$BASE_INTEGRATIONS_URI/store"
         private const val ID_FIELD = "integration_id"
         private val log by logger(IntegrationRestHandler::class.java)
+        var added = false
     }
 
     override fun getName(): String {
@@ -69,6 +70,9 @@ class IntegrationRestHandler : BaseRestHandler() {
              * Activate an Integration
              */
             Route(Method.PUT, "$URI/{$ID_FIELD}/activate"),
+            Route(Method.GET, "$URI/list_all"),
+            Route(Method.GET, "$URI/list_added"),
+            Route(Method.GET, "$URI/details"),
         )
     }
 
@@ -126,8 +130,32 @@ class IntegrationRestHandler : BaseRestHandler() {
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
         log.info("Received: ${request.path()}")
         return when (request.method()) {
-            Method.POST -> executeCreateRequest(request, client)
-            Method.GET -> executeGetRequest(request, client)
+            Method.POST -> run {
+                added = true
+                return executeCreateRequest(request, client)
+            }
+            Method.GET -> {
+                when (request.uri().split("/").last()) {
+                    "list_all" -> RestChannelConsumer {
+                        it.sendResponse(BytesRestResponse(RestStatus.NOT_IMPLEMENTED, "{\"list\":[{}]}"))
+                    }
+                    "list_added" -> {
+                        if (added) {
+                            return RestChannelConsumer {
+                                it.sendResponse(BytesRestResponse(RestStatus.FORBIDDEN, "{\"list\":[{}]}"))
+                            }
+                        } else {
+                            RestChannelConsumer {
+                                it.sendResponse(BytesRestResponse(RestStatus.ACCEPTED, "{\"list\":[]}"))
+                            }
+                        }
+                    }
+                    "details" -> RestChannelConsumer {
+                        it.sendResponse(BytesRestResponse(RestStatus.CREATED, "{\"error\": \"${request.method().name} request not allowed\"}"))
+                    }
+                    else -> executeGetRequest(request, client)
+                }
+            }
             else -> RestChannelConsumer {
                 it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "{\"error\": \"${request.method().name} request not allowed\"}"))
             }
