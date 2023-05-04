@@ -65,7 +65,7 @@ class DemoIT : PluginRestTestCase() {
             RestRequest.Method.GET.name,
             "${ObservabilityPlugin.BASE_INTEGRATIONS_URI}/store/details",
             requestBody,
-            RestStatus.OK.status
+            RestStatus.PARTIAL_CONTENT.status
         )
         Assert.assertEquals(response.get("status").asString, "READY")
         Thread.sleep(100)

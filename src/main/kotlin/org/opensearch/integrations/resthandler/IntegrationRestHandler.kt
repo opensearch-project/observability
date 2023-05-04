@@ -151,7 +151,7 @@ class IntegrationRestHandler : BaseRestHandler() {
                         }
                     }
                     "details" -> RestChannelConsumer {
-                        it.sendResponse(BytesRestResponse(RestStatus.CREATED, "{\"error\": \"${request.method().name} request not allowed\"}"))
+                        it.sendResponse(BytesRestResponse(RestStatus.PARTIAL_CONTENT, "{\"status\":\"READY\"}"))
                     }
                     else -> executeGetRequest(request, client)
                 }
