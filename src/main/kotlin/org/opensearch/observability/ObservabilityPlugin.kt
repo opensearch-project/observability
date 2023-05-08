@@ -20,8 +20,9 @@ import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
 import org.opensearch.integrations.action.CreateIntegrationAction
+import org.opensearch.integrations.action.GetIntegrationObjectAction
 import org.opensearch.integrations.index.IntegrationIndex
-import org.opensearch.integrations.resthandler.IntegrationStoreRestHandler
+import org.opensearch.integrations.resthandler.IntegrationRestHandler
 import org.opensearch.jobscheduler.spi.JobSchedulerExtension
 import org.opensearch.jobscheduler.spi.ScheduledJobParser
 import org.opensearch.jobscheduler.spi.ScheduledJobRunner
@@ -99,7 +100,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         nodesInCluster: Supplier<DiscoveryNodes>
     ): List<RestHandler> {
         return listOf(
-            IntegrationStoreRestHandler(),
+            IntegrationRestHandler(),
             ObservabilityRestHandler(),
             ObservabilityStatsRestHandler(),
             SchedulerRestHandler(), // TODO: tmp rest handler only for POC purpose
@@ -130,6 +131,10 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
             ActionPlugin.ActionHandler(
                 CreateIntegrationAction.ACTION_TYPE,
                 CreateIntegrationAction::class.java
+            ),
+            ActionPlugin.ActionHandler(
+                GetIntegrationObjectAction.ACTION_TYPE,
+                GetIntegrationObjectAction::class.java
             )
         )
     }
