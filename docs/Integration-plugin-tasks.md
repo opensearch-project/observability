@@ -8,11 +8,21 @@ The Integrations Plugin is responsible for two tasks:
    It is shipped with the plugin as a resource,
    and is lazy loaded on request.
 2. Integration Loading:
-   Processing an uploaded integration for usage by the user.
-   This involves:
-   storing the integration's data,
-   validating the integration for correctness,
-   and giving the user access to the results.
+   Processing an integration template for usage by the user as an instance.
+   This includes a few steps:
+   - Retrieve the integration's data.
+   - Validate the integration for correctness.
+   - Validate the state of relevant dependencies.
+   - Return status results to the user.
+
+These two tasks are split across three endpoints.
+
+1. `/catalog`: available catalogs that integrations can reference.
+2. `/repository`: available integration templates that can be loaded into ready instances.
+3. `/store`: concrete integration instances, connected to instantiated data.
+
+Important endpoints are summarized here.
+For a field-by-field breakdown of each endpoint, see the [API Documentation](API/README.md).
 
 ## Catalog Registration
 
@@ -50,110 +60,172 @@ Some example search queries are provided here:
     <summary>
         <code>GET</code>
         <code><b>/_integration/catalog</b></code>
-        <span>Lists catalog elements based on query</span>
+        <span>Lists catalog elements based on query.</span>
     </summary>
 
 ##### Parameters
 
-| Name     | Type     | Data type               | Description                                                |
-|----------|----------|-------------------------|------------------------------------------------------------|
-| catalog  | required | String                  | The name of the catalog to search                          |
-| version  | optional | SemVer String           | The version of the catalog to load (default: latest)       |
-| category | optional | String                  | A sub-collection of components to filter by (default: all) |
-| tags     | optional | Comma-separated strings | Any result must have all of these tags (default: none)     |
+| Name       | Type     | Data type               | Description                                                                   |
+|------------|----------|-------------------------|-------------------------------------------------------------------------------|
+| catalog    | required | String                  | The name of the catalog to search                                             |
+| version    | optional | SemVer String           | The version of the catalog to load (default: latest)                          |
+| categories | optional | Comma-separated strings | All results must be a part of at least one of these categories (default: any) |
+| tags       | optional | Comma-separated strings | All results must have all of these tags (default: none)                       |
 
 ##### Responses
 
-| Http Code | Content-Type       | Response                                 |
-|-----------|--------------------|------------------------------------------|
-| `200`     | `application/json` | `{"totalHits": 2, "hits": [...]}`        |
-| `400`     | `application/json` | `{"code": 400, "message":"Bad Request"}` |
+| Http Code | Content-Type       | Response                                           |
+|-----------|--------------------|----------------------------------------------------|
+| `200`     | `application/json` | `{"totalHits": 2, "hits": [/* Document Array */]}` |
+| `400`     | `application/json` | `{"code": 400, "message": "/* Error Message */"}`  |
 
 ##### Example cURL
 
 ```sh
-$ curl -X GET "http://localhost:9200/_plugin/_integration/catalog?catalog=observability&category=logs&tags=web"
+$ curl "http://localhost:9200/_plugin/_integration/catalog?catalog=observability&categories=logs&tags=web"
 ```
 </details>
 
 ---
 
-## Integration Registry
+## Integration Repository
 
-During the Integration plugin loading,
-it will scan the Integration folder
-(or any resource that functions as the integration repository)
-and load each repository [config file](../src/main/resources/schema/system/integration.schema)
-into an in memory cache / index
-allowing to query and filter according to the different integration attributes.
+The Repository contains integration templates.
+These are integrations that are not yet connected to any data.
+They include display assets and data formats,
+but need to be loaded before they can be used.
 
-### External Integrations' registry loading
-"External integrations" (ones that are not packaged in the original integrations bundle) can be published by the user.
-These "external" integrations are packages as a zip bundle and contain all the relevant resources including:
+Templates can be uploaded to the repository by users.
+The plugin comes with pre-bundled templates that are lazy-loaded on request.
+Each template is defined by a [Config file](schema/system/samples/integration.json).
 
-- `images`
-- `assets`
-- `documents`
-- `icons`
+### External Integrations
 
-Once the user has uploaded this zip bundle using the `POST /repository` API, this bundle will be maintained inside the repository index (Blob file or extracted bundle).
+*External Integrations* are integrations not included in the default integrations bundle.
+They are published by the user.
+External Integrations are packaged as a `zip` file that contains:
+
+- `/config.json`: A config file describing the integration's dependencies.
+- `/schema`: A copy of the data format that the integration depends on to function.
+- `/assets`: External resources that are tied to the integration, including:
+  - `/assets/display`: Display elements to be loaded in OpenSearch Dashboards.
+  - `/assets/meta`: Metadata for presenting the integration to other users, such as a logo.
+
+This zipped bundle is uploaded to the `/repository` API.
 
 In addition to the repository index, the Integration may use a repository cache that will allow the F/E to retrieve additional content residing in the integration folder directly (images, html pages, URLs).
 
 #### Flow Diagram
 
-![flow diagram](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
-
-Once the Integration has completed loading, it will allow to query the cache content using the following REST api:
-
-Filter integration according to its attributes:
-
-```http
-GET _integration/repository?filter=type:Logs&category:web,html
+```mermaid
+---
+title: Integration Flow
+---
+flowchart TD
+    R((Review)) -.->|Integration Approved| P[Publish]
+    P[Publish] -->|POST /repository| Repo[[Repository]]
+    S[Search] -->|GET /repository| Repo
+    I[Inspect] -->|GET /repository/&#123id&#125| Repo
+    Repo --> TRepo
+    TRepo[(Template Repository)]
+    L[Load] -->|POST /store| Store[[Store]]
+    TRepo -.->|Loading| Store
+    Store -.->|Upload| IStore[(Instance Store)]
 ```
 
-Results a list of integrations.
+#### Querying the Repository
 
-Query integration by name:
+<details>
+    <summary>
+        <code>POST</code>
+        <code><b>/_integration/repository</b></code>
+        <span>Publish an integration template to the repository.</span>
+    </summary>
 
-```http
-GET _integration/repository/$template_name
+##### Parameters
+
+| Name | Type     | Data type         | Description                   |
+|------|----------|-------------------|-------------------------------|
+| Body | required | `application/zip` | The zipped integration bundle |
+
+##### Responses
+
+| Http Code | Content-Type       | Response                                          |
+|-----------|--------------------|---------------------------------------------------|
+| `200`     | `application/json` | `{"objectId": "sampleId", /* More fields */}`     |
+| `400`     | `application/json` | `{"code": 400, "message": "/* Error Message */"}` |
+
+##### Example cURL
+
+```sh
+$ curl -X POST -H "Content-Type: application/zip" -d @integrationBundle.zip \
+  "http://localhost:9200/_plugin/_integration/repository"
 ```
+</details>
 
-Results in a single integration.
+<details>
+    <summary>
+        <code>GET</code>
+        <code><b>/_integration/repository</b></code>
+        <span>Lists integration templates based on query.</span>
+    </summary>
 
+##### Parameters
 
-### Integrations Loading
+| Name       | Type     | Data type               | Description                                                                   |
+|------------|----------|-------------------------|-------------------------------------------------------------------------------|
+| catalog    | optional | String                  | A catalog that the integration is a part of                                   |
+| version    | optional | SemVer String           | The version of the template to load (default: latest)                         |
+| categories | optional | Comma-separated strings | All results must be a part of at least one of these categories (default: any) |
+| tags       | optional | Comma-separated strings | All results must have all of these tags (default: none)                       |
 
-Once the user has selected which integration he want's to load, her will call the next API:
+##### Responses
+
+| Http Code | Content-Type       | Response                                           |
+|-----------|--------------------|----------------------------------------------------|
+| `200`     | `application/json` | `{"totalHits": 2, "hits": [/* Document Array */]}` |
+| `400`     | `application/json` | `{"code": 400, "message": "/* Error Message */"}`  |
+
+##### Example cURL
+
+```sh
+$ curl "http://localhost:9200/_plugin/_integration/repository?categories=logs,traces&tags=web"
 ```
-PUT _integration/store/$instance_name 
-```
-The body of the request will be the integration config file. It is also possible that during the user interaction he would like to update the index naming pattern that the integration instance will use. 
-It will be reflected in the appropriate section of the integration config json
+</details>
 
-_For example the next observability integration:_
-```json5
-{  
-  "collection": [
-    {
-      "logs": [
-        {
-            "info": "access logs",
-            "input_type": "logfile",  
-            "dataset": "nginx.access", // Subject to user changes
-            "namespace": "prod", // Subject to user changes
-            "labels": ["nginx", "access"],
-            "schema": "file:///.../schema/logs/access.json"
-        }
-      ]
-    }
-  ]
-}
-```
-### Loading Step
+<details>
+    <summary>
+        <code>GET</code>
+        <code><b>/_integration/repository/{id}</b></code>
+        <span>Inspect a single integration template by ID.</span>
+    </summary>
 
-The integration progresses through the following state machine while loading:
+##### Parameters
+
+| Name     | Type     | Data type               | Description                            |
+|----------|----------|-------------------------|----------------------------------------|
+| id       | required | String                  | The unique identifier for the template |
+
+##### Responses
+
+| Http Code | Content-Type       | Response                                          |
+|-----------|--------------------|---------------------------------------------------|
+| `200`     | `application/json` | `{"objectId": "sampleId", /* More fields */}`     |
+| `400`     | `application/json` | `{"code": 400, "message": "/* Error Message */"}` |
+| `404`     | `application/json` | `{"code": 404, "message": "Not found"}`           |
+
+##### Example cURL
+
+```sh
+$ curl "http://localhost:9200/_plugin/_integration/repository/sampleId"
+```
+</details>
+
+## Integration Loading
+
+When the correct Integration template is stored in the repository,
+this is the final step for preparing the integration.
+Loading consists of the following stages.
 
 ```mermaid
 ---
@@ -162,143 +234,140 @@ title: Integration Loading
 stateDiagram-v2
     [*] --> Loading
     Loading --> Validation
-    Loading --> Maintenance
+    Loading --> Error
     Validation --> Upload
-    Validation --> Maintenance
+    Validation --> Error
     Upload --> Ready
-    Upload --> Maintenance
+    Upload --> Error
     Ready --> [*]
-    Maintenance --> [*]
+    Error --> [*]
 ```
 
-The two terminal results are:
+The two terminal states are:
 
-- `Ready`: The Integration was successfully loaded.
-- `Maintenance`: A loading step failed, a user intervention is needed.
+- `Ready`: The Integration was successfully loaded, and is ready to be displayed.
+- `Error`: A loading step failed, user intervention is needed.
+  Maintenance can fail for various reasons:
+  - `Loading`: The requested template could not be retrieved from the repository.
+  - `Validation`: The template was found, but is not valid.
+  - `Upload`: The integration was valid but could not be stored (e.g. due to a name collision).
 
-After the `_integration/store/$instance_name` API was called the next steps will occur: 
+When an integration is `Ready`, the dependencies are set up,
+and it is ready to ingest data.
+However, changes are exclusively to the underlying OpenSearch cluster.
+To display the integration, the integration's display assets need to be separately imported to OpenSearch Dashboards.
+These assets are accessible under `/_integration/store/{id}/assets`.
+When using the OpenSearch Dashboards Integrations functionality,
+this step will be done automatically.
 
- - The integration object will be inserted into the `.integration` index with a `LOADING` status.
-   - During this step, the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`.
-     - This can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`.
-   - Update the index template's `index_pattern` field with the added pattern.
-       - "index_patterns":` ["ss4o_logs-*-*"]` -> `["ss4o_logs-*-*", "myLogs-*"]`.
-   - If user selected custom index with proprietary fields, a mapping must be configured. See: [field aliasing](Integration-fields-mapping.md).
+<details>
+    <summary>
+        <code>POST</code>
+        <code><b>/_integration/store</b></code>
+        <span>Load an integration template into the store.</span>
+    </summary>
 
----
+##### Parameters
 
-   - **Success**: If the user changes the data-stream / index naming pattern - this will also be changes in every assets that supports such capability.
-   - **Fail**:    If the validation fails the integration status would be updated to `maintenance` and an appropriate response should reflect the issues.
-   
- 
-   - **Response**:
-   ```json
-   {
-     "instance": "nginx-prod",
-     "integration-name": "nginx",
-     "status": "maintenance",
-     "phase": "LOADING",
-     "issues": []
-   }
-   ```
+| Name | Type     | Data type | Description                  |
+|------|----------|-----------|------------------------------|
+| Body | required | JSON      | `{"template-name": "nginx"}` |
 
- - Next the integration will undergo a validation phase -  marked with a `VALIDATION` status.
-      - Assets will be validated with the schema to match fields to the mapping.
-      - Assets containing index patterns will be validated any index with these pattern exists.
-      - Datasource will be validated to verify connection is accessible.
-      - Mapping templates are verified to exist.
+##### Responses
 
----
+| Http Code | Content-Type       | Response                                                                   |
+|-----------|--------------------|----------------------------------------------------------------------------|
+| `201`     | `application/json` | [An integration instance](schema/system/samples/integration-instance.json) |
+| `400`     | `application/json` | `{"code": 400, "state": "VALIDATION", "message": "/* Error Message */"}`   |
 
-   - **Success**: If the validation succeeds the integration status would be updated
-   - **Fail**:   If the validation fails the integration status would be updated and the next response would return.
+##### Example cURL
 
-   - **Response**:
-     ```json
-     {
-       "instance": "nginx-prod",
-       "integration-name": "nginx",
-       "status": "maintenance",
-       "phase": "VALIDATION",
-       "issues": [
-         { 
-           "asset": "dashboard",
-           "name": "nginx-prod-core",
-           "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
-           "issue": [
-             "field cloud.version is not present in mapping sso_log-nginx-prod"
-           ]
-         }
-       ]
-     }
-     ```
-
-- The assets are being uploaded to the objects store index, if the users cherry pick specific assets to upload they will be loaded as requested.
-
----
-
-- **Success**: If the upload succeeds the integration status would be updated and the user will get the success status response
-- **Response:**
-```json
- {
-    "instance": "nginx-prod",
-    "integration-name": "nginx",
-    "phase": "UPLOAD",
-    "status": "ready"
- }
+```sh
+$ curl -X POST -H "Content-Type: application/json" -d @config.json "http://localhost:9200/_plugin/_integration/store"
 ```
-   
-- **Fail**: If the bulk upload fails the integration status would be updated and the next response would return.
-- **Response**:
-```json
-{
-"instance": "nginx-prod",
-"integration-name": "nginx",
-"status": "maintenance",
-"phase": "VALIDATION",
-"issues": [
-  { 
-    "asset": "dashboard",
-    "name": "nginx-prod-core",
-    "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
-    "issue": [
-      "field cloud.version is not present in mapping sso_log-nginx-prod"
-    ]
-  }
-]
-}
+</details>
+
+<details>
+    <summary>
+        <code>GET</code>
+        <code><b>/_integration/store/{id}</b></code>
+        <span>Inspect a single integration instance by ID.</span>
+    </summary>
+
+##### Parameters
+
+| Name     | Type     | Data type               | Description                            |
+|----------|----------|-------------------------|----------------------------------------|
+| id       | required | String                  | The unique identifier for the instance |
+
+##### Responses
+
+| Http Code | Content-Type       | Response                                                           |
+|-----------|--------------------|--------------------------------------------------------------------|
+| `200`     | `application/json` | `{"instance": "nginx-prod", /* More fields */}` |
+| `400`     | `application/json` | `{"code": 400, "message": "/* Error Message */"}`                  |
+| `404`     | `application/json` | `{"code": 404, "message": "Not found"}`                            |
+
+##### Example cURL
+
+```sh
+$ curl "http://localhost:9200/_plugin/_integration/store/sampleId"
+```
+</details>
+
+<details>
+    <summary>
+        <code>GET</code>
+        <code><b>/_integration/repository/{id}/assets</b></code>
+        <span>Retrieve Saved Object Assets associated with the integration.</span>
+    </summary>
+
+##### Parameters
+
+| Name     | Type     | Data type               | Description                            |
+|----------|----------|-------------------------|----------------------------------------|
+| id       | required | String                  | The unique identifier for the instance |
+
+##### Responses
+
+| Http Code | Content-Type           | Response                                                        |
+|-----------|------------------------|-----------------------------------------------------------------|
+| `200`     | `application/x-ndjson` | A Saved Object document to be imported in OpenSearch Dashboards |
+| `400`     | `application/json`     | `{"code": 400, "message": "/* Error Message */"}`               |
+| `404`     | `application/json`     | `{"code": 404, "message": "Not found"}`                         |
+
+##### Example cURL
+
+```sh
+$ curl "http://localhost:9200/_plugin/_integration/store/sampleId/assets"
+```
+</details>
+
+<details>
+    <summary>
+        <code>GET</code>
+        <code><b>/_integration/store/{id}/status</b></code>
+        <span>Check the status of an integration.</span>
+    </summary>
+
+##### Parameters
+
+| Name     | Type     | Data type               | Description                            |
+|----------|----------|-------------------------|----------------------------------------|
+| id       | required | String                  | The unique identifier for the instance |
+
+##### Responses
+
+| Http Code | Content-Type       | Response                                          |
+|-----------|--------------------|---------------------------------------------------|
+| `200`     | `application/json` | `{"instance": "nginx-prod", "status": "READY"}`   |
+| `400`     | `application/json` | `{"code": 400, "message": "/* Error Message */"}` |
+| `404`     | `application/json` | `{"code": 404, "message": "Not found"}`           |
+
+##### Example cURL
+
+```sh
+$ curl "http://localhost:9200/_plugin/_integration/store/sampleId/status"
 ```
 
----
-
-### Additional supported API:
-
-Status API for Integration `_integration/store/$instance_name/status` will result in :
-- **Response:**
-   ```json
-   {
-       "instance": "nginx-prod",
-       "integration-name": "nginx",
-       "phase": "UPLOAD",
-       "status": "ready"
-   }
-   ```
-
-
-Activate / deactivate integration `_integration/store/$instance_name/activate` / `_integration/store/$instance_name/disable` will result in status :
-- **Response:**
-   ```json
-   {
-       "instance": "nginx-prod",
-       "integration-name": "nginx",
-       "phase": "DISABLE",
-       "status": "ready"
-   }
-   ```
-#### Deactivation
-   The result of deactivating an integration would cause all the assets to disable.
-
-#### Activation
-   The result of activation would depend on the existing status & phase of the Integration
-    - if not in is ready status - will try to continue the next phases.
-    - if is ready status - will try to update status to disabled
+</details>
