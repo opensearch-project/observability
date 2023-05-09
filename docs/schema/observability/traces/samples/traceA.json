@@ -5,6 +5,7 @@
   "parentSpanId": "",
   "name": "client_checkout",
   "kind": "INTERNAL",
+  "startTime": "2021-11-13T20:20:39+00:00",
   "@timestamp": "2021-11-13T20:20:39+00:00",
   "endTime": "2021-11-14T20:10:41+00:00",
   "droppedAttributesCount": 0,
@@ -19,5 +20,8 @@
   },
   "status": {
     "code": 0
+  },
+  "attributes": {
+    "serviceName": "customer"
   }
 }

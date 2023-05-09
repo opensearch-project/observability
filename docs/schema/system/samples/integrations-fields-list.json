@@ -1,0 +1,578 @@
+{
+  "template-name": "nginx",
+  "version": "1.0.0",
+  "description": "Nginx HTTP server collector",
+  "catalog": "observability",
+  "collections": [
+    {
+      "category": "logs",
+      "components": [
+        {
+          "source": "logs.mapping",
+          "container": true,
+          "fields": {
+            "severity": {
+              "properties": {
+                "number": {
+                  "type": "long"
+                },
+                "text": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+              }
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "data_stream": {
+                  "properties": {
+                    "dataset": {
+                      "ignore_above": 128,
+                      "type": "keyword"
+                    },
+                    "namespace": {
+                      "ignore_above": 128,
+                      "type": "keyword"
+                    },
+                    "type": {
+                      "ignore_above": 56,
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "body": {
+              "type": "text"
+            },
+            "@timestamp": {
+              "type": "date"
+            },
+            "observedTimestamp": {
+              "type": "date"
+            },
+            "traceId": {
+              "ignore_above": 256,
+              "type": "keyword"
+            },
+            "spanId": {
+              "ignore_above": 256,
+              "type": "keyword"
+            },
+            "schemaUrl": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "instrumentationScope": {
+              "properties": {
+                "name": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 128
+                    }
+                  }
+                },
+                "version": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "dropped_attributes_count": {
+                  "type": "integer"
+                },
+                "schemaUrl": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+              }
+            },
+            "event": {
+              "properties": {
+                "domain": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "name": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "category": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "type": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "kind": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "result": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "exception": {
+                  "properties": {
+                    "message": {
+                      "ignore_above": 1024,
+                      "type": "keyword"
+                    },
+                    "type": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    },
+                    "stacktrace": {
+                      "type": "text"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "source": "http.mapping",
+          "container": false,
+          "fields": {
+            "http": {
+              "properties": {
+                "flavor": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "user_agent": {
+                  "type": "keyword",
+                  "ignore_above": 2048
+                },
+                "url": {
+                  "type": "keyword",
+                  "ignore_above": 2048
+                },
+                "schema": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "target": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "route": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "client.ip": {
+                  "type": "ip"
+                },
+                "resent_count": {
+                  "type": "integer"
+                },
+                "request": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "body.content": {
+                      "type": "text"
+                    },
+                    "bytes": {
+                      "type": "long"
+                    },
+                    "method": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    },
+                    "referrer": {
+                      "type": "keyword",
+                      "ignore_above": 1024
+                    },
+                    "mime_type": {
+                      "type": "keyword",
+                      "ignore_above": 1024
+                    }
+                  }
+                },
+                "response": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "body.content": {
+                      "type": "text"
+                    },
+                    "bytes": {
+                      "type": "long"
+                    },
+                    "status_code": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "source": "communication.mapping",
+          "fields": {
+            "communication": {
+              "properties": {
+                "sock.family": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                },
+                "source": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 1024
+                        }
+                      }
+                    },
+                    "domain": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 1024
+                        }
+                      }
+                    },
+                    "bytes": {
+                      "type": "long"
+                    },
+                    "ip": {
+                      "type": "ip"
+                    },
+                    "port": {
+                      "type": "long"
+                    },
+                    "mac": {
+                      "type": "keyword",
+                      "ignore_above": 1024
+                    },
+                    "packets": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "destination": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 1024
+                        }
+                      }
+                    },
+                    "domain": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 1024
+                        }
+                      }
+                    },
+                    "bytes": {
+                      "type": "long"
+                    },
+                    "ip": {
+                      "type": "ip"
+                    },
+                    "port": {
+                      "type": "long"
+                    },
+                    "mac": {
+                      "type": "keyword",
+                      "ignore_above": 1024
+                    },
+                    "packets": {
+                      "type": "long"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "category": "metrics",
+      "components": [
+        {
+          "source": "metrics.mapping",
+          "container": true,
+          "fields": {
+            "name": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "data_stream": {
+                  "properties": {
+                    "dataset": {
+                      "ignore_above": 128,
+                      "type": "keyword"
+                    },
+                    "namespace": {
+                      "ignore_above": 128,
+                      "type": "keyword"
+                    },
+                    "type": {
+                      "ignore_above": 56,
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "description": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "unit": {
+              "type": "keyword",
+              "ignore_above": 128
+            },
+            "kind": {
+              "type": "keyword",
+              "ignore_above": 128
+            },
+            "aggregationTemporality": {
+              "type": "keyword",
+              "ignore_above": 128
+            },
+            "monotonic": {
+              "type": "boolean"
+            },
+            "startTime": {
+              "type": "date"
+            },
+            "@timestamp": {
+              "type": "date"
+            },
+            "observedTimestamp": {
+              "type": "date_nanos"
+            },
+            "value": {
+              "properties": {
+                "int": {
+                  "type": "integer"
+                },
+                "double": {
+                  "type": "double"
+                }
+              }
+            },
+            "buckets": {
+              "properties": {
+                "count": {
+                  "type": "long"
+                },
+                "sum": {
+                  "type": "double"
+                },
+                "max": {
+                  "type": "float"
+                },
+                "min": {
+                  "type": "float"
+                }
+              }
+            },
+            "bucketCount": {
+              "type": "long"
+            },
+            "bucketCountsList": {
+              "type": "long"
+            },
+            "explicitBoundsList": {
+              "type": "float"
+            },
+            "explicitBoundsCount": {
+              "type": "float"
+            },
+            "quantiles": {
+              "properties": {
+                "quantile": {
+                  "type": "double"
+                },
+                "value": {
+                  "type": "double"
+                }
+              }
+            },
+            "quantileValuesCount": {
+              "type": "long"
+            },
+            "positiveBuckets": {
+              "properties": {
+                "count": {
+                  "type": "long"
+                },
+                "max": {
+                  "type": "float"
+                },
+                "min": {
+                  "type": "float"
+                }
+              }
+            },
+            "negativeBuckets": {
+              "properties": {
+                "count": {
+                  "type": "long"
+                },
+                "max": {
+                  "type": "float"
+                },
+                "min": {
+                  "type": "float"
+                }
+              }
+            },
+            "negativeOffset": {
+              "type": "integer"
+            },
+            "positiveOffset": {
+              "type": "integer"
+            },
+            "zeroCount": {
+              "type": "long"
+            },
+            "scale": {
+              "type": "long"
+            },
+            "max": {
+              "type": "float"
+            },
+            "min": {
+              "type": "float"
+            },
+            "sum": {
+              "type": "float"
+            },
+            "count": {
+              "type": "long"
+            },
+            "exemplar": {
+              "properties": {
+                "time": {
+                  "type": "date"
+                },
+                "traceId": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                },
+                "spanId": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "instrumentationScope": {
+              "properties": {
+                "name": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 128
+                    }
+                  }
+                },
+                "version": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "droppedAttributesCount": {
+                  "type": "integer"
+                },
+                "schemaUrl": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+              }
+            },
+            "schemaUrl": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
