@@ -1,82 +1,126 @@
-# Integration Loading Flow
+# Integration Plugin Tasks
 
-## Integration plugin start 
-The integration plugins is currently responsible for the next tasks:
- - Catalog registration
-   - Loading catalog schema templates
- - Integration Loading
-   - Integration state maintenance
+This document describes the responsibilities of the Integrations Plugin.
+The Integrations Plugin is responsible for two tasks:
 
-### Catalog Registration 
+1. Catalog Registration:
+   The catalog contains components that integrations use to represent data types.
+   It is shipped with the plugin as a resource,
+   and is lazy loaded on request.
+2. Integration Loading:
+   Processing an uploaded integration for usage by the user.
+   This involves:
+   storing the integration's data,
+   validating the integration for correctness,
+   and giving the user access to the results.
 
-During the loading of the Integration Plugin it will go over all the [catalog schemas](schema/README.md) and creates the appropriate 
-template mapping for each catalog schema entity. This will allow the future Integration to be validated to the schema catalog they are associated with.
+## Catalog Registration
 
-**For example** - the [Observability](schema/observability) catalog will eventually be registered with the next mapping templates
- - [Traces](../src/main/resources/schema/observability/traces/traces.mapping)
- - [Logs](../src/main/resources/schema/observability/logs/logs.mapping)
- - [Metrics](../src/main/resources/schema/observability/metrics/metrics.mapping)
+As needed, the Integrations Plugin will lazily load [Catalogs](schema/README.md).
+Catalogs contain entity types that are referenced by Integrations, called components.
+Components describe the expected format of the data in any provided indices.
+Integration validation involves asserting that all provided assets use this format.
 
-These mapping specify a backed `data-stream` index pattern they conform with [Naming Pattern](observability/Naming-convention.md).
+As an example, consider the [Observability Catalog](schema/observability).
+It contains three types that are ubiquitous throughout the observability domain:
 
-**API**
-The catalog API can be queries according to the next fields:
- - type
- - catalog
- - category
- - version
+- [Logs](../src/main/resources/schema/observability/logs/logs.mapping)
+- [Metrics](../src/main/resources/schema/observability/metrics/metrics.mapping)
+- [Traces](../src/main/resources/schema/observability/traces/traces.mapping)
 
-`GET _integration/catalog?filter=type:Logs&catalog:Observability&category:web`
+In addition to a data format schema, they each contain an index pattern.
+The index pattern specifies where the data is expected to be stored.
+These patterns conform to the existing [Naming Convention](observability/Naming-convention.md).
 
- This call will result with the appropriate index_template IDs corresponding to the query:
+### API
 
-```json
-{
-  "templates": ["sso_logs-template","http-template"],
-  "catalog":[...],
-  "category": [...],
-  "version": [...]
-}
+A Catalog contains the following queryable fields:
+
+- Catalog: The name of the catalog.
+- Version: The version of the catalog, following Semantic Versioning.
+- Category: A collection of components,
+            generally containing a main component with optional subcomponents.
+- Tags: Any further semantic tags associated with components.
+
+Some example search queries are provided here:
+
+#### Querying Catalogs
+
+<details>
+    <summary>
+        <code>GET</code>
+        <code><b>/_integration/catalog</b></code>
+        <span>Lists catalog elements based on query</span>
+    </summary>
+
+##### Parameters
+
+| Name     | Type     | Data type               | Description                                                |
+|----------|----------|-------------------------|------------------------------------------------------------|
+| catalog  | required | String                  | The name of the catalog to search                          |
+| version  | optional | SemVer String           | The version of the catalog to load (default: latest)       |
+| category | optional | String                  | A sub-collection of components to filter by (default: all) |
+| tags     | optional | Comma-separated strings | Any result must have all of these tags (default: none)     |
+
+##### Responses
+
+| Http Code | Content-Type       | Response                                 |
+|-----------|--------------------|------------------------------------------|
+| `200`     | `application/json` | `{"totalHits": 2, "hits": [...]}`        |
+| `400`     | `application/json` | `{"code": 400, "message":"Bad Request"}` |
+
+##### Example cURL
+
+```sh
+$ curl -X GET "http://localhost:9200/_plugin/_integration/catalog?catalog=observability&category=logs&tags=web"
 ```
-
-Using the template names one can access the template directly using the `_index_template` URL:
-
-`GET _index_template/sso_logs-template`
+</details>
 
 ---
 
-### Integrations registry
+## Integration Registry
 
-During the Integration plugin loading, it will scan the Integration folder (or any resource that functions as the integration repository ) and load each repository [config file](../../schema/system/integration.schema)
-into an in memory cache / index allowing to query and filter according to the different integration attributes.
+During the Integration plugin loading,
+it will scan the Integration folder
+(or any resource that functions as the integration repository)
+and load each repository [config file](../src/main/resources/schema/system/integration.schema)
+into an in memory cache / index
+allowing to query and filter according to the different integration attributes.
 
 ### External Integrations' registry loading
 "External integrations" (ones that are not packaged in the original integrations bundle) can be published by the user.
 These "external" integrations are packages as a zip bundle and contain all the relevant resources including:
- - `images`
- - `assets`
- - `documents`
- - `icons`
+
+- `images`
+- `assets`
+- `documents`
+- `icons`
 
 Once the user has uploaded this zip bundle using the `POST /repository` API, this bundle will be maintained inside the repository index (Blob file or extracted bundle).
 
-In addition to the repository index, the Integration may use a repository cache that will allow the F/E to retrieve additional content residing in the integration folder directly ( images, html pages, URL's ) 
+In addition to the repository index, the Integration may use a repository cache that will allow the F/E to retrieve additional content residing in the integration folder directly (images, html pages, URLs).
 
 #### Flow Diagram
-![flow-diagram-](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
+
+![flow diagram](https://user-images.githubusercontent.com/48943349/222320100-cac40749-9e5a-4e90-8ff2-386958adc06d.png)
 
 Once the Integration has completed loading, it will allow to query the cache content using the following REST api:
- - Filter integration according to its attributes:
-```
+
+Filter integration according to its attributes:
+
+```http
 GET _integration/repository?filter=type:Logs&category:web,html
 ```
- - results a list of integrations
 
-- Query integration by name:
-```
+Results a list of integrations.
+
+Query integration by name:
+
+```http
 GET _integration/repository/$template_name
 ```
-- results a single integration
+
+Results in a single integration.
 
 
 ### Integrations Loading
@@ -89,43 +133,60 @@ The body of the request will be the integration config file. It is also possible
 It will be reflected in the appropriate section of the integration config json
 
 _For example the next observability integration:_
-```json
-  ...
-  "collection":[
+```json5
+{  
+  "collection": [
     {
-      "logs": [{
-        "info": "access logs",
-        "input_type":"logfile",  
-        "dataset":"nginx.access", <<- subject to user changes
-        "namespace": "prod",<<- subject to user changes
-        "labels" :["nginx","access"],
-        "schema": "file:///.../schema/logs/access.json"
-      },
-    ...
+      "logs": [
+        {
+            "info": "access logs",
+            "input_type": "logfile",  
+            "dataset": "nginx.access", // Subject to user changes
+            "namespace": "prod", // Subject to user changes
+            "labels": ["nginx", "access"],
+            "schema": "file:///.../schema/logs/access.json"
+        }
+      ]
+    }
+  ]
+}
 ```
 ### Loading Step
 
-The integration has the next steps: 
-```text
- - LOADING
-   - VALIDATION
-     - UPLOAD
-       - READY
-```
-Each step may result on one of two result 
-   - `ready` - this will transition it to the next step
-   - `maintenance` - this will hold until user fix issues
+The integration progresses through the following state machine while loading:
 
+```mermaid
+---
+title: Integration Loading
+---
+stateDiagram-v2
+    [*] --> Loading
+    Loading --> Validation
+    Loading --> Maintenance
+    Validation --> Upload
+    Validation --> Maintenance
+    Upload --> Ready
+    Upload --> Maintenance
+    Ready --> [*]
+    Maintenance --> [*]
+```
+
+The two terminal results are:
+
+- `Ready`: The Integration was successfully loaded.
+- `Maintenance`: A loading step failed, a user intervention is needed.
 
 After the `_integration/store/$instance_name` API was called the next steps will occur: 
 
- - The integration object will be inserted into the `.integration` index with a `LOADING` status
-   - During this step the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`
-     - `${instance_name}-assetName.json`, this can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`
-   - update the index template's `index_pattern` field with the added pattern
-       - "index_patterns":` ["sso_logs-*-*"]` -> `["sso_logs-*-*", "myLogs-*"]`
-   - if user selected custom index with proprietary fields -  mapping must be called ([field aliasing](Integration-fields-mapping.md))
+ - The integration object will be inserted into the `.integration` index with a `LOADING` status.
+   - During this step, the integration engine will rename all the assets names according to the user's given name `${instance_name}-assetName.json`.
+     - This can also be extended using more configurable patterns such as `${instance_name}-{dataset}-{namespace}-assetName.json`.
+   - Update the index template's `index_pattern` field with the added pattern.
+       - "index_patterns":` ["ss4o_logs-*-*"]` -> `["ss4o_logs-*-*", "myLogs-*"]`.
+   - If user selected custom index with proprietary fields, a mapping must be configured. See: [field aliasing](Integration-fields-mapping.md).
+
 ---
+
    - **Success**: If the user changes the data-stream / index naming pattern - this will also be changes in every assets that supports such capability.
    - **Fail**:    If the validation fails the integration status would be updated to `maintenance` and an appropriate response should reflect the issues.
    
@@ -141,15 +202,16 @@ After the `_integration/store/$instance_name` API was called the next steps will
    }
    ```
 
- - Next the integration will undergo a validation phase -  marked with a `VALIDATION` status
-      - assets will be validated with the schema to match fields to the mapping
-      - assets containing index patterns will be validated any index with these pattern exists
-      - datasource will be validated to verify connection is accessible
-      - mapping templates are verified to exist
+ - Next the integration will undergo a validation phase -  marked with a `VALIDATION` status.
+      - Assets will be validated with the schema to match fields to the mapping.
+      - Assets containing index patterns will be validated any index with these pattern exists.
+      - Datasource will be validated to verify connection is accessible.
+      - Mapping templates are verified to exist.
+
 ---
+
    - **Success**: If the validation succeeds the integration status would be updated
    - **Fail**:   If the validation fails the integration status would be updated and the next response would return.
-  
 
    - **Response**:
      ```json
@@ -171,40 +233,42 @@ After the `_integration/store/$instance_name` API was called the next steps will
      }
      ```
 
+- The assets are being uploaded to the objects store index, if the users cherry pick specific assets to upload they will be loaded as requested.
 
- - The assets are being uploaded to the objects store index, if the users cherry picket specific assets to upload they will be loaded as requested.
 ---
- - **Success**: If the upload succeeds the integration status would be updated and the user will get the success status response
-   - **Response:**
-    ```json
-      {
-         "instance": "nginx-prod",
-         "integration-name": "nginx",
-         "phase": "UPLOAD",
-         "status": "ready"
-      }
-    ```
+
+- **Success**: If the upload succeeds the integration status would be updated and the user will get the success status response
+- **Response:**
+```json
+ {
+    "instance": "nginx-prod",
+    "integration-name": "nginx",
+    "phase": "UPLOAD",
+    "status": "ready"
+ }
+```
    
- - **Fail**: If the bulk upload fails the integration status would be updated and the next response would return.
-   - **Response**:
-   ```json
-   {
-     "instance": "nginx-prod",
-     "integration-name": "nginx",
-     "status": "maintenance",
-     "phase": "VALIDATION",
-     "issues": [
-       { 
-         "asset": "dashboard",
-         "name": "nginx-prod-core",
-         "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
-         "issue": [
-           "field cloud.version is not present in mapping sso_log-nginx-prod"
-         ]
-       }
-     ]
-   }
-   ```
+- **Fail**: If the bulk upload fails the integration status would be updated and the next response would return.
+- **Response**:
+```json
+{
+"instance": "nginx-prod",
+"integration-name": "nginx",
+"status": "maintenance",
+"phase": "VALIDATION",
+"issues": [
+  { 
+    "asset": "dashboard",
+    "name": "nginx-prod-core",
+    "url": "file:///.../nginx/integration/assets/nginx-prod-core.ndjson",
+    "issue": [
+      "field cloud.version is not present in mapping sso_log-nginx-prod"
+    ]
+  }
+]
+}
+```
+
 ---
 
 ### Additional supported API:
@@ -238,5 +302,3 @@ Activate / deactivate integration `_integration/store/$instance_name/activate` /
    The result of activation would depend on the existing status & phase of the Integration
     - if not in is ready status - will try to continue the next phases.
     - if is ready status - will try to update status to disabled
-
-
