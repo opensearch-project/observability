@@ -15,7 +15,7 @@ class DemoIT : PluginRestTestCase() {
             requestBody,
             RestStatus.OK.status
         )
-        Assert.assertEquals(response.get("list").asJsonArray.size(), 1)
+        Assert.assertEquals(response.get("integrations").asJsonArray.size(), 1)
         Thread.sleep(100)
     }
 
