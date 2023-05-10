@@ -6,8 +6,10 @@
 package org.opensearch.integrations.resthandler
 
 import org.opensearch.client.node.NodeClient
+import org.opensearch.common.xcontent.XContentFactory
 import org.opensearch.commons.utils.contentParserNextToken
 import org.opensearch.commons.utils.logger
+import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.integrations.action.CreateIntegrationAction
 import org.opensearch.integrations.action.CreateIntegrationRequest
 import org.opensearch.integrations.action.GetIntegrationObjectAction
@@ -129,6 +131,7 @@ class IntegrationRestHandler : BaseRestHandler() {
 
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
         log.info("Received: ${request.path()}")
+        val json = XContentFactory.jsonBuilder().startObject().startArray("integrations").startObject().field("test", "test").endObject().endArray().endObject()
         return when (request.method()) {
             Method.POST -> run {
                 added = true
@@ -137,7 +140,7 @@ class IntegrationRestHandler : BaseRestHandler() {
             Method.GET -> {
                 when (request.uri().split("/").last()) {
                     "list_all" -> RestChannelConsumer {
-                        it.sendResponse(BytesRestResponse(RestStatus.OK, "{\"list\":[{}]}"))
+                        it.sendResponse(BytesRestResponse(RestStatus.OK, json))
                     }
                     "list_added" -> {
                         if (added) {
