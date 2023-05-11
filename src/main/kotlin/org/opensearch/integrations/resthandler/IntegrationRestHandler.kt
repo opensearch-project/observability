@@ -130,12 +130,23 @@ class IntegrationRestHandler : BaseRestHandler() {
 
     override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
         log.info("Received: ${request.path()}")
+
+//        templateName: nginx
+//        version: 1.0.0
+//        description: Nginx HTTP server collector
+//        catalog: observability
+//        collections: [logs, metrics]
+//        assetUrl: https://cdn.iconscout.com/icon/free/png-256/nginx-3521604-2945048.png
         val json = XContentFactory
             .jsonBuilder()
             .startObject()
             .startArray("integrations")
             .startObject()
-            .field("test", "test")
+            .field("templateName", "nginx")
+            .field("version", "1.0.0")
+            .field("description", "Nginx HTTP server collector")
+            .field("catalog", "observability")
+            .field("assetUrl", " https://cdn.iconscout.com/icon/free/png-256/nginx-3521604-2945048.png")
             .endObject()
             .endArray()
             .endObject()
