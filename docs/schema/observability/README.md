@@ -47,7 +47,7 @@ For example the [`logs.schema`](../../../src/main/resources/schema/observability
   ...
 ```
 
-We can observe that the `traceId` field is defined by referencing to the [Span](../../../src/main/resources/schema/observability/traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+We can observe that the `traceId` field is defined by referencing to the [Span](../../../src/main/resources/schema/observability/traces/tracegroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
 
 ### Mapping related
 Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](../../../src/main/resources/schema/observability/logs/logs.schema) file will contain the next correlation object in the mapping `_meta` section:
@@ -172,7 +172,7 @@ The correlation metadata info is exported in the following way:
 
 ### Schema related
 In JSON Schema, there is no built-in way to represent relationships directly between multiple schemas, like you would find in a relational database. However, you can establish relationships indirectly by using a combination of `$id`, `$ref`, and consistent property naming across your schemas.
-For example the [`logs.schema`](../../../src/main/resources/schema/observability/logs/logs.schema) file contains the next `$ref` references for the `traceId` & `spanId` fields that belong to the [`traces.schema`](../../../src/main/resources/schema/observability/traces/traceGroups.schema).
+For example the [`logs.schema`](../../../src/main/resources/schema/observability/logs/logs.schema) file contains the next `$ref` references for the `traceId` & `spanId` fields that belong to the [`traces.schema`](../../../src/main/resources/schema/observability/traces/tracegroups.schema).
 
 ```json5
   ...
@@ -185,7 +185,7 @@ For example the [`logs.schema`](../../../src/main/resources/schema/observability
   ...
 ```
 
-We can observe that the `traceId` field is defined by referencing to the [Span](../../../src/main/resources/schema/observability/traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+We can observe that the `traceId` field is defined by referencing to the [Span](../../../src/main/resources/schema/observability/traces/tracegroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
 
 ### Mapping related
 Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](../../../src/main/resources/schema/observability/logs/logs.mapping) file will contain the next correlation object in the mapping `_meta` section:

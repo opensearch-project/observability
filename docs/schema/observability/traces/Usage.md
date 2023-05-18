@@ -7,7 +7,7 @@ Start the OpenSearch cluster and follow the next steps for manually setup of the
 
 `>> PUT _component_template/tracegroups_template`
 
-Copy the [traceGroups.mapping](../../../../src/main/resources/schema/observability/traces/traceGroups.mapping)
+Copy the [traceGroups.mapping](../../../../src/main/resources/schema/observability/traces/tracegroups.mapping)
 
 `>> PUT _index_template/traces`
 
