@@ -15,7 +15,7 @@ Your experience of exploring data might differ, but if you’re new to exploring
 3. Create [operational panels](https://opensearch.org/docs/latest/observing-your-data/operational-panels) and add visualizations to compare data the way you like.
 ![](https://opensearch.org/docs/latest/images/operational-panel.png)
 
-4. Use [log analytics](https://opensearch.org/docs/latest/observing-your-data/log-ingestion/) to transform unstructured log data.
+4. Use [log analytics](https://opensearch.org/docs/latest/observing-your-data/event-analytics/) to transform unstructured log data.
 
 5. Use [trace analytics](https://opensearch.org/docs/latest/observing-your-data/trace/index) to create traces and dive deep into your data.
 ![](https://opensearch.org/docs/latest/images/observability-trace.png)
