@@ -147,6 +147,9 @@ internal object UserAccessManager {
         if (getUserTenant(user) != tenant) {
             return false
         }
+        if (isUserPrivateTenant(user)) {
+            return access.contains("$USER_TAG${user.name}")
+        }
         if (canAdminViewAllItems(user)) {
             return true
         }
