@@ -105,7 +105,7 @@ For example the [`logs.schema`](../../src/main/resources/schema/observability/lo
   ...
 ```
 
-We can observe that the `traceId` field is defined by referencing to the [Span](../../src/main/resources/schema/observability/traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+We can observe that the `traceId` field is defined by referencing to the [Span](../../src/main/resources/schema/observability/traces/tracegroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
 
 ### Mapping related
 Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](../../src/main/resources/schema/observability/logs/logs.schema) file will contain the next correlation object in the mapping `_meta` section:

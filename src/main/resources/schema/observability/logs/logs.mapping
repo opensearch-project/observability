@@ -93,6 +93,10 @@
         "body": {
           "type": "text"
         },
+        "@message": {
+          "type": "alias",
+          "path": "body"
+        },
         "@timestamp": {
           "type": "date"
         },

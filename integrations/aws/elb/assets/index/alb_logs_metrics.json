@@ -1,0 +1,30 @@
+{
+  "mappings" : {
+    "properties" : {
+      "count2xx" : {
+        "type" : "long"
+      },
+      "count4xx" : {
+        "type" : "long"
+      },
+      "count5xx" : {
+        "type" : "long"
+      },
+      "latencyInSec" : {
+        "type" : "float"
+      },
+      "timestamp" : {
+        "type" : "date"
+      },
+      "totalCount" : {
+        "type" : "long"
+      },
+      "totalReceivedBytes" : {
+        "type" : "long"
+      },
+      "totalSentBytes" : {
+        "type" : "long"
+      }
+    }
+  }
+}

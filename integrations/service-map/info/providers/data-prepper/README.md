@@ -72,7 +72,7 @@ We will define the next mapping alias that will be part of the [config.json](../
 ```
 
 
-To address this difference, the `trace` signal can be augmented with additional trace-component - in this case it will be the [traceGroup](../../../schema/observability/traces/traceGroup).
+To address this difference, the `trace` signal can be augmented with additional trace-component - in this case it will be the [traceGroup](../../../../../src/main/resources/schema/observability/traces/tracegroups.mapping).
 
 ## Service dashboard
 Service will have a dashboard comprised of the following visualizations:
