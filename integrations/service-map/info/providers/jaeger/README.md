@@ -50,7 +50,7 @@ The next fields are used:
 - status.code - The status of the span. See OpenTelemetry - Status.
 
 ```
-These fields have a high overlap with the [`sso_traces`](../../../schema/observability/traces/README.md) fields from the observability catalog  
+These fields have a high overlap with the [`sso_traces`](https://github.com/opensearch-project/opensearch-catalog/blob/main/docs/schema/observability/traces/README.md) fields from the observability catalog  
 
 There are some additional `trace.group` related fields which are not part of the [OTEL spec](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/api.md) for traces
 ```text
@@ -62,7 +62,7 @@ There are some additional `trace.group` related fields which are not part of the
 ```
 
 # Jaeger Trace Fields Mapping to SSO Trace Schema
-To compensate for the minor differences in fields naming between the [Jaeger -Trace mapping](../schema/jaeger-traces.mapping) and [SSO Traces mapping](../../../schema/observability/traces/traces.mapping)
+To compensate for the minor differences in fields naming between the [Jaeger -Trace mapping](../../../assets/mapping/jaeger-traces.mapping) and [SSO Traces mapping](https://github.com/opensearch-project/opensearch-catalog/blob/main/schema/observability/traces/traces.mapping)
 We will define the next mapping alias that will be part of the [config.json](../config.json) for this integration
 
 ```json5
@@ -81,7 +81,7 @@ We will define the next mapping alias that will be part of the [config.json](../
 
 
 
-To address this difference, the `trace` signal can be augmented with additional trace-component - in this case it will be the [traceGroup](../../../schema/observability/traces/traceGroup).
+To address this difference, the `trace` signal can be augmented with additional trace-component - in this case it will be the [traceGroup](https://github.com/opensearch-project/opensearch-catalog/blob/main/schema/observability/traces/tracegroups.mapping).
 
 ## Service dashboard
 Service will have a dashboard comprised of the following visualizations:
