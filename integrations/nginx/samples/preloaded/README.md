@@ -13,7 +13,7 @@ This will load both opensearch server & dashboards
    - `$ docker compose up`
    - Ensure vm.max_map_count has been set to 262144 or higher (`sudo sysctl -w vm.max_map_count=262144`).
    
-2. Load the Simple Schema Logs index templates [Loading Logs](../../../../schema/observability/logs/Usage.md)
+2. Load the Simple Schema Logs index templates Loading Logs:
     
    - `curl -XPUT localhost:9200/_component_template/http_template  -H "Content-Type: application/json" --data-binary @http.mapping`
    

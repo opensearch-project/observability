@@ -22,7 +22,7 @@ by the different components.
      - `$ docker compose up`
      - Ensure vm.max_map_count has been set to 262144 or higher (`sudo sysctl -w vm.max_map_count=262144`).
  
-2. Add Simple Schema Logs index templates [Loading Logs](../../../schema/observability/logs/Usage.md)
+2. Add Simple Schema Logs index templates [Loading Logs](https://github.com/opensearch-project/opensearch-catalog/tree/main/docs/schema/)
 
    - `curl -XPUT localhost:9200/_component_template/http_template  -H "Content-Type: application/json" --data-binary @http.mapping`
 
@@ -30,10 +30,10 @@ by the different components.
 
    - `curl -XPUT localhost:9200/_index_template/logs  -H "Content-Type: application/json" --data-binary @logs.mapping`
 
-3. Import the nginx dashboards to display the preloaded nginx access logs [dashboards](../../assets/display/sso-logs-dashboard.ndjson)
+3. Import the nginx dashboards to display the preloaded nginx access logs [dashboards](../assets/display/sso-logs-dashboard-new.ndjson)
    - First add an index pattern `sso_logs-*-*`
      `curl  -X POST localhost:5601/api/saved_objects/index-pattern/sso_logs -H 'osd-xsrf: true'  -H 'Content-Type: application/json' -d '{ "attributes": { "title": "sso_logs-*-*",  "timeFieldName": "@timestamp" } }'`
-   - Load the [dashboards](../../assets/display/sso-logs-dashboard.ndjson)
+   - Load the [dashboards](../assets/display/sso-logs-dashboard-new.ndjson)
    -  `curl -X POST "localhost:5601/api/saved_objects/_import?overwrite=true" -H "osd-xsrf: true" --form file=@sso-logs-dashboard.ndjson`
 4. Generate some traces by repeatedly pinging the `http://localhost:8080/` endpoint.
     - The endpoint is programmed to fail randomly (“Random failure”), for demoing some visualizations it’s helpful to generate sufficiently many traces to see both results.

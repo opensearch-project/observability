@@ -1,5 +1,5 @@
 # Schema
-The schema folder is where the actual translation is done between the Nginx format (logs/metrics) and the `sso` [Observability format](../../../schema/observability/README.md) 
+The schema folder is where the actual translation is done between the Nginx format (logs/metrics) and the `sso` [Observability format](https://github.com/opensearch-project/opensearch-catalog/tree/main/docs/schema/observability/README.md) 
 
 ## Nginx Log Format
 Nginx log format refers to the way Nginx web server records information about incoming HTTP requests and outgoing responses in its access log files. The log format is configurable, meaning that you can choose what information is logged, and in what format.

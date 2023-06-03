@@ -32,7 +32,6 @@ GET _integration/repository?filter=category:logs&component:web
     "resource": "^1.23.0"
   },
   "description": "Nginx HTTP server collector",
-  "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
   "collection":[
@@ -70,9 +69,6 @@ GET _integration/repository?filter=category:logs&component:web
   }
 }
 ```
-The integration object schema is supported by both B/E & F/E for display & query to the correct fields
-[Integration config schema](https://github.com/opensearch-project/observability/blob/9a22f061f568443651fe38d96c864901eed12340/schema/system/integration.schema)
-
 ---
 The backend responsibilities :
 - scan the Integration folder (on-load)
@@ -148,7 +144,6 @@ each representing different domain / aspect such as geographic.
     "resource": "^1.23.0"
   },
   "description": "Nginx HTTP server collector",
-  "Information":"file:///.../schema/logs/info.html",
   "identification": "instrumentationScope.attributes.identification",
   "catalog": "observability",
   "collection":[
