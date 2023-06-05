@@ -57,7 +57,7 @@ Each component has two flavours:
 
 A component may be classified as a `container` which has the ability to group / combine multiple components inside. 
 
-For example, we can examine the [`logs`](observability/logs/logs.mapping) component that has the capacity to combine additional components (such as `http`, `communication` and more)
+For example, we can examine the [`logs`](../../src/main/resources/schema/observability/logs/logs.mapping) component that has the capacity to combine additional components (such as `http`, `communication` and more)
 ```json5
   ...
   "composed_of": [
@@ -79,3 +79,58 @@ A component also has a list of `tags` which are aliases for the component name w
     }
   ...
 ```
+
+## Data Correlation
+
+In order to be able to correlate information across different signal (represented in different indices) we introduced the notion of correlation into the schema.
+This information is represented explicitly in both the declarative schema file and the physical mapping file 
+
+This information will enable the knowledge to be projected and allow for analytic engine to produce a join query that will take advantage of these relationships.
+The correlation metadata info is exported in the following way:
+
+### Observability Correlation Example:
+
+### Schema related
+In JSON Schema, there is no built-in way to represent relationships directly between multiple schemas, like you would find in a relational database. However, you can establish relationships indirectly by using a combination of `$id`, `$ref`, and consistent property naming across your schemas.
+For example the [`logs.schema`](../../src/main/resources/schema/observability/logs/logs.schema) file contains the next `$ref` references for the `traceId` & `spanId` fields that belong to the `traces.schema`.
+
+```json5
+  ...
+    "traceId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
+    },
+    "spanId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
+    },
+  ...
+```
+
+We can observe that the `traceId` field is defined by referencing to the [Span](../../src/main/resources/schema/observability/traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+
+### Mapping related
+Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](../../src/main/resources/schema/observability/logs/logs.schema) file will contain the next correlation object in the mapping `_meta` section:
+
+```json5
+      "_meta": {
+        "description": "Simple Schema For Observability",
+        "catalog": "observability",
+        "type": "logs",
+        "correlations": [
+          {
+            "field": "spanId",
+            "foreign-schema": "traces",
+            "foreign-field": "spanId"
+          },
+          {
+           "field": "traceId",
+            "foreign-schema": "traces",
+            "foreign-field": "traceId"
+           }
+          ]
+        }
+
+```
+
+Each `correlations` field contains the F.K field name - `spanId` , the referenced schema - `traces` and the source field name in that schema `spanId`
+
+This information can be used to generate the correct join queries on a contextual basis. 

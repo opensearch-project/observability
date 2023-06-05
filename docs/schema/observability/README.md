@@ -22,6 +22,63 @@ In many occasions, correlation between the logs, traces and metrics is mandatory
 
 For such correlation to be possible the industry has formulated several protocols ([OTEL](https://github.com/open-telemetry), [ECS](https://github.com/elastic/ecs), [OpenMetrics](https://github.com/OpenObservability/OpenMetrics)) for communicating these signals - the Observability schemas.
 
+## Data Correlation
+
+In order to be able to correlate information across different signal (represented in different indices) we introduced the notion of correlation into the schema.
+This information is represented explicitly in both the declarative schema file and the physical mapping file
+
+This information will enable the knowledge to be projected and allow for analytic engine to produce a join query that will take advantage of these relationships.
+The correlation metadata info is exported in the following way:
+
+### Observability Correlation Example:
+
+### Schema related
+In JSON Schema, there is no built-in way to represent relationships directly between multiple schemas, like you would find in a relational database. However, you can establish relationships indirectly by using a combination of `$id`, `$ref`, and consistent property naming across your schemas.
+For example the [`logs.schema`](../../../src/main/resources/schema/observability/logs/logs.schema) file contains the next `$ref` references for the `traceId` & `spanId` fields that belong to the `traces.schema`.
+
+```json5
+  ...
+    "traceId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
+    },
+    "spanId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
+    },
+  ...
+```
+
+We can observe that the `traceId` field is defined by referencing to the [Span](../../../src/main/resources/schema/observability/traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+
+### Mapping related
+Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](../../../src/main/resources/schema/observability/logs/logs.schema) file will contain the next correlation object in the mapping `_meta` section:
+
+```json5
+      "_meta": {
+        "description": "Simple Schema For Observability",
+        "catalog": "observability",
+        "type": "logs",
+        "correlations": [
+          {
+            "field": "spanId",
+            "foreign-schema": "traces",
+            "foreign-field": "spanId"
+          },
+          {
+           "field": "traceId",
+            "foreign-schema": "traces",
+            "foreign-field": "traceId"
+           }
+          ]
+        }
+
+```
+
+Each `correlations` field contains the F.K field name - `spanId` , the referenced schema - `traces` and the source field name in that schema `spanId`
+
+This information can be used to generate the correct join queries on a contextual basis.
+
+![](../../img/correlation.png)
+
 ---
 ## Schema Aware Components
 
@@ -50,9 +107,14 @@ The Observability indices would follow the recommended for immutable data stream
 
 Index pattern will follow the next naming template `sso_{type}`-`{dataset}`-`{namespace}`
 
- - **type**	- indicated	the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
- - **dataset**	- The field can contain anything that classify the source of the data - such as `nginx.access`
- - **namespace**	- A user defined namespace - mainly useful to allow grouping of data such as production grade, geography classification
+**type**
+- indicated the observability high level types "logs", "metrics", "traces" (prefixed by the `sso_` schema convention )
+
+**dataset**
+- The field can contain anything that classify the source of the data - such as `nginx.access`
+
+**namespace**
+- A user defined namespace - mainly useful to allow grouping of data such as production grade, geography classification
 
 This strategy allows two degrees of naming freedom: dataset and namespace. For example a customer may want to route the nginx logs from two geographical areas into two different indices:
 
@@ -72,7 +134,7 @@ The `sso_{type}-{dataset}-{namespace}` combination dictates the target index, `{
  - Logs - `sso_logs`
 
 For example if within the ingested log contains the following section:
-```json
+```json5
 {
   ...
   "attributes": {
@@ -99,6 +161,59 @@ The responsibility on an **Observability-ingestion-pipeline** is to create the a
 This `data_stream` will use one of the Observability ready-made index templates (Metrics,Traces and Logs) and conform with the above naming pattern (`sso_{type}`-`{dataset}`-`{namespace}`)
 
 **If the ingesting party has a need to update the template default index setting (shards, replicas ) it may do so before the actual creation of the data_stream.**  
+
+## Observability Signals Correlation
+
+In order to be able to correlate information across different signal (represented in different indices) we introduced the notion of correlation into the schema.
+This information is represented explicitly in both the declarative schema file (for example [`logs.schema`](../../../src/main/resources/schema/observability/logs/logs.schema)) and the physical mapping file ([`logs.mapping`](../../../src/main/resources/schema/observability/logs/logs.mapping))
+
+This information will enable the knowledge to be projected and allow for analytic engine to produce a join query that will take advantage of these relationships.
+The correlation metadata info is exported in the following way:
+
+### Schema related
+In JSON Schema, there is no built-in way to represent relationships directly between multiple schemas, like you would find in a relational database. However, you can establish relationships indirectly by using a combination of `$id`, `$ref`, and consistent property naming across your schemas.
+For example the [`logs.schema`](../../../src/main/resources/schema/observability/logs/logs.schema) file contains the next `$ref` references for the `traceId` & `spanId` fields that belong to the [`traces.schema`](../../../src/main/resources/schema/observability/traces/traceGroups.schema).
+
+```json5
+  ...
+    "traceId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/traceId"
+    },
+    "spanId": {
+      "$ref": "https://opensearch.org/schemas/observability/Span#/properties/spanId"
+    },
+  ...
+```
+
+We can observe that the `traceId` field is defined by referencing to the [Span](../../../src/main/resources/schema/observability/traces/traceGroups.schema) schema and explicitly to the `#/properties/spanId` field reference location.
+
+### Mapping related
+Each mapping template will contain the foreign schemas that are referenced to in that specific mapping file. For example the [`logs.mapping`](../../../src/main/resources/schema/observability/logs/logs.mapping) file will contain the next correlation object in the mapping `_meta` section:
+
+```json5
+      "_meta": {
+        "description": "Simple Schema For Observability",
+        "catalog": "observability",
+        "type": "logs",
+        "correlations": [
+          {
+            "field": "spanId",
+            "foreign-schema": "traces",
+            "foreign-field": "spanId"
+          },
+          {
+           "field": "traceId",
+            "foreign-schema": "traces",
+            "foreign-field": "traceId"
+           }
+          ]
+        }
+
+```
+
+Each `correlations` field contains the F.K (foreign-key) field name - `spanId` , the referenced schema - `traces` and the source field name in that schema `spanId`
+
+This information can be used to generate the correct join queries on a contextual basis. 
 
 ### Note
 It is important to mention that these new capabilities would not change or prevent existing customer usage of the system and continue to allow proprietary usage.

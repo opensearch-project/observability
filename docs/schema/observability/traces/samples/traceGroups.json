@@ -1,0 +1,8 @@
+{
+  "traceGroupFields": {
+    "endTime": "2023-03-17T04:40:15.666104Z",
+    "durationInNanos": 312022000,
+    "statusCode": 2
+  },
+  "traceGroup": "HTTP GET /dispatch"
+}
