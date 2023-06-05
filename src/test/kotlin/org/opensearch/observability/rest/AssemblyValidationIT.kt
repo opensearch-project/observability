@@ -5,12 +5,10 @@
 
 package org.opensearch.observability.rest
 
-import com.google.gson.JsonObject
 import org.junit.Assert
 import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestStatus
-import java.lang.AssertionError
 
 class AssemblyValidationIT : PluginRestTestCase() {
     companion object {
