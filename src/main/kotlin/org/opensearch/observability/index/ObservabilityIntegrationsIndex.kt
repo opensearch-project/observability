@@ -52,7 +52,9 @@ internal object ObservabilityIntegrationsIndex : LifecycleListener() {
     private fun getTemplateNames(): List<String> {
         // TODO classloader doesn't support directory scanning by default, need to write manual traversal later
         // Hardcoding template list for now, as a hotfix you can add names from resources/templates/{name}-mapping-template.json here
-        return listOf("metrics", "traces")
+
+        // List must be topologically sorted to account for inter-template dependencies
+        return listOf("communication", "http", "logs", "metrics", "traces")
     }
 
     private fun createMappingTemplates() {
