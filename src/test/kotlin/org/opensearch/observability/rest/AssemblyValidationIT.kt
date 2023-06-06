@@ -14,11 +14,24 @@ class AssemblyValidationIT : PluginRestTestCase() {
     companion object {
         private const val TRACES_MAPPING_TEMPLATE_NAME = "ss4o_traces_template"
         private const val METRICS_MAPPING_TEMPLATE_NAME = "ss4o_metrics_template"
+        private const val LOGS_MAPPING_TEMPLATE_NAME = "ss4o_logs_template"
+    }
+
+    fun `test observability logs template was created`() {
+        // verify logs mapping template was created successfully as part of the plugin initialization
+        val response = executeRequest(
+            RestRequest.Method.GET.name,
+            "/_index_template/$LOGS_MAPPING_TEMPLATE_NAME",
+            "{}",
+            RestStatus.OK.status
+        )
+        Assert.assertNotNull(response.get("index_templates"))
+        Assert.assertNotNull(!response.get("index_templates").asJsonArray.isEmpty)
     }
 
     fun `test observability metrics template was created`() {
         // verify metrics mapping template was created successfully as part of the plugin initialization
-        var response = executeRequest(
+        val response = executeRequest(
             RestRequest.Method.GET.name,
             "/_index_template/$METRICS_MAPPING_TEMPLATE_NAME",
             "{}",
@@ -26,14 +39,11 @@ class AssemblyValidationIT : PluginRestTestCase() {
         )
         Assert.assertNotNull(response.get("index_templates"))
         Assert.assertNotNull(!response.get("index_templates").asJsonArray.isEmpty)
+    }
 
+    fun `test observability traces template was created`() {
         // verify traces mapping template was created successfully as part of the plugin initialization
-        /*
-         * TODO I'm not sure why, but when this test is moved to its own test function, it fails.
-         * The new function passes if run alone, but not as part as a suite.
-         * Exponential backoff to very long sleep intervals doesn't work either.
-         */
-        response = executeRequest(
+        val response = executeRequest(
             RestRequest.Method.GET.name,
             "/_index_template/$TRACES_MAPPING_TEMPLATE_NAME",
             "{}",
