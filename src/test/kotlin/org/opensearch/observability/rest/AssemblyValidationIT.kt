@@ -18,7 +18,7 @@ class AssemblyValidationIT : PluginRestTestCase() {
     }
 
     fun `test observability communication template was created`() {
-        // verify logs mapping template was created successfully as part of the plugin initialization
+        // verify communication mapping template was created successfully as part of the plugin initialization
         val response = executeRequest(
             RestRequest.Method.GET.name,
             "/_index_template/ss4o_communication_template",
@@ -30,7 +30,7 @@ class AssemblyValidationIT : PluginRestTestCase() {
     }
 
     fun `test observability http template was created`() {
-        // verify logs mapping template was created successfully as part of the plugin initialization
+        // verify http mapping template was created successfully as part of the plugin initialization
         val response = executeRequest(
             RestRequest.Method.GET.name,
             "/_index_template/ss4o_http_template",
