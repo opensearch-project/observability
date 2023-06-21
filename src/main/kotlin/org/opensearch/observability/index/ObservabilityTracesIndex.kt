@@ -63,7 +63,7 @@ internal object ObservabilityTracesIndex : LifecycleListener() {
             val indexMappingSource = classLoader.getResource(TRACES_MAPPING_TEMPLATE_FILE)?.readText()!!
             val settings = Settings.builder()
                 .put("index.number_of_shards", 3)
-                .put("index.auto_expand_replicas", "0-2")
+                .put("index.auto_expand_replicas", "0-all")
                 .build()
             val template = Template(settings, CompressedXContent(indexMappingSource), null)
             val request = PutComposableIndexTemplateAction.Request(TRACES_MAPPING_TEMPLATE_NAME)
