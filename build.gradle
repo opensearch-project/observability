@@ -288,6 +288,18 @@ integTest.getClusters().forEach { c -> c.plugin(project.getObjects().filePropert
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
+    // need to install job-scheduler first, need to assemble job-scheduler first
+    plugin(provider(new Callable<RegularFile>(){
+        @Override
+        RegularFile call() throws Exception {
+            return new RegularFile() {
+                @Override
+                File getAsFile() {
+                    return configurations.zipArchive.asFileTree.getSingleFile()
+                }
+            }
+        }
+    }))
 
     // Cluster shrink exception thrown if we try to set numberOfNodes to 1, so only apply if > 1
     if (_numNodes > 1) numberOfNodes = _numNodes
@@ -317,6 +329,25 @@ String remoteFileURL = "https://aws.oss.sonatype.org/service/local/artifact/mave
             testDistribution = "ARCHIVE"
             versions = [baseVersion,opensearch_version]
             numberOfNodes = 3
+            plugin(provider(new Callable<RegularFile>(){
+                @Override
+                RegularFile call() throws Exception {
+                    return new RegularFile() {
+                        @Override
+                        File getAsFile() {
+                            File dir = new File(bwcFilePath + "/job-scheduler/" + bwcVersion)
+                            if (!dir.exists()) {
+                                dir.mkdirs()
+                            }
+                            File file = new File(dir, bwcJobSchedulerPlugin)
+                            if (!file.exists()) {
+                                new URL(bwcJobSchedulerURL).withInputStream{ ins -> file.withOutputStream{ it << ins }}
+                            }
+                            return fileTree(bwcFilePath + "/job-scheduler/" + bwcVersion).getSingleFile()
+                        }
+                    }
+                }
+            }))
             plugin(provider(new Callable<RegularFile>(){
                 @Override
                 RegularFile call() throws Exception {
