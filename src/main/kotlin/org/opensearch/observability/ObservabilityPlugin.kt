@@ -119,5 +119,4 @@ class ObservabilityPlugin : Plugin(), ActionPlugin {
             )
         )
     }
-
 }
