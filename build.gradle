@@ -22,7 +22,6 @@ buildscript {
         }
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.6.0")
-        job_scheduler_version = System.getProperty("job_scheduler.version", opensearch_build)
         jackson_version = "2.14.1"
     }
 
@@ -67,7 +66,6 @@ opensearchplugin {
     name 'opensearch-observability'
     description 'OpenSearch Plugin for OpenSearch Dashboards Observability'
     classname "org.opensearch.observability.ObservabilityPlugin"
-    extendedPlugins = ['opensearch-job-scheduler']
 }
 
 publishing {
@@ -164,7 +162,6 @@ allprojects {
 }
 
 dependencies {
-    zipArchive group: 'org.opensearch.plugin', name:'opensearch-job-scheduler', version: "${opensearch_build}"
     implementation "org.opensearch:opensearch:${opensearch_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
@@ -177,7 +174,6 @@ dependencies {
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
     implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_version}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}"
-    compileOnly "${group}:opensearch-job-scheduler-spi:${job_scheduler_version}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
