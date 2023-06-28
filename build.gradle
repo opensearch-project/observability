@@ -370,17 +370,6 @@ task prepareBwcTests {
     dependsOn bundle
     doLast {
         plugins = [
-                provider(new Callable<RegularFile>(){
-                    @Override
-                    RegularFile call() throws Exception {
-                        return new RegularFile() {
-                            @Override
-                            File getAsFile() {
-                                return configurations.zipArchive.asFileTree.getSingleFile()
-                            }
-                        }
-                    }
-                }),
                 project.getObjects().fileProperty().value(bundle.getArchiveFile())
         ]
     }
