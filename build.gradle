@@ -309,6 +309,7 @@ String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
+// TODO: remove bwc job scheduler after 2.9 release
 String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
 String remoteFileURL = "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-observability&v=$bwcVersion-SNAPSHOT&p=zip"
 String bwcJobSchedulerURL = "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-job-scheduler&v=$bwcVersion-SNAPSHOT&p=zip"
