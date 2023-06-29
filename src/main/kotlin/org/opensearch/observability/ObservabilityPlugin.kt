@@ -19,9 +19,6 @@ import org.opensearch.common.settings.SettingsFilter
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
-import org.opensearch.jobscheduler.spi.JobSchedulerExtension
-import org.opensearch.jobscheduler.spi.ScheduledJobParser
-import org.opensearch.jobscheduler.spi.ScheduledJobRunner
 import org.opensearch.observability.action.CreateObservabilityObjectAction
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
 import org.opensearch.observability.action.GetObservabilityObjectAction
@@ -29,9 +26,6 @@ import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.index.ObservabilityIndex
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
-import org.opensearch.observability.resthandler.SchedulerRestHandler
-import org.opensearch.observability.scheduler.ObservabilityJobParser
-import org.opensearch.observability.scheduler.ObservabilityJobRunner
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.plugins.ActionPlugin
 import org.opensearch.plugins.Plugin
@@ -47,7 +41,7 @@ import java.util.function.Supplier
  * Entry point of the OpenSearch Observability plugin.
  * This class initializes the rest handlers.
  */
-class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
+class ObservabilityPlugin : Plugin(), ActionPlugin {
 
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
@@ -99,7 +93,6 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
         return listOf(
             ObservabilityRestHandler(),
             ObservabilityStatsRestHandler(),
-            SchedulerRestHandler() // TODO: tmp rest handler only for POC purpose
         )
     }
 
@@ -125,21 +118,5 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, JobSchedulerExtension {
                 UpdateObservabilityObjectAction::class.java
             )
         )
-    }
-
-    override fun getJobType(): String {
-        return "observability"
-    }
-
-    override fun getJobIndex(): String {
-        return SchedulerRestHandler.SCHEDULED_JOB_INDEX
-    }
-
-    override fun getJobRunner(): ScheduledJobRunner {
-        return ObservabilityJobRunner
-    }
-
-    override fun getJobParser(): ScheduledJobParser {
-        return ObservabilityJobParser
     }
 }

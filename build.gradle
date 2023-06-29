@@ -22,7 +22,6 @@ buildscript {
         }
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.6.0")
-        job_scheduler_version = System.getProperty("job_scheduler.version", opensearch_build)
         jackson_version = "2.14.1"
     }
 
@@ -67,7 +66,6 @@ opensearchplugin {
     name 'opensearch-observability'
     description 'OpenSearch Plugin for OpenSearch Dashboards Observability'
     classname "org.opensearch.observability.ObservabilityPlugin"
-    extendedPlugins = ['opensearch-job-scheduler']
 }
 
 publishing {
@@ -164,7 +162,6 @@ allprojects {
 }
 
 dependencies {
-    zipArchive group: 'org.opensearch.plugin', name:'opensearch-job-scheduler', version: "${opensearch_build}"
     implementation "org.opensearch:opensearch:${opensearch_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
@@ -177,7 +174,6 @@ dependencies {
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
     implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_version}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}"
-    compileOnly "${group}:opensearch-job-scheduler-spi:${job_scheduler_version}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
@@ -292,18 +288,6 @@ integTest.getClusters().forEach { c -> c.plugin(project.getObjects().filePropert
 
 testClusters.integTest {
     testDistribution = "INTEG_TEST"
-    // need to install job-scheduler first, need to assemble job-scheduler first
-    plugin(provider(new Callable<RegularFile>(){
-        @Override
-        RegularFile call() throws Exception {
-            return new RegularFile() {
-                @Override
-                File getAsFile() {
-                    return configurations.zipArchive.asFileTree.getSingleFile()
-                }
-            }
-        }
-    }))
 
     // Cluster shrink exception thrown if we try to set numberOfNodes to 1, so only apply if > 1
     if (_numNodes > 1) numberOfNodes = _numNodes
@@ -320,12 +304,13 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String baseVersion = "2.8.0"
+String baseVersion = "2.9.0"
 String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
 String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip"
-String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip" 
+// TODO: remove bwc job scheduler after 2.9 release
+String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
 String remoteFileURL = "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-observability&v=$bwcVersion-SNAPSHOT&p=zip"
 String bwcJobSchedulerURL = "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-job-scheduler&v=$bwcVersion-SNAPSHOT&p=zip"
 
@@ -386,17 +371,6 @@ task prepareBwcTests {
     dependsOn bundle
     doLast {
         plugins = [
-                provider(new Callable<RegularFile>(){
-                    @Override
-                    RegularFile call() throws Exception {
-                        return new RegularFile() {
-                            @Override
-                            File getAsFile() {
-                                return configurations.zipArchive.asFileTree.getSingleFile()
-                            }
-                        }
-                    }
-                }),
                 project.getObjects().fileProperty().value(bundle.getArchiveFile())
         ]
     }
