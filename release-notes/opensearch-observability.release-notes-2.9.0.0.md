@@ -2,5 +2,5 @@
 
 Compatible with OpenSearch 2.9.0
 
-### Features
+### Refactoring
 - Add class for loading mapping templates in bulk ([#1550](https://github.com/opensearch-project/observability/pull/1550))
