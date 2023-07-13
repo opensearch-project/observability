@@ -7,6 +7,7 @@ package org.opensearch.observability.action
 
 import org.opensearch.OpenSearchStatusException
 import org.opensearch.commons.authuser.User
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.index.ObservabilityIndex
 import org.opensearch.observability.metrics.Metrics
@@ -14,7 +15,6 @@ import org.opensearch.observability.model.ObservabilityObjectDoc
 import org.opensearch.observability.model.ObservabilityObjectSearchResult
 import org.opensearch.observability.security.UserAccessManager
 import org.opensearch.observability.util.logger
-import org.opensearch.rest.RestStatus
 import java.time.Instant
 
 /**
