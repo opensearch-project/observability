@@ -8,13 +8,11 @@ package org.opensearch.observability.action
 import org.opensearch.action.ActionRequest
 import org.opensearch.action.ActionRequestValidationException
 import org.opensearch.action.ValidateActions
-import org.opensearch.common.Strings
 import org.opensearch.common.io.stream.StreamInput
 import org.opensearch.common.io.stream.StreamOutput
 import org.opensearch.common.io.stream.Writeable
 import org.opensearch.common.xcontent.XContentParserUtils
-import org.opensearch.commons.utils.fieldIfNotNull
-import org.opensearch.commons.utils.logger
+import org.opensearch.core.common.Strings
 import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.ToXContentObject
 import org.opensearch.core.xcontent.XContentBuilder
@@ -24,6 +22,8 @@ import org.opensearch.observability.model.BaseObjectData
 import org.opensearch.observability.model.ObservabilityObjectDataProperties
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.OBJECT_ID_FIELD
+import org.opensearch.observability.util.fieldIfNotNull
+import org.opensearch.observability.util.logger
 import java.io.IOException
 
 /**
