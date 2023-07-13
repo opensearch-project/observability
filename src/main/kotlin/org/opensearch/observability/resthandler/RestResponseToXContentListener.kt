@@ -5,8 +5,8 @@
 
 package org.opensearch.observability.resthandler
 
-import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.rest.RestStatus
+import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.BaseResponse
 import org.opensearch.rest.BytesRestResponse
