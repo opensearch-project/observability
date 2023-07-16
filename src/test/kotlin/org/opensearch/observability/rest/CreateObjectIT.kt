@@ -6,6 +6,7 @@
 package org.opensearch.observability.rest
 
 import org.junit.Assert
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.observability.constructNotebookRequest
@@ -16,7 +17,6 @@ import org.opensearch.observability.constructTimestampRequest
 import org.opensearch.observability.jsonify
 import org.opensearch.observability.validateErrorResponse
 import org.opensearch.rest.RestRequest
-import org.opensearch.rest.RestStatus
 
 class CreateObjectIT : PluginRestTestCase() {
 
