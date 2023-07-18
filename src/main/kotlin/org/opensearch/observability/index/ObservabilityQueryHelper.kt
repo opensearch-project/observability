@@ -6,6 +6,7 @@
 package org.opensearch.observability.index
 
 import org.opensearch.OpenSearchStatusException
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.index.query.BoolQueryBuilder
 import org.opensearch.index.query.Operator
 import org.opensearch.index.query.QueryBuilder
@@ -15,7 +16,6 @@ import org.opensearch.observability.model.RestTag.CREATED_TIME_FIELD
 import org.opensearch.observability.model.RestTag.NAME_FIELD
 import org.opensearch.observability.model.RestTag.QUERY_FIELD
 import org.opensearch.observability.model.RestTag.UPDATED_TIME_FIELD
-import org.opensearch.rest.RestStatus
 import org.opensearch.search.builder.SearchSourceBuilder
 import org.opensearch.search.sort.SortOrder
 import java.util.EnumSet

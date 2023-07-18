@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.opensearch.commons.utils.recreateObject
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
-import org.opensearch.rest.RestStatus
 
 internal class DeleteObservabilityObjectResponseTests {
     @Test

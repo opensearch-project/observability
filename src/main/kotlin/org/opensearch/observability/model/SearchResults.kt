@@ -9,14 +9,14 @@ import org.apache.lucene.search.TotalHits.Relation
 import org.apache.lucene.search.TotalHits.Relation.EQUAL_TO
 import org.apache.lucene.search.TotalHits.Relation.GREATER_THAN_OR_EQUAL_TO
 import org.opensearch.action.search.SearchResponse
-import org.opensearch.common.io.stream.StreamInput
-import org.opensearch.common.io.stream.StreamOutput
-import org.opensearch.common.io.stream.Writeable
-import org.opensearch.common.xcontent.XContentParserUtils
+import org.opensearch.core.common.io.stream.StreamInput
+import org.opensearch.core.common.io.stream.StreamOutput
+import org.opensearch.core.common.io.stream.Writeable
 import org.opensearch.core.xcontent.ToXContent.Params
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
 import org.opensearch.observability.metrics.Metrics
+import org.opensearch.core.xcontent.XContentParserUtils
 import org.opensearch.search.SearchHit
 
 internal abstract class SearchResults<ItemClass : BaseModel> : BaseModel {
