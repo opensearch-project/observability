@@ -7,9 +7,9 @@ package org.opensearch.observability.security
 
 import org.opensearch.OpenSearchStatusException
 import org.opensearch.commons.authuser.User
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.observability.settings.PluginSettings.FilterBy
-import org.opensearch.rest.RestStatus
 import java.util.stream.Collectors
 
 /**
