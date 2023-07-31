@@ -22,6 +22,8 @@ import org.opensearch.observability.model.BaseObjectData
 import org.opensearch.observability.model.ObservabilityObjectDataProperties
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.OBJECT_ID_FIELD
+import org.opensearch.observability.util.fieldIfNotNull
+import org.opensearch.observability.util.logger
 import java.io.IOException
 
 /**
