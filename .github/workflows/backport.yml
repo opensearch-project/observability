@@ -23,8 +23,8 @@ jobs:
 
       - name: Backport
         uses: VachaShah/backport@v2.2.0
-          with:
-            github_token: ${{ steps.github_app_token.outputs.token }}
-            head_template: backport/backport-<%= number %>-to-<%= base %>
-            labels_template: "<%= JSON.stringify([...labels, 'autocut']) %>"
-            failure_labels: "failed backport"
+        with:
+          github_token: ${{ steps.github_app_token.outputs.token }}
+          head_template: backport/backport-<%= number %>-to-<%= base %>
+          labels_template: "<%= JSON.stringify([...labels, 'autocut']) %>"
+          failure_labels: "failed backport"
