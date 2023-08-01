@@ -22,8 +22,8 @@ import org.opensearch.core.xcontent.ToXContent
 import org.opensearch.core.xcontent.ToXContentObject
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.core.xcontent.XContentParser
-import org.opensearch.observability.metrics.Metrics
 import org.opensearch.core.xcontent.XContentParserUtils
+import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.RestTag.FILTER_PARAM_LIST_FIELD
 import org.opensearch.observability.model.RestTag.FROM_INDEX_FIELD
