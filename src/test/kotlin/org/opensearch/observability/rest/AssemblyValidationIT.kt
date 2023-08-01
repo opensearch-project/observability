@@ -8,7 +8,7 @@ package org.opensearch.observability.rest
 import org.junit.Assert
 import org.opensearch.observability.PluginRestTestCase
 import org.opensearch.rest.RestRequest
-import org.opensearch.rest.RestStatus
+import org.opensearch.core.rest.RestStatus
 
 class AssemblyValidationIT : PluginRestTestCase() {
     companion object {
