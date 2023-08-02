@@ -12,8 +12,8 @@ import org.opensearch.client.Client
 import org.opensearch.cluster.metadata.ComposableIndexTemplate
 import org.opensearch.cluster.metadata.Template
 import org.opensearch.cluster.service.ClusterService
-import org.opensearch.common.component.LifecycleListener
 import org.opensearch.common.compress.CompressedXContent
+import org.opensearch.common.lifecycle.LifecycleListener
 import org.opensearch.common.settings.Settings
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.settings.PluginSettings
