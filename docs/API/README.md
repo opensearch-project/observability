@@ -1,5 +1,5 @@
 # API Mock Tests
-The [Swagger](swagger.yaml) describes the API used by the Integration repository to support the `catalog`, `registry` and `store` functionalities.
+The [Swagger](swagger.yaml) describes the API used by the Integration repository to support the `registry` and `store` functionalities.
 
 Its possible to visualize the REST API using any on the numerous [online editors](https://editor.swagger.io/)
 ![](API.png)
@@ -17,9 +17,6 @@ prism mock swagger.yaml
 ```
 The next endpoints are presented:
 ```
-[10:32:12 a.m.] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/catalog?limit=41
-[10:32:12 a.m.] › [CLI] ℹ  info      POST       http://127.0.0.1:4010/catalog
-[10:32:12 a.m.] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/catalog/sed
 [10:32:12 a.m.] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/repository?limit=%5Bobject%20Object%5D
 [10:32:12 a.m.] › [CLI] ℹ  info      POST       http://127.0.0.1:4010/repository
 [10:32:12 a.m.] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/repository/%5Bobject%20Object%5D
@@ -34,11 +31,11 @@ The next endpoints are presented:
 
 Once the server has started, a CURL request can be initiated with any of the above endpoints:
 
-`GET http://localhost:4010/catalog`
+`GET http://localhost:4010/repository`
 
 Would show in the traffic logs:
 
-`[10:32:23 a.m.] › [HTTP SERVER] get /catalog ℹ  info      Request received`
+`[10:32:23 a.m.] › [HTTP SERVER] get /repository ℹ  info      Request received`
 
 And will result with :
 
@@ -46,31 +43,31 @@ And will result with :
     {
   "catalog": "observability",
   "version": "1.0",
-  "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability",
+  "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability",
   "categories": [
     {
       "category": "logs",
       "version": "1.0",
-      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs",
+      "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/logs",
       "components": [
         {
           "component": "log",
           "version": "1.0",
-          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/logs",
+          "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/logs/logs",
           "container": true,
           "tags": []
         },
         {
           "component": "http",
           "version": "1.0",
-          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/http",
+          "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/logs/http",
           "tags": [],
           "container": false
         },
         {
           "component": "communication",
           "version": "1.0",
-          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/logs/communication",
+          "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/logs/communication",
           "tags": ["web"],
           "container": false
         }]
@@ -78,12 +75,12 @@ And will result with :
     {
       "category": "traces",
       "version": "1.0",
-      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces",
+      "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/traces",
       "components": [
         {
           "component": "span",
           "version": "1.0",
-          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/traces/traces",
+          "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/traces/traces",
           "tags": [],
           "container": true
         }]
@@ -91,12 +88,12 @@ And will result with :
     {
       "category": "metrics",
       "version": "1.0",
-      "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics",
+      "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/metrics",
       "components": [
         {
           "component": "metric",
           "version": "1.0",
-          "url": "https://github.com/opensearch-project/observability/tree/2.x/schema/observability/metrics/metrics",
+          "url": "https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/metrics/metrics",
           "tags": [],
           "container": true
         }]

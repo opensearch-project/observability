@@ -10,14 +10,20 @@ The integration plugins is currently responsible for the next tasks:
 ### Catalog Registration 
 
 During the loading of the Integration Plugin it will go over all the [catalog schemas](schema/README.md) and creates the appropriate 
-template mapping for each catalog schema entity. This will allow the future Integration to be validated to the schema catalog they are associated with.
+template mapping for each catalog schema entity.
 
-**For example** - the [Observability](schema/observability) catalog will eventually be registered with the next mapping templates
- - [Traces](../src/main/resources/schema/observability/traces/traces.mapping)
- - [Logs](../src/main/resources/schema/observability/logs/logs.mapping)
- - [Metrics](../src/main/resources/schema/observability/metrics/metrics.mapping)
+This will allow the future Integration to be validated to the schema catalog they are associated with.
 
-These mapping specify a backed `data-stream` index pattern they conform with [Naming Pattern](observability/Naming-convention.md).
+All the catalog related activities (including search, fetch, apply) are performed using the [catalog repository plugin api](https://github.com/opensearch-project/opensearch-catalog/tree/main/docs/schema)
+
+**For example** - the [Observability](https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability) catalog will eventually be registered with the next mapping templates
+ - [Traces](https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/traces/traces.mapping)
+ - [Logs](https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/logs/logs.mapping)
+ - [Metrics](https://github.com/opensearch-project/opensearch-catalog/tree/main/schema/observability/metrics/metrics.mapping)
+
+These mapping specify a backed `data-stream` index pattern they conform with [Naming Pattern](https://github.com/opensearch-project/opensearch-catalog/blob/main/docs/schema/observability/Naming-convention.md).
+
+This API is accessible using the [Catalog Plugin](https://github.com/opensearch-project/opensearch-catalog/)
 
 **API**
 The catalog API can be queries according to the next fields:
@@ -26,7 +32,7 @@ The catalog API can be queries according to the next fields:
  - category
  - version
 
-`GET _integration/catalog?filter=type:Logs&catalog:Observability&category:web`
+`GET _catalog/schema?filter=type:Logs&catalog:Observability&category:web`
 
  This call will result with the appropriate index_template IDs corresponding to the query:
 
@@ -47,7 +53,7 @@ Using the template names one can access the template directly using the `_index_
 
 ### Integrations registry
 
-During the Integration plugin loading, it will scan the Integration folder (or any resource that functions as the integration repository ) and load each repository [config file](../../schema/system/integration.schema)
+During the Integration plugin loading, it will scan the Integration folder (or any resource that functions as the integration repository ) and load each repository [config file](../integrations/nginx/config.json)
 into an in memory cache / index allowing to query and filter according to the different integration attributes.
 
 ### External Integrations' registry loading

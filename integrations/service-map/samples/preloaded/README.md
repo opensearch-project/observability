@@ -13,7 +13,7 @@ This will load both opensearch server & dashboards
    - `$ docker compose up`
    - Ensure vm.max_map_count has been set to 262144 or higher (`sudo sysctl -w vm.max_map_count=262144`).
    
-2. Load the Simple Schema traces / services / metrics index templates [Loading Traces](../../../../schema/observability/traces/Usage.md)
+2. Load the Simple Schema traces / services / metrics index templates Loading Traces
     
    - `curl -XPUT localhost:9200/_component_template/tracegroups_template  -H "Content-Type: application/json" --data-binary @traceGroups.mapping`
    
@@ -24,7 +24,7 @@ This will load both opensearch server & dashboards
    - `curl -XPUT localhost:9200/_index_template/metrics  -H "Content-Type: application/json" --data-binary @metrics.mapping`
 
 
-3. Load the (proprietary) `data-prepper` traces / services  [traces mapping template](../../schema/data-prepper-traces.mapping) , [Service mapping templates](../../schema/data-prepper-services.mapping)
+3. Load the (proprietary) `data-prepper` traces / services  [traces mapping template](../../assets/mapping/data-prepper-traces.mapping) , [Service mapping templates](../../assets/mapping/data-prepper-services.mapping)
    - `curl -XPUT localhost:9200/_index_template/otel-v1-apm-span  -H "Content-Type: application/json" --data-binary @data-prepper-traces.mapping`
 
    - `curl -XPUT localhost:9200/_template/otel-v1-apm-service  -H "Content-Type: application/json" --data-binary @data-prepper-services.mapping`

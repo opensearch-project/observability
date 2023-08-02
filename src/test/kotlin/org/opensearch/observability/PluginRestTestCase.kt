@@ -18,10 +18,10 @@ import org.opensearch.client.RestClient
 import org.opensearch.client.WarningsHandler
 import org.opensearch.common.io.PathUtils
 import org.opensearch.common.settings.Settings
-import org.opensearch.common.xcontent.XContentType
 import org.opensearch.commons.ConfigConstants
 import org.opensearch.commons.rest.SecureRestClientBuilder
 import org.opensearch.core.xcontent.DeprecationHandler
+import org.opensearch.core.xcontent.MediaType
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.test.rest.OpenSearchRestTestCase
 import java.io.BufferedReader
@@ -60,7 +60,7 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
     open fun wipeAllOpenSearchIndices() {
         if (preserveOpenSearchIndicesAfterTest()) return
         val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
-        val xContentType = XContentType.fromMediaType(response.entity.contentType)
+        val xContentType = MediaType.fromMediaType(response.entity.contentType)
         xContentType.xContent().createParser(
             NamedXContentRegistry.EMPTY, DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
             response.entity.content

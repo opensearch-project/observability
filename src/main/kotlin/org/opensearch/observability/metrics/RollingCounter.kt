@@ -33,7 +33,7 @@ internal class RollingCounter(
         trim()
         timeToCountMap.compute(
             getKey(clock.millis())
-        ) { k: Long?, v: Long? -> if (v == null) n else v + n }
+        ) { _: Long?, v: Long? -> if (v == null) n else v + n }
     }
 
     /**

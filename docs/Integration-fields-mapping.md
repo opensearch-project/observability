@@ -19,6 +19,9 @@ This information is assumed to be in the specific structure dictated by the cata
 
 These fields must exist and match type in the physical index representing the data-stream.
 
+The [catalog repository](https://github.com/opensearch-project/opensearch-catalog/tree/main/docs/schema) is responsible for providing all the relevant information and API for
+accessing, searching, fetching and applying the schema.
+
 ## Problem
 Some users may already have existing indices that function as data source for these specific displays. The index mapping used by these indices may have different names that represent a similar meaning.
 

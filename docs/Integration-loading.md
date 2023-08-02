@@ -33,7 +33,7 @@ indicating some components weren’t loaded / created as required and the approp
 
 
 *- Index may not exist*
-*- Dashboard could failed importing (name collision)*
+*- Dashboard could fail importing (name collision)*
 *- Configuration is broken for some component and needs mending*
 Once the issues are corrected it will transform to the ***Ready2Ingest** *stage
 
