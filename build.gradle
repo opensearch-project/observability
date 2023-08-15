@@ -313,12 +313,13 @@ String bwcObservabilityPlugin = "opensearch-observability-" + bwcVersion + ".zip
 String bwcJobSchedulerPlugin = "opensearch-job-scheduler-" + bwcVersion + ".zip"
 String remoteFileURL = "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-observability&v=$bwcVersion-SNAPSHOT&p=zip"
 String bwcJobSchedulerURL = "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-job-scheduler&v=$bwcVersion-SNAPSHOT&p=zip"
+String bwcSnapshotVersion = baseVersion + "-SNAPSHOT"
 
 2.times {i ->
     testClusters {
         "${baseName}$i" {
             testDistribution = "ARCHIVE"
-            versions = [baseVersion,opensearch_version]
+            versions = [bwcSnapshotVersion,opensearch_version]
             numberOfNodes = 3
             plugin(provider(new Callable<RegularFile>(){
                 @Override
