@@ -12,8 +12,8 @@ import org.opensearch.client.Client
 import org.opensearch.cluster.metadata.ComposableIndexTemplate
 import org.opensearch.cluster.metadata.Template
 import org.opensearch.cluster.service.ClusterService
-import org.opensearch.common.component.LifecycleListener
 import org.opensearch.common.compress.CompressedXContent
+import org.opensearch.common.lifecycle.LifecycleListener
 import org.opensearch.common.settings.Settings
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.settings.PluginSettings
@@ -24,11 +24,8 @@ import java.util.*
 /**
  * Class for doing OpenSearch Metrics schema mapping & default index init operation
  */
-internal object ObservabilityMetricsIndex : LifecycleListener() {
-    private val log by logger(ObservabilityMetricsIndex::class.java)
-    private const val METRICS_MAPPING_TEMPLATE_NAME = "ss4o_metric_template"
-    private const val METRICS_MAPPING_TEMPLATE_FILE = "metrics-mapping-template.json"
-    private const val METRIC_PATTERN_NAME = "ss4o_metrics-*-*"
+internal object ObservabilityIntegrationsIndex : LifecycleListener() {
+    private val log by logger(ObservabilityIntegrationsIndex::class.java)
 
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
@@ -38,7 +35,7 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * @param client The OpenSearch client
      * @param clusterService The OpenSearch cluster service
      */
-    fun initialize(client: Client, clusterService: ClusterService): ObservabilityMetricsIndex {
+    fun initialize(client: Client, clusterService: ClusterService): ObservabilityIntegrationsIndex {
         this.client = SecureIndexClient(client)
         this.clusterService = clusterService
         return this
@@ -48,47 +45,59 @@ internal object ObservabilityMetricsIndex : LifecycleListener() {
      * once lifecycle indicate start has occurred - instantiating the mapping template
      */
     override fun afterStart() {
-        // create default mapping
-        createMappingTemplate()
+        // create default mappings
+        createMappingTemplates()
+    }
+
+    private fun getTemplateNames(): List<String> {
+        // TODO classloader doesn't support directory scanning by default, need to write manual traversal later
+        // Hardcoding template list for now, as a hotfix you can add names from resources/templates/{name}-mapping-template.json here
+        return listOf("metrics", "traces")
+    }
+
+    private fun createMappingTemplates() {
+        for (name in getTemplateNames()) {
+            createMappingTemplate("ss4o_${name}_template", "ss4o_$name-*-*", "templates/$name-mapping-template.json")
+        }
     }
 
     /**
      * Create the pre-defined mapping template
      */
     @Suppress("TooGenericExceptionCaught", "MagicNumber")
-    private fun createMappingTemplate() {
-        log.info("$LOG_PREFIX:createMappingTemplate $METRICS_MAPPING_TEMPLATE_NAME API called")
-        if (!isTemplateExists(METRICS_MAPPING_TEMPLATE_NAME)) {
-            val classLoader = ObservabilityMetricsIndex::class.java.classLoader
-            val indexMappingSource = classLoader.getResource(METRICS_MAPPING_TEMPLATE_FILE)?.readText()!!
+    private fun createMappingTemplate(templateName: String, patternName: String, path: String) {
+        log.info("$LOG_PREFIX:createMappingTemplate $templateName API called")
+        if (!isTemplateExists(templateName)) {
+            val classLoader = ObservabilityIntegrationsIndex::class.java.classLoader
+            val indexMappingSource = classLoader.getResource(path)?.readText()!!
             val settings = Settings.builder()
                 .put("index.number_of_shards", 3)
                 .put("index.auto_expand_replicas", "0-2")
                 .build()
             val template = Template(settings, CompressedXContent(indexMappingSource), null)
-            val request = PutComposableIndexTemplateAction.Request(METRICS_MAPPING_TEMPLATE_NAME)
+            val request = PutComposableIndexTemplateAction.Request(templateName)
                 .indexTemplate(
                     ComposableIndexTemplate(
-                        listOf(METRIC_PATTERN_NAME),
+                        listOf(patternName),
                         template,
                         Collections.emptyList(),
                         1,
                         1,
-                        Collections.singletonMap("description", "Observability Metrics Mapping Template") as Map<String, Any>?,
+                        Collections.singletonMap("description", "Observability $templateName Mapping Template") as Map<String, Any>?,
                         ComposableIndexTemplate.DataStreamTemplate()
                     )
                 )
             try {
                 val validationException = request.validateIndexTemplate(null)
                 if (validationException != null && !validationException.validationErrors().isEmpty()) {
-                    error("$LOG_PREFIX:Index Template $METRICS_MAPPING_TEMPLATE_NAME validation errors ${validationException.message}")
+                    error("$LOG_PREFIX:Index Template $templateName validation errors ${validationException.message}")
                 }
                 val actionFuture = client.admin().indices().execute(PutComposableIndexTemplateAction.INSTANCE, request)
                 val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
                 if (response.isAcknowledged) {
-                    log.info("$LOG_PREFIX:Mapping Template $METRICS_MAPPING_TEMPLATE_NAME creation Acknowledged")
+                    log.info("$LOG_PREFIX:Mapping Template $templateName creation Acknowledged")
                 } else {
-                    error("$LOG_PREFIX:Mapping Template $METRICS_MAPPING_TEMPLATE_NAME creation not Acknowledged")
+                    error("$LOG_PREFIX:Mapping Template $templateName creation not Acknowledged")
                 }
             } catch (exception: ResourceAlreadyExistsException) {
                 log.warn("message: ${exception.message}")

@@ -5,13 +5,13 @@
 
 package org.opensearch.observability.resthandler
 
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.core.xcontent.XContentBuilder
 import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.model.BaseResponse
 import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestChannel
 import org.opensearch.rest.RestResponse
-import org.opensearch.rest.RestStatus
 import org.opensearch.rest.action.RestToXContentListener
 
 /**

@@ -6,6 +6,7 @@ package org.opensearch.observability.resthandler
 
 import org.opensearch.client.node.NodeClient
 import org.opensearch.commons.utils.logger
+import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.observability.ObservabilityPlugin.Companion.LOG_PREFIX
 import org.opensearch.observability.action.CreateObservabilityObjectAction
@@ -38,7 +39,6 @@ import org.opensearch.rest.RestRequest.Method.DELETE
 import org.opensearch.rest.RestRequest.Method.GET
 import org.opensearch.rest.RestRequest.Method.POST
 import org.opensearch.rest.RestRequest.Method.PUT
-import org.opensearch.rest.RestStatus
 import org.opensearch.search.sort.SortOrder
 import java.util.EnumSet
 

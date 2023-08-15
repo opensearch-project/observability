@@ -9,35 +9,24 @@ import org.opensearch.client.Client
 import org.opensearch.cluster.metadata.IndexNameExpressionResolver
 import org.opensearch.cluster.node.DiscoveryNodes
 import org.opensearch.cluster.service.ClusterService
-import org.opensearch.common.io.stream.NamedWriteableRegistry
 import org.opensearch.common.settings.ClusterSettings
 import org.opensearch.common.settings.IndexScopedSettings
 import org.opensearch.common.settings.Setting
 import org.opensearch.common.settings.Settings
 import org.opensearch.common.settings.SettingsFilter
-<<<<<<< HEAD
-=======
 import org.opensearch.core.action.ActionResponse
 import org.opensearch.core.common.io.stream.NamedWriteableRegistry
->>>>>>> 033779cf (Fix from upstream core.action changes (#1590))
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
-import org.opensearch.jobscheduler.spi.JobSchedulerExtension
-import org.opensearch.jobscheduler.spi.ScheduledJobParser
-import org.opensearch.jobscheduler.spi.ScheduledJobRunner
 import org.opensearch.observability.action.CreateObservabilityObjectAction
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
 import org.opensearch.observability.action.GetObservabilityObjectAction
 import org.opensearch.observability.action.UpdateObservabilityObjectAction
 import org.opensearch.observability.index.ObservabilityIndex
-import org.opensearch.observability.index.ObservabilityMetricsIndex
-import org.opensearch.observability.index.ObservabilityTracesIndex
+import org.opensearch.observability.index.ObservabilityIntegrationsIndex
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
-import org.opensearch.observability.resthandler.SchedulerRestHandler
-import org.opensearch.observability.scheduler.ObservabilityJobParser
-import org.opensearch.observability.scheduler.ObservabilityJobRunner
 import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.plugins.ActionPlugin
 import org.opensearch.plugins.ClusterPlugin
@@ -55,7 +44,7 @@ import java.util.function.Supplier
  * This class initializes the rest handlers.
  */
 @Suppress("TooManyFunctions")
-class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerExtension {
+class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin {
 
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
@@ -89,15 +78,13 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
-        ObservabilityMetricsIndex.initialize(client, clusterService)
-        ObservabilityTracesIndex.initialize(client, clusterService)
+        ObservabilityIntegrationsIndex.initialize(client, clusterService)
         return emptyList()
     }
 
     override fun onNodeStarted() {
         ObservabilityIndex.afterStart()
-        ObservabilityTracesIndex.afterStart()
-        ObservabilityMetricsIndex.afterStart()
+        ObservabilityIntegrationsIndex.afterStart()
     }
 
     /**
@@ -115,7 +102,6 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
         return listOf(
             ObservabilityRestHandler(),
             ObservabilityStatsRestHandler(),
-            SchedulerRestHandler() // TODO: tmp rest handler only for POC purpose
         )
     }
 
@@ -141,21 +127,5 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, JobSchedulerE
                 UpdateObservabilityObjectAction::class.java
             )
         )
-    }
-
-    override fun getJobType(): String {
-        return "observability"
-    }
-
-    override fun getJobIndex(): String {
-        return SchedulerRestHandler.SCHEDULED_JOB_INDEX
-    }
-
-    override fun getJobRunner(): ScheduledJobRunner {
-        return ObservabilityJobRunner
-    }
-
-    override fun getJobParser(): ScheduledJobParser {
-        return ObservabilityJobParser
     }
 }
