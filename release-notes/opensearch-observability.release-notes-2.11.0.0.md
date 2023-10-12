@@ -3,7 +3,7 @@
 Compatible with OpenSearch 2.11.0
 
 ### Maintenance
-- Updates demo certs used in integ tests ([#1626](https://github.com/opensearch-project/observability/pull/1626))
+* Updates demo certs used in integ tests ([#1626](https://github.com/opensearch-project/observability/pull/1626))
 
 ---
 
