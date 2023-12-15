@@ -50,6 +50,8 @@ import org.opensearch.observability.util.logger
  *      {"label":"avg"},
  *      {"label":"count"},
  *   ]
+ *   "metric_type": "OpenTelemetryMetric",
+
  * }
  * }</pre>
  */
@@ -67,6 +69,7 @@ internal data class SavedVisualization(
     val subType: String?,
     val unitsOfMeasure: String? = null,
     val selectedLabels: SelectedLabels? = null,
+    val metricType: String? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -83,6 +86,7 @@ internal data class SavedVisualization(
         private const val SUB_TYPE_TAG = "sub_type"
         private const val UNITS_OF_MEASURE_TAG = "units_of_measure"
         private const val SELECTED_LABELS_TAG = "selected_labels"
+        private const val METRIC_TYPE_TAG = "metric_type"
 
         /**
          * reader to create instance of class from writable.
@@ -113,6 +117,7 @@ internal data class SavedVisualization(
             var subType: String? = null
             var unitsOfMeasure: String? = null
             var selectedLabels: SelectedLabels? = null
+            var metricType: String? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -130,6 +135,7 @@ internal data class SavedVisualization(
                     SUB_TYPE_TAG -> subType = parser.text()
                     UNITS_OF_MEASURE_TAG -> unitsOfMeasure = parser.text()
                     SELECTED_LABELS_TAG -> selectedLabels = SelectedLabels.parse(parser)
+                    METRIC_TYPE_TAG -> metricType = parser.text()
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -148,7 +154,8 @@ internal data class SavedVisualization(
                 userConfigs,
                 subType,
                 unitsOfMeasure,
-                selectedLabels
+                selectedLabels,
+                metricType,
             )
         }
     }
@@ -179,6 +186,7 @@ internal data class SavedVisualization(
         subType = input.readString(),
         unitsOfMeasure = input.readOptionalString(),
         selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
+        metricType = input.readOptionalString(),
     )
 
     /**
@@ -197,6 +205,7 @@ internal data class SavedVisualization(
         output.writeString(subType)
         output.writeOptionalString(unitsOfMeasure)
         output.writeOptionalWriteable(selectedLabels)
+        output.writeOptionalString(metricType)
     }
 
     /**
@@ -217,6 +226,7 @@ internal data class SavedVisualization(
             .fieldIfNotNull(SUB_TYPE_TAG, subType)
             .fieldIfNotNull(UNITS_OF_MEASURE_TAG, unitsOfMeasure)
             .fieldIfNotNull(SELECTED_LABELS_TAG, selectedLabels)
+            .fieldIfNotNull(METRIC_TYPE_TAG, metricType)
         return builder.endObject()
     }
 
