@@ -32,6 +32,7 @@ internal class SavedVisualizationTests {
         "KE1Ie34BbsTr-CsB4G6Y",
         "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}",
         "metric",
+        "OpenTelemetryMetric",
         "hours (h)"
     )
 
@@ -58,7 +59,8 @@ internal class SavedVisualizationTests {
                 "\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"" +
                 "| fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]}," +
                 "\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\"," +
-                "\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"units_of_measure\":\"hours (h)\"}"
+                "\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"metric_type\":\"OpenTelemetryMetric\"," +
+                "\"units_of_measure\":\"hours (h)\"}"
 
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
         assertEquals(sampleSavedVisualization, recreatedObject)
@@ -82,7 +84,8 @@ internal class SavedVisualizationTests {
                 "\"selected_timestamp\":{\"name\":\"utc_time\",\"type\":\"timestamp\"},\"selected_fields\":{\"text\":\"|" +
                 " fields clientip, bytes, memory, host\",\"tokens\":[{\"name\":\"utc_time\",\"type\":\"timestamp\"}]}," +
                 "\"application_id\":\"KE1Ie34BbsTr-CsB4G6Y\",\"user_configs\":\"{\\\"dataConfig\\\":\\\"{}\\\"," +
-                "\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"units_of_measure\":\"hours (h)\"}"
+                "\\\"layoutConfig\\\":\\\"{}\\\"}\",\"sub_type\":\"metric\",\"metric_type\":\"OpenTelemetryMetric\"," +
+                "\"units_of_measure\":\"hours (h)\"}"
 
         val recreatedObject = createObjectFromJsonString(jsonString) { SavedVisualization.parse(it) }
         assertEquals(sampleSavedVisualization, recreatedObject)

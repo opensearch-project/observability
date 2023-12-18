@@ -45,12 +45,12 @@ import org.opensearch.observability.util.logger
  *   "application_id": "KE1Ie34BbsTr-CsB4G6Y",
  *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}",
  *   "sub_type": "metric",
+ *   "metric_type": "OpenTelemetryMetric",
  *   "units_of_measure: "hours (h)",
  *   "labels": [
  *      {"label":"avg"},
  *      {"label":"count"},
  *   ]
- *   "metric_type": "OpenTelemetryMetric",
 
  * }
  * }</pre>
@@ -67,9 +67,9 @@ internal data class SavedVisualization(
     val applicationId: String? = null,
     val userConfigs: String? = null,
     val subType: String?,
+    val metricType: String? = null,
     val unitsOfMeasure: String? = null,
     val selectedLabels: SelectedLabels? = null,
-    val metricType: String? = null,
 ) : BaseObjectData {
 
     internal companion object {
@@ -84,9 +84,9 @@ internal data class SavedVisualization(
         private const val APPLICATION_ID_TAG = "application_id"
         private const val USER_CONFIGS_TAG = "user_configs"
         private const val SUB_TYPE_TAG = "sub_type"
+        private const val METRIC_TYPE_TAG = "metric_type"
         private const val UNITS_OF_MEASURE_TAG = "units_of_measure"
         private const val SELECTED_LABELS_TAG = "selected_labels"
-        private const val METRIC_TYPE_TAG = "metric_type"
 
         /**
          * reader to create instance of class from writable.
@@ -115,9 +115,9 @@ internal data class SavedVisualization(
             var applicationId: String? = null
             var userConfigs: String? = null
             var subType: String? = null
+            var metricType: String? = null
             var unitsOfMeasure: String? = null
             var selectedLabels: SelectedLabels? = null
-            var metricType: String? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
@@ -133,9 +133,9 @@ internal data class SavedVisualization(
                     APPLICATION_ID_TAG -> applicationId = parser.text()
                     USER_CONFIGS_TAG -> userConfigs = parser.text()
                     SUB_TYPE_TAG -> subType = parser.text()
+                    METRIC_TYPE_TAG -> metricType = parser.text()
                     UNITS_OF_MEASURE_TAG -> unitsOfMeasure = parser.text()
                     SELECTED_LABELS_TAG -> selectedLabels = SelectedLabels.parse(parser)
-                    METRIC_TYPE_TAG -> metricType = parser.text()
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -153,9 +153,9 @@ internal data class SavedVisualization(
                 applicationId,
                 userConfigs,
                 subType,
+                metricType,
                 unitsOfMeasure,
                 selectedLabels,
-                metricType,
             )
         }
     }
@@ -184,9 +184,9 @@ internal data class SavedVisualization(
         applicationId = input.readOptionalString(),
         userConfigs = input.readOptionalString(),
         subType = input.readString(),
+        metricType = input.readOptionalString(),
         unitsOfMeasure = input.readOptionalString(),
         selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
-        metricType = input.readOptionalString(),
     )
 
     /**
@@ -203,9 +203,9 @@ internal data class SavedVisualization(
         output.writeOptionalString(applicationId)
         output.writeOptionalString(userConfigs)
         output.writeString(subType)
+        output.writeOptionalString(metricType)
         output.writeOptionalString(unitsOfMeasure)
         output.writeOptionalWriteable(selectedLabels)
-        output.writeOptionalString(metricType)
     }
 
     /**
@@ -224,9 +224,9 @@ internal data class SavedVisualization(
             .fieldIfNotNull(APPLICATION_ID_TAG, applicationId)
             .fieldIfNotNull(USER_CONFIGS_TAG, userConfigs)
             .fieldIfNotNull(SUB_TYPE_TAG, subType)
+            .fieldIfNotNull(METRIC_TYPE_TAG, metricType)
             .fieldIfNotNull(UNITS_OF_MEASURE_TAG, unitsOfMeasure)
             .fieldIfNotNull(SELECTED_LABELS_TAG, selectedLabels)
-            .fieldIfNotNull(METRIC_TYPE_TAG, metricType)
         return builder.endObject()
     }
 
