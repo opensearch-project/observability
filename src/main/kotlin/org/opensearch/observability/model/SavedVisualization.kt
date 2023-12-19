@@ -45,11 +45,13 @@ import org.opensearch.observability.util.logger
  *   "application_id": "KE1Ie34BbsTr-CsB4G6Y",
  *   "user_configs": "{\"dataConfig\":\"{}\",\"layoutConfig\": \"{}\"}",
  *   "sub_type": "metric",
+ *   "metric_type": "OpenTelemetryMetric",
  *   "units_of_measure: "hours (h)",
  *   "labels": [
  *      {"label":"avg"},
  *      {"label":"count"},
  *   ]
+
  * }
  * }</pre>
  */
@@ -65,6 +67,7 @@ internal data class SavedVisualization(
     val applicationId: String? = null,
     val userConfigs: String? = null,
     val subType: String?,
+    val metricType: String? = null,
     val unitsOfMeasure: String? = null,
     val selectedLabels: SelectedLabels? = null,
 ) : BaseObjectData {
@@ -81,6 +84,7 @@ internal data class SavedVisualization(
         private const val APPLICATION_ID_TAG = "application_id"
         private const val USER_CONFIGS_TAG = "user_configs"
         private const val SUB_TYPE_TAG = "sub_type"
+        private const val METRIC_TYPE_TAG = "metric_type"
         private const val UNITS_OF_MEASURE_TAG = "units_of_measure"
         private const val SELECTED_LABELS_TAG = "selected_labels"
 
@@ -111,6 +115,7 @@ internal data class SavedVisualization(
             var applicationId: String? = null
             var userConfigs: String? = null
             var subType: String? = null
+            var metricType: String? = null
             var unitsOfMeasure: String? = null
             var selectedLabels: SelectedLabels? = null
             XContentParserUtils.ensureExpectedToken(XContentParser.Token.START_OBJECT, parser.currentToken(), parser)
@@ -128,6 +133,7 @@ internal data class SavedVisualization(
                     APPLICATION_ID_TAG -> applicationId = parser.text()
                     USER_CONFIGS_TAG -> userConfigs = parser.text()
                     SUB_TYPE_TAG -> subType = parser.text()
+                    METRIC_TYPE_TAG -> metricType = parser.text()
                     UNITS_OF_MEASURE_TAG -> unitsOfMeasure = parser.text()
                     SELECTED_LABELS_TAG -> selectedLabels = SelectedLabels.parse(parser)
                     else -> {
@@ -147,8 +153,9 @@ internal data class SavedVisualization(
                 applicationId,
                 userConfigs,
                 subType,
+                metricType,
                 unitsOfMeasure,
-                selectedLabels
+                selectedLabels,
             )
         }
     }
@@ -177,6 +184,7 @@ internal data class SavedVisualization(
         applicationId = input.readOptionalString(),
         userConfigs = input.readOptionalString(),
         subType = input.readString(),
+        metricType = input.readOptionalString(),
         unitsOfMeasure = input.readOptionalString(),
         selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
     )
@@ -195,6 +203,7 @@ internal data class SavedVisualization(
         output.writeOptionalString(applicationId)
         output.writeOptionalString(userConfigs)
         output.writeString(subType)
+        output.writeOptionalString(metricType)
         output.writeOptionalString(unitsOfMeasure)
         output.writeOptionalWriteable(selectedLabels)
     }
@@ -215,6 +224,7 @@ internal data class SavedVisualization(
             .fieldIfNotNull(APPLICATION_ID_TAG, applicationId)
             .fieldIfNotNull(USER_CONFIGS_TAG, userConfigs)
             .fieldIfNotNull(SUB_TYPE_TAG, subType)
+            .fieldIfNotNull(METRIC_TYPE_TAG, metricType)
             .fieldIfNotNull(UNITS_OF_MEASURE_TAG, unitsOfMeasure)
             .fieldIfNotNull(SELECTED_LABELS_TAG, selectedLabels)
         return builder.endObject()
