@@ -31,15 +31,17 @@ import org.opensearch.observability.util.logger
  *         "x": 0,
  *         "y": 0,
  *         "w": 10,
- *         "h": 10
+ *         "h": 10,
+ *         "visualizationType:"observability"
  *       },
  *       {
  *         "id": "panelViz_7ba28e34-6fd8-489d-9b9f-165fdv6wd611",
- *         "savedVisualizationId": "oiuccXwBYVazWqOO1e06",
- *         "x": 20,
- *         "y": 20,
+ *         "savedVisualizationId": "6527ce20-7b24-11ed-86e0-b3953b180cc0",
+ *         "x": 0,
+ *         "y": 10,
  *         "w": 30,
- *         "h": 20
+ *         "h": 20,
+ *          "visualizationType:"dashboards"
  *       }
  *     ],
  *     "timeRange": {
@@ -187,7 +189,8 @@ internal data class OperationalPanel(
         val x: Int,
         val y: Int,
         val w: Int,
-        val h: Int
+        val h: Int,
+        val visualizationType: String? = null
     ) : BaseModel {
         internal companion object {
             private const val ID_TAG = "id"
@@ -196,6 +199,7 @@ internal data class OperationalPanel(
             private const val Y_TAG = "y"
             private const val W_TAG = "w"
             private const val H_TAG = "h"
+            private const val VISUALIZATION_TYPE_TAG = "visualizationType"
 
             /**
              * reader to create instance of class from writable.
@@ -220,6 +224,7 @@ internal data class OperationalPanel(
                 var y: Int? = null
                 var w: Int? = null
                 var h: Int? = null
+                var visualizationType: String? = null
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
@@ -235,6 +240,7 @@ internal data class OperationalPanel(
                         Y_TAG -> y = parser.intValue()
                         W_TAG -> w = parser.intValue()
                         H_TAG -> h = parser.intValue()
+                        VISUALIZATION_TYPE_TAG -> visualizationType = parser.text()
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Source Skipping Unknown field $fieldName")
@@ -247,7 +253,7 @@ internal data class OperationalPanel(
                 y ?: throw IllegalArgumentException("$Y_TAG field absent")
                 w ?: throw IllegalArgumentException("$W_TAG field absent")
                 h ?: throw IllegalArgumentException("$H_TAG field absent")
-                return Visualization(id, savedVisualizationId, x, y, w, h)
+                return Visualization(id, savedVisualizationId, x, y, w, h, visualizationType)
             }
         }
 
@@ -257,7 +263,8 @@ internal data class OperationalPanel(
             x = streamInput.readInt(),
             y = streamInput.readInt(),
             w = streamInput.readInt(),
-            h = streamInput.readInt()
+            h = streamInput.readInt(),
+            visualizationType = streamInput.readOptionalString(),
         )
 
         override fun writeTo(streamOutput: StreamOutput) {
@@ -267,6 +274,7 @@ internal data class OperationalPanel(
             streamOutput.writeInt(y)
             streamOutput.writeInt(w)
             streamOutput.writeInt(h)
+            streamOutput.writeOptionalString(visualizationType)
         }
 
         /**
@@ -281,6 +289,7 @@ internal data class OperationalPanel(
                 .field(Y_TAG, y)
                 .field(W_TAG, w)
                 .field(H_TAG, h)
+                .fieldIfNotNull(VISUALIZATION_TYPE_TAG, visualizationType)
             return builder.endObject()
         }
     }
