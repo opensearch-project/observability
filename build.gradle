@@ -36,13 +36,13 @@ buildscript {
         classpath "org.opensearch.gradle:build-tools:${opensearch_version}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
-        classpath "org.jacoco:org.jacoco.agent:0.8.8"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.4"
+        classpath "org.jacoco:org.jacoco.agent:0.8.11"
     }
 }
 
 plugins {
-    id 'nebula.ospackage' version "8.3.0"
+    id "com.netflix.nebula.ospackage-base" version "11.6.0"
     id "com.dorongold.task-tree" version "1.5"
     id 'java-library'
 }
@@ -148,6 +148,8 @@ configurations.all {
     if (it.state != Configuration.State.UNRESOLVED) return
     resolutionStrategy {
         force "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+        force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
+        force "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
         force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${jackson_version}"
         force "org.mockito:mockito-core:4.6.1"
@@ -568,7 +570,7 @@ run {
 
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
-    main = "com.pinterest.ktlint.Main"
+    mainClass = "com.pinterest.ktlint.Main"
     classpath = configurations.ktlint
     args "src/**/*.kt"
     // to generate report in checkstyle format prepend following args:
@@ -580,9 +582,10 @@ check.dependsOn ktlint
 
 task ktlintFormat(type: JavaExec, group: "formatting") {
     description = "Fix Kotlin code style deviations."
-    main = "com.pinterest.ktlint.Main"
+    mainClass = "com.pinterest.ktlint.Main"
     classpath = configurations.ktlint
     args "-F", "src/**/*.kt"
+    jvmArgs "--add-opens=java.base/java.lang=ALL-UNNAMED"
 }
 
 compileKotlin { kotlinOptions.freeCompilerArgs = ['-Xjsr305=strict'] }
