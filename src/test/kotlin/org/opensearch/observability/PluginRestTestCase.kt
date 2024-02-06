@@ -78,7 +78,8 @@ abstract class PluginRestTestCase : OpenSearchRestTestCase() {
             val response = client().performRequest(Request("GET", "/_cat/indices?format=json&expand_wildcards=all"))
             val xContentType = MediaType.fromMediaType(response.entity.contentType.value)
             xContentType.xContent().createParser(
-                NamedXContentRegistry.EMPTY, DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
+                NamedXContentRegistry.EMPTY,
+                DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
                 response.entity.content
             ).use { parser ->
                 for (index in parser.list()) {

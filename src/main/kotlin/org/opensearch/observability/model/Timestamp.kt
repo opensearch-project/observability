@@ -34,7 +34,7 @@ internal data class Timestamp(
     val name: String?,
     val index: String?,
     val type: String?,
-    val dslType: String?,
+    val dslType: String?
 ) : BaseObjectData {
 
     internal companion object {
