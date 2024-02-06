@@ -69,7 +69,7 @@ internal data class SavedVisualization(
     val subType: String?,
     val metricType: String? = null,
     val unitsOfMeasure: String? = null,
-    val selectedLabels: SelectedLabels? = null,
+    val selectedLabels: SelectedLabels? = null
 ) : BaseObjectData {
 
     internal companion object {
@@ -155,7 +155,7 @@ internal data class SavedVisualization(
                 subType,
                 metricType,
                 unitsOfMeasure,
-                selectedLabels,
+                selectedLabels
             )
         }
     }
@@ -186,7 +186,7 @@ internal data class SavedVisualization(
         subType = input.readString(),
         metricType = input.readOptionalString(),
         unitsOfMeasure = input.readOptionalString(),
-        selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
+        selectedLabels = input.readOptionalWriteable(SelectedLabels.reader)
     )
 
     /**
@@ -231,7 +231,7 @@ internal data class SavedVisualization(
     }
 
     internal data class Token(
-        val label: String,
+        val label: String
     ) : BaseModel {
         internal companion object {
             private const val LABEL_TAG = "label"
@@ -276,7 +276,7 @@ internal data class SavedVisualization(
          * @param input StreamInput stream to deserialize data from.
          */
         constructor(input: StreamInput) : this(
-            label = input.readString(),
+            label = input.readString()
         )
 
         /**
@@ -299,7 +299,7 @@ internal data class SavedVisualization(
     }
 
     internal data class SelectedLabels(
-        val labels: List<Token>?,
+        val labels: List<Token>?
     ) : BaseModel {
         internal companion object {
             private const val LABELS_TAG = "labels"

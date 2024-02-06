@@ -27,19 +27,24 @@ enum class Metrics(val metricName: String, val counter: Counter<*>) {
     OBSERVABILITY_EXCEPTIONS_VERSION_CONFLICT_ENGINE_EXCEPTION("exception.version_conflict_engine", RollingCounter()),
     OBSERVABILITY_EXCEPTIONS_INDEX_NOT_FOUND_EXCEPTION("exception.index_not_found", RollingCounter()),
     OBSERVABILITY_EXCEPTIONS_INVALID_INDEX_NAME_EXCEPTION(
-        "exception.invalid_index_name", RollingCounter()
+        "exception.invalid_index_name",
+        RollingCounter()
     ),
     OBSERVABILITY_EXCEPTIONS_ILLEGAL_ARGUMENT_EXCEPTION(
-        "exception.illegal_argument", RollingCounter()
+        "exception.illegal_argument",
+        RollingCounter()
     ),
     OBSERVABILITY_EXCEPTIONS_ILLEGAL_STATE_EXCEPTION(
-        "exception.illegal_state", RollingCounter()
+        "exception.illegal_state",
+        RollingCounter()
     ),
     OBSERVABILITY_EXCEPTIONS_IO_EXCEPTION(
-        "exception.io", RollingCounter()
+        "exception.io",
+        RollingCounter()
     ),
     OBSERVABILITY_EXCEPTIONS_INTERNAL_SERVER_ERROR(
-        "exception.internal_server_error", RollingCounter()
+        "exception.internal_server_error",
+        RollingCounter()
     ),
 
     OBSERVABILITY_SECURITY_PERMISSION_ERROR("security_permission_error", RollingCounter()),
