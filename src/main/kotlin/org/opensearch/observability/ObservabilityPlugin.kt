@@ -92,7 +92,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin {
     ): List<RestHandler> {
         return listOf(
             ObservabilityRestHandler(),
-            ObservabilityStatsRestHandler(),
+            ObservabilityStatsRestHandler()
         )
     }
 
