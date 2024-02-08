@@ -241,7 +241,7 @@ internal data class SavedQuery(
 
     internal data class Token(
         val name: String,
-        val type: String,
+        val type: String
     ) : BaseModel {
         internal companion object {
             private const val NAME_TAG = "name"
@@ -291,7 +291,7 @@ internal data class SavedQuery(
          */
         constructor(input: StreamInput) : this(
             name = input.readString(),
-            type = input.readString(),
+            type = input.readString()
         )
 
         /**
