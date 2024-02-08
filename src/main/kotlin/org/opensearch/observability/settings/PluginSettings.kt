@@ -283,61 +283,70 @@ internal object PluginSettings {
         OPERATION_TIMEOUT_MS_KEY,
         defaultSettings[OPERATION_TIMEOUT_MS_KEY]!!.toLong(),
         MINIMUM_OPERATION_TIMEOUT_MS,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val JOB_LOCK_DURATION_S: Setting<Int> = Setting.intSetting(
         JOB_LOCK_DURATION_S_KEY,
         defaultSettings[JOB_LOCK_DURATION_S_KEY]!!.toInt(),
         MINIMUM_JOB_LOCK_DURATION_S,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val MIN_POLLING_DURATION_S: Setting<Int> = Setting.intSetting(
         MIN_POLLING_DURATION_S_KEY,
         defaultSettings[MIN_POLLING_DURATION_S_KEY]!!.toInt(),
         MINIMUM_MIN_POLLING_DURATION_S,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val MAX_POLLING_DURATION_S: Setting<Int> = Setting.intSetting(
         MAX_POLLING_DURATION_S_KEY,
         defaultSettings[MAX_POLLING_DURATION_S_KEY]!!.toInt(),
         MINIMUM_MAX_POLLING_DURATION_S,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val MAX_LOCK_RETRIES: Setting<Int> = Setting.intSetting(
         MAX_LOCK_RETRIES_KEY,
         defaultSettings[MAX_LOCK_RETRIES_KEY]!!.toInt(),
         MINIMUM_LOCK_RETRIES,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val DEFAULT_ITEMS_QUERY_COUNT: Setting<Int> = Setting.intSetting(
         DEFAULT_ITEMS_QUERY_COUNT_KEY,
         defaultSettings[DEFAULT_ITEMS_QUERY_COUNT_KEY]!!.toInt(),
         MINIMUM_ITEMS_QUERY_COUNT,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val ADMIN_ACCESS: Setting<String> = Setting.simpleString(
         ADMIN_ACCESS_KEY,
         defaultSettings[ADMIN_ACCESS_KEY]!!,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val FILTER_BY: Setting<String> = Setting.simpleString(
         FILTER_BY_KEY,
         defaultSettings[FILTER_BY_KEY]!!,
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     private val IGNORED_ROLES: Setting<List<String>> = Setting.listSetting(
         IGNORE_ROLE_KEY,
         DEFAULT_IGNORED_ROLES,
         { it },
-        NodeScope, Dynamic
+        NodeScope,
+        Dynamic
     )
 
     /**

@@ -154,6 +154,7 @@ configurations.all {
         force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${jackson_version}"
         force "org.mockito:mockito-core:4.6.1"
         force "org.yaml:snakeyaml:2.0"
+        force "org.slf4j:slf4j-api:2.0.0"
     }
 }
 
@@ -212,7 +213,7 @@ dependencies {
     testImplementation "org.mockito:mockito-junit-jupiter:4.3.1"
     testImplementation "com.google.code.gson:gson:2.8.9"
 
-    ktlint "com.pinterest:ktlint:0.45.0"
+    ktlint "com.pinterest:ktlint:0.47.1"
 }
 
 javadoc.enabled = false // turn off javadoc as it barfs on Kotlin code

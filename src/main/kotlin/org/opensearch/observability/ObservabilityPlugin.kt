@@ -98,7 +98,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin {
     ): List<RestHandler> {
         return listOf(
             ObservabilityRestHandler(),
-            ObservabilityStatsRestHandler(),
+            ObservabilityStatsRestHandler()
         )
     }
 
