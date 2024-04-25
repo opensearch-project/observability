@@ -66,11 +66,10 @@ Observability is collection of plugins and applications that let you visualize d
 [cypress-test-badge]: https://img.shields.io/badge/Cypress%20tests-in%20progress-yellow
 [cypress-test-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [cypress-code-badge]: https://img.shields.io/badge/Cypress%20code-blue
-[cypress-code-link]: https://github.com/opensearch-project/observability/blob/main/dashboards-observability/.cypress/CYPRESS_TESTS.md
 [opensearch-it-badge]: https://img.shields.io/badge/OpenSearch%20Plugin%20IT%20tests-in%20progress-yellow
 [opensearch-it-link]: https://github.com/opensearch-project/opensearch-build/issues/1124
 [opensearch-it-code-badge]: https://img.shields.io/badge/OpenSearch%20IT%20code-blue
-[opensearch-it-code-link]: https://github.com/opensearch-project/observability/blob/main/opensearch-observability/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
+[opensearch-it-code-link]: https://github.com/opensearch-project/observability/blob/main/src/test/kotlin/org/opensearch/observability/ObservabilityPluginIT.kt
 [bwc-tests-badge]: https://img.shields.io/badge/BWC%20tests-in%20progress-yellow
 [bwc-tests-link]: https://github.com/opensearch-project/observability/issues/276
 [good-first-badge]: https://img.shields.io/github/issues/opensearch-project/observability/good%20first%20issue.svg
