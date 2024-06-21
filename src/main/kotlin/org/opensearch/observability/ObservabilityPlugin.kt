@@ -64,7 +64,8 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, SystemIndexPlugin {
      */
     override fun getSystemIndexDescriptors(settings: Settings): Collection<SystemIndexDescriptor> {
         return listOf(
-            SystemIndexDescriptor(ObservabilityIndex.INDEX_NAME, "Observability Plugin system index pattern")
+            SystemIndexDescriptor(ObservabilityIndex.INDEX_NAME, "Observability Plugin Configuration index"),
+            SystemIndexDescriptor(ObservabilityIndex.NOTEBOOKS_INDEX_NAME, "Observability Plugin Notebooks index")
         )
     }
 

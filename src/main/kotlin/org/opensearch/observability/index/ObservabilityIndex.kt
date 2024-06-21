@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit
 internal object ObservabilityIndex {
     private val log by logger(ObservabilityIndex::class.java)
     const val INDEX_NAME = ".opensearch-observability"
-    private const val NOTEBOOKS_INDEX_NAME = ".opensearch-notebooks"
+    const val NOTEBOOKS_INDEX_NAME = ".opensearch-notebooks"
     private const val OBSERVABILITY_MAPPING_FILE_NAME = "observability-mapping.yml"
     private const val OBSERVABILITY_SETTINGS_FILE_NAME = "observability-settings.yml"
 
