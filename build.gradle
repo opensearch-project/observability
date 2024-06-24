@@ -308,7 +308,7 @@ testClusters.integTest {
     setting 'path.repo', repo.absolutePath
 }
 
-String baseVersion = "2.15.0"
+String baseVersion = "2.16.0"
 String bwcVersion = baseVersion + ".0"
 String baseName = "obsBwcCluster"
 String bwcFilePath = "src/test/resources/bwc/"
