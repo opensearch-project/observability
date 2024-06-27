@@ -19,6 +19,7 @@ import org.opensearch.core.common.io.stream.NamedWriteableRegistry
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
+import org.opensearch.indices.SystemIndexDescriptor
 import org.opensearch.observability.action.CreateObservabilityObjectAction
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
 import org.opensearch.observability.action.GetObservabilityObjectAction
@@ -30,6 +31,7 @@ import org.opensearch.observability.settings.PluginSettings
 import org.opensearch.plugins.ActionPlugin
 import org.opensearch.plugins.ClusterPlugin
 import org.opensearch.plugins.Plugin
+import org.opensearch.plugins.SystemIndexPlugin
 import org.opensearch.repositories.RepositoriesService
 import org.opensearch.rest.RestController
 import org.opensearch.rest.RestHandler
@@ -43,7 +45,7 @@ import java.util.function.Supplier
  * This class initializes the rest handlers.
  */
 @Suppress("TooManyFunctions")
-class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin {
+class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, SystemIndexPlugin {
 
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
@@ -57,6 +59,16 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin {
      */
     override fun getSettings(): List<Setting<*>> {
         return PluginSettings.getAllSettings()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun getSystemIndexDescriptors(settings: Settings): Collection<SystemIndexDescriptor> {
+        return listOf(
+            SystemIndexDescriptor(ObservabilityIndex.INDEX_NAME, "Observability Plugin Configuration index"),
+            SystemIndexDescriptor(ObservabilityIndex.NOTEBOOKS_INDEX_NAME, "Observability Plugin Notebooks index")
+        )
     }
 
     /**
