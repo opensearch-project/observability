@@ -45,7 +45,7 @@ import java.util.function.Supplier
  * This class initializes the rest handlers.
  */
 @Suppress("TooManyFunctions")
-class ObservabilityPlugin : Plugin(), ActionPlugin, SystemIndexPlugin {
+class ObservabilityPlugin : Plugin(), ActionPlugin, ClusterPlugin, SystemIndexPlugin {
 
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
