@@ -21,6 +21,9 @@ jobs:
       # need to switch to root so that github actions can install runner binary on container without permission issues.
       options: --user root
 
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
     steps:
       - uses: actions/checkout@v1
 
@@ -28,7 +31,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-    
+
       - name: Run Backwards Compatibility Tests
         run: |
           echo "Running backwards compatibility tests ..."
@@ -74,7 +77,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-    
+
       - name: Build with Gradle
         run: |
           ./gradlew build
