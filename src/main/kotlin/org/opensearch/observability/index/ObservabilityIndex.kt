@@ -103,11 +103,11 @@ internal object ObservabilityIndex {
                 } else {
                     error("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
                 }
-            } catch (exception: ResourceAlreadyExistsException) {
-                log.warn("message: ${exception.message}")
             } catch (exception: Exception) {
-                if (exception.cause !is ResourceAlreadyExistsException) {
-                    throw exception
+                if (exception is ResourceAlreadyExistsException || exception.cause is ResourceAlreadyExistsException) {
+                    log.warn("skipping creation as resource already exists: ${exception.message}")
+                } else {
+                    log.error("index creation failed due to exception: ${exception.message}")
                 }
             }
             this.mappingsUpdated = true
@@ -168,10 +168,11 @@ internal object ObservabilityIndex {
                     "$LOG_PREFIX:Index - reindex ${reindexResponse.created} docs created " +
                         "and ${reindexResponse.updated} docs updated in $INDEX_NAME"
                 )
-            } catch (exception: ResourceNotFoundException) {
-                log.warn("message: ${exception.message}")
             } catch (exception: Exception) {
-                if (exception.cause !is ResourceNotFoundException) {
+                if (exception is ResourceNotFoundException || exception.cause is ResourceNotFoundException) {
+                    log.warn("skipping reindex notebook as resource not found, message : ${exception.message}")
+                } else {
+                    log.error("reindex notebook failed due to exception: ${exception.message}")
                     throw exception
                 }
             }
