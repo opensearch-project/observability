@@ -1,6 +1,6 @@
-## Version 2.17.0.0 Release Notes
+## Version 2.18.0.0 Release Notes
 
-Compatible with OpenSearch 2.17.0
+Compatible with OpenSearch 2.18.0
 
 ### Enhancements
 
