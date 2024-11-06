@@ -168,7 +168,7 @@ plugins.withId('java') {
 }
 
 plugins.withId('org.jetbrains.kotlin.jvm') {
-    compileKotlin.kotlinOptions.jvmTarget = compileTestKotlin.kotlinOptions.jvmTarget = "17"
+    compileKotlin.kotlinOptions.jvmTarget = compileTestKotlin.kotlinOptions.jvmTarget = "21"
 }
 
 allprojects {
