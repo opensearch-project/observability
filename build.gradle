@@ -164,7 +164,7 @@ ext {
 }
 
 plugins.withId('java') {
-    sourceCompatibility = targetCompatibility = "11"
+    sourceCompatibility = targetCompatibility = "17"
 }
 
 plugins.withId('org.jetbrains.kotlin.jvm') {
@@ -176,7 +176,7 @@ allprojects {
 
     version = "${opensearch_build}"
     plugins.withId('java') {
-        sourceCompatibility = targetCompatibility = "11"
+        sourceCompatibility = targetCompatibility = "17"
     }
 }
 
