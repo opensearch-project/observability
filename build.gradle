@@ -251,10 +251,6 @@ tasks.withType(licenseHeaders.class) {
     additionalLicense 'AL   ', 'Apache', 'Licensed under the Apache License, Version 2.0 (the "License")'
 }
 
-//tasks.named("compileKotlin") {
-//    options.compilerArgs << "-Werror"
-//}
-
 task integTest(type: RestIntegTestTask) {
     description = "Run tests against a cluster that has security enabled"
     testClassesDirs = sourceSets.test.output.classesDirs
