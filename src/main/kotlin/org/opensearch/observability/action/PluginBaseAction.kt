@@ -30,7 +30,6 @@ import org.opensearch.observability.util.logger
 import org.opensearch.tasks.Task
 import org.opensearch.transport.TransportService
 import java.io.IOException
-import java.security.PrivilegedExceptionAction
 
 abstract class PluginBaseAction<Request : ActionRequest, Response : ActionResponse>(
     name: String,
