@@ -99,8 +99,8 @@ internal object ObservabilityIndex : LifecycleListener() {
         try {
             // wait for the cluster here until it will finish managed node election
             while (clusterService.state().blocks().hasGlobalBlockWithStatus(RestStatus.SERVICE_UNAVAILABLE)) {
-                log.info("Wait for cluster to be available ...");
-                TimeUnit.SECONDS.sleep(1);
+                log.info("Wait for cluster to be available ...")
+                TimeUnit.SECONDS.sleep(1)
             }
             if (!isIndexExists(INDEX_NAME)) {
                 val classLoader = ObservabilityIndex::class.java.classLoader
@@ -130,7 +130,7 @@ internal object ObservabilityIndex : LifecycleListener() {
                 updateMappings()
             }
         } catch (exception: Exception) {
-            log.error("Unexpected exception while initializing node $exception", exception);
+            log.error("Unexpected exception while initializing node $exception", exception)
         }
     }
 
