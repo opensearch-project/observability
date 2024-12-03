@@ -58,7 +58,7 @@ jobs:
           cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3-node20
         with:
           name: opensearch-observability-ubuntu-latest
           path: opensearch-observability-builds
@@ -79,7 +79,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-    
+
       - name: Build with Gradle
         run: |
           ./gradlew build
