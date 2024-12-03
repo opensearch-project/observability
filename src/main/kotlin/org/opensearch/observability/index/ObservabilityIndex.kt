@@ -96,32 +96,41 @@ internal object ObservabilityIndex : LifecycleListener() {
      */
     @Suppress("TooGenericExceptionCaught")
     private fun createIndex() {
-        if (!isIndexExists(INDEX_NAME)) {
-            val classLoader = ObservabilityIndex::class.java.classLoader
-            val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
-            val indexSettingsSource = classLoader.getResource(OBSERVABILITY_SETTINGS_FILE_NAME)?.readText()!!
-            val request = CreateIndexRequest(INDEX_NAME)
-                .mapping(indexMappingSource, XContentType.YAML)
-                .settings(indexSettingsSource, XContentType.YAML)
-            try {
-                val actionFuture = client.admin().indices().create(request)
-                val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
-                if (response.isAcknowledged) {
-                    log.info("$LOG_PREFIX:Index $INDEX_NAME creation Acknowledged")
-                    reindexNotebooks()
-                } else {
-                    error("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
-                }
-            } catch (exception: ResourceAlreadyExistsException) {
-                log.warn("message: ${exception.message}")
-            } catch (exception: Exception) {
-                if (exception.cause !is ResourceAlreadyExistsException) {
-                    throw exception
-                }
+        try {
+            // wait for the cluster here until it will finish managed node election
+            while (clusterService.state().blocks().hasGlobalBlockWithStatus(RestStatus.SERVICE_UNAVAILABLE)) {
+                log.info("Wait for cluster to be available ...");
+                TimeUnit.SECONDS.sleep(1);
             }
-            this.mappingsUpdated = true
-        } else if (!this.mappingsUpdated) {
-            updateMappings()
+            if (!isIndexExists(INDEX_NAME)) {
+                val classLoader = ObservabilityIndex::class.java.classLoader
+                val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
+                val indexSettingsSource = classLoader.getResource(OBSERVABILITY_SETTINGS_FILE_NAME)?.readText()!!
+                val request = CreateIndexRequest(INDEX_NAME)
+                    .mapping(indexMappingSource, XContentType.YAML)
+                    .settings(indexSettingsSource, XContentType.YAML)
+                try {
+                    val actionFuture = client.admin().indices().create(request)
+                    val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
+                    if (response.isAcknowledged) {
+                        log.info("$LOG_PREFIX:Index $INDEX_NAME creation Acknowledged")
+                        reindexNotebooks()
+                    } else {
+                        error("$LOG_PREFIX:Index $INDEX_NAME creation not Acknowledged")
+                    }
+                } catch (exception: ResourceAlreadyExistsException) {
+                    log.warn("message: ${exception.message}")
+                } catch (exception: Exception) {
+                    if (exception.cause !is ResourceAlreadyExistsException) {
+                        throw exception
+                    }
+                }
+                this.mappingsUpdated = true
+            } else if (!this.mappingsUpdated) {
+                updateMappings()
+            }
+        } catch (exception: Exception) {
+            log.error("Unexpected exception while initializing node $exception", exception);
         }
     }
 
