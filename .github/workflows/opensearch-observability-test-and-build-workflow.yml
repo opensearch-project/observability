@@ -22,9 +22,6 @@ jobs:
       image: ${{ needs.Get-CI-Image-Tag.outputs.ci-image-version-linux }}
       options: ${{ needs.Get-CI-Image-Tag.outputs.ci-image-start-options }}
 
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
     steps:
       - name: Run start commands
         run: ${{ needs.Get-CI-Image-Tag.outputs.ci-image-start-command }}
@@ -61,7 +58,7 @@ jobs:
           cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3-node20
+        uses: actions/upload-artifact@v4
         with:
           name: opensearch-observability-ubuntu-latest
           path: opensearch-observability-builds
@@ -94,7 +91,7 @@ jobs:
           cp -r ./build/distributions/*.zip opensearch-observability-builds/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3-node20
+        uses: actions/upload-artifact@v4
         with:
           name: opensearch-observability-${{ matrix.os }}
           path: opensearch-observability-builds
