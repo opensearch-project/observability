@@ -24,7 +24,7 @@ Your experience of exploring data might differ, but if you’re new to exploring
 ![](https://opensearch.org/docs/latest/images/notebooks.png)
 
 ---
-7. OpenSearch OpenTelemetry [Demo Store Application](https://opentelemetry.io/ecosystem/demo/) hosted in our [Observability Demo playground](https://playground.opensearch.org/)
+7. OpenSearch OpenTelemetry [Demo Store Application](https://opentelemetry.io/ecosystem/demo/) hosted in our [Observability Demo playground](https://playground.opensearch.org/app/login)
 
 - **_Demo Shop_**
 ![](https://opentelemetry.io/docs/demo/screenshots/frontend-1.png)
