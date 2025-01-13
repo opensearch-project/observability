@@ -56,8 +56,6 @@ Observability is collection of plugins and applications that let you visualize d
 [dco-badge-link]: https://github.com/opensearch-project/observability/actions/workflows/dco.yml
 [link-check-badge]: https://github.com/opensearch-project/observability/actions/workflows/link-checker.yml/badge.svg
 [link-check-link]: https://github.com/opensearch-project/observability/actions/workflows/link-checker.yml
-[dashboard-build-badge]: https://github.com/opensearch-project/observability/actions/workflows/dashboards-observability-test-and-build-workflow.yml/badge.svg
-[dashboard-build-link]: https://github.com/opensearch-project/observability/actions/workflows/dashboards-observability-test-and-build-workflow.yml
 [opensearch-build-badge]: https://github.com/opensearch-project/observability/actions/workflows/opensearch-observability-test-and-build-workflow.yml/badge.svg
 [opensearch-build-link]: https://github.com/opensearch-project/observability/actions/workflows/opensearch-observability-test-and-build-workflow.yml
 [dashboard-codecov-badge]: https://codecov.io/gh/opensearch-project/observability/branch/main/graphs/badge.svg?flag=dashboards-observability
