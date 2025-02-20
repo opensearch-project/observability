@@ -42,7 +42,7 @@ buildscript {
 
 plugins {
     id "de.undercouch.download" version "5.3.0"
-    id "com.netflix.nebula.ospackage-base" version "11.6.0"
+    id "com.netflix.nebula.ospackage-base" version "11.11.0"
     id "com.dorongold.task-tree" version "1.5"
     id 'java-library'
 }
