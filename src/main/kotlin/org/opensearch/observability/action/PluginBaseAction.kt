@@ -13,7 +13,6 @@ import org.opensearch.OpenSearchStatusException
 import org.opensearch.action.ActionRequest
 import org.opensearch.action.support.ActionFilters
 import org.opensearch.action.support.HandledTransportAction
-import org.opensearch.transport.client.Client
 import org.opensearch.commons.ConfigConstants.OPENSEARCH_SECURITY_USER_INFO_THREAD_CONTEXT
 import org.opensearch.commons.authuser.User
 import org.opensearch.core.action.ActionListener
@@ -28,6 +27,7 @@ import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.security.SecurityAccess
 import org.opensearch.observability.util.logger
 import org.opensearch.tasks.Task
+import org.opensearch.transport.client.Client
 import org.opensearch.transport.TransportService
 import java.io.IOException
 
