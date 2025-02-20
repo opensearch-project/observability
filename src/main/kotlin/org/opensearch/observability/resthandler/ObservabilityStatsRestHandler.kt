@@ -1,6 +1,6 @@
 package org.opensearch.observability.resthandler
 
-import org.opensearch.client.node.NodeClient
+import org.opensearch.transport.client.node.NodeClient
 import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.observability.metrics.Metrics

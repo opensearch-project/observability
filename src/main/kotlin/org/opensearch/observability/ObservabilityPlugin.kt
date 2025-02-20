@@ -5,7 +5,7 @@
 package org.opensearch.observability
 
 import org.opensearch.action.ActionRequest
-import org.opensearch.client.Client
+import org.opensearch.transport.client.Client
 import org.opensearch.cluster.metadata.IndexNameExpressionResolver
 import org.opensearch.cluster.node.DiscoveryNodes
 import org.opensearch.cluster.service.ClusterService
