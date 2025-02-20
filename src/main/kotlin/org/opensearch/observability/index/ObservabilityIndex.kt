@@ -18,7 +18,6 @@ import org.opensearch.action.get.MultiGetRequest
 import org.opensearch.action.index.IndexRequest
 import org.opensearch.action.search.SearchRequest
 import org.opensearch.action.update.UpdateRequest
-import org.opensearch.transport.client.Client
 import org.opensearch.cluster.service.ClusterService
 import org.opensearch.common.unit.TimeValue
 import org.opensearch.common.xcontent.LoggingDeprecationHandler
@@ -42,6 +41,7 @@ import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
 import org.opensearch.search.SearchHit
 import org.opensearch.search.builder.SearchSourceBuilder
+import org.opensearch.transport.client.Client
 import java.util.concurrent.TimeUnit
 
 /**
