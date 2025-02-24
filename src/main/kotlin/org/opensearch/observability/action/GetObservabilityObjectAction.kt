@@ -10,8 +10,8 @@ import org.opensearch.action.support.ActionFilters
 import org.opensearch.common.inject.Inject
 import org.opensearch.commons.authuser.User
 import org.opensearch.core.xcontent.NamedXContentRegistry
-import org.opensearch.transport.client.Client
 import org.opensearch.transport.TransportService
+import org.opensearch.transport.client.Client
 
 /**
  * Get ObservabilityObject transport action

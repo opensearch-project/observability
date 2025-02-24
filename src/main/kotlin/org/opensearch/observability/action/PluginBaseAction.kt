@@ -27,8 +27,8 @@ import org.opensearch.observability.metrics.Metrics
 import org.opensearch.observability.security.SecurityAccess
 import org.opensearch.observability.util.logger
 import org.opensearch.tasks.Task
-import org.opensearch.transport.client.Client
 import org.opensearch.transport.TransportService
+import org.opensearch.transport.client.Client
 import java.io.IOException
 
 abstract class PluginBaseAction<Request : ActionRequest, Response : ActionResponse>(
