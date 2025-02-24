@@ -1,6 +1,5 @@
 package org.opensearch.observability.resthandler
 
-import org.opensearch.client.node.NodeClient
 import org.opensearch.core.rest.RestStatus
 import org.opensearch.observability.ObservabilityPlugin.Companion.BASE_OBSERVABILITY_URI
 import org.opensearch.observability.metrics.Metrics
@@ -10,6 +9,7 @@ import org.opensearch.rest.BytesRestResponse
 import org.opensearch.rest.RestHandler.Route
 import org.opensearch.rest.RestRequest
 import org.opensearch.rest.RestRequest.Method.GET
+import org.opensearch.transport.client.node.NodeClient
 
 /**
  * Rest handler for getting observability backend stats

@@ -34,11 +34,11 @@ import org.opensearch.action.termvectors.TermVectorsRequest
 import org.opensearch.action.termvectors.TermVectorsResponse
 import org.opensearch.action.update.UpdateRequest
 import org.opensearch.action.update.UpdateResponse
-import org.opensearch.client.Client
 import org.opensearch.common.action.ActionFuture
 import org.opensearch.common.util.concurrent.ThreadContext
 import org.opensearch.core.action.ActionListener
 import org.opensearch.core.action.ActionResponse
+import org.opensearch.transport.client.Client
 
 /**
  * Wrapper class on [Client] with security context removed.
