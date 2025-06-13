@@ -5,3 +5,4 @@ Compatible with OpenSearch 3.1.0
 ### Maintenance
 
 - [AUTO] Increment version to 3.1.0-SNAPSHOT ([#1922](https://github.com/opensearch-project/observability/pull/1922))
+- Adding release notes for 3.1.0 ([#1929](https://github.com/opensearch-project/observability/pull/1929))
