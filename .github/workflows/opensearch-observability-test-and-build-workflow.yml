@@ -59,7 +59,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: opensearch-observability-ubuntu-latest
+          name: opensearch-observability-ubuntu-latest-${{ matrix.java }}
           path: opensearch-observability-builds
 
   build-windows-macos:
@@ -91,5 +91,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: opensearch-observability-${{ matrix.os }}
+          name: opensearch-observability-${{ matrix.os }}-${{ matrix.java }}
           path: opensearch-observability-builds
