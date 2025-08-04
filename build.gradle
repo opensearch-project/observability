@@ -6,6 +6,7 @@
 import java.util.concurrent.Callable
 import org.opensearch.gradle.test.RestIntegTestTask
 import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
+import io.gitlab.arturbosch.detekt.Detekt
 
 buildscript {
     ext {
@@ -21,7 +22,7 @@ buildscript {
             opensearch_build += "-SNAPSHOT"
         }
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
-        kotlin_version = System.getProperty("kotlin.version", "2.0.21")
+        kotlin_version = System.getProperty("kotlin.version", "2.2.0")
     }
 
     repositories {
@@ -43,7 +44,7 @@ buildscript {
 
 plugins {
     id "de.undercouch.download" version "5.3.0"
-    id "com.netflix.nebula.ospackage-base" version "11.6.0"
+    id "com.netflix.nebula.ospackage-base" version "12.0.0"
     id "com.dorongold.task-tree" version "1.5"
     id 'java-library'
 }
@@ -116,6 +117,11 @@ configurations {
 detekt {
     config = files("detekt.yml")
     buildUponDefaultConfig = true
+}
+
+// TODO Remove this once detekt supports JDK24
+tasks.withType(Detekt).configureEach {
+    jvmTarget = "21"
 }
 
 configurations.testImplementation {
