@@ -223,6 +223,7 @@ dependencies {
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
     )
     testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.6.2')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher:1.6.2')
     testImplementation "org.opensearch.test:framework:${opensearch_version}"
     testImplementation "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
