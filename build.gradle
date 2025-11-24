@@ -59,6 +59,7 @@ apply plugin: 'org.jetbrains.kotlin.jvm'
 apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
 apply plugin: 'opensearch.java-agent'
 
+def isJdk25OrLater = JavaVersion.current() >= JavaVersion.VERSION_25
 def usingRemoteCluster = System.properties.containsKey('tests.rest.cluster') || System.properties.containsKey('tests.cluster')
 def usingMultiNode = project.properties.containsKey('numNodes')
 
@@ -119,9 +120,20 @@ detekt {
     buildUponDefaultConfig = true
 }
 
-// TODO Remove this once detekt supports JDK24
-tasks.withType(Detekt).configureEach {
-    jvmTarget = "21"
+// Detekt 1.23.7 has a version parsing bug with JDK 25+ (https://github.com/detekt/detekt/issues/8714)
+// This is fixed in detekt 2.0+ but not backported to 1.x and detekt 2.0 is in alpha
+// Moreover `2.0.0-alpha.1` artifact is not published to maven
+// For now, we run detekt on JDK 21 and skip it on JDK 25+ to allow CI builds to pass
+if (isJdk25OrLater) {
+    tasks.withType(Detekt).configureEach {
+        enabled = false
+    }
+    logger.warn("Detekt is disabled on JDK ${JavaVersion.current()} due to known compatibility issues. Use JDK 21 for detekt checks.")
+} else {
+    // Ensure detekt runs with JVM target 21 for consistency
+    tasks.withType(Detekt).configureEach {
+        jvmTarget = "21"
+    }
 }
 
 configurations.testImplementation {
@@ -172,8 +184,9 @@ ext {
     }
 }
 
-plugins.withId('java') {
-    sourceCompatibility = targetCompatibility = "21"
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 plugins.withId('org.jetbrains.kotlin.jvm') {
@@ -185,7 +198,10 @@ allprojects {
 
     version = "${opensearch_build}"
     plugins.withId('java') {
-        sourceCompatibility = targetCompatibility = "21"
+        java {
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
+        }
     }
 }
 
