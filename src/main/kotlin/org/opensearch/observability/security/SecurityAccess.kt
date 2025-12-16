@@ -5,10 +5,8 @@
 
 package org.opensearch.observability.security
 
-import org.opensearch.SpecialPermission
-import java.security.AccessController
-import java.security.PrivilegedActionException
-import java.security.PrivilegedExceptionAction
+import org.opensearch.secure_sm.AccessController
+import java.util.function.Supplier
 
 /**
  * Class for providing the elevated permission for the function call.
@@ -20,12 +18,7 @@ internal object SecurityAccess {
      * Execute the operation in privileged mode.
      */
     @Throws(Exception::class)
-    fun <T> doPrivileged(operation: PrivilegedExceptionAction<T>?): T {
-        SpecialPermission.check()
-        return try {
-            AccessController.doPrivileged(operation)
-        } catch (@Suppress("SwallowedException") e: PrivilegedActionException) {
-            throw (e.cause as Exception?)!!
-        }
+    fun <T> doPrivileged(operation: Supplier<T>): T {
+        return AccessController.doPrivileged(operation)
     }
 }
