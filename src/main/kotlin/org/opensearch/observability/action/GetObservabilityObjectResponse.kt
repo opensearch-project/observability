@@ -35,7 +35,11 @@ internal class GetObservabilityObjectResponse : BaseResponse {
          */
         @JvmStatic
         @Throws(IOException::class)
-        fun parse(parser: XContentParser): GetObservabilityObjectResponse = GetObservabilityObjectResponse(ObservabilityObjectSearchResult(parser), false)
+        fun parse(parser: XContentParser): GetObservabilityObjectResponse =
+            GetObservabilityObjectResponse(
+                ObservabilityObjectSearchResult(parser),
+                false,
+            )
     }
 
     /**

@@ -19,7 +19,12 @@ import org.opensearch.core.xcontent.XContentParser.Token
 import org.opensearch.core.xcontent.XContentParserUtils
 import org.opensearch.rest.RestRequest
 
-internal fun StreamInput.createJsonParser(): XContentParser = XContentType.JSON.xContent().createParser(NamedXContentRegistry.EMPTY, DeprecationHandler.IGNORE_DEPRECATIONS, this)
+internal fun StreamInput.createJsonParser(): XContentParser =
+    XContentType.JSON.xContent().createParser(
+        NamedXContentRegistry.EMPTY,
+        DeprecationHandler.IGNORE_DEPRECATIONS,
+        this,
+    )
 
 internal fun RestRequest.contentParserNextToken(): XContentParser {
     val parser = this.contentParser()

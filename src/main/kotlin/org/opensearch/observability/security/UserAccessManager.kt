@@ -208,7 +208,10 @@ internal object UserAccessManager {
         return isAdminUser(user)
     }
 
-    private fun canAdminViewAllItems(user: User): Boolean = PluginSettings.adminAccess == PluginSettings.AdminAccess.AllObservabilityObjects && isAdminUser(user)
+    private fun canAdminViewAllItems(user: User): Boolean =
+        (
+            PluginSettings.adminAccess == PluginSettings.AdminAccess.AllObservabilityObjects && isAdminUser(user)
+        )
 
     private fun isAdminUser(user: User): Boolean = user.roles.contains(ALL_ACCESS_ROLE)
 
