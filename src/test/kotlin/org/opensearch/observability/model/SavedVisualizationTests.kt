@@ -14,27 +14,28 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 
 internal class SavedVisualizationTests {
-    private val sampleSavedVisualization = SavedVisualization(
-        "test-saved-visualization",
-        "test description",
-        "source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
-        "bar",
-        SavedQuery.SelectedDateRange(
-            "now/15m",
-            "now",
-            "utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')"
-        ),
-        SavedQuery.Token("utc_time", "timestamp"),
-        SavedQuery.SelectedFields(
-            "| fields clientip, bytes, memory, host",
-            listOf(SavedQuery.Token("utc_time", "timestamp"))
-        ),
-        "KE1Ie34BbsTr-CsB4G6Y",
-        "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}",
-        "metric",
-        "OpenTelemetryMetric",
-        "hours (h)"
-    )
+    private val sampleSavedVisualization =
+        SavedVisualization(
+            "test-saved-visualization",
+            "test description",
+            "source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
+            "bar",
+            SavedQuery.SelectedDateRange(
+                "now/15m",
+                "now",
+                "utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
+            ),
+            SavedQuery.Token("utc_time", "timestamp"),
+            SavedQuery.SelectedFields(
+                "| fields clientip, bytes, memory, host",
+                listOf(SavedQuery.Token("utc_time", "timestamp")),
+            ),
+            "KE1Ie34BbsTr-CsB4G6Y",
+            "{\"dataConfig\":\"{}\",\"layoutConfig\":\"{}\"}",
+            "metric",
+            "OpenTelemetryMetric",
+            "hours (h)",
+        )
 
     @Test
     fun `SavedVisualization serialize and deserialize transport object should be equal`() {

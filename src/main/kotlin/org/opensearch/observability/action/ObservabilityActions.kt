@@ -28,23 +28,27 @@ internal object ObservabilityActions {
      * @param request [CreateObservabilityObjectRequest] object
      * @return [CreateObservabilityObjectResponse]
      */
-    fun create(request: CreateObservabilityObjectRequest, user: User?): CreateObservabilityObjectResponse {
+    fun create(
+        request: CreateObservabilityObjectRequest,
+        user: User?,
+    ): CreateObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-create")
         UserAccessManager.validateUser(user)
         val currentTime = Instant.now()
-        val objectDoc = ObservabilityObjectDoc(
-            "ignore",
-            currentTime,
-            currentTime,
-            UserAccessManager.getUserTenant(user),
-            UserAccessManager.getAllAccessInfo(user),
-            request.type,
-            request.objectData
-        )
+        val objectDoc =
+            ObservabilityObjectDoc(
+                "ignore",
+                currentTime,
+                currentTime,
+                UserAccessManager.getUserTenant(user),
+                UserAccessManager.getAllAccessInfo(user),
+                request.type,
+                request.objectData,
+            )
         val docId = ObservabilityIndex.createObservabilityObject(objectDoc, request.objectId)
         docId ?: throw OpenSearchStatusException(
             "ObservabilityObject Creation failed",
-            RestStatus.INTERNAL_SERVER_ERROR
+            RestStatus.INTERNAL_SERVER_ERROR,
         )
         return CreateObservabilityObjectResponse(docId)
     }
@@ -54,36 +58,40 @@ internal object ObservabilityActions {
      * @param request [UpdateObservabilityObjectRequest] object
      * @return [UpdateObservabilityObjectResponse]
      */
-    fun update(request: UpdateObservabilityObjectRequest, user: User?): UpdateObservabilityObjectResponse {
+    fun update(
+        request: UpdateObservabilityObjectRequest,
+        user: User?,
+    ): UpdateObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-update ${request.objectId}")
         UserAccessManager.validateUser(user)
         val observabilityObject = ObservabilityIndex.getObservabilityObject(request.objectId)
         observabilityObject
             ?: throw OpenSearchStatusException(
                 "ObservabilityObject ${request.objectId} not found",
-                RestStatus.NOT_FOUND
+                RestStatus.NOT_FOUND,
             )
         val currentDoc = observabilityObject.observabilityObjectDoc
         if (!UserAccessManager.doesUserHasAccess(user, currentDoc.tenant, currentDoc.access)) {
             Metrics.OBSERVABILITY_PERMISSION_USER_ERROR.counter.increment()
             throw OpenSearchStatusException(
                 "Permission denied for ObservabilityObject ${request.objectId}",
-                RestStatus.FORBIDDEN
+                RestStatus.FORBIDDEN,
             )
         }
         if (currentDoc.type != request.type) {
             throw OpenSearchStatusException("Object type cannot be changed after creation", RestStatus.CONFLICT)
         }
         val currentTime = Instant.now()
-        val objectDoc = ObservabilityObjectDoc(
-            request.objectId,
-            currentTime,
-            currentDoc.createdTime,
-            UserAccessManager.getUserTenant(user),
-            UserAccessManager.getAllAccessInfo(user),
-            request.type,
-            request.objectData
-        )
+        val objectDoc =
+            ObservabilityObjectDoc(
+                request.objectId,
+                currentTime,
+                currentDoc.createdTime,
+                UserAccessManager.getUserTenant(user),
+                UserAccessManager.getAllAccessInfo(user),
+                request.type,
+                request.objectData,
+            )
         if (!ObservabilityIndex.updateObservabilityObject(request.objectId, objectDoc)) {
             throw OpenSearchStatusException("ObservabilityObject Update failed", RestStatus.INTERNAL_SERVER_ERROR)
         }
@@ -95,7 +103,10 @@ internal object ObservabilityActions {
      * @param request [GetObservabilityObjectRequest] object
      * @return [GetObservabilityObjectResponse]
      */
-    fun get(request: GetObservabilityObjectRequest, user: User?): GetObservabilityObjectResponse {
+    fun get(
+        request: GetObservabilityObjectRequest,
+        user: User?,
+    ): GetObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-get ${request.objectIds}")
         UserAccessManager.validateUser(user)
         return when (request.objectIds.size) {
@@ -111,7 +122,10 @@ internal object ObservabilityActions {
      * @param user the user info object
      * @return [GetObservabilityObjectResponse]
      */
-    private fun info(objectId: String, user: User?): GetObservabilityObjectResponse {
+    private fun info(
+        objectId: String,
+        user: User?,
+    ): GetObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-info $objectId")
         val observabilityObjectDocInfo = ObservabilityIndex.getObservabilityObject(objectId)
         observabilityObjectDocInfo
@@ -123,18 +137,19 @@ internal object ObservabilityActions {
             Metrics.OBSERVABILITY_PERMISSION_USER_ERROR.counter.increment()
             throw OpenSearchStatusException("Permission denied for ObservabilityObject $objectId", RestStatus.FORBIDDEN)
         }
-        val docInfo = ObservabilityObjectDoc(
-            objectId,
-            currentDoc.updatedTime,
-            currentDoc.createdTime,
-            currentDoc.tenant,
-            currentDoc.access,
-            currentDoc.type,
-            currentDoc.objectData
-        )
+        val docInfo =
+            ObservabilityObjectDoc(
+                objectId,
+                currentDoc.updatedTime,
+                currentDoc.createdTime,
+                currentDoc.tenant,
+                currentDoc.access,
+                currentDoc.type,
+                currentDoc.objectData,
+            )
         return GetObservabilityObjectResponse(
             ObservabilityObjectSearchResult(docInfo),
-            UserAccessManager.hasAllInfoAccess(user)
+            UserAccessManager.hasAllInfoAccess(user),
         )
     }
 
@@ -144,7 +159,10 @@ internal object ObservabilityActions {
      * @param user the user info object
      * @return [GetObservabilityObjectResponse]
      */
-    private fun info(objectIds: Set<String>, user: User?): GetObservabilityObjectResponse {
+    private fun info(
+        objectIds: Set<String>,
+        user: User?,
+    ): GetObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-info $objectIds")
         val objectDocs = ObservabilityIndex.getObservabilityObjects(objectIds)
         if (objectDocs.size != objectIds.size) {
@@ -152,7 +170,7 @@ internal object ObservabilityActions {
             objectDocs.forEach { mutableSet.remove(it.id) }
             throw OpenSearchStatusException(
                 "ObservabilityObject $mutableSet not found",
-                RestStatus.NOT_FOUND
+                RestStatus.NOT_FOUND,
             )
         }
         objectDocs.forEach {
@@ -161,24 +179,25 @@ internal object ObservabilityActions {
                 Metrics.OBSERVABILITY_PERMISSION_USER_ERROR.counter.increment()
                 throw OpenSearchStatusException(
                     "Permission denied for ObservabilityObject ${it.id}",
-                    RestStatus.FORBIDDEN
+                    RestStatus.FORBIDDEN,
                 )
             }
         }
-        val configSearchResult = objectDocs.map {
-            ObservabilityObjectDoc(
-                it.id!!,
-                it.observabilityObjectDoc.updatedTime,
-                it.observabilityObjectDoc.createdTime,
-                it.observabilityObjectDoc.tenant,
-                it.observabilityObjectDoc.access,
-                it.observabilityObjectDoc.type,
-                it.observabilityObjectDoc.objectData
-            )
-        }
+        val configSearchResult =
+            objectDocs.map {
+                ObservabilityObjectDoc(
+                    it.id!!,
+                    it.observabilityObjectDoc.updatedTime,
+                    it.observabilityObjectDoc.createdTime,
+                    it.observabilityObjectDoc.tenant,
+                    it.observabilityObjectDoc.access,
+                    it.observabilityObjectDoc.type,
+                    it.observabilityObjectDoc.objectData,
+                )
+            }
         return GetObservabilityObjectResponse(
             ObservabilityObjectSearchResult(configSearchResult),
-            UserAccessManager.hasAllInfoAccess(user)
+            UserAccessManager.hasAllInfoAccess(user),
         )
     }
 
@@ -188,13 +207,17 @@ internal object ObservabilityActions {
      * @param user the user info object
      * @return [GetObservabilityObjectResponse]
      */
-    private fun getAll(request: GetObservabilityObjectRequest, user: User?): GetObservabilityObjectResponse {
+    private fun getAll(
+        request: GetObservabilityObjectRequest,
+        user: User?,
+    ): GetObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-getAll")
-        val searchResult = ObservabilityIndex.getAllObservabilityObjects(
-            UserAccessManager.getUserTenant(user),
-            UserAccessManager.getSearchAccessInfo(user),
-            request
-        )
+        val searchResult =
+            ObservabilityIndex.getAllObservabilityObjects(
+                UserAccessManager.getUserTenant(user),
+                UserAccessManager.getSearchAccessInfo(user),
+                request,
+            )
         return GetObservabilityObjectResponse(searchResult, UserAccessManager.hasAllInfoAccess(user))
     }
 
@@ -204,7 +227,10 @@ internal object ObservabilityActions {
      * @param user the user info object
      * @return [DeleteObservabilityObjectResponse]
      */
-    fun delete(request: DeleteObservabilityObjectRequest, user: User?): DeleteObservabilityObjectResponse {
+    fun delete(
+        request: DeleteObservabilityObjectRequest,
+        user: User?,
+    ): DeleteObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-delete ${request.objectIds}")
         return if (request.objectIds.size == 1) {
             delete(request.objectIds.first(), user)
@@ -220,7 +246,10 @@ internal object ObservabilityActions {
      * @param user
      * @return [DeleteObservabilityObjectResponse]
      */
-    private fun delete(objectId: String, user: User?): DeleteObservabilityObjectResponse {
+    private fun delete(
+        objectId: String,
+        user: User?,
+    ): DeleteObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-delete $objectId")
         UserAccessManager.validateUser(user)
         val observabilityObjectDocInfo = ObservabilityIndex.getObservabilityObject(objectId)
@@ -228,7 +257,7 @@ internal object ObservabilityActions {
             ?: run {
                 throw OpenSearchStatusException(
                     "ObservabilityObject $objectId not found",
-                    RestStatus.NOT_FOUND
+                    RestStatus.NOT_FOUND,
                 )
             }
 
@@ -237,13 +266,13 @@ internal object ObservabilityActions {
             Metrics.OBSERVABILITY_PERMISSION_USER_ERROR.counter.increment()
             throw OpenSearchStatusException(
                 "Permission denied for ObservabilityObject $objectId",
-                RestStatus.FORBIDDEN
+                RestStatus.FORBIDDEN,
             )
         }
         if (!ObservabilityIndex.deleteObservabilityObject(objectId)) {
             throw OpenSearchStatusException(
                 "ObservabilityObject $objectId delete failed",
-                RestStatus.REQUEST_TIMEOUT
+                RestStatus.REQUEST_TIMEOUT,
             )
         }
         return DeleteObservabilityObjectResponse(mapOf(Pair(objectId, RestStatus.OK)))
@@ -255,7 +284,10 @@ internal object ObservabilityActions {
      * @param user the user info object
      * @return [DeleteObservabilityObjectResponse]
      */
-    private fun delete(objectIds: Set<String>, user: User?): DeleteObservabilityObjectResponse {
+    private fun delete(
+        objectIds: Set<String>,
+        user: User?,
+    ): DeleteObservabilityObjectResponse {
         log.info("$LOG_PREFIX:ObservabilityObject-delete $objectIds")
         UserAccessManager.validateUser(user)
         val configDocs = ObservabilityIndex.getObservabilityObjects(objectIds)
@@ -264,7 +296,7 @@ internal object ObservabilityActions {
             configDocs.forEach { mutableSet.remove(it.id) }
             throw OpenSearchStatusException(
                 "ObservabilityObject $mutableSet not found",
-                RestStatus.NOT_FOUND
+                RestStatus.NOT_FOUND,
             )
         }
         configDocs.forEach {
@@ -273,7 +305,7 @@ internal object ObservabilityActions {
                 Metrics.OBSERVABILITY_PERMISSION_USER_ERROR.counter.increment()
                 throw OpenSearchStatusException(
                     "Permission denied for ObservabilityObject ${it.id}",
-                    RestStatus.FORBIDDEN
+                    RestStatus.FORBIDDEN,
                 )
             }
         }

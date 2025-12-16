@@ -14,21 +14,22 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 
 internal class NotebookTests {
-    private val sampleNotebook = Notebook(
-        "test-notebook",
-        "2021-12-01T18:33:40.017Z",
-        "2021-12-01T18:33:40.017Z",
-        "Default",
-        listOf(
-            Notebook.Paragraph(
-                listOf(Notebook.Output("sample paragraph", "MARKDOWN", "0 ms")),
-                Notebook.Input("%md sample paragraph", "MARKDOWN"),
-                "2021-12-01T18:33:40.017Z",
-                "2021-12-01T18:33:40.017Z",
-                "paragraph_bcd3c65c-91db-489d-b667-496fd378714e"
-            )
+    private val sampleNotebook =
+        Notebook(
+            "test-notebook",
+            "2021-12-01T18:33:40.017Z",
+            "2021-12-01T18:33:40.017Z",
+            "Default",
+            listOf(
+                Notebook.Paragraph(
+                    listOf(Notebook.Output("sample paragraph", "MARKDOWN", "0 ms")),
+                    Notebook.Input("%md sample paragraph", "MARKDOWN"),
+                    "2021-12-01T18:33:40.017Z",
+                    "2021-12-01T18:33:40.017Z",
+                    "paragraph_bcd3c65c-91db-489d-b667-496fd378714e",
+                ),
+            ),
         )
-    )
 
     @Test
     fun `Notebook serialize and deserialize transport object should be equal`() {

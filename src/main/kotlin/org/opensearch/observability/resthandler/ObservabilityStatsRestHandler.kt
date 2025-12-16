@@ -23,37 +23,39 @@ internal class ObservabilityStatsRestHandler : BaseRestHandler() {
     /**
      * {@inheritDoc}
      */
-    override fun getName(): String {
-        return OBSERVABILITY_STATS_ACTION
-    }
+    override fun getName(): String = OBSERVABILITY_STATS_ACTION
 
     /**
      * {@inheritDoc}
      */
-    override fun routes(): List<Route> {
-        return listOf(
-            Route(GET, OBSERVABILITY_STATS_URL)
+    override fun routes(): List<Route> =
+        listOf(
+            Route(GET, OBSERVABILITY_STATS_URL),
         )
-    }
 
     /**
      * {@inheritDoc}
      */
-    override fun responseParams(): Set<String> {
-        return setOf()
-    }
+    override fun responseParams(): Set<String> = setOf()
 
     /**
      * {@inheritDoc}
      */
-    override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        return when (request.method()) {
-            GET -> RestChannelConsumer {
-                it.sendResponse(BytesRestResponse(RestStatus.OK, Metrics.collectToFlattenedJSON()))
+    override fun prepareRequest(
+        request: RestRequest,
+        client: NodeClient,
+    ): RestChannelConsumer =
+        when (request.method()) {
+            GET -> {
+                RestChannelConsumer {
+                    it.sendResponse(BytesRestResponse(RestStatus.OK, Metrics.collectToFlattenedJSON()))
+                }
             }
-            else -> RestChannelConsumer {
-                it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "${request.method()} is not allowed"))
+
+            else -> {
+                RestChannelConsumer {
+                    it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "${request.method()} is not allowed"))
+                }
             }
         }
-    }
 }

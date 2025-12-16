@@ -14,7 +14,6 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 
 internal class UpdateObservabilityObjectResponseTests {
-
     @Test
     fun `Update response serialize and deserialize transport object should be equal`() {
         val configResponse = UpdateObservabilityObjectResponse("sample_config_id")
@@ -57,14 +56,15 @@ internal class UpdateObservabilityObjectResponseTests {
     @Test
     fun `Update response should safely ignore extra field in json object`() {
         val objectId = "test-id"
-        val jsonString = """
-        {
-            "objectId":"$objectId",
-            "extra_field_1":["extra", "value"],
-            "extra_field_2":{"extra":"value"},
-            "extra_field_3":"extra value 3"
-        }
-        """.trimIndent()
+        val jsonString =
+            """
+            {
+                "objectId":"$objectId",
+                "extra_field_1":["extra", "value"],
+                "extra_field_2":{"extra":"value"},
+                "extra_field_3":"extra value 3"
+            }
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { UpdateObservabilityObjectResponse.parse(it) }
         assertEquals(objectId, recreatedObject.objectId)
     }

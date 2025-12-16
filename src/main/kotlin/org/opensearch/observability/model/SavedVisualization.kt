@@ -69,9 +69,8 @@ internal data class SavedVisualization(
     val subType: String?,
     val metricType: String? = null,
     val unitsOfMeasure: String? = null,
-    val selectedLabels: SelectedLabels? = null
+    val selectedLabels: SelectedLabels? = null,
 ) : BaseObjectData {
-
     internal companion object {
         private val log by logger(SavedVisualization::class.java)
         private const val NAME_TAG = "name"
@@ -123,19 +122,58 @@ internal data class SavedVisualization(
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    NAME_TAG -> name = parser.text()
-                    DESCRIPTION_TAG -> description = parser.text()
-                    QUERY_TAG -> query = parser.text()
-                    TYPE_TAG -> type = parser.text()
-                    SELECTED_DATE_RANGE_TAG -> selectedDateRange = SavedQuery.SelectedDateRange.parse(parser)
-                    SELECTED_TIMESTAMP_TAG -> selectedTimestamp = SavedQuery.Token.parse(parser)
-                    SELECTED_FIELDS_TAG -> selectedFields = SavedQuery.SelectedFields.parse(parser)
-                    APPLICATION_ID_TAG -> applicationId = parser.text()
-                    USER_CONFIGS_TAG -> userConfigs = parser.text()
-                    SUB_TYPE_TAG -> subType = parser.text()
-                    METRIC_TYPE_TAG -> metricType = parser.text()
-                    UNITS_OF_MEASURE_TAG -> unitsOfMeasure = parser.text()
-                    SELECTED_LABELS_TAG -> selectedLabels = SelectedLabels.parse(parser)
+                    NAME_TAG -> {
+                        name = parser.text()
+                    }
+
+                    DESCRIPTION_TAG -> {
+                        description = parser.text()
+                    }
+
+                    QUERY_TAG -> {
+                        query = parser.text()
+                    }
+
+                    TYPE_TAG -> {
+                        type = parser.text()
+                    }
+
+                    SELECTED_DATE_RANGE_TAG -> {
+                        selectedDateRange = SavedQuery.SelectedDateRange.parse(parser)
+                    }
+
+                    SELECTED_TIMESTAMP_TAG -> {
+                        selectedTimestamp = SavedQuery.Token.parse(parser)
+                    }
+
+                    SELECTED_FIELDS_TAG -> {
+                        selectedFields = SavedQuery.SelectedFields.parse(parser)
+                    }
+
+                    APPLICATION_ID_TAG -> {
+                        applicationId = parser.text()
+                    }
+
+                    USER_CONFIGS_TAG -> {
+                        userConfigs = parser.text()
+                    }
+
+                    SUB_TYPE_TAG -> {
+                        subType = parser.text()
+                    }
+
+                    METRIC_TYPE_TAG -> {
+                        metricType = parser.text()
+                    }
+
+                    UNITS_OF_MEASURE_TAG -> {
+                        unitsOfMeasure = parser.text()
+                    }
+
+                    SELECTED_LABELS_TAG -> {
+                        selectedLabels = SelectedLabels.parse(parser)
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -155,7 +193,7 @@ internal data class SavedVisualization(
                 subType,
                 metricType,
                 unitsOfMeasure,
-                selectedLabels
+                selectedLabels,
             )
         }
     }
@@ -165,9 +203,7 @@ internal data class SavedVisualization(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -186,7 +222,7 @@ internal data class SavedVisualization(
         subType = input.readString(),
         metricType = input.readOptionalString(),
         unitsOfMeasure = input.readOptionalString(),
-        selectedLabels = input.readOptionalWriteable(SelectedLabels.reader)
+        selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
     )
 
     /**
@@ -211,9 +247,13 @@ internal data class SavedVisualization(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        builder.startObject()
+        builder
+            .startObject()
             .fieldIfNotNull(NAME_TAG, name)
             .fieldIfNotNull(DESCRIPTION_TAG, description)
             .fieldIfNotNull(QUERY_TAG, query)
@@ -231,7 +271,7 @@ internal data class SavedVisualization(
     }
 
     internal data class Token(
-        val label: String
+        val label: String,
     ) : BaseModel {
         internal companion object {
             private const val LABEL_TAG = "label"
@@ -256,7 +296,7 @@ internal data class SavedVisualization(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -276,7 +316,7 @@ internal data class SavedVisualization(
          * @param input StreamInput stream to deserialize data from.
          */
         constructor(input: StreamInput) : this(
-            label = input.readString()
+            label = input.readString(),
         )
 
         /**
@@ -289,9 +329,13 @@ internal data class SavedVisualization(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(LABEL_TAG, label)
             builder.endObject()
             return builder
@@ -299,7 +343,7 @@ internal data class SavedVisualization(
     }
 
     internal data class SelectedLabels(
-        val labels: List<Token>?
+        val labels: List<Token>?,
     ) : BaseModel {
         internal companion object {
             private const val LABELS_TAG = "labels"
@@ -338,7 +382,7 @@ internal data class SavedVisualization(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_ARRAY,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_ARRAY != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -358,7 +402,7 @@ internal data class SavedVisualization(
          * @param input StreamInput stream to deserialize data from.
          */
         constructor(input: StreamInput) : this(
-            labels = input.readList(Token.reader)
+            labels = input.readList(Token.reader),
         )
 
         /**
@@ -371,7 +415,10 @@ internal data class SavedVisualization(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
             builder.startObject()
             if (labels != null) {

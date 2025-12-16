@@ -61,9 +61,8 @@ internal data class OperationalPanel(
     val visualizations: List<Visualization>?,
     val timeRange: TimeRange?,
     val queryFilter: QueryFilter?,
-    val applicationId: String? = null
+    val applicationId: String? = null,
 ) : BaseObjectData {
-
     internal companion object {
         private val log by logger(OperationalPanel::class.java)
         private const val NAME_TAG = "name"
@@ -112,11 +111,26 @@ internal data class OperationalPanel(
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    NAME_TAG -> name = parser.text()
-                    VISUALIZATIONS_TAG -> visualizations = parseItemList(parser)
-                    TIME_RANGE_TAG -> timeRange = TimeRange.parse(parser)
-                    QUERY_FILTER_TAG -> queryFilter = QueryFilter.parse(parser)
-                    APPLICATION_ID_TAG -> applicationId = parser.text()
+                    NAME_TAG -> {
+                        name = parser.text()
+                    }
+
+                    VISUALIZATIONS_TAG -> {
+                        visualizations = parseItemList(parser)
+                    }
+
+                    TIME_RANGE_TAG -> {
+                        timeRange = TimeRange.parse(parser)
+                    }
+
+                    QUERY_FILTER_TAG -> {
+                        queryFilter = QueryFilter.parse(parser)
+                    }
+
+                    APPLICATION_ID_TAG -> {
+                        applicationId = parser.text()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:OperationalPanel Skipping Unknown field $fieldName")
@@ -132,9 +146,7 @@ internal data class OperationalPanel(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -145,7 +157,7 @@ internal data class OperationalPanel(
         visualizations = input.readList(Visualization.reader),
         timeRange = input.readOptionalWriteable(TimeRange.reader),
         queryFilter = input.readOptionalWriteable(QueryFilter.reader),
-        applicationId = input.readOptionalString()
+        applicationId = input.readOptionalString(),
     )
 
     /**
@@ -162,17 +174,22 @@ internal data class OperationalPanel(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         val xContentParams = params ?: RestTag.REST_OUTPUT_PARAMS
         builder!!
-        builder.startObject()
+        builder
+            .startObject()
             .fieldIfNotNull(NAME_TAG, name)
         if (visualizations != null) {
             builder.startArray(VISUALIZATIONS_TAG)
             visualizations.forEach { it.toXContent(builder, xContentParams) }
             builder.endArray()
         }
-        builder.fieldIfNotNull(TIME_RANGE_TAG, timeRange)
+        builder
+            .fieldIfNotNull(TIME_RANGE_TAG, timeRange)
             .fieldIfNotNull(QUERY_FILTER_TAG, queryFilter)
             .fieldIfNotNull(APPLICATION_ID_TAG, applicationId)
         return builder.endObject()
@@ -187,7 +204,7 @@ internal data class OperationalPanel(
         val x: Int,
         val y: Int,
         val w: Int,
-        val h: Int
+        val h: Int,
     ) : BaseModel {
         internal companion object {
             private const val ID_TAG = "id"
@@ -223,18 +240,36 @@ internal data class OperationalPanel(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
                     parser.nextToken()
                     when (fieldName) {
-                        ID_TAG -> id = parser.text()
-                        SAVED_VISUALIZATION_ID_TAG -> savedVisualizationId = parser.text()
-                        X_TAG -> x = parser.intValue()
-                        Y_TAG -> y = parser.intValue()
-                        W_TAG -> w = parser.intValue()
-                        H_TAG -> h = parser.intValue()
+                        ID_TAG -> {
+                            id = parser.text()
+                        }
+
+                        SAVED_VISUALIZATION_ID_TAG -> {
+                            savedVisualizationId = parser.text()
+                        }
+
+                        X_TAG -> {
+                            x = parser.intValue()
+                        }
+
+                        Y_TAG -> {
+                            y = parser.intValue()
+                        }
+
+                        W_TAG -> {
+                            w = parser.intValue()
+                        }
+
+                        H_TAG -> {
+                            h = parser.intValue()
+                        }
+
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Source Skipping Unknown field $fieldName")
@@ -257,7 +292,7 @@ internal data class OperationalPanel(
             x = streamInput.readInt(),
             y = streamInput.readInt(),
             w = streamInput.readInt(),
-            h = streamInput.readInt()
+            h = streamInput.readInt(),
         )
 
         override fun writeTo(streamOutput: StreamOutput) {
@@ -272,9 +307,13 @@ internal data class OperationalPanel(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(ID_TAG, id)
                 .field(SAVED_VISUALIZATION_ID_TAG, savedVisualizationId)
                 .field(X_TAG, x)
@@ -290,7 +329,7 @@ internal data class OperationalPanel(
      */
     internal data class TimeRange(
         val to: String,
-        val from: String
+        val from: String,
     ) : BaseModel {
         internal companion object {
             private const val TO_TAG = "to"
@@ -317,14 +356,20 @@ internal data class OperationalPanel(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
                     parser.nextToken()
                     when (fieldName) {
-                        TO_TAG -> to = parser.text()
-                        FROM_TAG -> from = parser.text()
+                        TO_TAG -> {
+                            to = parser.text()
+                        }
+
+                        FROM_TAG -> {
+                            from = parser.text()
+                        }
+
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Format Skipping Unknown field $fieldName")
@@ -339,7 +384,7 @@ internal data class OperationalPanel(
 
         constructor(input: StreamInput) : this(
             to = input.readString(),
-            from = input.readString()
+            from = input.readString(),
         )
 
         override fun writeTo(output: StreamOutput) {
@@ -350,9 +395,13 @@ internal data class OperationalPanel(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(TO_TAG, to)
                 .field(FROM_TAG, from)
             builder.endObject()
@@ -365,7 +414,7 @@ internal data class OperationalPanel(
      */
     internal data class QueryFilter(
         val query: String,
-        val language: String
+        val language: String,
     ) : BaseModel {
         internal companion object {
             private const val QUERY_TAG = "query"
@@ -392,7 +441,7 @@ internal data class OperationalPanel(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -411,7 +460,7 @@ internal data class OperationalPanel(
 
         constructor(input: StreamInput) : this(
             query = input.readString(),
-            language = input.readString()
+            language = input.readString(),
         )
 
         override fun writeTo(output: StreamOutput) {
@@ -422,9 +471,13 @@ internal data class OperationalPanel(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(QUERY_TAG, query)
                 .field(LANGUAGE_TAG, language)
             builder.endObject()

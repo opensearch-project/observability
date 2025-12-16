@@ -33,11 +33,12 @@ internal class DeleteObservabilityObjectRequestTests {
     fun `Delete request should deserialize json object using parser`() {
         val objectId = "test-id"
         val objectIds = setOf(objectId)
-        val jsonString = """
-        {
-            "objectIdList":["$objectId"]
-        }
-        """.trimIndent()
+        val jsonString =
+            """
+            {
+                "objectIdList":["$objectId"]
+            }
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { DeleteObservabilityObjectRequest.parse(it) }
         assertEquals(objectIds, recreatedObject.objectIds)
     }
@@ -52,11 +53,12 @@ internal class DeleteObservabilityObjectRequestTests {
 
     @Test
     fun `Delete request should throw exception when objectIdLists is replace with objectIdLists2 in json object`() {
-        val jsonString = """
-        {
-            "objectIdLists":["test-id"]
-        }
-        """.trimIndent()
+        val jsonString =
+            """
+            {
+                "objectIdLists":["test-id"]
+            }
+            """.trimIndent()
         assertThrows<IllegalArgumentException> {
             createObjectFromJsonString(jsonString) { DeleteObservabilityObjectRequest.parse(it) }
         }
@@ -66,14 +68,15 @@ internal class DeleteObservabilityObjectRequestTests {
     fun `Delete request should safely ignore extra field in json object`() {
         val objectId = "test-id"
         val objectIds = setOf(objectId)
-        val jsonString = """
-        {
-            "objectIdList":["$objectId"],
-            "extra_field_1":["extra", "value"],
-            "extra_field_2":{"extra":"value"},
-            "extra_field_3":"extra value 3"
-        }
-        """.trimIndent()
+        val jsonString =
+            """
+            {
+                "objectIdList":["$objectId"],
+                "extra_field_1":["extra", "value"],
+                "extra_field_2":{"extra":"value"},
+                "extra_field_3":"extra value 3"
+            }
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { DeleteObservabilityObjectRequest.parse(it) }
         assertEquals(objectIds, recreatedObject.objectIds)
     }

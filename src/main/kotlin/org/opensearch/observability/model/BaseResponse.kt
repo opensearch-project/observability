@@ -17,8 +17,9 @@ import java.io.IOException
 /**
  * Base response which give REST status.
  */
-internal abstract class BaseResponse : ActionResponse, ToXContentObject {
-
+internal abstract class BaseResponse :
+    ActionResponse,
+    ToXContentObject {
     /**
      * constructor for creating the class
      */
@@ -33,15 +34,11 @@ internal abstract class BaseResponse : ActionResponse, ToXContentObject {
     /**
      * {@inheritDoc}
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * get rest status for the response. Useful override for multi-status response.
      * @return RestStatus for the response
      */
-    open fun getStatus(): RestStatus {
-        return RestStatus.OK
-    }
+    open fun getStatus(): RestStatus = RestStatus.OK
 }

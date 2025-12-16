@@ -39,7 +39,9 @@ import java.util.EnumSet
 /**
  * Action Request for getting ObservabilityObject.
  */
-class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
+class GetObservabilityObjectRequest :
+    ActionRequest,
+    ToXContentObject {
     val objectIds: Set<String>
     val types: EnumSet<ObservabilityObjectType>
     val fromIndex: Int
@@ -74,19 +76,40 @@ class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (parser.nextToken() != XContentParser.Token.END_OBJECT) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    OBJECT_ID_LIST_FIELD -> objectIdList = parser.stringList().toSet()
-                    OBJECT_TYPE_FIELD -> types = parser.enumSet(ObservabilityObjectType.enumParser)
-                    FROM_INDEX_FIELD -> fromIndex = parser.intValue()
-                    MAX_ITEMS_FIELD -> maxItems = parser.intValue()
-                    SORT_FIELD_FIELD -> sortField = parser.text()
-                    SORT_ORDER_FIELD -> sortOrder = SortOrder.fromString(parser.text())
-                    FILTER_PARAM_LIST_FIELD -> filterParams = parser.mapStrings()
+                    OBJECT_ID_LIST_FIELD -> {
+                        objectIdList = parser.stringList().toSet()
+                    }
+
+                    OBJECT_TYPE_FIELD -> {
+                        types = parser.enumSet(ObservabilityObjectType.enumParser)
+                    }
+
+                    FROM_INDEX_FIELD -> {
+                        fromIndex = parser.intValue()
+                    }
+
+                    MAX_ITEMS_FIELD -> {
+                        maxItems = parser.intValue()
+                    }
+
+                    SORT_FIELD_FIELD -> {
+                        sortField = parser.text()
+                    }
+
+                    SORT_ORDER_FIELD -> {
+                        sortOrder = SortOrder.fromString(parser.text())
+                    }
+
+                    FILTER_PARAM_LIST_FIELD -> {
+                        filterParams = parser.mapStrings()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("Unexpected field: $fieldName, while parsing GetObservabilityObjectRequest")
@@ -100,7 +123,7 @@ class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
                 maxItems,
                 sortField,
                 sortOrder,
-                filterParams
+                filterParams,
             )
         }
     }
@@ -108,8 +131,12 @@ class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
-        return builder!!.startObject()
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder =
+        builder!!
+            .startObject()
             .field(OBJECT_ID_LIST_FIELD, objectIds)
             .field(OBJECT_TYPE_FIELD, types)
             .field(FROM_INDEX_FIELD, fromIndex)
@@ -118,7 +145,6 @@ class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
             .fieldIfNotNull(SORT_ORDER_FIELD, sortOrder)
             .field(FILTER_PARAM_LIST_FIELD, filterParams)
             .endObject()
-    }
 
     /**
      * constructor for creating the class
@@ -137,7 +163,7 @@ class GetObservabilityObjectRequest : ActionRequest, ToXContentObject {
         maxItems: Int = PluginSettings.defaultItemsQueryCount,
         sortField: String? = null,
         sortOrder: SortOrder? = null,
-        filterParams: Map<String, String> = mapOf()
+        filterParams: Map<String, String> = mapOf(),
     ) {
         this.objectIds = objectIds
         this.types = types

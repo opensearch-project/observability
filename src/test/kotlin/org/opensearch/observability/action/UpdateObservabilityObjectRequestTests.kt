@@ -40,17 +40,18 @@ internal class UpdateObservabilityObjectRequestTests {
     @Test
     fun `Update object should deserialize json object using parser`() {
         val sampleObject = constructSampleObservabilityObjectDoc()
-        val jsonString = """
-        {
-            "objectId":"test-id",
-            "timestamp":{
-                "name":"test object",
-                "index":"opensearch_dashboards_sample_data_logs",
-                "type":"timestamp",
-                "dsl_type":"date"
+        val jsonString =
+            """
+            {
+                "objectId":"test-id",
+                "timestamp":{
+                    "name":"test object",
+                    "index":"opensearch_dashboards_sample_data_logs",
+                    "type":"timestamp",
+                    "dsl_type":"date"
+                }
             }
-        }
-        """.trimIndent()
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { UpdateObservabilityObjectRequest.parse(it) }
         assertEquals(sampleObject.objectData, recreatedObject.objectData)
         assertEquals("test-id", recreatedObject.objectId)
@@ -67,20 +68,21 @@ internal class UpdateObservabilityObjectRequestTests {
     @Test
     fun `Update object should safely ignore extra field in json object`() {
         val sampleObject = constructSampleObservabilityObjectDoc()
-        val jsonString = """
-        {
-            "objectId":"test-id",
-            "timestamp":{
-                "name":"test object",
-                "index":"opensearch_dashboards_sample_data_logs",
-                "type":"timestamp",
-                "dsl_type":"date",
-                "extra_field_1":["extra", "value"],
-                "extra_field_2":{"extra":"value"},
-                "extra_field_3":"extra value 3"
+        val jsonString =
+            """
+            {
+                "objectId":"test-id",
+                "timestamp":{
+                    "name":"test object",
+                    "index":"opensearch_dashboards_sample_data_logs",
+                    "type":"timestamp",
+                    "dsl_type":"date",
+                    "extra_field_1":["extra", "value"],
+                    "extra_field_2":{"extra":"value"},
+                    "extra_field_3":"extra value 3"
+                }
             }
-        }
-        """.trimIndent()
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { UpdateObservabilityObjectRequest.parse(it) }
         assertEquals(sampleObject.objectData, recreatedObject.objectData)
         assertEquals("test-id", recreatedObject.objectId)

@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentSkipListMap
 internal class RollingCounter(
     private val window: Long = METRICS_ROLLING_WINDOW_VALUE,
     private val interval: Long = METRICS_ROLLING_INTERVAL_VALUE,
-    private val clock: Clock = Clock.systemDefaultZone()
+    private val clock: Clock = Clock.systemDefaultZone(),
 ) : Counter<Long> {
     private val capacity: Long = window / interval * 2
     private val timeToCountMap = ConcurrentSkipListMap<Long, Long>()
@@ -32,7 +32,7 @@ internal class RollingCounter(
     override fun add(n: Long) {
         trim()
         timeToCountMap.compute(
-            getKey(clock.millis())
+            getKey(clock.millis()),
         ) { _: Long?, v: Long? -> if (v == null) n else v + n }
     }
 
@@ -54,20 +54,14 @@ internal class RollingCounter(
         }
     }
 
-    private fun getKey(millis: Long): Long {
-        return millis / MILLIS_MULTIPLIER / interval
-    }
+    private fun getKey(millis: Long): Long = millis / MILLIS_MULTIPLIER / interval
 
-    private fun getPreKey(millis: Long): Long {
-        return getKey(millis) - 1
-    }
+    private fun getPreKey(millis: Long): Long = getKey(millis) - 1
 
     /**
      * Number of existing intervals
      */
-    fun size(): Int {
-        return timeToCountMap.size
-    }
+    fun size(): Int = timeToCountMap.size
 
     /**
      * Remove all the items from counter

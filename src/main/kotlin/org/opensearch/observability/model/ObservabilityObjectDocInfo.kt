@@ -10,5 +10,5 @@ data class ObservabilityObjectDocInfo(
     val version: Long = -1L,
     val seqNo: Long = SequenceNumbers.UNASSIGNED_SEQ_NO,
     val primaryTerm: Long = SequenceNumbers.UNASSIGNED_PRIMARY_TERM,
-    val observabilityObjectDoc: ObservabilityObjectDoc
+    val observabilityObjectDoc: ObservabilityObjectDoc,
 )

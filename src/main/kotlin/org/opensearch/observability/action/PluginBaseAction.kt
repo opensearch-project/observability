@@ -36,7 +36,7 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
     transportService: TransportService,
     val client: Client,
     actionFilters: ActionFilters,
-    requestReader: Writeable.Reader<Request>
+    requestReader: Writeable.Reader<Request>,
 ) : HandledTransportAction<Request, Response>(name, transportService, actionFilters, requestReader) {
     companion object {
         private val log by logger(PluginBaseAction::class.java)
@@ -50,7 +50,7 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
     override fun doExecute(
         task: Task?,
         request: Request,
-        listener: ActionListener<Response>
+        listener: ActionListener<Response>,
     ) {
         val userStr: String? = client.threadPool().threadContext.getTransient<String>(OPENSEARCH_SECURITY_USER_INFO_THREAD_CONTEXT)
         val user: User? = User.parse(userStr)
@@ -68,8 +68,8 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
                     listener.onFailure(
                         OpenSearchStatusException(
                             "Permissions denied: ${exception.message} - Contact administrator",
-                            RestStatus.FORBIDDEN
-                        )
+                            RestStatus.FORBIDDEN,
+                        ),
                     )
                 } catch (exception: VersionConflictEngineException) {
                     Metrics.OBSERVABILITY_EXCEPTIONS_VERSION_CONFLICT_ENGINE_EXCEPTION.counter.increment()
@@ -109,5 +109,8 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
      * @param request the request to execute
      * @return the response to return.
      */
-    abstract fun executeRequest(request: Request, user: User?): Response
+    abstract fun executeRequest(
+        request: Request,
+        user: User?,
+    ): Response
 }

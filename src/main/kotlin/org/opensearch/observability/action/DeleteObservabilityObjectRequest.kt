@@ -26,7 +26,9 @@ import java.io.IOException
 /**
  * Action request for creating new configuration.
  */
-internal class DeleteObservabilityObjectRequest : ActionRequest, ToXContentObject {
+internal class DeleteObservabilityObjectRequest :
+    ActionRequest,
+    ToXContentObject {
     val objectIds: Set<String>
 
     companion object {
@@ -50,13 +52,16 @@ internal class DeleteObservabilityObjectRequest : ActionRequest, ToXContentObjec
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (parser.nextToken() != XContentParser.Token.END_OBJECT) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    OBJECT_ID_LIST_FIELD -> objectIds = parser.stringList().toSet()
+                    OBJECT_ID_LIST_FIELD -> {
+                        objectIds = parser.stringList().toSet()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Skipping Unknown field $fieldName")
@@ -96,9 +101,13 @@ internal class DeleteObservabilityObjectRequest : ActionRequest, ToXContentObjec
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        return builder.startObject()
+        return builder
+            .startObject()
             .field(OBJECT_ID_LIST_FIELD, objectIds)
             .endObject()
     }

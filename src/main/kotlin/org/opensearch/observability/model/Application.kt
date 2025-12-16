@@ -48,9 +48,8 @@ internal data class Application(
     val servicesEntities: List<String>?,
     val traceGroups: List<String>?,
     val panelId: String?,
-    val availabilityVisId: String?
+    val availabilityVisId: String?,
 ) : BaseObjectData {
-
     internal companion object {
         private val log by logger(Application::class.java)
         private const val NAME_TAG = "name"
@@ -87,19 +86,40 @@ internal data class Application(
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    NAME_TAG -> name = parser.text()
-                    DESCRIPTION_TAG -> description = parser.text()
-                    BASE_QUERY_TAG -> baseQuery = parser.text()
-                    SERVICES_ENTITIES_TAG -> servicesEntities = parser.stringList()
-                    TRACE_GROUPS_TAG -> traceGroups = parser.stringList()
-                    PANEL_ID_TAG -> panelId = parser.text()
-                    AVAILABILITY_VIS_ID_TAG -> availabilityVisId = parser.text()
+                    NAME_TAG -> {
+                        name = parser.text()
+                    }
+
+                    DESCRIPTION_TAG -> {
+                        description = parser.text()
+                    }
+
+                    BASE_QUERY_TAG -> {
+                        baseQuery = parser.text()
+                    }
+
+                    SERVICES_ENTITIES_TAG -> {
+                        servicesEntities = parser.stringList()
+                    }
+
+                    TRACE_GROUPS_TAG -> {
+                        traceGroups = parser.stringList()
+                    }
+
+                    PANEL_ID_TAG -> {
+                        panelId = parser.text()
+                    }
+
+                    AVAILABILITY_VIS_ID_TAG -> {
+                        availabilityVisId = parser.text()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Application Skipping Unknown field $fieldName")
@@ -115,9 +135,7 @@ internal data class Application(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -130,7 +148,7 @@ internal data class Application(
         servicesEntities = input.readStringList(),
         traceGroups = input.readStringList(),
         panelId = input.readString(),
-        availabilityVisId = input.readString()
+        availabilityVisId = input.readString(),
     )
 
     /**
@@ -149,9 +167,13 @@ internal data class Application(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        builder.startObject()
+        builder
+            .startObject()
             .fieldIfNotNull(NAME_TAG, name)
             .fieldIfNotNull(DESCRIPTION_TAG, description)
             .fieldIfNotNull(BASE_QUERY_TAG, baseQuery)

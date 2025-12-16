@@ -20,7 +20,6 @@ import java.util.List
 import java.util.Map
 
 class TABackwardCompatibilityIT : PluginRestTestCase() {
-
     companion object {
         private val CLUSTER_TYPE: ClusterType = ClusterType.parse(System.getProperty("tests.rest.bwcsuite"))
         private val CLUSTER_NAME: String = System.getProperty("tests.clustername")
@@ -34,32 +33,41 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
 
     override fun preserveOpenSearchIndicesAfterTest(): Boolean = true
 
-    override fun restClientSettings(): Settings {
-        return Settings.builder()
+    override fun restClientSettings(): Settings =
+        Settings
+            .builder()
             .put(super.restClientSettings())
             // increase the timeout here to 90 seconds to handle long waits for a green
             // cluster health. the waits for green need to be longer than a minute to
             // account for delayed shards
             .put(CLIENT_SOCKET_TIMEOUT, "90s")
             .build()
-    }
 
     private enum class ClusterType {
         OLD,
         MIXED,
-        UPGRADED;
+        UPGRADED,
+        ;
 
         companion object {
-            fun parse(value: String): ClusterType {
-                return when (value) {
-                    "old_cluster" -> OLD
-                    "mixed_cluster" -> MIXED
-                    "upgraded_cluster" -> UPGRADED
+            fun parse(value: String): ClusterType =
+                when (value) {
+                    "old_cluster" -> {
+                        OLD
+                    }
+
+                    "mixed_cluster" -> {
+                        MIXED
+                    }
+
+                    "upgraded_cluster" -> {
+                        UPGRADED
+                    }
+
                     else -> {
                         throw AssertionError("unknown cluster type: $value")
                     }
                 }
-            }
         }
     }
 
@@ -76,10 +84,12 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
                     assertTrue(pluginNames.contains("opensearch-observability"))
                     createObsObjects()
                 }
+
                 ClusterType.MIXED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
                     verifyObsObjectExists()
                 }
+
                 ClusterType.UPGRADED -> {
                     assertTrue(pluginNames.contains("opensearch-observability"))
                     verifyObsObjectExists()
@@ -89,9 +99,12 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         }
     }
 
-    private fun getUri(): String {
-        return when (CLUSTER_TYPE) {
-            ClusterType.OLD -> "_nodes/" + CLUSTER_NAME + "-0/plugins"
+    private fun getUri(): String =
+        when (CLUSTER_TYPE) {
+            ClusterType.OLD -> {
+                "_nodes/" + CLUSTER_NAME + "-0/plugins"
+            }
+
             ClusterType.MIXED -> {
                 when (System.getProperty("tests.rest.bwcsuite_round")) {
                     "second" -> "_nodes/$CLUSTER_NAME-1/plugins"
@@ -99,9 +112,11 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
                     else -> "_nodes/$CLUSTER_NAME-0/plugins"
                 }
             }
-            ClusterType.UPGRADED -> "_nodes/plugins"
+
+            ClusterType.UPGRADED -> {
+                "_nodes/plugins"
+            }
         }
-    }
 
     private fun createObsObjects() {
         createNotebook()
@@ -119,12 +134,13 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
 
     private fun createNotebook() {
         val createRequest = constructNotebookRequest()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
@@ -134,12 +150,13 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
         val createRequest = jsonify(constructSavedQueryRequest())
         createRequest.addProperty("objectId", "testId")
 
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest.toString(),
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest.toString(),
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertEquals("testId", id)
         Thread.sleep(100)
@@ -147,12 +164,13 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
 
     private fun createSavedVisualization() {
         val createRequest = constructSavedVisualizationRequest()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
@@ -160,57 +178,62 @@ class TABackwardCompatibilityIT : PluginRestTestCase() {
 
     private fun createOperationalPanel() {
         val createRequest = constructOperationalPanelRequest()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
     }
 
     private fun verifyNotebooksExists() {
-        val listNotebooks = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectType=notebook",
-            "",
-            RestStatus.OK.status
-        )
+        val listNotebooks =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectType=notebook",
+                "",
+                RestStatus.OK.status,
+            )
         val totalHits = listNotebooks.get("totalHits").asInt
         assertTrue("Actual notebooks counts ($totalHits) should be equal to (1)", totalHits == 1)
     }
 
     private fun verifySavedQueryExists() {
-        val listSavedQuery = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectType=savedQuery",
-            "",
-            RestStatus.OK.status
-        )
+        val listSavedQuery =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectType=savedQuery",
+                "",
+                RestStatus.OK.status,
+            )
         val totalHits = listSavedQuery.get("totalHits").asInt
         assertTrue("Actual saved query counts ($totalHits) should be equal to (1)", totalHits == 1)
     }
 
     private fun verifySavedVisualizationExists() {
-        val listSavedVisualization = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectType=savedVisualization",
-            "",
-            RestStatus.OK.status
-        )
+        val listSavedVisualization =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectType=savedVisualization",
+                "",
+                RestStatus.OK.status,
+            )
         val totalHits = listSavedVisualization.get("totalHits").asInt
         assertTrue("Actual saved visualization counts ($totalHits) should be equal to (1)", totalHits == 1)
     }
 
     private fun verifyOperationalPanelExists() {
-        val listOperationalPanel = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectType=operationalPanel",
-            "",
-            RestStatus.OK.status
-        )
+        val listOperationalPanel =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectType=operationalPanel",
+                "",
+                RestStatus.OK.status,
+            )
         val totalHits = listOperationalPanel.get("totalHits").asInt
         assertTrue("Actual saved visualization counts ($totalHits) should be equal to (1)", totalHits == 1)
     }

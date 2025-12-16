@@ -16,30 +16,30 @@ import org.opensearch.transport.client.Client
 /**
  * Create ObservabilityObject transport action
  */
-internal class CreateObservabilityObjectAction @Inject constructor(
-    transportService: TransportService,
-    client: Client,
-    actionFilters: ActionFilters,
-    val xContentRegistry: NamedXContentRegistry
-) : PluginBaseAction<CreateObservabilityObjectRequest, CreateObservabilityObjectResponse>(
-    NAME,
-    transportService,
-    client,
-    actionFilters,
-    ::CreateObservabilityObjectRequest
-) {
-    companion object {
-        private const val NAME = "cluster:admin/opensearch/observability/create"
-        internal val ACTION_TYPE = ActionType(NAME, ::CreateObservabilityObjectResponse)
-    }
+internal class CreateObservabilityObjectAction
+    @Inject
+    constructor(
+        transportService: TransportService,
+        client: Client,
+        actionFilters: ActionFilters,
+        val xContentRegistry: NamedXContentRegistry,
+    ) : PluginBaseAction<CreateObservabilityObjectRequest, CreateObservabilityObjectResponse>(
+            NAME,
+            transportService,
+            client,
+            actionFilters,
+            ::CreateObservabilityObjectRequest,
+        ) {
+        companion object {
+            private const val NAME = "cluster:admin/opensearch/observability/create"
+            internal val ACTION_TYPE = ActionType(NAME, ::CreateObservabilityObjectResponse)
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    override fun executeRequest(
-        request: CreateObservabilityObjectRequest,
-        user: User?
-    ): CreateObservabilityObjectResponse {
-        return ObservabilityActions.create(request, user)
+        /**
+         * {@inheritDoc}
+         */
+        override fun executeRequest(
+            request: CreateObservabilityObjectRequest,
+            user: User?,
+        ): CreateObservabilityObjectResponse = ObservabilityActions.create(request, user)
     }
-}

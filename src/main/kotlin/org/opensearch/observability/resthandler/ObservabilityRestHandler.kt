@@ -55,30 +55,28 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
     /**
      * {@inheritDoc}
      */
-    override fun getName(): String {
-        return OBSERVABILITY_ACTION
-    }
+    override fun getName(): String = OBSERVABILITY_ACTION
 
     /**
      * {@inheritDoc}
      */
-    override fun routes(): List<Route> {
-        return listOf(
-            /**
+    override fun routes(): List<Route> =
+        listOf(
+            /*
              * Create a new object
              * Request URL: POST OBSERVABILITY_URL
              * Request body: Ref [org.opensearch.observability.model.CreateObservabilityObjectRequest]
              * Response body: Ref [org.opensearch.observability.model.CreateObservabilityObjectResponse]
              */
             Route(POST, OBSERVABILITY_URL),
-            /**
+            /*
              * Update object
              * Request URL: PUT OBSERVABILITY_URL/{objectId}
              * Request body: Ref [org.opensearch.observability.model.UpdateObservabilityObjectRequest]
              * Response body: Ref [org.opensearch.observability.model.UpdateObservabilityObjectResponse]
              */
             Route(PUT, "$OBSERVABILITY_URL/{$OBJECT_ID_FIELD}"),
-            /**
+            /*
              * Get a object
              * Request URL: GET OBSERVABILITY_URL/{objectId}
              * Request body: Ref [org.opensearch.observability.model.GetObservabilityObjectRequest]
@@ -86,73 +84,81 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
              */
             Route(GET, "$OBSERVABILITY_URL/{$OBJECT_ID_FIELD}"),
             Route(GET, OBSERVABILITY_URL),
-            /**
+            /*
              * Delete object
              * Request URL: DELETE OBSERVABILITY_URL/{objectId}
              * Request body: Ref [org.opensearch.observability.model.DeleteObservabilityObjectRequest]
              * Response body: Ref [org.opensearch.observability.model.DeleteObservabilityObjectResponse]
              */
             Route(DELETE, "$OBSERVABILITY_URL/{$OBJECT_ID_FIELD}"),
-            Route(DELETE, OBSERVABILITY_URL)
+            Route(DELETE, OBSERVABILITY_URL),
         )
-    }
 
     /**
      * {@inheritDoc}
      */
-    override fun responseParams(): Set<String> {
-        return setOf(
+    override fun responseParams(): Set<String> =
+        setOf(
             OBJECT_ID_FIELD,
             OBJECT_ID_LIST_FIELD,
             OBJECT_TYPE_FIELD,
             SORT_FIELD_FIELD,
             SORT_ORDER_FIELD,
             FROM_INDEX_FIELD,
-            MAX_ITEMS_FIELD
+            MAX_ITEMS_FIELD,
         )
-    }
 
-    private fun executePostRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        return RestChannelConsumer {
+    private fun executePostRequest(
+        request: RestRequest,
+        client: NodeClient,
+    ): RestChannelConsumer =
+        RestChannelConsumer {
             client.execute(
                 CreateObservabilityObjectAction.ACTION_TYPE,
                 CreateObservabilityObjectRequest.parse(request.contentParserNextToken()),
-                RestResponseToXContentListener(it)
+                RestResponseToXContentListener(it),
             )
         }
-    }
 
-    private fun executePutRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        return RestChannelConsumer {
+    private fun executePutRequest(
+        request: RestRequest,
+        client: NodeClient,
+    ): RestChannelConsumer =
+        RestChannelConsumer {
             client.execute(
                 UpdateObservabilityObjectAction.ACTION_TYPE,
                 UpdateObservabilityObjectRequest.parse(request.contentParserNextToken(), request.param(OBJECT_ID_FIELD)),
-                RestResponseToXContentListener(it)
+                RestResponseToXContentListener(it),
             )
         }
-    }
 
-    private fun executeGetRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
+    private fun executeGetRequest(
+        request: RestRequest,
+        client: NodeClient,
+    ): RestChannelConsumer {
         val objectId: String? = request.param(OBJECT_ID_FIELD)
         val objectIdListString: String? = request.param(OBJECT_ID_LIST_FIELD)
         val objectIdList = getObjectIdSet(objectId, objectIdListString)
         val types: EnumSet<ObservabilityObjectType> = getTypesSet(request.param(OBJECT_TYPE_FIELD))
         val sortField: String? = request.param(SORT_FIELD_FIELD)
         val sortOrderString: String? = request.param(SORT_ORDER_FIELD)
-        val sortOrder: SortOrder? = if (sortOrderString == null) {
-            null
-        } else {
-            SortOrder.fromString(sortOrderString)
-        }
+        val sortOrder: SortOrder? =
+            if (sortOrderString == null) {
+                null
+            } else {
+                SortOrder.fromString(sortOrderString)
+            }
         val fromIndex = request.param(FROM_INDEX_FIELD)?.toIntOrNull() ?: 0
         val maxItems = request.param(MAX_ITEMS_FIELD)?.toIntOrNull() ?: PluginSettings.defaultItemsQueryCount
-        val filterParams = request.params()
-            .filter { ObservabilityQueryHelper.FILTER_PARAMS.contains(it.key) }
-            .map { Pair(it.key, request.param(it.key)) }
-            .toMap()
+        val filterParams =
+            request
+                .params()
+                .filter { ObservabilityQueryHelper.FILTER_PARAMS.contains(it.key) }
+                .map { Pair(it.key, request.param(it.key)) }
+                .toMap()
         log.info(
             "$LOG_PREFIX:executeGetRequest idList:$objectIdList types:$types, from:$fromIndex, maxItems:$maxItems," +
-                " sortField:$sortField, sortOrder=$sortOrder, filters=$filterParams"
+                " sortField:$sortField, sortOrder=$sortOrder, filters=$filterParams",
         )
         return RestChannelConsumer {
             client.execute(
@@ -164,17 +170,21 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
                     maxItems,
                     sortField,
                     sortOrder,
-                    filterParams
+                    filterParams,
                 ),
-                RestResponseToXContentListener(it)
+                RestResponseToXContentListener(it),
             )
         }
     }
 
-    private fun executeDeleteRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
+    private fun executeDeleteRequest(
+        request: RestRequest,
+        client: NodeClient,
+    ): RestChannelConsumer {
         val objectId: String? = request.param(OBJECT_ID_FIELD)
         val objectIdSet: Set<String> =
-            request.paramAsStringArray(OBJECT_ID_LIST_FIELD, arrayOf(objectId))
+            request
+                .paramAsStringArray(OBJECT_ID_LIST_FIELD, arrayOf(objectId))
                 .filter { s -> !s.isNullOrBlank() }
                 .toSet()
         return RestChannelConsumer {
@@ -182,14 +192,14 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
                 it.sendResponse(
                     BytesRestResponse(
                         RestStatus.BAD_REQUEST,
-                        "either $OBJECT_ID_FIELD or $OBJECT_ID_LIST_FIELD is required"
-                    )
+                        "either $OBJECT_ID_FIELD or $OBJECT_ID_LIST_FIELD is required",
+                    ),
                 )
             } else {
                 client.execute(
                     DeleteObservabilityObjectAction.ACTION_TYPE,
                     DeleteObservabilityObjectRequest(objectIdSet),
-                    RestResponseToXContentListener(it)
+                    RestResponseToXContentListener(it),
                 )
             }
         }
@@ -198,19 +208,38 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
     /**
      * {@inheritDoc}
      */
-    override fun prepareRequest(request: RestRequest, client: NodeClient): RestChannelConsumer {
-        return when (request.method()) {
-            POST -> executePostRequest(request, client)
-            PUT -> executePutRequest(request, client)
-            GET -> executeGetRequest(request, client)
-            DELETE -> executeDeleteRequest(request, client)
-            else -> RestChannelConsumer {
-                it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "${request.method()} is not allowed"))
+    override fun prepareRequest(
+        request: RestRequest,
+        client: NodeClient,
+    ): RestChannelConsumer =
+        when (request.method()) {
+            POST -> {
+                executePostRequest(request, client)
+            }
+
+            PUT -> {
+                executePutRequest(request, client)
+            }
+
+            GET -> {
+                executeGetRequest(request, client)
+            }
+
+            DELETE -> {
+                executeDeleteRequest(request, client)
+            }
+
+            else -> {
+                RestChannelConsumer {
+                    it.sendResponse(BytesRestResponse(RestStatus.METHOD_NOT_ALLOWED, "${request.method()} is not allowed"))
+                }
             }
         }
-    }
 
-    private fun getObjectIdSet(objectId: String?, objectIdList: String?): Set<String> {
+    private fun getObjectIdSet(
+        objectId: String?,
+        objectIdList: String?,
+    ): Set<String> {
         var retIds: Set<String> = setOf()
         if (objectId != null) {
             retIds = setOf(objectId)

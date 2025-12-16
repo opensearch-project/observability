@@ -28,12 +28,11 @@ import java.io.IOException
  * }</pre>
  */
 internal class UpdateObservabilityObjectResponse(
-    val objectId: String?
+    val objectId: String?,
 ) : BaseResponse() {
-
     @Throws(IOException::class)
     constructor(input: StreamInput) : this(
-        objectId = input.readString()
+        objectId = input.readString(),
     )
 
     companion object {
@@ -51,7 +50,10 @@ internal class UpdateObservabilityObjectResponse(
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    OBJECT_ID_FIELD -> objectId = parser.text()
+                    OBJECT_ID_FIELD -> {
+                        objectId = parser.text()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Skipping Unknown field $fieldName")
@@ -74,9 +76,12 @@ internal class UpdateObservabilityObjectResponse(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
-        return builder!!.startObject()
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder =
+        builder!!
+            .startObject()
             .field(OBJECT_ID_FIELD, objectId)
             .endObject()
-    }
 }

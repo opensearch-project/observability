@@ -17,42 +17,30 @@ import java.util.EnumSet
 /**
  * Enum for ObservabilityObject type
  */
-enum class ObservabilityObjectType(val tag: String) {
+enum class ObservabilityObjectType(
+    val tag: String,
+) {
     NONE("none") {
-        override fun toString(): String {
-            return tag
-        }
+        override fun toString(): String = tag
     },
     NOTEBOOK(NOTEBOOK_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
+        override fun toString(): String = tag
     },
     SAVED_QUERY(SAVED_QUERY_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
+        override fun toString(): String = tag
     },
     SAVED_VISUALIZATION(SAVED_VISUALIZATION_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
+        override fun toString(): String = tag
     },
     OPERATIONAL_PANEL(OPERATIONAL_PANEL_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
+        override fun toString(): String = tag
     },
     APPLICATION(APPLICATION_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
+        override fun toString(): String = tag
     },
     TIMESTAMP(TIMESTAMP_FIELD) {
-        override fun toString(): String {
-            return tag
-        }
-    };
+        override fun toString(): String = tag
+    }, ;
 
     companion object {
         private val tagMap = values().associateBy { it.tag }
@@ -64,9 +52,7 @@ enum class ObservabilityObjectType(val tag: String) {
          * @param tag the tag
          * @return ConfigType corresponding to tag. NONE if invalid tag.
          */
-        fun fromTagOrDefault(tag: String): ObservabilityObjectType {
-            return tagMap[tag] ?: NONE
-        }
+        fun fromTagOrDefault(tag: String): ObservabilityObjectType = tagMap[tag] ?: NONE
 
         fun getAll(): EnumSet<ObservabilityObjectType> {
             val allTypes = EnumSet.allOf(ObservabilityObjectType::class.java)

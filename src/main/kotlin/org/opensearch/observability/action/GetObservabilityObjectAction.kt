@@ -16,27 +16,30 @@ import org.opensearch.transport.client.Client
 /**
  * Get ObservabilityObject transport action
  */
-internal class GetObservabilityObjectAction @Inject constructor(
-    transportService: TransportService,
-    client: Client,
-    actionFilters: ActionFilters,
-    val xContentRegistry: NamedXContentRegistry
-) : PluginBaseAction<GetObservabilityObjectRequest, GetObservabilityObjectResponse>(
-    NAME,
-    transportService,
-    client,
-    actionFilters,
-    ::GetObservabilityObjectRequest
-) {
-    companion object {
-        private const val NAME = "cluster:admin/opensearch/observability/get"
-        internal val ACTION_TYPE = ActionType(NAME, ::GetObservabilityObjectResponse)
-    }
+internal class GetObservabilityObjectAction
+    @Inject
+    constructor(
+        transportService: TransportService,
+        client: Client,
+        actionFilters: ActionFilters,
+        val xContentRegistry: NamedXContentRegistry,
+    ) : PluginBaseAction<GetObservabilityObjectRequest, GetObservabilityObjectResponse>(
+            NAME,
+            transportService,
+            client,
+            actionFilters,
+            ::GetObservabilityObjectRequest,
+        ) {
+        companion object {
+            private const val NAME = "cluster:admin/opensearch/observability/get"
+            internal val ACTION_TYPE = ActionType(NAME, ::GetObservabilityObjectResponse)
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    override fun executeRequest(request: GetObservabilityObjectRequest, user: User?): GetObservabilityObjectResponse {
-        return ObservabilityActions.get(request, user)
+        /**
+         * {@inheritDoc}
+         */
+        override fun executeRequest(
+            request: GetObservabilityObjectRequest,
+            user: User?,
+        ): GetObservabilityObjectResponse = ObservabilityActions.get(request, user)
     }
-}

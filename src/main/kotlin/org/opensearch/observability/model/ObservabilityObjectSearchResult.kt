@@ -15,7 +15,6 @@ import org.opensearch.observability.model.RestTag.OBJECT_LIST_FIELD
  * ObservabilityObject search results
  */
 internal class ObservabilityObjectSearchResult : SearchResults<ObservabilityObjectDoc> {
-
     /**
      * single item result constructor
      */
@@ -28,7 +27,7 @@ internal class ObservabilityObjectSearchResult : SearchResults<ObservabilityObje
         0,
         objectList.size.toLong(),
         TotalHits.Relation.EQUAL_TO,
-        objectList
+        objectList,
     )
 
     /**
@@ -38,7 +37,7 @@ internal class ObservabilityObjectSearchResult : SearchResults<ObservabilityObje
         startIndex: Long,
         totalHits: Long,
         totalHitRelation: TotalHits.Relation,
-        objectList: List<ObservabilityObjectDoc>
+        objectList: List<ObservabilityObjectDoc>,
     ) : super(startIndex, totalHits, totalHitRelation, OBJECT_LIST_FIELD, objectList)
 
     /**
@@ -59,13 +58,14 @@ internal class ObservabilityObjectSearchResult : SearchResults<ObservabilityObje
         from,
         response,
         searchHitParser,
-        OBJECT_LIST_FIELD
+        OBJECT_LIST_FIELD,
     )
 
     /**
      * {@inheritDoc}
      */
-    override fun parseItem(parser: XContentParser, useId: String?): ObservabilityObjectDoc {
-        return ObservabilityObjectDoc.parse(parser, useId)
-    }
+    override fun parseItem(
+        parser: XContentParser,
+        useId: String?,
+    ): ObservabilityObjectDoc = ObservabilityObjectDoc.parse(parser, useId)
 }

@@ -24,7 +24,9 @@ internal object SecurityAccess {
         SpecialPermission.check()
         return try {
             AccessController.doPrivileged(operation)
-        } catch (@Suppress("SwallowedException") e: PrivilegedActionException) {
+        } catch (
+            @Suppress("SwallowedException") e: PrivilegedActionException,
+        ) {
             throw (e.cause as Exception?)!!
         }
     }

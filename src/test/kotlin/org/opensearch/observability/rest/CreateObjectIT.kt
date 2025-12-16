@@ -19,26 +19,27 @@ import org.opensearch.observability.validateErrorResponse
 import org.opensearch.rest.RestRequest
 
 class CreateObjectIT : PluginRestTestCase() {
-
     fun `test create notebook fail`() {
-        val invalidCreateResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            "",
-            RestStatus.BAD_REQUEST.status
-        )
+        val invalidCreateResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                "",
+                RestStatus.BAD_REQUEST.status,
+            )
         validateErrorResponse(invalidCreateResponse, RestStatus.BAD_REQUEST.status, "parse_exception")
         Thread.sleep(100)
     }
 
     fun `test create notebook`() {
         val createRequest = constructNotebookRequest()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
@@ -48,12 +49,13 @@ class CreateObjectIT : PluginRestTestCase() {
         val createRequest = jsonify(constructSavedQueryRequest())
         createRequest.addProperty("objectId", "testId")
 
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest.toString(),
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest.toString(),
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertEquals("testId", id)
         Thread.sleep(100)
@@ -61,12 +63,13 @@ class CreateObjectIT : PluginRestTestCase() {
 
     fun `test create saved visualization`() {
         val createRequest = constructSavedVisualizationRequest()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
@@ -74,12 +77,13 @@ class CreateObjectIT : PluginRestTestCase() {
 
     fun `test create operational panel`() {
         val createRequest = constructOperationalPanelRequest()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
@@ -87,19 +91,21 @@ class CreateObjectIT : PluginRestTestCase() {
 
     fun `test create timestamp with id`() {
         val createRequest = constructTimestampRequest("test-index")
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertEquals("test-index", id)
         Thread.sleep(100)
     }
 
     fun `test create object with extra fields`() {
-        val createRequest = """
+        val createRequest =
+            """
             {
                 "timestamp": {
                     "name": "test-timestamp",
@@ -110,32 +116,35 @@ class CreateObjectIT : PluginRestTestCase() {
                 },
                 "unknown-field": "unused"
             }
-        """.trimIndent()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+            """.trimIndent()
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
     }
 
     fun `test create object with invalid fields`() {
-        val createRequest = """
+        val createRequest =
+            """
             {
                 "invalid-object": {
                     "name": "invalid"
                 }
             }
-        """.trimIndent()
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.BAD_REQUEST.status
-        )
+            """.trimIndent()
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.BAD_REQUEST.status,
+            )
         validateErrorResponse(createResponse, RestStatus.BAD_REQUEST.status, "illegal_argument_exception")
         Thread.sleep(100)
     }

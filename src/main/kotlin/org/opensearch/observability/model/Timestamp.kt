@@ -34,9 +34,8 @@ internal data class Timestamp(
     val name: String?,
     val index: String?,
     val type: String?,
-    val dslType: String?
+    val dslType: String?,
 ) : BaseObjectData {
-
     internal companion object {
         private val log by logger(Timestamp::class.java)
         private const val NAME_TAG = "name"
@@ -69,10 +68,22 @@ internal data class Timestamp(
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    NAME_TAG -> name = parser.text()
-                    INDEX_TAG -> index = parser.text()
-                    TYPE_TAG -> type = parser.text()
-                    DSL_TYPE_TAG -> dslType = parser.text()
+                    NAME_TAG -> {
+                        name = parser.text()
+                    }
+
+                    INDEX_TAG -> {
+                        index = parser.text()
+                    }
+
+                    TYPE_TAG -> {
+                        type = parser.text()
+                    }
+
+                    DSL_TYPE_TAG -> {
+                        dslType = parser.text()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedVisualization Skipping Unknown field $fieldName")
@@ -88,9 +99,7 @@ internal data class Timestamp(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -100,7 +109,7 @@ internal data class Timestamp(
         name = input.readString(),
         index = input.readString(),
         type = input.readString(),
-        dslType = input.readString()
+        dslType = input.readString(),
     )
 
     /**
@@ -116,9 +125,13 @@ internal data class Timestamp(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        builder.startObject()
+        builder
+            .startObject()
             .fieldIfNotNull(NAME_TAG, name)
             .fieldIfNotNull(INDEX_TAG, index)
             .fieldIfNotNull(TYPE_TAG, type)

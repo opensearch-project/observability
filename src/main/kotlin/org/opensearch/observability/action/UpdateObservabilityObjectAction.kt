@@ -16,27 +16,30 @@ import org.opensearch.transport.client.Client
 /**
  * Update ObservabilityObject transport action
  */
-internal class UpdateObservabilityObjectAction @Inject constructor(
-    transportService: TransportService,
-    client: Client,
-    actionFilters: ActionFilters,
-    val xContentRegistry: NamedXContentRegistry
-) : PluginBaseAction<UpdateObservabilityObjectRequest, UpdateObservabilityObjectResponse>(
-    NAME,
-    transportService,
-    client,
-    actionFilters,
-    ::UpdateObservabilityObjectRequest
-) {
-    companion object {
-        private const val NAME = "cluster:admin/opensearch/observability/update"
-        internal val ACTION_TYPE = ActionType(NAME, ::UpdateObservabilityObjectResponse)
-    }
+internal class UpdateObservabilityObjectAction
+    @Inject
+    constructor(
+        transportService: TransportService,
+        client: Client,
+        actionFilters: ActionFilters,
+        val xContentRegistry: NamedXContentRegistry,
+    ) : PluginBaseAction<UpdateObservabilityObjectRequest, UpdateObservabilityObjectResponse>(
+            NAME,
+            transportService,
+            client,
+            actionFilters,
+            ::UpdateObservabilityObjectRequest,
+        ) {
+        companion object {
+            private const val NAME = "cluster:admin/opensearch/observability/update"
+            internal val ACTION_TYPE = ActionType(NAME, ::UpdateObservabilityObjectResponse)
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    override fun executeRequest(request: UpdateObservabilityObjectRequest, user: User?): UpdateObservabilityObjectResponse {
-        return ObservabilityActions.update(request, user)
+        /**
+         * {@inheritDoc}
+         */
+        override fun executeRequest(
+            request: UpdateObservabilityObjectRequest,
+            user: User?,
+        ): UpdateObservabilityObjectResponse = ObservabilityActions.update(request, user)
     }
-}
