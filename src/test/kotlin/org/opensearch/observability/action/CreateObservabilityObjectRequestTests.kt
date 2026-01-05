@@ -17,12 +17,13 @@ import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.Timestamp
 
 internal class CreateObservabilityObjectRequestTests {
-    private val sampleTimestamp = Timestamp(
-        "test-timestamp",
-        "opensearch_dashboards_sample_data_logs",
-        "timestamp",
-        "date"
-    )
+    private val sampleTimestamp =
+        Timestamp(
+            "test-timestamp",
+            "opensearch_dashboards_sample_data_logs",
+            "timestamp",
+            "date",
+        )
     private val objectRequest =
         CreateObservabilityObjectRequest("test-id", ObservabilityObjectType.TIMESTAMP, sampleTimestamp)
 

@@ -39,37 +39,44 @@ internal object UserAccessManager {
         if (isUserPrivateTenant(user) && user?.name == null) {
             throw OpenSearchStatusException(
                 "User name not provided for private tenant access",
-                RestStatus.FORBIDDEN
+                RestStatus.FORBIDDEN,
             )
         }
         when (PluginSettings.filterBy) {
             FilterBy.NoFilter -> { // No validation
             }
+
             FilterBy.User -> { // User name must be present
                 user?.name
                     ?: throw OpenSearchStatusException(
                         "Filter-by enabled with security disabled",
-                        RestStatus.FORBIDDEN
+                        RestStatus.FORBIDDEN,
                     )
             }
+
             FilterBy.Roles -> { // backend roles must be present
                 if (user == null || user.roles.isNullOrEmpty()) {
                     throw OpenSearchStatusException(
                         "User doesn't have roles configured. Contact administrator.",
-                        RestStatus.FORBIDDEN
+                        RestStatus.FORBIDDEN,
                     )
-                } else if (user.roles.stream().filter { !PluginSettings.ignoredRoles.contains(it) }.count() == 0L) {
+                } else if (user.roles
+                        .stream()
+                        .filter { !PluginSettings.ignoredRoles.contains(it) }
+                        .count() == 0L
+                ) {
                     throw OpenSearchStatusException(
                         "No distinguishing roles configured. Contact administrator.",
-                        RestStatus.FORBIDDEN
+                        RestStatus.FORBIDDEN,
                     )
                 }
             }
+
             FilterBy.BackendRoles -> { // backend roles must be present
                 if (user?.backendRoles.isNullOrEmpty()) {
                     throw OpenSearchStatusException(
                         "User doesn't have backend roles configured. Contact administrator.",
-                        RestStatus.FORBIDDEN
+                        RestStatus.FORBIDDEN,
                     )
                 }
             }
@@ -90,12 +97,11 @@ internal object UserAccessManager {
     /**
      * Get tenant info from user object.
      */
-    fun getUserTenant(user: User?): String {
-        return when (val requestedTenant = user?.requestedTenant) {
+    fun getUserTenant(user: User?): String =
+        when (val requestedTenant = user?.requestedTenant) {
             null -> DEFAULT_TENANT
             else -> requestedTenant
         }
-    }
 
     /**
      * Get all user access info from user object.
@@ -127,20 +133,36 @@ internal object UserAccessManager {
             return listOf()
         }
         return when (PluginSettings.filterBy) {
-            FilterBy.NoFilter -> listOf()
-            FilterBy.User -> listOf("$USER_TAG${user.name}")
-            FilterBy.Roles -> user.roles.stream()
-                .filter { !PluginSettings.ignoredRoles.contains(it) }
-                .map { "$ROLE_TAG$it" }
-                .collect(Collectors.toList())
-            FilterBy.BackendRoles -> user.backendRoles.map { "$BACKEND_ROLE_TAG$it" }
+            FilterBy.NoFilter -> {
+                listOf()
+            }
+
+            FilterBy.User -> {
+                listOf("$USER_TAG${user.name}")
+            }
+
+            FilterBy.Roles -> {
+                user.roles
+                    .stream()
+                    .filter { !PluginSettings.ignoredRoles.contains(it) }
+                    .map { "$ROLE_TAG$it" }
+                    .collect(Collectors.toList())
+            }
+
+            FilterBy.BackendRoles -> {
+                user.backendRoles.map { "$BACKEND_ROLE_TAG$it" }
+            }
         }
     }
 
     /**
      * validate if user has access based on given access list
      */
-    fun doesUserHasAccess(user: User?, tenant: String, access: List<String>): Boolean {
+    fun doesUserHasAccess(
+        user: User?,
+        tenant: String,
+        access: List<String>,
+    ): Boolean {
         if (user == null) { // Security is disabled
             return true
         }
@@ -154,13 +176,25 @@ internal object UserAccessManager {
             return true
         }
         return when (PluginSettings.filterBy) {
-            FilterBy.NoFilter -> true
-            FilterBy.User -> access.contains("$USER_TAG${user.name}")
-            FilterBy.Roles -> user.roles.stream()
-                .filter { !PluginSettings.ignoredRoles.contains(it) }
-                .map { "$ROLE_TAG$it" }
-                .anyMatch { it in access }
-            FilterBy.BackendRoles -> user.backendRoles.map { "$BACKEND_ROLE_TAG$it" }.any { it in access }
+            FilterBy.NoFilter -> {
+                true
+            }
+
+            FilterBy.User -> {
+                access.contains("$USER_TAG${user.name}")
+            }
+
+            FilterBy.Roles -> {
+                user.roles
+                    .stream()
+                    .filter { !PluginSettings.ignoredRoles.contains(it) }
+                    .map { "$ROLE_TAG$it" }
+                    .anyMatch { it in access }
+            }
+
+            FilterBy.BackendRoles -> {
+                user.backendRoles.map { "$BACKEND_ROLE_TAG$it" }.any { it in access }
+            }
         }
     }
 
@@ -174,15 +208,12 @@ internal object UserAccessManager {
         return isAdminUser(user)
     }
 
-    private fun canAdminViewAllItems(user: User): Boolean {
-        return PluginSettings.adminAccess == PluginSettings.AdminAccess.AllObservabilityObjects && isAdminUser(user)
-    }
+    private fun canAdminViewAllItems(user: User): Boolean =
+        (
+            PluginSettings.adminAccess == PluginSettings.AdminAccess.AllObservabilityObjects && isAdminUser(user)
+        )
 
-    private fun isAdminUser(user: User): Boolean {
-        return user.roles.contains(ALL_ACCESS_ROLE)
-    }
+    private fun isAdminUser(user: User): Boolean = user.roles.contains(ALL_ACCESS_ROLE)
 
-    private fun isUserPrivateTenant(user: User?): Boolean {
-        return getUserTenant(user) == PRIVATE_TENANT
-    }
+    private fun isUserPrivateTenant(user: User?): Boolean = getUserTenant(user) == PRIVATE_TENANT
 }

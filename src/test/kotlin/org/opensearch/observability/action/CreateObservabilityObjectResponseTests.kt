@@ -56,14 +56,15 @@ internal class CreateObservabilityObjectResponseTests {
     @Test
     fun `Create response should safely ignore extra field in json object`() {
         val objectId = "test-id"
-        val jsonString = """
-        {
-            "objectId":"$objectId",
-            "extra_field_1":["extra", "value"],
-            "extra_field_2":{"extra":"value"},
-            "extra_field_3":"extra value 3"
-        }
-        """.trimIndent()
+        val jsonString =
+            """
+            {
+                "objectId":"$objectId",
+                "extra_field_1":["extra", "value"],
+                "extra_field_2":{"extra":"value"},
+                "extra_field_3":"extra value 3"
+            }
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { CreateObservabilityObjectResponse.parse(it) }
         assertEquals(objectId, recreatedObject.objectId)
     }

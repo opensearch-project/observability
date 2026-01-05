@@ -43,8 +43,10 @@ import java.util.function.Supplier
  * Entry point of the OpenSearch Observability plugin.
  * This class initializes the rest handlers.
  */
-class ObservabilityPlugin : Plugin(), ActionPlugin, SystemIndexPlugin {
-
+class ObservabilityPlugin :
+    Plugin(),
+    ActionPlugin,
+    SystemIndexPlugin {
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
         const val LOG_PREFIX = "observability"
@@ -55,19 +57,16 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, SystemIndexPlugin {
     /**
      * {@inheritDoc}
      */
-    override fun getSettings(): List<Setting<*>> {
-        return PluginSettings.getAllSettings()
-    }
+    override fun getSettings(): List<Setting<*>> = PluginSettings.getAllSettings()
 
     /**
      * {@inheritDoc}
      */
-    override fun getSystemIndexDescriptors(settings: Settings): Collection<SystemIndexDescriptor> {
-        return listOf(
+    override fun getSystemIndexDescriptors(settings: Settings): Collection<SystemIndexDescriptor> =
+        listOf(
             SystemIndexDescriptor(ObservabilityIndex.INDEX_NAME, "Observability Plugin Configuration index"),
-            SystemIndexDescriptor(ObservabilityIndex.NOTEBOOKS_INDEX_NAME, "Observability Plugin Notebooks index")
+            SystemIndexDescriptor(ObservabilityIndex.NOTEBOOKS_INDEX_NAME, "Observability Plugin Notebooks index"),
         )
-    }
 
     /**
      * {@inheritDoc}
@@ -83,7 +82,7 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, SystemIndexPlugin {
         nodeEnvironment: NodeEnvironment,
         namedWriteableRegistry: NamedWriteableRegistry,
         indexNameExpressionResolver: IndexNameExpressionResolver,
-        repositoriesServiceSupplier: Supplier<RepositoriesService>
+        repositoriesServiceSupplier: Supplier<RepositoriesService>,
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
         ObservabilityIndex.initialize(client, clusterService)
@@ -100,35 +99,33 @@ class ObservabilityPlugin : Plugin(), ActionPlugin, SystemIndexPlugin {
         indexScopedSettings: IndexScopedSettings,
         settingsFilter: SettingsFilter,
         indexNameExpressionResolver: IndexNameExpressionResolver,
-        nodesInCluster: Supplier<DiscoveryNodes>
-    ): List<RestHandler> {
-        return listOf(
+        nodesInCluster: Supplier<DiscoveryNodes>,
+    ): List<RestHandler> =
+        listOf(
             ObservabilityRestHandler(),
-            ObservabilityStatsRestHandler()
+            ObservabilityStatsRestHandler(),
         )
-    }
 
     /**
      * {@inheritDoc}
      */
-    override fun getActions(): List<ActionPlugin.ActionHandler<out ActionRequest, out ActionResponse>> {
-        return listOf(
+    override fun getActions(): List<ActionPlugin.ActionHandler<out ActionRequest, out ActionResponse>> =
+        listOf(
             ActionPlugin.ActionHandler(
                 CreateObservabilityObjectAction.ACTION_TYPE,
-                CreateObservabilityObjectAction::class.java
+                CreateObservabilityObjectAction::class.java,
             ),
             ActionPlugin.ActionHandler(
                 DeleteObservabilityObjectAction.ACTION_TYPE,
-                DeleteObservabilityObjectAction::class.java
+                DeleteObservabilityObjectAction::class.java,
             ),
             ActionPlugin.ActionHandler(
                 GetObservabilityObjectAction.ACTION_TYPE,
-                GetObservabilityObjectAction::class.java
+                GetObservabilityObjectAction::class.java,
             ),
             ActionPlugin.ActionHandler(
                 UpdateObservabilityObjectAction.ACTION_TYPE,
-                UpdateObservabilityObjectAction::class.java
-            )
+                UpdateObservabilityObjectAction::class.java,
+            ),
         )
-    }
 }

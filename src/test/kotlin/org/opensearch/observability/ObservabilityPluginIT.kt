@@ -14,15 +14,26 @@ import org.opensearch.test.OpenSearchIntegTestCase
 class ObservabilityPluginIT : OpenSearchIntegTestCase() {
     fun testPluginsAreInstalled() {
         val request = ClusterHealthRequest()
-        val response = client().admin().cluster().health(request).actionGet()
+        val response =
+            client()
+                .admin()
+                .cluster()
+                .health(request)
+                .actionGet()
         assertEquals(ClusterHealthStatus.GREEN, response.status)
         val nodesInfoRequest = NodesInfoRequest()
         nodesInfoRequest.addMetric(NodesInfoRequest.Metric.PLUGINS.metricName())
-        val nodesInfoResponse = client().admin().cluster().nodesInfo(nodesInfoRequest).actionGet()
+        val nodesInfoResponse =
+            client()
+                .admin()
+                .cluster()
+                .nodesInfo(nodesInfoRequest)
+                .actionGet()
         val pluginInfos = nodesInfoResponse.nodes[0].getInfo(PluginsAndModules::class.java).pluginInfos
         assertTrue(
-            pluginInfos.stream()
-                .anyMatch { pluginInfo: PluginInfo -> pluginInfo.name == "opensearch-observability" }
+            pluginInfos
+                .stream()
+                .anyMatch { pluginInfo: PluginInfo -> pluginInfo.name == "opensearch-observability" },
         )
     }
 }

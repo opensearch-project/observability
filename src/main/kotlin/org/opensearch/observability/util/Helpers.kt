@@ -19,9 +19,12 @@ import org.opensearch.core.xcontent.XContentParser.Token
 import org.opensearch.core.xcontent.XContentParserUtils
 import org.opensearch.rest.RestRequest
 
-internal fun StreamInput.createJsonParser(): XContentParser {
-    return XContentType.JSON.xContent().createParser(NamedXContentRegistry.EMPTY, DeprecationHandler.IGNORE_DEPRECATIONS, this)
-}
+internal fun StreamInput.createJsonParser(): XContentParser =
+    XContentType.JSON.xContent().createParser(
+        NamedXContentRegistry.EMPTY,
+        DeprecationHandler.IGNORE_DEPRECATIONS,
+        this,
+    )
 
 internal fun RestRequest.contentParserNextToken(): XContentParser {
     val parser = this.contentParser()
@@ -38,18 +41,22 @@ internal fun XContentParser.stringList(): List<String> {
     return retList
 }
 
-internal fun <T : Any> logger(forClass: Class<T>): Lazy<Logger> {
-    return lazy { LogManager.getLogger(forClass) }
-}
+internal fun <T : Any> logger(forClass: Class<T>): Lazy<Logger> = lazy { LogManager.getLogger(forClass) }
 
-internal fun XContentBuilder.fieldIfNotNull(name: String, value: Any?): XContentBuilder {
+internal fun XContentBuilder.fieldIfNotNull(
+    name: String,
+    value: Any?,
+): XContentBuilder {
     if (value != null) {
         this.field(name, value)
     }
     return this
 }
 
-internal fun XContentBuilder.objectIfNotNull(name: String, xContentObject: ToXContentObject?): XContentBuilder {
+internal fun XContentBuilder.objectIfNotNull(
+    name: String,
+    xContentObject: ToXContentObject?,
+): XContentBuilder {
     if (xContentObject != null) {
         this.field(name)
         xContentObject.toXContent(this, ToXContent.EMPTY_PARAMS)

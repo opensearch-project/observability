@@ -28,7 +28,9 @@ import java.io.IOException
 /**
  * Action request for creating new configuration.
  */
-internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObject {
+internal class UpdateObservabilityObjectRequest :
+    ActionRequest,
+    ToXContentObject {
     val objectId: String
     val type: ObservabilityObjectType
     val objectData: BaseObjectData?
@@ -48,7 +50,10 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
          */
         @JvmStatic
         @Throws(IOException::class)
-        fun parse(parser: XContentParser, id: String? = null): UpdateObservabilityObjectRequest {
+        fun parse(
+            parser: XContentParser,
+            id: String? = null,
+        ): UpdateObservabilityObjectRequest {
             var objectId: String? = id
             var type: ObservabilityObjectType? = null
             var baseObjectData: BaseObjectData? = null
@@ -56,13 +61,16 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (parser.nextToken() != XContentParser.Token.END_OBJECT) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    OBJECT_ID_FIELD -> objectId = parser.text()
+                    OBJECT_ID_FIELD -> {
+                        objectId = parser.text()
+                    }
+
                     else -> {
                         val objectTypeForTag = ObservabilityObjectType.fromTagOrDefault(fieldName)
                         if (objectTypeForTag != ObservabilityObjectType.NONE && baseObjectData == null) {
@@ -86,9 +94,13 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        return builder.startObject()
+        return builder
+            .startObject()
             .fieldIfNotNull(OBJECT_ID_FIELD, objectId)
             .field(type.tag, objectData)
             .endObject()
@@ -112,13 +124,14 @@ internal class UpdateObservabilityObjectRequest : ActionRequest, ToXContentObjec
     constructor(input: StreamInput) : super(input) {
         objectId = input.readString()
         type = input.readEnum(ObservabilityObjectType::class.java)
-        objectData = input.readOptionalWriteable(
-            ObservabilityObjectDataProperties.getReaderForObjectType(
-                input.readEnum(
-                    ObservabilityObjectType::class.java
-                )
+        objectData =
+            input.readOptionalWriteable(
+                ObservabilityObjectDataProperties.getReaderForObjectType(
+                    input.readEnum(
+                        ObservabilityObjectType::class.java,
+                    ),
+                ),
             )
-        )
     }
 
     /**

@@ -24,7 +24,6 @@ internal class GetObservabilityObjectResponse : BaseResponse {
     private val filterSensitiveInfo: Boolean
 
     companion object {
-
         /**
          * reader to create instance of class from writable.
          */
@@ -36,9 +35,11 @@ internal class GetObservabilityObjectResponse : BaseResponse {
          */
         @JvmStatic
         @Throws(IOException::class)
-        fun parse(parser: XContentParser): GetObservabilityObjectResponse {
-            return GetObservabilityObjectResponse(ObservabilityObjectSearchResult(parser), false)
-        }
+        fun parse(parser: XContentParser): GetObservabilityObjectResponse =
+            GetObservabilityObjectResponse(
+                ObservabilityObjectSearchResult(parser),
+                false,
+            )
     }
 
     /**
@@ -71,12 +72,16 @@ internal class GetObservabilityObjectResponse : BaseResponse {
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
-        val xContentParams = if (filterSensitiveInfo) {
-            RestTag.FILTERED_REST_OUTPUT_PARAMS
-        } else {
-            RestTag.REST_OUTPUT_PARAMS
-        }
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
+        val xContentParams =
+            if (filterSensitiveInfo) {
+                RestTag.FILTERED_REST_OUTPUT_PARAMS
+            } else {
+                RestTag.REST_OUTPUT_PARAMS
+            }
         return searchResult.toXContent(builder, xContentParams)
     }
 }

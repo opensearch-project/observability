@@ -34,13 +34,14 @@ internal class DeleteObservabilityObjectResponseTests {
     fun `Delete response should deserialize json object using parser`() {
         val objectId = "test-id"
         val objectResponse = DeleteObservabilityObjectResponse(mapOf(Pair(objectId, RestStatus.OK)))
-        val jsonString = """
-        {
-            "deleteResponseList":{
-                "$objectId":"OK"
+        val jsonString =
+            """
+            {
+                "deleteResponseList":{
+                    "$objectId":"OK"
+                }
             }
-        }
-        """.trimIndent()
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { DeleteObservabilityObjectResponse.parse(it) }
         assertEquals(objectResponse.objectIdToStatus, recreatedObject.objectIdToStatus)
     }
@@ -65,16 +66,17 @@ internal class DeleteObservabilityObjectResponseTests {
     fun `Delete response should safely ignore extra field in json object`() {
         val objectId = "test-id"
         val objectResponse = DeleteObservabilityObjectResponse(mapOf(Pair(objectId, RestStatus.OK)))
-        val jsonString = """
-        {
-            "deleteResponseList":{
-                "$objectId":"OK"
-            },
-            "extra_field_1":["extra", "value"],
-            "extra_field_2":{"extra":"value"},
-            "extra_field_3":"extra value 3"
-        }
-        """.trimIndent()
+        val jsonString =
+            """
+            {
+                "deleteResponseList":{
+                    "$objectId":"OK"
+                },
+                "extra_field_1":["extra", "value"],
+                "extra_field_2":{"extra":"value"},
+                "extra_field_3":"extra value 3"
+            }
+            """.trimIndent()
         val recreatedObject = createObjectFromJsonString(jsonString) { DeleteObservabilityObjectResponse.parse(it) }
         assertEquals(objectResponse.objectIdToStatus, recreatedObject.objectIdToStatus)
     }

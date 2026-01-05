@@ -51,9 +51,8 @@ internal data class SavedQuery(
     val query: String?,
     val selectedDateRange: SelectedDateRange?,
     val selectedTimestamp: Token?,
-    val selectedFields: SelectedFields?
+    val selectedFields: SelectedFields?,
 ) : BaseObjectData {
-
     internal companion object {
         private val log by logger(SavedQuery::class.java)
         private const val NAME_TAG = "name"
@@ -90,12 +89,30 @@ internal data class SavedQuery(
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    NAME_TAG -> name = parser.text()
-                    DESCRIPTION_TAG -> description = parser.text()
-                    QUERY_TAG -> query = parser.text()
-                    SELECTED_DATE_RANGE_TAG -> selectedDateRange = SelectedDateRange.parse(parser)
-                    SELECTED_TIMESTAMP_TAG -> selectedTimestamp = Token.parse(parser)
-                    SELECTED_FIELDS_TAG -> selectedFields = SelectedFields.parse(parser)
+                    NAME_TAG -> {
+                        name = parser.text()
+                    }
+
+                    DESCRIPTION_TAG -> {
+                        description = parser.text()
+                    }
+
+                    QUERY_TAG -> {
+                        query = parser.text()
+                    }
+
+                    SELECTED_DATE_RANGE_TAG -> {
+                        selectedDateRange = SelectedDateRange.parse(parser)
+                    }
+
+                    SELECTED_TIMESTAMP_TAG -> {
+                        selectedTimestamp = Token.parse(parser)
+                    }
+
+                    SELECTED_FIELDS_TAG -> {
+                        selectedFields = SelectedFields.parse(parser)
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:SavedQuery Skipping Unknown field $fieldName")
@@ -111,9 +128,7 @@ internal data class SavedQuery(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -125,7 +140,7 @@ internal data class SavedQuery(
         query = input.readString(),
         selectedDateRange = input.readOptionalWriteable(SelectedDateRange.reader),
         selectedTimestamp = input.readOptionalWriteable(Token.reader),
-        selectedFields = input.readOptionalWriteable(SelectedFields.reader)
+        selectedFields = input.readOptionalWriteable(SelectedFields.reader),
     )
 
     /**
@@ -143,9 +158,13 @@ internal data class SavedQuery(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        builder.startObject()
+        builder
+            .startObject()
             .fieldIfNotNull(NAME_TAG, name)
             .fieldIfNotNull(DESCRIPTION_TAG, description)
             .fieldIfNotNull(QUERY_TAG, query)
@@ -158,7 +177,7 @@ internal data class SavedQuery(
     internal data class SelectedDateRange(
         val start: String,
         val end: String,
-        val text: String
+        val text: String,
     ) : BaseModel {
         internal companion object {
             private const val START_TAG = "start"
@@ -187,7 +206,7 @@ internal data class SavedQuery(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -213,7 +232,7 @@ internal data class SavedQuery(
         constructor(input: StreamInput) : this(
             start = input.readString(),
             end = input.readString(),
-            text = input.readString()
+            text = input.readString(),
         )
 
         /**
@@ -228,9 +247,13 @@ internal data class SavedQuery(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(START_TAG, start)
                 .field(END_TAG, end)
                 .field(TEXT_TAG, text)
@@ -241,7 +264,7 @@ internal data class SavedQuery(
 
     internal data class Token(
         val name: String,
-        val type: String
+        val type: String,
     ) : BaseModel {
         internal companion object {
             private const val NAME_TAG = "name"
@@ -268,7 +291,7 @@ internal data class SavedQuery(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -291,7 +314,7 @@ internal data class SavedQuery(
          */
         constructor(input: StreamInput) : this(
             name = input.readString(),
-            type = input.readString()
+            type = input.readString(),
         )
 
         /**
@@ -305,9 +328,13 @@ internal data class SavedQuery(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(NAME_TAG, name)
                 .field(TYPE_TAG, type)
             builder.endObject()
@@ -317,7 +344,7 @@ internal data class SavedQuery(
 
     internal data class SelectedFields(
         val text: String?,
-        val tokens: List<Token>?
+        val tokens: List<Token>?,
     ) : BaseModel {
         internal companion object {
             private const val TEXT_TAG = "text"
@@ -358,7 +385,7 @@ internal data class SavedQuery(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -381,7 +408,7 @@ internal data class SavedQuery(
          */
         constructor(input: StreamInput) : this(
             text = input.readString(),
-            tokens = input.readList(Token.reader)
+            tokens = input.readList(Token.reader),
         )
 
         /**
@@ -395,9 +422,13 @@ internal data class SavedQuery(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(TEXT_TAG, text)
             if (tokens != null) {
                 builder.startArray(TOKENS_TAG)

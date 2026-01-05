@@ -11,7 +11,10 @@ import org.json.JSONObject
 /**
  * Enum to hold all the metrics that need to be logged into _plugins/_observability/_local/stats API
  */
-enum class Metrics(val metricName: String, val counter: Counter<*>) {
+enum class Metrics(
+    val metricName: String,
+    val counter: Counter<*>,
+) {
     REQUEST_TOTAL("request_total", BasicCounter()),
     REQUEST_INTERVAL_COUNT("request_count", RollingCounter()),
     REQUEST_SUCCESS("success_count", RollingCounter()),
@@ -28,27 +31,28 @@ enum class Metrics(val metricName: String, val counter: Counter<*>) {
     OBSERVABILITY_EXCEPTIONS_INDEX_NOT_FOUND_EXCEPTION("exception.index_not_found", RollingCounter()),
     OBSERVABILITY_EXCEPTIONS_INVALID_INDEX_NAME_EXCEPTION(
         "exception.invalid_index_name",
-        RollingCounter()
+        RollingCounter(),
     ),
     OBSERVABILITY_EXCEPTIONS_ILLEGAL_ARGUMENT_EXCEPTION(
         "exception.illegal_argument",
-        RollingCounter()
+        RollingCounter(),
     ),
     OBSERVABILITY_EXCEPTIONS_ILLEGAL_STATE_EXCEPTION(
         "exception.illegal_state",
-        RollingCounter()
+        RollingCounter(),
     ),
     OBSERVABILITY_EXCEPTIONS_IO_EXCEPTION(
         "exception.io",
-        RollingCounter()
+        RollingCounter(),
     ),
     OBSERVABILITY_EXCEPTIONS_INTERNAL_SERVER_ERROR(
         "exception.internal_server_error",
-        RollingCounter()
+        RollingCounter(),
     ),
 
     OBSERVABILITY_SECURITY_PERMISSION_ERROR("security_permission_error", RollingCounter()),
-    OBSERVABILITY_PERMISSION_USER_ERROR("permission_user_error", RollingCounter());
+    OBSERVABILITY_PERMISSION_USER_ERROR("permission_user_error", RollingCounter()),
+    ;
 
     companion object {
         private val values: Array<Metrics> = Metrics.values()
@@ -77,8 +81,6 @@ enum class Metrics(val metricName: String, val counter: Counter<*>) {
          *   }
          * }
          */
-        fun collectToFlattenedJSON(): String {
-            return JsonUnflattener.unflatten(collectToJSON())
-        }
+        fun collectToFlattenedJSON(): String = JsonUnflattener.unflatten(collectToJSON())
     }
 }

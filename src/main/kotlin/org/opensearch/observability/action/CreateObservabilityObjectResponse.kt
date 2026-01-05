@@ -43,13 +43,16 @@ internal class CreateObservabilityObjectResponse : BaseResponse {
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (parser.nextToken() != XContentParser.Token.END_OBJECT) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    OBJECT_ID_FIELD -> objectId = parser.text()
+                    OBJECT_ID_FIELD -> {
+                        objectId = parser.text()
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("Unexpected field: $fieldName, while parsing CreateObservabilityObjectResponse")
@@ -88,9 +91,13 @@ internal class CreateObservabilityObjectResponse : BaseResponse {
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        return builder.startObject()
+        return builder
+            .startObject()
             .field(OBJECT_ID_FIELD, objectId)
             .endObject()
     }

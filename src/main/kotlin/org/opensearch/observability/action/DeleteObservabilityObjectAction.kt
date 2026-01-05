@@ -16,27 +16,30 @@ import org.opensearch.transport.client.Client
 /**
  * Delete ObservabilityObject transport action
  */
-internal class DeleteObservabilityObjectAction @Inject constructor(
-    transportService: TransportService,
-    client: Client,
-    actionFilters: ActionFilters,
-    val xContentRegistry: NamedXContentRegistry
-) : PluginBaseAction<DeleteObservabilityObjectRequest, DeleteObservabilityObjectResponse>(
-    NAME,
-    transportService,
-    client,
-    actionFilters,
-    ::DeleteObservabilityObjectRequest
-) {
-    companion object {
-        private const val NAME = "cluster:admin/opensearch/observability/delete"
-        internal val ACTION_TYPE = ActionType(NAME, ::DeleteObservabilityObjectResponse)
-    }
+internal class DeleteObservabilityObjectAction
+    @Inject
+    constructor(
+        transportService: TransportService,
+        client: Client,
+        actionFilters: ActionFilters,
+        val xContentRegistry: NamedXContentRegistry,
+    ) : PluginBaseAction<DeleteObservabilityObjectRequest, DeleteObservabilityObjectResponse>(
+            NAME,
+            transportService,
+            client,
+            actionFilters,
+            ::DeleteObservabilityObjectRequest,
+        ) {
+        companion object {
+            private const val NAME = "cluster:admin/opensearch/observability/delete"
+            internal val ACTION_TYPE = ActionType(NAME, ::DeleteObservabilityObjectResponse)
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    override fun executeRequest(request: DeleteObservabilityObjectRequest, user: User?): DeleteObservabilityObjectResponse {
-        return ObservabilityActions.delete(request, user)
+        /**
+         * {@inheritDoc}
+         */
+        override fun executeRequest(
+            request: DeleteObservabilityObjectRequest,
+            user: User?,
+        ): DeleteObservabilityObjectResponse = ObservabilityActions.delete(request, user)
     }
-}

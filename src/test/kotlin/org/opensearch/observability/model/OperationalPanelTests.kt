@@ -14,21 +14,22 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 
 internal class OperationalPanelTests {
-    private val sampleOperationalPanel = OperationalPanel(
-        "test-operational-panel",
-        listOf(
-            OperationalPanel.Visualization(
-                "panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17",
-                "oyuecXwBYVazWqOOde0o",
-                0,
-                0,
-                10,
-                10
-            )
-        ),
-        OperationalPanel.TimeRange("now", "now-1d"),
-        OperationalPanel.QueryFilter("| where Carrier='OpenSearch-Air'", "ppl")
-    )
+    private val sampleOperationalPanel =
+        OperationalPanel(
+            "test-operational-panel",
+            listOf(
+                OperationalPanel.Visualization(
+                    "panelViz_7ba28e34-6fd8-489d-9b9f-1f83e006fb17",
+                    "oyuecXwBYVazWqOOde0o",
+                    0,
+                    0,
+                    10,
+                    10,
+                ),
+            ),
+            OperationalPanel.TimeRange("now", "now-1d"),
+            OperationalPanel.QueryFilter("| where Carrier='OpenSearch-Air'", "ppl"),
+        )
 
     @Test
     fun `OperationalPanel serialize and deserialize transport object should be equal`() {

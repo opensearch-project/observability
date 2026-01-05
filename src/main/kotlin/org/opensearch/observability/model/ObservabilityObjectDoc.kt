@@ -35,9 +35,8 @@ data class ObservabilityObjectDoc(
     val tenant: String,
     val access: List<String>, // "User:user", "Role:sample_role", "BERole:sample_backend_role"
     val type: ObservabilityObjectType,
-    val objectData: BaseObjectData?
+    val objectData: BaseObjectData?,
 ) : BaseModel {
-
     companion object {
         private val log by logger(ObservabilityObjectDoc::class.java)
 
@@ -54,7 +53,10 @@ data class ObservabilityObjectDoc(
         @JvmStatic
         @Throws(IOException::class)
         @Suppress("ComplexMethod")
-        fun parse(parser: XContentParser, useId: String? = null): ObservabilityObjectDoc {
+        fun parse(
+            parser: XContentParser,
+            useId: String? = null,
+        ): ObservabilityObjectDoc {
             var objectId: String? = useId
             var updatedTime: Instant? = null
             var createdTime: Instant? = null
@@ -66,17 +68,32 @@ data class ObservabilityObjectDoc(
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (parser.nextToken() != XContentParser.Token.END_OBJECT) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    OBJECT_ID_FIELD -> objectId = parser.text()
-                    UPDATED_TIME_FIELD -> updatedTime = Instant.ofEpochMilli(parser.longValue())
-                    CREATED_TIME_FIELD -> createdTime = Instant.ofEpochMilli(parser.longValue())
-                    TENANT_FIELD -> tenant = parser.text()
-                    ACCESS_LIST_FIELD -> access = parser.stringList()
+                    OBJECT_ID_FIELD -> {
+                        objectId = parser.text()
+                    }
+
+                    UPDATED_TIME_FIELD -> {
+                        updatedTime = Instant.ofEpochMilli(parser.longValue())
+                    }
+
+                    CREATED_TIME_FIELD -> {
+                        createdTime = Instant.ofEpochMilli(parser.longValue())
+                    }
+
+                    TENANT_FIELD -> {
+                        tenant = parser.text()
+                    }
+
+                    ACCESS_LIST_FIELD -> {
+                        access = parser.stringList()
+                    }
+
                     else -> {
                         val objectTypeForTag = ObservabilityObjectType.fromTagOrDefault(fieldName)
                         if (objectTypeForTag != ObservabilityObjectType.NONE && objectData == null) {
@@ -105,9 +122,7 @@ data class ObservabilityObjectDoc(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -120,7 +135,7 @@ data class ObservabilityObjectDoc(
         tenant = input.readString(),
         access = input.readStringList(),
         type = input.readEnum(ObservabilityObjectType::class.java),
-        objectData = input.readOptionalWriteable(getReaderForObjectType(input.readEnum(ObservabilityObjectType::class.java)))
+        objectData = input.readOptionalWriteable(getReaderForObjectType(input.readEnum(ObservabilityObjectType::class.java))),
     )
 
     /**
@@ -140,19 +155,24 @@ data class ObservabilityObjectDoc(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
         builder.startObject()
         if (params?.paramAsBoolean(OBJECT_ID_FIELD, false) == true) {
             builder.field(OBJECT_ID_FIELD, objectId)
         }
-        builder.field(UPDATED_TIME_FIELD, updatedTime.toEpochMilli())
+        builder
+            .field(UPDATED_TIME_FIELD, updatedTime.toEpochMilli())
             .field(CREATED_TIME_FIELD, createdTime.toEpochMilli())
             .field(TENANT_FIELD, tenant)
         if (params?.paramAsBoolean(ACCESS_LIST_FIELD, true) == true && access.isNotEmpty()) {
             builder.field(ACCESS_LIST_FIELD, access)
         }
-        builder.field(type.tag, objectData)
+        builder
+            .field(type.tag, objectData)
             .endObject()
         return builder
     }

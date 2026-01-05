@@ -22,12 +22,13 @@ import java.time.Instant
 
 class GetObjectIT : PluginRestTestCase() {
     private fun createObject(createRequest: String): String {
-        val createResponse = executeRequest(
-            RestRequest.Method.POST.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            createRequest,
-            RestStatus.OK.status
-        )
+        val createResponse =
+            executeRequest(
+                RestRequest.Method.POST.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                createRequest,
+                RestStatus.OK.status,
+            )
         val id = createResponse.get("objectId").asString
         Assert.assertNotNull("Id should be generated", id)
         Thread.sleep(100)
@@ -35,21 +36,23 @@ class GetObjectIT : PluginRestTestCase() {
     }
 
     fun `test get invalid ids`() {
-        val getResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object/invalid-id",
-            "",
-            RestStatus.NOT_FOUND.status
-        )
+        val getResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object/invalid-id",
+                "",
+                RestStatus.NOT_FOUND.status,
+            )
         validateErrorResponse(getResponse, RestStatus.NOT_FOUND.status)
         Thread.sleep(100)
 
-        val getIdsResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectIdList=invalid-id1,invalid-id2",
-            "",
-            RestStatus.NOT_FOUND.status
-        )
+        val getIdsResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectIdList=invalid-id1,invalid-id2",
+                "",
+                RestStatus.NOT_FOUND.status,
+            )
         validateErrorResponse(getIdsResponse, RestStatus.NOT_FOUND.status)
         Thread.sleep(100)
     }
@@ -58,17 +61,23 @@ class GetObjectIT : PluginRestTestCase() {
         val createRequest = constructNotebookRequest()
         val id = createObject(createRequest)
 
-        val getResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object/$id",
-            "",
-            RestStatus.OK.status
-        )
-        val objectDetails = getResponse.get("observabilityObjectList").asJsonArray.get(0).asJsonObject
+        val getResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object/$id",
+                "",
+                RestStatus.OK.status,
+            )
+        val objectDetails =
+            getResponse
+                .get("observabilityObjectList")
+                .asJsonArray
+                .get(0)
+                .asJsonObject
         Assert.assertEquals(id, objectDetails.get("objectId").asString)
         Assert.assertEquals(
             jsonify(createRequest).get("notebook").asJsonObject,
-            objectDetails.get("notebook").asJsonObject
+            objectDetails.get("notebook").asJsonObject,
         )
         validateTimeRecency(Instant.ofEpochMilli(objectDetails.get("lastUpdatedTimeMs").asLong))
         validateTimeRecency(Instant.ofEpochMilli(objectDetails.get("createdTimeMs").asLong))
@@ -76,12 +85,13 @@ class GetObjectIT : PluginRestTestCase() {
     }
 
     fun `test get multiple objects`() {
-        val emptyResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object",
-            "",
-            RestStatus.OK.status
-        )
+        val emptyResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(0, emptyResponse.get("totalHits").asInt)
 
         val startTime = Instant.now().toEpochMilli()
@@ -94,77 +104,87 @@ class GetObjectIT : PluginRestTestCase() {
         val endTime = Instant.now().toEpochMilli()
         Thread.sleep(1000)
 
-        val getAllResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?maxItems=1000",
-            "",
-            RestStatus.OK.status
-        )
+        val getAllResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?maxItems=1000",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(25, getAllResponse.get("totalHits").asInt)
 
-        val getNotebooksResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectType=notebook",
-            "",
-            RestStatus.OK.status
-        )
+        val getNotebooksResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectType=notebook",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(4, getNotebooksResponse.get("totalHits").asInt)
         val notebooksList = getNotebooksResponse.get("observabilityObjectList").asJsonArray
         Assert.assertArrayEquals(
             notebookIds,
-            notebooksList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+            notebooksList.map { it.asJsonObject.get("objectId").asString }.toTypedArray(),
         )
 
-        val getMultipleTypesResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectType=savedQuery,savedVisualization",
-            "",
-            RestStatus.OK.status
-        )
+        val getMultipleTypesResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectType=savedQuery,savedVisualization",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(9, getMultipleTypesResponse.get("totalHits").asInt)
         val multipleTypesList = getMultipleTypesResponse.get("observabilityObjectList").asJsonArray
         Assert.assertArrayEquals(
             savedQueryIds.plus(savedVisualizationIds),
-            multipleTypesList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+            multipleTypesList.map { it.asJsonObject.get("objectId").asString }.toTypedArray(),
         )
 
-        val getMultipleIdsResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?objectIdList=${operationalPanelIds.joinToString(",")}",
-            "",
-            RestStatus.OK.status
-        )
+        val getMultipleIdsResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?objectIdList=${operationalPanelIds.joinToString(",")}",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(7, getMultipleIdsResponse.get("totalHits").asInt)
         val multipleIdsList = getMultipleIdsResponse.get("observabilityObjectList").asJsonArray
         Assert.assertArrayEquals(
             operationalPanelIds,
-            multipleIdsList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+            multipleIdsList.map { it.asJsonObject.get("objectId").asString }.toTypedArray(),
         )
 
-        val getNameResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?name=timestamp",
-            "",
-            RestStatus.OK.status
-        )
+        val getNameResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?name=timestamp",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(5, getNameResponse.get("totalHits").asInt)
         val timestampList = getNameResponse.get("observabilityObjectList").asJsonArray
         Assert.assertArrayEquals(
             timestampIds,
-            timestampList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+            timestampList.map { it.asJsonObject.get("objectId").asString }.toTypedArray(),
         )
 
-        val getTimeResponse = executeRequest(
-            RestRequest.Method.GET.name,
-            "$BASE_OBSERVABILITY_URI/object?createdTimeMs=$startTime..$endTime",
-            "",
-            RestStatus.OK.status
-        )
+        val getTimeResponse =
+            executeRequest(
+                RestRequest.Method.GET.name,
+                "$BASE_OBSERVABILITY_URI/object?createdTimeMs=$startTime..$endTime",
+                "",
+                RestStatus.OK.status,
+            )
         Assert.assertEquals(25, getTimeResponse.get("totalHits").asInt)
         val objectList = getTimeResponse.get("observabilityObjectList").asJsonArray
         Assert.assertArrayEquals(
-            notebookIds.plus(savedQueryIds).plus(savedVisualizationIds).plus(operationalPanelIds).plus(timestampIds),
-            objectList.map { it.asJsonObject.get("objectId").asString }.toTypedArray()
+            notebookIds
+                .plus(savedQueryIds)
+                .plus(savedVisualizationIds)
+                .plus(operationalPanelIds)
+                .plus(timestampIds),
+            objectList.map { it.asJsonObject.get("objectId").asString }.toTypedArray(),
         )
     }
 }

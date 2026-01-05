@@ -21,7 +21,6 @@ import java.nio.file.Path
  * settings specific to observability Plugin.
  */
 internal object PluginSettings {
-
     /**
      * Settings Key prefix for this plugin.
      */
@@ -160,12 +159,13 @@ internal object PluginSettings {
     /**
      * Default filter-by method.
      */
-    private val DEFAULT_IGNORED_ROLES = listOf(
-        "own_index",
-        "opensearch_dashboards_user",
-        "notebooks_full_access",
-        "notebooks_read_access"
-    )
+    private val DEFAULT_IGNORED_ROLES =
+        listOf(
+            "own_index",
+            "opensearch_dashboards_user",
+            "notebooks_full_access",
+            "notebooks_read_access",
+        )
 
     /**
      * Operation timeout setting in ms for I/O operations
@@ -267,95 +267,105 @@ internal object PluginSettings {
         filterBy = FilterBy.valueOf(settings?.get(FILTER_BY_KEY) ?: DEFAULT_FILTER_BY_METHOD)
         ignoredRoles = settings?.getAsList(IGNORE_ROLE_KEY) ?: DEFAULT_IGNORED_ROLES
 
-        defaultSettings = mapOf(
-            OPERATION_TIMEOUT_MS_KEY to operationTimeoutMs.toString(DECIMAL_RADIX),
-            JOB_LOCK_DURATION_S_KEY to jobLockDurationSeconds.toString(DECIMAL_RADIX),
-            MIN_POLLING_DURATION_S_KEY to minPollingDurationSeconds.toString(DECIMAL_RADIX),
-            MAX_POLLING_DURATION_S_KEY to maxPollingDurationSeconds.toString(DECIMAL_RADIX),
-            MAX_LOCK_RETRIES_KEY to maxLockRetries.toString(DECIMAL_RADIX),
-            DEFAULT_ITEMS_QUERY_COUNT_KEY to defaultItemsQueryCount.toString(DECIMAL_RADIX),
-            ADMIN_ACCESS_KEY to adminAccess.name,
-            FILTER_BY_KEY to filterBy.name
-        )
+        defaultSettings =
+            mapOf(
+                OPERATION_TIMEOUT_MS_KEY to operationTimeoutMs.toString(DECIMAL_RADIX),
+                JOB_LOCK_DURATION_S_KEY to jobLockDurationSeconds.toString(DECIMAL_RADIX),
+                MIN_POLLING_DURATION_S_KEY to minPollingDurationSeconds.toString(DECIMAL_RADIX),
+                MAX_POLLING_DURATION_S_KEY to maxPollingDurationSeconds.toString(DECIMAL_RADIX),
+                MAX_LOCK_RETRIES_KEY to maxLockRetries.toString(DECIMAL_RADIX),
+                DEFAULT_ITEMS_QUERY_COUNT_KEY to defaultItemsQueryCount.toString(DECIMAL_RADIX),
+                ADMIN_ACCESS_KEY to adminAccess.name,
+                FILTER_BY_KEY to filterBy.name,
+            )
     }
 
-    private val OPERATION_TIMEOUT_MS: Setting<Long> = Setting.longSetting(
-        OPERATION_TIMEOUT_MS_KEY,
-        defaultSettings[OPERATION_TIMEOUT_MS_KEY]!!.toLong(),
-        MINIMUM_OPERATION_TIMEOUT_MS,
-        NodeScope,
-        Dynamic
-    )
+    private val OPERATION_TIMEOUT_MS: Setting<Long> =
+        Setting.longSetting(
+            OPERATION_TIMEOUT_MS_KEY,
+            defaultSettings[OPERATION_TIMEOUT_MS_KEY]!!.toLong(),
+            MINIMUM_OPERATION_TIMEOUT_MS,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val JOB_LOCK_DURATION_S: Setting<Int> = Setting.intSetting(
-        JOB_LOCK_DURATION_S_KEY,
-        defaultSettings[JOB_LOCK_DURATION_S_KEY]!!.toInt(),
-        MINIMUM_JOB_LOCK_DURATION_S,
-        NodeScope,
-        Dynamic
-    )
+    private val JOB_LOCK_DURATION_S: Setting<Int> =
+        Setting.intSetting(
+            JOB_LOCK_DURATION_S_KEY,
+            defaultSettings[JOB_LOCK_DURATION_S_KEY]!!.toInt(),
+            MINIMUM_JOB_LOCK_DURATION_S,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val MIN_POLLING_DURATION_S: Setting<Int> = Setting.intSetting(
-        MIN_POLLING_DURATION_S_KEY,
-        defaultSettings[MIN_POLLING_DURATION_S_KEY]!!.toInt(),
-        MINIMUM_MIN_POLLING_DURATION_S,
-        NodeScope,
-        Dynamic
-    )
+    private val MIN_POLLING_DURATION_S: Setting<Int> =
+        Setting.intSetting(
+            MIN_POLLING_DURATION_S_KEY,
+            defaultSettings[MIN_POLLING_DURATION_S_KEY]!!.toInt(),
+            MINIMUM_MIN_POLLING_DURATION_S,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val MAX_POLLING_DURATION_S: Setting<Int> = Setting.intSetting(
-        MAX_POLLING_DURATION_S_KEY,
-        defaultSettings[MAX_POLLING_DURATION_S_KEY]!!.toInt(),
-        MINIMUM_MAX_POLLING_DURATION_S,
-        NodeScope,
-        Dynamic
-    )
+    private val MAX_POLLING_DURATION_S: Setting<Int> =
+        Setting.intSetting(
+            MAX_POLLING_DURATION_S_KEY,
+            defaultSettings[MAX_POLLING_DURATION_S_KEY]!!.toInt(),
+            MINIMUM_MAX_POLLING_DURATION_S,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val MAX_LOCK_RETRIES: Setting<Int> = Setting.intSetting(
-        MAX_LOCK_RETRIES_KEY,
-        defaultSettings[MAX_LOCK_RETRIES_KEY]!!.toInt(),
-        MINIMUM_LOCK_RETRIES,
-        NodeScope,
-        Dynamic
-    )
+    private val MAX_LOCK_RETRIES: Setting<Int> =
+        Setting.intSetting(
+            MAX_LOCK_RETRIES_KEY,
+            defaultSettings[MAX_LOCK_RETRIES_KEY]!!.toInt(),
+            MINIMUM_LOCK_RETRIES,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val DEFAULT_ITEMS_QUERY_COUNT: Setting<Int> = Setting.intSetting(
-        DEFAULT_ITEMS_QUERY_COUNT_KEY,
-        defaultSettings[DEFAULT_ITEMS_QUERY_COUNT_KEY]!!.toInt(),
-        MINIMUM_ITEMS_QUERY_COUNT,
-        NodeScope,
-        Dynamic
-    )
+    private val DEFAULT_ITEMS_QUERY_COUNT: Setting<Int> =
+        Setting.intSetting(
+            DEFAULT_ITEMS_QUERY_COUNT_KEY,
+            defaultSettings[DEFAULT_ITEMS_QUERY_COUNT_KEY]!!.toInt(),
+            MINIMUM_ITEMS_QUERY_COUNT,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val ADMIN_ACCESS: Setting<String> = Setting.simpleString(
-        ADMIN_ACCESS_KEY,
-        defaultSettings[ADMIN_ACCESS_KEY]!!,
-        NodeScope,
-        Dynamic
-    )
+    private val ADMIN_ACCESS: Setting<String> =
+        Setting.simpleString(
+            ADMIN_ACCESS_KEY,
+            defaultSettings[ADMIN_ACCESS_KEY]!!,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val FILTER_BY: Setting<String> = Setting.simpleString(
-        FILTER_BY_KEY,
-        defaultSettings[FILTER_BY_KEY]!!,
-        NodeScope,
-        Dynamic
-    )
+    private val FILTER_BY: Setting<String> =
+        Setting.simpleString(
+            FILTER_BY_KEY,
+            defaultSettings[FILTER_BY_KEY]!!,
+            NodeScope,
+            Dynamic,
+        )
 
-    private val IGNORED_ROLES: Setting<List<String>> = Setting.listSetting(
-        IGNORE_ROLE_KEY,
-        DEFAULT_IGNORED_ROLES,
-        { it },
-        NodeScope,
-        Dynamic
-    )
+    private val IGNORED_ROLES: Setting<List<String>> =
+        Setting.listSetting(
+            IGNORE_ROLE_KEY,
+            DEFAULT_IGNORED_ROLES,
+            { it },
+            NodeScope,
+            Dynamic,
+        )
 
     /**
      * Returns list of additional settings available specific to this plugin.
      *
      * @return list of settings defined in this plugin
      */
-    fun getAllSettings(): List<Setting<*>> {
-        return listOf(
+    fun getAllSettings(): List<Setting<*>> =
+        listOf(
             OPERATION_TIMEOUT_MS,
             JOB_LOCK_DURATION_S,
             MIN_POLLING_DURATION_S,
@@ -364,9 +374,8 @@ internal object PluginSettings {
             DEFAULT_ITEMS_QUERY_COUNT,
             ADMIN_ACCESS,
             FILTER_BY,
-            IGNORED_ROLES
+            IGNORED_ROLES,
         )
-    }
 
     /**
      * Update the setting variables to setting values from local settings

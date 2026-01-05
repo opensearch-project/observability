@@ -59,24 +59,29 @@ internal object ObservabilityIndex {
     private lateinit var client: Client
     private lateinit var clusterService: ClusterService
 
-    private val searchHitParser = object : SearchResults.SearchHitParser<ObservabilityObjectDoc> {
-        override fun parse(searchHit: SearchHit): ObservabilityObjectDoc {
-            val parser = XContentType.JSON.xContent().createParser(
-                NamedXContentRegistry.EMPTY,
-                LoggingDeprecationHandler.INSTANCE,
-                searchHit.sourceAsString
-            )
-            parser.nextToken()
-            return ObservabilityObjectDoc.parse(parser, searchHit.id)
+    private val searchHitParser =
+        object : SearchResults.SearchHitParser<ObservabilityObjectDoc> {
+            override fun parse(searchHit: SearchHit): ObservabilityObjectDoc {
+                val parser =
+                    XContentType.JSON.xContent().createParser(
+                        NamedXContentRegistry.EMPTY,
+                        LoggingDeprecationHandler.INSTANCE,
+                        searchHit.sourceAsString,
+                    )
+                parser.nextToken()
+                return ObservabilityObjectDoc.parse(parser, searchHit.id)
+            }
         }
-    }
 
     /**
      * Initialize the class
      * @param client The OpenSearch client
      * @param clusterService The OpenSearch cluster service
      */
-    fun initialize(client: Client, clusterService: ClusterService) {
+    fun initialize(
+        client: Client,
+        clusterService: ClusterService,
+    ) {
         this.client = SecureIndexClient(client)
         this.clusterService = clusterService
         this.mappingsUpdated = false
@@ -91,9 +96,10 @@ internal object ObservabilityIndex {
             val classLoader = ObservabilityIndex::class.java.classLoader
             val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
             val indexSettingsSource = classLoader.getResource(OBSERVABILITY_SETTINGS_FILE_NAME)?.readText()!!
-            val request = CreateIndexRequest(INDEX_NAME)
-                .mapping(indexMappingSource, XContentType.YAML)
-                .settings(indexSettingsSource, XContentType.YAML)
+            val request =
+                CreateIndexRequest(INDEX_NAME)
+                    .mapping(indexMappingSource, XContentType.YAML)
+                    .settings(indexSettingsSource, XContentType.YAML)
             try {
                 val actionFuture = client.admin().indices().create(request)
                 val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
@@ -122,8 +128,9 @@ internal object ObservabilityIndex {
     private fun updateMappings() {
         val classLoader = ObservabilityIndex::class.java.classLoader
         val indexMappingSource = classLoader.getResource(OBSERVABILITY_MAPPING_FILE_NAME)?.readText()!!
-        val request = PutMappingRequest(INDEX_NAME)
-            .source(indexMappingSource, XContentType.YAML)
+        val request =
+            PutMappingRequest(INDEX_NAME)
+                .source(indexMappingSource, XContentType.YAML)
         try {
             val actionFuture = client.admin().indices().putMapping(request)
             val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
@@ -146,12 +153,13 @@ internal object ObservabilityIndex {
         if (isIndexExists(NOTEBOOKS_INDEX_NAME)) {
             try {
                 log.info("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME to $INDEX_NAME")
-                val reindexResponse = ReindexRequestBuilder(client, ReindexAction.INSTANCE)
-                    .source(NOTEBOOKS_INDEX_NAME)
-                    .destination(INDEX_NAME)
-                    .abortOnVersionConflict(false)
-                    .refresh(true)
-                    .get()
+                val reindexResponse =
+                    ReindexRequestBuilder(client, ReindexAction.INSTANCE)
+                        .source(NOTEBOOKS_INDEX_NAME)
+                        .destination(INDEX_NAME)
+                        .abortOnVersionConflict(false)
+                        .refresh(true)
+                        .get()
                 if (reindexResponse.isTimedOut) {
                     error("$LOG_PREFIX:Index - reindex $NOTEBOOKS_INDEX_NAME timed out")
                 } else if (reindexResponse.searchFailures.isNotEmpty()) {
@@ -161,12 +169,12 @@ internal object ObservabilityIndex {
                 } else if (reindexResponse.total != reindexResponse.created + reindexResponse.updated) {
                     throw IllegalStateException(
                         "$LOG_PREFIX:Index - reindex number of docs created:${reindexResponse.created} + " +
-                            "updated:${reindexResponse.updated} does not equal requested:${reindexResponse.total}"
+                            "updated:${reindexResponse.updated} does not equal requested:${reindexResponse.total}",
                     )
                 }
                 log.info(
                     "$LOG_PREFIX:Index - reindex ${reindexResponse.created} docs created " +
-                        "and ${reindexResponse.updated} docs updated in $INDEX_NAME"
+                        "and ${reindexResponse.updated} docs updated in $INDEX_NAME",
                 )
             } catch (exception: ResourceNotFoundException) {
                 log.warn("message: ${exception.message}")
@@ -195,12 +203,16 @@ internal object ObservabilityIndex {
      * @param id
      * @return object id if successful, otherwise null
      */
-    fun createObservabilityObject(observabilityObjectDoc: ObservabilityObjectDoc, id: String? = null): String? {
+    fun createObservabilityObject(
+        observabilityObjectDoc: ObservabilityObjectDoc,
+        id: String? = null,
+    ): String? {
         createIndex()
         val xContent = observabilityObjectDoc.toXContent()
-        val indexRequest = IndexRequest(INDEX_NAME)
-            .source(xContent)
-            .create(true)
+        val indexRequest =
+            IndexRequest(INDEX_NAME)
+                .source(xContent)
+                .create(true)
         if (id != null) {
             indexRequest.id(id)
         }
@@ -250,21 +262,24 @@ internal object ObservabilityIndex {
      * @param response
      * @return [ObservabilityObjectDocInfo]
      */
-    private fun parseObservabilityObjectDoc(id: String, response: GetResponse): ObservabilityObjectDocInfo? {
-        return if (response.sourceAsString == null) {
+    private fun parseObservabilityObjectDoc(
+        id: String,
+        response: GetResponse,
+    ): ObservabilityObjectDocInfo? =
+        if (response.sourceAsString == null) {
             log.warn("$LOG_PREFIX:getObservabilityObject - $id not found; response:$response")
             null
         } else {
-            val parser = XContentType.JSON.xContent().createParser(
-                NamedXContentRegistry.EMPTY,
-                LoggingDeprecationHandler.INSTANCE,
-                response.sourceAsString
-            )
+            val parser =
+                XContentType.JSON.xContent().createParser(
+                    NamedXContentRegistry.EMPTY,
+                    LoggingDeprecationHandler.INSTANCE,
+                    response.sourceAsString,
+                )
             parser.nextToken()
             val doc = ObservabilityObjectDoc.parse(parser, id)
             ObservabilityObjectDocInfo(id, response.version, response.seqNo, response.primaryTerm, doc)
         }
-    }
 
     /**
      * Get all observability objects
@@ -277,14 +292,15 @@ internal object ObservabilityIndex {
     fun getAllObservabilityObjects(
         tenant: String,
         access: List<String>,
-        request: GetObservabilityObjectRequest
+        request: GetObservabilityObjectRequest,
     ): ObservabilityObjectSearchResult {
         createIndex()
         val queryHelper = ObservabilityQueryHelper(request.types)
-        val sourceBuilder = SearchSourceBuilder()
-            .timeout(TimeValue(PluginSettings.operationTimeoutMs, TimeUnit.MILLISECONDS))
-            .size(request.maxItems)
-            .from(request.fromIndex)
+        val sourceBuilder =
+            SearchSourceBuilder()
+                .timeout(TimeValue(PluginSettings.operationTimeoutMs, TimeUnit.MILLISECONDS))
+                .size(request.maxItems)
+                .from(request.fromIndex)
         queryHelper.addSortField(sourceBuilder, request.sortField, request.sortOrder)
 
         val query = QueryBuilders.boolQuery()
@@ -295,16 +311,17 @@ internal object ObservabilityIndex {
         queryHelper.addTypeFilters(query)
         queryHelper.addQueryFilters(query, request.filterParams)
         sourceBuilder.query(query)
-        val searchRequest = SearchRequest()
-            .indices(INDEX_NAME)
-            .source(sourceBuilder)
+        val searchRequest =
+            SearchRequest()
+                .indices(INDEX_NAME)
+                .source(sourceBuilder)
         val actionFuture = client.search(searchRequest)
         val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
         val result = ObservabilityObjectSearchResult(request.fromIndex.toLong(), response, searchHitParser)
         log.info(
             "$LOG_PREFIX:getAllObservabilityObjects types:${request.types} from:${request.fromIndex}, maxItems:${request.maxItems}," +
                 " sortField:${request.sortField}, sortOrder=${request.sortOrder}, filters=${request.filterParams}" +
-                " retCount:${result.objectList.size}, totalCount:${result.totalHits}"
+                " retCount:${result.objectList.size}, totalCount:${result.totalHits}",
         )
         return result
     }
@@ -316,13 +333,17 @@ internal object ObservabilityIndex {
      * @param observabilityObjectDoc
      * @return true if successful, otherwise false
      */
-    fun updateObservabilityObject(id: String, observabilityObjectDoc: ObservabilityObjectDoc): Boolean {
+    fun updateObservabilityObject(
+        id: String,
+        observabilityObjectDoc: ObservabilityObjectDoc,
+    ): Boolean {
         createIndex()
-        val updateRequest = UpdateRequest()
-            .index(INDEX_NAME)
-            .id(id)
-            .doc(observabilityObjectDoc.toXContent())
-            .fetchSource(true)
+        val updateRequest =
+            UpdateRequest()
+                .index(INDEX_NAME)
+                .id(id)
+                .doc(observabilityObjectDoc.toXContent())
+                .fetchSource(true)
         val actionFuture = client.update(updateRequest)
         val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
         if (response.result != DocWriteResponse.Result.UPDATED) {
@@ -339,9 +360,10 @@ internal object ObservabilityIndex {
      */
     fun deleteObservabilityObject(id: String): Boolean {
         createIndex()
-        val deleteRequest = DeleteRequest()
-            .index(INDEX_NAME)
-            .id(id)
+        val deleteRequest =
+            DeleteRequest()
+                .index(INDEX_NAME)
+                .id(id)
         val actionFuture = client.delete(deleteRequest)
         val response = actionFuture.actionGet(PluginSettings.operationTimeoutMs)
         if (response.result != DocWriteResponse.Result.DELETED) {
@@ -360,9 +382,10 @@ internal object ObservabilityIndex {
         createIndex()
         val bulkRequest = BulkRequest()
         ids.forEach {
-            val deleteRequest = DeleteRequest()
-                .index(INDEX_NAME)
-                .id(it)
+            val deleteRequest =
+                DeleteRequest()
+                    .index(INDEX_NAME)
+                    .id(it)
             bulkRequest.add(deleteRequest)
         }
         val actionFuture = client.bulk(bulkRequest)

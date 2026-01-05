@@ -14,21 +14,22 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 
 internal class SavedQueryTests {
-    private val sampleSavedQuery = SavedQuery(
-        "test-saved-query",
-        "test description",
-        "source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
-        SavedQuery.SelectedDateRange(
-            "now/15m",
-            "now",
-            "utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')"
-        ),
-        SavedQuery.Token("utc_time", "timestamp"),
-        SavedQuery.SelectedFields(
-            "| fields clientip, bytes, memory, host",
-            listOf(SavedQuery.Token("utc_time", "timestamp"))
+    private val sampleSavedQuery =
+        SavedQuery(
+            "test-saved-query",
+            "test description",
+            "source=index | where utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
+            SavedQuery.SelectedDateRange(
+                "now/15m",
+                "now",
+                "utc_time > timestamp('2021-07-01 00:00:00') and utc_time < timestamp('2021-07-02 00:00:00')",
+            ),
+            SavedQuery.Token("utc_time", "timestamp"),
+            SavedQuery.SelectedFields(
+                "| fields clientip, bytes, memory, host",
+                listOf(SavedQuery.Token("utc_time", "timestamp")),
+            ),
         )
-    )
 
     @Test
     fun `SavedQuery serialize and deserialize transport object should be equal`() {

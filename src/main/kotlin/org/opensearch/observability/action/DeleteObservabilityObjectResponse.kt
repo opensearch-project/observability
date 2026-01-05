@@ -48,13 +48,16 @@ internal class DeleteObservabilityObjectResponse : BaseResponse {
             XContentParserUtils.ensureExpectedToken(
                 XContentParser.Token.START_OBJECT,
                 parser.currentToken(),
-                parser
+                parser,
             )
             while (parser.nextToken() != XContentParser.Token.END_OBJECT) {
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    DELETE_RESPONSE_LIST_TAG -> objectIdToStatus = convertMapStrings(parser.mapStrings())
+                    DELETE_RESPONSE_LIST_TAG -> {
+                        objectIdToStatus = convertMapStrings(parser.mapStrings())
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("Unexpected field: $fieldName, while parsing DeleteObservabilityObjectResponse")
@@ -65,9 +68,7 @@ internal class DeleteObservabilityObjectResponse : BaseResponse {
             return DeleteObservabilityObjectResponse(objectIdToStatus)
         }
 
-        private fun convertMapStrings(inputMap: Map<String, String>): Map<String, RestStatus> {
-            return inputMap.mapValues { RestStatus.valueOf(it.value) }
-        }
+        private fun convertMapStrings(inputMap: Map<String, String>): Map<String, RestStatus> = inputMap.mapValues { RestStatus.valueOf(it.value) }
     }
 
     /**
@@ -97,9 +98,13 @@ internal class DeleteObservabilityObjectResponse : BaseResponse {
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         builder!!
-        return builder.startObject()
+        return builder
+            .startObject()
             .field(DELETE_RESPONSE_LIST_TAG, objectIdToStatus)
             .endObject()
     }

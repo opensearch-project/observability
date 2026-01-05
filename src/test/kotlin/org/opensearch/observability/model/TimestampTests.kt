@@ -14,12 +14,13 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 
 internal class TimestampTests {
-    private val sampleTimestamp = Timestamp(
-        "test-timestamp",
-        "opensearch_dashboards_sample_data_logs",
-        "timestamp",
-        "date"
-    )
+    private val sampleTimestamp =
+        Timestamp(
+            "test-timestamp",
+            "opensearch_dashboards_sample_data_logs",
+            "timestamp",
+            "date",
+        )
 
     @Test
     fun `Timestamp serialize and deserialize transport object should be equal`() {

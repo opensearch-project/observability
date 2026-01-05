@@ -53,9 +53,8 @@ internal data class Notebook(
     val dateCreated: String?,
     val dateModified: String?,
     val backend: String?,
-    val paragraphs: List<Paragraph>?
+    val paragraphs: List<Paragraph>?,
 ) : BaseObjectData {
-
     internal companion object {
         private val log by logger(Notebook::class.java)
         private const val NAME_TAG = "name"
@@ -104,11 +103,26 @@ internal data class Notebook(
                 val fieldName = parser.currentName()
                 parser.nextToken()
                 when (fieldName) {
-                    NAME_TAG -> name = parser.text()
-                    DATE_CREATED_TAG -> dateCreated = parser.text()
-                    DATE_MODIFIED_TAG -> dateModified = parser.text()
-                    BACKEND_TAG -> backend = parser.text()
-                    PARAGRAPHS_TAG -> paragraphs = parseItemList(parser)
+                    NAME_TAG -> {
+                        name = parser.text()
+                    }
+
+                    DATE_CREATED_TAG -> {
+                        dateCreated = parser.text()
+                    }
+
+                    DATE_MODIFIED_TAG -> {
+                        dateModified = parser.text()
+                    }
+
+                    BACKEND_TAG -> {
+                        backend = parser.text()
+                    }
+
+                    PARAGRAPHS_TAG -> {
+                        paragraphs = parseItemList(parser)
+                    }
+
                     else -> {
                         parser.skipChildren()
                         log.info("$LOG_PREFIX:Notebook Skipping Unknown field $fieldName")
@@ -124,9 +138,7 @@ internal data class Notebook(
      * @param params XContent parameters
      * @return created XContentBuilder object
      */
-    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? {
-        return toXContent(XContentFactory.jsonBuilder(), params)
-    }
+    fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder? = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**
      * Constructor used in transport action communication.
@@ -137,7 +149,7 @@ internal data class Notebook(
         dateCreated = input.readString(),
         dateModified = input.readString(),
         backend = input.readString(),
-        paragraphs = input.readList(Paragraph.reader)
+        paragraphs = input.readList(Paragraph.reader),
     )
 
     /**
@@ -154,10 +166,14 @@ internal data class Notebook(
     /**
      * {@inheritDoc}
      */
-    override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+    override fun toXContent(
+        builder: XContentBuilder?,
+        params: ToXContent.Params?,
+    ): XContentBuilder {
         val xContentParams = params ?: RestTag.REST_OUTPUT_PARAMS
         builder!!
-        builder.startObject()
+        builder
+            .startObject()
             .fieldIfNotNull(NAME_TAG, name)
             .fieldIfNotNull(DATE_CREATED_TAG, dateCreated)
             .fieldIfNotNull(DATE_MODIFIED_TAG, dateModified)
@@ -178,7 +194,7 @@ internal data class Notebook(
         val input: Input?,
         val dateCreated: String,
         val dateModified: String,
-        val id: String
+        val id: String,
     ) : BaseModel {
         internal companion object {
             private const val OUTPUT_TAG = "output"
@@ -225,17 +241,32 @@ internal data class Notebook(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
                     parser.nextToken()
                     when (fieldName) {
-                        OUTPUT_TAG -> output = parseItemList(parser)
-                        INPUT_TAG -> input = Input.parse(parser)
-                        DATE_CREATED_TAG -> dateCreated = parser.text()
-                        DATE_MODIFIED_TAG -> dateModified = parser.text()
-                        ID_TAG -> id = parser.text()
+                        OUTPUT_TAG -> {
+                            output = parseItemList(parser)
+                        }
+
+                        INPUT_TAG -> {
+                            input = Input.parse(parser)
+                        }
+
+                        DATE_CREATED_TAG -> {
+                            dateCreated = parser.text()
+                        }
+
+                        DATE_MODIFIED_TAG -> {
+                            dateModified = parser.text()
+                        }
+
+                        ID_TAG -> {
+                            id = parser.text()
+                        }
+
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Source Skipping Unknown field $fieldName")
@@ -256,7 +287,7 @@ internal data class Notebook(
             input = streamInput.readOptionalWriteable(Input.reader),
             dateCreated = streamInput.readString(),
             dateModified = streamInput.readString(),
-            id = streamInput.readString()
+            id = streamInput.readString(),
         )
 
         override fun writeTo(streamOutput: StreamOutput) {
@@ -270,13 +301,18 @@ internal data class Notebook(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             val xContentParams = params ?: RestTag.REST_OUTPUT_PARAMS
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .startArray(OUTPUT_TAG)
             output.forEach { it.toXContent(builder, xContentParams) }
-            builder.endArray()
+            builder
+                .endArray()
                 .field(INPUT_TAG, input)
                 .field(DATE_CREATED_TAG, dateCreated)
                 .field(DATE_MODIFIED_TAG, dateModified)
@@ -291,7 +327,7 @@ internal data class Notebook(
     internal data class Output(
         val result: String?,
         val outputType: String?,
-        val executionTime: String?
+        val executionTime: String?,
     ) : BaseModel {
         internal companion object {
             private const val RESULT_TAG = "result"
@@ -320,15 +356,24 @@ internal data class Notebook(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
                     parser.nextToken()
                     when (fieldName) {
-                        RESULT_TAG -> result = parser.text()
-                        OUTPUT_TYPE_TAG -> outputType = parser.text()
-                        EXECUTION_TIME_TAG -> executionTime = parser.text()
+                        RESULT_TAG -> {
+                            result = parser.text()
+                        }
+
+                        OUTPUT_TYPE_TAG -> {
+                            outputType = parser.text()
+                        }
+
+                        EXECUTION_TIME_TAG -> {
+                            executionTime = parser.text()
+                        }
+
                         else -> {
                             parser.skipChildren()
                             log.info("$LOG_PREFIX:Format Skipping Unknown field $fieldName")
@@ -345,7 +390,7 @@ internal data class Notebook(
         constructor(input: StreamInput) : this(
             result = input.readString(),
             outputType = input.readString(),
-            executionTime = input.readString()
+            executionTime = input.readString(),
         )
 
         override fun writeTo(output: StreamOutput) {
@@ -357,9 +402,13 @@ internal data class Notebook(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(RESULT_TAG, result)
                 .field(OUTPUT_TYPE_TAG, outputType)
                 .field(EXECUTION_TIME_TAG, executionTime)
@@ -373,7 +422,7 @@ internal data class Notebook(
      */
     internal data class Input(
         val inputText: String?,
-        val inputType: String?
+        val inputType: String?,
     ) : BaseModel {
         internal companion object {
             private const val INPUT_TEXT_TAG = "inputText"
@@ -400,7 +449,7 @@ internal data class Notebook(
                 XContentParserUtils.ensureExpectedToken(
                     XContentParser.Token.START_OBJECT,
                     parser.currentToken(),
-                    parser
+                    parser,
                 )
                 while (XContentParser.Token.END_OBJECT != parser.nextToken()) {
                     val fieldName = parser.currentName()
@@ -419,7 +468,7 @@ internal data class Notebook(
 
         constructor(input: StreamInput) : this(
             inputText = input.readString(),
-            inputType = input.readString()
+            inputType = input.readString(),
         )
 
         override fun writeTo(output: StreamOutput) {
@@ -430,9 +479,13 @@ internal data class Notebook(
         /**
          * {@inheritDoc}
          */
-        override fun toXContent(builder: XContentBuilder?, params: ToXContent.Params?): XContentBuilder {
+        override fun toXContent(
+            builder: XContentBuilder?,
+            params: ToXContent.Params?,
+        ): XContentBuilder {
             builder!!
-            builder.startObject()
+            builder
+                .startObject()
                 .field(INPUT_TEXT_TAG, inputText)
                 .field(INPUT_TYPE_TAG, inputType)
             builder.endObject()
