@@ -217,7 +217,7 @@ dependencies {
     // see https://github.com/opensearch-project/OpenSearch/issues/5395.
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
     implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson_annotations}"
     testImplementation(
             'org.assertj:assertj-core:3.16.1',
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
