@@ -15,7 +15,5 @@ internal object SecurityAccess {
      * Execute the operation in privileged mode.
      */
     @Throws(Exception::class)
-    fun <T> doPrivileged(operation: AccessController.CheckedSupplier<T, Exception>): T {
-        return AccessController.doPrivilegedChecked(operation)
-    }
+    fun <T> doPrivileged(operation: AccessController.CheckedSupplier<T, Exception>): T = AccessController.doPrivilegedChecked(operation)
 }
