@@ -5,7 +5,6 @@
 
 package org.opensearch.observability.action
 
-import com.fasterxml.jackson.core.JsonParseException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -15,6 +14,7 @@ import org.opensearch.observability.createObjectFromJsonString
 import org.opensearch.observability.getJsonString
 import org.opensearch.observability.model.ObservabilityObjectType
 import org.opensearch.observability.model.Timestamp
+import org.opensearch.tools.jackson.core.JsonParseException
 
 internal class CreateObservabilityObjectRequestTests {
     private val sampleTimestamp =
