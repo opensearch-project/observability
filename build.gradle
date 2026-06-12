@@ -11,7 +11,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 buildscript {
     ext {
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "3.7.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "3.8.0-SNAPSHOT")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -28,6 +28,7 @@ buildscript {
     repositories {
         mavenLocal()
         maven { url "https://ci.opensearch.org/ci/dbc/snapshots/maven/" }
+        maven { url "https://ci.opensearch.org/maven2/" }
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
@@ -148,7 +149,7 @@ configurations.all {
         force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
-        force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${versions.jackson}"
+        force "tools.jackson.dataformat:jackson-dataformat-cbor:${versions.jackson3}"
         force "org.mockito:mockito-core:${versions.mockito}"
         force "org.yaml:snakeyaml:${versions.snakeyaml}"
         force "org.slf4j:slf4j-api:2.0.0"
@@ -160,6 +161,7 @@ configurations.all {
 repositories {
     mavenLocal()
     maven { url "https://ci.opensearch.org/ci/dbc/snapshots/maven/" }
+    maven { url "https://ci.opensearch.org/maven2/" }
     mavenCentral()
     maven { url "https://plugins.gradle.org/m2/" }
 }
@@ -216,7 +218,7 @@ dependencies {
     // json-base, jackson-databind, jackson-annotations are only used by json-flattener.
     // see https://github.com/opensearch-project/OpenSearch/issues/5395.
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
-    implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
+    implementation "tools.jackson.core:jackson-databind:${versions.jackson3}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson_annotations}"
     testImplementation(
             'org.assertj:assertj-core:3.27.7',
