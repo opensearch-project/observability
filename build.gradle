@@ -39,6 +39,16 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.4"
         classpath "org.jacoco:org.jacoco.agent:0.8.11"
+        // The opensearch.pluginzip plugin (validatePluginZipPom) otherwise pulls a
+        // newer plexus-utils compiled for Java 17 (class file v61), which breaks the
+        // Java 11 build legs. Pin to the last Java 11-compatible release.
+        classpath "org.codehaus.plexus:plexus-utils:3.5.1"
+    }
+
+    configurations.classpath {
+        resolutionStrategy {
+            force "org.codehaus.plexus:plexus-utils:3.5.1"
+        }
     }
 }
 
@@ -159,6 +169,9 @@ configurations.all {
         force "org.slf4j:slf4j-api:2.0.0"
         force "ch.qos.logback:logback-classic:1.5.20"
         force "ch.qos.logback:logback-core:1.5.20"
+        // plexus-utils 4.x is compiled for Java 17; pin to the last Java 11
+        // compatible release so the Java 11 build legs can load it.
+        force "org.codehaus.plexus:plexus-utils:3.5.1"
     }
 }
 
