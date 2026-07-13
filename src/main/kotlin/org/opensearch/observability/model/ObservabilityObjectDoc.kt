@@ -138,9 +138,6 @@ data class ObservabilityObjectDoc(
         objectData = input.readOptionalWriteable(getReaderForObjectType(input.readEnum(ObservabilityObjectType::class.java))),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(objectId)
         output.writeInstant(updatedTime)
@@ -152,9 +149,6 @@ data class ObservabilityObjectDoc(
         output.writeOptionalWriteable(objectData)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,

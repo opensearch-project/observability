@@ -22,9 +22,6 @@ import org.opensearch.rest.action.RestToXContentListener
 internal class RestResponseToXContentListener<Response : BaseResponse>(
     channel: RestChannel,
 ) : RestToXContentListener<Response>(channel) {
-    /**
-     * {@inheritDoc}
-     */
     override fun buildResponse(
         response: Response,
         builder: XContentBuilder?,
@@ -43,8 +40,5 @@ internal class RestResponseToXContentListener<Response : BaseResponse>(
         return BytesRestResponse(getStatus(response), builder)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getStatus(response: Response): RestStatus = response.getStatus()
 }

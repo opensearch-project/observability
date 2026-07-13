@@ -128,9 +128,6 @@ class GetObservabilityObjectRequest :
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -174,9 +171,6 @@ class GetObservabilityObjectRequest :
         this.filterParams = filterParams
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         objectIds = input.readStringList().toSet()
@@ -188,9 +182,6 @@ class GetObservabilityObjectRequest :
         filterParams = input.readMap(STRING_READER, STRING_READER)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         super.writeTo(output)
@@ -203,9 +194,6 @@ class GetObservabilityObjectRequest :
         output.writeMap(filterParams, STRING_WRITER, STRING_WRITER)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun validate(): ActionRequestValidationException? {
         var validationException: ActionRequestValidationException? = null
         if (fromIndex < 0) {

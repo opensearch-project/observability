@@ -152,9 +152,6 @@ internal data class Notebook(
         paragraphs = input.readList(Paragraph.reader),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeString(dateCreated)
@@ -163,9 +160,6 @@ internal data class Notebook(
         output.writeCollection(paragraphs)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -298,9 +292,6 @@ internal data class Notebook(
             streamOutput.writeString(id)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -399,9 +390,6 @@ internal data class Notebook(
             output.writeString(executionTime)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -476,9 +464,6 @@ internal data class Notebook(
             output.writeString(inputType)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,

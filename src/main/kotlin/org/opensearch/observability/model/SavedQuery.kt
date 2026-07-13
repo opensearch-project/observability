@@ -143,9 +143,6 @@ internal data class SavedQuery(
         selectedFields = input.readOptionalWriteable(SelectedFields.reader),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeString(description)
@@ -155,9 +152,6 @@ internal data class SavedQuery(
         output.writeOptionalWriteable(selectedFields)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -235,18 +229,12 @@ internal data class SavedQuery(
             text = input.readString(),
         )
 
-        /**
-         * {@inheritDoc}
-         */
         override fun writeTo(output: StreamOutput) {
             output.writeString(start)
             output.writeString(end)
             output.writeString(text)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -317,17 +305,11 @@ internal data class SavedQuery(
             type = input.readString(),
         )
 
-        /**
-         * {@inheritDoc}
-         */
         override fun writeTo(output: StreamOutput) {
             output.writeString(name)
             output.writeString(type)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -411,17 +393,11 @@ internal data class SavedQuery(
             tokens = input.readList(Token.reader),
         )
 
-        /**
-         * {@inheritDoc}
-         */
         override fun writeTo(output: StreamOutput) {
             output.writeString(text)
             output.writeCollection(tokens)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,

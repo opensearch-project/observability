@@ -160,9 +160,6 @@ internal data class OperationalPanel(
         applicationId = input.readOptionalString(),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeCollection(visualizations)
@@ -171,9 +168,6 @@ internal data class OperationalPanel(
         output.writeOptionalString(applicationId)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -304,9 +298,6 @@ internal data class OperationalPanel(
             streamOutput.writeInt(h)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -392,9 +383,6 @@ internal data class OperationalPanel(
             output.writeString(from)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -468,9 +456,6 @@ internal data class OperationalPanel(
             output.writeString(language)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,

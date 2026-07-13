@@ -25,15 +25,9 @@ internal abstract class BaseResponse :
      */
     constructor()
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input)
 
-    /**
-     * {@inheritDoc}
-     */
     fun toXContent(params: ToXContent.Params = ToXContent.EMPTY_PARAMS): XContentBuilder = toXContent(XContentFactory.jsonBuilder(), params)
 
     /**

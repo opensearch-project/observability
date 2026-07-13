@@ -35,9 +35,6 @@ internal class UpdateObservabilityObjectAction
             internal val ACTION_TYPE = ActionType(NAME, ::UpdateObservabilityObjectResponse)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun executeRequest(
             request: UpdateObservabilityObjectRequest,
             user: User?,

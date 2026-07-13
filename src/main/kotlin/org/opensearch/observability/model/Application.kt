@@ -151,9 +151,6 @@ internal data class Application(
         availabilityVisId = input.readString(),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeString(description)
@@ -164,9 +161,6 @@ internal data class Application(
         output.writeString(availabilityVisId)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,

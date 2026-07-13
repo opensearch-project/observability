@@ -81,26 +81,17 @@ internal class DeleteObservabilityObjectRequest :
         this.objectIds = objectIds
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         objectIds = input.readStringList().toSet()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         super.writeTo(output)
         output.writeStringCollection(objectIds)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -112,9 +103,6 @@ internal class DeleteObservabilityObjectRequest :
             .endObject()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun validate(): ActionRequestValidationException? {
         var validationException: ActionRequestValidationException? = null
         if (objectIds.isNullOrEmpty()) {

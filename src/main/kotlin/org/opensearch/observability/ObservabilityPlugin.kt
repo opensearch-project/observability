@@ -54,23 +54,14 @@ class ObservabilityPlugin :
         const val BASE_NOTEBOOKS_URI = "/_plugins/_notebooks"
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getSettings(): List<Setting<*>> = PluginSettings.getAllSettings()
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getSystemIndexDescriptors(settings: Settings): Collection<SystemIndexDescriptor> =
         listOf(
             SystemIndexDescriptor(ObservabilityIndex.INDEX_NAME, "Observability Plugin Configuration index"),
             SystemIndexDescriptor(ObservabilityIndex.NOTEBOOKS_INDEX_NAME, "Observability Plugin Notebooks index"),
         )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun createComponents(
         client: Client,
         clusterService: ClusterService,
@@ -89,9 +80,6 @@ class ObservabilityPlugin :
         return emptyList()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getRestHandlers(
         settings: Settings,
         restController: RestController,
@@ -106,9 +94,6 @@ class ObservabilityPlugin :
             ObservabilityStatsRestHandler(),
         )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getActions(): List<ActionPlugin.ActionHandler<out ActionRequest, out ActionResponse>> =
         listOf(
             ActionPlugin.ActionHandler(

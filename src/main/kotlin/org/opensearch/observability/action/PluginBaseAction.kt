@@ -43,9 +43,6 @@ abstract class PluginBaseAction<Request : ActionRequest, Response : ActionRespon
         private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Suppress("TooGenericExceptionCaught")
     override fun doExecute(
         task: Task?,

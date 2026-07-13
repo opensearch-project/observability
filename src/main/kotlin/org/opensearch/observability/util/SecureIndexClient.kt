@@ -47,9 +47,6 @@ import org.opensearch.transport.client.Client
 internal class SecureIndexClient(
     private val client: Client,
 ) : Client by client {
-    /**
-     * {@inheritDoc}
-     */
     override fun <Request : ActionRequest, Response : ActionResponse> execute(
         action: ActionType<Response>,
         request: Request,
@@ -61,9 +58,6 @@ internal class SecureIndexClient(
             .use { return client.execute(action, request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun <Request : ActionRequest, Response : ActionResponse> execute(
         action: ActionType<Response>,
         request: Request,
@@ -76,9 +70,6 @@ internal class SecureIndexClient(
             .use { return client.execute(action, request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun index(request: IndexRequest): ActionFuture<IndexResponse> {
         client
             .threadPool()
@@ -87,9 +78,6 @@ internal class SecureIndexClient(
             .use { return client.index(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun index(
         request: IndexRequest,
         listener: ActionListener<IndexResponse>,
@@ -101,9 +89,6 @@ internal class SecureIndexClient(
             .use { return client.index(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun update(request: UpdateRequest): ActionFuture<UpdateResponse> {
         client
             .threadPool()
@@ -112,9 +97,6 @@ internal class SecureIndexClient(
             .use { return client.update(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun update(
         request: UpdateRequest,
         listener: ActionListener<UpdateResponse>,
@@ -126,9 +108,6 @@ internal class SecureIndexClient(
             .use { return client.update(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun delete(request: DeleteRequest): ActionFuture<DeleteResponse> {
         client
             .threadPool()
@@ -137,9 +116,6 @@ internal class SecureIndexClient(
             .use { return client.delete(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun delete(
         request: DeleteRequest,
         listener: ActionListener<DeleteResponse>,
@@ -151,9 +127,6 @@ internal class SecureIndexClient(
             .use { return client.delete(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun bulk(request: BulkRequest): ActionFuture<BulkResponse> {
         client
             .threadPool()
@@ -162,9 +135,6 @@ internal class SecureIndexClient(
             .use { return client.bulk(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun bulk(
         request: BulkRequest,
         listener: ActionListener<BulkResponse>,
@@ -176,9 +146,6 @@ internal class SecureIndexClient(
             .use { return client.bulk(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun get(request: GetRequest): ActionFuture<GetResponse> {
         client
             .threadPool()
@@ -187,9 +154,6 @@ internal class SecureIndexClient(
             .use { return client.get(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun get(
         request: GetRequest,
         listener: ActionListener<GetResponse>,
@@ -201,9 +165,6 @@ internal class SecureIndexClient(
             .use { return client.get(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun multiGet(request: MultiGetRequest): ActionFuture<MultiGetResponse> {
         client
             .threadPool()
@@ -212,9 +173,6 @@ internal class SecureIndexClient(
             .use { return client.multiGet(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun multiGet(
         request: MultiGetRequest,
         listener: ActionListener<MultiGetResponse>,
@@ -226,9 +184,6 @@ internal class SecureIndexClient(
             .use { return client.multiGet(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun search(request: SearchRequest): ActionFuture<SearchResponse> {
         client
             .threadPool()
@@ -237,9 +192,6 @@ internal class SecureIndexClient(
             .use { return client.search(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun search(
         request: SearchRequest,
         listener: ActionListener<SearchResponse>,
@@ -251,9 +203,6 @@ internal class SecureIndexClient(
             .use { return client.search(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun searchScroll(request: SearchScrollRequest): ActionFuture<SearchResponse> {
         client
             .threadPool()
@@ -262,9 +211,6 @@ internal class SecureIndexClient(
             .use { return client.searchScroll(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun searchScroll(
         request: SearchScrollRequest,
         listener: ActionListener<SearchResponse>,
@@ -276,9 +222,6 @@ internal class SecureIndexClient(
             .use { return client.searchScroll(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun multiSearch(request: MultiSearchRequest): ActionFuture<MultiSearchResponse> {
         client
             .threadPool()
@@ -287,9 +230,6 @@ internal class SecureIndexClient(
             .use { return client.multiSearch(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun multiSearch(
         request: MultiSearchRequest,
         listener: ActionListener<MultiSearchResponse>,
@@ -301,9 +241,6 @@ internal class SecureIndexClient(
             .use { return client.multiSearch(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun termVectors(request: TermVectorsRequest): ActionFuture<TermVectorsResponse> {
         client
             .threadPool()
@@ -312,9 +249,6 @@ internal class SecureIndexClient(
             .use { return client.termVectors(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun termVectors(
         request: TermVectorsRequest,
         listener: ActionListener<TermVectorsResponse>,
@@ -326,9 +260,6 @@ internal class SecureIndexClient(
             .use { return client.termVectors(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun multiTermVectors(request: MultiTermVectorsRequest): ActionFuture<MultiTermVectorsResponse> {
         client
             .threadPool()
@@ -337,9 +268,6 @@ internal class SecureIndexClient(
             .use { return client.multiTermVectors(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun multiTermVectors(
         request: MultiTermVectorsRequest,
         listener: ActionListener<MultiTermVectorsResponse>,
@@ -351,9 +279,6 @@ internal class SecureIndexClient(
             .use { return client.multiTermVectors(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun explain(request: ExplainRequest): ActionFuture<ExplainResponse> {
         client
             .threadPool()
@@ -362,9 +287,6 @@ internal class SecureIndexClient(
             .use { return client.explain(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun explain(
         request: ExplainRequest,
         listener: ActionListener<ExplainResponse>,
@@ -376,9 +298,6 @@ internal class SecureIndexClient(
             .use { return client.explain(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun clearScroll(request: ClearScrollRequest): ActionFuture<ClearScrollResponse> {
         client
             .threadPool()
@@ -387,9 +306,6 @@ internal class SecureIndexClient(
             .use { return client.clearScroll(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun clearScroll(
         request: ClearScrollRequest,
         listener: ActionListener<ClearScrollResponse>,
@@ -401,9 +317,6 @@ internal class SecureIndexClient(
             .use { return client.clearScroll(request, listener) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun fieldCaps(request: FieldCapabilitiesRequest): ActionFuture<FieldCapabilitiesResponse> {
         client
             .threadPool()
@@ -412,9 +325,6 @@ internal class SecureIndexClient(
             .use { return client.fieldCaps(request) }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun fieldCaps(
         request: FieldCapabilitiesRequest,
         listener: ActionListener<FieldCapabilitiesResponse>,

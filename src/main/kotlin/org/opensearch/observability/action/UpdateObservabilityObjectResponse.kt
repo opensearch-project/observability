@@ -65,17 +65,11 @@ internal class UpdateObservabilityObjectResponse(
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         output.writeString(objectId)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,

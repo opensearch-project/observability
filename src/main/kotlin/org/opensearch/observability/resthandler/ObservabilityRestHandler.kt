@@ -52,14 +52,8 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
         private val log by logger(ObservabilityRestHandler::class.java)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getName(): String = OBSERVABILITY_ACTION
 
-    /**
-     * {@inheritDoc}
-     */
     override fun routes(): List<Route> =
         listOf(
             /*
@@ -94,9 +88,6 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
             Route(DELETE, OBSERVABILITY_URL),
         )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun responseParams(): Set<String> =
         setOf(
             OBJECT_ID_FIELD,
@@ -205,9 +196,6 @@ internal class ObservabilityRestHandler : BaseRestHandler() {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun prepareRequest(
         request: RestRequest,
         client: NodeClient,

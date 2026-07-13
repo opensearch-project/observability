@@ -19,16 +19,10 @@ internal class RollingCounter(
     private val capacity: Long = window / interval * 2
     private val timeToCountMap = ConcurrentSkipListMap<Long, Long>()
 
-    /**
-     * {@inheritDoc}
-     */
     override fun increment() {
         add(1L)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun add(n: Long) {
         trim()
         timeToCountMap.compute(
@@ -36,14 +30,8 @@ internal class RollingCounter(
         ) { _: Long?, v: Long? -> if (v == null) n else v + n }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override val value get() = getValue(getPreKey(clock.millis()))
 
-    /**
-     * {@inheritDoc}
-     */
     fun getValue(key: Long): Long {
         return timeToCountMap[key] ?: return 0
     }

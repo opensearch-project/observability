@@ -72,25 +72,16 @@ internal class CreateObservabilityObjectResponse : BaseResponse {
         this.objectId = id
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         objectId = input.readString()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         output.writeString(objectId)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,

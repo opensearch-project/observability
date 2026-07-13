@@ -35,9 +35,6 @@ internal class DeleteObservabilityObjectAction
             internal val ACTION_TYPE = ActionType(NAME, ::DeleteObservabilityObjectResponse)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun executeRequest(
             request: DeleteObservabilityObjectRequest,
             user: User?,

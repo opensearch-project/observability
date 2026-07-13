@@ -112,9 +112,6 @@ internal data class Timestamp(
         dslType = input.readString(),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeString(index)
@@ -122,9 +119,6 @@ internal data class Timestamp(
         output.writeString(dslType)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,

@@ -79,25 +79,16 @@ internal class DeleteObservabilityObjectResponse : BaseResponse {
         this.objectIdToStatus = objectIdToStatus
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         objectIdToStatus = input.readMap(STRING_READER, enumReader(RestStatus::class.java))
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         output.writeMap(objectIdToStatus, STRING_WRITER, enumWriter(RestStatus::class.java))
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,

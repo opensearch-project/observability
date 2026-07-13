@@ -87,9 +87,6 @@ internal class CreateObservabilityObjectRequest :
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -114,9 +111,6 @@ internal class CreateObservabilityObjectRequest :
         this.objectData = objectData
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         objectId = input.readOptionalString()
@@ -131,9 +125,6 @@ internal class CreateObservabilityObjectRequest :
             )
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         super.writeTo(output)
@@ -143,8 +134,5 @@ internal class CreateObservabilityObjectRequest :
         output.writeOptionalWriteable(objectData)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun validate(): ActionRequestValidationException? = null
 }

@@ -20,27 +20,15 @@ internal class ObservabilityStatsRestHandler : BaseRestHandler() {
         private const val OBSERVABILITY_STATS_URL = "$BASE_OBSERVABILITY_URI/_local/stats"
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun getName(): String = OBSERVABILITY_STATS_ACTION
 
-    /**
-     * {@inheritDoc}
-     */
     override fun routes(): List<Route> =
         listOf(
             Route(GET, OBSERVABILITY_STATS_URL),
         )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun responseParams(): Set<String> = setOf()
 
-    /**
-     * {@inheritDoc}
-     */
     override fun prepareRequest(
         request: RestRequest,
         client: NodeClient,

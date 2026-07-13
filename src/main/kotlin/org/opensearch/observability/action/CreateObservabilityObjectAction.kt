@@ -35,9 +35,6 @@ internal class CreateObservabilityObjectAction
             internal val ACTION_TYPE = ActionType(NAME, ::CreateObservabilityObjectResponse)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun executeRequest(
             request: CreateObservabilityObjectRequest,
             user: User?,

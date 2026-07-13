@@ -225,9 +225,6 @@ internal data class SavedVisualization(
         selectedLabels = input.readOptionalWriteable(SelectedLabels.reader),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeString(name)
         output.writeString(description)
@@ -244,9 +241,6 @@ internal data class SavedVisualization(
         output.writeOptionalWriteable(selectedLabels)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
@@ -319,16 +313,10 @@ internal data class SavedVisualization(
             label = input.readString(),
         )
 
-        /**
-         * {@inheritDoc}
-         */
         override fun writeTo(output: StreamOutput) {
             output.writeString(label)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,
@@ -405,16 +393,10 @@ internal data class SavedVisualization(
             labels = input.readList(Token.reader),
         )
 
-        /**
-         * {@inheritDoc}
-         */
         override fun writeTo(output: StreamOutput) {
             output.writeCollection(labels)
         }
 
-        /**
-         * {@inheritDoc}
-         */
         override fun toXContent(
             builder: XContentBuilder?,
             params: ToXContent.Params?,

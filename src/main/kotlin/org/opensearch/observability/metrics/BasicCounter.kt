@@ -13,23 +13,14 @@ import java.util.concurrent.atomic.LongAdder
 class BasicCounter : Counter<Long> {
     private val count = LongAdder()
 
-    /**
-     * {@inheritDoc}
-     */
     override fun increment() {
         count.increment()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun add(n: Long) {
         count.add(n)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override val value: Long
         get() = count.toLong()
 

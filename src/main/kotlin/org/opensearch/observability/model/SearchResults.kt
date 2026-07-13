@@ -187,9 +187,6 @@ internal abstract class SearchResults<ItemClass : BaseModel> : BaseModel {
         objectList = input.readList(reader),
     )
 
-    /**
-     * {@inheritDoc}
-     */
     override fun writeTo(output: StreamOutput) {
         output.writeLong(startIndex)
         output.writeLong(totalHits)
@@ -198,9 +195,6 @@ internal abstract class SearchResults<ItemClass : BaseModel> : BaseModel {
         output.writeList(objectList)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: Params?,

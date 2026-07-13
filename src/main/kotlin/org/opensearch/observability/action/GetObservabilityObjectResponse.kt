@@ -51,27 +51,18 @@ internal class GetObservabilityObjectResponse : BaseResponse {
         this.filterSensitiveInfo = filterSensitiveInfo
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     constructor(input: StreamInput) : super(input) {
         searchResult = ObservabilityObjectSearchResult(input)
         filterSensitiveInfo = input.readBoolean()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Throws(IOException::class)
     override fun writeTo(output: StreamOutput) {
         searchResult.writeTo(output)
         output.writeBoolean(filterSensitiveInfo)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun toXContent(
         builder: XContentBuilder?,
         params: ToXContent.Params?,
