@@ -217,10 +217,16 @@ dependencies {
     implementation "${group}:common-utils:${common_utils_version}"
     implementation 'org.json:json:20231013'
     implementation group: 'com.github.wnameless.json', name: 'json-flattener', version: '0.15.1'
-    // json-base, jackson-databind, jackson-annotations are only used by json-flattener.
+    // json-base, jackson-core, jackson-databind, jackson-annotations are only used by json-flattener.
     // see https://github.com/opensearch-project/OpenSearch/issues/5395.
+    // json-flattener 0.15.1 is built against Jackson 2.x, so the full com.fasterxml Jackson 2.x
+    // stack (core, databind, annotations) must be bundled with the plugin. Core no longer exports
+    // com.fasterxml Jackson 2.x on the plugin classpath after its move to tools.jackson 3.x, so
+    // without these the stats endpoint throws NoClassDefFoundError and exits the node. Keep the
+    // versions aligned with the sql and alerting plugins.
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
-    implementation "tools.jackson.core:jackson-databind:${versions.jackson3}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${versions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson_databind}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson_annotations}"
     testImplementation(
             'org.assertj:assertj-core:3.27.7',
