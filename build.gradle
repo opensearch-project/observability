@@ -22,7 +22,7 @@ buildscript {
         }
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.8.21")
-        jackson_version = "2.14.1"
+        jackson_version = "2.18.9"
     }
 
     repositories {
@@ -169,6 +169,10 @@ configurations.all {
         force "org.slf4j:slf4j-api:2.0.0"
         force "ch.qos.logback:logback-classic:1.5.20"
         force "ch.qos.logback:logback-core:1.5.20"
+        // CVE-2026-49844: OpenSearch 2.19.6 core pulls log4j 2.25.4; keep all log4j modules aligned.
+        force "org.apache.logging.log4j:log4j-api:2.25.5"
+        force "org.apache.logging.log4j:log4j-core:2.25.5"
+        force "org.apache.logging.log4j:log4j-jul:2.25.5"
         // plexus-utils 4.x is compiled for Java 17; pin to the last Java 11
         // compatible release so the Java 11 build legs can load it.
         force "org.codehaus.plexus:plexus-utils:3.5.1"
