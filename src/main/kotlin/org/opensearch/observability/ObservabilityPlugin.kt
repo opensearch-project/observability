@@ -18,6 +18,7 @@ import org.opensearch.core.common.io.stream.NamedWriteableRegistry
 import org.opensearch.core.xcontent.NamedXContentRegistry
 import org.opensearch.env.Environment
 import org.opensearch.env.NodeEnvironment
+import org.opensearch.identity.PluginSubject
 import org.opensearch.indices.SystemIndexDescriptor
 import org.opensearch.observability.action.CreateObservabilityObjectAction
 import org.opensearch.observability.action.DeleteObservabilityObjectAction
@@ -27,7 +28,9 @@ import org.opensearch.observability.index.ObservabilityIndex
 import org.opensearch.observability.resthandler.ObservabilityRestHandler
 import org.opensearch.observability.resthandler.ObservabilityStatsRestHandler
 import org.opensearch.observability.settings.PluginSettings
+import org.opensearch.observability.util.PluginClient
 import org.opensearch.plugins.ActionPlugin
+import org.opensearch.plugins.IdentityAwarePlugin
 import org.opensearch.plugins.Plugin
 import org.opensearch.plugins.SystemIndexPlugin
 import org.opensearch.repositories.RepositoriesService
@@ -46,13 +49,16 @@ import java.util.function.Supplier
 class ObservabilityPlugin :
     Plugin(),
     ActionPlugin,
-    SystemIndexPlugin {
+    SystemIndexPlugin,
+    IdentityAwarePlugin {
     companion object {
         const val PLUGIN_NAME = "opensearch-observability"
         const val LOG_PREFIX = "observability"
         const val BASE_OBSERVABILITY_URI = "/_plugins/_observability"
         const val BASE_NOTEBOOKS_URI = "/_plugins/_notebooks"
     }
+
+    private lateinit var pluginClient: PluginClient
 
     /**
      * {@inheritDoc}
@@ -85,8 +91,16 @@ class ObservabilityPlugin :
         repositoriesServiceSupplier: Supplier<RepositoriesService>,
     ): Collection<Any> {
         PluginSettings.addSettingsUpdateConsumer(clusterService)
-        ObservabilityIndex.initialize(client, clusterService)
+        pluginClient = PluginClient(client)
+        ObservabilityIndex.initialize(pluginClient, clusterService)
         return emptyList()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun assignSubject(pluginSubject: PluginSubject) {
+        pluginClient.setSubject(pluginSubject)
     }
 
     /**

@@ -1,0 +1,17 @@
+---
+##
+# Copyright OpenSearch Contributors
+# SPDX-License-Identifier: Apache-2.0
+##
+
+# Security classifies these as cluster permissions even though they act on the indices this plugin
+# registers, so the plugin subject is granted only what is listed here. Plain index actions on the
+# plugin's own registered system indices need no entry, and bulk is granted to every plugin.
+cluster_permissions:
+  # ObservabilityIndex.getObservabilityObjects
+  - "indices:data/read/mget"
+  # ObservabilityIndex.reindexNotebooks
+  - "indices:data/write/reindex"
+  # Reindex scrolls the source index and frees the scroll context when it finishes
+  - "indices:data/read/scroll"
+  - "indices:data/read/scroll/clear"
