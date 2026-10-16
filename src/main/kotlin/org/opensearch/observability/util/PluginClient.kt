@@ -7,11 +7,13 @@ package org.opensearch.observability.util
 
 import org.opensearch.action.ActionRequest
 import org.opensearch.action.ActionType
+import org.opensearch.action.support.ContextPreservingActionListener
 import org.opensearch.core.action.ActionListener
 import org.opensearch.core.action.ActionResponse
-import org.opensearch.identity.Subject
+import org.opensearch.identity.PluginSubject
 import org.opensearch.transport.client.Client
 import org.opensearch.transport.client.FilterClient
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * Executes transport actions as this plugin's assigned system subject rather than as the
@@ -22,40 +24,32 @@ internal class PluginClient(
 ) : FilterClient(delegate) {
     private val log by logger(PluginClient::class.java)
 
-    /**
-     * Assigned from [org.opensearch.plugins.IdentityAwarePlugin.assignSubject], which runs on a
-     * different thread than the transport actions that read it.
-     */
-    @Volatile
-    private var subject: Subject? = null
+    // Set once, from assignSubject, on a different thread from the actions that read it.
+    private val subject = AtomicReference<PluginSubject?>()
 
-    fun setSubject(subject: Subject) {
-        this.subject = subject
+    /** Assigns the subject every action runs as. It can be assigned once; assigning the same subject again is a no-op. */
+    fun setSubject(subject: PluginSubject) {
+        check(this.subject.compareAndSet(null, subject) || this.subject.get() === subject) {
+            "PluginClient already has a subject assigned."
+        }
     }
 
-    @Suppress("TooGenericExceptionCaught")
+    /** Not supported, because a plugin subject has no meaning on another cluster. */
+    override fun getRemoteClusterClient(clusterAlias: String): Client = throw UnsupportedOperationException("PluginClient cannot run remote actions.")
+
+    /** Runs the action as the assigned subject, notifying the listener with the caller's thread context in place. */
     override fun <Request : ActionRequest, Response : ActionResponse> doExecute(
         action: ActionType<Response>,
         request: Request,
         listener: ActionListener<Response>,
     ) {
-        val currentSubject = checkNotNull(subject) { "PluginClient is not initialized with a subject." }
-
-        // Saves the caller's context so it can be restored once the action completes. runAs performs the
-        // switch itself, so stashing here would clear the context before it gets the chance. Kept in a
-        // local rather than a use block because the action is asynchronous: the block would restore on
-        // exit, long before the listener fires.
-        val storedContext = threadPool().threadContext.newStoredContext(false)
-
-        try {
-            currentSubject.runAs<Exception> {
-                log.debug("Running transport action as subject: {}", currentSubject.principal.name)
-                super.doExecute(action, request, ActionListener.runBefore(listener) { storedContext.restore() })
-            }
-        } catch (exception: Exception) {
-            // Reported through the listener rather than thrown, so an async caller is not left waiting.
-            storedContext.close()
-            listener.onFailure(exception)
+        val currentSubject = checkNotNull(subject.get()) { "PluginClient is not initialized with a subject." }
+        // Captured before runAs stashes the context; core restores it around the callback, then puts
+        // the responding thread's own context back.
+        val callerContext = ContextPreservingActionListener.wrapPreservingContext(listener, threadPool().threadContext)
+        currentSubject.runAs<RuntimeException> {
+            log.debug("Running transport action as subject: {}", currentSubject.principal.name)
+            super.doExecute(action, request, callerContext)
         }
     }
 }
