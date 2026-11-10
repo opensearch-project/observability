@@ -18,7 +18,6 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Chen Dai          | [dai-chen](https://github.com/dai-chen)           | Amazon      |
 | Vamsi Manohar     | [vamsi-amazon](https://github.com/vamsimanohar)   | Amazon      |
 | Peng Huo          | [penghuo](https://github.com/penghuo)             | Amazon      |
-| Sean Kao          | [seankao-az](https://github.com/seankao-az)       | Amazon      |
 | Anirudha Jadhav   | [anirudha](https://github.com/anirudha)           | Amazon      |
 
 ## Emeritus Maintainers
@@ -31,3 +30,4 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Eugene Lee       | [eugenesk24](https://github.com/eugenesk24)     | Amazon      |
 | Zhongnan Su      | [zhongnansu](https://github.com/zhongnansu)     | Amazon      |
 | Sean Li          | [sejli](https://github.com/sejli)               | Amazon      |
+| Sean Kao         | [seankao-az](https://github.com/seankao-az)     | Amazon      |
