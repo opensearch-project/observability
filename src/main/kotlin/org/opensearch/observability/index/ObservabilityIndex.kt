@@ -37,7 +37,6 @@ import org.opensearch.observability.model.RestTag.ACCESS_LIST_FIELD
 import org.opensearch.observability.model.RestTag.TENANT_FIELD
 import org.opensearch.observability.model.SearchResults
 import org.opensearch.observability.settings.PluginSettings
-import org.opensearch.observability.util.SecureIndexClient
 import org.opensearch.observability.util.logger
 import org.opensearch.search.SearchHit
 import org.opensearch.search.builder.SearchSourceBuilder
@@ -75,14 +74,14 @@ internal object ObservabilityIndex {
 
     /**
      * Initialize the class
-     * @param client The OpenSearch client
+     * @param client The client that runs operations as the plugin subject
      * @param clusterService The OpenSearch cluster service
      */
     fun initialize(
         client: Client,
         clusterService: ClusterService,
     ) {
-        this.client = SecureIndexClient(client)
+        this.client = client
         this.clusterService = clusterService
         this.mappingsUpdated = false
     }
