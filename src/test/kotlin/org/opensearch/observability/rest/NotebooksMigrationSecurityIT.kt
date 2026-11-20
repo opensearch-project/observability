@@ -41,6 +41,9 @@ class NotebooksMigrationSecurityIT : PluginRestTestCase() {
         settings: Settings,
         hosts: Array<HttpHost>,
     ): RestClient {
+        if (System.getProperty("https", "false").toBoolean()) {
+            return super.buildClient(settings, hosts)
+        }
         val credentials = "${System.getProperty("user")}:${System.getProperty("password")}"
         val authorization = "Basic " + Base64.getEncoder().encodeToString(credentials.toByteArray(StandardCharsets.UTF_8))
         val builder = RestClient.builder(*hosts)

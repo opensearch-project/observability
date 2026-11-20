@@ -328,6 +328,10 @@ integTest {
     // }
     // This fails for JDK 17, excluding for now since it's only testing plugin presence and not necessary
     exclude 'org/opensearch/observability/ObservabilityPluginIT.class'
+    // The tests that need the security plugin run in integTestWithSecurity, on a cluster it sets up.
+    filter {
+        excludeTestsMatching "org.opensearch.observability.rest.*SecurityIT"
+    }
 
     if (System.getProperty("tests.rest.bwcsuite") == null) {
         filter {
@@ -567,6 +571,7 @@ task integTestRemote(type: RestIntegTestTask) {
     if (System.getProperty("tests.rest.cluster") != null) {
         filter {
             includeTestsMatching "org.opensearch.observability.rest.*IT"
+            excludeTestsMatching "org.opensearch.observability.rest.*SecurityIT"
         }
     }
 }
@@ -579,11 +584,17 @@ configurations {
 dependencies {
     securityPlugin "org.opensearch.plugin:opensearch-security:${opensearch_build}@zip"
 }
-['esnode.pem', 'esnode-key.pem', 'root-ca.pem'].each { name ->
-    download.run {
-        src "https://raw.githubusercontent.com/opensearch-project/security/main/bwc-test/src/test/resources/security/" + name
-        dest getLayout().getBuildDirectory().file("security/" + name).get().getAsFile()
-        overwrite false
+task downloadSecurityCertificates {
+    def certificates = ['esnode.pem', 'esnode-key.pem', 'root-ca.pem']
+    outputs.files certificates.collect { name -> getLayout().getBuildDirectory().file("security/" + name) }
+    doLast {
+        certificates.each { name ->
+            download.run {
+                src "https://raw.githubusercontent.com/opensearch-project/security/main/bwc-test/src/test/resources/security/" + name
+                dest getLayout().getBuildDirectory().file("security/" + name).get().getAsFile()
+                overwrite false
+            }
+        }
     }
 }
 
@@ -631,7 +642,7 @@ task integTestWithSecurity(type: StandaloneRestIntegTestTask) {
     description = "Run the tests that need the security plugin"
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
-    dependsOn bundle
+    dependsOn bundle, downloadSecurityCertificates
     useCluster testClusters.integTestWithSecurity
     systemProperty 'tests.security.manager', 'false'
     systemProperty 'java.io.tmpdir', opensearch_tmp_dir.absolutePath
