@@ -45,6 +45,11 @@ jobs:
           chown -R 1000:1000 `pwd`
           su `id -un 1000` -c "./gradlew build"
 
+      - name: Run integration tests with the Security plugin
+        run: |
+          chown -R 1000:1000 `pwd`
+          su `id -un 1000` -c "./gradlew integTestWithSecurity"
+
       - name: Upload Coverage Report Artifact
         if: ${{ !cancelled() && matrix.java == 21 }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
