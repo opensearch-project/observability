@@ -22,7 +22,6 @@ buildscript {
         }
         common_utils_version = System.getProperty("common_utils.version", opensearch_build)
         kotlin_version = System.getProperty("kotlin.version", "1.8.21")
-        jackson_version = "2.18.9"
     }
 
     repositories {
@@ -163,7 +162,7 @@ configurations.all {
         force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
         force "org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin_version}"
-        force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${jackson_version}"
+        force "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${versions.jackson}"
         force "org.mockito:mockito-core:4.6.1"
         force "org.yaml:snakeyaml:2.0"
         force "org.slf4j:slf4j-api:2.0.0"
@@ -221,8 +220,8 @@ dependencies {
     // json-base, jackson-databind, jackson-annotations are only used by json-flattener.
     // see https://github.com/opensearch-project/OpenSearch/issues/5395.
     implementation group: 'com.github.wnameless.json', name: 'json-base', version: '2.2.1'
-    implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_version}"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson_databind}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}"
     testImplementation(
             'org.assertj:assertj-core:3.27.7',
             'org.junit.jupiter:junit-jupiter-api:5.6.2'
