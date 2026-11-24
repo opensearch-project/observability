@@ -328,6 +328,10 @@ integTest {
     // }
     // This fails for JDK 17, excluding for now since it's only testing plugin presence and not necessary
     exclude 'org/opensearch/observability/ObservabilityPluginIT.class'
+    // The tests that need the security plugin run in integTestWithSecurity, on a cluster it sets up.
+    filter {
+        excludeTestsMatching "org.opensearch.observability.rest.*SecurityIT"
+    }
 
     if (System.getProperty("tests.rest.bwcsuite") == null) {
         filter {
@@ -567,7 +571,88 @@ task integTestRemote(type: RestIntegTestTask) {
     if (System.getProperty("tests.rest.cluster") != null) {
         filter {
             includeTestsMatching "org.opensearch.observability.rest.*IT"
+            excludeTestsMatching "org.opensearch.observability.rest.*SecurityIT"
         }
+    }
+}
+
+// Runs NotebooksMigrationSecurityIT on a cluster with the security plugin, so the plugin subject's
+// permissions (the entries in plugin-additional-permissions.yml) are checked as they are in a release.
+configurations {
+    securityPlugin
+}
+dependencies {
+    securityPlugin "org.opensearch.plugin:opensearch-security:${opensearch_build}@zip"
+}
+task downloadSecurityCertificates {
+    def certificates = ['esnode.pem', 'esnode-key.pem', 'root-ca.pem']
+    outputs.files certificates.collect { name -> getLayout().getBuildDirectory().file("security/" + name) }
+    doLast {
+        certificates.each { name ->
+            download.run {
+                src "https://raw.githubusercontent.com/opensearch-project/security/main/bwc-test/src/test/resources/security/" + name
+                dest getLayout().getBuildDirectory().file("security/" + name).get().getAsFile()
+                overwrite false
+            }
+        }
+    }
+}
+
+testClusters {
+    integTestWithSecurity {
+        testDistribution = "INTEG_TEST"
+        plugin(project.getObjects().fileProperty().value(bundle.getArchiveFile()))
+        plugin(provider(new Callable<RegularFile>() {
+            @Override
+            RegularFile call() throws Exception {
+                return new RegularFile() {
+                    @Override
+                    File getAsFile() {
+                        return configurations.securityPlugin.singleFile
+                    }
+                }
+            }
+        }))
+        ['esnode.pem', 'esnode-key.pem', 'root-ca.pem'].each { name ->
+            extraConfigFile name, file("$buildDir/security/" + name)
+        }
+        [
+            'plugins.security.ssl.transport.pemcert_filepath' : 'esnode.pem',
+            'plugins.security.ssl.transport.pemkey_filepath' : 'esnode-key.pem',
+            'plugins.security.ssl.transport.pemtrustedcas_filepath' : 'root-ca.pem',
+            'plugins.security.ssl.transport.enforce_hostname_verification' : 'false',
+            'plugins.security.ssl.http.enabled' : 'false',
+            'plugins.security.allow_unsafe_democertificates' : 'true',
+            'plugins.security.allow_default_init_securityindex' : 'true',
+            'plugins.security.authcz.admin_dn' : 'CN=kirk,OU=client,O=client,L=test,C=de',
+            'plugins.security.restapi.roles_enabled' : '["all_access"]'
+        ].each { name, value -> setting name, value }
+        nodes.each { node ->
+            def creds = node.getCredentials()
+            if (creds.isEmpty()) {
+                creds.add(Map.of('useradd', 'admin', '-p', 'admin'))
+            } else {
+                creds.get(0).putAll(Map.of('useradd', 'admin', '-p', 'admin'))
+            }
+        }
+    }
+}
+
+task integTestWithSecurity(type: StandaloneRestIntegTestTask) {
+    description = "Run the tests that need the security plugin"
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    dependsOn bundle, downloadSecurityCertificates
+    useCluster testClusters.integTestWithSecurity
+    systemProperty 'tests.security.manager', 'false'
+    systemProperty 'java.io.tmpdir', opensearch_tmp_dir.absolutePath
+    systemProperty 'security.enabled', 'true'
+    systemProperty 'user', 'admin'
+    systemProperty 'password', 'admin'
+    nonInputProperties.systemProperty('tests.rest.cluster', "${-> testClusters.integTestWithSecurity.allHttpSocketURI.join(",")}")
+    nonInputProperties.systemProperty('tests.clustername', "${-> testClusters.integTestWithSecurity.getName()}")
+    filter {
+        includeTestsMatching "org.opensearch.observability.rest.*SecurityIT"
     }
 }
 
